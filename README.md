@@ -13,7 +13,7 @@ End-to-end payments, data, and financial management in a single solution. Meet t
 ## Timestamps
 
 - **Created:** 2024/04/14 
-- **Modified:** 2024-07-03 
+- **Modified:** 2024-12-10 
 
 ## APIs
 
@@ -84,6 +84,7 @@ The BIN Lookup API provides endpoints for retrieving information, such as cost e
 Adyen Checkout API provides a simple and flexible way to initiate and authorise online payments. You can use the same integration for payments made with cards (including 3D Secure), mobile wallets, and local payment methods (for example, iDEAL and Sofort).
 
 **Human URL:** [https://docs.adyen.com/api-explorer/Checkout/latest/overview](https://docs.adyen.com/api-explorer/Checkout/latest/overview)
+r
 
 #### Tags
 
