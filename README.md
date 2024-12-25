@@ -37,7 +37,7 @@ https://docs.adyen.com/marketplaces-and-platforms/classic/configure-notification
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -61,7 +61,7 @@ updating, and deletion of them.
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -79,7 +79,7 @@ cardholder authentication.
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -98,7 +98,7 @@ account.
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -116,7 +116,7 @@ cost estimates, and 3D Secure supported version based on a given BIN.
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -132,7 +132,7 @@ This is the description of your API.
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -151,7 +151,7 @@ and business accounts.
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -173,7 +173,7 @@ You can use these webhooks to build your implementation.
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -195,7 +195,7 @@ address or shopper email).
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -215,7 +215,7 @@ delete defense documents, and accept or defend disputes.
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -235,7 +235,7 @@ account holder, and the retrieval of balances in an account.
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -258,7 +258,7 @@ https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details/h
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -279,7 +279,7 @@ https://docs.adyen.com/marketplaces-and-platforms/legal-entity-management-api/)
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -300,7 +300,7 @@ https://docs.adyen.com/marketplaces-and-platforms/legal-entity-management-api/)
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -319,7 +319,7 @@ payment terminals.
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -342,7 +342,7 @@ information.
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -367,7 +367,7 @@ more information, refer to our
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -394,7 +394,7 @@ https://docs.adyen.com/point-of-sale/design-your-integration/notifications/)
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -416,7 +416,7 @@ each notification. For more information, refer to our
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -437,7 +437,7 @@ ewallets, and many other payment methods.
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -456,7 +456,7 @@ payouts](https://docs.adyen.com/online-payments/online-payouts).
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -476,7 +476,7 @@ terminals to a merchant account or store.
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -497,7 +497,7 @@ documentation](https://docs.adyen.com/online-payments/tokenization).
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -517,7 +517,7 @@ Customer Area](https://balanceplatform-test.adyen.com/balanceplatform).
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -533,7 +533,7 @@ A set of API endpoints to manage stored value products.
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -554,7 +554,7 @@ https://docs.adyen.com/point-of-sale/design-your-integration/terminal-api/termin
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -575,7 +575,7 @@ documentation.
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -597,7 +597,7 @@ https://docs.adyen.com/marketplaces-and-platforms/business-accounts/transactions
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -618,7 +618,7 @@ balances in your own dashboards or to keep track of incoming funds.
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -647,7 +647,7 @@ https://docs.adyen.com/marketplaces-and-platforms/payout-to-users/on-demand-payo
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
@@ -668,7 +668,7 @@ information, refer to our
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
