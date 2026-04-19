@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/notification-webhooks-verification-error-structure.json",
+  "description": "VerificationError schema from Adyen API",
+  "properties": {
+    "code": {
+      "description": "The verification error code.",
+      "type": "string"
+    },
+    "message": {
+      "description": "A description of the error.",
+      "type": "string"
+    },
+    "remediatingActions": {
+      "description": "Contains the actions that you can take to resolve the verification error.",
+      "items": {
+        "$ref": "#/components/schemas/RemediatingAction"
+      },
+      "type": "array"
+    },
+    "subErrors": {
+      "description": "Contains more granular information about the verification error.",
+      "items": {
+        "$ref": "#/components/schemas/VerificationError-recursive"
+      },
+      "type": "array"
+    },
+    "type": {
+      "description": "The type of error.\n\n Possible values: **invalidInput**, **dataMissing**.",
+      "enum": [
+        "dataMissing",
+        "invalidInput",
+        "pendingStatus"
+      ],
+      "type": "string"
+    }
+  },
+  "type": "object",
+  "name": "VerificationError"
+}

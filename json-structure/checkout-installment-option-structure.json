@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/checkout-installment-option-structure.json",
+  "description": "InstallmentOption schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "maxValue": {
+      "description": "The maximum number of installments offered for this payment method.",
+      "type": "int32"
+    },
+    "plans": {
+      "x-addedInVersion": "64",
+      "description": "Defines the type of installment plan. If not set, defaults to **regular**.\n\nPossible values:\n* **regular**\n* **revolving**",
+      "items": {
+        "enum": [
+          "regular",
+          "revolving"
+        ],
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "preselectedValue": {
+      "x-addedInVersion": "64",
+      "description": "Preselected number of installments offered for this payment method.",
+      "type": "int32"
+    },
+    "values": {
+      "x-addedInVersion": "64",
+      "description": "An array of the number of installments that the shopper can choose from. For example, **[2,3,5]**. This cannot be specified simultaneously with `maxValue`.",
+      "items": {
+        "type": "int32"
+      },
+      "type": "array"
+    }
+  },
+  "name": "InstallmentOption"
+}

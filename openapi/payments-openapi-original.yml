@@ -1,6 +1,6 @@
 openapi: 3.1.0
 servers:
-  - url: https://pal-test.adyen.com/pal/servlet/Payment/v68
+- url: https://pal-test.adyen.com/pal/servlet/Payment/v68
 info:
   version: '68'
   x-publicVersion: true
@@ -98,25 +98,25 @@ info:
     name: Adyen Developer Experience team
     url: https://github.com/Adyen/adyen-openapi
 tags:
-  - name: adjustAuthorisation
-  - name: Authorise
-  - name: Authorise3d
-  - name: Authorise3ds2
-  - name: Cancel
-  - name: cancelOrRefund
-  - name: Capture
-  - name: Donate
-  - name: getAuthenticationResult
-  - name: Refund
-  - name: retrieve3ds2Result
-  - name: technicalCancel
-  - name: voidPendingRefund
+- name: adjustAuthorisation
+- name: Authorise
+- name: Authorise3d
+- name: Authorise3ds2
+- name: Cancel
+- name: cancelOrRefund
+- name: Capture
+- name: Donate
+- name: getAuthenticationResult
+- name: Refund
+- name: retrieve3ds2Result
+- name: technicalCancel
+- name: voidPendingRefund
 paths:
   /adjustAuthorisation:
     post:
       tags:
-        - adjustAuthorisation
-      summary: Adyen Change the authorised amount
+      - adjustAuthorisation
+      summary: Adyen Change the Authorised Amount
       description: >-
         Allows you to increase or decrease the authorised amount after the
         initial authorisation has taken place. This functionality enables for
@@ -145,8 +145,8 @@ paths:
       x-sortIndex: 6
       x-methodName: adjustAuthorisation
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -190,12 +190,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-adjustAuthorisation403Example:
+                  summary: Default post-adjustAuthorisation 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-adjustAuthorisation422Example:
+                  summary: Default post-adjustAuthorisation 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
@@ -206,11 +228,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /authorise:
     post:
       tags:
-        - Authorise
-      summary: Adyen Create an authorisation
+      - Authorise
+      summary: Adyen Create an Authorisation
       description: >-
         Creates a payment with a unique reference (`pspReference`) and attempts
         to obtain an authorisation hold. For cards, this amount can be captured
@@ -227,8 +252,8 @@ paths:
       x-sortIndex: 1
       x-methodName: authorise
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -257,6 +282,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentResult'
+              examples:
+                post-authorise200Example:
+                  summary: Default post-authorise 200 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    authCode: CODE123
+                    dccAmount: 1000
+                    dccSignature: example_value
+                    fraudResult: example_value
+                    issuerUrl: https://example.com/resource
+                    md: example_value
+                    paRequest: example_value
+                    pspReference: REF-001
+                    refusalReason: REF-001
+                    resultCode: AuthenticationFinished
           description: OK - the request has succeeded.
         '400':
           content:
@@ -281,12 +322,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-authorise403Example:
+                  summary: Default post-authorise 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-authorise422Example:
+                  summary: Default post-authorise 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
@@ -297,11 +360,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /authorise3d:
     post:
       tags:
-        - Authorise3d
-      summary: Adyen Complete a 3DS authorisation
+      - Authorise3d
+      summary: Adyen Complete a 3DS Authorisation
       description: >-
         For an authenticated 3D Secure session, completes the payment
         authorisation. This endpoint must receive the `md` and `paResponse`
@@ -319,8 +385,8 @@ paths:
       x-sortIndex: 2
       x-methodName: authorise3d
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -335,6 +401,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentResult'
+              examples:
+                post-authorise3d200Example:
+                  summary: Default post-authorise3d 200 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    authCode: CODE123
+                    dccAmount: 1000
+                    dccSignature: example_value
+                    fraudResult: example_value
+                    issuerUrl: https://example.com/resource
+                    md: example_value
+                    paRequest: example_value
+                    pspReference: REF-001
+                    refusalReason: REF-001
+                    resultCode: AuthenticationFinished
           description: OK - the request has succeeded.
         '400':
           content:
@@ -359,12 +441,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-authorise3d403Example:
+                  summary: Default post-authorise3d 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-authorise3d422Example:
+                  summary: Default post-authorise3d 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
@@ -375,11 +479,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /authorise3ds2:
     post:
       tags:
-        - Authorise3ds2
-      summary: Adyen Complete a 3DS2 authorisation
+      - Authorise3ds2
+      summary: Adyen Complete a 3DS2 Authorisation
       description: >-
         For an authenticated 3D Secure 2 session, completes the payment
         authorisation. This endpoint must receive the `threeDS2Token` and
@@ -397,8 +504,8 @@ paths:
       x-sortIndex: 3
       x-methodName: authorise3ds2
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -413,6 +520,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentResult'
+              examples:
+                post-authorise3ds2200Example:
+                  summary: Default post-authorise3ds2 200 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    authCode: CODE123
+                    dccAmount: 1000
+                    dccSignature: example_value
+                    fraudResult: example_value
+                    issuerUrl: https://example.com/resource
+                    md: example_value
+                    paRequest: example_value
+                    pspReference: REF-001
+                    refusalReason: REF-001
+                    resultCode: AuthenticationFinished
           description: OK - the request has succeeded.
         '400':
           content:
@@ -437,12 +560,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-authorise3ds2403Example:
+                  summary: Default post-authorise3ds2 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-authorise3ds2422Example:
+                  summary: Default post-authorise3ds2 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
@@ -453,11 +598,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /cancel:
     post:
       tags:
-        - Cancel
-      summary: Adyen Cancel an authorisation
+      - Cancel
+      summary: Adyen Cancel an Authorisation
       description: >-
         Cancels the authorisation hold on a payment, returning a unique
         reference for this request. You can cancel payments after authorisation
@@ -479,8 +627,8 @@ paths:
       x-sortIndex: 2
       x-methodName: cancel
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -495,6 +643,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModificationResult'
+              examples:
+                post-cancel200Example:
+                  summary: Default post-cancel 200 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    pspReference: REF-001
+                    response: '[capture-received]'
           description: OK - the request has succeeded.
         '400':
           content:
@@ -519,12 +675,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-cancel403Example:
+                  summary: Default post-cancel 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-cancel422Example:
+                  summary: Default post-cancel 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
@@ -535,11 +713,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /cancelOrRefund:
     post:
       tags:
-        - cancelOrRefund
-      summary: Adyen Cancel or refund a payment
+      - cancelOrRefund
+      summary: Adyen Cancel or Refund a Payment
       description: >-
         Cancels a payment if it has not been captured yet, or refunds it if it
         has already been captured. This is useful when it is not certain if the
@@ -550,7 +731,8 @@ paths:
          * [Multiple partial captures](https://docs.adyen.com/online-payments/capture).
          * [Split data](https://docs.adyen.com/marketplaces-and-platforms/processing-payments#providing-split-information) either at time of payment or capture for Adyen for Platforms.
 
-         Instead, check if the payment has been captured and make a corresponding [`/refund`](https://docs.adyen.com/api-explorer/#/Payment/refund) or [`/cancel`](https://docs.adyen.com/api-explorer/#/Payment/cancel) call.
+         Instead, check if the payment has been captured and make a corresponding [`/refund`](https://docs.adyen.com/api-explorer/#/Payment/refund) or [`/cancel`](https://docs.adyen.com/api-explorer/#/Payment/cancel)
+        call.
 
         For more information, refer to [Cancel or
         refund](https://docs.adyen.com/online-payments/classic-integrations/modify-payments/cancel-or-refund).
@@ -566,8 +748,8 @@ paths:
       x-sortIndex: 4
       x-methodName: cancelOrRefund
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -609,12 +791,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-cancelOrRefund403Example:
+                  summary: Default post-cancelOrRefund 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-cancelOrRefund422Example:
+                  summary: Default post-cancelOrRefund 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
@@ -625,11 +829,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /capture:
     post:
       tags:
-        - Capture
-      summary: Adyen Capture an authorisation
+      - Capture
+      summary: Adyen Capture an Authorisation
       description: >+
         Captures the authorisation hold on a payment, returning a unique
         reference for this request. Usually the full authorisation amount is
@@ -659,8 +866,8 @@ paths:
       x-sortIndex: 1
       x-methodName: capture
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -702,12 +909,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-capture403Example:
+                  summary: Default post-capture 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-capture422Example:
+                  summary: Default post-capture 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
@@ -718,11 +947,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /donate:
     post:
       tags:
-        - Donate
-      summary: Adyen Create a donation
+      - Donate
+      summary: Adyen Create a Donation
       description: >-
         Schedules a new payment to be created (including a new authorisation
         request) for the specified donation using the payment details of the
@@ -740,8 +972,8 @@ paths:
       x-sortIndex: 6
       x-methodName: donate
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -756,6 +988,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModificationResult'
+              examples:
+                post-donate200Example:
+                  summary: Default post-donate 200 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    pspReference: REF-001
+                    response: '[capture-received]'
           description: OK - the request has succeeded.
         '400':
           content:
@@ -780,12 +1020,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-donate403Example:
+                  summary: Default post-donate 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-donate422Example:
+                  summary: Default post-donate 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
@@ -796,11 +1058,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /getAuthenticationResult:
     post:
       tags:
-        - getAuthenticationResult
-      summary: Adyen Get the 3DS authentication result
+      - getAuthenticationResult
+      summary: Adyen Get the 3DS Authentication Result
       description: >-
         Return the authentication result after doing a 3D Secure authentication
         only.
@@ -809,8 +1074,8 @@ paths:
       x-sortIndex: 4
       x-methodName: getAuthenticationResult
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -826,6 +1091,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthenticationResultResponse'
+              examples:
+                post-getAuthenticationResult200Example:
+                  summary: Default post-getAuthenticationResult 200 response
+                  x-microcks-default: true
+                  value:
+                    threeDS1Result: example_value
+                    threeDS2Result: example_value
           description: OK - the request has succeeded.
         '400':
           content:
@@ -850,12 +1122,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getAuthenticationResult403Example:
+                  summary: Default post-getAuthenticationResult 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getAuthenticationResult422Example:
+                  summary: Default post-getAuthenticationResult 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
@@ -866,11 +1160,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /refund:
     post:
       tags:
-        - Refund
-      summary: Adyen Refund a captured payment
+      - Refund
+      summary: Adyen Refund a Captured Payment
       description: >-
         Refunds a payment that has previously been captured, returning a unique
         reference for this request. Refunding can be done on the full captured
@@ -900,8 +1197,8 @@ paths:
       x-sortIndex: 3
       x-methodName: refund
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -943,12 +1240,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-refund403Example:
+                  summary: Default post-refund 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-refund422Example:
+                  summary: Default post-refund 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
@@ -959,11 +1278,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /retrieve3ds2Result:
     post:
       tags:
-        - retrieve3ds2Result
-      summary: Adyen Get the 3DS2 authentication result
+      - retrieve3ds2Result
+      summary: Adyen Get the 3DS2 Authentication Result
       description: >-
         Retrieves the `threeDS2Result` after doing a 3D Secure 2 authentication
         only.
@@ -972,8 +1294,8 @@ paths:
       x-sortIndex: 4
       x-methodName: retrieve3ds2Result
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -989,6 +1311,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ThreeDS2ResultResponse'
+              examples:
+                post-retrieve3ds2Result200Example:
+                  summary: Default post-retrieve3ds2Result 200 response
+                  x-microcks-default: true
+                  value:
+                    threeDS2Result: example_value
           description: OK - the request has succeeded.
         '400':
           content:
@@ -1013,12 +1341,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-retrieve3ds2Result403Example:
+                  summary: Default post-retrieve3ds2Result 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-retrieve3ds2Result422Example:
+                  summary: Default post-retrieve3ds2Result 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
@@ -1029,11 +1379,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /technicalCancel:
     post:
       tags:
-        - technicalCancel
-      summary: Adyen Cancel an authorisation using your reference
+      - technicalCancel
+      summary: Adyen Cancel an Authorisation Using Your Reference
       description: >-
         This endpoint allows you to cancel a payment if you do not have the PSP
         reference of the original payment request available.
@@ -1058,8 +1411,8 @@ paths:
       x-sortIndex: 5
       x-methodName: technicalCancel
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -1102,12 +1455,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-technicalCancel403Example:
+                  summary: Default post-technicalCancel 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-technicalCancel422Example:
+                  summary: Default post-technicalCancel 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
@@ -1118,11 +1493,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /voidPendingRefund:
     post:
       tags:
-        - voidPendingRefund
-      summary: Adyen Cancel an in-person refund
+      - voidPendingRefund
+      summary: Adyen Cancel an In-person Refund
       description: >-
         This endpoint allows you to cancel an unreferenced refund request before
         it has been completed.
@@ -1141,8 +1519,8 @@ paths:
       x-sortIndex: 7
       x-methodName: voidPendingRefund
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -1192,12 +1570,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-voidPendingRefund403Example:
+                  summary: Default post-voidPendingRefund 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-voidPendingRefund422Example:
+                  summary: Default post-voidPendingRefund 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
@@ -1208,6 +1608,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   schemas:
     AccountInfo:
@@ -1229,11 +1632,11 @@ components:
 
             * moreThan60Days
           enum:
-            - notApplicable
-            - thisTransaction
-            - lessThan30Days
-            - from30To60Days
-            - moreThan60Days
+          - notApplicable
+          - thisTransaction
+          - lessThan30Days
+          - from30To60Days
+          - moreThan60Days
           type: string
         accountChangeDate:
           description: Date when the shopper's account was last changed.
@@ -1254,10 +1657,10 @@ components:
 
             * moreThan60Days
           enum:
-            - thisTransaction
-            - lessThan30Days
-            - from30To60Days
-            - moreThan60Days
+          - thisTransaction
+          - lessThan30Days
+          - from30To60Days
+          - moreThan60Days
           type: string
         accountCreationDate:
           description: Date when the shopper's account was created.
@@ -1277,9 +1680,9 @@ components:
 
             * debit
           enum:
-            - notApplicable
-            - credit
-            - debit
+          - notApplicable
+          - credit
+          - debit
           type: string
         addCardAttemptsDay:
           description: >-
@@ -1306,10 +1709,10 @@ components:
 
             * moreThan60Days
           enum:
-            - thisTransaction
-            - lessThan30Days
-            - from30To60Days
-            - moreThan60Days
+          - thisTransaction
+          - lessThan30Days
+          - from30To60Days
+          - moreThan60Days
           type: string
         homePhone:
           deprecated: true
@@ -1337,11 +1740,11 @@ components:
             * from30To60Days
             * moreThan60Days
           enum:
-            - notApplicable
-            - thisTransaction
-            - lessThan30Days
-            - from30To60Days
-            - moreThan60Days
+          - notApplicable
+          - thisTransaction
+          - lessThan30Days
+          - from30To60Days
+          - moreThan60Days
           type: string
         pastTransactionsDay:
           description: >-
@@ -1376,11 +1779,11 @@ components:
 
             * moreThan60Days
           enum:
-            - notApplicable
-            - thisTransaction
-            - lessThan30Days
-            - from30To60Days
-            - moreThan60Days
+          - notApplicable
+          - thisTransaction
+          - lessThan30Days
+          - from30To60Days
+          - moreThan60Days
           type: string
         purchasesLast6Months:
           description: Number of successful purchases in the last six months.
@@ -1415,11 +1818,11 @@ components:
 
             * **05** — More than 60 days
           enum:
-            - '01'
-            - '02'
-            - '03'
-            - '04'
-            - '05'
+          - '01'
+          - '02'
+          - '03'
+          - '04'
+          - '05'
           maxLength: 2
           minLength: 2
           type: string
@@ -1447,10 +1850,10 @@ components:
 
             * **04** — More than 60 days
           enum:
-            - '01'
-            - '02'
-            - '03'
-            - '04'
+          - '01'
+          - '02'
+          - '03'
+          - '04'
           maxLength: 2
           minLength: 2
           type: string
@@ -1478,11 +1881,11 @@ components:
 
             * **05** — More than 60 days
           enum:
-            - '01'
-            - '02'
-            - '03'
-            - '04'
-            - '05'
+          - '01'
+          - '02'
+          - '03'
+          - '04'
+          - '05'
           maxLength: 2
           minLength: 2
           type: string
@@ -1520,11 +1923,11 @@ components:
 
             * **05** — More than 60 days
           enum:
-            - '01'
-            - '02'
-            - '03'
-            - '04'
-            - '05'
+          - '01'
+          - '02'
+          - '03'
+          - '04'
+          - '05'
           maxLength: 2
           minLength: 2
           type: string
@@ -1555,10 +1958,10 @@ components:
 
             * **04** — More than 60 days
           enum:
-            - '01'
-            - '02'
-            - '03'
-            - '04'
+          - '01'
+          - '02'
+          - '03'
+          - '04'
           maxLength: 2
           minLength: 2
           type: string
@@ -1573,8 +1976,8 @@ components:
 
             * **02** — Account Name different to shipping Name
           enum:
-            - '01'
-            - '02'
+          - '01'
+          - '02'
           maxLength: 2
           minLength: 2
           type: string
@@ -1589,8 +1992,8 @@ components:
 
             * **02** — Suspicious activity has been observed
           enum:
-            - '01'
-            - '02'
+          - '01'
+          - '02'
           maxLength: 2
           minLength: 2
           type: string
@@ -1618,7 +2021,8 @@ components:
             using `/payments` endpoint with any of our [native 3D Secure 2
             solutions](https://docs.adyen.com/online-payments/3d-secure/native-3ds2).
 
-             > This parameter only indicates readiness to support native 3D Secure 2 authentication. To specify if you _want_ to perform 3D Secure, use [Dynamic 3D Secure](/risk-management/dynamic-3d-secure) or send the `executeThreeD` parameter.
+             > This parameter only indicates readiness to support native 3D Secure 2 authentication. To specify if you _want_ to perform 3D Secure, use [Dynamic 3D Secure](/risk-management/dynamic-3d-secure)
+            or send the `executeThreeD` parameter.
 
             Possible values:
 
@@ -1651,11 +2055,11 @@ components:
 
             * **05** - Fullscreen
           enum:
-            - '01'
-            - '02'
-            - '03'
-            - '04'
-            - '05'
+          - '01'
+          - '02'
+          - '03'
+          - '04'
+          - '05'
           type: string
         executeThreeD:
           description: >
@@ -2043,7 +2447,7 @@ components:
             *Must not be all zeros.
           type: string
       required:
-        - airline.passenger_name
+      - airline.passenger_name
       type: object
     AdditionalDataCarRental:
       properties:
@@ -2324,8 +2728,8 @@ components:
 
              * **DelayedCharge**: An incremental charge is carried out to process an additional payment after the original services have been rendered and the respective payment has been processed.
           enum:
-            - NoShow
-            - DelayedCharge
+          - NoShow
+          - DelayedCharge
           type: string
         manualCapture:
           description: >-
@@ -3348,11 +3752,11 @@ components:
           maxLength: 3000
           type: string
       required:
-        - street
-        - houseNumberOrName
-        - city
-        - postalCode
-        - country
+      - street
+      - houseNumberOrName
+      - city
+      - postalCode
+      - country
       type: object
     AdjustAuthorisationRequest:
       properties:
@@ -3360,22 +3764,22 @@ components:
           additionalProperties:
             type: string
           x-anyOf:
-            - $ref: '#/components/schemas/AdditionalData3DSecure'
-            - $ref: '#/components/schemas/AdditionalDataAirline'
-            - $ref: '#/components/schemas/AdditionalDataCarRental'
-            - $ref: '#/components/schemas/AdditionalDataCommon'
-            - $ref: '#/components/schemas/AdditionalDataLevel23'
-            - $ref: '#/components/schemas/AdditionalDataLodging'
-            - $ref: '#/components/schemas/AdditionalDataModifications'
-            - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
-            - $ref: '#/components/schemas/AdditionalDataOpi'
-            - $ref: '#/components/schemas/AdditionalDataRatepay'
-            - $ref: '#/components/schemas/AdditionalDataRetry'
-            - $ref: '#/components/schemas/AdditionalDataRisk'
-            - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
-            - $ref: '#/components/schemas/AdditionalDataSubMerchant'
-            - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
-            - $ref: '#/components/schemas/AdditionalDataWallets'
+          - $ref: '#/components/schemas/AdditionalData3DSecure'
+          - $ref: '#/components/schemas/AdditionalDataAirline'
+          - $ref: '#/components/schemas/AdditionalDataCarRental'
+          - $ref: '#/components/schemas/AdditionalDataCommon'
+          - $ref: '#/components/schemas/AdditionalDataLevel23'
+          - $ref: '#/components/schemas/AdditionalDataLodging'
+          - $ref: '#/components/schemas/AdditionalDataModifications'
+          - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
+          - $ref: '#/components/schemas/AdditionalDataOpi'
+          - $ref: '#/components/schemas/AdditionalDataRatepay'
+          - $ref: '#/components/schemas/AdditionalDataRetry'
+          - $ref: '#/components/schemas/AdditionalDataRisk'
+          - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
+          - $ref: '#/components/schemas/AdditionalDataSubMerchant'
+          - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
+          - $ref: '#/components/schemas/AdditionalDataWallets'
           description: >-
             This field contains additional data, which may be required for a
             particular modification request.
@@ -3447,9 +3851,9 @@ components:
             request. For point-of-sale integrations only.
           type: string
       required:
-        - merchantAccount
-        - modificationAmount
-        - originalReference
+      - merchantAccount
+      - modificationAmount
+      - originalReference
       type: object
     Amount:
       properties:
@@ -3467,8 +3871,8 @@ components:
           format: int64
           type: integer
       required:
-        - value
-        - currency
+      - value
+      - currency
       type: object
     ApplicationInfo:
       properties:
@@ -3513,8 +3917,8 @@ components:
           description: The pspReference identifier for the transaction.
           type: string
       required:
-        - merchantAccount
-        - pspReference
+      - merchantAccount
+      - pspReference
       type: object
     AuthenticationResultResponse:
       properties:
@@ -3648,14 +4052,14 @@ components:
           description: The user agent value of the shopper's browser.
           type: string
       required:
-        - userAgent
-        - acceptHeader
-        - javaEnabled
-        - colorDepth
-        - screenHeight
-        - screenWidth
-        - timeZoneOffset
-        - language
+      - userAgent
+      - acceptHeader
+      - javaEnabled
+      - colorDepth
+      - screenHeight
+      - screenWidth
+      - timeZoneOffset
+      - language
       type: object
     CancelOrRefundRequest:
       properties:
@@ -3663,22 +4067,22 @@ components:
           additionalProperties:
             type: string
           x-anyOf:
-            - $ref: '#/components/schemas/AdditionalData3DSecure'
-            - $ref: '#/components/schemas/AdditionalDataAirline'
-            - $ref: '#/components/schemas/AdditionalDataCarRental'
-            - $ref: '#/components/schemas/AdditionalDataCommon'
-            - $ref: '#/components/schemas/AdditionalDataLevel23'
-            - $ref: '#/components/schemas/AdditionalDataLodging'
-            - $ref: '#/components/schemas/AdditionalDataModifications'
-            - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
-            - $ref: '#/components/schemas/AdditionalDataOpi'
-            - $ref: '#/components/schemas/AdditionalDataRatepay'
-            - $ref: '#/components/schemas/AdditionalDataRetry'
-            - $ref: '#/components/schemas/AdditionalDataRisk'
-            - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
-            - $ref: '#/components/schemas/AdditionalDataSubMerchant'
-            - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
-            - $ref: '#/components/schemas/AdditionalDataWallets'
+          - $ref: '#/components/schemas/AdditionalData3DSecure'
+          - $ref: '#/components/schemas/AdditionalDataAirline'
+          - $ref: '#/components/schemas/AdditionalDataCarRental'
+          - $ref: '#/components/schemas/AdditionalDataCommon'
+          - $ref: '#/components/schemas/AdditionalDataLevel23'
+          - $ref: '#/components/schemas/AdditionalDataLodging'
+          - $ref: '#/components/schemas/AdditionalDataModifications'
+          - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
+          - $ref: '#/components/schemas/AdditionalDataOpi'
+          - $ref: '#/components/schemas/AdditionalDataRatepay'
+          - $ref: '#/components/schemas/AdditionalDataRetry'
+          - $ref: '#/components/schemas/AdditionalDataRisk'
+          - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
+          - $ref: '#/components/schemas/AdditionalDataSubMerchant'
+          - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
+          - $ref: '#/components/schemas/AdditionalDataWallets'
           description: >-
             This field contains additional data, which may be required for a
             particular modification request.
@@ -3734,8 +4138,8 @@ components:
             request. For point-of-sale integrations only.
           type: string
       required:
-        - merchantAccount
-        - originalReference
+      - merchantAccount
+      - originalReference
       type: object
     CancelRequest:
       properties:
@@ -3743,22 +4147,22 @@ components:
           additionalProperties:
             type: string
           x-anyOf:
-            - $ref: '#/components/schemas/AdditionalData3DSecure'
-            - $ref: '#/components/schemas/AdditionalDataAirline'
-            - $ref: '#/components/schemas/AdditionalDataCarRental'
-            - $ref: '#/components/schemas/AdditionalDataCommon'
-            - $ref: '#/components/schemas/AdditionalDataLevel23'
-            - $ref: '#/components/schemas/AdditionalDataLodging'
-            - $ref: '#/components/schemas/AdditionalDataModifications'
-            - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
-            - $ref: '#/components/schemas/AdditionalDataOpi'
-            - $ref: '#/components/schemas/AdditionalDataRatepay'
-            - $ref: '#/components/schemas/AdditionalDataRetry'
-            - $ref: '#/components/schemas/AdditionalDataRisk'
-            - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
-            - $ref: '#/components/schemas/AdditionalDataSubMerchant'
-            - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
-            - $ref: '#/components/schemas/AdditionalDataWallets'
+          - $ref: '#/components/schemas/AdditionalData3DSecure'
+          - $ref: '#/components/schemas/AdditionalDataAirline'
+          - $ref: '#/components/schemas/AdditionalDataCarRental'
+          - $ref: '#/components/schemas/AdditionalDataCommon'
+          - $ref: '#/components/schemas/AdditionalDataLevel23'
+          - $ref: '#/components/schemas/AdditionalDataLodging'
+          - $ref: '#/components/schemas/AdditionalDataModifications'
+          - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
+          - $ref: '#/components/schemas/AdditionalDataOpi'
+          - $ref: '#/components/schemas/AdditionalDataRatepay'
+          - $ref: '#/components/schemas/AdditionalDataRetry'
+          - $ref: '#/components/schemas/AdditionalDataRisk'
+          - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
+          - $ref: '#/components/schemas/AdditionalDataSubMerchant'
+          - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
+          - $ref: '#/components/schemas/AdditionalDataWallets'
           description: >-
             This field contains additional data, which may be required for a
             particular modification request.
@@ -3824,8 +4228,8 @@ components:
             request. For point-of-sale integrations only.
           type: string
       required:
-        - merchantAccount
-        - originalReference
+      - merchantAccount
+      - originalReference
       type: object
     CaptureRequest:
       properties:
@@ -3833,22 +4237,22 @@ components:
           additionalProperties:
             type: string
           x-anyOf:
-            - $ref: '#/components/schemas/AdditionalData3DSecure'
-            - $ref: '#/components/schemas/AdditionalDataAirline'
-            - $ref: '#/components/schemas/AdditionalDataCarRental'
-            - $ref: '#/components/schemas/AdditionalDataCommon'
-            - $ref: '#/components/schemas/AdditionalDataLevel23'
-            - $ref: '#/components/schemas/AdditionalDataLodging'
-            - $ref: '#/components/schemas/AdditionalDataModifications'
-            - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
-            - $ref: '#/components/schemas/AdditionalDataOpi'
-            - $ref: '#/components/schemas/AdditionalDataRatepay'
-            - $ref: '#/components/schemas/AdditionalDataRetry'
-            - $ref: '#/components/schemas/AdditionalDataRisk'
-            - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
-            - $ref: '#/components/schemas/AdditionalDataSubMerchant'
-            - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
-            - $ref: '#/components/schemas/AdditionalDataWallets'
+          - $ref: '#/components/schemas/AdditionalData3DSecure'
+          - $ref: '#/components/schemas/AdditionalDataAirline'
+          - $ref: '#/components/schemas/AdditionalDataCarRental'
+          - $ref: '#/components/schemas/AdditionalDataCommon'
+          - $ref: '#/components/schemas/AdditionalDataLevel23'
+          - $ref: '#/components/schemas/AdditionalDataLodging'
+          - $ref: '#/components/schemas/AdditionalDataModifications'
+          - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
+          - $ref: '#/components/schemas/AdditionalDataOpi'
+          - $ref: '#/components/schemas/AdditionalDataRatepay'
+          - $ref: '#/components/schemas/AdditionalDataRetry'
+          - $ref: '#/components/schemas/AdditionalDataRisk'
+          - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
+          - $ref: '#/components/schemas/AdditionalDataSubMerchant'
+          - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
+          - $ref: '#/components/schemas/AdditionalDataWallets'
           description: >-
             This field contains additional data, which may be required for a
             particular modification request.
@@ -3920,9 +4324,9 @@ components:
             request. For point-of-sale integrations only.
           type: string
       required:
-        - merchantAccount
-        - modificationAmount
-        - originalReference
+      - merchantAccount
+      - modificationAmount
+      - originalReference
       type: object
     Card:
       properties:
@@ -4017,9 +4421,9 @@ components:
             * html
             * both
           enum:
-            - native
-            - html
-            - both
+          - native
+          - html
+          - both
           type: string
         sdkUiType:
           description: |-
@@ -4032,11 +4436,11 @@ components:
             * multiSelect
           items:
             enum:
-              - multiSelect
-              - otherHtml
-              - outOfBand
-              - singleSelect
-              - text
+            - multiSelect
+            - otherHtml
+            - outOfBand
+            - singleSelect
+            - text
             type: string
           type: array
       type: object
@@ -4076,9 +4480,9 @@ components:
             Maximum length: 80 characters.
           type: string
       required:
-        - merchantAccount
-        - donationAccount
-        - modificationAmount
+      - merchantAccount
+      - donationAccount
+      - modificationAmount
       type: object
     ExternalPlatform:
       properties:
@@ -4133,8 +4537,8 @@ components:
           format: date-time
           type: string
       required:
-        - validTill
-        - basePoints
+      - validTill
+      - basePoints
       type: object
     FraudCheckResult:
       properties:
@@ -4150,9 +4554,9 @@ components:
           description: The name of the risk check.
           type: string
       required:
-        - checkId
-        - name
-        - accountScore
+      - checkId
+      - name
+      - accountScore
       type: object
     FraudCheckResultWrapper:
       properties:
@@ -4170,7 +4574,7 @@ components:
             $ref: '#/components/schemas/FraudCheckResultWrapper'
           type: array
       required:
-        - accountScore
+      - accountScore
       type: object
     FundDestination:
       properties:
@@ -4269,8 +4673,8 @@ components:
 
             * **revolving**
           enum:
-            - regular
-            - revolving
+          - regular
+          - revolving
           type: string
         value:
           description: >-
@@ -4285,7 +4689,7 @@ components:
           format: int32
           type: integer
       required:
-        - value
+      - value
       type: object
     Mandate:
       properties:
@@ -4302,8 +4706,8 @@ components:
              * **exact**: The transaction amount should be the same as the `amount`.
 
           enum:
-            - max
-            - exact
+          - max
+          - exact
           type: string
         billingAttemptsRule:
           description: >+
@@ -4320,9 +4724,9 @@ components:
              * **after**: On and after a specific date.
 
           enum:
-            - 'on'
-            - before
-            - after
+          - 'on'
+          - before
+          - after
           type: string
         billingDay:
           description: >-
@@ -4344,14 +4748,14 @@ components:
             Possible values: **daily**, **weekly**, **biWeekly**, **monthly**,
             **quarterly**, **halfYearly**, **yearly**.
           enum:
-            - adhoc
-            - daily
-            - weekly
-            - biWeekly
-            - monthly
-            - quarterly
-            - halfYearly
-            - yearly
+          - adhoc
+          - daily
+          - weekly
+          - biWeekly
+          - monthly
+          - quarterly
+          - halfYearly
+          - yearly
           type: string
         remarks:
           description: The message shown by UPI to the shopper on the approval screen.
@@ -4362,9 +4766,9 @@ components:
             the transaction date.
           type: string
       required:
-        - frequency
-        - amount
-        - endsAt
+      - frequency
+      - amount
+      - endsAt
       type: object
     MerchantDevice:
       properties:
@@ -4397,13 +4801,13 @@ components:
             * `goodsNotShipped`
             * `other`
           enum:
-            - shipToBillingAddress
-            - shipToVerifiedAddress
-            - shipToNewAddress
-            - shipToStore
-            - digitalGoods
-            - goodsNotShipped
-            - other
+          - shipToBillingAddress
+          - shipToVerifiedAddress
+          - shipToNewAddress
+          - shipToStore
+          - digitalGoods
+          - goodsNotShipped
+          - other
           type: string
         deliveryEmail:
           deprecated: true
@@ -4427,10 +4831,10 @@ components:
             * `overnightShipping`
             * `twoOrMoreDaysShipping`
           enum:
-            - electronicDelivery
-            - sameDayShipping
-            - overnightShipping
-            - twoOrMoreDaysShipping
+          - electronicDelivery
+          - sameDayShipping
+          - overnightShipping
+          - twoOrMoreDaysShipping
           type: string
         giftCardAmount:
           description: >-
@@ -4504,18 +4908,18 @@ components:
             Indicates if the modification request has been received for
             processing.
           enum:
-            - '[capture-received]'
-            - '[cancel-received]'
-            - '[refund-received]'
-            - '[cancelOrRefund-received]'
-            - '[adjustAuthorisation-received]'
-            - '[donation-received]'
-            - '[technical-cancel-received]'
-            - '[voidPendingRefund-received]'
+          - '[capture-received]'
+          - '[cancel-received]'
+          - '[refund-received]'
+          - '[cancelOrRefund-received]'
+          - '[adjustAuthorisation-received]'
+          - '[donation-received]'
+          - '[technical-cancel-received]'
+          - '[voidPendingRefund-received]'
           type: string
       required:
-        - response
-        - pspReference
+      - response
+      - pspReference
       type: object
     Name:
       properties:
@@ -4526,8 +4930,8 @@ components:
           description: The last name.
           type: string
       required:
-        - firstName
-        - lastName
+      - firstName
+      - lastName
       type: object
     PaymentRequest:
       properties:
@@ -4553,21 +4957,21 @@ components:
           additionalProperties:
             type: string
           x-anyOf:
-            - $ref: '#/components/schemas/AdditionalData3DSecure'
-            - $ref: '#/components/schemas/AdditionalDataAirline'
-            - $ref: '#/components/schemas/AdditionalDataCarRental'
-            - $ref: '#/components/schemas/AdditionalDataCommon'
-            - $ref: '#/components/schemas/AdditionalDataLevel23'
-            - $ref: '#/components/schemas/AdditionalDataLodging'
-            - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
-            - $ref: '#/components/schemas/AdditionalDataOpi'
-            - $ref: '#/components/schemas/AdditionalDataRatepay'
-            - $ref: '#/components/schemas/AdditionalDataRetry'
-            - $ref: '#/components/schemas/AdditionalDataRisk'
-            - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
-            - $ref: '#/components/schemas/AdditionalDataSubMerchant'
-            - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
-            - $ref: '#/components/schemas/AdditionalDataWallets'
+          - $ref: '#/components/schemas/AdditionalData3DSecure'
+          - $ref: '#/components/schemas/AdditionalDataAirline'
+          - $ref: '#/components/schemas/AdditionalDataCarRental'
+          - $ref: '#/components/schemas/AdditionalDataCommon'
+          - $ref: '#/components/schemas/AdditionalDataLevel23'
+          - $ref: '#/components/schemas/AdditionalDataLodging'
+          - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
+          - $ref: '#/components/schemas/AdditionalDataOpi'
+          - $ref: '#/components/schemas/AdditionalDataRatepay'
+          - $ref: '#/components/schemas/AdditionalDataRetry'
+          - $ref: '#/components/schemas/AdditionalDataRisk'
+          - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
+          - $ref: '#/components/schemas/AdditionalDataSubMerchant'
+          - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
+          - $ref: '#/components/schemas/AdditionalDataWallets'
           description: >-
             This field contains additional data, which may be required for a
             particular payment request.
@@ -4674,8 +5078,8 @@ components:
           x-addedInVersion: '24'
           description: The type of the entity the payment is processed for.
           enum:
-            - NaturalPerson
-            - CompanyName
+          - NaturalPerson
+          - CompanyName
           type: string
         fraudOffset:
           description: >-
@@ -4698,8 +5102,8 @@ components:
             available. For Brazilian combo cards, by default the funding source
             is credit. To use debit, set this value to **debit**.
           enum:
-            - credit
-            - debit
+          - credit
+          - debit
           type: string
         installments:
           x-addedInVersion: '4'
@@ -4838,9 +5242,9 @@ components:
             and/or have variable amounts. For example, automatic top-ups when a
             cardholder's balance drops below a certain amount.
           enum:
-            - CardOnFile
-            - Subscription
-            - UnscheduledCardOnFile
+          - CardOnFile
+          - Subscription
+          - UnscheduledCardOnFile
           type: string
         reference:
           description: >-
@@ -4921,10 +5325,10 @@ components:
             * `POS` - Point-of-sale transactions where the shopper is physically
             present to make a payment using a secure payment terminal.
           enum:
-            - Ecommerce
-            - ContAuth
-            - Moto
-            - POS
+          - Ecommerce
+          - ContAuth
+          - Moto
+          - POS
           type: string
         shopperLocale:
           x-addedInVersion: '7'
@@ -5019,9 +5423,9 @@ components:
           description: Set to true if the payment should be routed to a trusted MID.
           type: boolean
       required:
-        - merchantAccount
-        - reference
-        - amount
+      - merchantAccount
+      - reference
+      - amount
       type: object
     PaymentRequest3d:
       properties:
@@ -5047,21 +5451,21 @@ components:
           additionalProperties:
             type: string
           x-anyOf:
-            - $ref: '#/components/schemas/AdditionalData3DSecure'
-            - $ref: '#/components/schemas/AdditionalDataAirline'
-            - $ref: '#/components/schemas/AdditionalDataCarRental'
-            - $ref: '#/components/schemas/AdditionalDataCommon'
-            - $ref: '#/components/schemas/AdditionalDataLevel23'
-            - $ref: '#/components/schemas/AdditionalDataLodging'
-            - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
-            - $ref: '#/components/schemas/AdditionalDataOpi'
-            - $ref: '#/components/schemas/AdditionalDataRatepay'
-            - $ref: '#/components/schemas/AdditionalDataRetry'
-            - $ref: '#/components/schemas/AdditionalDataRisk'
-            - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
-            - $ref: '#/components/schemas/AdditionalDataSubMerchant'
-            - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
-            - $ref: '#/components/schemas/AdditionalDataWallets'
+          - $ref: '#/components/schemas/AdditionalData3DSecure'
+          - $ref: '#/components/schemas/AdditionalDataAirline'
+          - $ref: '#/components/schemas/AdditionalDataCarRental'
+          - $ref: '#/components/schemas/AdditionalDataCommon'
+          - $ref: '#/components/schemas/AdditionalDataLevel23'
+          - $ref: '#/components/schemas/AdditionalDataLodging'
+          - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
+          - $ref: '#/components/schemas/AdditionalDataOpi'
+          - $ref: '#/components/schemas/AdditionalDataRatepay'
+          - $ref: '#/components/schemas/AdditionalDataRetry'
+          - $ref: '#/components/schemas/AdditionalDataRisk'
+          - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
+          - $ref: '#/components/schemas/AdditionalDataSubMerchant'
+          - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
+          - $ref: '#/components/schemas/AdditionalDataWallets'
           description: >-
             This field contains additional data, which may be required for a
             particular payment request.
@@ -5282,9 +5686,9 @@ components:
             and/or have variable amounts. For example, automatic top-ups when a
             cardholder's balance drops below a certain amount.
           enum:
-            - CardOnFile
-            - Subscription
-            - UnscheduledCardOnFile
+          - CardOnFile
+          - Subscription
+          - UnscheduledCardOnFile
           type: string
         reference:
           description: >-
@@ -5365,10 +5769,10 @@ components:
             * `POS` - Point-of-sale transactions where the shopper is physically
             present to make a payment using a secure payment terminal.
           enum:
-            - Ecommerce
-            - ContAuth
-            - Moto
-            - POS
+          - Ecommerce
+          - ContAuth
+          - Moto
+          - POS
           type: string
         shopperLocale:
           x-addedInVersion: '7'
@@ -5463,9 +5867,9 @@ components:
           description: Set to true if the payment should be routed to a trusted MID.
           type: boolean
       required:
-        - merchantAccount
-        - paResponse
-        - md
+      - merchantAccount
+      - paResponse
+      - md
       type: object
     PaymentRequest3ds2:
       properties:
@@ -5491,21 +5895,21 @@ components:
           additionalProperties:
             type: string
           x-anyOf:
-            - $ref: '#/components/schemas/AdditionalData3DSecure'
-            - $ref: '#/components/schemas/AdditionalDataAirline'
-            - $ref: '#/components/schemas/AdditionalDataCarRental'
-            - $ref: '#/components/schemas/AdditionalDataCommon'
-            - $ref: '#/components/schemas/AdditionalDataLevel23'
-            - $ref: '#/components/schemas/AdditionalDataLodging'
-            - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
-            - $ref: '#/components/schemas/AdditionalDataOpi'
-            - $ref: '#/components/schemas/AdditionalDataRatepay'
-            - $ref: '#/components/schemas/AdditionalDataRetry'
-            - $ref: '#/components/schemas/AdditionalDataRisk'
-            - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
-            - $ref: '#/components/schemas/AdditionalDataSubMerchant'
-            - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
-            - $ref: '#/components/schemas/AdditionalDataWallets'
+          - $ref: '#/components/schemas/AdditionalData3DSecure'
+          - $ref: '#/components/schemas/AdditionalDataAirline'
+          - $ref: '#/components/schemas/AdditionalDataCarRental'
+          - $ref: '#/components/schemas/AdditionalDataCommon'
+          - $ref: '#/components/schemas/AdditionalDataLevel23'
+          - $ref: '#/components/schemas/AdditionalDataLodging'
+          - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
+          - $ref: '#/components/schemas/AdditionalDataOpi'
+          - $ref: '#/components/schemas/AdditionalDataRatepay'
+          - $ref: '#/components/schemas/AdditionalDataRetry'
+          - $ref: '#/components/schemas/AdditionalDataRisk'
+          - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
+          - $ref: '#/components/schemas/AdditionalDataSubMerchant'
+          - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
+          - $ref: '#/components/schemas/AdditionalDataWallets'
           description: >-
             This field contains additional data, which may be required for a
             particular payment request.
@@ -5717,9 +6121,9 @@ components:
             and/or have variable amounts. For example, automatic top-ups when a
             cardholder's balance drops below a certain amount.
           enum:
-            - CardOnFile
-            - Subscription
-            - UnscheduledCardOnFile
+          - CardOnFile
+          - Subscription
+          - UnscheduledCardOnFile
           type: string
         reference:
           description: >-
@@ -5800,10 +6204,10 @@ components:
             * `POS` - Point-of-sale transactions where the shopper is physically
             present to make a payment using a secure payment terminal.
           enum:
-            - Ecommerce
-            - ContAuth
-            - Moto
-            - POS
+          - Ecommerce
+          - ContAuth
+          - Moto
+          - POS
           type: string
         shopperLocale:
           x-addedInVersion: '7'
@@ -5904,9 +6308,9 @@ components:
           description: Set to true if the payment should be routed to a trusted MID.
           type: boolean
       required:
-        - merchantAccount
-        - reference
-        - amount
+      - merchantAccount
+      - reference
+      - amount
       type: object
     PaymentResult:
       properties:
@@ -5914,15 +6318,15 @@ components:
           additionalProperties:
             type: string
           x-anyOf:
-            - $ref: '#/components/schemas/ResponseAdditionalData3DSecure'
-            - $ref: '#/components/schemas/ResponseAdditionalDataBillingAddress'
-            - $ref: '#/components/schemas/ResponseAdditionalDataCard'
-            - $ref: '#/components/schemas/ResponseAdditionalDataCommon'
-            - $ref: '#/components/schemas/ResponseAdditionalDataDomesticError'
-            - $ref: '#/components/schemas/ResponseAdditionalDataInstallments'
-            - $ref: '#/components/schemas/ResponseAdditionalDataNetworkTokens'
-            - $ref: '#/components/schemas/ResponseAdditionalDataOpi'
-            - $ref: '#/components/schemas/ResponseAdditionalDataSepa'
+          - $ref: '#/components/schemas/ResponseAdditionalData3DSecure'
+          - $ref: '#/components/schemas/ResponseAdditionalDataBillingAddress'
+          - $ref: '#/components/schemas/ResponseAdditionalDataCard'
+          - $ref: '#/components/schemas/ResponseAdditionalDataCommon'
+          - $ref: '#/components/schemas/ResponseAdditionalDataDomesticError'
+          - $ref: '#/components/schemas/ResponseAdditionalDataInstallments'
+          - $ref: '#/components/schemas/ResponseAdditionalDataNetworkTokens'
+          - $ref: '#/components/schemas/ResponseAdditionalDataOpi'
+          - $ref: '#/components/schemas/ResponseAdditionalDataSepa'
           description: >-
             Contains additional information about the payment. Some data fields
             are included only if you select them first: Go to **Customer Area**
@@ -6058,20 +6462,20 @@ components:
             * **Refused** – Indicates the payment was refused. The reason is
             given in the `refusalReason` field. This is a final state.
           enum:
-            - AuthenticationFinished
-            - AuthenticationNotRequired
-            - Authorised
-            - Cancelled
-            - ChallengeShopper
-            - Error
-            - IdentifyShopper
-            - PartiallyAuthorised
-            - Pending
-            - PresentToShopper
-            - Received
-            - RedirectShopper
-            - Refused
-            - Success
+          - AuthenticationFinished
+          - AuthenticationNotRequired
+          - Authorised
+          - Cancelled
+          - ChallengeShopper
+          - Error
+          - IdentifyShopper
+          - PartiallyAuthorised
+          - Pending
+          - PresentToShopper
+          - Received
+          - RedirectShopper
+          - Refused
+          - Success
           type: string
       type: object
     Phone:
@@ -6097,9 +6501,9 @@ components:
             Possible values: **deductFromLiableAccount**,
             **deductFromOneBalanceAccount**, **deductAccordingToSplitRatio**.
           enum:
-            - deductAccordingToSplitRatio
-            - deductFromLiableAccount
-            - deductFromOneBalanceAccount
+          - deductAccordingToSplitRatio
+          - deductFromLiableAccount
+          - deductFromOneBalanceAccount
           type: string
         costAllocationAccount:
           x-addedInVersion: '68'
@@ -6140,9 +6544,9 @@ components:
             * `PAYOUT` – Payment details can be used to [make a
             payout](https://docs.adyen.com/online-payments/online-payouts).
           enum:
-            - ONECLICK
-            - RECURRING
-            - PAYOUT
+          - ONECLICK
+          - RECURRING
+          - PAYOUT
           type: string
         recurringDetailName:
           description: A descriptive name for this detail.
@@ -6162,10 +6566,10 @@ components:
           x-addedInVersion: '25'
           description: The name of the token service.
           enum:
-            - VISATOKENSERVICE
-            - MCTOKENSERVICE
-            - AMEXTOKENSERVICE
-            - TOKEN_SHARING
+          - VISATOKENSERVICE
+          - MCTOKENSERVICE
+          - AMEXTOKENSERVICE
+          - TOKEN_SHARING
           type: string
       type: object
     RefundRequest:
@@ -6174,22 +6578,22 @@ components:
           additionalProperties:
             type: string
           x-anyOf:
-            - $ref: '#/components/schemas/AdditionalData3DSecure'
-            - $ref: '#/components/schemas/AdditionalDataAirline'
-            - $ref: '#/components/schemas/AdditionalDataCarRental'
-            - $ref: '#/components/schemas/AdditionalDataCommon'
-            - $ref: '#/components/schemas/AdditionalDataLevel23'
-            - $ref: '#/components/schemas/AdditionalDataLodging'
-            - $ref: '#/components/schemas/AdditionalDataModifications'
-            - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
-            - $ref: '#/components/schemas/AdditionalDataOpi'
-            - $ref: '#/components/schemas/AdditionalDataRatepay'
-            - $ref: '#/components/schemas/AdditionalDataRetry'
-            - $ref: '#/components/schemas/AdditionalDataRisk'
-            - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
-            - $ref: '#/components/schemas/AdditionalDataSubMerchant'
-            - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
-            - $ref: '#/components/schemas/AdditionalDataWallets'
+          - $ref: '#/components/schemas/AdditionalData3DSecure'
+          - $ref: '#/components/schemas/AdditionalDataAirline'
+          - $ref: '#/components/schemas/AdditionalDataCarRental'
+          - $ref: '#/components/schemas/AdditionalDataCommon'
+          - $ref: '#/components/schemas/AdditionalDataLevel23'
+          - $ref: '#/components/schemas/AdditionalDataLodging'
+          - $ref: '#/components/schemas/AdditionalDataModifications'
+          - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
+          - $ref: '#/components/schemas/AdditionalDataOpi'
+          - $ref: '#/components/schemas/AdditionalDataRatepay'
+          - $ref: '#/components/schemas/AdditionalDataRetry'
+          - $ref: '#/components/schemas/AdditionalDataRisk'
+          - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
+          - $ref: '#/components/schemas/AdditionalDataSubMerchant'
+          - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
+          - $ref: '#/components/schemas/AdditionalDataWallets'
           description: >-
             This field contains additional data, which may be required for a
             particular modification request.
@@ -6261,9 +6665,9 @@ components:
             request. For point-of-sale integrations only.
           type: string
       required:
-        - merchantAccount
-        - modificationAmount
-        - originalReference
+      - merchantAccount
+      - modificationAmount
+      - originalReference
       type: object
     ResponseAdditionalData3DSecure:
       properties:
@@ -6541,8 +6945,8 @@ components:
         fraudResultType:
           description: The fraud result properties of the payment.
           enum:
-            - GREEN
-            - FRAUD
+          - GREEN
+          - FRAUD
           type: string
         fundingSource:
           description: >-
@@ -6756,9 +7160,9 @@ components:
           x-addedInVersion: '40'
           description: The processing model used for the recurring transaction.
           enum:
-            - CardOnFile
-            - Subscription
-            - UnscheduledCardOnFile
+          - CardOnFile
+          - Subscription
+          - UnscheduledCardOnFile
           type: string
         referred:
           description: >-
@@ -7100,18 +7504,18 @@ components:
             **BalanceAccount**, **Commission**, **Default**, **PaymentFee**,
             **Remainder**, **Surcharge**, **Tip**, **VAT**.
           enum:
-            - BalanceAccount
-            - Commission
-            - Default
-            - MarketPlace
-            - PaymentFee
-            - Remainder
-            - Surcharge
-            - Tip
-            - VAT
+          - BalanceAccount
+          - Commission
+          - Default
+          - MarketPlace
+          - PaymentFee
+          - Remainder
+          - Surcharge
+          - Tip
+          - VAT
           type: string
       required:
-        - type
+      - type
       type: object
     SplitAmount:
       properties:
@@ -7130,7 +7534,7 @@ components:
           format: int64
           type: integer
       required:
-        - value
+      - value
       type: object
     SubMerchant:
       properties:
@@ -7179,22 +7583,22 @@ components:
           additionalProperties:
             type: string
           x-anyOf:
-            - $ref: '#/components/schemas/AdditionalData3DSecure'
-            - $ref: '#/components/schemas/AdditionalDataAirline'
-            - $ref: '#/components/schemas/AdditionalDataCarRental'
-            - $ref: '#/components/schemas/AdditionalDataCommon'
-            - $ref: '#/components/schemas/AdditionalDataLevel23'
-            - $ref: '#/components/schemas/AdditionalDataLodging'
-            - $ref: '#/components/schemas/AdditionalDataModifications'
-            - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
-            - $ref: '#/components/schemas/AdditionalDataOpi'
-            - $ref: '#/components/schemas/AdditionalDataRatepay'
-            - $ref: '#/components/schemas/AdditionalDataRetry'
-            - $ref: '#/components/schemas/AdditionalDataRisk'
-            - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
-            - $ref: '#/components/schemas/AdditionalDataSubMerchant'
-            - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
-            - $ref: '#/components/schemas/AdditionalDataWallets'
+          - $ref: '#/components/schemas/AdditionalData3DSecure'
+          - $ref: '#/components/schemas/AdditionalDataAirline'
+          - $ref: '#/components/schemas/AdditionalDataCarRental'
+          - $ref: '#/components/schemas/AdditionalDataCommon'
+          - $ref: '#/components/schemas/AdditionalDataLevel23'
+          - $ref: '#/components/schemas/AdditionalDataLodging'
+          - $ref: '#/components/schemas/AdditionalDataModifications'
+          - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
+          - $ref: '#/components/schemas/AdditionalDataOpi'
+          - $ref: '#/components/schemas/AdditionalDataRatepay'
+          - $ref: '#/components/schemas/AdditionalDataRetry'
+          - $ref: '#/components/schemas/AdditionalDataRisk'
+          - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
+          - $ref: '#/components/schemas/AdditionalDataSubMerchant'
+          - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
+          - $ref: '#/components/schemas/AdditionalDataWallets'
           description: >-
             This field contains additional data, which may be required for a
             particular modification request.
@@ -7259,8 +7663,8 @@ components:
             request. For point-of-sale integrations only.
           type: string
       required:
-        - merchantAccount
-        - originalMerchantReference
+      - merchantAccount
+      - originalMerchantReference
       type: object
     ThreeDS1Result:
       properties:
@@ -7306,9 +7710,9 @@ components:
 
             * **03** — Debit
           enum:
-            - '01'
-            - '02'
-            - '03'
+          - '01'
+          - '02'
+          - '03'
           maxLength: 2
           minLength: 2
           type: string
@@ -7340,8 +7744,8 @@ components:
 
             * **N** — Shipping Address does not match Billing Address.
           enum:
-            - 'Y'
-            - 'N'
+          - 'Y'
+          - 'N'
           maxLength: 1
           minLength: 1
           type: string
@@ -7373,10 +7777,10 @@ components:
 
             * `requestChallengeAsMandate`
           enum:
-            - noPreference
-            - requestNoChallenge
-            - requestChallenge
-            - requestChallengeAsMandate
+          - noPreference
+          - requestNoChallenge
+          - requestChallenge
+          - requestChallengeAsMandate
           type: string
         deviceChannel:
           description: |-
@@ -7538,12 +7942,12 @@ components:
 
             * **06** — Data Only
           enum:
-            - '01'
-            - '02'
-            - '03'
-            - '04'
-            - '05'
-            - '06'
+          - '01'
+          - '02'
+          - '03'
+          - '04'
+          - '05'
+          - '06'
           type: string
         threeDSRequestorID:
           description: >-
@@ -7586,11 +7990,11 @@ components:
 
             * **28** — Prepaid Activation and Load
           enum:
-            - '01'
-            - '03'
-            - '10'
-            - '11'
-            - '28'
+          - '01'
+          - '03'
+          - '10'
+          - '11'
+          - '28'
           maxLength: 2
           minLength: 2
           type: string
@@ -7598,11 +8002,11 @@ components:
           x-addedInVersion: '50'
           description: Identify the type of the transaction being authenticated.
           enum:
-            - goodsOrServicePurchase
-            - checkAcceptance
-            - accountFunding
-            - quasiCashTransaction
-            - prepaidActivationAndLoad
+          - goodsOrServicePurchase
+          - checkAcceptance
+          - accountFunding
+          - quasiCashTransaction
+          - prepaidActivationAndLoad
           type: string
         whiteListStatus:
           x-addedInVersion: '49'
@@ -7615,7 +8019,7 @@ components:
           description: The work phone number provided by the Cardholder.
           $ref: '#/components/schemas/Phone'
       required:
-        - deviceChannel
+      - deviceChannel
       type: object
     ThreeDS2Result:
       properties:
@@ -7638,13 +8042,13 @@ components:
             For possible values, refer to [3D Secure API
             reference](https://docs.adyen.com/online-payments/3d-secure/api-reference#mpidata).
           enum:
-            - '01'
-            - '02'
-            - '03'
-            - '04'
-            - '05'
-            - '06'
-            - '07'
+          - '01'
+          - '02'
+          - '03'
+          - '04'
+          - '05'
+          - '06'
+          - '07'
           type: string
         dsTransID:
           description: The `dsTransID` value as defined in the 3D Secure 2 specification.
@@ -7668,10 +8072,10 @@ components:
 
             * `transactionRiskAnalysis`
           enum:
-            - lowValue
-            - secureCorporate
-            - trustedBeneficiary
-            - transactionRiskAnalysis
+          - lowValue
+          - secureCorporate
+          - trustedBeneficiary
+          - transactionRiskAnalysis
           type: string
         messageVersion:
           x-addedInVersion: '49'
@@ -7702,12 +8106,12 @@ components:
 
             * **06** — Data Only
           enum:
-            - '01'
-            - '02'
-            - '03'
-            - '04'
-            - '05'
-            - '06'
+          - '01'
+          - '02'
+          - '03'
+          - '04'
+          - '05'
+          - '06'
           type: string
         threeDSServerTransID:
           description: >-
@@ -7744,8 +8148,8 @@ components:
           description: The pspReference returned in the /authorise call.
           type: string
       required:
-        - merchantAccount
-        - pspReference
+      - merchantAccount
+      - pspReference
       type: object
     ThreeDS2ResultResponse:
       properties:
@@ -7783,12 +8187,12 @@ components:
             * **06** — Login to the cardholder account at the 3DS Requestor
             system using FIDO Authenticator.
           enum:
-            - '01'
-            - '02'
-            - '03'
-            - '04'
-            - '05'
-            - '06'
+          - '01'
+          - '02'
+          - '03'
+          - '04'
+          - '05'
+          - '06'
           maxLength: 2
           minLength: 2
           type: string
@@ -7820,10 +8224,10 @@ components:
 
             * **04** — Other issuer methods.
           enum:
-            - '01'
-            - '02'
-            - '03'
-            - '04'
+          - '01'
+          - '02'
+          - '03'
+          - '04'
           maxLength: 2
           minLength: 2
           type: string
@@ -7856,10 +8260,10 @@ components:
             In 3D Secure 2, this is the `transStatus` from the challenge result.
             If the transaction was frictionless, omit this parameter.
           enum:
-            - 'Y'
-            - 'N'
-            - U
-            - A
+          - 'Y'
+          - 'N'
+          - U
+          - A
           type: string
         cavv:
           description: >-
@@ -7878,13 +8282,13 @@ components:
             For possible values, refer to [3D Secure API
             reference](https://docs.adyen.com/online-payments/3d-secure/api-reference#mpidata).
           enum:
-            - '01'
-            - '02'
-            - '03'
-            - '04'
-            - '05'
-            - '06'
-            - '07'
+          - '01'
+          - '02'
+          - '03'
+          - '04'
+          - '05'
+          - '06'
+          - '07'
           type: string
         directoryResponse:
           description: >-
@@ -7894,14 +8298,14 @@ components:
 
             In 3D Secure 2, this is the `transStatus` from the `ARes`.
           enum:
-            - A
-            - C
-            - D
-            - I
-            - 'N'
-            - R
-            - U
-            - 'Y'
+          - A
+          - C
+          - D
+          - I
+          - 'N'
+          - R
+          - U
+          - 'Y'
           type: string
         dsTransID:
           x-addedInVersion: '40'
@@ -7950,22 +8354,22 @@ components:
           additionalProperties:
             type: string
           x-anyOf:
-            - $ref: '#/components/schemas/AdditionalData3DSecure'
-            - $ref: '#/components/schemas/AdditionalDataAirline'
-            - $ref: '#/components/schemas/AdditionalDataCarRental'
-            - $ref: '#/components/schemas/AdditionalDataCommon'
-            - $ref: '#/components/schemas/AdditionalDataLevel23'
-            - $ref: '#/components/schemas/AdditionalDataLodging'
-            - $ref: '#/components/schemas/AdditionalDataModifications'
-            - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
-            - $ref: '#/components/schemas/AdditionalDataOpi'
-            - $ref: '#/components/schemas/AdditionalDataRatepay'
-            - $ref: '#/components/schemas/AdditionalDataRetry'
-            - $ref: '#/components/schemas/AdditionalDataRisk'
-            - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
-            - $ref: '#/components/schemas/AdditionalDataSubMerchant'
-            - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
-            - $ref: '#/components/schemas/AdditionalDataWallets'
+          - $ref: '#/components/schemas/AdditionalData3DSecure'
+          - $ref: '#/components/schemas/AdditionalDataAirline'
+          - $ref: '#/components/schemas/AdditionalDataCarRental'
+          - $ref: '#/components/schemas/AdditionalDataCommon'
+          - $ref: '#/components/schemas/AdditionalDataLevel23'
+          - $ref: '#/components/schemas/AdditionalDataLodging'
+          - $ref: '#/components/schemas/AdditionalDataModifications'
+          - $ref: '#/components/schemas/AdditionalDataOpenInvoice'
+          - $ref: '#/components/schemas/AdditionalDataOpi'
+          - $ref: '#/components/schemas/AdditionalDataRatepay'
+          - $ref: '#/components/schemas/AdditionalDataRetry'
+          - $ref: '#/components/schemas/AdditionalDataRisk'
+          - $ref: '#/components/schemas/AdditionalDataRiskStandalone'
+          - $ref: '#/components/schemas/AdditionalDataSubMerchant'
+          - $ref: '#/components/schemas/AdditionalDataTemporaryServices'
+          - $ref: '#/components/schemas/AdditionalDataWallets'
           description: >-
             This field contains additional data, which may be required for a
             particular modification request.
@@ -8038,7 +8442,7 @@ components:
             request. For point-of-sale integrations only.
           type: string
       required:
-        - merchantAccount
+      - merchantAccount
       type: object
   securitySchemes:
     ApiKeyAuth:
@@ -8231,16 +8635,16 @@ components:
         reference: YOUR_ORDER_NUMBER
         merchantAccount: YOUR_MERCHANT_ACCOUNT
         splits:
-          - amount:
-              value: 6000
-            type: MarketPlace
-            account: '151272963'
-            reference: '6124145'
-            description: 'Porcelain Doll: Eliza (20cm)'
-          - amount:
-              value: 200
-            type: Commission
-            reference: '6124146'
+        - amount:
+            value: 6000
+          type: MarketPlace
+          account: '151272963'
+          reference: '6124145'
+          description: 'Porcelain Doll: Eliza (20cm)'
+        - amount:
+            value: 200
+          type: Commission
+          reference: '6124146'
     post-authorise3d-authorise3d:
       summary: Complete a 3D Secure payment
       value:

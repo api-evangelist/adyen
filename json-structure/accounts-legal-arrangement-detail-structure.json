@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/accounts-legal-arrangement-detail-structure.json",
+  "description": "LegalArrangementDetail schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "address": {
+      "description": "The address of the legal arrangement.",
+      "$ref": "#/components/schemas/ViasAddress"
+    },
+    "legalArrangementCode": {
+      "description": "Adyen-generated unique alphanumeric identifier (UUID) for the entry, returned in the response when you create a legal arrangement.\nUse only when updating an account holder. If you include this field when creating an account holder, the request will fail.",
+      "type": "string"
+    },
+    "legalArrangementEntities": {
+      "description": "An array containing information about other entities that are part of the legal arrangement.",
+      "items": {
+        "$ref": "#/components/schemas/LegalArrangementEntityDetail"
+      },
+      "type": "array"
+    },
+    "legalArrangementReference": {
+      "description": "Your reference for the legal arrangement. Must be between 3 to 128 characters.",
+      "type": "string"
+    },
+    "legalForm": {
+      "description": "The form of legal arrangement. Required if `type` is **Trust** or **Partnership**.\n\nThe possible values depend on the `type`.\n\n- For `type` **Trust**:  **CashManagementTrust**, **CorporateUnitTrust**, **DeceasedEstate**, **DiscretionaryInvestmentTrust**, **DiscretionaryServicesManagementTrust**, **DiscretionaryTradingTrust**, **FirstHomeSaverAccountsTrust**, **FixedTrust**, **FixedUnitTrust**, **HybridTrust**, **ListedPublicUnitTrust**, **OtherTrust**, **PooledSuperannuationTrust**, **PublicTradingTrust**, or **UnlistedPublicUnitTrust**.\n\n- For `type` **Partnership**: **LimitedPartnership**, **FamilyPartnership**, or **OtherPartnership**",
+      "enum": [
+        "CashManagementTrust",
+        "CorporateUnitTrust",
+        "DeceasedEstate",
+        "DiscretionaryInvestmentTrust",
+        "DiscretionaryServicesManagementTrust",
+        "DiscretionaryTradingTrust",
+        "FirstHomeSaverAccountsTrust",
+        "FixedTrust",
+        "FixedUnitTrust",
+        "HybridTrust",
+        "ListedPublicUnitTrust",
+        "OtherTrust",
+        "PooledSuperannuationTrust",
+        "PublicTradingTrust",
+        "UnlistedPublicUnitTrust",
+        "LimitedPartnership",
+        "FamilyPartnership",
+        "OtherPartnership"
+      ],
+      "type": "string"
+    },
+    "name": {
+      "description": "The legal name of the legal arrangement. Minimum length: 3 characters.",
+      "type": "string"
+    },
+    "registrationNumber": {
+      "description": "The registration number of the legal arrangement.",
+      "type": "string"
+    },
+    "taxNumber": {
+      "description": "The tax identification number of the legal arrangement.",
+      "type": "string"
+    },
+    "type": {
+      "description": "The [type of legal arrangement](https://docs.adyen.com/marketplaces-and-platforms/classic/verification-process/legal-arrangements#types-of-legal-arrangements).\n\nPossible values:\n\n- **Association** \n\n- **Partnership** \n\n- **SoleProprietorship** \n\n- **Trust** \n\n",
+      "enum": [
+        "Association",
+        "Partnership",
+        "SoleProprietorship",
+        "Trust"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "name",
+    "address"
+  ],
+  "name": "LegalArrangementDetail"
+}

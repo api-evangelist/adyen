@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/transfers-capital-grant-structure.json",
+  "description": "CapitalGrant schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "amount": {
+      "description": "An object containing the amount of the grant, in [minor units](https://docs.adyen.com/development-resources/currency-codes).",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "balances": {
+      "description": "An object containing the details of the existing grant.",
+      "$ref": "#/components/schemas/CapitalBalance"
+    },
+    "counterparty": {
+      "description": "An object containing the details of the receiving party of the grant. Setting either an `accountHolderId`, `balanceAccountId`, or both is required.",
+      "$ref": "#/components/schemas/Counterparty"
+    },
+    "fee": {
+      "description": "An object containing the fee currency and value, in [minor units](https://docs.adyen.com/development-resources/currency-codes).",
+      "$ref": "#/components/schemas/Fee"
+    },
+    "grantAccountId": {
+      "description": "The identifier of the grant account used for the grant.",
+      "type": "string"
+    },
+    "grantOfferId": {
+      "description": "The identifier of the grant offer that has been selected and from which the grant details will be used.",
+      "type": "string"
+    },
+    "id": {
+      "description": "The identifier of the grant reference.",
+      "type": "string"
+    },
+    "repayment": {
+      "description": "An object containing the details of the 30-day repayment threshold.",
+      "$ref": "#/components/schemas/Repayment"
+    },
+    "status": {
+      "description": "The current status of the grant. Possible values: **Pending**, **Active**, **Repaid**.",
+      "enum": [
+        "Pending",
+        "Active",
+        "Repaid"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "grantAccountId",
+    "grantOfferId",
+    "id",
+    "status",
+    "balances"
+  ],
+  "name": "CapitalGrant"
+}

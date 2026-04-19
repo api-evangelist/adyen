@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/terminal-transaction-totals-schema.json",
+  "title": "TransactionTotals",
+  "description": "If Result is Success, contains all the totals, classified as required by the Sale in the message request. At least, transaction totals are provided per Acquirer, Acquirer Settlement, and Card Brand. Result of the Sale to POI Reconciliation processing.",
+  "type": "object",
+  "properties": {
+    "PaymentInstrumentType": {
+      "$ref": "#/components/schemas/PaymentInstrumentType"
+    },
+    "AcquirerID": {
+      "type": "integer",
+      "description": "If available."
+    },
+    "HostReconciliationID": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "If available."
+    },
+    "CardBrand": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "If configured to present totals per card brand, and Response.Result is Success."
+    },
+    "POIID": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "If requested in the message request."
+    },
+    "SaleID": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "If requested in the message request."
+    },
+    "OperatorID": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "If requested in the message request."
+    },
+    "ShiftNumber": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "If requested in the message request."
+    },
+    "TotalsGroupID": {
+      "type": "string",
+      "pattern": "^.{1,16}$",
+      "description": "If requested in the message request."
+    },
+    "PaymentCurrency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3,3}$",
+      "description": "Currency of a monetary amount."
+    },
+    "PaymentTotals": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/PaymentTotals"
+      }
+    },
+    "LoyaltyUnit": {
+      "$ref": "#/components/schemas/LoyaltyUnit"
+    },
+    "LoyaltyCurrency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3,3}$",
+      "description": "If LoyaltyUnit is Monetary."
+    },
+    "LoyaltyTotals": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/LoyaltyTotals"
+      }
+    }
+  },
+  "required": [
+    "PaymentInstrumentType"
+  ]
+}

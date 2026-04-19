@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/configuration-payment-instrument-update-request-schema.json",
+  "title": "PaymentInstrumentUpdateRequest",
+  "description": "PaymentInstrumentUpdateRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "balanceAccountId": {
+      "description": "The unique identifier of the balance account associated with this payment instrument.\n>You can only change the balance account ID if the payment instrument has **inactive** status.",
+      "type": "string"
+    },
+    "card": {
+      "description": "Object that contains information about the card payment instrument.",
+      "$ref": "#/components/schemas/CardInfo"
+    },
+    "status": {
+      "description": "The status of the payment instrument. If a status is not specified when creating a payment instrument, it is set to **active** by default. However, there can be exceptions for cards based on the `card.formFactor` and the `issuingCountryCode`. For example, when issuing physical cards in the US, the default status is **inactive**.\n\nPossible values: \n\n * **active**:  The payment instrument is active and can be used to make payments. \n\n * **inactive**: The payment instrument is inactive and cannot be used to make payments. \n\n * **suspended**: The payment instrument is suspended, either because it was stolen or lost. \n\n * **closed**: The payment instrument is permanently closed. This action cannot be undone. \n\n",
+      "enum": [
+        "active",
+        "closed",
+        "inactive",
+        "suspended"
+      ],
+      "type": "string"
+    },
+    "statusComment": {
+      "description": "Comment for the status of the payment instrument.\n\nRequired if `statusReason` is **other**.",
+      "type": "string"
+    },
+    "statusReason": {
+      "x-addedInVersion": "2",
+      "description": "The reason for updating the status of the payment instrument.\n\nPossible values: **lost**, **stolen**, **damaged**, **suspectedFraud**, **expired**, **endOfLife**, **accountClosure**, **other**.\nIf the reason is **other**, you must also send the `statusComment` parameter describing the status change.",
+      "enum": [
+        "accountClosure",
+        "damaged",
+        "endOfLife",
+        "expired",
+        "lost",
+        "other",
+        "stolen",
+        "suspectedFraud",
+        "transactionRule"
+      ],
+      "type": "string"
+    }
+  }
+}

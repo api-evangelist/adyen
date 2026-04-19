@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/management-split-configuration-rule-structure.json",
+  "description": "SplitConfigurationRule schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "currency": {
+      "description": "The currency condition that defines whether the split logic applies.\nIts value must be a three-character [ISO currency code](https://en.wikipedia.org/wiki/ISO_4217).",
+      "type": "string"
+    },
+    "fundingSource": {
+      "description": "The funding source condition of the payment method (only for cards).\n\nPossible values: **credit**, **debit**, or **ANY**.",
+      "enum": [
+        "credit",
+        "debit",
+        "ANY"
+      ],
+      "type": "string"
+    },
+    "paymentMethod": {
+      "description": "The payment method condition that defines whether the split logic applies.\n\nPossible values:\n* [Payment method variant](https://docs.adyen.com/development-resources/paymentmethodvariant): Apply the split logic for a specific payment method.\n* **ANY**: Apply the split logic for all available payment methods.",
+      "type": "string"
+    },
+    "ruleId": {
+      "description": "The unique identifier of the split configuration rule.",
+      "readOnly": true,
+      "type": "string"
+    },
+    "shopperInteraction": {
+      "description": "The sales channel condition that defines whether the split logic applies.\n\nPossible values:\n* **Ecommerce**: Online transactions where the cardholder is present.\n* **ContAuth**: Card on file and/or subscription transactions, where the cardholder is known to the merchant (returning customer).\n* **Moto**: Mail-order and telephone-order transactions where the customer is in contact with the merchant via email or telephone.\n* **POS**: Point-of-sale transactions where the customer is physically present to make a payment using a secure payment terminal.\n* **ANY**: All sales channels.",
+      "enum": [
+        "Ecommerce",
+        "ContAuth",
+        "Moto",
+        "POS",
+        "ANY"
+      ],
+      "type": "string"
+    },
+    "splitLogic": {
+      "description": "Contains the split logic that is applied if the rule conditions are met.",
+      "$ref": "#/components/schemas/SplitConfigurationLogic"
+    }
+  },
+  "required": [
+    "paymentMethod",
+    "shopperInteraction",
+    "currency",
+    "splitLogic"
+  ],
+  "name": "SplitConfigurationRule"
+}

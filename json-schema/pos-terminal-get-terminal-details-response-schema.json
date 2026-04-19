@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/pos-terminal-get-terminal-details-response-schema.json",
+  "title": "GetTerminalDetailsResponse",
+  "description": "GetTerminalDetailsResponse schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "bluetoothIp": {
+      "description": "The Bluetooth IP address of the terminal.",
+      "type": "string"
+    },
+    "bluetoothMac": {
+      "description": "The Bluetooth MAC address of the terminal.",
+      "type": "string"
+    },
+    "companyAccount": {
+      "description": "The company account that the terminal is associated with. If this is the only account level shown in the response, the terminal is assigned to the inventory of the company account.",
+      "type": "string"
+    },
+    "country": {
+      "description": "The country where the terminal is used.",
+      "type": "string"
+    },
+    "deviceModel": {
+      "description": "The model name of the terminal.",
+      "type": "string"
+    },
+    "dhcpEnabled": {
+      "description": "Indicates whether assigning IP addresses through a DHCP server is enabled on the terminal.",
+      "type": "boolean"
+    },
+    "displayLabel": {
+      "description": "The label shown on the status bar of the display. This label (if any) is specified in your Customer Area.",
+      "type": "string"
+    },
+    "ethernetIp": {
+      "description": "The terminal's IP address in your Ethernet network.",
+      "type": "string"
+    },
+    "ethernetMac": {
+      "description": "The terminal's MAC address in your Ethernet network.",
+      "type": "string"
+    },
+    "firmwareVersion": {
+      "description": "The software release currently in use on the terminal.",
+      "type": "string"
+    },
+    "iccid": {
+      "description": "The integrated circuit card identifier (ICCID) of the SIM card in the terminal.",
+      "type": "string"
+    },
+    "lastActivityDateTime": {
+      "description": "Date and time of the last activity on the terminal. Not included when the last activity was more than 14 days ago.",
+      "format": "date-time",
+      "type": "string"
+    },
+    "lastTransactionDateTime": {
+      "description": "Date and time of the last transaction on the terminal. Not included when the last transaction was more than 14 days ago.",
+      "format": "date-time",
+      "type": "string"
+    },
+    "linkNegotiation": {
+      "description": "The Ethernet link negotiation that the terminal uses: \n\n- `auto`: Auto-negotiation\n\n- `100full`: 100 Mbps full duplex",
+      "type": "string"
+    },
+    "merchantAccount": {
+      "description": "The merchant account that the terminal is associated with. If the response doesn't contain a `store` the terminal is assigned to this merchant account.",
+      "type": "string"
+    },
+    "merchantInventory": {
+      "description": "Boolean that indicates if the terminal is assigned to the merchant inventory. This is returned when the terminal is assigned to a merchant account.\n\n- If **true**, this indicates that the terminal is in the merchant inventory. This also means that the terminal cannot be boarded.\n\n- If **false**, this indicates that the terminal is assigned to the merchant account as an in-store terminal. This means that the terminal is ready to be boarded, or is already boarded.",
+      "type": "boolean"
+    },
+    "permanentTerminalId": {
+      "description": "The permanent terminal ID.",
+      "type": "string"
+    },
+    "serialNumber": {
+      "description": "The serial number of the terminal.",
+      "type": "string"
+    },
+    "simStatus": {
+      "description": "On a terminal that supports 3G or 4G connectivity, indicates the status of the SIM card in the terminal: ACTIVE or INVENTORY.",
+      "type": "string"
+    },
+    "store": {
+      "description": "The store code of the store that the terminal is assigned to.",
+      "type": "string"
+    },
+    "storeDetails": {
+      "description": "The store that the terminal is assigned to.",
+      "$ref": "#/components/schemas/Store"
+    },
+    "terminal": {
+      "description": "The unique terminal ID.",
+      "type": "string"
+    },
+    "terminalStatus": {
+      "description": "The status of the terminal: \n\n- `OnlineToday`, `OnlineLast1Day`, `OnlineLast2Days` etcetera to `OnlineLast7Days`: Indicates when in the past week the terminal was last online. \n\n- `SwitchedOff`: Indicates it was more than a week ago that the terminal was last online. \n\n- `ReAssignToInventoryPending`, `ReAssignToStorePending`, `ReAssignToMerchantInventoryPending`: Indicates the terminal is scheduled to be reassigned.",
+      "enum": [
+        "OnlineLast1Day",
+        "OnlineLast2Days",
+        "OnlineLast3Days",
+        "OnlineLast4Days",
+        "OnlineLast5Days",
+        "OnlineLast6Days",
+        "OnlineLast7Days",
+        "OnlineToday",
+        "ReAssignToInventoryPending",
+        "ReAssignToMerchantInventoryPending",
+        "ReAssignToStorePending",
+        "SwitchedOff"
+      ],
+      "type": "string"
+    },
+    "wifiIp": {
+      "description": "The terminal's IP address in your Wi-Fi network.",
+      "type": "string"
+    },
+    "wifiMac": {
+      "description": "The terminal's MAC address in your Wi-Fi network.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "companyAccount",
+    "terminal"
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/legal-entity-document-schema.json",
+  "title": "Document",
+  "description": "Document schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "attachment": {
+      "deprecated": true,
+      "x-deprecatedInVersion": "1",
+      "x-deprecatedMessage": "Use the `attachments` array instead.",
+      "description": "Object that contains the document.",
+      "$ref": "#/components/schemas/Attachment"
+    },
+    "attachments": {
+      "description": "Array that contains the document. The array supports multiple attachments for uploading different sides or pages of a document.",
+      "items": {
+        "$ref": "#/components/schemas/Attachment"
+      },
+      "type": "array"
+    },
+    "creationDate": {
+      "description": "The creation date of the document.",
+      "format": "date-time",
+      "readOnly": true,
+      "type": "string"
+    },
+    "description": {
+      "description": "Your description for the document.",
+      "type": "string"
+    },
+    "expiryDate": {
+      "deprecated": true,
+      "x-deprecatedInVersion": "1",
+      "description": "The expiry date of the document, in YYYY-MM-DD format.",
+      "type": "string"
+    },
+    "fileName": {
+      "description": "The filename of the document.",
+      "type": "string"
+    },
+    "id": {
+      "description": "The unique identifier of the document.",
+      "readOnly": true,
+      "type": "string"
+    },
+    "issuerCountry": {
+      "deprecated": true,
+      "x-deprecatedInVersion": "1",
+      "description": "The two-character [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code where the document was issued. For example, **US**.",
+      "type": "string"
+    },
+    "issuerState": {
+      "deprecated": true,
+      "x-deprecatedInVersion": "1",
+      "description": "The state or province where the document was issued (AU only).",
+      "type": "string"
+    },
+    "modificationDate": {
+      "description": "The modification date of the document.",
+      "format": "date-time",
+      "readOnly": true,
+      "type": "string"
+    },
+    "number": {
+      "description": "The number in the document.",
+      "type": "string"
+    },
+    "owner": {
+      "description": "Contains information about the resource that owns the document.",
+      "$ref": "#/components/schemas/OwnerEntity"
+    },
+    "type": {
+      "description": "Type of document, used when providing an ID number or uploading a document. The possible values depend on the legal entity type.\n\n* For **organization**, the `type` values can be **proofOfAddress**, **registrationDocument**, **vatDocument**, **proofOfOrganizationTaxInfo**, **proofOfOwnership**, **proofOfIndustry**, or **proofOfFundingOrWealthSource**.\n\n* For **individual**, the `type` values can be **identityCard**, **driversLicense**, **passport**, **proofOfNationalIdNumber**, **proofOfResidency**, **proofOfIndustry**, **proofOfIndividualTaxId**, or **proofOfFundingOrWealthSource**.\n\n* For **soleProprietorship**, the `type` values can be **constitutionalDocument**, **proofOfAddress**, or **proofOfIndustry**.\n\n* Use **bankStatement** to upload documents for a [transfer instrument](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/transferInstruments__resParam_id).",
+      "enum": [
+        "bankStatement",
+        "driversLicense",
+        "identityCard",
+        "nationalIdNumber",
+        "passport",
+        "proofOfAddress",
+        "proofOfNationalIdNumber",
+        "proofOfResidency",
+        "registrationDocument",
+        "vatDocument",
+        "proofOfOrganizationTaxInfo",
+        "proofOfIndustry",
+        "constitutionalDocument",
+        "proofOfFundingOrWealthSource"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "description",
+    "type"
+  ]
+}

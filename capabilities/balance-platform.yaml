@@ -1,0 +1,138 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Adyen Balance Platform"
+  description: "Unified capability for building financial products on Adyen's balance platform. Combines the Configuration API for account holder and card management with the Transfers API for fund movement. Used by marketplace and platform builders to onboard users, issue cards, and manage fund transfers. Primary persona: Platform Engineer or Marketplace Developer."
+  tags:
+    - Adyen
+    - Balance Platform
+    - Marketplaces
+    - Issuing
+    - Transfers
+    - Fintech
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+binds:
+  - namespace: env
+    keys:
+      ADYEN_BALANCE_PLATFORM_API_KEY: ADYEN_BALANCE_PLATFORM_API_KEY
+
+capability:
+  consumes:
+    - import: configuration
+      location: ./shared/configuration.yaml
+
+  exposes:
+    - type: rest
+      port: 8082
+      namespace: adyen-balance-platform-api
+      description: "Unified REST API for Adyen balance platform operations."
+      resources:
+        - path: /v1/account-holders
+          name: account-holders
+          description: "Manage account holders on the balance platform."
+          operations:
+            - method: POST
+              name: create-account-holder
+              description: "Create an account holder."
+              call: "configuration.create-account-holder"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: GET
+              name: get-account-holder
+              description: "Get account holder details."
+              call: "configuration.get-account-holder"
+              with:
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/balance-accounts
+          name: balance-accounts
+          description: "Manage balance accounts."
+          operations:
+            - method: POST
+              name: create-balance-account
+              description: "Create a balance account."
+              call: "configuration.create-balance-account"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: GET
+              name: get-balance-account
+              description: "Get balance account details."
+              call: "configuration.get-balance-account"
+              with:
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/payment-instruments
+          name: payment-instruments
+          description: "Manage payment instruments including virtual and physical cards."
+          operations:
+            - method: POST
+              name: create-payment-instrument
+              description: "Create a payment instrument (card)."
+              call: "configuration.create-payment-instrument"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9082
+      namespace: adyen-balance-platform-mcp
+      transport: http
+      description: "MCP server for AI-assisted Adyen balance platform management."
+      tools:
+        - name: create-account-holder
+          description: "Create a new account holder on the Adyen balance platform."
+          hints:
+            readOnly: false
+            destructive: false
+          call: "configuration.create-account-holder"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-account-holder
+          description: "Retrieve details of an account holder."
+          hints:
+            readOnly: true
+            destructive: false
+          call: "configuration.get-account-holder"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-balance-account
+          description: "Create a balance account for an account holder."
+          hints:
+            readOnly: false
+            destructive: false
+          call: "configuration.create-balance-account"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-balance-account
+          description: "Get balance and details of a balance account."
+          hints:
+            readOnly: true
+            destructive: false
+          call: "configuration.get-balance-account"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: issue-card
+          description: "Issue a virtual or physical payment card for an account holder."
+          hints:
+            readOnly: false
+            destructive: false
+          call: "configuration.create-payment-instrument"
+          outputParameters:
+            - type: object
+              mapping: "$."

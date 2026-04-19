@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/legal-entity-organization-structure.json",
+  "description": "Organization schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "dateOfIncorporation": {
+      "x-addedInVersion": "2",
+      "description": "The date when the organization was incorporated in YYYY-MM-DD format.",
+      "type": "string"
+    },
+    "description": {
+      "description": "Your description for the organization.",
+      "type": "string"
+    },
+    "doingBusinessAs": {
+      "description": "The organization's trading name, if different from the registered legal name.",
+      "type": "string"
+    },
+    "email": {
+      "description": "The email address of the legal entity.",
+      "type": "string"
+    },
+    "legalName": {
+      "description": "The organization's legal name.",
+      "type": "string"
+    },
+    "phone": {
+      "description": "The phone number of the legal entity.",
+      "$ref": "#/components/schemas/PhoneNumber"
+    },
+    "principalPlaceOfBusiness": {
+      "description": "The address where the organization operates from. Provide this if the principal place of business is different from the `registeredAddress`.",
+      "$ref": "#/components/schemas/Address"
+    },
+    "registeredAddress": {
+      "description": "The address of the organization registered at their registrar (such as the Chamber of Commerce).",
+      "$ref": "#/components/schemas/Address"
+    },
+    "registrationNumber": {
+      "description": "The organization's registration number.",
+      "type": "string"
+    },
+    "stockData": {
+      "description": "Information about the organization's publicly traded stock. Provide this object only if `type` is **listedPublicCompany**.",
+      "$ref": "#/components/schemas/StockData"
+    },
+    "taxInformation": {
+      "x-addedInVersion": "2",
+      "description": "The tax information of the organization.",
+      "items": {
+        "$ref": "#/components/schemas/TaxInformation"
+      },
+      "type": "array"
+    },
+    "taxReportingClassification": {
+      "x-addedInVersion": "2",
+      "description": "The tax reporting classification (FATCA/CRS self-certification) of the organization.",
+      "$ref": "#/components/schemas/TaxReportingClassification"
+    },
+    "type": {
+      "description": "Type of organization.\n\nPossible values: **associationIncorporated**, **governmentalOrganization**, **listedPublicCompany**, **nonProfit**, **partnershipIncorporated**, **privateCompany**.",
+      "enum": [
+        "associationIncorporated",
+        "governmentalOrganization",
+        "listedPublicCompany",
+        "nonProfit",
+        "partnershipIncorporated",
+        "privateCompany"
+      ],
+      "type": "string"
+    },
+    "vatAbsenceReason": {
+      "x-addedInVersion": "2",
+      "description": "The reason the organization has not provided a VAT number.\n\nPossible values: **industryExemption**, **belowTaxThreshold**.",
+      "enum": [
+        "industryExemption",
+        "belowTaxThreshold"
+      ],
+      "type": "string"
+    },
+    "vatNumber": {
+      "x-addedInVersion": "2",
+      "description": "The organization's VAT number.",
+      "type": "string"
+    },
+    "webData": {
+      "deprecated": true,
+      "x-deprecatedInVersion": "1",
+      "description": "The website and app URL of the legal entity.",
+      "$ref": "#/components/schemas/WebData"
+    }
+  },
+  "required": [
+    "legalName",
+    "registeredAddress"
+  ],
+  "name": "Organization"
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/notifications-direct-debit-initiated-notification-content-schema.json",
+  "title": "DirectDebitInitiatedNotificationContent",
+  "description": "DirectDebitInitiatedNotificationContent schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountCode": {
+      "description": "The code of the account.",
+      "type": "string"
+    },
+    "amount": {
+      "description": "The amount to be debited from the funding account.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "debitInitiationDate": {
+      "description": "The date of the debit initiation.",
+      "$ref": "#/components/schemas/LocalDate"
+    },
+    "invalidFields": {
+      "description": "Invalid fields list.",
+      "items": {
+        "$ref": "#/components/schemas/ErrorFieldType"
+      },
+      "type": "array"
+    },
+    "merchantAccountCode": {
+      "description": "The code of the merchant account.",
+      "type": "string"
+    },
+    "splits": {
+      "description": "The split data for the debit request.",
+      "items": {
+        "$ref": "#/components/schemas/Split"
+      },
+      "type": "array"
+    },
+    "status": {
+      "description": "Direct debit status.",
+      "$ref": "#/components/schemas/OperationStatus"
+    }
+  },
+  "required": [
+    "amount",
+    "accountCode",
+    "merchantAccountCode"
+  ]
+}

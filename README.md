@@ -1,513 +1,393 @@
 # Adyen (adyen)
-Adyen is a global payment company that provides businesses with a single platform to accept payments from customers worldwide. Their technology enables companies to accept a wide range of payment methods, including credit cards, digital wallets, and local payment methods, in multiple currencies and countries. Adyen also offers services such as fraud prevention, data analytics, and optimization tools to help businesses streamline their payment processes and improve their overall performance. With a focus on security, speed, and reliability, Adyen aims to simplify the payment experience for both merchants and customers, ultimately driving growth and success for businesses of all sizes.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/apis-json/artisanal/main/apis/adyen.yml)
+Adyen is a global payment company that provides businesses with a single platform to accept payments from customers worldwide. Their technology enables companies to accept a wide range of payment methods, including credit cards, digital wallets, and local payment methods, in multiple currencies and countries. Adyen also offers services such as fraud prevention, data analytics, and optimization tools to help businesses streamline their payment processes and improve their overall performance.
 
-## Scope
+**URL:** [https://docs.adyen.com/](https://docs.adyen.com/)
 
+**Run:** [Capabilities Using Naftiko](https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=company-api-evangelist&utm_content=repo)
 
-## Tags:
+## Tags
 
- - Payments
+- Payments
+- Financial Services
+- Fintech
 
 ## Timestamps
 
-- **Created:** 2023/11/13 
-- **Modified:** 2024-12-24 
+- **Created:** 2023-11-13
+- **Modified:** 2026-04-19
 
 ## APIs
 
 ### Adyen Accounting Notifications API
-Adyen sends notifications through webhooks to inform your system about incoming and outgoing transfers in your platform. You can use these webhooks to build your implementation. For example, you can use this information to update balances in your own dashboards or to keep track of incoming funds.
+
+Adyen sends notifications through webhooks to inform your system about incoming and outgoing transfers in your platform.
 
 **Human URL:** [https://docs.adyen.com/marketplaces-and-platforms/classic/configure-notifications/](https://docs.adyen.com/marketplaces-and-platforms/classic/configure-notifications/)
 
-**Base URL:** [https://cal-test.adyen.com](https://cal-test.adyen.com)
+#### Tags
 
-
-#### Tags:
-
- - Accounting, Notifications, Webhooks
+- Accounting, Notifications, Webhooks
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/marketplaces-and-platforms/classic/configure-notifications/)
-- [OpenAPI](properties/adyen-accounting-notifications-api-openapi.yml)
+- [OpenAPI](openapi/accounting-notifications-openapi-original.yml)
+
 ### Adyen Account API
-This API is used for the classic integration. If you are just starting your implementation, refer to our new integration guide instead. The Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.
+
+The Account API provides endpoints for managing account-related entities on your platform including account holders, bank accounts, shareholders, and verification-related documents.
 
 **Human URL:** [https://docs.adyen.com/api-explorer/Account/6/overview](https://docs.adyen.com/api-explorer/Account/6/overview)
 
-**Base URL:** [https://cal-test.adyen.com](https://cal-test.adyen.com)
+#### Tags
 
-
-#### Tags:
-
- - Checks, Accounts, Holders, Close, Stores, Account, Bank, Legal, Arrangements, Methods, Shareholders, Signatories, Tax, Forms, Uploaded, Documents, Suspend, State, Uploads
+- Account, Bank, Holders, Shareholders, Verification
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/api-explorer/Account/6/overview)
-- [OpenAPI](properties/adyen-account-api-openapi.yml)
+- [OpenAPI](openapi/accounts-openapi-original.yml)
+
 ### Adyen Authentication Webhooks API
+
 Adyen sends webhooks to inform your system about events related to cardholder authentication.
 
 **Human URL:** [https://docs.adyen.com/development-resources/webhooks/](https://docs.adyen.com/development-resources/webhooks/)
 
-**Base URL:** [https://cal-test.adyen.com](https://cal-test.adyen.com)
+#### Tags
 
-
-#### Tags:
-
- - Authentication, Webhooks
+- Authentication, Webhooks, 3D Secure
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/development-resources/webhooks/)
 - [OpenAPI](openapi/authentication-webhooks-openapi-original.yml)
+
 ### Adyen Balance Control API
-The Balance Control API lets you transfer funds between merchant accounts that belong to the same legal entity and are under the same company account.
+
+The Balance Control API lets you transfer funds between merchant accounts that belong to the same legal entity.
 
 **Human URL:** [https://docs.adyen.com/api-explorer/BalanceControl/1/overview](https://docs.adyen.com/api-explorer/BalanceControl/1/overview)
 
-**Base URL:** [https://cal-test.adyen.com](https://cal-test.adyen.com)
+#### Tags
 
-
-#### Tags:
-
- - Balance, Transfers
+- Balance, Transfers, Merchants
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/api-explorer/BalanceControl/1/overview)
-- [OpenAPI](properties/adyen-balance-control-api-openapi.yml)
+- [OpenAPI](openapi/balance-control-openapi-original.yml)
+
 ### Adyen BinLookup API
-The BIN Lookup API provides endpoints for retrieving information, such as cost estimates, and 3D Secure supported version based on a given BIN.
+
+The BIN Lookup API provides endpoints for retrieving information such as cost estimates and 3D Secure supported version based on a given BIN.
 
 **Human URL:** [https://docs.adyen.com/api-explorer/BinLookup/52/overview](https://docs.adyen.com/api-explorer/BinLookup/52/overview)
 
-**Base URL:** [https://pal-test.adyen.com](https://pal-test.adyen.com)
+#### Tags
 
-
-#### Tags:
-
- - Availability, Cost, Estimates
+- BIN, Card, 3D Secure, Cost Estimation
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/api-explorer/BinLookup/52/overview)
-- [OpenAPI](properties/adyen-binlookup-api-openapi.yml)
+- [OpenAPI](openapi/binlookup-openapi-original.yml)
+
 ### Adyen Checkout API
-This is the description of your API.
+
+The Checkout API provides a powerful, PCI-compliant way to accept payments online with support for cards, wallets, and local payment methods.
 
 **Human URL:** [https://docs.adyen.com/api-explorer/Checkout/71/overview](https://docs.adyen.com/api-explorer/Checkout/71/overview)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+#### Tags
 
-
-#### Tags:
-
- - Apple, Pay, Sessions, Cancels, Card, Donations, Orders, Origin, Keys, Payments, Links, Methods, Balance, Session, Results, Psp, References, Amount, Captures, Refunds, Reversals, Stored, Method
+- Checkout, Payments, Sessions, Orders, Refunds
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/api-explorer/Checkout/71/overview)
-- [OpenAPI](properties/adyen-checkout-api-openapi.yml)
+- [OpenAPI](openapi/checkout-openapi-original.yml)
+
 ### Adyen Configuration API
-The Configuration API enables you to create a platform where you can onboard your users as account holders and create balance accounts, cards, and business accounts.
+
+The Configuration API enables you to create a platform where you can onboard users as account holders and create balance accounts, cards, and business accounts.
 
 **Human URL:** [https://docs.adyen.com/api-explorer/balanceplatform/2/overview](https://docs.adyen.com/api-explorer/balanceplatform/2/overview)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+#### Tags
 
-
-#### Tags:
-
- - Accounts, Holders, Balance, Tax, Forms, Sweeps, Sweep, Payment, Instruments, Platforms, Account, Card Orders, Items, Offers, Offer, Networks, Tokens, Token, Payments, Transaction, Rules, Network, Reveal, Pins, Changes, Public, Keys, Transfers, Routes, Calculate, Validate, Bank, Identification
+- Configuration, Balance Platform, Account Holders, Balance Accounts, Cards
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/api-explorer/balanceplatform/2/overview)
-- [OpenAPI](properties/adyen-configuration-api-openapi.yml)
+- [OpenAPI](openapi/configuration-openapi-original.yml)
+
 ### Adyen Configuration Webhooks API
-Adyen sends webhooks to inform your system about events that occur in your platform. These events include, for example, when an account holders capabilities are updated, or when a sweep configuration is created or updated. When an event occurs, Adyen makes an HTTP POST request to a URL on your server and includes the details of the event in the request body. You can use these webhooks to build your implementation.
+
+Adyen sends webhooks about events in your balance platform, including account holder capability updates and sweep configuration changes.
 
 **Human URL:** [https://docs.adyen.com/api-explorer/balanceplatform-webhooks/1/overview](https://docs.adyen.com/api-explorer/balanceplatform-webhooks/1/overview)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+#### Tags
 
-
-#### Tags:
-
- - Configuraton, Webhooks
+- Configuration, Webhooks, Balance Platform
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/api-explorer/balanceplatform-webhooks/1/overview)
 - [OpenAPI](openapi/configuration-webhooks-openapi-original.yml)
+
 ### Adyen Data Protection API
-Adyen Data Protection API provides a way for you to process [Subject Erasure Requests](https://gdpr-info.eu/art-17-gdpr/) as mandated in GDPR. Use our API to submit a request to delete shopper''s data, including payment details and other related information (for example, delivery address or shopper email).
 
-**Human URL:** [https://gdpr-info.eu/art-17-gdpr/](https://gdpr-info.eu/art-17-gdpr/)
+Adyen Data Protection API provides a way to process Subject Erasure Requests as mandated in GDPR.
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+**Human URL:** [https://docs.adyen.com/development-resources/data-protection-api/](https://docs.adyen.com/development-resources/data-protection-api/)
 
+#### Tags
 
-#### Tags:
-
- -  Subjects,  Erasure
+- Data Protection, GDPR, Privacy, Erasure
 
 #### Properties
 
-- [Documentation](https://gdpr-info.eu/art-17-gdpr/)
-- [OpenAPI](properties/adyen-data-protection-api-openapi.yml)
+- [Documentation](https://docs.adyen.com/development-resources/data-protection-api/)
+- [OpenAPI](openapi/data-protection-openapi-original.yml)
+
 ### Adyen Disputes API
-You can use the Disputes API to automate the dispute handling process so that you can respond to disputes and chargebacks as soon as they are initiated. The Disputes API lets you retrieve defense reasons, supply and delete defense documents, and accept or defend disputes.
+
+Use the Disputes API to automate dispute and chargeback handling including retrieving defense reasons, submitting defense documents, and accepting disputes.
 
 **Human URL:** [https://docs.adyen.com/risk-management/disputes-api](https://docs.adyen.com/risk-management/disputes-api)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+#### Tags
 
-
-#### Tags:
-
- - No Tags
+- Disputes, Chargebacks, Risk Management
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/risk-management/disputes-api)
 - [OpenAPI](openapi/disputes-openapi-original.yml)
+
 ### Adyen Funds API
-The Fund API provides endpoints for managing the funds in the accounts on your platform. These management operations include, for example, the transfer of funds from one account to another, the payout of funds to an account holder, and the retrieval of balances in an account.
+
+The Fund API provides endpoints for managing funds in accounts on your marketplace platform including transfers and payouts.
 
 **Human URL:** [https://docs.adyen.com/marketplaces-and-platforms/classic/fund-transfer/](https://docs.adyen.com/marketplaces-and-platforms/classic/fund-transfer/)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+#### Tags
 
-
-#### Tags:
-
- - No Tags
+- Funds, Transfers, Marketplaces, Payouts
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/marketplaces-and-platforms/classic/fund-transfer/)
 - [OpenAPI](openapi/funds-openapi-original.yml)
+
 ### Adyen Hosted Onboarding API
-The Fund API provides endpoints for managing the funds in the accounts on your platform. These management operations include, for example, the transfer of funds from one account to another, the payout of funds to an account holder, and the retrieval of balances in an account.
+
+The Hosted Onboarding API provides endpoints for managing hosted onboarding experiences for account holders.
 
 **Human URL:** [https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details/hosted/](https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details/hosted/)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+#### Tags
 
-
-#### Tags:
-
- - No Tags
+- Onboarding, Verification, Marketplaces, KYC
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details/hosted/)
 - [OpenAPI](openapi/hosted-onboarding-openapi-original.yml)
+
 ### Adyen Legal Entity API
+
 The Legal Entity Management API enables you to manage legal entities that contain information required for verification.
 
 **Human URL:** [https://docs.adyen.com/marketplaces-and-platforms/legal-entity-management-api/](https://docs.adyen.com/marketplaces-and-platforms/legal-entity-management-api/)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+#### Tags
 
-
-#### Tags:
-
- - No Tags
+- Legal Entity, Verification, KYC, Compliance
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/marketplaces-and-platforms/legal-entity-management-api/)
 - [OpenAPI](openapi/legal-entity-openapi-original.yml)
-### Adyen Legal Entity API
-The Legal Entity Management API enables you to manage legal entities that contain information required for verification.
 
-**Human URL:** [https://docs.adyen.com/marketplaces-and-platforms/legal-entity-management-api/](https://docs.adyen.com/marketplaces-and-platforms/legal-entity-management-api/)
-
-**Base URL:** [https://api.example.com](https://api.example.com)
-
-
-#### Tags:
-
- - No Tags
-
-#### Properties
-
-- [Documentation](https://docs.adyen.com/marketplaces-and-platforms/legal-entity-management-api/)
-- [OpenAPI](openapi/legal-entity-openapi-original.yml)
 ### Adyen Management API
+
 Configure and manage your Adyen company and merchant accounts, stores, and payment terminals.
 
 **Human URL:** [https://docs.adyen.com/api-explorer/Management/3/overview](https://docs.adyen.com/api-explorer/Management/3/overview)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+#### Tags
 
-
-#### Tags:
-
- - No Tags
+- Management, Merchants, Terminals, Configuration
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/api-explorer/Management/3/overview)
 - [OpenAPI](openapi/management-openapi-original.yml)
+
 ### Adyen Management Webhooks API
-Adyen uses webhooks to inform your system about events that happen with your Adyen company and merchant accounts, stores, payment terminals, and payment methods when using [Management API](https://docs.adyen.com/api-explorer/#/ManagementService/latest/overview). When a and includes the details of the event in the request body. See [Webhooks](https://docs.adyen.com/development-resources/webhooks) for more information.
 
-**Human URL:** [https://docs.adyen.com/api-explorer/#/ManagementService/latest/overview](https://docs.adyen.com/api-explorer/#/ManagementService/latest/overview)
+Adyen sends webhooks about events with your company and merchant accounts, stores, payment terminals, and payment methods.
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+**Human URL:** [https://docs.adyen.com/api-explorer/management-webhooks/3/overview](https://docs.adyen.com/api-explorer/management-webhooks/3/overview)
 
+#### Tags
 
-#### Tags:
-
- - No Tags
+- Management, Webhooks, Merchants, Terminals
 
 #### Properties
 
-- [Documentation](https://docs.adyen.com/api-explorer/#/ManagementService/latest/overview)
+- [Documentation](https://docs.adyen.com/api-explorer/management-webhooks/3/overview)
 - [OpenAPI](openapi/management-webhooks-openapi-original.yml)
+
 ### Adyen Notification Configuration API
-This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Notification Configuration API provides endpoints for setting up and testing notifications that inform you of events on your platform, for example when a verification check or a payout has been completed.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic/notifications).
+
+The Notification Configuration API configures notification subscriptions, endpoints, and settings for the classic integration.
 
 **Human URL:** [https://docs.adyen.com/marketplaces-and-platforms/classic/notifications](https://docs.adyen.com/marketplaces-and-platforms/classic/notifications)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+#### Tags
 
-
-#### Tags:
-
- - No Tags
+- Notifications, Configuration, Webhooks, Marketplaces
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/marketplaces-and-platforms/classic/notifications)
 - [OpenAPI](openapi/notification-configurations-openapi-original.yml)
-### Adyen Notification Webhooks API
-Adyen sends notifications through webhooks to inform your system about events that occur in the balance platform. These events include, for example, a card user making a payment, or a merchant starting a refund. When an event occurs, Adyen makes an HTTP POST request to a URL on your server and includes the details of the event in the request body. You can use the webhooks to build your implementation. For example, you can use this information to update balances in your own dashboards or to keep track of incoming funds.
 
-**Human URL:** [https://docs.adyen.com/point-of-sale/design-your-integration/notifications/](https://docs.adyen.com/point-of-sale/design-your-integration/notifications/)
-
-**Base URL:** [https://api.example.com](https://api.example.com)
-
-
-#### Tags:
-
- - No Tags
-
-#### Properties
-
-- [Documentation](https://docs.adyen.com/point-of-sale/design-your-integration/notifications/)
-- [OpenAPI](openapi/notification-webhooks-openapi-original.yml)
-### Adyen Notifications API
-The Notification API sends notifications to the endpoints specified in a given subscription. Subscriptions are managed through the Notification Configuration API. The API specifications listed here detail the format of each notification. For more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic/notifications).
-
-**Human URL:** [https://docs.adyen.com/marketplaces-and-platforms/classic/notifications](https://docs.adyen.com/marketplaces-and-platforms/classic/notifications)
-
-**Base URL:** [https://api.example.com](https://api.example.com)
-
-
-#### Tags:
-
- - No Tags
-
-#### Properties
-
-- [Documentation](https://docs.adyen.com/marketplaces-and-platforms/classic/notifications)
-- [OpenAPI](openapi/notifications-openapi-original.yml)
 ### Adyen Payments API
-A set of API endpoints that allow you to initiate, settle, and modify payments on the Adyen payments platform. You can use the API to accept card payments (including One-Click and 3D Secure), bank transfers, ewallets, and many other payment methods.
+
+A set of API endpoints for initiating, settling, and modifying payments on the Adyen payments platform.
 
 **Human URL:** [https://docs.adyen.com/online-payments/](https://docs.adyen.com/online-payments/)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+#### Tags
 
-
-#### Tags:
-
- - No Tags
+- Payments, Cards, 3D Secure, Tokenization
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/online-payments/)
 - [OpenAPI](openapi/payments-openapi-original.yml)
+
 ### Adyen Payouts API
-A set of API endpoints that allow you to store payout details, confirm, or decline a payout.\n\nFor more information, refer to [Online payouts](https://docs.adyen.com/online-payments/online-payouts).
+
+A set of API endpoints for storing payout details, confirming, or declining payouts.
 
 **Human URL:** [https://docs.adyen.com/online-payments/online-payouts](https://docs.adyen.com/online-payments/online-payouts)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+#### Tags
 
-
-#### Tags:
-
- - No Tags
+- Payouts, Transfers, Online Payments
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/online-payments/online-payouts)
 - [OpenAPI](openapi/payouts-openapi-original.yml)
+
 ### Adyen POS Terminal API
-This API provides endpoints for managing your point-of-sale (POS) payment terminals. You can use the API to obtain information about a specific terminal, retrieve overviews of your terminals and stores, and assign terminals to a merchant account or store.
+
+This API provides endpoints for managing point-of-sale payment terminals, including terminal assignment and configuration.
 
 **Human URL:** [https://docs.adyen.com/point-of-sale/design-your-integration/terminal-api/](https://docs.adyen.com/point-of-sale/design-your-integration/terminal-api/)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+#### Tags
 
-
-#### Tags:
-
- - No Tags
+- Point of Sale, Terminals, In-Person Payments
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/point-of-sale/design-your-integration/terminal-api/)
 - [OpenAPI](openapi/pos-terminal-openapi-original.yml)
+
 ### Adyen Recurring API
-The Recurring APIs allow you to manage and remove your tokens or saved payment details. Tokens should be created with validation during a payment request. For more information, refer to our [Tokenization documentation](https://docs.adyen.com/online-payments/tokenization).
+
+The Recurring APIs allow you to manage and remove tokens or saved payment details for recurring payments.
 
 **Human URL:** [https://docs.adyen.com/online-payments/tokenization](https://docs.adyen.com/online-payments/tokenization)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+#### Tags
 
-
-#### Tags:
-
- - No Tags
+- Recurring, Tokenization, Stored Payment Methods
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/online-payments/tokenization)
 - [OpenAPI](openapi/recurring-openapi-original.yml)
+
 ### Adyen Report Webhooks API
-Adyen sends webhooks to inform your system that reports were generated and are ready to be downloaded. You can download reports programmatically by making an HTTP GET request, or manually from your [Balance Platform Customer Area](https://balanceplatform-test.adyen.com/balanceplatform).
+
+Adyen sends webhooks to inform your system that reports have been generated and are ready for download.
 
 **Human URL:** [https://docs.adyen.com/api-explorer/report-webhooks/1/overview](https://docs.adyen.com/api-explorer/report-webhooks/1/overview)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+#### Tags
 
-
-#### Tags:
-
- - No Tags
+- Reports, Webhooks, Balance Platform
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/api-explorer/report-webhooks/1/overview)
 - [OpenAPI](openapi/report-webhooks-openapi-original.yml)
+
 ### Adyen Stored Value API
-A set of API endpoints to manage stored value products.
+
+A set of API endpoints to manage stored value products including gift cards.
 
 **Human URL:** [https://docs.adyen.com/payment-methods/gift-cards/stored-value-api/](https://docs.adyen.com/payment-methods/gift-cards/stored-value-api/)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+#### Tags
 
-
-#### Tags:
-
- - No Tags
+- Stored Value, Gift Cards, Loyalty
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/payment-methods/gift-cards/stored-value-api/)
 - [OpenAPI](openapi/stored-value-openapi-original.yml)
+
 ### Adyen Terminal API
-The Adyen Terminal API lets you make payments, issue refunds, collect shopper information, and perform other shopper-terminal interactions using a payment terminal supplied by Adyen.
+
+The Adyen Terminal API lets you make payments, issue refunds, collect shopper information, and perform shopper-terminal interactions.
 
 **Human URL:** [https://docs.adyen.com/point-of-sale/design-your-integration/terminal-api/terminal-api-reference/](https://docs.adyen.com/point-of-sale/design-your-integration/terminal-api/terminal-api-reference/)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+#### Tags
 
-
-#### Tags:
-
- - No Tags
+- Terminal, Point of Sale, In-Person Payments
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/point-of-sale/design-your-integration/terminal-api/terminal-api-reference/)
 - [OpenAPI](openapi/terminal-openapi-original.yml)
-### Adyen Test Cards API
-The Test Cards API provides endpoints for generating custom test card numbers. For more information, refer to [Custom test cards](https://docs.adyen.com/development-resources/testing/create-test-cards) documentation.
 
-**Human URL:** [https://docs.adyen.com/development-resources/testing/create-test-cards](https://docs.adyen.com/development-resources/testing/create-test-cards)
-
-**Base URL:** [https://api.example.com](https://api.example.com)
-
-
-#### Tags:
-
- - No Tags
-
-#### Properties
-
-- [Documentation](https://docs.adyen.com/development-resources/testing/create-test-cards)
-- [OpenAPI](openapi/test-cards-openapi-original.yml)
-### Adyen Transaction Webhooks API
-Adyen sends webhooks to inform your system about incoming and outgoing transfers in your platform. You can use these webhooks to build your implementation. For example, you can use this information to update balances in your own dashboards or to keep track of incoming funds.
-
-**Human URL:** [https://docs.adyen.com/marketplaces-and-platforms/business-accounts/transactions/transaction-webhooks/](https://docs.adyen.com/marketplaces-and-platforms/business-accounts/transactions/transaction-webhooks/)
-
-**Base URL:** [https://api.example.com](https://api.example.com)
-
-
-#### Tags:
-
- - No Tags
-
-#### Properties
-
-- [Documentation](https://docs.adyen.com/marketplaces-and-platforms/business-accounts/transactions/transaction-webhooks/)
-- [OpenAPI](openapi/transaction-webhooks-openapi-original.yml)
-### Adyen Transfer Webhooks API
-Adyen sends webhooks to inform your system about incoming and outgoing transfers in your platform. You can use these webhooks to build your implementation. For example, you can use this information to update balances in your own dashboards or to keep track of incoming funds.
-
-**Human URL:** [https://docs.adyen.com/api-explorer/transfer-webhooks/3/overview](https://docs.adyen.com/api-explorer/transfer-webhooks/3/overview)
-
-**Base URL:** [https://api.example.com](https://api.example.com)
-
-
-#### Tags:
-
- - No Tags
-
-#### Properties
-
-- [Documentation](https://docs.adyen.com/api-explorer/transfer-webhooks/3/overview)
-- [OpenAPI](openapi/transfer-webhooks-openapi-original.yml)
 ### Adyen Transfers API
-This API provides endpoints that you can use to transfer funds, whether when [paying out to a transfer instrument](https://docs.adyen.com/marketplaces-and-platforms/payout-to-users/on-demand-payouts), [sending funds to third parties](https://docs.adyen.com/marketplaces-and-platforms/business-accounts/send-receive-funds) for users with business bank accounts, or to [request a payout for a grant offer](https://docs.adyen.com/marketplaces-and-platforms/capital). The API also supports use cases for [getting transactions for business bank accounts](https://docs.adyen.com/marketplaces-and-platforms/business-accounts/transactions-api) and getting [grants and its outstanding balances](https://docs.adyen.com/marketplaces-and-platforms/capital#get-balances).
+
+API endpoints for transferring funds including payouts to transfer instruments and sending funds between accounts.
 
 **Human URL:** [https://docs.adyen.com/marketplaces-and-platforms/payout-to-users/on-demand-payouts](https://docs.adyen.com/marketplaces-and-platforms/payout-to-users/on-demand-payouts)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+#### Tags
 
-
-#### Tags:
-
- - No Tags
+- Transfers, Payouts, Balance Platform, Marketplaces
 
 #### Properties
 
 - [Documentation](https://docs.adyen.com/marketplaces-and-platforms/payout-to-users/on-demand-payouts)
 - [OpenAPI](openapi/transfers-openapi-original.yml)
+
 ### Adyen Webhooks API
-We use webhooks to send you updates about payment status updates, newly available reports, and other events that you can subscribe to. For more information, refer to our [documentation](https://docs.adyen.com/development-resources/webhooks).
+
+Webhooks to send updates about payment status updates, newly available reports, and other subscribed events.
 
 **Human URL:** [https://docs.adyen.com/development-resources/webhooks](https://docs.adyen.com/development-resources/webhooks)
 
-**Base URL:** [https://api.example.com](https://api.example.com)
+#### Tags
 
-
-#### Tags:
-
- - No Tags
+- Webhooks, Notifications, Events
 
 #### Properties
 
@@ -517,21 +397,146 @@ We use webhooks to send you updates about payment status updates, newly availabl
 ## Common Properties
 
 - [Terms of Service](https://www.adyen.com/legal/terms-and-conditions)
-- [Authentication](https://www.adyen.com/authentication-3d-secure)
-- [Plans](https://www.adyen.com/pricing)
+- [Privacy Policy](https://www.adyen.com/policies-and-disclaimer/privacy-policy)
+- [Authentication](https://docs.adyen.com/development-resources/api-credentials)
+- [Pricing](https://www.adyen.com/pricing)
 - [Documentation](https://docs.adyen.com/)
-- [Newsletter](https://www.adyen.com/newsletter)
-- [Knowledge](https://www.adyen.com/knowledge-hub)
+- [Getting Started](https://docs.adyen.com/get-started-with-adyen/)
+- [Blog](https://www.adyen.com/knowledge-hub)
 - [Login](https://authn-live.adyen.com/authn/ui/login)
+- [Sandbox](https://ca-test.adyen.com)
 - [Support](https://help.adyen.com/en_US)
 - [Contact](https://help.adyen.com/en_US/contact)
 - [Webinars](https://help.adyen.com/en_US/academy/webinars)
-- [Privacy](https://www.adyen.com/policies-and-disclaimer/privacy-policy)
-- [OpenAPI](https://github.com/Adyen/adyen-openapi)
+- [Status Page](https://status.adyen.com)
+- [Release Notes](https://docs.adyen.com/development-resources/release-notes)
+- [GitHub Organization](https://github.com/Adyen)
+- [GitHub Repository](https://github.com/Adyen/adyen-openapi)
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/adyen)
+- [Web SDK](https://github.com/Adyen/adyen-web)
+- [iOS SDK](https://github.com/Adyen/adyen-ios)
+- [Android SDK](https://github.com/Adyen/adyen-android)
+- [React Native SDK](https://github.com/Adyen/adyen-react-native)
+- [Flutter SDK](https://github.com/Adyen/adyen-flutter)
+- [PHP SDK](https://github.com/Adyen/adyen-php-api-library)
+- [Java SDK](https://github.com/Adyen/adyen-java-api-library)
+- [Node.js SDK](https://github.com/Adyen/adyen-node-api-library)
+- [.NET SDK](https://github.com/Adyen/adyen-dotnet-api-library)
+- [Go SDK](https://github.com/Adyen/adyen-go-api-library)
+- [Python SDK](https://github.com/Adyen/adyen-python-api-library)
+- [Ruby SDK](https://github.com/Adyen/adyen-ruby-api-library)
+- [Apex SDK](https://github.com/Adyen/adyen-apex-api-library)
+- [MCP Server](https://github.com/Adyen/adyen-mcp)
+- [Postman Collection](https://github.com/Adyen/adyen-postman)
+
+## Features
+
+| Name | Description |
+|------|-------------|
+| Global Payment Methods | Accept 150+ payment methods including cards, digital wallets, bank transfers, and local payment methods in 200+ countries and territories. |
+| 3D Secure 2 | Built-in 3D Secure 2 authentication for card payments, supporting native, redirect, and frictionless flows for improved conversion. |
+| Fraud Prevention | RevenueProtect, a machine learning-based risk management system that screens transactions for fraud in real time. |
+| Tokenization | Secure storage of payment details as tokens for recurring payments, subscriptions, and one-click checkout experiences. |
+| Webhooks and Notifications | Real-time event-driven notifications delivered via webhooks for payment status updates, reports, and platform events. |
+| Reporting and Analytics | Comprehensive reporting tools including settlement reports, payment accounting, and data analytics for business insights. |
+| Marketplace and Platform Support | Full support for marketplace and platform business models with split payments, sub-merchant onboarding, and automated payouts. |
+| Issuing | Physical and virtual card issuance capabilities with network token support and 3D Secure enrollment for issued cards. |
+| Capital | Business financing through dynamic grants for eligible merchants based on processing history. |
+| MCP Server | AI-powered Model Context Protocol server for natural language integration with Adyen APIs. |
+
+## Use Cases
+
+| Name | Description |
+|------|-------------|
+| Online Checkout | Accept payments on web and mobile with Drop-in or Components, supporting all major payment methods and currencies. |
+| Point-of-Sale Payments | Process in-person payments using Adyen's Terminal API and supported payment terminals with tap, dip, and swipe capabilities. |
+| Subscription and Recurring Billing | Manage recurring payments and subscriptions using stored payment methods and tokenization. |
+| Marketplace and Platform Payouts | Onboard sub-merchants, split payments, and manage payouts to sellers and service providers on marketplace platforms. |
+| Buy Now Pay Later | Offer BNPL options including Affirm, Afterpay, and Klarna to shoppers at checkout to increase conversion. |
+| Gift Cards and Stored Value | Issue and manage gift cards and stored value products with balance inquiry, load, and redemption capabilities. |
+| Dispute and Chargeback Management | Automate dispute handling processes to respond to chargebacks with defense documents and evidence. |
+| GDPR Data Erasure | Process subject erasure requests to comply with GDPR right-to-be-forgotten requirements for shopper data. |
+
+## Integrations
+
+| Name | Description |
+|------|-------------|
+| Adobe Commerce (Magento) | Pre-built plugin for Adobe Commerce and Magento e-commerce platforms with full payment method support. |
+| Salesforce Commerce Cloud | Integration with Salesforce Commerce Cloud for seamless payment processing in SFCC storefronts. |
+| Shopware | Native plugin for Shopware e-commerce platform supporting all Adyen payment methods. |
+| SAP Commerce Cloud | Integration with SAP Commerce Cloud for enterprise e-commerce payment processing. |
+| Shopify | Partner integration with Shopify for accepting Adyen payments through Shopify stores. |
+| NetSuite | Integration with Oracle NetSuite ERP for payment processing and reconciliation. |
+| PrestaShop | Plugin for PrestaShop e-commerce platform enabling Adyen payment acceptance. |
+| CommerceTools | Integration with CommerceTools headless commerce platform for flexible payment experiences. |
+
+## Artifacts
+
+Machine-readable API specifications organized by format.
+
+### OpenAPI
+
+- [Adyen Accounting Notifications](openapi/accounting-notifications-openapi-original.yml)
+- [Adyen Account API](openapi/accounts-openapi-original.yml)
+- [Adyen Authentication Webhooks](openapi/authentication-webhooks-openapi-original.yml)
+- [Adyen Balance Control API](openapi/balance-control-openapi-original.yml)
+- [Adyen BinLookup API](openapi/binlookup-openapi-original.yml)
+- [Adyen Checkout API](openapi/checkout-openapi-original.yml)
+- [Adyen Configuration API](openapi/configuration-openapi-original.yml)
+- [Adyen Configuration Webhooks](openapi/configuration-webhooks-openapi-original.yml)
+- [Adyen Data Protection API](openapi/data-protection-openapi-original.yml)
+- [Adyen Disputes API](openapi/disputes-openapi-original.yml)
+- [Adyen Funds API](openapi/funds-openapi-original.yml)
+- [Adyen Hosted Onboarding API](openapi/hosted-onboarding-openapi-original.yml)
+- [Adyen Legal Entity API](openapi/legal-entity-openapi-original.yml)
+- [Adyen Management API](openapi/management-openapi-original.yml)
+- [Adyen Management Webhooks](openapi/management-webhooks-openapi-original.yml)
+- [Adyen Notification Configuration API](openapi/notification-configurations-openapi-original.yml)
+- [Adyen Notification Webhooks](openapi/notification-webhooks-openapi-original.yml)
+- [Adyen Notifications](openapi/notifications-openapi-original.yml)
+- [Adyen Payments API](openapi/payments-openapi-original.yml)
+- [Adyen Payouts API](openapi/payouts-openapi-original.yml)
+- [Adyen POS Terminal API](openapi/pos-terminal-openapi-original.yml)
+- [Adyen Recurring API](openapi/recurring-openapi-original.yml)
+- [Adyen Report Webhooks](openapi/report-webhooks-openapi-original.yml)
+- [Adyen Stored Value API](openapi/stored-value-openapi-original.yml)
+- [Adyen Terminal API](openapi/terminal-openapi-original.yml)
+- [Adyen Test Cards API](openapi/test-cards-openapi-original.yml)
+- [Adyen Transaction Webhooks](openapi/transaction-webhooks-openapi-original.yml)
+- [Adyen Transfer Webhooks](openapi/transfer-webhooks-openapi-original.yml)
+- [Adyen Transfers API](openapi/transfers-openapi-original.yml)
+- [Adyen Webhooks](openapi/webhooks-openapi-original.yml)
+
+## Capabilities
+
+Naftiko capabilities organized as shared per-API definitions composed into customer-facing workflows.
+
+### Shared Per-API Definitions
+
+- [Checkout](capabilities/shared/checkout.yaml) — 5 operations for online payment sessions and transactions
+- [Payments](capabilities/shared/payments.yaml) — 3 operations for classic payment authorisation, capture, and refund
+- [Management](capabilities/shared/management.yaml) — 5 operations for merchant account and terminal management
+- [Disputes](capabilities/shared/disputes.yaml) — 3 operations for chargeback and dispute handling
+- [Configuration](capabilities/shared/configuration.yaml) — 5 operations for balance platform account and card management
+
+### Workflow Capabilities
+
+| Workflow | APIs Combined | Tools | Persona |
+|----------|--------------|-------|---------|
+| [Online Payment Processing](capabilities/online-payment-processing.yaml) | Checkout, Payments | 7 | Developer |
+| [Merchant Account Management](capabilities/merchant-account-management.yaml) | Management, Disputes | 8 | Merchant Operations Team |
+| [Balance Platform](capabilities/balance-platform.yaml) | Configuration | 5 | Platform Engineer |
+
+## Vocabulary
+
+- [Adyen Vocabulary](vocabulary/adyen-vocabulary.yaml) — Unified taxonomy mapping 20 APIs, 138 resources, 3 workflows, and 3 personas across operational (OpenAPI) and capability (Naftiko) dimensions
+
+## Rules
+
+- [Adyen Spectral Rules](rules/adyen-spectral-rules.yml) — 30 rules across 13 categories enforcing Adyen API conventions
 
 ## Maintainers
 
 **FN:** API Evangelist
 
 **Email:** info@apievangelist.com
-

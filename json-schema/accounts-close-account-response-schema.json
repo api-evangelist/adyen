@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/accounts-close-account-response-schema.json",
+  "title": "CloseAccountResponse",
+  "description": "CloseAccountResponse schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountCode": {
+      "x-addedInVersion": "5",
+      "description": "The account code of the account that is closed.",
+      "type": "string"
+    },
+    "invalidFields": {
+      "x-addedInVersion": "5",
+      "description": "Contains field validation errors that would prevent requests from being processed.",
+      "items": {
+        "$ref": "#/components/schemas/ErrorFieldType"
+      },
+      "type": "array"
+    },
+    "pspReference": {
+      "description": "The reference of a request. Can be used to uniquely identify the request.",
+      "type": "string"
+    },
+    "resultCode": {
+      "description": "The result code.",
+      "type": "string"
+    },
+    "status": {
+      "x-addedInVersion": "2",
+      "description": "The new status of the account.\n>Permitted values: `Active`, `Inactive`, `Suspended`, `Closed`.",
+      "enum": [
+        "Active",
+        "Closed",
+        "Inactive",
+        "Suspended"
+      ],
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/checkout-create-order-response-schema.json",
+  "title": "CreateOrderResponse",
+  "description": "CreateOrderResponse schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "additionalData": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "x-anyOf": [
+        {
+          "$ref": "#/components/schemas/ResponseAdditionalData3DSecure"
+        },
+        {
+          "$ref": "#/components/schemas/ResponseAdditionalDataBillingAddress"
+        },
+        {
+          "$ref": "#/components/schemas/ResponseAdditionalDataCard"
+        },
+        {
+          "$ref": "#/components/schemas/ResponseAdditionalDataCommon"
+        },
+        {
+          "$ref": "#/components/schemas/ResponseAdditionalDataDomesticError"
+        },
+        {
+          "$ref": "#/components/schemas/ResponseAdditionalDataInstallments"
+        },
+        {
+          "$ref": "#/components/schemas/ResponseAdditionalDataNetworkTokens"
+        },
+        {
+          "$ref": "#/components/schemas/ResponseAdditionalDataOpi"
+        },
+        {
+          "$ref": "#/components/schemas/ResponseAdditionalDataSepa"
+        }
+      ],
+      "description": "Contains additional information about the payment. Some data fields are included only if you select them first: Go to **Customer Area** > **Developers** > **Additional data**.",
+      "type": "object"
+    },
+    "amount": {
+      "x-addedInVersion": "68",
+      "description": "The initial amount of the order.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "expiresAt": {
+      "description": "The date that the order will expire.",
+      "type": "string"
+    },
+    "fraudResult": {
+      "description": "The fraud result properties of the payment.",
+      "$ref": "#/components/schemas/FraudResult"
+    },
+    "orderData": {
+      "description": "The encrypted data that will be used by merchant for adding payments to the order.",
+      "type": "string"
+    },
+    "pspReference": {
+      "description": "Adyen's 16-character reference associated with the transaction/request. This value is globally unique; quote it when communicating with us about this request.",
+      "type": "string"
+    },
+    "reference": {
+      "description": "The reference provided by merchant for creating the order.",
+      "type": "string"
+    },
+    "refusalReason": {
+      "description": "If the payment's authorisation is refused or an error occurs during authorisation, this field holds Adyen's mapped reason for the refusal or a description of the error. When a transaction fails, the authorisation response includes `resultCode` and `refusalReason` values.\n\nFor more information, see [Refusal reasons](https://docs.adyen.com/development-resources/refusal-reasons).",
+      "type": "string"
+    },
+    "remainingAmount": {
+      "description": "The remaining amount in the order.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "resultCode": {
+      "description": "The result of the order creation request.\n The value is always **Success**.",
+      "enum": [
+        "Success"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "amount",
+    "remainingAmount",
+    "expiresAt",
+    "orderData",
+    "resultCode"
+  ]
+}

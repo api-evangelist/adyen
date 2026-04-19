@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/checkout-payment-capture-request-structure.json",
+  "description": "PaymentCaptureRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "amount": {
+      "description": "The amount that you want to capture. The `currency` must match the currency used in authorisation, the `value` must be smaller than or equal to the authorised amount.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "applicationInfo": {
+      "description": "Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions).",
+      "$ref": "#/components/schemas/ApplicationInfo"
+    },
+    "lineItems": {
+      "description": "Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment).\n> This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip.",
+      "items": {
+        "$ref": "#/components/schemas/LineItem"
+      },
+      "type": "array"
+    },
+    "merchantAccount": {
+      "description": "The merchant account that is used to process the payment.",
+      "type": "string"
+    },
+    "platformChargebackLogic": {
+      "x-addedInVersion": "70",
+      "description": "Defines how to book chargebacks when using [Adyen for Platforms](https://docs.adyen.com/marketplaces-and-platforms/processing-payments#chargebacks-and-disputes).",
+      "$ref": "#/components/schemas/PlatformChargebackLogic"
+    },
+    "reference": {
+      "description": "Your reference for the capture request. Maximum length: 80 characters.",
+      "type": "string"
+    },
+    "splits": {
+      "description": "An array of objects specifying how the amount should be split between accounts when using Adyen for Platforms. For details, refer to [Providing split information](https://docs.adyen.com/marketplaces-and-platforms/processing-payments#providing-split-information).",
+      "items": {
+        "$ref": "#/components/schemas/Split"
+      },
+      "type": "array"
+    },
+    "subMerchants": {
+      "x-addedInVersion": "70",
+      "description": "A List of sub-merchants.",
+      "items": {
+        "$ref": "#/components/schemas/SubMerchantInfo"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "merchantAccount",
+    "amount"
+  ],
+  "name": "PaymentCaptureRequest"
+}

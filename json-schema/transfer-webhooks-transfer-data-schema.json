@@ -1,0 +1,275 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/transfer-webhooks-transfer-data-schema.json",
+  "title": "TransferData",
+  "description": "TransferData schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountHolder": {
+      "x-addedInVersion": "3",
+      "description": "The account holder associated with the balance account used in the transfer.",
+      "$ref": "#/components/schemas/ResourceReference"
+    },
+    "amount": {
+      "x-addedInVersion": "1",
+      "description": "The amount of the transfer.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "balanceAccount": {
+      "x-addedInVersion": "3",
+      "description": "Contains information about the balance account involved in the transfer.",
+      "$ref": "#/components/schemas/ResourceReference"
+    },
+    "balancePlatform": {
+      "description": "The unique identifier of the balance platform.",
+      "type": "string"
+    },
+    "balances": {
+      "x-addedInVersion": "3",
+      "description": "The list of the latest balance statuses in the transfer.",
+      "items": {
+        "$ref": "#/components/schemas/BalanceMutation"
+      },
+      "type": "array"
+    },
+    "category": {
+      "x-addedInVersion": "3",
+      "description": "The category of transfer.\n\nPossible values:\n\n - **bank**: Transfer to a [transfer instrument](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/transferInstruments__resParam_id) or a bank account.\n\n- **internal**: Transfer to another [balance account](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/post/balanceAccounts__resParam_id) within your platform.\n\n- **issuedCard**: Transfer initiated by a Adyen-issued card.\n\n- **platformPayment**: Fund movements related to payments that are acquired for your users.",
+      "enum": [
+        "bank",
+        "internal",
+        "issuedCard",
+        "platformPayment"
+      ],
+      "type": "string"
+    },
+    "categoryData": {
+      "x-addedInVersion": "4",
+      "description": "The relevant data according to the transfer category.",
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/BankCategoryData"
+        },
+        {
+          "$ref": "#/components/schemas/InternalCategoryData"
+        },
+        {
+          "$ref": "#/components/schemas/IssuedCard"
+        },
+        {
+          "$ref": "#/components/schemas/PlatformPayment"
+        }
+      ]
+    },
+    "counterparty": {
+      "x-addedInVersion": "3",
+      "description": "The other party in the transfer.",
+      "$ref": "#/components/schemas/TransferNotificationCounterParty"
+    },
+    "creationDate": {
+      "x-addedInVersion": "3",
+      "description": "The date and time when the event was triggered, in ISO 8601 extended format. For example, **2020-12-18T10:15:30+01:00**.",
+      "format": "date-time",
+      "type": "string"
+    },
+    "description": {
+      "x-addedInVersion": "1",
+      "description": "Your description for the transfer. It is used by most banks as the transfer description. We recommend sending a maximum of 140 characters, otherwise the description may be truncated.\n\nSupported characters: **[a-z] [A-Z] [0-9] / - ?** **: ( ) . , ' + Space**\n\nSupported characters for **regular** and **fast** transfers to a US counterparty: **[a-z] [A-Z] [0-9] & $ % # @** **~ = + - _ ' \" ! ?**",
+      "type": "string"
+    },
+    "direction": {
+      "x-addedInVersion": "2",
+      "description": "The direction of the transfer.\n\nPossible values: **incoming**, **outgoing**.",
+      "enum": [
+        "incoming",
+        "outgoing"
+      ],
+      "type": "string"
+    },
+    "events": {
+      "x-addedInVersion": "3",
+      "description": "The list of events leading up to the current status of the transfer.",
+      "items": {
+        "$ref": "#/components/schemas/TransferEvent"
+      },
+      "type": "array"
+    },
+    "id": {
+      "description": "The ID of the resource.",
+      "type": "string"
+    },
+    "paymentInstrument": {
+      "x-addedInVersion": "3",
+      "description": "Contains information about the payment instrument used in the transfer.",
+      "$ref": "#/components/schemas/PaymentInstrument"
+    },
+    "reason": {
+      "x-addedInVersion": "2",
+      "description": "Additional information about the status of the transfer.",
+      "enum": [
+        "amountLimitExceeded",
+        "approved",
+        "balanceAccountTemporarilyBlockedByTransactionRule",
+        "counterpartyAccountBlocked",
+        "counterpartyAccountClosed",
+        "counterpartyAccountNotFound",
+        "counterpartyAddressRequired",
+        "counterpartyBankTimedOut",
+        "counterpartyBankUnavailable",
+        "declinedByTransactionRule",
+        "error",
+        "notEnoughBalance",
+        "refusedByCounterpartyBank",
+        "routeNotFound",
+        "scaFailed",
+        "unknown"
+      ],
+      "type": "string"
+    },
+    "reference": {
+      "x-addedInVersion": "2",
+      "description": "Your reference for the transfer, used internally within your platform. If you don't provide this in the request, Adyen generates a unique reference.",
+      "maxLength": 80,
+      "type": "string"
+    },
+    "referenceForBeneficiary": {
+      "x-addedInVersion": "2",
+      "description": " A reference that is sent to the recipient. This reference is also sent in all webhooks related to the transfer, so you can use it to track statuses for both the source and recipient of funds.\n\n Supported characters: **a-z**, **A-Z**, **0-9**. The maximum length depends on the `category`.\n\n- **internal**: 80 characters\n\n- **bank**: 35 characters when transferring to an IBAN, 15 characters for others.",
+      "maxLength": 80,
+      "type": "string"
+    },
+    "sequenceNumber": {
+      "x-addedInVersion": "3",
+      "description": "The sequence number of the transfer notification. The numbers start from 1 and increase with each new notification for a specific transfer.\n\nIt can help you restore the correct sequence of events even if they arrive out of order.",
+      "format": "int32",
+      "type": "integer"
+    },
+    "status": {
+      "x-addedInVersion": "2",
+      "description": "The result of the transfer.\n\n For example, **authorised**, **refused**, or **error**.",
+      "enum": [
+        "approvalPending",
+        "atmWithdrawal",
+        "atmWithdrawalReversalPending",
+        "atmWithdrawalReversed",
+        "authAdjustmentAuthorised",
+        "authAdjustmentError",
+        "authAdjustmentRefused",
+        "authorised",
+        "bankTransfer",
+        "bankTransferPending",
+        "booked",
+        "bookingPending",
+        "cancelled",
+        "capturePending",
+        "captureReversalPending",
+        "captureReversed",
+        "captured",
+        "capturedExternally",
+        "chargeback",
+        "chargebackExternally",
+        "chargebackPending",
+        "chargebackReversalPending",
+        "chargebackReversed",
+        "credited",
+        "depositCorrection",
+        "depositCorrectionPending",
+        "dispute",
+        "disputeClosed",
+        "disputeExpired",
+        "disputeNeedsReview",
+        "error",
+        "expired",
+        "failed",
+        "fee",
+        "feePending",
+        "internalTransfer",
+        "internalTransferPending",
+        "invoiceDeduction",
+        "invoiceDeductionPending",
+        "manualCorrectionPending",
+        "manuallyCorrected",
+        "matchedStatement",
+        "matchedStatementPending",
+        "merchantPayin",
+        "merchantPayinPending",
+        "merchantPayinReversed",
+        "merchantPayinReversedPending",
+        "miscCost",
+        "miscCostPending",
+        "paymentCost",
+        "paymentCostPending",
+        "received",
+        "refundPending",
+        "refundReversalPending",
+        "refundReversed",
+        "refunded",
+        "refundedExternally",
+        "refused",
+        "reserveAdjustment",
+        "reserveAdjustmentPending",
+        "returned",
+        "secondChargeback",
+        "secondChargebackPending",
+        "undefined"
+      ],
+      "type": "string"
+    },
+    "tracking": {
+      "x-addedInVersion": "3",
+      "description": "The tracking information for the transfer.",
+      "$ref": "#/components/schemas/TransferNotificationTransferTracking"
+    },
+    "transactionRulesResult": {
+      "x-addedInVersion": "3",
+      "description": "Contains the results of the evaluation of the transaction rules.",
+      "$ref": "#/components/schemas/TransactionRulesResult"
+    },
+    "type": {
+      "x-addedInVersion": "3",
+      "description": "The type of transfer or transaction. For example, **refund**, **payment**, **internalTransfer**, **bankTransfer**.",
+      "enum": [
+        "atmWithdrawal",
+        "atmWithdrawalReversal",
+        "balanceAdjustment",
+        "balanceMigration",
+        "balanceRollover",
+        "bankTransfer",
+        "capture",
+        "captureReversal",
+        "cardTransfer",
+        "cashOutFee",
+        "cashOutFunding",
+        "cashOutInstruction",
+        "chargeback",
+        "chargebackCorrection",
+        "chargebackReversal",
+        "chargebackReversalCorrection",
+        "depositCorrection",
+        "fee",
+        "grant",
+        "installment",
+        "installmentReversal",
+        "internalTransfer",
+        "invoiceDeduction",
+        "leftover",
+        "manualCorrection",
+        "miscCost",
+        "payment",
+        "paymentCost",
+        "refund",
+        "refundReversal",
+        "repayment",
+        "reserveAdjustment",
+        "secondChargeback",
+        "secondChargebackCorrection"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "status",
+    "category",
+    "amount"
+  ]
+}

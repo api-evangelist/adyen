@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/funds-debit-account-holder-request-schema.json",
+  "title": "DebitAccountHolderRequest",
+  "description": "DebitAccountHolderRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountHolderCode": {
+      "description": "The code of the account holder.",
+      "type": "string"
+    },
+    "amount": {
+      "description": "The amount to be debited from the account holder's bank account.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "bankAccountUUID": {
+      "description": "The Adyen-generated unique alphanumeric identifier (UUID) of the account holder's bank account.",
+      "type": "string"
+    },
+    "description": {
+      "description": "A description of the direct debit. Maximum length: 35 characters.\n\nAllowed characters: **a-z**, **A-Z**, **0-9**, and special characters **/?:().,'+ \";**.",
+      "maxLength": 35,
+      "type": "string"
+    },
+    "merchantAccount": {
+      "description": "Your merchant account.",
+      "type": "string"
+    },
+    "splits": {
+      "description": "Contains instructions on how to split the funds between the accounts in your platform. The request must have at least one split item.",
+      "items": {
+        "$ref": "#/components/schemas/Split"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "accountHolderCode",
+    "bankAccountUUID",
+    "amount",
+    "splits",
+    "merchantAccount"
+  ]
+}

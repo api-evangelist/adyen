@@ -1,6 +1,6 @@
 openapi: 3.1.0
 servers:
-  - url: https://balanceplatform-api-test.adyen.com/btl/v4
+- url: https://balanceplatform-api-test.adyen.com/btl/v4
 info:
   version: '4'
   x-publicVersion: true
@@ -91,87 +91,187 @@ info:
     name: Adyen Developer Experience team
     url: https://github.com/Adyen/adyen-openapi
 tags:
-  - name: Grants
-  - name: Transactions
-  - name: Transfers
+- name: Grants
+- name: Transactions
+- name: Transfers
 paths:
   /grants:
     get:
       tags:
-        - Grants
-      summary: Adyen Get a capital account
+      - Grants
+      summary: Adyen Get a Capital Account
       description: Returns a list of grants with status and outstanding balances.
       x-addedInVersion: '3'
       operationId: get-grants
       x-sortIndex: 2
       x-methodName: getCapitalAccount
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The counterparty account holder id.
-          name: counterpartyAccountHolderId
-          in: query
-          required: false
-          schema:
-            type: string
+      - description: The counterparty account holder id.
+        name: counterpartyAccountHolderId
+        in: query
+        required: false
+        schema:
+          type: string
       responses:
         '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CapitalGrants'
+              examples:
+                get-grants200Example:
+                  summary: Default get-grants 200 response
+                  x-microcks-default: true
+                  value:
+                    grants:
+                    - example_value
           description: OK - the request has succeeded.
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants400Example:
+                  summary: Default get-grants 400 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants401Example:
+                  summary: Default get-grants 401 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants403Example:
+                  summary: Default get-grants 403 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Forbidden - insufficient permissions to process the request.
         '404':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants404Example:
+                  summary: Default get-grants 404 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Not Found - the payment was not found
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants422Example:
+                  summary: Default get-grants 422 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants500Example:
+                  summary: Default get-grants 500 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     post:
       tags:
-        - Grants
-      summary: Adyen Request a grant payout
+      - Grants
+      summary: Adyen Request a Grant Payout
       description: Requests the payout of the selected grant offer.
       x-addedInVersion: '3'
       operationId: post-grants
       x-sortIndex: 1
       x-methodName: requestGrantPayout
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -195,106 +295,306 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-grants400Example:
+                  summary: Default post-grants 400 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-grants401Example:
+                  summary: Default post-grants 401 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-grants403Example:
+                  summary: Default post-grants 403 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Forbidden - insufficient permissions to process the request.
         '404':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-grants404Example:
+                  summary: Default post-grants 404 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Not Found - the payment was not found
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-grants422Example:
+                  summary: Default post-grants 422 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-grants500Example:
+                  summary: Default post-grants 500 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /grants/{id}:
     get:
       tags:
-        - Grants
-      summary: Adyen Get grant reference details
+      - Grants
+      summary: Adyen Get Grant Reference Details
       description: Returns the details of a capital account specified in the path.
       x-addedInVersion: '3'
       operationId: get-grants-id
       x-sortIndex: 3
       x-methodName: getGrantReferenceDetails
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the grant.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the grant.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CapitalGrant'
+              examples:
+                get-grants-id200Example:
+                  summary: Default get-grants-id 200 response
+                  x-microcks-default: true
+                  value:
+                    amount: 1000
+                    balances: example_value
+                    counterparty: example_value
+                    fee: example_value
+                    grantAccountId: '500123'
+                    grantOfferId: '500123'
+                    id: '500123'
+                    repayment: example_value
+                    status: Pending
           description: OK - the request has succeeded.
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants-id400Example:
+                  summary: Default get-grants-id 400 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants-id401Example:
+                  summary: Default get-grants-id 401 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants-id403Example:
+                  summary: Default get-grants-id 403 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Forbidden - insufficient permissions to process the request.
         '404':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants-id404Example:
+                  summary: Default get-grants-id 404 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Not Found - the payment was not found
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants-id422Example:
+                  summary: Default get-grants-id 422 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants-id500Example:
+                  summary: Default get-grants-id 500 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /transactions:
     get:
       tags:
-        - Transactions
-      summary: Adyen Get all transactions
+      - Transactions
+      summary: Adyen Get All Transactions
       description: >+
         >Versions 1 and 2 of the Transfers API are deprecated. If you are just
         starting your implementation, use the latest version.
@@ -323,105 +623,105 @@ paths:
       x-sortIndex: 1
       x-methodName: getAllTransactions
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: >-
-            The unique identifier of the [balance
-            platform](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/balancePlatforms/{id}__queryParam_id).
+      - description: >-
+          The unique identifier of the [balance
+          platform](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/balancePlatforms/{id}__queryParam_id).
 
 
-            Required if you don't provide a `balanceAccountId` or
-            `accountHolderId`.
-          name: balancePlatform
-          in: query
-          required: false
-          schema:
-            type: string
-        - description: >-
-            The unique identifier of the [payment
-            instrument](https://docs.adyen.com/api-explorer/balanceplatform/latest/get/paymentInstruments/_id_).
+          Required if you don't provide a `balanceAccountId` or
+          `accountHolderId`.
+        name: balancePlatform
+        in: query
+        required: false
+        schema:
+          type: string
+      - description: >-
+          The unique identifier of the [payment
+          instrument](https://docs.adyen.com/api-explorer/balanceplatform/latest/get/paymentInstruments/_id_).
 
 
-            To use this parameter, you must also provide a `balanceAccountId`,
-            `accountHolderId`, or `balancePlatform`.
+          To use this parameter, you must also provide a `balanceAccountId`,
+          `accountHolderId`, or `balancePlatform`.
 
 
-            The `paymentInstrumentId` must be related to the `balanceAccountId`
-            or `accountHolderId` that you provide.
-          name: paymentInstrumentId
-          in: query
-          required: false
-          schema:
-            type: string
-        - description: >-
-            The unique identifier of the [account
-            holder](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/accountHolders/{id}__queryParam_id).
+          The `paymentInstrumentId` must be related to the `balanceAccountId`
+          or `accountHolderId` that you provide.
+        name: paymentInstrumentId
+        in: query
+        required: false
+        schema:
+          type: string
+      - description: >-
+          The unique identifier of the [account
+          holder](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/accountHolders/{id}__queryParam_id).
 
 
-            Required if you don't provide a `balanceAccountId` or
-            `balancePlatform`.
+          Required if you don't provide a `balanceAccountId` or
+          `balancePlatform`.
 
 
-            If you provide a `balanceAccountId`, the `accountHolderId` must be
-            related to the `balanceAccountId`.
-          name: accountHolderId
-          in: query
-          required: false
-          schema:
-            type: string
-        - description: >-
-            The unique identifier of the [balance
-            account](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/balanceAccounts/{id}__queryParam_id).
+          If you provide a `balanceAccountId`, the `accountHolderId` must be
+          related to the `balanceAccountId`.
+        name: accountHolderId
+        in: query
+        required: false
+        schema:
+          type: string
+      - description: >-
+          The unique identifier of the [balance
+          account](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/balanceAccounts/{id}__queryParam_id).
 
 
-            Required if you don't provide an `accountHolderId` or
-            `balancePlatform`.
+          Required if you don't provide an `accountHolderId` or
+          `balancePlatform`.
 
 
-            If you provide an `accountHolderId`, the `balanceAccountId` must be
-            related to the `accountHolderId`.
-          name: balanceAccountId
-          in: query
-          required: false
-          schema:
-            type: string
-        - description: The `cursor` returned in the links of the previous response.
-          name: cursor
-          in: query
-          required: false
-          schema:
-            type: string
-        - description: >-
-            Only include transactions that have been created on or after this
-            point in time. The value must be in ISO 8601 format. For example,
-            **2021-05-30T15:07:40Z**.
-          name: createdSince
-          in: query
-          required: true
-          schema:
-            format: date-time
-            type: string
-        - description: >-
-            Only include transactions that have been created on or before this
-            point in time. The value must be in ISO 8601 format. For example,
-            **2021-05-30T15:07:40Z**.
-          name: createdUntil
-          in: query
-          required: true
-          schema:
-            format: date-time
-            type: string
-        - description: >-
-            The number of items returned per page, maximum of 100 items. By
-            default, the response returns 10 items per page.
-          name: limit
-          in: query
-          required: false
-          schema:
-            format: int32
-            type: integer
+          If you provide an `accountHolderId`, the `balanceAccountId` must be
+          related to the `accountHolderId`.
+        name: balanceAccountId
+        in: query
+        required: false
+        schema:
+          type: string
+      - description: The `cursor` returned in the links of the previous response.
+        name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+      - description: >-
+          Only include transactions that have been created on or after this
+          point in time. The value must be in ISO 8601 format. For example,
+          **2021-05-30T15:07:40Z**.
+        name: createdSince
+        in: query
+        required: true
+        schema:
+          format: date-time
+          type: string
+      - description: >-
+          Only include transactions that have been created on or before this
+          point in time. The value must be in ISO 8601 format. For example,
+          **2021-05-30T15:07:40Z**.
+        name: createdUntil
+        in: query
+        required: true
+        schema:
+          format: date-time
+          type: string
+      - description: >-
+          The number of items returned per page, maximum of 100 items. By
+          default, the response returns 10 items per page.
+        name: limit
+        in: query
+        required: false
+        schema:
+          format: int32
+          type: integer
       responses:
         '200':
           content:
@@ -437,30 +737,93 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-transactions401Example:
+                  summary: Default get-transactions 401 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-transactions403Example:
+                  summary: Default get-transactions 403 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-transactions422Example:
+                  summary: Default get-transactions 422 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-transactions500Example:
+                  summary: Default get-transactions 500 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /transactions/{id}:
     get:
       tags:
-        - Transactions
-      summary: Adyen Get a transaction
+      - Transactions
+      summary: Adyen Get a Transaction
       description: >-
         >Versions 1 and 2 of the Transfers API are deprecated. If you are just
         starting your implementation, use the latest version.
@@ -472,16 +835,16 @@ paths:
       x-sortIndex: 2
       x-methodName: getTransaction
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the transaction.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the transaction.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -497,30 +860,93 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-transactions-id401Example:
+                  summary: Default get-transactions-id 401 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-transactions-id403Example:
+                  summary: Default get-transactions-id 403 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-transactions-id422Example:
+                  summary: Default get-transactions-id 422 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-transactions-id500Example:
+                  summary: Default get-transactions-id 500 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /transfers:
     post:
       tags:
-        - Transfers
-      summary: Adyen Transfer funds
+      - Transfers
+      summary: Adyen Transfer Funds
       description: >-
         >Versions 1 and 2 of the Transfers API are deprecated. If you are just
         starting your implementation, use the latest version.
@@ -542,9 +968,9 @@ paths:
       x-sortIndex: 1
       x-methodName: transferFunds
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -564,14 +990,14 @@ paths:
             schema:
               $ref: '#/components/schemas/TransferInfo'
       parameters:
-        - description: Header for authenticating through SCA
-          example: >-
-            SCA realm="Transfer"
-            auth-param1="eyJjaGFsbGVuZ2UiOiJiVlV6ZW5wek0waFNl..."
-          name: WWW-Authenticate
-          in: header
-          schema:
-            type: string
+      - description: Header for authenticating through SCA
+        example: >-
+          SCA realm="Transfer"
+          auth-param1="eyJjaGFsbGVuZ2UiOiJiVlV6ZW5wek0waFNl..."
+        name: WWW-Authenticate
+        in: header
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -599,6 +1025,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Transfer'
+              examples:
+                post-transfers202Example:
+                  summary: Default post-transfers 202 response
+                  x-microcks-default: true
+                  value:
+                    accountHolder: example_value
+                    amount: 1000
+                    balanceAccount: example_value
+                    category: bank
+                    categoryData: example_value
+                    counterparty: example_value
+                    creationDate: '2025-03-15T14:30:00Z'
+                    description: A sample description for this resource.
+                    direction: incoming
+                    id: '500123'
+                    paymentInstrument: example_value
+                    reason: amountLimitExceeded
+                    reference: REF-001
+                    referenceForBeneficiary: REF-001
+                    status: approvalPending
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -607,6 +1053,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-transfers401Example:
+                  summary: Default post-transfers 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
           headers:
             auth-param1:
@@ -616,24 +1072,72 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-transfers403Example:
+                  summary: Default post-transfers 403 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-transfers422Example:
+                  summary: Default post-transfers 422 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-transfers500Example:
+                  summary: Default post-transfers 500 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /transfers/{transferId}/returns:
     post:
       tags:
-        - Transfers
-      summary: Adyen Return a transfer
+      - Transfers
+      summary: Adyen Return a Transfer
       description: >-
         Returns previously transferred funds without creating a new
         `transferId`.
@@ -642,52 +1146,124 @@ paths:
       x-sortIndex: 2
       x-methodName: returnTransfer
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ReturnTransferRequest'
       parameters:
-        - description: The unique identifier of the transfer to be returned.
-          name: transferId
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the transfer to be returned.
+        name: transferId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReturnTransferResponse'
+              examples:
+                post-transfers-transferId-returns200Example:
+                  summary: Default post-transfers-transferId-returns 200 response
+                  x-microcks-default: true
+                  value:
+                    id: '500123'
+                    reference: REF-001
+                    status: Authorised
+                    transferId: '500123'
           description: OK - the request has succeeded.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-transfers-transferId-returns401Example:
+                  summary: Default post-transfers-transferId-returns 401 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-transfers-transferId-returns403Example:
+                  summary: Default post-transfers-transferId-returns 403 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-transfers-transferId-returns422Example:
+                  summary: Default post-transfers-transferId-returns 422 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-transfers-transferId-returns500Example:
+                  summary: Default post-transfers-transferId-returns 500 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   schemas:
     AULocalAccountIdentification:
@@ -710,12 +1286,12 @@ components:
           default: auLocal
           description: '**auLocal**'
           enum:
-            - auLocal
+          - auLocal
           type: string
       required:
-        - type
-        - accountNumber
-        - bsbCode
+      - type
+      - accountNumber
+      - bsbCode
       type: object
     AdditionalBankIdentification:
       properties:
@@ -733,8 +1309,8 @@ components:
              * **gbSortCode**: The 6-digit [UK sort code](https://en.wikipedia.org/wiki/Sort_code), without separators or spaces
              * **usRoutingNumber**: The 9-digit [routing number](https://en.wikipedia.org/wiki/ABA_routing_transit_number), without separators or spaces.
           enum:
-            - gbSortCode
-            - usRoutingNumber
+          - gbSortCode
+          - usRoutingNumber
           type: string
       type: object
     Address:
@@ -768,7 +1344,7 @@ components:
             > Required for the US and Canada.
           type: string
       required:
-        - country
+      - country
       type: object
     Amount:
       properties:
@@ -786,8 +1362,8 @@ components:
           format: int64
           type: integer
       required:
-        - value
-        - currency
+      - value
+      - currency
       type: object
     BRLocalAccountIdentification:
       additionalProperties: false
@@ -811,13 +1387,13 @@ components:
           default: brLocal
           description: '**brLocal**'
           enum:
-            - brLocal
+          - brLocal
           type: string
       required:
-        - type
-        - branchNumber
-        - accountNumber
-        - bankCode
+      - type
+      - branchNumber
+      - accountNumber
+      - bankCode
       type: object
     BankAccountV3:
       properties:
@@ -830,25 +1406,25 @@ components:
             object depend on the country of the bank account and the currency of
             the transfer.
           oneOf:
-            - $ref: '#/components/schemas/AULocalAccountIdentification'
-            - $ref: '#/components/schemas/BRLocalAccountIdentification'
-            - $ref: '#/components/schemas/CALocalAccountIdentification'
-            - $ref: '#/components/schemas/CZLocalAccountIdentification'
-            - $ref: '#/components/schemas/DKLocalAccountIdentification'
-            - $ref: '#/components/schemas/HKLocalAccountIdentification'
-            - $ref: '#/components/schemas/HULocalAccountIdentification'
-            - $ref: '#/components/schemas/IbanAccountIdentification'
-            - $ref: '#/components/schemas/NOLocalAccountIdentification'
-            - $ref: '#/components/schemas/NZLocalAccountIdentification'
-            - $ref: '#/components/schemas/NumberAndBicAccountIdentification'
-            - $ref: '#/components/schemas/PLLocalAccountIdentification'
-            - $ref: '#/components/schemas/SELocalAccountIdentification'
-            - $ref: '#/components/schemas/SGLocalAccountIdentification'
-            - $ref: '#/components/schemas/UKLocalAccountIdentification'
-            - $ref: '#/components/schemas/USLocalAccountIdentification'
+          - $ref: '#/components/schemas/AULocalAccountIdentification'
+          - $ref: '#/components/schemas/BRLocalAccountIdentification'
+          - $ref: '#/components/schemas/CALocalAccountIdentification'
+          - $ref: '#/components/schemas/CZLocalAccountIdentification'
+          - $ref: '#/components/schemas/DKLocalAccountIdentification'
+          - $ref: '#/components/schemas/HKLocalAccountIdentification'
+          - $ref: '#/components/schemas/HULocalAccountIdentification'
+          - $ref: '#/components/schemas/IbanAccountIdentification'
+          - $ref: '#/components/schemas/NOLocalAccountIdentification'
+          - $ref: '#/components/schemas/NZLocalAccountIdentification'
+          - $ref: '#/components/schemas/NumberAndBicAccountIdentification'
+          - $ref: '#/components/schemas/PLLocalAccountIdentification'
+          - $ref: '#/components/schemas/SELocalAccountIdentification'
+          - $ref: '#/components/schemas/SGLocalAccountIdentification'
+          - $ref: '#/components/schemas/UKLocalAccountIdentification'
+          - $ref: '#/components/schemas/USLocalAccountIdentification'
       required:
-        - accountIdentification
-        - accountHolder
+      - accountIdentification
+      - accountHolder
       type: object
     BankCategoryData:
       additionalProperties: false
@@ -886,18 +1462,18 @@ components:
             * **internal**: Transfer to an Adyen-issued business bank account
             (by bank account number/IBAN).
           enum:
-            - crossBorder
-            - fast
-            - instant
-            - internal
-            - regular
-            - wire
+          - crossBorder
+          - fast
+          - instant
+          - internal
+          - regular
+          - wire
           type: string
         type:
           default: bank
           description: '**bank**'
           enum:
-            - bank
+          - bank
           type: string
       type: object
     CALocalAccountIdentification:
@@ -919,8 +1495,8 @@ components:
             Possible values: **checking** or **savings**. Defaults to
             **checking**.
           enum:
-            - checking
-            - savings
+          - checking
+          - savings
           type: string
         institutionNumber:
           description: The 3-digit institution number, without separators or whitespace.
@@ -936,13 +1512,13 @@ components:
           default: caLocal
           description: '**caLocal**'
           enum:
-            - caLocal
+          - caLocal
           type: string
       required:
-        - type
-        - accountNumber
-        - institutionNumber
-        - transitNumber
+      - type
+      - accountNumber
+      - institutionNumber
+      - transitNumber
       type: object
     CZLocalAccountIdentification:
       additionalProperties: false
@@ -985,12 +1561,12 @@ components:
           default: czLocal
           description: '**czLocal**'
           enum:
-            - czLocal
+          - czLocal
           type: string
       required:
-        - type
-        - accountNumber
-        - bankCode
+      - type
+      - accountNumber
+      - bankCode
       type: object
     CapitalBalance:
       properties:
@@ -1012,10 +1588,10 @@ components:
           format: int64
           type: integer
       required:
-        - principal
-        - fee
-        - total
-        - currency
+      - principal
+      - fee
+      - total
+      - currency
       type: object
     CapitalGrant:
       properties:
@@ -1057,16 +1633,16 @@ components:
             The current status of the grant. Possible values: **Pending**,
             **Active**, **Repaid**.
           enum:
-            - Pending
-            - Active
-            - Repaid
+          - Pending
+          - Active
+          - Repaid
           type: string
       required:
-        - grantAccountId
-        - grantOfferId
-        - id
-        - status
-        - balances
+      - grantAccountId
+      - grantOfferId
+      - id
+      - status
+      - balances
       type: object
     CapitalGrantInfo:
       properties:
@@ -1085,8 +1661,8 @@ components:
             which the grant details will be used.
           type: string
       required:
-        - grantAccountId
-        - grantOfferId
+      - grantAccountId
+      - grantOfferId
       type: object
     CapitalGrants:
       properties:
@@ -1096,7 +1672,7 @@ components:
             $ref: '#/components/schemas/CapitalGrant'
           type: array
       required:
-        - grants
+      - grants
       type: object
     Counterparty:
       properties:
@@ -1173,12 +1749,12 @@ components:
           default: dkLocal
           description: '**dkLocal**'
           enum:
-            - dkLocal
+          - dkLocal
           type: string
       required:
-        - type
-        - accountNumber
-        - bankCode
+      - type
+      - accountNumber
+      - bankCode
       type: object
     Fee:
       properties:
@@ -1186,7 +1762,7 @@ components:
           description: An object containing the fee amount.
           $ref: '#/components/schemas/Amount'
       required:
-        - amount
+      - amount
       type: object
     HKLocalAccountIdentification:
       additionalProperties: false
@@ -1207,12 +1783,12 @@ components:
           default: hkLocal
           description: '**hkLocal**'
           enum:
-            - hkLocal
+          - hkLocal
           type: string
       required:
-        - type
-        - accountNumber
-        - clearingCode
+      - type
+      - accountNumber
+      - clearingCode
       type: object
     HULocalAccountIdentification:
       additionalProperties: false
@@ -1226,11 +1802,11 @@ components:
           default: huLocal
           description: '**huLocal**'
           enum:
-            - huLocal
+          - huLocal
           type: string
       required:
-        - type
-        - accountNumber
+      - type
+      - accountNumber
       type: object
     IbanAccountIdentification:
       additionalProperties: false
@@ -1244,11 +1820,11 @@ components:
           default: iban
           description: '**iban**'
           enum:
-            - iban
+          - iban
           type: string
       required:
-        - type
-        - iban
+      - type
+      - iban
       type: object
     InternalCategoryData:
       additionalProperties: false
@@ -1265,7 +1841,7 @@ components:
           default: internal
           description: '**internal**'
           enum:
-            - internal
+          - internal
           type: string
       type: object
     InvalidField:
@@ -1280,9 +1856,9 @@ components:
           description: The invalid value.
           type: string
       required:
-        - name
-        - value
-        - message
+      - name
+      - value
+      - message
       type: object
     IssuedCard:
       additionalProperties: false
@@ -1303,13 +1879,13 @@ components:
             Possible values: **manual**, **chip**, **magstripe**,
             **contactless**, **cof**, **ecommerce**, **token**.
           enum:
-            - chip
-            - cof
-            - contactless
-            - ecommerce
-            - magstripe
-            - manual
-            - token
+          - chip
+          - cof
+          - contactless
+          - ecommerce
+          - magstripe
+          - manual
+          - token
           type: string
         processingType:
           x-addedInVersion: '4'
@@ -1317,14 +1893,14 @@ components:
             Contains information about how the payment was processed. For
             example, **ecommerce** for online or **pos** for in-person payments.
           enum:
-            - atmWithdraw
-            - balanceInquiry
-            - ecommerce
-            - moto
-            - pos
-            - purchaseWithCashback
-            - recurring
-            - token
+          - atmWithdraw
+          - balanceInquiry
+          - ecommerce
+          - moto
+          - pos
+          - purchaseWithCashback
+          - recurring
+          - token
           type: string
         relayedAuthorisationData:
           x-addedInVersion: '4'
@@ -1353,7 +1929,7 @@ components:
           default: issuedCard
           description: '**issuedCard**'
           enum:
-            - issuedCard
+          - issuedCard
           type: string
         validationFacts:
           x-addedInVersion: '4'
@@ -1411,11 +1987,11 @@ components:
           default: noLocal
           description: '**noLocal**'
           enum:
-            - noLocal
+          - noLocal
           type: string
       required:
-        - type
-        - accountNumber
+      - type
+      - accountNumber
       type: object
     NZLocalAccountIdentification:
       additionalProperties: false
@@ -1432,11 +2008,11 @@ components:
           default: nzLocal
           description: '**nzLocal**'
           enum:
-            - nzLocal
+          - nzLocal
           type: string
       required:
-        - type
-        - accountNumber
+      - type
+      - accountNumber
       type: object
     NameLocation:
       properties:
@@ -1487,12 +2063,12 @@ components:
           default: numberAndBic
           description: '**numberAndBic**'
           enum:
-            - numberAndBic
+          - numberAndBic
           type: string
       required:
-        - type
-        - accountNumber
-        - bic
+      - type
+      - accountNumber
+      - bic
       type: object
     PLLocalAccountIdentification:
       additionalProperties: false
@@ -1509,11 +2085,11 @@ components:
           default: plLocal
           description: '**plLocal**'
           enum:
-            - plLocal
+          - plLocal
           type: string
       required:
-        - type
-        - accountNumber
+      - type
+      - accountNumber
       type: object
     PartyIdentification:
       properties:
@@ -1560,12 +2136,12 @@ components:
 
              Possible values: **individual**, **organization**, or **unknown**.
           enum:
-            - individual
-            - organization
-            - unknown
+          - individual
+          - organization
+          - unknown
           type: string
       required:
-        - fullName
+      - fullName
       type: object
     PaymentInstrument:
       properties:
@@ -1602,19 +2178,19 @@ components:
           x-addedInVersion: '4'
           description: The type of the related split.
           enum:
-            - AcquiringFees
-            - AdyenCommission
-            - AdyenFees
-            - AdyenMarkup
-            - BalanceAccount
-            - Commission
-            - Default
-            - Interchange
-            - PaymentFee
-            - Remainder
-            - SchemeFee
-            - TopUp
-            - VAT
+          - AcquiringFees
+          - AdyenCommission
+          - AdyenFees
+          - AdyenMarkup
+          - BalanceAccount
+          - Commission
+          - Default
+          - Interchange
+          - PaymentFee
+          - Remainder
+          - SchemeFee
+          - TopUp
+          - VAT
           type: string
         pspPaymentReference:
           x-addedInVersion: '4'
@@ -1624,7 +2200,7 @@ components:
           default: platformPayment
           description: '**platformPayment**'
           enum:
-            - platformPayment
+          - platformPayment
           type: string
       type: object
     RelayedAuthorisationData:
@@ -1659,7 +2235,7 @@ components:
           description: An object containing the details of the 30-day repayment threshold.
           $ref: '#/components/schemas/ThresholdRepayment'
       required:
-        - basisPoints
+      - basisPoints
       type: object
     RepaymentTerm:
       properties:
@@ -1674,7 +2250,7 @@ components:
           format: int32
           type: integer
       required:
-        - estimatedDays
+      - estimatedDays
       type: object
     ResourceReference:
       properties:
@@ -1727,11 +2303,11 @@ components:
             documentation on this problem type.
           type: string
       required:
-        - type
-        - errorCode
-        - title
-        - detail
-        - status
+      - type
+      - errorCode
+      - title
+      - detail
+      - status
       type: object
     ReturnTransferRequest:
       properties:
@@ -1752,7 +2328,7 @@ components:
           maxLength: 80
           type: string
       required:
-        - amount
+      - amount
       type: object
     ReturnTransferResponse:
       properties:
@@ -1768,8 +2344,8 @@ components:
 
             Possible values: **Authorised**, **Declined**.
           enum:
-            - Authorised
-            - Declined
+          - Authorised
+          - Declined
           type: string
         transferId:
           description: The unique identifier of the original transfer.
@@ -1798,12 +2374,12 @@ components:
           default: seLocal
           description: '**seLocal**'
           enum:
-            - seLocal
+          - seLocal
           type: string
       required:
-        - type
-        - accountNumber
-        - clearingNumber
+      - type
+      - accountNumber
+      - clearingNumber
       type: object
     SGLocalAccountIdentification:
       additionalProperties: false
@@ -1824,11 +2400,11 @@ components:
           default: sgLocal
           description: '**sgLocal**'
           enum:
-            - sgLocal
+          - sgLocal
           type: string
       required:
-        - accountNumber
-        - bic
+      - accountNumber
+      - bic
       type: object
     ServiceError:
       properties:
@@ -1855,7 +2431,7 @@ components:
           description: The amount to be repaid on a 30-day basis.
           $ref: '#/components/schemas/Amount'
       required:
-        - amount
+      - amount
       type: object
     Transaction:
       properties:
@@ -1908,8 +2484,8 @@ components:
             account.
 
           enum:
-            - booked
-            - pending
+          - booked
+          - pending
           type: string
         transfer:
           x-addedInVersion: '4'
@@ -1923,14 +2499,14 @@ components:
           format: date-time
           type: string
       required:
-        - id
-        - accountHolder
-        - balanceAccount
-        - amount
-        - status
-        - bookingDate
-        - valueDate
-        - balancePlatform
+      - id
+      - accountHolder
+      - balanceAccount
+      - amount
+      - status
+      - bookingDate
+      - valueDate
+      - balancePlatform
       type: object
     TransactionSearchResponse:
       properties:
@@ -1982,19 +2558,19 @@ components:
             - **platformPayment**: Fund movements related to payments that are
             acquired for your users.
           enum:
-            - bank
-            - internal
-            - issuedCard
-            - platformPayment
+          - bank
+          - internal
+          - issuedCard
+          - platformPayment
           type: string
         categoryData:
           x-addedInVersion: '4'
           description: The relevant data according to the transfer category.
           oneOf:
-            - $ref: '#/components/schemas/BankCategoryData'
-            - $ref: '#/components/schemas/InternalCategoryData'
-            - $ref: '#/components/schemas/IssuedCard'
-            - $ref: '#/components/schemas/PlatformPayment'
+          - $ref: '#/components/schemas/BankCategoryData'
+          - $ref: '#/components/schemas/InternalCategoryData'
+          - $ref: '#/components/schemas/IssuedCard'
+          - $ref: '#/components/schemas/PlatformPayment'
         counterparty:
           x-addedInVersion: '3'
           description: The other party in the transfer.
@@ -2028,8 +2604,8 @@ components:
 
             Possible values: **incoming**, **outgoing**.
           enum:
-            - incoming
-            - outgoing
+          - incoming
+          - outgoing
           type: string
         id:
           description: The ID of the resource.
@@ -2044,22 +2620,22 @@ components:
           x-addedInVersion: '2'
           description: Additional information about the status of the transfer.
           enum:
-            - amountLimitExceeded
-            - approved
-            - balanceAccountTemporarilyBlockedByTransactionRule
-            - counterpartyAccountBlocked
-            - counterpartyAccountClosed
-            - counterpartyAccountNotFound
-            - counterpartyAddressRequired
-            - counterpartyBankTimedOut
-            - counterpartyBankUnavailable
-            - declinedByTransactionRule
-            - error
-            - notEnoughBalance
-            - refusedByCounterpartyBank
-            - routeNotFound
-            - scaFailed
-            - unknown
+          - amountLimitExceeded
+          - approved
+          - balanceAccountTemporarilyBlockedByTransactionRule
+          - counterpartyAccountBlocked
+          - counterpartyAccountClosed
+          - counterpartyAccountNotFound
+          - counterpartyAddressRequired
+          - counterpartyBankTimedOut
+          - counterpartyBankUnavailable
+          - declinedByTransactionRule
+          - error
+          - notEnoughBalance
+          - refusedByCounterpartyBank
+          - routeNotFound
+          - scaFailed
+          - unknown
           type: string
         reference:
           x-addedInVersion: '2'
@@ -2090,76 +2666,76 @@ components:
 
              For example, **authorised**, **refused**, or **error**.
           enum:
-            - approvalPending
-            - atmWithdrawal
-            - atmWithdrawalReversalPending
-            - atmWithdrawalReversed
-            - authAdjustmentAuthorised
-            - authAdjustmentError
-            - authAdjustmentRefused
-            - authorised
-            - bankTransfer
-            - bankTransferPending
-            - booked
-            - bookingPending
-            - cancelled
-            - capturePending
-            - captureReversalPending
-            - captureReversed
-            - captured
-            - capturedExternally
-            - chargeback
-            - chargebackExternally
-            - chargebackPending
-            - chargebackReversalPending
-            - chargebackReversed
-            - credited
-            - depositCorrection
-            - depositCorrectionPending
-            - dispute
-            - disputeClosed
-            - disputeExpired
-            - disputeNeedsReview
-            - error
-            - expired
-            - failed
-            - fee
-            - feePending
-            - internalTransfer
-            - internalTransferPending
-            - invoiceDeduction
-            - invoiceDeductionPending
-            - manualCorrectionPending
-            - manuallyCorrected
-            - matchedStatement
-            - matchedStatementPending
-            - merchantPayin
-            - merchantPayinPending
-            - merchantPayinReversed
-            - merchantPayinReversedPending
-            - miscCost
-            - miscCostPending
-            - paymentCost
-            - paymentCostPending
-            - received
-            - refundPending
-            - refundReversalPending
-            - refundReversed
-            - refunded
-            - refundedExternally
-            - refused
-            - reserveAdjustment
-            - reserveAdjustmentPending
-            - returned
-            - secondChargeback
-            - secondChargebackPending
-            - undefined
+          - approvalPending
+          - atmWithdrawal
+          - atmWithdrawalReversalPending
+          - atmWithdrawalReversed
+          - authAdjustmentAuthorised
+          - authAdjustmentError
+          - authAdjustmentRefused
+          - authorised
+          - bankTransfer
+          - bankTransferPending
+          - booked
+          - bookingPending
+          - cancelled
+          - capturePending
+          - captureReversalPending
+          - captureReversed
+          - captured
+          - capturedExternally
+          - chargeback
+          - chargebackExternally
+          - chargebackPending
+          - chargebackReversalPending
+          - chargebackReversed
+          - credited
+          - depositCorrection
+          - depositCorrectionPending
+          - dispute
+          - disputeClosed
+          - disputeExpired
+          - disputeNeedsReview
+          - error
+          - expired
+          - failed
+          - fee
+          - feePending
+          - internalTransfer
+          - internalTransferPending
+          - invoiceDeduction
+          - invoiceDeductionPending
+          - manualCorrectionPending
+          - manuallyCorrected
+          - matchedStatement
+          - matchedStatementPending
+          - merchantPayin
+          - merchantPayinPending
+          - merchantPayinReversed
+          - merchantPayinReversedPending
+          - miscCost
+          - miscCostPending
+          - paymentCost
+          - paymentCostPending
+          - received
+          - refundPending
+          - refundReversalPending
+          - refundReversed
+          - refunded
+          - refundedExternally
+          - refused
+          - reserveAdjustment
+          - reserveAdjustmentPending
+          - returned
+          - secondChargeback
+          - secondChargebackPending
+          - undefined
           type: string
       required:
-        - counterparty
-        - status
-        - category
-        - amount
+      - counterparty
+      - status
+      - category
+      - amount
       type: object
     TransferData:
       properties:
@@ -2175,7 +2751,7 @@ components:
             generates a unique reference.
           type: string
       required:
-        - reference
+      - reference
       type: object
     TransferInfo:
       properties:
@@ -2209,11 +2785,11 @@ components:
             - **platformPayment**: Fund movements related to payments that are
             acquired for your users.
           enum:
-            - bank
-            - internal
-            - issuedCard
-            - platformPayment
-            - card
+          - bank
+          - internal
+          - issuedCard
+          - platformPayment
+          - card
           type: string
         counterparty:
           x-addedInVersion: '3'
@@ -2275,12 +2851,12 @@ components:
             * **internal**: Transfer to an Adyen-issued business bank account
             (by bank account number/IBAN).
           enum:
-            - crossBorder
-            - fast
-            - instant
-            - internal
-            - regular
-            - wire
+          - crossBorder
+          - fast
+          - instant
+          - internal
+          - regular
+          - wire
           type: string
         reference:
           x-addedInVersion: '2'
@@ -2309,9 +2885,9 @@ components:
           description: The ultimate sender of the funds of the transfer (ultimate debtor).
           $ref: '#/components/schemas/UltimatePartyIdentification'
       required:
-        - category
-        - amount
-        - counterparty
+      - category
+      - amount
+      - counterparty
       type: object
     TransferNotificationValidationFact:
       properties:
@@ -2341,12 +2917,12 @@ components:
           default: ukLocal
           description: '**ukLocal**'
           enum:
-            - ukLocal
+          - ukLocal
           type: string
       required:
-        - type
-        - accountNumber
-        - sortCode
+      - type
+      - accountNumber
+      - sortCode
       type: object
     USLocalAccountIdentification:
       additionalProperties: false
@@ -2365,8 +2941,8 @@ components:
             Possible values: **checking** or **savings**. Defaults to
             **checking**.
           enum:
-            - checking
-            - savings
+          - checking
+          - savings
           type: string
         routingNumber:
           description: >-
@@ -2380,12 +2956,12 @@ components:
           default: usLocal
           description: '**usLocal**'
           enum:
-            - usLocal
+          - usLocal
           type: string
       required:
-        - type
-        - accountNumber
-        - routingNumber
+      - type
+      - accountNumber
+      - routingNumber
       type: object
     UltimatePartyIdentification:
       properties:
@@ -2432,12 +3008,12 @@ components:
 
              Possible values: **individual**, **organization**, or **unknown**.
           enum:
-            - individual
-            - organization
-            - unknown
+          - individual
+          - organization
+          - unknown
           type: string
       required:
-        - fullName
+      - fullName
       type: object
   securitySchemes:
     ApiKeyAuth:
@@ -2486,78 +3062,78 @@ components:
       description: Example response for a list of transactions
       value:
         data:
-          - balancePlatform: YOUR_BALANCE_PLATFORM
-            creationDate: '2023-08-10T14:51:20+02:00'
-            id: EVJN42272224222B5JB8BRC84N686ZEUR
-            accountHolder:
-              description: Your description for the account holder
-              id: AH00000000000000000000001
-            amount:
-              currency: USD
-              value: -1000
-            balanceAccount:
-              description: Your description for the account holder
-              id: BA00000000000000000000001
-            bookingDate: '2023-08-10T14:51:33+02:00'
-            status: booked
-            transfer:
-              id: 3JNC3O5ZVFLLGV4B
-              reference: Your internal reference for the transfer
-            valueDate: '2023-08-10T14:51:20+02:00'
-          - balancePlatform: YOUR_BALANCE_PLATFORM
-            creationDate: '2023-08-10T15:34:31+02:00'
-            id: EVJN4227C224222B5JB8G3Q89N2NB6EUR
-            accountHolder:
-              description: Your description for the account holder
-              id: AH00000000000000000000001
-            amount:
-              currency: USD
-              value: 123
-            balanceAccount:
-              description: Your description for the account holder
-              id: BA00000000000000000000001
-            bookingDate: '2023-08-10T15:34:40+02:00'
-            status: booked
-            transfer:
-              id: 48POO45ZVG11166J
-              reference: Your internal reference for the transfer
-            valueDate: '2023-08-10T15:34:31+02:00'
-          - balancePlatform: YOUR_BALANCE_PLATFORM
-            creationDate: '2023-08-11T13:45:46+02:00'
-            id: EVJN4227C224222B5JBD3XHF8P3L8GUSD
-            accountHolder:
-              description: Your description for the account holder
-              id: AH00000000000000000000001
-            amount:
-              currency: USD
-              value: -10000
-            balanceAccount:
-              description: Your description for the account holder
-              id: BA00000000000000000000001
-            bookingDate: '2023-08-11T13:45:57+02:00'
-            status: booked
-            transfer:
-              id: 48RTTW5ZVT8KU9DV
-              reference: my-reference
-            valueDate: '2023-08-11T13:45:46+02:00'
-          - balancePlatform: YOUR_BALANCE_PLATFORM
-            creationDate: '2023-08-11T13:45:51+02:00'
-            id: EVJN42272224222B5JBD3XJGHF4J26USD
-            accountHolder:
-              description: Your description for the account holder
-              id: AH00000000000000000000001
-            amount:
-              currency: USD
-              value: 1000
-            balanceAccount:
-              description: Your description for the account holder
-              id: BA00000000000000000000001
-            bookingDate: '2023-08-11T13:45:58+02:00'
-            status: booked
-            transfer:
-              id: 48TYZO5ZVT8M1K47
-              reference: my-reference
-            valueDate: '2023-08-11T13:45:51+02:00'
+        - balancePlatform: YOUR_BALANCE_PLATFORM
+          creationDate: '2023-08-10T14:51:20+02:00'
+          id: EVJN42272224222B5JB8BRC84N686ZEUR
+          accountHolder:
+            description: Your description for the account holder
+            id: AH00000000000000000000001
+          amount:
+            currency: USD
+            value: -1000
+          balanceAccount:
+            description: Your description for the account holder
+            id: BA00000000000000000000001
+          bookingDate: '2023-08-10T14:51:33+02:00'
+          status: booked
+          transfer:
+            id: 3JNC3O5ZVFLLGV4B
+            reference: Your internal reference for the transfer
+          valueDate: '2023-08-10T14:51:20+02:00'
+        - balancePlatform: YOUR_BALANCE_PLATFORM
+          creationDate: '2023-08-10T15:34:31+02:00'
+          id: EVJN4227C224222B5JB8G3Q89N2NB6EUR
+          accountHolder:
+            description: Your description for the account holder
+            id: AH00000000000000000000001
+          amount:
+            currency: USD
+            value: 123
+          balanceAccount:
+            description: Your description for the account holder
+            id: BA00000000000000000000001
+          bookingDate: '2023-08-10T15:34:40+02:00'
+          status: booked
+          transfer:
+            id: 48POO45ZVG11166J
+            reference: Your internal reference for the transfer
+          valueDate: '2023-08-10T15:34:31+02:00'
+        - balancePlatform: YOUR_BALANCE_PLATFORM
+          creationDate: '2023-08-11T13:45:46+02:00'
+          id: EVJN4227C224222B5JBD3XHF8P3L8GUSD
+          accountHolder:
+            description: Your description for the account holder
+            id: AH00000000000000000000001
+          amount:
+            currency: USD
+            value: -10000
+          balanceAccount:
+            description: Your description for the account holder
+            id: BA00000000000000000000001
+          bookingDate: '2023-08-11T13:45:57+02:00'
+          status: booked
+          transfer:
+            id: 48RTTW5ZVT8KU9DV
+            reference: my-reference
+          valueDate: '2023-08-11T13:45:46+02:00'
+        - balancePlatform: YOUR_BALANCE_PLATFORM
+          creationDate: '2023-08-11T13:45:51+02:00'
+          id: EVJN42272224222B5JBD3XJGHF4J26USD
+          accountHolder:
+            description: Your description for the account holder
+            id: AH00000000000000000000001
+          amount:
+            currency: USD
+            value: 1000
+          balanceAccount:
+            description: Your description for the account holder
+            id: BA00000000000000000000001
+          bookingDate: '2023-08-11T13:45:58+02:00'
+          status: booked
+          transfer:
+            id: 48TYZO5ZVT8M1K47
+            reference: my-reference
+          valueDate: '2023-08-11T13:45:51+02:00'
         _links:
           next:
             href: >-

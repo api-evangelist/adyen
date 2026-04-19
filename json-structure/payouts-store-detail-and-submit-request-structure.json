@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/payouts-store-detail-and-submit-request-structure.json",
+  "description": "StoreDetailAndSubmitRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "additionalData": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "This field contains additional data, which may be required for a particular request.",
+      "type": "object"
+    },
+    "amount": {
+      "description": "A container object for the payable amount information of the transaction.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "bank": {
+      "description": "A container for bank account data.\n> This field is mandatory if `card` is not provided.",
+      "$ref": "#/components/schemas/BankAccount"
+    },
+    "billingAddress": {
+      "x-addedInVersion": "18",
+      "description": "The billing address.\n\n> The `billingAddress` object is required for cross-border payouts to and from Canada. Include all of the fields within this object.",
+      "$ref": "#/components/schemas/Address"
+    },
+    "card": {
+      "description": "A container for card data.\n> This field is mandatory if `bank` is not provided.",
+      "$ref": "#/components/schemas/Card"
+    },
+    "dateOfBirth": {
+      "x-addedInVersion": "24",
+      "description": "The date of birth.\nFormat: [ISO-8601](https://www.w3.org/TR/NOTE-datetime); example: YYYY-MM-DD\nFor Paysafecard it must be the same as used when registering the Paysafecard account.\n> This field is mandatory for natural persons.",
+      "type": "date"
+    },
+    "entityType": {
+      "x-addedInVersion": "24",
+      "description": "The type of the entity the payout is processed for.",
+      "enum": [
+        "NaturalPerson",
+        "Company"
+      ],
+      "type": "string"
+    },
+    "fraudOffset": {
+      "description": "An integer value that is added to the normal fraud score. The value can be either positive or negative.",
+      "type": "int32"
+    },
+    "merchantAccount": {
+      "description": "The merchant account identifier, with which you want to process the transaction.",
+      "type": "string"
+    },
+    "nationality": {
+      "x-addedInVersion": "24",
+      "description": "The shopper's nationality.\n\nA valid value is an ISO 2-character country code (e.g. 'NL').",
+      "maxLength": 2,
+      "type": "string"
+    },
+    "recurring": {
+      "description": "A container for the type of recurring contract to be retrieved.\n\nThe recurring.contract must be set to `PAYOUT`",
+      "$ref": "#/components/schemas/Recurring"
+    },
+    "reference": {
+      "description": "The merchant reference for this payment. This reference will be used in all communication to the merchant about the status of the payout. Although it is a good idea to make sure it is unique, this is not a requirement.",
+      "type": "string"
+    },
+    "selectedBrand": {
+      "x-addedInVersion": "24",
+      "description": "The name of the brand to make a payout to.\n\nFor Paysafecard it must be set to `paysafecard`.",
+      "type": "string"
+    },
+    "shopperEmail": {
+      "description": "The shopper's email address.",
+      "type": "string"
+    },
+    "shopperName": {
+      "x-addedInVersion": "24",
+      "description": "The shopper's name.\n\nWhen the `entityType` is `Company`, the `shopperName.lastName` must contain the company name.",
+      "$ref": "#/components/schemas/Name"
+    },
+    "shopperReference": {
+      "description": "The shopper's reference for the payment transaction.",
+      "type": "string"
+    },
+    "shopperStatement": {
+      "x-addedInVersion": "2",
+      "description": "The description of this payout. This description is shown on the bank statement of the shopper (if this is supported by the chosen payment method).",
+      "type": "string"
+    },
+    "socialSecurityNumber": {
+      "x-addedInVersion": "24",
+      "description": "The shopper's social security number.",
+      "type": "string"
+    },
+    "telephoneNumber": {
+      "x-addedInVersion": "52",
+      "description": "The shopper's phone number.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "merchantAccount",
+    "shopperEmail",
+    "shopperReference",
+    "recurring",
+    "dateOfBirth",
+    "nationality",
+    "entityType",
+    "reference",
+    "amount"
+  ],
+  "name": "StoreDetailAndSubmitRequest"
+}

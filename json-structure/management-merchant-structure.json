@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/management-merchant-structure.json",
+  "description": "Merchant schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "_links": {
+      "description": "References to resources connected with this merchant.",
+      "$ref": "#/components/schemas/MerchantLinks"
+    },
+    "captureDelay": {
+      "description": "The [capture delay](https://docs.adyen.com/online-payments/capture#capture-delay) set for the merchant account.\n\nPossible values:\n* **Immediate**\n* **Manual**\n* Number of days from **1** to **29**",
+      "type": "string"
+    },
+    "companyId": {
+      "description": "The unique identifier of the company account this merchant belongs to",
+      "type": "string"
+    },
+    "dataCenters": {
+      "description": "List of available data centers.\n\nAdyen has several data centers around the world.In the URL that you use for making API requests, we recommend you use the live URL prefix from the data center closest to your shoppers.",
+      "items": {
+        "$ref": "#/components/schemas/DataCenter"
+      },
+      "type": "array"
+    },
+    "defaultShopperInteraction": {
+      "description": "The default [`shopperInteraction`](https://docs.adyen.com/api-explorer/#/CheckoutService/v68/post/payments__reqParam_shopperInteraction) value used when processing payments through this merchant account.",
+      "type": "string"
+    },
+    "description": {
+      "description": "Your description for the merchant account, maximum 300 characters",
+      "type": "string"
+    },
+    "id": {
+      "description": "The unique identifier of the merchant account.",
+      "type": "string"
+    },
+    "merchantCity": {
+      "description": "The city where the legal entity of this merchant account is registered.",
+      "type": "string"
+    },
+    "name": {
+      "description": "The name of the legal entity associated with the merchant account.",
+      "type": "string"
+    },
+    "pricingPlan": {
+      "description": "Only applies to merchant accounts managed by Adyen's partners. The name of the pricing plan assigned to the merchant account.",
+      "type": "string"
+    },
+    "primarySettlementCurrency": {
+      "description": "The currency of the country where the legal entity of this merchant account is registered. Format: [ISO currency code](https://docs.adyen.com/development-resources/currency-codes). For example, a legal entity based in the United States has USD as the primary settlement currency.",
+      "type": "string"
+    },
+    "reference": {
+      "description": "Reference of the merchant account.",
+      "type": "string"
+    },
+    "shopWebAddress": {
+      "description": "The URL for the ecommerce website used with this merchant account.",
+      "type": "string"
+    },
+    "status": {
+      "description": "The status of the merchant account.\n\nPossible values:\n\n* **PreActive**: The merchant account has been created. Users cannot access the merchant account in the Customer Area. The account cannot process payments.\n* **Active**: Users can access the merchant account in the Customer Area. If the company account is also **Active**, then payment processing and payouts are enabled.\n* **InactiveWithModifications**: Users can access the merchant account in the Customer Area. You cannot process new payments but you can still modify payments, for example issue refunds. You can still receive payouts.\n* **Inactive**: Users can access the merchant account in the Customer Area. Payment processing and payouts are disabled.\n* **Closed**: The account is closed and this cannot be reversed. Users cannot log in. Payment processing and payouts are disabled.",
+      "type": "string"
+    }
+  },
+  "name": "Merchant"
+}

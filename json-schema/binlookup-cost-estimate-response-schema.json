@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/binlookup-cost-estimate-response-schema.json",
+  "title": "CostEstimateResponse",
+  "description": "CostEstimateResponse schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "cardBin": {
+      "description": "Card BIN details.",
+      "$ref": "#/components/schemas/CardBin"
+    },
+    "costEstimateAmount": {
+      "description": "The estimated cost (scheme fee + interchange) in the settlement currency. If the settlement currency cannot be determined, the fee in EUR is returned.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "costEstimateReference": {
+      "x-addedInVersion": "52",
+      "description": "Adyen's 16-character reference associated with the request.",
+      "type": "string"
+    },
+    "resultCode": {
+      "description": "The result of the cost estimation.",
+      "type": "string"
+    },
+    "surchargeType": {
+      "description": "Indicates the way the charges can be passed on to the cardholder. The following values are possible:\n* `ZERO` - the charges are not allowed to pass on\n* `PASSTHROUGH` - the charges can be passed on\n* `UNLIMITED` - there is no limit on how much surcharge is passed on",
+      "type": "string"
+    }
+  }
+}

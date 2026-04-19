@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/management-test-webhook-request-structure.json",
+  "description": "TestWebhookRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "notification": {
+      "description": "Custom test notification object. Required when the [`types`](https://docs.adyen.com/api-explorer/#/ManagementService/v1/post/companies/{companyId}/webhooks/{webhookId}/test__reqParam_types) list contains **CUSTOM**.",
+      "$ref": "#/components/schemas/CustomNotification"
+    },
+    "types": {
+      "description": "List of event codes for which to send test notifications. Only the webhook types below are supported. \n\nPossible values if webhook `type`: **standard**:\n\n* **AUTHORISATION**\n* **CHARGEBACK_REVERSED**\n* **ORDER_CLOSED**\n* **ORDER_OPENED**\n* **PAIDOUT_REVERSED**\n* **PAYOUT_THIRDPARTY**\n* **REFUNDED_REVERSED**\n* **REFUND_WITH_DATA**\n* **REPORT_AVAILABLE**\n* **CUSTOM** - set your custom notification fields in the [`notification`](https://docs.adyen.com/api-explorer/#/ManagementService/v1/post/companies/{companyId}/webhooks/{webhookId}/test__reqParam_notification) object.\n\nPossible values if webhook `type`: **banktransfer-notification**:\n\n* **PENDING**\n\nPossible values if webhook `type`: **report-notification**:\n\n* **REPORT_AVAILABLE**\n\nPossible values if webhook `type`: **ideal-notification**:\n\n* **AUTHORISATION**\n\nPossible values if webhook `type`: **pending-notification**:\n\n* **PENDING**\n",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "name": "TestWebhookRequest"
+}

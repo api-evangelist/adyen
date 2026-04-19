@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/checkout-payment-capture-response-schema.json",
+  "title": "PaymentCaptureResponse",
+  "description": "PaymentCaptureResponse schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "amount": {
+      "description": "The captured amount.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "lineItems": {
+      "description": "Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment).\n> This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip.",
+      "items": {
+        "$ref": "#/components/schemas/LineItem"
+      },
+      "type": "array"
+    },
+    "merchantAccount": {
+      "description": "The merchant account that is used to process the payment.",
+      "type": "string"
+    },
+    "paymentPspReference": {
+      "description": "The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment to capture. ",
+      "type": "string"
+    },
+    "platformChargebackLogic": {
+      "x-addedInVersion": "70",
+      "description": "Defines how to book chargebacks when using [Adyen for Platforms](https://docs.adyen.com/marketplaces-and-platforms/processing-payments#chargebacks-and-disputes).",
+      "$ref": "#/components/schemas/PlatformChargebackLogic"
+    },
+    "pspReference": {
+      "description": "Adyen's 16-character reference associated with the capture request.",
+      "type": "string"
+    },
+    "reference": {
+      "description": "Your reference for the capture request.",
+      "type": "string"
+    },
+    "splits": {
+      "description": "An array of objects specifying how the amount should be split between accounts when using Adyen for Platforms. For details, refer to [Providing split information](https://docs.adyen.com/marketplaces-and-platforms/processing-payments#providing-split-information).",
+      "items": {
+        "$ref": "#/components/schemas/Split"
+      },
+      "type": "array"
+    },
+    "status": {
+      "description": "The status of your request. This will always have the value **received**.",
+      "enum": [
+        "received"
+      ],
+      "type": "string"
+    },
+    "subMerchants": {
+      "x-addedInVersion": "70",
+      "description": "List of sub-merchants.",
+      "items": {
+        "$ref": "#/components/schemas/SubMerchantInfo"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "status",
+    "merchantAccount",
+    "amount",
+    "pspReference",
+    "paymentPspReference"
+  ]
+}

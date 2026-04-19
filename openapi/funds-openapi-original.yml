@@ -1,6 +1,6 @@
 openapi: 3.1.0
 servers:
-  - url: https://cal-test.adyen.com/cal/services/Fund/v6
+- url: https://cal-test.adyen.com/cal/services/Fund/v6
 info:
   version: '6'
   x-publicVersion: true
@@ -18,23 +18,23 @@ info:
     name: Adyen Developer Experience team
     url: https://github.com/Adyen/adyen-openapi
 x-groups:
-  - General
-  - Migration
+- General
+- Migration
 tags:
-  - name: accountHolderBalance
-  - name: accountHolderTransactionList
-  - name: debitAccountHolder
-  - name: payoutAccountHolder
-  - name: refundFundsTransfer
-  - name: refundNotPaidOutTransfers
-  - name: setupBeneficiary
-  - name: transferFunds
+- name: accountHolderBalance
+- name: accountHolderTransactionList
+- name: debitAccountHolder
+- name: payoutAccountHolder
+- name: refundFundsTransfer
+- name: refundNotPaidOutTransfers
+- name: setupBeneficiary
+- name: transferFunds
 paths:
   /accountHolderBalance:
     post:
       tags:
-        - accountHolderBalance
-      summary: Adyen Get the balances of an account holder
+      - accountHolderBalance
+      summary: Adyen Get the Balances of an Account Holder
       description: >-
         Returns the account balances of an account holder. An account's balances
         are organized according by currencies. This mean that an account may
@@ -44,8 +44,8 @@ paths:
       x-sortIndex: 1
       x-methodName: accountHolderBalance
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -60,12 +60,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountHolderBalanceResponse'
+              examples:
+                post-accountHolderBalance200Example:
+                  summary: Default post-accountHolderBalance 200 response
+                  x-microcks-default: true
+                  value:
+                    balancePerAccount:
+                    - example_value
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
+                    totalBalance: example_value
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountHolderBalanceResponse'
+              examples:
+                post-accountHolderBalance202Example:
+                  summary: Default post-accountHolderBalance 202 response
+                  x-microcks-default: true
+                  value:
+                    balancePerAccount:
+                    - example_value
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
+                    totalBalance: example_value
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -74,36 +98,89 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-accountHolderBalance400Example:
+                  summary: Default post-accountHolderBalance 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-accountHolderBalance401Example:
+                  summary: Default post-accountHolderBalance 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-accountHolderBalance403Example:
+                  summary: Default post-accountHolderBalance 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-accountHolderBalance422Example:
+                  summary: Default post-accountHolderBalance 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-accountHolderBalance500Example:
+                  summary: Default post-accountHolderBalance 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /accountHolderTransactionList:
     post:
       tags:
-        - accountHolderTransactionList
-      summary: Adyen Get a list of transactions
+      - accountHolderTransactionList
+      summary: Adyen Get a List of Transactions
       description: >-
         Returns a list of transactions for an account holder's accounts. You can
         specify the accounts and transaction statuses to be included on the
@@ -116,8 +193,8 @@ paths:
       x-sortIndex: 2
       x-methodName: accountHolderTransactionList
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -135,12 +212,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountHolderTransactionListResponse'
+              examples:
+                post-accountHolderTransactionList200Example:
+                  summary: Default post-accountHolderTransactionList 200 response
+                  x-microcks-default: true
+                  value:
+                    accountTransactionLists:
+                    - example_value
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountHolderTransactionListResponse'
+              examples:
+                post-accountHolderTransactionList202Example:
+                  summary: Default post-accountHolderTransactionList 202 response
+                  x-microcks-default: true
+                  value:
+                    accountTransactionLists:
+                    - example_value
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -149,36 +248,89 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-accountHolderTransactionList400Example:
+                  summary: Default post-accountHolderTransactionList 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-accountHolderTransactionList401Example:
+                  summary: Default post-accountHolderTransactionList 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-accountHolderTransactionList403Example:
+                  summary: Default post-accountHolderTransactionList 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-accountHolderTransactionList422Example:
+                  summary: Default post-accountHolderTransactionList 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-accountHolderTransactionList500Example:
+                  summary: Default post-accountHolderTransactionList 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /debitAccountHolder:
     post:
       tags:
-        - debitAccountHolder
-      summary: Adyen Send a direct debit request
+      - debitAccountHolder
+      summary: Adyen Send a Direct Debit Request
       description: >-
         Sends a direct debit request to an account holder's bank account. If the
         direct debit is successful, the funds are settled in the accounts
@@ -193,8 +345,8 @@ paths:
       x-sortIndex: 8
       x-methodName: debitAccountHolder
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -220,6 +372,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DebitAccountHolderResponse'
+              examples:
+                post-debitAccountHolder202Example:
+                  summary: Default post-debitAccountHolder 202 response
+                  x-microcks-default: true
+                  value:
+                    accountHolderCode: CODE123
+                    bankAccountUUID: '500123'
+                    invalidFields:
+                    - example_value
+                    merchantReferences:
+                    - REF-001
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -228,36 +393,89 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-debitAccountHolder400Example:
+                  summary: Default post-debitAccountHolder 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-debitAccountHolder401Example:
+                  summary: Default post-debitAccountHolder 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-debitAccountHolder403Example:
+                  summary: Default post-debitAccountHolder 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-debitAccountHolder422Example:
+                  summary: Default post-debitAccountHolder 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-debitAccountHolder500Example:
+                  summary: Default post-debitAccountHolder 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /payoutAccountHolder:
     post:
       tags:
-        - payoutAccountHolder
-      summary: Adyen Pay out from an account to the account holder
+      - payoutAccountHolder
+      summary: Adyen Pay Out from an Account to the Account Holder
       description: >-
         Pays out a specified amount from an account to the bank account of
         account holder.
@@ -266,8 +484,8 @@ paths:
       x-sortIndex: 3
       x-methodName: payoutAccountHolder
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -282,12 +500,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayoutAccountHolderResponse'
+              examples:
+                post-payoutAccountHolder200Example:
+                  summary: Default post-payoutAccountHolder 200 response
+                  x-microcks-default: true
+                  value:
+                    bankAccountUUID: '500123'
+                    invalidFields:
+                    - example_value
+                    merchantReference: REF-001
+                    payoutSpeed: STANDARD
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayoutAccountHolderResponse'
+              examples:
+                post-payoutAccountHolder202Example:
+                  summary: Default post-payoutAccountHolder 202 response
+                  x-microcks-default: true
+                  value:
+                    bankAccountUUID: '500123'
+                    invalidFields:
+                    - example_value
+                    merchantReference: REF-001
+                    payoutSpeed: STANDARD
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -296,36 +538,89 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-payoutAccountHolder400Example:
+                  summary: Default post-payoutAccountHolder 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-payoutAccountHolder401Example:
+                  summary: Default post-payoutAccountHolder 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-payoutAccountHolder403Example:
+                  summary: Default post-payoutAccountHolder 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-payoutAccountHolder422Example:
+                  summary: Default post-payoutAccountHolder 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-payoutAccountHolder500Example:
+                  summary: Default post-payoutAccountHolder 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /refundFundsTransfer:
     post:
       tags:
-        - refundFundsTransfer
-      summary: Adyen Refund a funds transfer
+      - refundFundsTransfer
+      summary: Adyen Refund a Funds Transfer
       description: >-
         Refunds funds transferred from one account to another. Both accounts
         must be in the same platform, but can have different account holders. 
@@ -334,8 +629,8 @@ paths:
       x-sortIndex: 5
       x-methodName: refundFundsTransfer
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -350,12 +645,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RefundFundsTransferResponse'
+              examples:
+                post-refundFundsTransfer200Example:
+                  summary: Default post-refundFundsTransfer 200 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    merchantReference: REF-001
+                    message: example_value
+                    originalReference: REF-001
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RefundFundsTransferResponse'
+              examples:
+                post-refundFundsTransfer202Example:
+                  summary: Default post-refundFundsTransfer 202 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    merchantReference: REF-001
+                    message: example_value
+                    originalReference: REF-001
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -364,36 +683,89 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-refundFundsTransfer400Example:
+                  summary: Default post-refundFundsTransfer 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-refundFundsTransfer401Example:
+                  summary: Default post-refundFundsTransfer 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-refundFundsTransfer403Example:
+                  summary: Default post-refundFundsTransfer 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-refundFundsTransfer422Example:
+                  summary: Default post-refundFundsTransfer 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-refundFundsTransfer500Example:
+                  summary: Default post-refundFundsTransfer 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /refundNotPaidOutTransfers:
     post:
       tags:
-        - refundNotPaidOutTransfers
-      summary: Adyen Refund all transactions of an account since the most recent payout
+      - refundNotPaidOutTransfers
+      summary: Adyen Refund All Transactions of an Account Since the Most Recent Payout
       description: >-
         Refunds all the transactions of an account that have taken place since
         the most recent payout. This request is on a account basis (as opposed
@@ -406,8 +778,8 @@ paths:
       x-sortIndex: 7
       x-methodName: refundNotPaidOutTransfers
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -422,12 +794,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RefundNotPaidOutTransfersResponse'
+              examples:
+                post-refundNotPaidOutTransfers200Example:
+                  summary: Default post-refundNotPaidOutTransfers 200 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RefundNotPaidOutTransfersResponse'
+              examples:
+                post-refundNotPaidOutTransfers202Example:
+                  summary: Default post-refundNotPaidOutTransfers 202 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -436,37 +826,90 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-refundNotPaidOutTransfers400Example:
+                  summary: Default post-refundNotPaidOutTransfers 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-refundNotPaidOutTransfers401Example:
+                  summary: Default post-refundNotPaidOutTransfers 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-refundNotPaidOutTransfers403Example:
+                  summary: Default post-refundNotPaidOutTransfers 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-refundNotPaidOutTransfers422Example:
+                  summary: Default post-refundNotPaidOutTransfers 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-refundNotPaidOutTransfers500Example:
+                  summary: Default post-refundNotPaidOutTransfers 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /setupBeneficiary:
     post:
       tags:
-        - setupBeneficiary
+      - setupBeneficiary
       summary: >-
-        Adyen Designate a beneficiary account and transfer the benefactor's current balance
+        Adyen Designate a Beneficiary Account and Transfer the Benefactor's Current Balance
       description: >-
         Defines a benefactor and a beneficiary relationship between two
         accounts. At the time of benefactor/beneficiary setup, the funds in the
@@ -479,8 +922,8 @@ paths:
       x-sortIndex: 6
       x-methodName: setupBeneficiary
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -495,12 +938,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SetupBeneficiaryResponse'
+              examples:
+                post-setupBeneficiary200Example:
+                  summary: Default post-setupBeneficiary 200 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SetupBeneficiaryResponse'
+              examples:
+                post-setupBeneficiary202Example:
+                  summary: Default post-setupBeneficiary 202 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -509,36 +970,89 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-setupBeneficiary400Example:
+                  summary: Default post-setupBeneficiary 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-setupBeneficiary401Example:
+                  summary: Default post-setupBeneficiary 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-setupBeneficiary403Example:
+                  summary: Default post-setupBeneficiary 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-setupBeneficiary422Example:
+                  summary: Default post-setupBeneficiary 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-setupBeneficiary500Example:
+                  summary: Default post-setupBeneficiary 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /transferFunds:
     post:
       tags:
-        - transferFunds
-      summary: Adyen Transfer funds between platform accounts
+      - transferFunds
+      summary: Adyen Transfer Funds Between Platform Accounts
       description: >-
         Transfers funds from one account to another account. Both accounts must
         be in the same platform, but can have different account holders. The
@@ -549,8 +1063,8 @@ paths:
       x-sortIndex: 4
       x-methodName: transferFunds
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -565,12 +1079,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransferFundsResponse'
+              examples:
+                post-transferFunds200Example:
+                  summary: Default post-transferFunds 200 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    merchantReference: REF-001
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransferFundsResponse'
+              examples:
+                post-transferFunds202Example:
+                  summary: Default post-transferFunds 202 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    merchantReference: REF-001
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -579,31 +1113,84 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-transferFunds400Example:
+                  summary: Default post-transferFunds 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-transferFunds401Example:
+                  summary: Default post-transferFunds 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-transferFunds403Example:
+                  summary: Default post-transferFunds 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-transferFunds422Example:
+                  summary: Default post-transferFunds 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-transferFunds500Example:
+                  summary: Default post-transferFunds 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   schemas:
     AccountDetailBalance:
@@ -621,7 +1208,7 @@ components:
           description: The code of the Account Holder of which to retrieve the balance.
           type: string
       required:
-        - accountHolderCode
+      - accountHolderCode
       type: object
     AccountHolderBalanceResponse:
       properties:
@@ -718,55 +1305,55 @@ components:
             >* `FundTransfer` - a transfer of funds from one account to another.
           items:
             enum:
-              - BalanceNotPaidOutTransfer
-              - BalancePlatformSweep
-              - BalancePlatformSweepReturned
-              - Chargeback
-              - ChargebackCorrection
-              - ChargebackCorrectionReceived
-              - ChargebackReceived
-              - ChargebackReversed
-              - ChargebackReversedCorrection
-              - ChargebackReversedCorrectionReceived
-              - ChargebackReversedReceived
-              - Converted
-              - CreditClosed
-              - CreditFailed
-              - CreditReversed
-              - CreditReversedReceived
-              - CreditSuspended
-              - Credited
-              - DebitFailed
-              - DebitReversedReceived
-              - Debited
-              - DebitedReversed
-              - DepositCorrectionCredited
-              - DepositCorrectionDebited
-              - Fee
-              - FundTransfer
-              - FundTransferReversed
-              - InvoiceDeductionCredited
-              - InvoiceDeductionDebited
-              - ManualCorrected
-              - ManualCorrectionCredited
-              - ManualCorrectionDebited
-              - MerchantPayin
-              - MerchantPayinReversed
-              - Payout
-              - PayoutReversed
-              - PendingCredit
-              - PendingDebit
-              - PendingFundTransfer
-              - ReCredited
-              - ReCreditedReceived
-              - SecondChargeback
-              - SecondChargebackCorrection
-              - SecondChargebackCorrectionReceived
-              - SecondChargebackReceived
+            - BalanceNotPaidOutTransfer
+            - BalancePlatformSweep
+            - BalancePlatformSweepReturned
+            - Chargeback
+            - ChargebackCorrection
+            - ChargebackCorrectionReceived
+            - ChargebackReceived
+            - ChargebackReversed
+            - ChargebackReversedCorrection
+            - ChargebackReversedCorrectionReceived
+            - ChargebackReversedReceived
+            - Converted
+            - CreditClosed
+            - CreditFailed
+            - CreditReversed
+            - CreditReversedReceived
+            - CreditSuspended
+            - Credited
+            - DebitFailed
+            - DebitReversedReceived
+            - Debited
+            - DebitedReversed
+            - DepositCorrectionCredited
+            - DepositCorrectionDebited
+            - Fee
+            - FundTransfer
+            - FundTransferReversed
+            - InvoiceDeductionCredited
+            - InvoiceDeductionDebited
+            - ManualCorrected
+            - ManualCorrectionCredited
+            - ManualCorrectionDebited
+            - MerchantPayin
+            - MerchantPayinReversed
+            - Payout
+            - PayoutReversed
+            - PendingCredit
+            - PendingDebit
+            - PendingFundTransfer
+            - ReCredited
+            - ReCreditedReceived
+            - SecondChargeback
+            - SecondChargebackCorrection
+            - SecondChargebackCorrectionReceived
+            - SecondChargebackReceived
             type: string
           type: array
       required:
-        - accountHolderCode
+      - accountHolderCode
       type: object
     AccountHolderTransactionListResponse:
       properties:
@@ -822,8 +1409,8 @@ components:
           format: int64
           type: integer
       required:
-        - value
-        - currency
+      - value
+      - currency
       type: object
     BankAccountDetail:
       properties:
@@ -1105,11 +1692,11 @@ components:
             $ref: '#/components/schemas/Split'
           type: array
       required:
-        - accountHolderCode
-        - bankAccountUUID
-        - amount
-        - splits
-        - merchantAccount
+      - accountHolderCode
+      - bankAccountUUID
+      - amount
+      - splits
+      - merchantAccount
       type: object
     DebitAccountHolderResponse:
       properties:
@@ -1185,168 +1772,168 @@ components:
         fieldName:
           description: The type of the field.
           enum:
-            - accountCode
-            - accountHolderCode
-            - accountHolderDetails
-            - accountNumber
-            - accountStateType
-            - accountStatus
-            - accountType
-            - address
-            - balanceAccount
-            - balanceAccountActive
-            - balanceAccountCode
-            - balanceAccountId
-            - bankAccount
-            - bankAccountCode
-            - bankAccountName
-            - bankAccountUUID
-            - bankBicSwift
-            - bankCity
-            - bankCode
-            - bankName
-            - bankStatement
-            - branchCode
-            - businessContact
-            - cardToken
-            - checkCode
-            - city
-            - companyRegistration
-            - constitutionalDocument
-            - controller
-            - country
-            - countryCode
-            - currency
-            - currencyCode
-            - dateOfBirth
-            - description
-            - destinationAccountCode
-            - document
-            - documentContent
-            - documentExpirationDate
-            - documentIssuerCountry
-            - documentIssuerState
-            - documentName
-            - documentNumber
-            - documentType
-            - doingBusinessAs
-            - drivingLicence
-            - drivingLicenceBack
-            - drivingLicenceFront
-            - drivingLicense
-            - email
-            - firstName
-            - formType
-            - fullPhoneNumber
-            - gender
-            - hopWebserviceUser
-            - houseNumberOrName
-            - iban
-            - idCard
-            - idCardBack
-            - idCardFront
-            - idNumber
-            - identityDocument
-            - individualDetails
-            - infix
-            - jobTitle
-            - lastName
-            - lastReviewDate
-            - legalArrangement
-            - legalArrangementCode
-            - legalArrangementEntity
-            - legalArrangementEntityCode
-            - legalArrangementLegalForm
-            - legalArrangementMember
-            - legalArrangementMembers
-            - legalArrangementName
-            - legalArrangementReference
-            - legalArrangementRegistrationNumber
-            - legalArrangementTaxNumber
-            - legalArrangementType
-            - legalBusinessName
-            - legalEntity
-            - legalEntityType
-            - logo
-            - merchantAccount
-            - merchantCategoryCode
-            - merchantHouseNumber
-            - merchantReference
-            - microDeposit
-            - name
-            - nationality
-            - originalReference
-            - ownerCity
-            - ownerCountryCode
-            - ownerDateOfBirth
-            - ownerHouseNumberOrName
-            - ownerName
-            - ownerPostalCode
-            - ownerState
-            - ownerStreet
-            - passport
-            - passportNumber
-            - payoutMethod
-            - payoutMethodCode
-            - payoutSchedule
-            - pciSelfAssessment
-            - personalData
-            - phoneCountryCode
-            - phoneNumber
-            - postalCode
-            - primaryCurrency
-            - reason
-            - registrationNumber
-            - returnUrl
-            - schedule
-            - shareholder
-            - shareholderCode
-            - shareholderCodeAndSignatoryCode
-            - shareholderCodeOrSignatoryCode
-            - shareholderType
-            - shareholderTypes
-            - shopperInteraction
-            - signatory
-            - signatoryCode
-            - socialSecurityNumber
-            - sourceAccountCode
-            - splitAccount
-            - splitConfigurationUUID
-            - splitCurrency
-            - splitValue
-            - splits
-            - stateOrProvince
-            - status
-            - stockExchange
-            - stockNumber
-            - stockTicker
-            - store
-            - storeDetail
-            - storeName
-            - storeReference
-            - street
-            - taxId
-            - tier
-            - tierNumber
-            - transferCode
-            - ultimateParentCompany
-            - ultimateParentCompanyAddressDetails
-            - ultimateParentCompanyAddressDetailsCountry
-            - ultimateParentCompanyBusinessDetails
-            - ultimateParentCompanyBusinessDetailsLegalBusinessName
-            - ultimateParentCompanyBusinessDetailsRegistrationNumber
-            - ultimateParentCompanyCode
-            - ultimateParentCompanyStockExchange
-            - ultimateParentCompanyStockNumber
-            - ultimateParentCompanyStockNumberOrStockTicker
-            - ultimateParentCompanyStockTicker
-            - unknown
-            - value
-            - verificationType
-            - virtualAccount
-            - visaNumber
-            - webAddress
-            - year
+          - accountCode
+          - accountHolderCode
+          - accountHolderDetails
+          - accountNumber
+          - accountStateType
+          - accountStatus
+          - accountType
+          - address
+          - balanceAccount
+          - balanceAccountActive
+          - balanceAccountCode
+          - balanceAccountId
+          - bankAccount
+          - bankAccountCode
+          - bankAccountName
+          - bankAccountUUID
+          - bankBicSwift
+          - bankCity
+          - bankCode
+          - bankName
+          - bankStatement
+          - branchCode
+          - businessContact
+          - cardToken
+          - checkCode
+          - city
+          - companyRegistration
+          - constitutionalDocument
+          - controller
+          - country
+          - countryCode
+          - currency
+          - currencyCode
+          - dateOfBirth
+          - description
+          - destinationAccountCode
+          - document
+          - documentContent
+          - documentExpirationDate
+          - documentIssuerCountry
+          - documentIssuerState
+          - documentName
+          - documentNumber
+          - documentType
+          - doingBusinessAs
+          - drivingLicence
+          - drivingLicenceBack
+          - drivingLicenceFront
+          - drivingLicense
+          - email
+          - firstName
+          - formType
+          - fullPhoneNumber
+          - gender
+          - hopWebserviceUser
+          - houseNumberOrName
+          - iban
+          - idCard
+          - idCardBack
+          - idCardFront
+          - idNumber
+          - identityDocument
+          - individualDetails
+          - infix
+          - jobTitle
+          - lastName
+          - lastReviewDate
+          - legalArrangement
+          - legalArrangementCode
+          - legalArrangementEntity
+          - legalArrangementEntityCode
+          - legalArrangementLegalForm
+          - legalArrangementMember
+          - legalArrangementMembers
+          - legalArrangementName
+          - legalArrangementReference
+          - legalArrangementRegistrationNumber
+          - legalArrangementTaxNumber
+          - legalArrangementType
+          - legalBusinessName
+          - legalEntity
+          - legalEntityType
+          - logo
+          - merchantAccount
+          - merchantCategoryCode
+          - merchantHouseNumber
+          - merchantReference
+          - microDeposit
+          - name
+          - nationality
+          - originalReference
+          - ownerCity
+          - ownerCountryCode
+          - ownerDateOfBirth
+          - ownerHouseNumberOrName
+          - ownerName
+          - ownerPostalCode
+          - ownerState
+          - ownerStreet
+          - passport
+          - passportNumber
+          - payoutMethod
+          - payoutMethodCode
+          - payoutSchedule
+          - pciSelfAssessment
+          - personalData
+          - phoneCountryCode
+          - phoneNumber
+          - postalCode
+          - primaryCurrency
+          - reason
+          - registrationNumber
+          - returnUrl
+          - schedule
+          - shareholder
+          - shareholderCode
+          - shareholderCodeAndSignatoryCode
+          - shareholderCodeOrSignatoryCode
+          - shareholderType
+          - shareholderTypes
+          - shopperInteraction
+          - signatory
+          - signatoryCode
+          - socialSecurityNumber
+          - sourceAccountCode
+          - splitAccount
+          - splitConfigurationUUID
+          - splitCurrency
+          - splitValue
+          - splits
+          - stateOrProvince
+          - status
+          - stockExchange
+          - stockNumber
+          - stockTicker
+          - store
+          - storeDetail
+          - storeName
+          - storeReference
+          - street
+          - taxId
+          - tier
+          - tierNumber
+          - transferCode
+          - ultimateParentCompany
+          - ultimateParentCompanyAddressDetails
+          - ultimateParentCompanyAddressDetailsCountry
+          - ultimateParentCompanyBusinessDetails
+          - ultimateParentCompanyBusinessDetailsLegalBusinessName
+          - ultimateParentCompanyBusinessDetailsRegistrationNumber
+          - ultimateParentCompanyCode
+          - ultimateParentCompanyStockExchange
+          - ultimateParentCompanyStockNumber
+          - ultimateParentCompanyStockNumberOrStockTicker
+          - ultimateParentCompanyStockTicker
+          - unknown
+          - value
+          - verificationType
+          - virtualAccount
+          - visaNumber
+          - webAddress
+          - year
           type: string
         shareholderCode:
           description: >-
@@ -1416,13 +2003,13 @@ components:
             Speed with which payouts for this account are processed. Permitted
             values: `STANDARD`, `SAME_DAY`.
           enum:
-            - INSTANT
-            - SAME_DAY
-            - STANDARD
+          - INSTANT
+          - SAME_DAY
+          - STANDARD
           type: string
       required:
-        - accountHolderCode
-        - accountCode
+      - accountHolderCode
+      - accountCode
       type: object
     PayoutAccountHolderResponse:
       properties:
@@ -1450,9 +2037,9 @@ components:
             Speed with which payouts for this account are processed. Permitted
             values: `STANDARD`, `SAME_DAY`.
           enum:
-            - INSTANT
-            - SAME_DAY
-            - STANDARD
+          - INSTANT
+          - SAME_DAY
+          - STANDARD
           type: string
         pspReference:
           description: >-
@@ -1477,8 +2064,8 @@ components:
           description: A PSP reference of the original fund transfer.
           type: string
       required:
-        - originalReference
-        - amount
+      - originalReference
+      - amount
       type: object
     RefundFundsTransferResponse:
       properties:
@@ -1521,8 +2108,8 @@ components:
             perform the refund(s).
           type: string
       required:
-        - accountHolderCode
-        - accountCode
+      - accountHolderCode
+      - accountCode
       type: object
     RefundNotPaidOutTransfersResponse:
       properties:
@@ -1576,8 +2163,8 @@ components:
           description: The benefactor account.
           type: string
       required:
-        - sourceAccountCode
-        - destinationAccountCode
+      - sourceAccountCode
+      - destinationAccountCode
       type: object
     SetupBeneficiaryResponse:
       properties:
@@ -1636,26 +2223,26 @@ components:
             **Commission**, **MarketPlace**, **BalanceAccount**, **Remainder**,
             **Surcharge**, **Tip**.
           enum:
-            - BalanceAccount
-            - Commission
-            - Default
-            - MarketPlace
-            - PaymentFee
-            - PaymentFeeAcquiring
-            - PaymentFeeAdyen
-            - PaymentFeeAdyenCommission
-            - PaymentFeeAdyenMarkup
-            - PaymentFeeInterchange
-            - PaymentFeeSchemeFee
-            - Remainder
-            - Surcharge
-            - Tip
-            - VAT
-            - Verification
+          - BalanceAccount
+          - Commission
+          - Default
+          - MarketPlace
+          - PaymentFee
+          - PaymentFeeAcquiring
+          - PaymentFeeAdyen
+          - PaymentFeeAdyenCommission
+          - PaymentFeeAdyenMarkup
+          - PaymentFeeInterchange
+          - PaymentFeeSchemeFee
+          - Remainder
+          - Surcharge
+          - Tip
+          - VAT
+          - Verification
           type: string
       required:
-        - amount
-        - type
+      - amount
+      - type
       type: object
     SplitAmount:
       properties:
@@ -1677,7 +2264,7 @@ components:
           format: int64
           type: integer
       required:
-        - value
+      - value
       type: object
     Transaction:
       properties:
@@ -1742,51 +2329,51 @@ components:
             `PayoutReversed`, `FundTransfer`, `PendingFundTransfer`,
             `ManualCorrected`.
           enum:
-            - BalanceNotPaidOutTransfer
-            - BalancePlatformSweep
-            - BalancePlatformSweepReturned
-            - Chargeback
-            - ChargebackCorrection
-            - ChargebackCorrectionReceived
-            - ChargebackReceived
-            - ChargebackReversed
-            - ChargebackReversedCorrection
-            - ChargebackReversedCorrectionReceived
-            - ChargebackReversedReceived
-            - Converted
-            - CreditClosed
-            - CreditFailed
-            - CreditReversed
-            - CreditReversedReceived
-            - CreditSuspended
-            - Credited
-            - DebitFailed
-            - DebitReversedReceived
-            - Debited
-            - DebitedReversed
-            - DepositCorrectionCredited
-            - DepositCorrectionDebited
-            - Fee
-            - FundTransfer
-            - FundTransferReversed
-            - InvoiceDeductionCredited
-            - InvoiceDeductionDebited
-            - ManualCorrected
-            - ManualCorrectionCredited
-            - ManualCorrectionDebited
-            - MerchantPayin
-            - MerchantPayinReversed
-            - Payout
-            - PayoutReversed
-            - PendingCredit
-            - PendingDebit
-            - PendingFundTransfer
-            - ReCredited
-            - ReCreditedReceived
-            - SecondChargeback
-            - SecondChargebackCorrection
-            - SecondChargebackCorrectionReceived
-            - SecondChargebackReceived
+          - BalanceNotPaidOutTransfer
+          - BalancePlatformSweep
+          - BalancePlatformSweepReturned
+          - Chargeback
+          - ChargebackCorrection
+          - ChargebackCorrectionReceived
+          - ChargebackReceived
+          - ChargebackReversed
+          - ChargebackReversedCorrection
+          - ChargebackReversedCorrectionReceived
+          - ChargebackReversedReceived
+          - Converted
+          - CreditClosed
+          - CreditFailed
+          - CreditReversed
+          - CreditReversedReceived
+          - CreditSuspended
+          - Credited
+          - DebitFailed
+          - DebitReversedReceived
+          - Debited
+          - DebitedReversed
+          - DepositCorrectionCredited
+          - DepositCorrectionDebited
+          - Fee
+          - FundTransfer
+          - FundTransferReversed
+          - InvoiceDeductionCredited
+          - InvoiceDeductionDebited
+          - ManualCorrected
+          - ManualCorrectionCredited
+          - ManualCorrectionDebited
+          - MerchantPayin
+          - MerchantPayinReversed
+          - Payout
+          - PayoutReversed
+          - PendingCredit
+          - PendingDebit
+          - PendingFundTransfer
+          - ReCredited
+          - ReCreditedReceived
+          - SecondChargeback
+          - SecondChargebackCorrection
+          - SecondChargebackCorrectionReceived
+          - SecondChargebackReceived
           type: string
         transferCode:
           description: The transfer code of the transaction.
@@ -1806,8 +2393,8 @@ components:
           format: int32
           type: integer
       required:
-        - accountCode
-        - page
+      - accountCode
+      - page
       type: object
     TransferFundsRequest:
       properties:
@@ -1840,10 +2427,10 @@ components:
             defined in their service level agreement.
           type: string
       required:
-        - sourceAccountCode
-        - destinationAccountCode
-        - transferCode
-        - amount
+      - sourceAccountCode
+      - destinationAccountCode
+      - transferCode
+      - amount
       type: object
     TransferFundsResponse:
       properties:
@@ -1888,19 +2475,19 @@ components:
       value:
         accountHolderCode: CODE_OF_ACCOUNT_HOLDER
         transactionListsPerAccount:
-          - accountCode: '195752115'
-            page: 1
+        - accountCode: '195752115'
+          page: 1
     post-accountHolderTransactionList-specific:
       summary: Retrieve transactions with specific statuses.
       value:
         accountHolderCode: CODE_OF_ACCOUNT_HOLDER
         transactionStatuses:
-          - PendingCredit
-          - Credited
-          - Debited
+        - PendingCredit
+        - Credited
+        - Debited
         transactionListsPerAccount:
-          - accountCode: 2e64b396-1200-4474-b848-0cb06b52b3c7
-            page: 2
+        - accountCode: 2e64b396-1200-4474-b848-0cb06b52b3c7
+          page: 2
     post-debitAccountHolder-debit-account-holder:
       summary: Send a bank account direct debit
       description: Example request to send a direct debit from a bank account
@@ -1913,15 +2500,15 @@ components:
           currency: USD
         merchantAccount: YOUR_MERCHANT_ACCOUNT
         splits:
-          - amount:
-              value: 6000
-            type: MarketPlace
-            account: '8535516988037431'
-            reference: YOUR_SPLIT_REFERENCE_1
-          - amount:
-              value: 200
-            type: Commission
-            reference: YOUR_SPLIT_REFERENCE_2
+        - amount:
+            value: 6000
+          type: MarketPlace
+          account: '8535516988037431'
+          reference: YOUR_SPLIT_REFERENCE_1
+        - amount:
+            value: 200
+          type: Commission
+          reference: YOUR_SPLIT_REFERENCE_2
     post-debitAccountHolder-debit-account-holder-200:
       summary: Direct debit request sent
       description: Example response for requesting a direct debit from a bank account

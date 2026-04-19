@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/notifications-transfer-funds-notification-structure.json",
+  "description": "TransferFundsNotification schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "content": {
+      "description": "Details of the fund transfer.",
+      "$ref": "#/components/schemas/TransferFundsNotificationContent"
+    },
+    "error": {
+      "x-addedInVersion": "5",
+      "description": "Error information of failed request. No value provided here if no error occurred on processing.",
+      "$ref": "#/components/schemas/NotificationErrorContainer"
+    },
+    "eventDate": {
+      "x-addedInVersion": "4",
+      "description": "The date and time when an event has been completed.",
+      "type": "datetime"
+    },
+    "eventType": {
+      "description": "The event type of the notification.",
+      "type": "string"
+    },
+    "executingUserKey": {
+      "description": "The user or process that has triggered the notification.",
+      "type": "string"
+    },
+    "live": {
+      "description": "Indicates whether the notification originated from the live environment or the test environment. If true, the notification originated from the live environment. If false, the notification originated from the test environment.",
+      "type": "boolean"
+    },
+    "pspReference": {
+      "description": "The PSP reference of the request from which the notification originates.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "executingUserKey",
+    "pspReference",
+    "eventType",
+    "live",
+    "eventDate"
+  ],
+  "name": "TransferFundsNotification"
+}

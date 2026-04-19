@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/funds-payout-account-holder-response-structure.json",
+  "description": "PayoutAccountHolderResponse schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "bankAccountUUID": {
+      "description": "The unique ID of the Bank Account to which the payout was made.",
+      "type": "string"
+    },
+    "invalidFields": {
+      "x-addedInVersion": "5",
+      "description": "Contains field validation errors that would prevent requests from being processed.",
+      "items": {
+        "$ref": "#/components/schemas/ErrorFieldType"
+      },
+      "type": "array"
+    },
+    "merchantReference": {
+      "x-addedInVersion": "2",
+      "description": "The value supplied by the executing user when initiating the transfer; may be used to link multiple transactions.",
+      "type": "string"
+    },
+    "payoutSpeed": {
+      "x-addedInVersion": "5",
+      "default": "STANDARD",
+      "description": "Speed with which payouts for this account are processed. Permitted values: `STANDARD`, `SAME_DAY`.",
+      "enum": [
+        "INSTANT",
+        "SAME_DAY",
+        "STANDARD"
+      ],
+      "type": "string"
+    },
+    "pspReference": {
+      "description": "The reference of a request. Can be used to uniquely identify the request.",
+      "type": "string"
+    },
+    "resultCode": {
+      "description": "The result code.",
+      "type": "string"
+    }
+  },
+  "name": "PayoutAccountHolderResponse"
+}

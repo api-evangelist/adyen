@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/funds-payout-account-holder-request-schema.json",
+  "title": "PayoutAccountHolderRequest",
+  "description": "PayoutAccountHolderRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountCode": {
+      "description": "The code of the account from which the payout is to be made.",
+      "type": "string"
+    },
+    "accountHolderCode": {
+      "description": "The code of the Account Holder who owns the account from which the payout is to be made.\nThe Account Holder is the party to which the payout will be made.",
+      "type": "string"
+    },
+    "amount": {
+      "description": "An object containing the currency and value of the payout.\nIf the account has multiple currencies, specify the currency to be used.\nIf the `bankAccountUUID` is provided in the request, the currency supported by the bank is used.\nIf the `payoutMethodCode` is provided in the request, the specified payout method is selected.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "bankAccountUUID": {
+      "description": "The unique ID of the Bank Account held by the Account Holder to which the payout is to be made.\nIf left blank, a bank account is automatically selected.",
+      "type": "string"
+    },
+    "description": {
+      "description": "A description of the payout. Maximum 200 characters.\nAllowed: **abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/?:().,'+ \";**",
+      "maxLength": 200,
+      "type": "string"
+    },
+    "merchantReference": {
+      "x-addedInVersion": "2",
+      "description": "A value that can be supplied at the discretion of the executing user in order to link multiple transactions to one another.",
+      "type": "string"
+    },
+    "payoutMethodCode": {
+      "x-addedInVersion": "5",
+      "description": "The unique ID of the payout method held by the Account Holder to which the payout is to be made.\nIf left blank, a payout instrument is automatically selected.",
+      "type": "string"
+    },
+    "payoutSpeed": {
+      "x-addedInVersion": "5",
+      "default": "STANDARD",
+      "description": "Speed with which payouts for this account are processed. Permitted values: `STANDARD`, `SAME_DAY`.",
+      "enum": [
+        "INSTANT",
+        "SAME_DAY",
+        "STANDARD"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "accountHolderCode",
+    "accountCode"
+  ]
+}

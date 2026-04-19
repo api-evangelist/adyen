@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/accounts-account-processing-state-schema.json",
+  "title": "AccountProcessingState",
+  "description": "AccountProcessingState schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "disableReason": {
+      "description": "The reason why processing has been disabled.",
+      "type": "string"
+    },
+    "disabled": {
+      "description": "Indicates whether the processing of payments is allowed.",
+      "type": "boolean"
+    },
+    "processedFrom": {
+      "description": "The lower bound of the processing tier (i.e., an account holder must have processed at least this amount of money in order to be placed into this tier).",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "processedTo": {
+      "description": "The upper bound of the processing tier (i.e., an account holder must have processed less than this amount of money in order to be placed into this tier).",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "tierNumber": {
+      "x-addedInVersion": "3",
+      "description": "The processing tier that the account holder occupies.",
+      "format": "int32",
+      "type": "integer"
+    }
+  }
+}

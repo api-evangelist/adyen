@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/checkout-sepa-direct-debit-details-schema.json",
+  "title": "SepaDirectDebitDetails",
+  "description": "SepaDirectDebitDetails schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "checkoutAttemptId": {
+      "x-addedInVersion": "68",
+      "description": "The checkout attempt identifier.",
+      "type": "string"
+    },
+    "iban": {
+      "description": "The International Bank Account Number (IBAN).",
+      "type": "string"
+    },
+    "ownerName": {
+      "description": "The name of the bank account holder.",
+      "type": "string"
+    },
+    "recurringDetailReference": {
+      "deprecated": true,
+      "x-deprecatedInVersion": "49",
+      "x-deprecatedMessage": "Use `storedPaymentMethodId` instead.",
+      "description": "This is the `recurringDetailReference` returned in the response when you created the token.",
+      "type": "string"
+    },
+    "storedPaymentMethodId": {
+      "x-addedInVersion": "49",
+      "description": "This is the `recurringDetailReference` returned in the response when you created the token.",
+      "maxLength": 64,
+      "type": "string"
+    },
+    "type": {
+      "default": "sepadirectdebit",
+      "description": "**sepadirectdebit**",
+      "enum": [
+        "sepadirectdebit",
+        "sepadirectdebit_amazonpay"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "iban",
+    "ownerName"
+  ],
+  "additionalProperties": false
+}

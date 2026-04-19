@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/checkout-open-invoice-details-structure.json",
+  "description": "OpenInvoiceDetails schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "billingAddress": {
+      "description": "The address where to send the invoice.",
+      "type": "string"
+    },
+    "checkoutAttemptId": {
+      "x-addedInVersion": "68",
+      "description": "The checkout attempt identifier.",
+      "type": "string"
+    },
+    "deliveryAddress": {
+      "description": "The address where the goods should be delivered.",
+      "type": "string"
+    },
+    "personalDetails": {
+      "description": "Shopper name, date of birth, phone number, and email address.",
+      "type": "string"
+    },
+    "recurringDetailReference": {
+      "deprecated": true,
+      "x-deprecatedInVersion": "49",
+      "x-deprecatedMessage": "Use `storedPaymentMethodId` instead.",
+      "description": "This is the `recurringDetailReference` returned in the response when you created the token.",
+      "type": "string"
+    },
+    "storedPaymentMethodId": {
+      "x-addedInVersion": "49",
+      "description": "This is the `recurringDetailReference` returned in the response when you created the token.",
+      "maxLength": 64,
+      "type": "string"
+    },
+    "type": {
+      "default": "openinvoice",
+      "description": "**openinvoice**",
+      "enum": [
+        "openinvoice",
+        "afterpay_directdebit",
+        "atome_pos"
+      ],
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "name": "OpenInvoiceDetails"
+}

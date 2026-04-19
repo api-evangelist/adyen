@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/payments-cancel-request-schema.json",
+  "title": "CancelRequest",
+  "description": "CancelRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "additionalData": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "x-anyOf": [
+        {
+          "$ref": "#/components/schemas/AdditionalData3DSecure"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataAirline"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataCarRental"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataCommon"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataLevel23"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataLodging"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataModifications"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataOpenInvoice"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataOpi"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataRatepay"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataRetry"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataRisk"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataRiskStandalone"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataSubMerchant"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataTemporaryServices"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataWallets"
+        }
+      ],
+      "description": "This field contains additional data, which may be required for a particular modification request.\n\nThe additionalData object consists of entries, each of which includes the key and value.",
+      "type": "object"
+    },
+    "merchantAccount": {
+      "description": "The merchant account that is used to process the payment.",
+      "type": "string"
+    },
+    "mpiData": {
+      "x-addedInVersion": "46",
+      "description": "Authentication data produced by an MPI (Mastercard SecureCode, Visa Secure, or Cartes Bancaires).",
+      "$ref": "#/components/schemas/ThreeDSecureData"
+    },
+    "originalMerchantReference": {
+      "x-addedInVersion": "30",
+      "description": "The original merchant reference to cancel.",
+      "type": "string"
+    },
+    "originalReference": {
+      "description": "The original pspReference of the payment to modify.\nThis reference is returned in:\n* authorisation response\n* authorisation notification\n\n",
+      "type": "string"
+    },
+    "platformChargebackLogic": {
+      "x-addedInVersion": "68",
+      "description": "Defines how to book chargebacks when using [Adyen for Platforms](https://docs.adyen.com/marketplaces-and-platforms/processing-payments#chargebacks-and-disputes).",
+      "$ref": "#/components/schemas/PlatformChargebackLogic"
+    },
+    "reference": {
+      "description": "Your reference for the payment modification. This reference is visible in Customer Area and in reports.\nMaximum length: 80 characters.",
+      "type": "string"
+    },
+    "splits": {
+      "x-addedInVersion": "37",
+      "description": "An array of objects specifying how the amount should be split between accounts when using Adyen for Platforms. For details, refer to [Providing split information](https://docs.adyen.com/marketplaces-and-platforms/processing-payments#providing-split-information).",
+      "items": {
+        "$ref": "#/components/schemas/Split"
+      },
+      "type": "array"
+    },
+    "tenderReference": {
+      "x-addedInVersion": "25",
+      "description": "The transaction reference provided by the PED. For point-of-sale integrations only.",
+      "type": "string"
+    },
+    "uniqueTerminalId": {
+      "x-addedInVersion": "25",
+      "description": "Unique terminal ID for the PED that originally processed the request. For point-of-sale integrations only.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "merchantAccount",
+    "originalReference"
+  ]
+}

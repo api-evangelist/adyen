@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/legal-entity-legal-entity-capability-structure.json",
+  "description": "LegalEntityCapability schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "allowed": {
+      "description": "Indicates whether the capability is allowed. Adyen sets this to **true** if the verification is successful.",
+      "readOnly": true,
+      "type": "boolean"
+    },
+    "allowedLevel": {
+      "description": "The capability level that is allowed for the legal entity.\n\nPossible values: **notApplicable**, **low**, **medium**, **high**.",
+      "enum": [
+        "high",
+        "low",
+        "medium",
+        "notApplicable"
+      ],
+      "readOnly": true,
+      "type": "string"
+    },
+    "allowedSettings": {
+      "description": "The settings that are allowed for the legal entity.",
+      "readOnly": true,
+      "$ref": "#/components/schemas/CapabilitySettings"
+    },
+    "requested": {
+      "description": "Indicates whether the capability is requested. To check whether the legal entity is permitted to use the capability, refer to the `allowed` field.",
+      "readOnly": true,
+      "type": "boolean"
+    },
+    "requestedLevel": {
+      "description": "The requested level of the capability. Some capabilities, such as those used in [card issuing](https://docs.adyen.com/issuing/add-capabilities#capability-levels), have different levels. Levels increase the capability, but also require additional checks and increased monitoring.\n\nPossible values: **notApplicable**, **low**, **medium**, **high**.",
+      "enum": [
+        "high",
+        "low",
+        "medium",
+        "notApplicable"
+      ],
+      "readOnly": true,
+      "type": "string"
+    },
+    "requestedSettings": {
+      "description": "The settings that are requested for the legal entity.",
+      "readOnly": true,
+      "$ref": "#/components/schemas/CapabilitySettings"
+    },
+    "transferInstruments": {
+      "x-addedInVersion": "2",
+      "description": "The capability status of transfer instruments associated with the legal entity.",
+      "items": {
+        "$ref": "#/components/schemas/SupportingEntityCapability"
+      },
+      "readOnly": true,
+      "type": "array"
+    },
+    "verificationStatus": {
+      "description": "The status of the verification checks for the capability.\n\nPossible values:\n\n* **pending**: Adyen is running the verification.\n\n* **invalid**: The verification failed. Check if the `errors` array contains more information.\n\n* **valid**: The verification has been successfully completed.\n\n* **rejected**: Adyen has verified the information, but found reasons to not allow the capability.\n",
+      "readOnly": true,
+      "type": "string"
+    }
+  },
+  "name": "LegalEntityCapability"
+}

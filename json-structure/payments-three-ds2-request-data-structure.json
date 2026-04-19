@@ -1,0 +1,245 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/payments-three-ds2-request-data-structure.json",
+  "description": "ThreeDS2RequestData schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "acctInfo": {
+      "x-addedInVersion": "68",
+      "description": "Additional information about the Cardholder\u2019s account provided by the 3DS Requestor.",
+      "$ref": "#/components/schemas/AcctInfo"
+    },
+    "acctType": {
+      "x-addedInVersion": "68",
+      "description": "Indicates the type of account. For example, for a multi-account card product. Length: 2 characters. Allowed values:\n* **01** \u2014 Not applicable\n* **02** \u2014 Credit\n* **03** \u2014 Debit",
+      "enum": [
+        "01",
+        "02",
+        "03"
+      ],
+      "maxLength": 2,
+      "minLength": 2,
+      "type": "string"
+    },
+    "acquirerBIN": {
+      "x-addedInVersion": "49",
+      "description": "Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only). The acquiring BIN enrolled for 3D Secure 2. This string should match the value that you will use in the authorisation. Use 123456 on the Test platform.",
+      "type": "string"
+    },
+    "acquirerMerchantID": {
+      "x-addedInVersion": "49",
+      "description": "Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only). The merchantId that is enrolled for 3D Secure 2 by the merchant's acquirer. This string should match the value that you will use in the authorisation. Use 123456 on the Test platform.",
+      "type": "string"
+    },
+    "addrMatch": {
+      "x-addedInVersion": "68",
+      "description": "Indicates whether the Cardholder Shipping Address and Cardholder Billing Address are the same. Allowed values:\n* **Y** \u2014 Shipping Address matches Billing Address.\n* **N** \u2014 Shipping Address does not match Billing Address.",
+      "enum": [
+        "Y",
+        "N"
+      ],
+      "maxLength": 1,
+      "minLength": 1,
+      "type": "string"
+    },
+    "authenticationOnly": {
+      "deprecated": true,
+      "x-deprecatedInVersion": "50",
+      "x-deprecatedMessage": "Use `threeDSAuthenticationOnly` instead.",
+      "default": false,
+      "description": "If set to true, you will only perform the [3D Secure 2 authentication](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only), and not the payment authorisation.",
+      "type": "boolean"
+    },
+    "challengeIndicator": {
+      "deprecated": true,
+      "x-deprecatedInVersion": "68",
+      "x-deprecatedMessage": "Use `threeDSRequestorChallengeInd` instead.",
+      "description": "Possibility to specify a preference for receiving a challenge from the issuer.\nAllowed values:\n* `noPreference`\n* `requestNoChallenge`\n* `requestChallenge`\n* `requestChallengeAsMandate`\n",
+      "enum": [
+        "noPreference",
+        "requestNoChallenge",
+        "requestChallenge",
+        "requestChallengeAsMandate"
+      ],
+      "type": "string"
+    },
+    "deviceChannel": {
+      "description": "The environment of the shopper.\nAllowed values:\n* `app`\n* `browser`",
+      "type": "string"
+    },
+    "deviceRenderOptions": {
+      "description": "Display options for the 3D Secure 2 SDK.\nOptional and only for `deviceChannel` **app**.",
+      "$ref": "#/components/schemas/DeviceRenderOptions"
+    },
+    "homePhone": {
+      "x-addedInVersion": "68",
+      "description": "The home phone number provided by the Cardholder.",
+      "$ref": "#/components/schemas/Phone"
+    },
+    "mcc": {
+      "x-addedInVersion": "49",
+      "description": "Required for merchants that have been enrolled for 3D Secure 2 by another party than Adyen, mostly [authentication-only integrations](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only). The `mcc` is a four-digit code with which the previously given `acquirerMerchantID` is registered at the scheme.",
+      "type": "string"
+    },
+    "merchantName": {
+      "x-addedInVersion": "49",
+      "description": "Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only). The merchant name that the issuer presents to the shopper if they get a challenge. We recommend to use the same value that you will use in the authorization. Maximum length is 40 characters.\n> Optional for a [full 3D Secure 2 integration](https://docs.adyen.com/online-payments/3d-secure/native-3ds2/api-integration). Use this field if you are enrolled for 3D Secure 2 with us and want to override the merchant name already configured on your account.",
+      "type": "string"
+    },
+    "messageVersion": {
+      "description": "The `messageVersion` value indicating the 3D Secure 2 protocol version.",
+      "type": "string"
+    },
+    "mobilePhone": {
+      "x-addedInVersion": "68",
+      "description": "The mobile phone number provided by the Cardholder.",
+      "$ref": "#/components/schemas/Phone"
+    },
+    "notificationURL": {
+      "description": "URL to where the issuer should send the `CRes`. Required if you are not using components for `channel` **Web** or if you are using classic integration `deviceChannel` **browser**.",
+      "type": "string"
+    },
+    "payTokenInd": {
+      "x-addedInVersion": "68",
+      "description": "Value **true** indicates that the transaction was de-tokenised prior to being received by the ACS.",
+      "type": "boolean"
+    },
+    "paymentAuthenticationUseCase": {
+      "x-addedInVersion": "68",
+      "description": "Indicates the type of payment for which an authentication is requested (message extension)",
+      "type": "string"
+    },
+    "purchaseInstalData": {
+      "x-addedInVersion": "68",
+      "description": "Indicates the maximum number of authorisations permitted for instalment payments. Length: 1\u20133 characters.",
+      "maxLength": 3,
+      "minLength": 1,
+      "type": "string"
+    },
+    "recurringExpiry": {
+      "x-addedInVersion": "68",
+      "description": "Date after which no further authorisations shall be performed. Format: YYYYMMDD",
+      "type": "string"
+    },
+    "recurringFrequency": {
+      "x-addedInVersion": "68",
+      "description": "Indicates the minimum number of days between authorisations. Maximum length: 4 characters.",
+      "maxLength": 4,
+      "type": "string"
+    },
+    "sdkAppID": {
+      "description": "The `sdkAppID` value as received from the 3D Secure 2 SDK.\nRequired for `deviceChannel` set to **app**.",
+      "type": "string"
+    },
+    "sdkEncData": {
+      "description": "The `sdkEncData` value as received from the 3D Secure 2 SDK.\nRequired for `deviceChannel` set to **app**.",
+      "type": "string"
+    },
+    "sdkEphemPubKey": {
+      "description": "The `sdkEphemPubKey` value as received from the 3D Secure 2 SDK.\nRequired for `deviceChannel` set to **app**.",
+      "$ref": "#/components/schemas/SDKEphemPubKey"
+    },
+    "sdkMaxTimeout": {
+      "default": 60,
+      "description": "The maximum amount of time in minutes for the 3D Secure 2 authentication process.\nOptional and only for `deviceChannel` set to **app**. Defaults to **60** minutes.",
+      "type": "int32"
+    },
+    "sdkReferenceNumber": {
+      "description": "The `sdkReferenceNumber` value as received from the 3D Secure 2 SDK.\nOnly for `deviceChannel` set to **app**.",
+      "type": "string"
+    },
+    "sdkTransID": {
+      "description": "The `sdkTransID` value as received from the 3D Secure 2 SDK.\nOnly for `deviceChannel` set to **app**.",
+      "type": "string"
+    },
+    "sdkVersion": {
+      "x-addedInVersion": "40",
+      "description": "Version of the 3D Secure 2 mobile SDK. \nOnly for `deviceChannel` set to **app**.",
+      "type": "string"
+    },
+    "threeDSCompInd": {
+      "description": "Completion indicator for the device fingerprinting.",
+      "type": "string"
+    },
+    "threeDSRequestorAuthenticationInd": {
+      "x-addedInVersion": "68",
+      "description": "Indicates the type of Authentication request.",
+      "type": "string"
+    },
+    "threeDSRequestorAuthenticationInfo": {
+      "x-addedInVersion": "68",
+      "description": "Information about how the 3DS Requestor authenticated the cardholder before or during the transaction",
+      "$ref": "#/components/schemas/ThreeDSRequestorAuthenticationInfo"
+    },
+    "threeDSRequestorChallengeInd": {
+      "x-addedInVersion": "68",
+      "description": "Indicates whether a challenge is requested for this transaction. Possible values:\n* **01** \u2014 No preference\n* **02** \u2014 No challenge requested\n* **03** \u2014 Challenge requested (3DS Requestor preference)\n* **04** \u2014 Challenge requested (Mandate)\n* **05** \u2014 No challenge (transactional risk analysis is already performed)\n* **06** \u2014 Data Only",
+      "enum": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06"
+      ],
+      "type": "string"
+    },
+    "threeDSRequestorID": {
+      "description": "Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only) for Visa. Unique 3D Secure requestor identifier assigned by the Directory Server when you enrol for 3D Secure 2.",
+      "type": "string"
+    },
+    "threeDSRequestorName": {
+      "description": "Required for [authentication-only integration](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only) for Visa. Unique 3D Secure requestor name assigned by the Directory Server when you enrol for 3D Secure 2.",
+      "type": "string"
+    },
+    "threeDSRequestorPriorAuthenticationInfo": {
+      "x-addedInVersion": "68",
+      "description": "Information about how the 3DS Requestor authenticated the cardholder as part of a previous 3DS transaction.",
+      "$ref": "#/components/schemas/ThreeDSRequestorPriorAuthenticationInfo"
+    },
+    "threeDSRequestorURL": {
+      "description": "URL of the (customer service) website that will be shown to the shopper in case of technical errors during the 3D Secure 2 process.",
+      "type": "string"
+    },
+    "transType": {
+      "x-addedInVersion": "68",
+      "description": "Identifies the type of transaction being authenticated. Length: 2 characters. Allowed values:\n* **01** \u2014 Goods/Service Purchase\n* **03** \u2014 Check Acceptance\n* **10** \u2014 Account Funding\n* **11** \u2014 Quasi-Cash Transaction\n* **28** \u2014 Prepaid Activation and Load",
+      "enum": [
+        "01",
+        "03",
+        "10",
+        "11",
+        "28"
+      ],
+      "maxLength": 2,
+      "minLength": 2,
+      "type": "string"
+    },
+    "transactionType": {
+      "x-addedInVersion": "50",
+      "description": "Identify the type of the transaction being authenticated.",
+      "enum": [
+        "goodsOrServicePurchase",
+        "checkAcceptance",
+        "accountFunding",
+        "quasiCashTransaction",
+        "prepaidActivationAndLoad"
+      ],
+      "type": "string"
+    },
+    "whiteListStatus": {
+      "x-addedInVersion": "49",
+      "description": "The `whiteListStatus` value returned from a previous 3D Secure 2 transaction, only applicable for 3D Secure 2 protocol version 2.2.0.",
+      "type": "string"
+    },
+    "workPhone": {
+      "x-addedInVersion": "68",
+      "description": "The work phone number provided by the Cardholder.",
+      "$ref": "#/components/schemas/Phone"
+    }
+  },
+  "required": [
+    "deviceChannel"
+  ],
+  "name": "ThreeDS2RequestData"
+}

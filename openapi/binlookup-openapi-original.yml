@@ -1,6 +1,6 @@
 openapi: 3.1.0
 servers:
-  - url: https://pal-test.adyen.com/pal/servlet/BinLookup/v54
+- url: https://pal-test.adyen.com/pal/servlet/BinLookup/v54
 info:
   version: '54'
   x-publicVersion: true
@@ -13,14 +13,14 @@ info:
     name: Adyen Developer Experience team
     url: https://github.com/Adyen/adyen-openapi
 tags:
-  - name: get3dsAvailability
-  - name: getCostEstimate
+- name: get3dsAvailability
+- name: getCostEstimate
 paths:
   /get3dsAvailability:
     post:
       tags:
-        - get3dsAvailability
-      summary: Adyen Check if 3D Secure is available
+      - get3dsAvailability
+      summary: Adyen Check if 3D Secure is Available
       description: >-
         Verifies whether 3D Secure is available for the specified BIN or card
         brand. For 3D Secure 2, this endpoint also returns device fingerprinting
@@ -34,8 +34,8 @@ paths:
       x-sortIndex: 0
       x-methodName: get3dsAvailability
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -70,30 +70,77 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-get3dsAvailability401Example:
+                  summary: Default post-get3dsAvailability 401 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-get3dsAvailability403Example:
+                  summary: Default post-get3dsAvailability 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-get3dsAvailability422Example:
+                  summary: Default post-get3dsAvailability 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-get3dsAvailability500Example:
+                  summary: Default post-get3dsAvailability 500 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /getCostEstimate:
     post:
       tags:
-        - getCostEstimate
-      summary: Adyen Get a fees cost estimate
+      - getCostEstimate
+      summary: Adyen Get a Fees Cost Estimate
       description: >-
         >This API is available only for merchants operating in Australia, the
         EU, and the UK.
@@ -121,8 +168,8 @@ paths:
       x-sortIndex: 0
       x-methodName: getCostEstimate
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -177,25 +224,72 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getCostEstimate401Example:
+                  summary: Default post-getCostEstimate 401 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getCostEstimate403Example:
+                  summary: Default post-getCostEstimate 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getCostEstimate422Example:
+                  summary: Default post-getCostEstimate 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getCostEstimate500Example:
+                  summary: Default post-getCostEstimate 500 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   schemas:
     Amount:
@@ -214,8 +308,8 @@ components:
           format: int64
           type: integer
       required:
-        - value
-        - currency
+      - value
+      - currency
       type: object
     BinDetail:
       properties:
@@ -413,10 +507,10 @@ components:
             * `POS` - Point-of-sale transactions where the shopper is physically
             present to make a payment using a secure payment terminal.
           enum:
-            - Ecommerce
-            - ContAuth
-            - Moto
-            - POS
+          - Ecommerce
+          - ContAuth
+          - Moto
+          - POS
           type: string
         shopperReference:
           description: >-
@@ -429,8 +523,8 @@ components:
             information (PII), for example name or email address.
           type: string
       required:
-        - amount
-        - merchantAccount
+      - amount
+      - merchantAccount
       type: object
     CostEstimateResponse:
       properties:
@@ -538,9 +632,9 @@ components:
             * `PAYOUT` – Payment details can be used to [make a
             payout](https://docs.adyen.com/online-payments/online-payouts).
           enum:
-            - ONECLICK
-            - RECURRING
-            - PAYOUT
+          - ONECLICK
+          - RECURRING
+          - PAYOUT
           type: string
         recurringDetailName:
           description: A descriptive name for this detail.
@@ -560,10 +654,10 @@ components:
           x-addedInVersion: '25'
           description: The name of the token service.
           enum:
-            - VISATOKENSERVICE
-            - MCTOKENSERVICE
-            - AMEXTOKENSERVICE
-            - TOKEN_SHARING
+          - VISATOKENSERVICE
+          - MCTOKENSERVICE
+          - AMEXTOKENSERVICE
+          - TOKEN_SHARING
           type: string
       type: object
     ServiceError:
@@ -662,7 +756,7 @@ components:
             ID or account ID).
           type: string
       required:
-        - merchantAccount
+      - merchantAccount
       type: object
     ThreeDSAvailabilityResponse:
       properties:

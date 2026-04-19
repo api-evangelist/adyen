@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/notifications-account-holder-payout-notification-content-structure.json",
+  "description": "AccountHolderPayoutNotificationContent schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountCode": {
+      "description": "The code of the account from which the payout was made.",
+      "type": "string"
+    },
+    "accountHolderCode": {
+      "description": "The code of the Account Holder to which the payout was made.",
+      "type": "string"
+    },
+    "amounts": {
+      "description": "The payout amounts (per currency).",
+      "items": {
+        "$ref": "#/components/schemas/Amount"
+      },
+      "type": "array"
+    },
+    "bankAccountDetail": {
+      "description": "Details of the Bank Account to which the payout was made.",
+      "$ref": "#/components/schemas/BankAccountDetail"
+    },
+    "description": {
+      "description": "A description of the payout.",
+      "type": "string"
+    },
+    "estimatedArrivalDate": {
+      "x-addedInVersion": "5",
+      "description": "The estimated date of arrival.",
+      "$ref": "#/components/schemas/LocalDate"
+    },
+    "invalidFields": {
+      "x-addedInVersion": "5",
+      "description": "Invalid fields list.",
+      "items": {
+        "$ref": "#/components/schemas/ErrorFieldType"
+      },
+      "type": "array"
+    },
+    "merchantReference": {
+      "x-addedInVersion": "2",
+      "description": "The merchant reference.",
+      "type": "string"
+    },
+    "originalPspReference": {
+      "x-addedInVersion": "5",
+      "description": "The PSP reference of the original payout.",
+      "type": "string"
+    },
+    "payoutAccountCountry": {
+      "x-addedInVersion": "6",
+      "description": "The country code of the bank from which the payout was initiated.",
+      "type": "string"
+    },
+    "payoutAccountNumber": {
+      "x-addedInVersion": "6",
+      "description": "The account number of the bank from which the payout was initiated.",
+      "type": "string"
+    },
+    "payoutBalanceAccountId": {
+      "x-addedInVersion": "6",
+      "description": "The balance account id to which payment was made",
+      "type": "string"
+    },
+    "payoutBankName": {
+      "x-addedInVersion": "6",
+      "description": "The name of the bank the payout from which the payout was initiated.",
+      "type": "string"
+    },
+    "payoutBranchCode": {
+      "x-addedInVersion": "6",
+      "description": "The branch code of the bank from which the payout was initiated.",
+      "type": "string"
+    },
+    "payoutReference": {
+      "x-addedInVersion": "6",
+      "description": "The unique payout identifier.",
+      "type": "int64"
+    },
+    "payoutSpeed": {
+      "x-addedInVersion": "5",
+      "description": "Speed with which payouts for this account are processed. Permitted values: `STANDARD`, `SAME_DAY`.",
+      "enum": [
+        "INSTANT",
+        "SAME_DAY",
+        "STANDARD"
+      ],
+      "type": "string"
+    },
+    "status": {
+      "description": "The payout status.",
+      "$ref": "#/components/schemas/OperationStatus"
+    }
+  },
+  "name": "AccountHolderPayoutNotificationContent"
+}

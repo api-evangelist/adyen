@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/accounts-get-account-holder-response-schema.json",
+  "title": "GetAccountHolderResponse",
+  "description": "GetAccountHolderResponse schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountHolderCode": {
+      "description": "The code of the account holder.",
+      "type": "string"
+    },
+    "accountHolderDetails": {
+      "description": "Details of the account holder.",
+      "$ref": "#/components/schemas/AccountHolderDetails"
+    },
+    "accountHolderStatus": {
+      "x-addedInVersion": "2",
+      "description": "The status of the account holder.",
+      "$ref": "#/components/schemas/AccountHolderStatus"
+    },
+    "accounts": {
+      "description": "A list of the accounts under the account holder.",
+      "items": {
+        "$ref": "#/components/schemas/Account"
+      },
+      "type": "array"
+    },
+    "description": {
+      "x-addedInVersion": "4",
+      "description": "The description of the account holder.",
+      "type": "string"
+    },
+    "invalidFields": {
+      "x-addedInVersion": "5",
+      "description": "Contains field validation errors that would prevent requests from being processed.",
+      "items": {
+        "$ref": "#/components/schemas/ErrorFieldType"
+      },
+      "type": "array"
+    },
+    "legalEntity": {
+      "description": "The legal entity of the account holder.",
+      "enum": [
+        "Business",
+        "Individual",
+        "NonProfit",
+        "Partnership",
+        "PublicCompany"
+      ],
+      "type": "string"
+    },
+    "migrationData": {
+      "x-addedInVersion": "5",
+      "description": "Details of the account holder migrated to the balance platform.",
+      "$ref": "#/components/schemas/MigrationData"
+    },
+    "primaryCurrency": {
+      "x-addedInVersion": "4",
+      "description": "The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes), with which the prospective account holder primarily deals.",
+      "type": "string"
+    },
+    "pspReference": {
+      "description": "The reference of a request. Can be used to uniquely identify the request.",
+      "type": "string"
+    },
+    "resultCode": {
+      "description": "The result code.",
+      "type": "string"
+    },
+    "systemUpToDateTime": {
+      "x-addedInVersion": "5",
+      "description": "The time that shows how up to date is the information in the response.",
+      "format": "date-time",
+      "type": "string"
+    },
+    "verification": {
+      "x-addedInVersion": "2",
+      "description": "The details of KYC Verification of the account holder.",
+      "$ref": "#/components/schemas/KYCVerificationResult"
+    },
+    "verificationProfile": {
+      "x-addedInVersion": "6",
+      "description": "The identifier of the profile that applies to this entity.",
+      "type": "string"
+    }
+  }
+}

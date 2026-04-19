@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/management-terminal-assignment-structure.json",
+  "description": "TerminalAssignment schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "companyId": {
+      "description": "The unique identifier of the company account to which terminal is assigned.",
+      "type": "string"
+    },
+    "merchantId": {
+      "description": "The unique identifier of the merchant account to which terminal is assigned.",
+      "type": "string"
+    },
+    "reassignmentTarget": {
+      "description": "Indicates where the terminal is in the process of being reassigned to.",
+      "$ref": "#/components/schemas/TerminalReassignmentTarget"
+    },
+    "status": {
+      "description": "The status of the reassignment. Possible values: \n * `reassignmentInProgress`: the terminal was boarded and is now scheduled to remove the configuration. Wait for the terminal to synchronize with the Adyen platform.\n * `deployed`: the terminal is deployed and reassigned. \n * `inventory`: the terminal is in inventory and cannot process transactions. \n * `boarded`: the terminal is boarded to a store, or a merchant account representing a store, and can process transactions. \n",
+      "enum": [
+        "boarded",
+        "deployed",
+        "inventory",
+        "reassignmentInProgress"
+      ],
+      "type": "string"
+    },
+    "storeId": {
+      "description": "The unique identifier of the store to which terminal is assigned.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "companyId",
+    "status"
+  ],
+  "name": "TerminalAssignment"
+}

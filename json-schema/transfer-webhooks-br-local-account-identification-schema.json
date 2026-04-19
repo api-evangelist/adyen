@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/transfer-webhooks-br-local-account-identification-schema.json",
+  "title": "BRLocalAccountIdentification",
+  "description": "BRLocalAccountIdentification schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountNumber": {
+      "description": "The bank account number, without separators or whitespace.",
+      "maxLength": 10,
+      "minLength": 1,
+      "type": "string"
+    },
+    "bankCode": {
+      "description": "The 3-digit bank code, with leading zeros.",
+      "maxLength": 3,
+      "minLength": 3,
+      "type": "string"
+    },
+    "branchNumber": {
+      "description": "The bank account branch number, without separators or whitespace.",
+      "maxLength": 4,
+      "minLength": 1,
+      "type": "string"
+    },
+    "type": {
+      "default": "brLocal",
+      "description": "**brLocal**",
+      "enum": [
+        "brLocal"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "branchNumber",
+    "accountNumber",
+    "bankCode"
+  ],
+  "additionalProperties": false
+}

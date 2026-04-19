@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/checkout-authentication-data-structure.json",
+  "description": "AuthenticationData schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "attemptAuthentication": {
+      "x-addedInVersion": "69",
+      "description": "Indicates when 3D Secure authentication should be attempted. This overrides all other rules, including [Dynamic 3D Secure settings](https://docs.adyen.com/risk-management/dynamic-3d-secure).\n\nPossible values:\n\n* **always**: Perform 3D Secure authentication.\n* **never**: Don't perform 3D Secure authentication. If PSD2 SCA or other national regulations require authentication, the transaction gets declined.",
+      "enum": [
+        "always",
+        "never"
+      ],
+      "type": "string"
+    },
+    "authenticationOnly": {
+      "x-addedInVersion": "69",
+      "default": false,
+      "description": "If set to true, you will only perform the [3D Secure 2 authentication](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only), and not the payment authorisation.\nDefault: **false**.",
+      "type": "boolean"
+    },
+    "threeDSRequestData": {
+      "x-addedInVersion": "69",
+      "description": "Object with additional parameters for the 3D Secure authentication flow.",
+      "$ref": "#/components/schemas/ThreeDSRequestData"
+    }
+  },
+  "name": "AuthenticationData"
+}

@@ -1,6 +1,6 @@
 openapi: 3.1.0
 servers:
-  - url: https://balanceplatform-api-test.adyen.com/bcl/v2
+- url: https://balanceplatform-api-test.adyen.com/bcl/v2
 info:
   version: '2'
   x-publicVersion: true
@@ -14,25 +14,25 @@ info:
     name: Adyen Developer Experience team
     url: https://github.com/Adyen/adyen-openapi
 tags:
-  - name: accountHolders
-  - name: balanceAccounts
-  - name: balancePlatforms
-  - name: Cardorders
-  - name: grantAccounts
-  - name: grantOffers
-  - name: networkTokens
-  - name: paymentInstrumentGroups
-  - name: paymentInstruments
-  - name: Pins
-  - name: transactionRules
-  - name: transferRoutes
-  - name: validateBankAccountIdentification
+- name: accountHolders
+- name: balanceAccounts
+- name: balancePlatforms
+- name: Cardorders
+- name: grantAccounts
+- name: grantOffers
+- name: networkTokens
+- name: paymentInstrumentGroups
+- name: paymentInstruments
+- name: Pins
+- name: transactionRules
+- name: transferRoutes
+- name: validateBankAccountIdentification
 paths:
   /accountHolders:
     post:
       tags:
-        - accountHolders
-      summary: Adyen Create an account holder
+      - accountHolders
+      summary: Adyen Create an Account Holder
       description: >+
         Creates an account holder linked to a [legal
         entity](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/legalEntities).
@@ -42,9 +42,9 @@ paths:
       x-sortIndex: 1
       x-methodName: createAccountHolder
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -109,27 +109,30 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /accountHolders/{id}:
     get:
       tags:
-        - accountHolders
-      summary: Adyen Get an account holder
+      - accountHolders
+      summary: Adyen Get an Account Holder
       description: Returns an account holder.
       x-addedInVersion: '1'
       operationId: get-accountHolders-id
       x-sortIndex: 3
       x-methodName: getAccountHolder
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the account holder.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the account holder.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -185,10 +188,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     patch:
       tags:
-        - accountHolders
-      summary: Adyen Update an account holder
+      - accountHolders
+      summary: Adyen Update an Account Holder
       description: >-
         Updates an account holder. When updating an account holder resource, if
         a parameter is not provided in the request, it is left unchanged.
@@ -197,9 +203,9 @@ paths:
       x-sortIndex: 2
       x-methodName: updateAccountHolder
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -213,12 +219,12 @@ paths:
             schema:
               $ref: '#/components/schemas/AccountHolderUpdateRequest'
       parameters:
-        - description: The unique identifier of the account holder.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the account holder.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -278,11 +284,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /accountHolders/{id}/balanceAccounts:
     get:
       tags:
-        - accountHolders
-      summary: Adyen Get all balance accounts of an account holder
+      - accountHolders
+      summary: Adyen Get All Balance Accounts of an Account Holder
       description: >-
         Returns a paginated list of the balance accounts associated with an
         account holder. To fetch multiple pages, use the query parameters. 
@@ -295,32 +304,32 @@ paths:
       x-sortIndex: 4
       x-methodName: getAllBalanceAccountsOfAccountHolder
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the account holder.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        - description: The number of items that you want to skip.
-          name: offset
-          in: query
-          required: false
-          schema:
-            format: int32
-            type: integer
-        - description: >-
-            The number of items returned per page, maximum 100 items. By
-            default, the response returns 10 items per page.
-          name: limit
-          in: query
-          required: false
-          schema:
-            format: int32
-            type: integer
+      - description: The unique identifier of the account holder.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The number of items that you want to skip.
+        name: offset
+        in: query
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: >-
+          The number of items returned per page, maximum 100 items. By
+          default, the response returns 10 items per page.
+        name: limit
+        in: query
+        required: false
+        schema:
+          format: int32
+          type: integer
       responses:
         '200':
           content:
@@ -377,11 +386,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /accountHolders/{id}/taxForms:
     get:
       tags:
-        - accountHolders
-      summary: Adyen Get a tax form
+      - accountHolders
+      summary: Adyen Get a Tax Form
       description: >-
         Generates a tax form for account holders operating in the US. For more
         information, refer to [Providing tax
@@ -391,37 +403,37 @@ paths:
       x-sortIndex: 5
       x-methodName: getTaxForm
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the account holder.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        - description: >-
-            The type of tax form you want to retrieve. Accepted values are
-            **US1099k** and **US1099nec**
-          name: formType
-          in: query
-          required: true
-          schema:
-            x-enum:
-              - value: US1099k
-              - value: US1099nec
-            enum:
-              - US1099k
-              - US1099nec
-            type: string
-        - description: The tax year in YYYY format for the tax form you want to retrieve
-          name: year
-          in: query
-          required: true
-          schema:
-            format: int32
-            type: integer
+      - description: The unique identifier of the account holder.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: >-
+          The type of tax form you want to retrieve. Accepted values are
+          **US1099k** and **US1099nec**
+        name: formType
+        in: query
+        required: true
+        schema:
+          x-enum:
+          - value: US1099k
+          - value: US1099nec
+          enum:
+          - US1099k
+          - US1099nec
+          type: string
+      - description: The tax year in YYYY format for the tax form you want to retrieve
+        name: year
+        in: query
+        required: true
+        schema:
+          format: int32
+          type: integer
       responses:
         '200':
           content:
@@ -478,11 +490,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /balanceAccounts:
     post:
       tags:
-        - balanceAccounts
-      summary: Adyen Create a balance account
+      - balanceAccounts
+      summary: Adyen Create a Balance Account
       description: >-
         Creates a balance account that holds the funds of the associated account
         holder.
@@ -491,9 +506,9 @@ paths:
       x-sortIndex: 1
       x-methodName: createBalanceAccount
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -559,11 +574,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /balanceAccounts/{balanceAccountId}/sweeps:
     get:
       tags:
-        - balanceAccounts
-      summary: Adyen Get all sweeps for a balance account
+      - balanceAccounts
+      summary: Adyen Get All Sweeps for a Balance Account
       description: >-
         Returns a list of the sweeps configured for a balance account.
 
@@ -576,32 +594,32 @@ paths:
       x-sortIndex: 7
       x-methodName: getAllSweepsForBalanceAccount
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the balance account.
-          name: balanceAccountId
-          in: path
-          required: true
-          schema:
-            type: string
-        - description: The number of items that you want to skip.
-          name: offset
-          in: query
-          required: false
-          schema:
-            format: int32
-            type: integer
-        - description: >-
-            The number of items returned per page, maximum 100 items. By
-            default, the response returns 10 items per page.
-          name: limit
-          in: query
-          required: false
-          schema:
-            format: int32
-            type: integer
+      - description: The unique identifier of the balance account.
+        name: balanceAccountId
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The number of items that you want to skip.
+        name: offset
+        in: query
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: >-
+          The number of items returned per page, maximum 100 items. By
+          default, the response returns 10 items per page.
+        name: limit
+        in: query
+        required: false
+        schema:
+          format: int32
+          type: integer
       responses:
         '200':
           content:
@@ -658,10 +676,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     post:
       tags:
-        - balanceAccounts
-      summary: Adyen Create a sweep
+      - balanceAccounts
+      summary: Adyen Create a Sweep
       description: >-
         Creates a sweep that results in moving funds from or to a balance
         account.
@@ -674,9 +695,9 @@ paths:
       x-sortIndex: 5
       x-methodName: createSweep
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -693,12 +714,12 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateSweepConfigurationV2'
       parameters:
-        - description: The unique identifier of the balance account.
-          name: balanceAccountId
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the balance account.
+        name: balanceAccountId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -761,33 +782,36 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /balanceAccounts/{balanceAccountId}/sweeps/{sweepId}:
     delete:
       tags:
-        - balanceAccounts
-      summary: Adyen Delete a sweep
+      - balanceAccounts
+      summary: Adyen Delete a Sweep
       description: Deletes a sweep for a balance account.
       x-addedInVersion: '2'
       operationId: delete-balanceAccounts-balanceAccountId-sweeps-sweepId
       x-sortIndex: 9
       x-methodName: deleteSweep
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the balance account.
-          name: balanceAccountId
-          in: path
-          required: true
-          schema:
-            type: string
-        - description: The unique identifier of the sweep.
-          name: sweepId
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the balance account.
+        name: balanceAccountId
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The unique identifier of the sweep.
+        name: sweepId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '204':
           description: >-
@@ -838,32 +862,35 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     get:
       tags:
-        - balanceAccounts
-      summary: Adyen Get a sweep
+      - balanceAccounts
+      summary: Adyen Get a Sweep
       description: Returns a sweep.
       x-addedInVersion: '2'
       operationId: get-balanceAccounts-balanceAccountId-sweeps-sweepId
       x-sortIndex: 8
       x-methodName: getSweep
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the balance account.
-          name: balanceAccountId
-          in: path
-          required: true
-          schema:
-            type: string
-        - description: The unique identifier of the sweep.
-          name: sweepId
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the balance account.
+        name: balanceAccountId
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The unique identifier of the sweep.
+        name: sweepId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -920,10 +947,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     patch:
       tags:
-        - balanceAccounts
-      summary: Adyen Update a sweep
+      - balanceAccounts
+      summary: Adyen Update a Sweep
       description: >-
         Updates a sweep. When updating a sweep resource, note that if a request
         parameter is not provided, the parameter is left unchanged.
@@ -932,9 +962,9 @@ paths:
       x-sortIndex: 6
       x-methodName: updateSweep
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -945,18 +975,18 @@ paths:
             schema:
               $ref: '#/components/schemas/UpdateSweepConfigurationV2'
       parameters:
-        - description: The unique identifier of the balance account.
-          name: balanceAccountId
-          in: path
-          required: true
-          schema:
-            type: string
-        - description: The unique identifier of the sweep.
-          name: sweepId
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the balance account.
+        name: balanceAccountId
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The unique identifier of the sweep.
+        name: sweepId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -1013,11 +1043,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /balanceAccounts/{id}:
     get:
       tags:
-        - balanceAccounts
-      summary: Adyen Get a balance account
+      - balanceAccounts
+      summary: Adyen Get a Balance Account
       description: >-
         Returns a balance account and its balances for the default currency and
         other currencies with a non-zero balance.
@@ -1026,16 +1059,16 @@ paths:
       x-sortIndex: 3
       x-methodName: getBalanceAccount
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the balance account.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the balance account.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -1091,19 +1124,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     patch:
       tags:
-        - balanceAccounts
-      summary: Adyen Update a balance account
+      - balanceAccounts
+      summary: Adyen Update a Balance Account
       description: Updates a balance account.
       x-addedInVersion: '1'
       operationId: patch-balanceAccounts-id
       x-sortIndex: 2
       x-methodName: updateBalanceAccount
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -1114,12 +1150,12 @@ paths:
             schema:
               $ref: '#/components/schemas/BalanceAccountUpdateRequest'
       parameters:
-        - description: The unique identifier of the balance account.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the balance account.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -1176,11 +1212,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /balanceAccounts/{id}/paymentInstruments:
     get:
       tags:
-        - balanceAccounts
-      summary: Adyen Get payment instruments linked to a balance account
+      - balanceAccounts
+      summary: Adyen Get Payment Instruments Linked to a Balance Account
       description: >-
         Returns a paginated list of the payment instruments associated with a
         balance account. 
@@ -1195,40 +1234,40 @@ paths:
       x-sortIndex: 4
       x-methodName: getPaymentInstrumentsLinkedToBalanceAccount
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the balance account.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        - description: The number of items that you want to skip.
-          name: offset
-          in: query
-          required: false
-          schema:
-            format: int32
-            type: integer
-        - description: >-
-            The number of items returned per page, maximum 100 items. By
-            default, the response returns 10 items per page.
-          name: limit
-          in: query
-          required: false
-          schema:
-            format: int32
-            type: integer
-        - description: >-
-            The status of the payment instruments that you want to get. By
-            default, the response includes payment instruments with any status.
-          name: status
-          in: query
-          required: false
-          schema:
-            type: string
+      - description: The unique identifier of the balance account.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The number of items that you want to skip.
+        name: offset
+        in: query
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: >-
+          The number of items returned per page, maximum 100 items. By
+          default, the response returns 10 items per page.
+        name: limit
+        in: query
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: >-
+          The status of the payment instruments that you want to get. By
+          default, the response includes payment instruments with any status.
+        name: status
+        in: query
+        required: false
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -1285,27 +1324,30 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /balancePlatforms/{id}:
     get:
       tags:
-        - balancePlatforms
-      summary: Adyen Get a balance platform
+      - balancePlatforms
+      summary: Adyen Get a Balance Platform
       description: Returns a balance platform.
       x-addedInVersion: '1'
       operationId: get-balancePlatforms-id
       x-sortIndex: 1
       x-methodName: getBalancePlatform
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the balance platform.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the balance platform.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -1361,11 +1403,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /balancePlatforms/{id}/accountHolders:
     get:
       tags:
-        - balancePlatforms
-      summary: Adyen Get all account holders under a balance platform
+      - balancePlatforms
+      summary: Adyen Get All Account Holders Under a Balance Platform
       description: >-
         Returns a paginated list of all the account holders that belong to the
         balance platform. To fetch multiple pages, use the query parameters. 
@@ -1378,32 +1423,32 @@ paths:
       x-sortIndex: 2
       x-methodName: getAllAccountHoldersUnderBalancePlatform
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the balance platform.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        - description: The number of items that you want to skip.
-          name: offset
-          in: query
-          required: false
-          schema:
-            format: int32
-            type: integer
-        - description: >-
-            The number of items returned per page, maximum 100 items. By
-            default, the response returns 10 items per page.
-          name: limit
-          in: query
-          required: false
-          schema:
-            format: int32
-            type: integer
+      - description: The unique identifier of the balance platform.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The number of items that you want to skip.
+        name: offset
+        in: query
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: >-
+          The number of items returned per page, maximum 100 items. By
+          default, the response returns 10 items per page.
+        name: limit
+        in: query
+        required: false
+        schema:
+          format: int32
+          type: integer
       responses:
         '200':
           content:
@@ -1460,117 +1505,120 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /cardorders:
     get:
       tags:
-        - Cardorders
-      summary: Adyen Get a list of card orders
+      - Cardorders
+      summary: Adyen Get a List of Card Orders
       description: Returns a paginated list of card orders.
       x-addedInVersion: '1'
       operationId: get-cardorders
       x-sortIndex: 1
       x-methodName: listCardOrders
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: 'The unique identifier of the card order. '
-          name: id
-          in: query
-          required: false
-          schema:
-            type: string
-        - description: The unique identifier of the card manufacturer profile.
-          name: cardManufacturingProfileId
-          in: query
-          required: false
-          schema:
-            type: string
-        - description: The status of the card order.
-          name: status
-          in: query
-          required: false
-          schema:
-            type: string
-        - description: |-
-            The unique code of the card manufacturer profile.
+      - description: 'The unique identifier of the card order. '
+        name: id
+        in: query
+        required: false
+        schema:
+          type: string
+      - description: The unique identifier of the card manufacturer profile.
+        name: cardManufacturingProfileId
+        in: query
+        required: false
+        schema:
+          type: string
+      - description: The status of the card order.
+        name: status
+        in: query
+        required: false
+        schema:
+          type: string
+      - description: |-
+          The unique code of the card manufacturer profile.
 
-            Possible values: **mcmaestro**, **mc**, **visa**, **mcdebit**. 
-          name: txVariantCode
-          in: query
-          required: false
-          schema:
-            type: string
-        - description: >-
-            Only include card orders that have been created on or after this
-            point in time. The value must be in ISO 8601 format. For example,
-            **2021-05-30T15:07:40Z**.
-          name: createdSince
-          in: query
-          required: false
-          schema:
-            format: date-time
-            type: string
-        - description: >-
-            Only include card orders that have been created on or before this
-            point in time. The value must be in ISO 8601 format. For example,
-            **2021-05-30T15:07:40Z**.
-          name: createdUntil
-          in: query
-          required: false
-          schema:
-            format: date-time
-            type: string
-        - description: >-
-            Only include card orders that have been locked on or after this
-            point in time. The value must be in ISO 8601 format. For example,
-            **2021-05-30T15:07:40Z**.
-          name: lockedSince
-          in: query
-          required: false
-          schema:
-            format: date-time
-            type: string
-        - description: >-
-            Only include card orders that have been locked on or before this
-            point in time. The value must be in ISO 8601 format. For example,
-            **2021-05-30T15:07:40Z**.
-          name: lockedUntil
-          in: query
-          required: false
-          schema:
-            format: date-time
-            type: string
-        - description: >-
-            The service center at which the card is issued. The value is
-            case-sensitive. 
-          name: serviceCenter
-          in: query
-          required: false
-          schema:
-            type: string
-        - description: >-
-            Specifies the position of an element in a list of card orders. The
-            response includes a list of card orders that starts at the specified
-            offset.
+          Possible values: **mcmaestro**, **mc**, **visa**, **mcdebit**. 
+        name: txVariantCode
+        in: query
+        required: false
+        schema:
+          type: string
+      - description: >-
+          Only include card orders that have been created on or after this
+          point in time. The value must be in ISO 8601 format. For example,
+          **2021-05-30T15:07:40Z**.
+        name: createdSince
+        in: query
+        required: false
+        schema:
+          format: date-time
+          type: string
+      - description: >-
+          Only include card orders that have been created on or before this
+          point in time. The value must be in ISO 8601 format. For example,
+          **2021-05-30T15:07:40Z**.
+        name: createdUntil
+        in: query
+        required: false
+        schema:
+          format: date-time
+          type: string
+      - description: >-
+          Only include card orders that have been locked on or after this
+          point in time. The value must be in ISO 8601 format. For example,
+          **2021-05-30T15:07:40Z**.
+        name: lockedSince
+        in: query
+        required: false
+        schema:
+          format: date-time
+          type: string
+      - description: >-
+          Only include card orders that have been locked on or before this
+          point in time. The value must be in ISO 8601 format. For example,
+          **2021-05-30T15:07:40Z**.
+        name: lockedUntil
+        in: query
+        required: false
+        schema:
+          format: date-time
+          type: string
+      - description: >-
+          The service center at which the card is issued. The value is
+          case-sensitive. 
+        name: serviceCenter
+        in: query
+        required: false
+        schema:
+          type: string
+      - description: >-
+          Specifies the position of an element in a list of card orders. The
+          response includes a list of card orders that starts at the specified
+          offset.
 
 
-            **Default:** 0, which means that the response contains all the
-            elements in the list of card orders.
-          name: offset
-          in: query
-          required: false
-          schema:
-            format: int32
-            type: integer
-        - description: The number of card orders returned per page. **Default:** 10.
-          name: limit
-          in: query
-          required: false
-          schema:
-            format: int32
-            type: integer
+          **Default:** 0, which means that the response contains all the
+          elements in the list of card orders.
+        name: offset
+        in: query
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: The number of card orders returned per page. **Default:** 10.
+        name: limit
+        in: query
+        required: false
+        schema:
+          format: int32
+          type: integer
       responses:
         '200':
           content:
@@ -1617,48 +1665,51 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /cardorders/{id}/items:
     get:
       tags:
-        - Cardorders
-      summary: Adyen Get card order items
+      - Cardorders
+      summary: Adyen Get Card Order Items
       description: Returns the item list of a specific card order.
       x-addedInVersion: '1'
       operationId: get-cardorders-id-items
       x-sortIndex: 2
       x-methodName: getCardOrderItems
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the card order.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        - description: >-
-            Specifies the position of an element in a list of card orders. The
-            response includes a list of card order items that starts at the
-            specified offset.
+      - description: The unique identifier of the card order.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: >-
+          Specifies the position of an element in a list of card orders. The
+          response includes a list of card order items that starts at the
+          specified offset.
 
 
-            **Default:** 0, which means that the response contains all the
-            elements in the list of card order items.
-          name: offset
-          in: query
-          required: false
-          schema:
-            format: int32
-            type: integer
-        - description: The number of card order items returned per page. **Default:** 10.
-          name: limit
-          in: query
-          required: false
-          schema:
-            format: int32
-            type: integer
+          **Default:** 0, which means that the response contains all the
+          elements in the list of card order items.
+        name: offset
+        in: query
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: The number of card order items returned per page. **Default:** 10.
+        name: limit
+        in: query
+        required: false
+        schema:
+          format: int32
+          type: integer
       responses:
         '200':
           content:
@@ -1705,11 +1756,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /grantAccounts/{id}:
     get:
       tags:
-        - grantAccounts
-      summary: Adyen Get a grant account
+      - grantAccounts
+      summary: Adyen Get a Grant Account
       description: >-
         Returns the details of the [grant
         account](https://docs.adyen.com/marketplaces-and-platforms/capital#grant-account).
@@ -1718,22 +1772,33 @@ paths:
       x-sortIndex: 1
       x-methodName: getGrantAccount
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the grant account.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the grant account.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CapitalGrantAccount'
+              examples:
+                get-grantAccounts-id200Example:
+                  summary: Default get-grantAccounts-id 200 response
+                  x-microcks-default: true
+                  value:
+                    balances:
+                    - example_value
+                    fundingBalanceAccountId: '500123'
+                    id: '500123'
+                    limits:
+                    - example_value
           description: OK - the request has succeeded.
         '400':
           content:
@@ -1780,11 +1845,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /grantOffers:
     get:
       tags:
-        - grantOffers
-      summary: Adyen Get all available grant offers
+      - grantOffers
+      summary: Adyen Get All Available Grant Offers
       description: >-
         Returns a list of all [grant
         offers](https://docs.adyen.com/marketplaces-and-platforms/capital#grant-offers)
@@ -1794,22 +1862,29 @@ paths:
       x-sortIndex: 1
       x-methodName: getAllAvailableGrantOffers
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the grant account.
-          name: accountHolderId
-          in: query
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the grant account.
+        name: accountHolderId
+        in: query
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GrantOffers'
+              examples:
+                get-grantOffers200Example:
+                  summary: Default get-grantOffers 200 response
+                  x-microcks-default: true
+                  value:
+                    grantOffers:
+                    - example_value
           description: OK - the request has succeeded.
         '400':
           content:
@@ -1856,33 +1931,49 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /grantOffers/{grantOfferId}:
     get:
       tags:
-        - grantOffers
-      summary: Adyen Get a grant offer
+      - grantOffers
+      summary: Adyen Get a Grant Offer
       description: Returns the details of a single grant offer.
       x-addedInVersion: '2'
       operationId: get-grantOffers-grantOfferId
       x-sortIndex: 1
       x-methodName: getGrantOffer
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the grant offer.
-          name: grantOfferId
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the grant offer.
+        name: grantOfferId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GrantOffer'
+              examples:
+                get-grantOffers-grantOfferId200Example:
+                  summary: Default get-grantOffers-grantOfferId 200 response
+                  x-microcks-default: true
+                  value:
+                    accountHolderId: '500123'
+                    amount: 1000
+                    contractType: cashAdvance
+                    expiresAt: '2025-03-15T14:30:00Z'
+                    fee: example_value
+                    id: '500123'
+                    repayment: example_value
+                    startsAt: '2025-03-15T14:30:00Z'
           description: OK - the request has succeeded.
         '400':
           content:
@@ -1929,33 +2020,42 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /networkTokens/{networkTokenId}:
     get:
       tags:
-        - networkTokens
-      summary: Adyen Get a network token
+      - networkTokens
+      summary: Adyen Get a Network Token
       description: Returns the details of a network token.
       x-addedInVersion: '1'
       operationId: get-networkTokens-networkTokenId
       x-sortIndex: 1
       x-methodName: getNetworkToken
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the network token.
-          name: networkTokenId
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the network token.
+        name: networkTokenId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetNetworkTokenResponse'
+              examples:
+                get-networkTokens-networkTokenId200Example:
+                  summary: Default get-networkTokens-networkTokenId 200 response
+                  x-microcks-default: true
+                  value:
+                    token: example_value
           description: OK - the request has succeeded.
         '401':
           content:
@@ -1993,31 +2093,34 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     patch:
       tags:
-        - networkTokens
-      summary: Adyen Update a network token
+      - networkTokens
+      summary: Adyen Update a Network Token
       description: Updates the status of the network token.
       x-addedInVersion: '1'
       operationId: patch-networkTokens-networkTokenId
       x-sortIndex: 2
       x-methodName: updateNetworkToken
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdateNetworkTokenRequest'
       parameters:
-        - description: The unique identifier of the network token.
-          name: networkTokenId
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the network token.
+        name: networkTokenId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '202':
           description: >-
@@ -2059,11 +2162,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /paymentInstrumentGroups:
     post:
       tags:
-        - paymentInstrumentGroups
-      summary: Adyen Create a payment instrument group
+      - paymentInstrumentGroups
+      summary: Adyen Create a Payment Instrument Group
       description: >-
         Creates a payment instrument group to associate and group payment
         instrument resources together. You can apply a transaction rule to a
@@ -2073,9 +2179,9 @@ paths:
       x-sortIndex: 1
       x-methodName: createPaymentInstrumentGroup
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -2141,27 +2247,30 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /paymentInstrumentGroups/{id}:
     get:
       tags:
-        - paymentInstrumentGroups
-      summary: Adyen Get a payment instrument group
+      - paymentInstrumentGroups
+      summary: Adyen Get a Payment Instrument Group
       description: Returns the details of a payment instrument group.
       x-addedInVersion: '1'
       operationId: get-paymentInstrumentGroups-id
       x-sortIndex: 2
       x-methodName: getPaymentInstrumentGroup
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the payment instrument group.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the payment instrument group.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -2218,11 +2327,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /paymentInstrumentGroups/{id}/transactionRules:
     get:
       tags:
-        - paymentInstrumentGroups
-      summary: Adyen Get all transaction rules for a payment instrument group
+      - paymentInstrumentGroups
+      summary: Adyen Get All Transaction Rules for a Payment Instrument Group
       description: >-
         Returns a list of all the transaction rules associated with a payment
         instrument group.
@@ -2231,16 +2343,16 @@ paths:
       x-sortIndex: 3
       x-methodName: getAllTransactionRulesForPaymentInstrumentGroup
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the payment instrument group.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the payment instrument group.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -2297,11 +2409,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /paymentInstruments:
     post:
       tags:
-        - paymentInstruments
-      summary: Adyen Create a payment instrument
+      - paymentInstruments
+      summary: Adyen Create a Payment Instrument
       description: >-
         Creates a payment instrument to issue a physical card, a virtual card,
         or a business account to your user.
@@ -2312,9 +2427,9 @@ paths:
       x-sortIndex: 11
       x-methodName: createPaymentInstrument
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -2398,27 +2513,30 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /paymentInstruments/{id}:
     get:
       tags:
-        - paymentInstruments
-      summary: Adyen Get a payment instrument
+      - paymentInstruments
+      summary: Adyen Get a Payment Instrument
       description: Returns the details of a payment instrument.
       x-addedInVersion: '1'
       operationId: get-paymentInstruments-id
       x-sortIndex: 13
       x-methodName: getPaymentInstrument
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the payment instrument.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the payment instrument.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -2474,10 +2592,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     patch:
       tags:
-        - paymentInstruments
-      summary: Adyen Update a payment instrument
+      - paymentInstruments
+      summary: Adyen Update a Payment Instrument
       description: >-
         Updates a payment instrument. Once a payment instrument is already
         active, you can only update its status. However, for cards created with
@@ -2488,9 +2609,9 @@ paths:
       x-sortIndex: 12
       x-methodName: updatePaymentInstrument
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -2504,12 +2625,12 @@ paths:
             schema:
               $ref: '#/components/schemas/PaymentInstrumentUpdateRequest'
       parameters:
-        - description: The unique identifier of the payment instrument.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the payment instrument.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -2569,33 +2690,43 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /paymentInstruments/{id}/networkTokens:
     get:
       tags:
-        - paymentInstruments
-      summary: Adyen List network tokens
+      - paymentInstruments
+      summary: Adyen List Network Tokens
       description: List the network tokens connected to a payment instrument.
       x-addedInVersion: '1'
       operationId: get-paymentInstruments-id-networkTokens
       x-sortIndex: 15
       x-methodName: listNetworkTokens
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the payment instrument.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the payment instrument.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListNetworkTokensResponse'
+              examples:
+                get-paymentInstruments-id-networkTokens200Example:
+                  summary: Default get-paymentInstruments-id-networkTokens 200 response
+                  x-microcks-default: true
+                  value:
+                    networkTokens:
+                    - example_value
           description: OK - the request has succeeded.
         '400':
           content:
@@ -2642,11 +2773,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /paymentInstruments/{id}/reveal:
     get:
       tags:
-        - paymentInstruments
-      summary: Adyen Get the PAN of a payment instrument
+      - paymentInstruments
+      summary: Adyen Get the PAN of a Payment Instrument
       description: >-
         Returns the primary account number (PAN) of a payment instrument.
 
@@ -2661,16 +2795,16 @@ paths:
       x-sortIndex: 14
       x-methodName: getPanOfPaymentInstrument
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the payment instrument.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the payment instrument.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -2727,11 +2861,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /paymentInstruments/{id}/transactionRules:
     get:
       tags:
-        - paymentInstruments
-      summary: Adyen Get all transaction rules for a payment instrument
+      - paymentInstruments
+      summary: Adyen Get All Transaction Rules for a Payment Instrument
       description: >-
         Returns a list of transaction rules associated with a payment
         instrument.
@@ -2740,16 +2877,16 @@ paths:
       x-sortIndex: 14
       x-methodName: getAllTransactionRulesForPaymentInstrument
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the payment instrument.
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the payment instrument.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -2806,10 +2943,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /pins/change:
     post:
       tags:
-        - Pins
+      - Pins
       summary: Adyen Change Pin
       description: Change Pin
       x-addedInVersion: '1'
@@ -2817,9 +2957,9 @@ paths:
       x-sortIndex: 2
       x-methodName: changePin
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -2831,6 +2971,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PinChangeResponse'
+              examples:
+                post-pins-change200Example:
+                  summary: Default post-pins-change 200 response
+                  x-microcks-default: true
+                  value:
+                    status: completed
           description: OK - the request has succeeded.
         '401':
           content:
@@ -2868,39 +3014,49 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /pins/publicKey:
     get:
       tags:
-        - Pins
-      summary: Adyen Get RSA publicKey
+      - Pins
+      summary: Adyen Get RSA PublicKey
       description: Get RSA publicKey
       x-addedInVersion: '1'
       operationId: get-pins-publicKey
       x-sortIndex: 1
       x-methodName: getRsaPublickey
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: Purpose of publicKey.
-          name: purpose
-          in: query
-          required: false
-          schema:
-            type: string
-        - description: Format of publicKey.
-          name: format
-          in: query
-          required: false
-          schema:
-            type: string
+      - description: Purpose of publicKey.
+        name: purpose
+        in: query
+        required: false
+        schema:
+          type: string
+      - description: Format of publicKey.
+        name: format
+        in: query
+        required: false
+        schema:
+          type: string
       responses:
         '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PublicKeyResponse'
+              examples:
+                get-pins-publicKey200Example:
+                  summary: Default get-pins-publicKey 200 response
+                  x-microcks-default: true
+                  value:
+                    publicKey: example_value
+                    publicKeyExpiryDate: example_value
           description: OK - the request has succeeded.
         '401':
           content:
@@ -2938,10 +3094,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /pins/reveal:
     post:
       tags:
-        - Pins
+      - Pins
       summary: Adyen Reveal Pin
       description: Reveal Pin
       x-addedInVersion: '1'
@@ -2949,9 +3108,9 @@ paths:
       x-sortIndex: 2
       x-methodName: revealPin
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -2963,6 +3122,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RevealPinResponse'
+              examples:
+                post-pins-reveal200Example:
+                  summary: Default post-pins-reveal 200 response
+                  x-microcks-default: true
+                  value:
+                    encryptedPinBlock: example_value
+                    token: example_value
           description: OK - the request has succeeded.
         '401':
           content:
@@ -3000,11 +3166,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /transactionRules:
     post:
       tags:
-        - transactionRules
-      summary: Adyen Create a transaction rule
+      - transactionRules
+      summary: Adyen Create a Transaction Rule
       description: >-
         Creates a [transaction
         rule](https://docs.adyen.com/issuing/transaction-rules). When your user
@@ -3019,9 +3188,9 @@ paths:
       x-sortIndex: 1
       x-methodName: createTransactionRule
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -3105,27 +3274,30 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /transactionRules/{transactionRuleId}:
     delete:
       tags:
-        - transactionRules
-      summary: Adyen Delete a transaction rule
+      - transactionRules
+      summary: Adyen Delete a Transaction Rule
       description: Deletes a transaction rule.
       x-addedInVersion: '1'
       operationId: delete-transactionRules-transactionRuleId
       x-sortIndex: 5
       x-methodName: deleteTransactionRule
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the transaction rule.
-          name: transactionRuleId
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the transaction rule.
+        name: transactionRuleId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -3182,26 +3354,29 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     get:
       tags:
-        - transactionRules
-      summary: Adyen Get a transaction rule
+      - transactionRules
+      summary: Adyen Get a Transaction Rule
       description: Returns the details of a transaction rule.
       x-addedInVersion: '1'
       operationId: get-transactionRules-transactionRuleId
       x-sortIndex: 2
       x-methodName: getTransactionRule
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       parameters:
-        - description: The unique identifier of the transaction rule.
-          name: transactionRuleId
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the transaction rule.
+        name: transactionRuleId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -3258,10 +3433,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     patch:
       tags:
-        - transactionRules
-      summary: Adyen Update a transaction rule
+      - transactionRules
+      summary: Adyen Update a Transaction Rule
       description: >-
         Updates a transaction rule. 
 
@@ -3279,9 +3457,9 @@ paths:
       x-sortIndex: 3
       x-methodName: updateTransactionRule
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -3292,12 +3470,12 @@ paths:
             schema:
               $ref: '#/components/schemas/TransactionRuleInfo'
       parameters:
-        - description: The unique identifier of the transaction rule.
-          name: transactionRuleId
-          in: path
-          required: true
-          schema:
-            type: string
+      - description: The unique identifier of the transaction rule.
+        name: transactionRuleId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -3354,11 +3532,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /transferRoutes/calculate:
     post:
       tags:
-        - transferRoutes
-      summary: Adyen Calculate transfer routes
+      - transferRoutes
+      summary: Adyen Calculate Transfer Routes
       description: >-
         Returns available transfer routes based on a combination of transfer
         `country`, `currency`, `counterparty`, and `priorities`. Use this
@@ -3370,9 +3551,9 @@ paths:
       x-sortIndex: 1
       x-methodName: calculateTransferRoutes
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -3429,11 +3610,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /validateBankAccountIdentification:
     post:
       tags:
-        - validateBankAccountIdentification
-      summary: Adyen Validate a bank account
+      - validateBankAccountIdentification
+      summary: Adyen Validate a Bank Account
       description: >-
         Validates bank account identification details. You can use this endpoint
         to validate bank account details before you [make a
@@ -3445,9 +3629,9 @@ paths:
       x-sortIndex: 1
       x-methodName: validateBankAccountIdentification
       security:
-        - clientKey: []
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -3507,6 +3691,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/RestServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   schemas:
     AULocalAccountIdentification:
@@ -3529,12 +3716,12 @@ components:
           default: auLocal
           description: '**auLocal**'
           enum:
-            - auLocal
+          - auLocal
           type: string
       required:
-        - type
-        - accountNumber
-        - bsbCode
+      - type
+      - accountNumber
+      - bsbCode
       type: object
     AccountHolder:
       properties:
@@ -3619,10 +3806,10 @@ components:
             * **closed**: The account holder is permanently deactivated by you.
             This action cannot be undone.
           enum:
-            - active
-            - closed
-            - inactive
-            - suspended
+          - active
+          - closed
+          - inactive
+          - suspended
           type: string
         timeZone:
           description: >-
@@ -3642,8 +3829,8 @@ components:
           readOnly: true
           type: array
       required:
-        - legalEntityId
-        - id
+      - legalEntityId
+      - id
       type: object
     AccountHolderCapability:
       properties:
@@ -3660,10 +3847,10 @@ components:
 
             Possible values: **notApplicable**, **low**, **medium**, **high**.
           enum:
-            - high
-            - low
-            - medium
-            - notApplicable
+          - high
+          - low
+          - medium
+          - notApplicable
           readOnly: true
           type: string
         allowedSettings:
@@ -3702,10 +3889,10 @@ components:
 
             Possible values: **notApplicable**, **low**, **medium**, **high**.
           enum:
-            - high
-            - low
-            - medium
-            - notApplicable
+          - high
+          - low
+          - medium
+          - notApplicable
           type: string
         requestedSettings:
           description: >-
@@ -3742,10 +3929,10 @@ components:
             * **rejected**: Adyen has verified the information, but found
             reasons to not allow the capability.
           enum:
-            - invalid
-            - pending
-            - rejected
-            - valid
+          - invalid
+          - pending
+          - rejected
+          - valid
           readOnly: true
           type: string
       type: object
@@ -3815,7 +4002,7 @@ components:
             codes](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
           type: string
       required:
-        - legalEntityId
+      - legalEntityId
       type: object
     AccountHolderUpdateRequest:
       properties:
@@ -3889,10 +4076,10 @@ components:
             * **closed**: The account holder is permanently deactivated by you.
             This action cannot be undone.
           enum:
-            - active
-            - closed
-            - inactive
-            - suspended
+          - active
+          - closed
+          - inactive
+          - suspended
           type: string
         timeZone:
           description: >-
@@ -3927,10 +4114,10 @@ components:
 
             Possible values: **notApplicable**, **low**, **medium**, **high**.
           enum:
-            - high
-            - low
-            - medium
-            - notApplicable
+          - high
+          - low
+          - medium
+          - notApplicable
           readOnly: true
           type: string
         enabled:
@@ -3959,10 +4146,10 @@ components:
 
             Possible values: **notApplicable**, **low**, **medium**, **high**.
           enum:
-            - high
-            - low
-            - medium
-            - notApplicable
+          - high
+          - low
+          - medium
+          - notApplicable
           type: string
         verificationStatus:
           description: >
@@ -3986,10 +4173,10 @@ components:
             * **rejected**: Adyen has verified the information, but found
             reasons to not allow the capability.
           enum:
-            - invalid
-            - pending
-            - rejected
-            - valid
+          - invalid
+          - pending
+          - rejected
+          - valid
           readOnly: true
           type: string
       type: object
@@ -4003,7 +4190,7 @@ components:
           format: int32
           type: integer
       required:
-        - operation
+      - operation
       type: object
     AdditionalBankIdentification:
       properties:
@@ -4021,8 +4208,8 @@ components:
              * **gbSortCode**: The 6-digit [UK sort code](https://en.wikipedia.org/wiki/Sort_code), without separators or spaces
              * **usRoutingNumber**: The 9-digit [routing number](https://en.wikipedia.org/wiki/ABA_routing_transit_number), without separators or spaces.
           enum:
-            - gbSortCode
-            - usRoutingNumber
+          - gbSortCode
+          - usRoutingNumber
           type: string
       type: object
     Address:
@@ -4064,11 +4251,11 @@ components:
           maxLength: 3000
           type: string
       required:
-        - street
-        - houseNumberOrName
-        - city
-        - postalCode
-        - country
+      - street
+      - houseNumberOrName
+      - city
+      - postalCode
+      - country
       type: object
     AddressRequirement:
       additionalProperties: false
@@ -4082,21 +4269,21 @@ components:
           description: List of address fields.
           items:
             enum:
-              - city
-              - country
-              - line1
-              - postalCode
-              - stateOrProvince
+            - city
+            - country
+            - line1
+            - postalCode
+            - stateOrProvince
             type: string
           type: array
         type:
           default: addressRequirement
           description: '**addressRequirement**'
           enum:
-            - addressRequirement
+          - addressRequirement
           type: string
       required:
-        - type
+      - type
       type: object
     Amount:
       properties:
@@ -4114,8 +4301,8 @@ components:
           format: int64
           type: integer
       required:
-        - value
-        - currency
+      - value
+      - currency
       type: object
     AmountMinMaxRequirement:
       additionalProperties: false
@@ -4135,10 +4322,10 @@ components:
           default: amountMinMaxRequirement
           description: '**amountMinMaxRequirement**'
           enum:
-            - amountMinMaxRequirement
+          - amountMinMaxRequirement
           type: string
       required:
-        - type
+      - type
       type: object
     Authentication:
       properties:
@@ -4196,13 +4383,13 @@ components:
           default: brLocal
           description: '**brLocal**'
           enum:
-            - brLocal
+          - brLocal
           type: string
       required:
-        - type
-        - branchNumber
-        - accountNumber
-        - bankCode
+      - type
+      - branchNumber
+      - accountNumber
+      - bankCode
       type: object
     Balance:
       properties:
@@ -4233,10 +4420,10 @@ components:
           format: int64
           type: integer
       required:
-        - currency
-        - balance
-        - reserved
-        - available
+      - currency
+      - balance
+      - reserved
+      - available
       type: object
     BalanceAccount:
       properties:
@@ -4304,10 +4491,10 @@ components:
           description: |
             The status of the balance account, set to **active** by default. 
           enum:
-            - active
-            - closed
-            - inactive
-            - suspended
+          - active
+          - closed
+          - inactive
+          - suspended
           type: string
         timeZone:
           description: >-
@@ -4319,8 +4506,8 @@ components:
             codes](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
           type: string
       required:
-        - accountHolderId
-        - id
+      - accountHolderId
+      - id
       type: object
     BalanceAccountBase:
       properties:
@@ -4383,10 +4570,10 @@ components:
           description: |
             The status of the balance account, set to **active** by default. 
           enum:
-            - active
-            - closed
-            - inactive
-            - suspended
+          - active
+          - closed
+          - inactive
+          - suspended
           type: string
         timeZone:
           description: >-
@@ -4398,8 +4585,8 @@ components:
             codes](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
           type: string
       required:
-        - accountHolderId
-        - id
+      - accountHolderId
+      - id
       type: object
     BalanceAccountInfo:
       properties:
@@ -4465,7 +4652,7 @@ components:
             codes](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
           type: string
       required:
-        - accountHolderId
+      - accountHolderId
       type: object
     BalanceAccountUpdateRequest:
       properties:
@@ -4514,10 +4701,10 @@ components:
             Possible values: **active**, **inactive**, **closed**,
             **suspended**.
           enum:
-            - active
-            - closed
-            - inactive
-            - suspended
+          - active
+          - closed
+          - inactive
+          - suspended
           type: string
         timeZone:
           description: >-
@@ -4547,7 +4734,7 @@ components:
             **Suspended**.
           type: string
       required:
-        - id
+      - id
       type: object
     BalanceSweepConfigurationsResponse:
       properties:
@@ -4563,9 +4750,9 @@ components:
             $ref: '#/components/schemas/SweepConfigurationV2'
           type: array
       required:
-        - sweeps
-        - hasPrevious
-        - hasNext
+      - sweeps
+      - hasPrevious
+      - hasNext
       type: object
     BankAccount:
       properties:
@@ -4575,24 +4762,24 @@ components:
             object depend on the country of the bank account and the currency of
             the transfer.
           oneOf:
-            - $ref: '#/components/schemas/AULocalAccountIdentification'
-            - $ref: '#/components/schemas/BRLocalAccountIdentification'
-            - $ref: '#/components/schemas/CALocalAccountIdentification'
-            - $ref: '#/components/schemas/CZLocalAccountIdentification'
-            - $ref: '#/components/schemas/DKLocalAccountIdentification'
-            - $ref: '#/components/schemas/HKLocalAccountIdentification'
-            - $ref: '#/components/schemas/HULocalAccountIdentification'
-            - $ref: '#/components/schemas/IbanAccountIdentification'
-            - $ref: '#/components/schemas/NOLocalAccountIdentification'
-            - $ref: '#/components/schemas/NZLocalAccountIdentification'
-            - $ref: '#/components/schemas/NumberAndBicAccountIdentification'
-            - $ref: '#/components/schemas/PLLocalAccountIdentification'
-            - $ref: '#/components/schemas/SELocalAccountIdentification'
-            - $ref: '#/components/schemas/SGLocalAccountIdentification'
-            - $ref: '#/components/schemas/UKLocalAccountIdentification'
-            - $ref: '#/components/schemas/USLocalAccountIdentification'
+          - $ref: '#/components/schemas/AULocalAccountIdentification'
+          - $ref: '#/components/schemas/BRLocalAccountIdentification'
+          - $ref: '#/components/schemas/CALocalAccountIdentification'
+          - $ref: '#/components/schemas/CZLocalAccountIdentification'
+          - $ref: '#/components/schemas/DKLocalAccountIdentification'
+          - $ref: '#/components/schemas/HKLocalAccountIdentification'
+          - $ref: '#/components/schemas/HULocalAccountIdentification'
+          - $ref: '#/components/schemas/IbanAccountIdentification'
+          - $ref: '#/components/schemas/NOLocalAccountIdentification'
+          - $ref: '#/components/schemas/NZLocalAccountIdentification'
+          - $ref: '#/components/schemas/NumberAndBicAccountIdentification'
+          - $ref: '#/components/schemas/PLLocalAccountIdentification'
+          - $ref: '#/components/schemas/SELocalAccountIdentification'
+          - $ref: '#/components/schemas/SGLocalAccountIdentification'
+          - $ref: '#/components/schemas/UKLocalAccountIdentification'
+          - $ref: '#/components/schemas/USLocalAccountIdentification'
       required:
-        - accountIdentification
+      - accountIdentification
       type: object
     BankAccountIdentificationTypeRequirement:
       additionalProperties: false
@@ -4603,23 +4790,23 @@ components:
             numberAndBic]
           items:
             enum:
-              - auLocal
-              - brLocal
-              - caLocal
-              - czLocal
-              - dkLocal
-              - hkLocal
-              - huLocal
-              - iban
-              - legacy
-              - noLocal
-              - numberAndBic
-              - nzLocal
-              - plLocal
-              - seLocal
-              - sgLocal
-              - ukLocal
-              - usLocal
+            - auLocal
+            - brLocal
+            - caLocal
+            - czLocal
+            - dkLocal
+            - hkLocal
+            - huLocal
+            - iban
+            - legacy
+            - noLocal
+            - numberAndBic
+            - nzLocal
+            - plLocal
+            - seLocal
+            - sgLocal
+            - ukLocal
+            - usLocal
             type: string
           type: array
         description:
@@ -4632,34 +4819,34 @@ components:
           default: bankAccountIdentificationTypeRequirement
           description: '**bankAccountIdentificationTypeRequirement**'
           enum:
-            - bankAccountIdentificationTypeRequirement
+          - bankAccountIdentificationTypeRequirement
           type: string
       required:
-        - type
+      - type
       type: object
     BankAccountIdentificationValidationRequest:
       properties:
         accountIdentification:
           description: Bank account identification.
           oneOf:
-            - $ref: '#/components/schemas/AULocalAccountIdentification'
-            - $ref: '#/components/schemas/BRLocalAccountIdentification'
-            - $ref: '#/components/schemas/CALocalAccountIdentification'
-            - $ref: '#/components/schemas/CZLocalAccountIdentification'
-            - $ref: '#/components/schemas/DKLocalAccountIdentification'
-            - $ref: '#/components/schemas/HKLocalAccountIdentification'
-            - $ref: '#/components/schemas/HULocalAccountIdentification'
-            - $ref: '#/components/schemas/IbanAccountIdentification'
-            - $ref: '#/components/schemas/NOLocalAccountIdentification'
-            - $ref: '#/components/schemas/NZLocalAccountIdentification'
-            - $ref: '#/components/schemas/NumberAndBicAccountIdentification'
-            - $ref: '#/components/schemas/PLLocalAccountIdentification'
-            - $ref: '#/components/schemas/SELocalAccountIdentification'
-            - $ref: '#/components/schemas/SGLocalAccountIdentification'
-            - $ref: '#/components/schemas/UKLocalAccountIdentification'
-            - $ref: '#/components/schemas/USLocalAccountIdentification'
+          - $ref: '#/components/schemas/AULocalAccountIdentification'
+          - $ref: '#/components/schemas/BRLocalAccountIdentification'
+          - $ref: '#/components/schemas/CALocalAccountIdentification'
+          - $ref: '#/components/schemas/CZLocalAccountIdentification'
+          - $ref: '#/components/schemas/DKLocalAccountIdentification'
+          - $ref: '#/components/schemas/HKLocalAccountIdentification'
+          - $ref: '#/components/schemas/HULocalAccountIdentification'
+          - $ref: '#/components/schemas/IbanAccountIdentification'
+          - $ref: '#/components/schemas/NOLocalAccountIdentification'
+          - $ref: '#/components/schemas/NZLocalAccountIdentification'
+          - $ref: '#/components/schemas/NumberAndBicAccountIdentification'
+          - $ref: '#/components/schemas/PLLocalAccountIdentification'
+          - $ref: '#/components/schemas/SELocalAccountIdentification'
+          - $ref: '#/components/schemas/SGLocalAccountIdentification'
+          - $ref: '#/components/schemas/UKLocalAccountIdentification'
+          - $ref: '#/components/schemas/USLocalAccountIdentification'
       required:
-        - accountIdentification
+      - accountIdentification
       type: object
     BankAccountModel:
       properties:
@@ -4668,9 +4855,9 @@ components:
             Form factor of the bank account - **virtual** or **physical**
             (default)
           enum:
-            - physical
-            - unknown
-            - virtual
+          - physical
+          - unknown
+          - virtual
           type: string
       type: object
     BankIdentification:
@@ -4681,8 +4868,8 @@ components:
           type: string
         identificationType:
           enum:
-            - iban
-            - routingNumber
+          - iban
+          - routingNumber
           type: string
       type: object
     BrandVariantsRestriction:
@@ -4713,7 +4900,7 @@ components:
             type: string
           type: array
       required:
-        - operation
+      - operation
       type: object
     BulkAddress:
       properties:
@@ -4757,7 +4944,7 @@ components:
           description: The streetname of the house.
           type: string
       required:
-        - country
+      - country
       type: object
     CALocalAccountIdentification:
       additionalProperties: false
@@ -4778,8 +4965,8 @@ components:
             Possible values: **checking** or **savings**. Defaults to
             **checking**.
           enum:
-            - checking
-            - savings
+          - checking
+          - savings
           type: string
         institutionNumber:
           description: The 3-digit institution number, without separators or whitespace.
@@ -4795,13 +4982,13 @@ components:
           default: caLocal
           description: '**caLocal**'
           enum:
-            - caLocal
+          - caLocal
           type: string
       required:
-        - type
-        - accountNumber
-        - institutionNumber
-        - transitNumber
+      - type
+      - accountNumber
+      - institutionNumber
+      - transitNumber
       type: object
     CZLocalAccountIdentification:
       additionalProperties: false
@@ -4844,12 +5031,12 @@ components:
           default: czLocal
           description: '**czLocal**'
           enum:
-            - czLocal
+          - czLocal
           type: string
       required:
-        - type
-        - accountNumber
-        - bankCode
+      - type
+      - accountNumber
+      - bankCode
       type: object
     CapabilityProblem:
       properties:
@@ -4883,9 +5070,9 @@ components:
 
             Possible values: **LegalEntity**, **BankAccount**, **Document**.
           enum:
-            - BankAccount
-            - Document
-            - LegalEntity
+          - BankAccount
+          - Document
+          - LegalEntity
           type: string
       type: object
     CapabilityProblemEntity-recursive:
@@ -4906,9 +5093,9 @@ components:
 
             Possible values: **LegalEntity**, **BankAccount**, **Document**.
           enum:
-            - BankAccount
-            - Document
-            - LegalEntity
+          - BankAccount
+          - Document
+          - LegalEntity
           type: string
       required: []
       type: object
@@ -4926,17 +5113,17 @@ components:
           description: ''
           items:
             enum:
-              - credit
-              - debit
-              - prepaid
+            - credit
+            - debit
+            - prepaid
             type: string
           type: array
         interval:
           description: ''
           enum:
-            - daily
-            - monthly
-            - weekly
+          - daily
+          - monthly
+          - weekly
           type: string
         maxAmount:
           description: ''
@@ -4962,10 +5149,10 @@ components:
           format: int64
           type: integer
       required:
-        - principal
-        - fee
-        - total
-        - currency
+      - principal
+      - fee
+      - total
+      - currency
       type: object
     CapitalGrantAccount:
       properties:
@@ -5046,9 +5233,9 @@ components:
             The form factor of the card.
             Possible values: **virtual**, **physical**.
           enum:
-            - physical
-            - unknown
-            - virtual
+          - physical
+          - unknown
+          - virtual
           type: string
         lastFour:
           description: Last last four digits of the card number.
@@ -5071,11 +5258,11 @@ components:
             integration.
           type: string
       required:
-        - formFactor
-        - cardholderName
-        - brand
-        - brandVariant
-        - number
+      - formFactor
+      - cardholderName
+      - brand
+      - brandVariant
+      - number
       type: object
     CardConfiguration:
       properties:
@@ -5169,7 +5356,7 @@ components:
             `configurationProfileId`.
           type: string
       required:
-        - configurationProfileId
+      - configurationProfileId
       type: object
     CardInfo:
       properties:
@@ -5218,9 +5405,9 @@ components:
             The form factor of the card.
             Possible values: **virtual**, **physical**.
           enum:
-            - physical
-            - unknown
-            - virtual
+          - physical
+          - unknown
+          - virtual
           type: string
         threeDSecure:
           description: >-
@@ -5232,10 +5419,10 @@ components:
             integration.
           type: string
       required:
-        - formFactor
-        - cardholderName
-        - brand
-        - brandVariant
+      - formFactor
+      - cardholderName
+      - brand
+      - brandVariant
       type: object
     CardOrder:
       properties:
@@ -5276,8 +5463,8 @@ components:
 
             Possible values: **Open**, **Closed**.
           enum:
-            - closed
-            - open
+          - closed
+          - open
           type: string
       type: object
     CardOrderItem:
@@ -5327,14 +5514,14 @@ components:
         status:
           description: The status of the PIN delivery.
           enum:
-            - created
-            - delivered
-            - notApplicable
-            - processing
-            - produced
-            - rejected
-            - shipped
-            - unknown
+          - created
+          - delivered
+          - notApplicable
+          - processing
+          - produced
+          - rejected
+          - shipped
+          - unknown
           type: string
         trackingNumber:
           description: The tracking number of the PIN delivery.
@@ -5355,9 +5542,9 @@ components:
           description: The URL of the account holder's website.
           type: string
       required:
-        - email
-        - phone
-        - address
+      - email
+      - phone
+      - address
       type: object
     Counterparty:
       properties:
@@ -5381,7 +5568,7 @@ components:
             $ref: '#/components/schemas/BankIdentification'
           type: array
       required:
-        - operation
+      - operation
       type: object
     CountriesRestriction:
       properties:
@@ -5397,7 +5584,7 @@ components:
             type: string
           type: array
       required:
-        - operation
+      - operation
       type: object
     CreateSweepConfigurationV2:
       properties:
@@ -5418,9 +5605,9 @@ components:
 
             Required when setting `priorities`.
           enum:
-            - bank
-            - internal
-            - platformPayment
+          - bank
+          - internal
+          - platformPayment
           type: string
         counterparty:
           description: >-
@@ -5491,33 +5678,33 @@ components:
             setup](https://docs.adyen.com/marketplaces-and-platforms/payout-to-users/scheduled-payouts#optional-priorities-setup).
           items:
             enum:
-              - crossBorder
-              - fast
-              - instant
-              - internal
-              - regular
-              - wire
+            - crossBorder
+            - fast
+            - instant
+            - internal
+            - regular
+            - wire
             type: string
           type: array
         reason:
           description: The reason for disabling the sweep.
           enum:
-            - amountLimitExceeded
-            - approved
-            - balanceAccountTemporarilyBlockedByTransactionRule
-            - counterpartyAccountBlocked
-            - counterpartyAccountClosed
-            - counterpartyAccountNotFound
-            - counterpartyAddressRequired
-            - counterpartyBankTimedOut
-            - counterpartyBankUnavailable
-            - declinedByTransactionRule
-            - error
-            - notEnoughBalance
-            - refusedByCounterpartyBank
-            - routeNotFound
-            - scaFailed
-            - unknown
+          - amountLimitExceeded
+          - approved
+          - balanceAccountTemporarilyBlockedByTransactionRule
+          - counterpartyAccountBlocked
+          - counterpartyAccountClosed
+          - counterpartyAccountNotFound
+          - counterpartyAddressRequired
+          - counterpartyBankTimedOut
+          - counterpartyBankUnavailable
+          - declinedByTransactionRule
+          - error
+          - notEnoughBalance
+          - refusedByCounterpartyBank
+          - routeNotFound
+          - scaFailed
+          - unknown
           readOnly: true
           type: string
         schedule:
@@ -5539,8 +5726,8 @@ components:
              * **inactive**: the sweep is disabled and cannot be triggered. 
 
           enum:
-            - active
-            - inactive
+          - active
+          - inactive
           type: string
         sweepAmount:
           description: >-
@@ -5581,13 +5768,13 @@ components:
 
              * **pull**: _pull in funds_ from a source merchant account, transfer instrument, or balance account.
           enum:
-            - pull
-            - push
+          - pull
+          - push
           type: string
       required:
-        - schedule
-        - currency
-        - counterparty
+      - schedule
+      - currency
+      - counterparty
       type: object
     DKLocalAccountIdentification:
       additionalProperties: false
@@ -5610,12 +5797,12 @@ components:
           default: dkLocal
           description: '**dkLocal**'
           enum:
-            - dkLocal
+          - dkLocal
           type: string
       required:
-        - type
-        - accountNumber
-        - bankCode
+      - type
+      - accountNumber
+      - bankCode
       type: object
     DayOfWeekRestriction:
       properties:
@@ -5632,17 +5819,17 @@ components:
 
           items:
             enum:
-              - friday
-              - monday
-              - saturday
-              - sunday
-              - thursday
-              - tuesday
-              - wednesday
+            - friday
+            - monday
+            - saturday
+            - sunday
+            - thursday
+            - tuesday
+            - wednesday
             type: string
           type: array
       required:
-        - operation
+      - operation
       type: object
     DeliveryAddress:
       properties:
@@ -5685,7 +5872,7 @@ components:
             > Required for the US and Canada.
           type: string
       required:
-        - country
+      - country
       type: object
     DeliveryContact:
       properties:
@@ -5713,8 +5900,8 @@ components:
           description: The URL of the contact's website.
           type: string
       required:
-        - name
-        - address
+      - name
+      - address
       type: object
     DeviceInfo:
       properties:
@@ -5778,7 +5965,7 @@ components:
 
           type: boolean
       required:
-        - operation
+      - operation
       type: object
     Duration:
       properties:
@@ -5791,11 +5978,11 @@ components:
             Possible values: **minutes**, **hours**, **days**, **weeks**, or
             **months**
           enum:
-            - days
-            - hours
-            - minutes
-            - months
-            - weeks
+          - days
+          - hours
+          - minutes
+          - months
+          - weeks
           type: string
         value:
           description: >-
@@ -5822,19 +6009,19 @@ components:
 
           items:
             enum:
-              - barcode
-              - chip
-              - cof
-              - contactless
-              - magstripe
-              - manual
-              - ocr
-              - server
-              - unknown
+            - barcode
+            - chip
+            - cof
+            - contactless
+            - magstripe
+            - manual
+            - ocr
+            - server
+            - unknown
             type: string
           type: array
       required:
-        - operation
+      - operation
       type: object
     Expiry:
       properties:
@@ -5851,7 +6038,7 @@ components:
           description: An object containing the fee amount.
           $ref: '#/components/schemas/Amount'
       required:
-        - amount
+      - amount
       type: object
     GetNetworkTokenResponse:
       properties:
@@ -5859,7 +6046,7 @@ components:
           description: The details of the network token.
           $ref: '#/components/schemas/NetworkToken'
       required:
-        - token
+      - token
       type: object
     GetTaxFormResponse:
       properties:
@@ -5875,10 +6062,10 @@ components:
             *  **application/pdf**
 
           enum:
-            - application/pdf
+          - application/pdf
           type: string
       required:
-        - content
+      - content
       type: object
     GrantLimit:
       properties:
@@ -5899,8 +6086,8 @@ components:
             The contract type of the grant offer. Possible value:
             **cashAdvance**, **loan**.
           enum:
-            - cashAdvance
-            - loan
+          - cashAdvance
+          - loan
           type: string
         expiresAt:
           description: The end date of the grant offer validity period.
@@ -5920,7 +6107,7 @@ components:
           format: date-time
           type: string
       required:
-        - accountHolderId
+      - accountHolderId
       type: object
     GrantOffers:
       properties:
@@ -5930,7 +6117,7 @@ components:
             $ref: '#/components/schemas/GrantOffer'
           type: array
       required:
-        - grantOffers
+      - grantOffers
       type: object
     HKLocalAccountIdentification:
       additionalProperties: false
@@ -5951,12 +6138,12 @@ components:
           default: hkLocal
           description: '**hkLocal**'
           enum:
-            - hkLocal
+          - hkLocal
           type: string
       required:
-        - type
-        - accountNumber
-        - clearingCode
+      - type
+      - accountNumber
+      - clearingCode
       type: object
     HULocalAccountIdentification:
       additionalProperties: false
@@ -5970,11 +6157,11 @@ components:
           default: huLocal
           description: '**huLocal**'
           enum:
-            - huLocal
+          - huLocal
           type: string
       required:
-        - type
-        - accountNumber
+      - type
+      - accountNumber
       type: object
     IbanAccountIdentification:
       additionalProperties: false
@@ -5988,11 +6175,11 @@ components:
           default: iban
           description: '**iban**'
           enum:
-            - iban
+          - iban
           type: string
       required:
-        - type
-        - iban
+      - type
+      - iban
       type: object
     InternationalTransactionRestriction:
       properties:
@@ -6015,7 +6202,7 @@ components:
 
           type: boolean
       required:
-        - operation
+      - operation
       type: object
     InvalidField:
       properties:
@@ -6029,9 +6216,9 @@ components:
           description: The invalid value.
           type: string
       required:
-        - name
-        - value
-        - message
+      - name
+      - value
+      - message
       type: object
     JSONObject:
       type: object
@@ -6053,7 +6240,7 @@ components:
           format: int32
           type: integer
       required:
-        - operation
+      - operation
       type: object
     MccsRestriction:
       properties:
@@ -6066,7 +6253,7 @@ components:
             type: string
           type: array
       required:
-        - operation
+      - operation
       type: object
     MerchantAcquirerPair:
       properties:
@@ -6087,7 +6274,7 @@ components:
             $ref: '#/components/schemas/StringMatch'
           type: array
       required:
-        - operation
+      - operation
       type: object
     MerchantsRestriction:
       properties:
@@ -6100,7 +6287,7 @@ components:
             $ref: '#/components/schemas/MerchantAcquirerPair'
           type: array
       required:
-        - operation
+      - operation
       type: object
     NOLocalAccountIdentification:
       additionalProperties: false
@@ -6114,11 +6301,11 @@ components:
           default: noLocal
           description: '**noLocal**'
           enum:
-            - noLocal
+          - noLocal
           type: string
       required:
-        - type
-        - accountNumber
+      - type
+      - accountNumber
       type: object
     NZLocalAccountIdentification:
       additionalProperties: false
@@ -6135,11 +6322,11 @@ components:
           default: nzLocal
           description: '**nzLocal**'
           enum:
-            - nzLocal
+          - nzLocal
           type: string
       required:
-        - type
-        - accountNumber
+      - type
+      - accountNumber
       type: object
     Name:
       properties:
@@ -6150,8 +6337,8 @@ components:
           description: The last name.
           type: string
       required:
-        - firstName
-        - lastName
+      - firstName
+      - lastName
       type: object
     NetworkToken:
       properties:
@@ -6183,10 +6370,10 @@ components:
             The status of the network token. Possible values: **active**,
             **inactive**, **suspended**, **closed**.
           enum:
-            - active
-            - inactive
-            - suspended
-            - closed
+          - active
+          - inactive
+          - suspended
+          - closed
           type: string
         tokenLastFour:
           description: The last four digits of the network token `id`.
@@ -6220,12 +6407,12 @@ components:
           default: numberAndBic
           description: '**numberAndBic**'
           enum:
-            - numberAndBic
+          - numberAndBic
           type: string
       required:
-        - type
-        - accountNumber
-        - bic
+      - type
+      - accountNumber
+      - bic
       type: object
     PLLocalAccountIdentification:
       additionalProperties: false
@@ -6242,11 +6429,11 @@ components:
           default: plLocal
           description: '**plLocal**'
           enum:
-            - plLocal
+          - plLocal
           type: string
       required:
-        - type
-        - accountNumber
+      - type
+      - accountNumber
       type: object
     PaginatedAccountHoldersResponse:
       properties:
@@ -6262,9 +6449,9 @@ components:
           description: Indicates whether there are more items on the previous page.
           type: boolean
       required:
-        - accountHolders
-        - hasPrevious
-        - hasNext
+      - accountHolders
+      - hasPrevious
+      - hasNext
       type: object
     PaginatedBalanceAccountsResponse:
       properties:
@@ -6280,9 +6467,9 @@ components:
           description: Indicates whether there are more items on the previous page.
           type: boolean
       required:
-        - balanceAccounts
-        - hasPrevious
-        - hasNext
+      - balanceAccounts
+      - hasPrevious
+      - hasNext
       type: object
     PaginatedGetCardOrderItemResponse:
       properties:
@@ -6298,9 +6485,9 @@ components:
           description: Indicates whether there are more items on the previous page.
           type: boolean
       required:
-        - data
-        - hasPrevious
-        - hasNext
+      - data
+      - hasPrevious
+      - hasNext
       type: object
     PaginatedGetCardOrderResponse:
       properties:
@@ -6316,8 +6503,8 @@ components:
           description: Indicates whether there are more items on the previous page.
           type: boolean
       required:
-        - hasPrevious
-        - hasNext
+      - hasPrevious
+      - hasNext
       type: object
     PaginatedPaymentInstrumentsResponse:
       properties:
@@ -6333,9 +6520,9 @@ components:
             $ref: '#/components/schemas/PaymentInstrument'
           type: array
       required:
-        - paymentInstruments
-        - hasPrevious
-        - hasNext
+      - paymentInstruments
+      - hasPrevious
+      - hasNext
       type: object
     PaymentInstrument:
       properties:
@@ -6350,8 +6537,8 @@ components:
             Contains the business account details. Returned when you create a
             payment instrument with `type` **bankAccount**.
           oneOf:
-            - $ref: '#/components/schemas/IbanAccountIdentification'
-            - $ref: '#/components/schemas/USLocalAccountIdentification'
+          - $ref: '#/components/schemas/IbanAccountIdentification'
+          - $ref: '#/components/schemas/USLocalAccountIdentification'
         card:
           description: >-
             Contains information about the card payment instrument. Returned
@@ -6402,10 +6589,10 @@ components:
              * **closed**: The payment instrument is permanently closed. This action cannot be undone. 
 
           enum:
-            - active
-            - closed
-            - inactive
-            - suspended
+          - active
+          - closed
+          - inactive
+          - suspended
           type: string
         statusReason:
           x-addedInVersion: '2'
@@ -6420,15 +6607,15 @@ components:
             If the reason is **other**, you must also send the `statusComment`
             parameter describing the status change.
           enum:
-            - accountClosure
-            - damaged
-            - endOfLife
-            - expired
-            - lost
-            - other
-            - stolen
-            - suspectedFraud
-            - transactionRule
+          - accountClosure
+          - damaged
+          - endOfLife
+          - expired
+          - lost
+          - other
+          - stolen
+          - suspectedFraud
+          - transactionRule
           type: string
         type:
           description: |-
@@ -6436,14 +6623,14 @@ components:
 
             Possible value: **card**, **bankAccount**. 
           enum:
-            - bankAccount
-            - card
+          - bankAccount
+          - card
           type: string
       required:
-        - balanceAccountId
-        - issuingCountryCode
-        - type
-        - id
+      - balanceAccountId
+      - issuingCountryCode
+      - type
+      - id
       type: object
     PaymentInstrumentGroup:
       properties:
@@ -6477,8 +6664,8 @@ components:
           description: The tx variant of the payment instrument group.
           type: string
       required:
-        - balancePlatform
-        - txVariant
+      - balancePlatform
+      - txVariant
       type: object
     PaymentInstrumentGroupInfo:
       properties:
@@ -6509,8 +6696,8 @@ components:
           description: The tx variant of the payment instrument group.
           type: string
       required:
-        - balancePlatform
-        - txVariant
+      - balancePlatform
+      - txVariant
       type: object
     PaymentInstrumentInfo:
       properties:
@@ -6570,10 +6757,10 @@ components:
              * **closed**: The payment instrument is permanently closed. This action cannot be undone. 
 
           enum:
-            - active
-            - closed
-            - inactive
-            - suspended
+          - active
+          - closed
+          - inactive
+          - suspended
           type: string
         statusReason:
           x-addedInVersion: '2'
@@ -6588,15 +6775,15 @@ components:
             If the reason is **other**, you must also send the `statusComment`
             parameter describing the status change.
           enum:
-            - accountClosure
-            - damaged
-            - endOfLife
-            - expired
-            - lost
-            - other
-            - stolen
-            - suspectedFraud
-            - transactionRule
+          - accountClosure
+          - damaged
+          - endOfLife
+          - expired
+          - lost
+          - other
+          - stolen
+          - suspectedFraud
+          - transactionRule
           type: string
         type:
           description: |-
@@ -6604,13 +6791,13 @@ components:
 
             Possible value: **card**, **bankAccount**. 
           enum:
-            - bankAccount
-            - card
+          - bankAccount
+          - card
           type: string
       required:
-        - balanceAccountId
-        - issuingCountryCode
-        - type
+      - balanceAccountId
+      - issuingCountryCode
+      - type
       type: object
     PaymentInstrumentRequirement:
       additionalProperties: false
@@ -6637,17 +6824,17 @@ components:
             The type of the payment instrument. For example, "BankAccount" or
             "Card".
           enum:
-            - BankAccount
-            - Card
+          - BankAccount
+          - Card
           type: string
         type:
           default: paymentInstrumentRequirement
           description: '**paymentInstrumentRequirement**'
           enum:
-            - paymentInstrumentRequirement
+          - paymentInstrumentRequirement
           type: string
       required:
-        - type
+      - type
       type: object
     PaymentInstrumentRevealInfo:
       properties:
@@ -6661,9 +6848,9 @@ components:
           description: The primary account number (PAN) of the card.
           type: string
       required:
-        - pan
-        - expiration
-        - cvc
+      - pan
+      - expiration
+      - cvc
       type: object
     PaymentInstrumentUpdateRequest:
       properties:
@@ -6699,10 +6886,10 @@ components:
              * **closed**: The payment instrument is permanently closed. This action cannot be undone. 
 
           enum:
-            - active
-            - closed
-            - inactive
-            - suspended
+          - active
+          - closed
+          - inactive
+          - suspended
           type: string
         statusComment:
           description: |-
@@ -6723,15 +6910,15 @@ components:
             If the reason is **other**, you must also send the `statusComment`
             parameter describing the status change.
           enum:
-            - accountClosure
-            - damaged
-            - endOfLife
-            - expired
-            - lost
-            - other
-            - stolen
-            - suspectedFraud
-            - transactionRule
+          - accountClosure
+          - damaged
+          - endOfLife
+          - expired
+          - lost
+          - other
+          - stolen
+          - suspectedFraud
+          - transactionRule
           type: string
       type: object
     Phone:
@@ -6749,12 +6936,12 @@ components:
             Possible values: 
             **Landline**, **Mobile**.
           enum:
-            - landline
-            - mobile
+          - landline
+          - mobile
           type: string
       required:
-        - number
-        - type
+      - number
+      - type
       type: object
     PhoneNumber:
       properties:
@@ -6775,10 +6962,10 @@ components:
             The type of the phone number.
             Possible values: **Landline**, **Mobile**, **SIP**, **Fax**.
           enum:
-            - Fax
-            - Landline
-            - Mobile
-            - SIP
+          - Fax
+          - Landline
+          - Mobile
+          - SIP
           type: string
       type: object
     PinChangeRequest:
@@ -6796,22 +6983,22 @@ components:
           description: The token which is used to construct the pinblock.
           type: string
       required:
-        - paymentInstrumentId
-        - encryptedKey
-        - token
-        - encryptedPinBlock
+      - paymentInstrumentId
+      - encryptedKey
+      - token
+      - encryptedPinBlock
       type: object
     PinChangeResponse:
       properties:
         status:
           description: The pin change status.
           enum:
-            - completed
-            - pending
-            - unavailable
+          - completed
+          - pending
+          - unavailable
           type: string
       required:
-        - status
+      - status
       type: object
     PlatformPaymentConfiguration:
       properties:
@@ -6864,18 +7051,18 @@ components:
 
           items:
             enum:
-              - atmWithdraw
-              - balanceInquiry
-              - ecommerce
-              - moto
-              - pos
-              - recurring
-              - token
-              - unknown
+            - atmWithdraw
+            - balanceInquiry
+            - ecommerce
+            - moto
+            - pos
+            - recurring
+            - token
+            - unknown
             type: string
           type: array
       required:
-        - operation
+      - operation
       type: object
     PublicKeyResponse:
       properties:
@@ -6886,8 +7073,8 @@ components:
           description: The expiry date of the public key.
           type: string
       required:
-        - publicKey
-        - publicKeyExpiryDate
+      - publicKey
+      - publicKeyExpiryDate
       type: object
     RemediatingAction:
       properties:
@@ -6915,7 +7102,7 @@ components:
           description: An object containing the details of the 30-day repayment threshold.
           $ref: '#/components/schemas/ThresholdRepayment'
       required:
-        - basisPoints
+      - basisPoints
       type: object
     RepaymentTerm:
       properties:
@@ -6930,7 +7117,7 @@ components:
           format: int32
           type: integer
       required:
-        - estimatedDays
+      - estimatedDays
       type: object
     RestServiceError:
       properties:
@@ -6971,11 +7158,11 @@ components:
             documentation on this problem type.
           type: string
       required:
-        - type
-        - errorCode
-        - title
-        - detail
-        - status
+      - type
+      - errorCode
+      - title
+      - detail
+      - status
       type: object
     RevealPinRequest:
       properties:
@@ -6986,8 +7173,8 @@ components:
           description: The unique identifier of the payment instrument.
           type: string
       required:
-        - paymentInstrumentId
-        - encryptedKey
+      - paymentInstrumentId
+      - encryptedKey
       type: object
     RevealPinResponse:
       properties:
@@ -6998,8 +7185,8 @@ components:
           description: The encrypted PIN block extraction token.
           type: string
       required:
-        - encryptedPinBlock
-        - token
+      - encryptedPinBlock
+      - token
       type: object
     SELocalAccountIdentification:
       additionalProperties: false
@@ -7024,12 +7211,12 @@ components:
           default: seLocal
           description: '**seLocal**'
           enum:
-            - seLocal
+          - seLocal
           type: string
       required:
-        - type
-        - accountNumber
-        - clearingNumber
+      - type
+      - accountNumber
+      - clearingNumber
       type: object
     SGLocalAccountIdentification:
       additionalProperties: false
@@ -7050,11 +7237,11 @@ components:
           default: sgLocal
           description: '**sgLocal**'
           enum:
-            - sgLocal
+          - sgLocal
           type: string
       required:
-        - accountNumber
-        - bic
+      - accountNumber
+      - bic
       type: object
     SameAmountRestriction:
       properties:
@@ -7064,7 +7251,7 @@ components:
         value:
           type: boolean
       required:
-        - operation
+      - operation
       type: object
     SameCounterpartyRestriction:
       properties:
@@ -7074,7 +7261,7 @@ components:
         value:
           type: boolean
       required:
-        - operation
+      - operation
       type: object
     StringMatch:
       properties:
@@ -7082,10 +7269,10 @@ components:
           description: >-
             The type of string matching operation. Possible values:  **startsWith**, **endsWith**, **isEqualTo**, **contains**,
           enum:
-            - contains
-            - endsWith
-            - isEqualTo
-            - startsWith
+          - contains
+          - endsWith
+          - isEqualTo
+          - startsWith
           type: string
         value:
           description: The string to be matched.
@@ -7110,9 +7297,9 @@ components:
 
             Required when setting `priorities`.
           enum:
-            - bank
-            - internal
-            - platformPayment
+          - bank
+          - internal
+          - platformPayment
           type: string
         counterparty:
           description: >-
@@ -7187,33 +7374,33 @@ components:
             setup](https://docs.adyen.com/marketplaces-and-platforms/payout-to-users/scheduled-payouts#optional-priorities-setup).
           items:
             enum:
-              - crossBorder
-              - fast
-              - instant
-              - internal
-              - regular
-              - wire
+            - crossBorder
+            - fast
+            - instant
+            - internal
+            - regular
+            - wire
             type: string
           type: array
         reason:
           description: The reason for disabling the sweep.
           enum:
-            - amountLimitExceeded
-            - approved
-            - balanceAccountTemporarilyBlockedByTransactionRule
-            - counterpartyAccountBlocked
-            - counterpartyAccountClosed
-            - counterpartyAccountNotFound
-            - counterpartyAddressRequired
-            - counterpartyBankTimedOut
-            - counterpartyBankUnavailable
-            - declinedByTransactionRule
-            - error
-            - notEnoughBalance
-            - refusedByCounterpartyBank
-            - routeNotFound
-            - scaFailed
-            - unknown
+          - amountLimitExceeded
+          - approved
+          - balanceAccountTemporarilyBlockedByTransactionRule
+          - counterpartyAccountBlocked
+          - counterpartyAccountClosed
+          - counterpartyAccountNotFound
+          - counterpartyAddressRequired
+          - counterpartyBankTimedOut
+          - counterpartyBankUnavailable
+          - declinedByTransactionRule
+          - error
+          - notEnoughBalance
+          - refusedByCounterpartyBank
+          - routeNotFound
+          - scaFailed
+          - unknown
           readOnly: true
           type: string
         schedule:
@@ -7235,8 +7422,8 @@ components:
              * **inactive**: the sweep is disabled and cannot be triggered. 
 
           enum:
-            - active
-            - inactive
+          - active
+          - inactive
           type: string
         sweepAmount:
           description: >-
@@ -7277,14 +7464,14 @@ components:
 
              * **pull**: _pull in funds_ from a source merchant account, transfer instrument, or balance account.
           enum:
-            - pull
-            - push
+          - pull
+          - push
           type: string
       required:
-        - id
-        - schedule
-        - currency
-        - counterparty
+      - id
+      - schedule
+      - currency
+      - counterparty
       type: object
     SweepCounterparty:
       properties:
@@ -7388,14 +7575,14 @@ components:
             If the source is transferInstrument, merchant account identifier is
             still required, with which you want to process the transaction.
           enum:
-            - daily
-            - weekly
-            - monthly
-            - balance
-            - cron
+          - daily
+          - weekly
+          - monthly
+          - balance
+          - cron
           type: string
       required:
-        - type
+      - type
       type: object
     ThresholdRepayment:
       properties:
@@ -7403,7 +7590,7 @@ components:
           description: The amount to be repaid on a 30-day basis.
           $ref: '#/components/schemas/Amount'
       required:
-        - amount
+      - amount
       type: object
     TimeOfDay:
       properties:
@@ -7428,7 +7615,7 @@ components:
         value:
           $ref: '#/components/schemas/TimeOfDay'
       required:
-        - operation
+      - operation
       type: object
     TotalAmountRestriction:
       properties:
@@ -7439,7 +7626,7 @@ components:
           description: The amount value and currency.
           $ref: '#/components/schemas/Amount'
       required:
-        - operation
+      - operation
       type: object
     TransactionRule:
       properties:
@@ -7506,9 +7693,9 @@ components:
             specified. Adyen calculates the total score and if it exceeds 100,
             the transaction is declined.
           enum:
-            - enforceSCA
-            - hardBlock
-            - scoreBased
+          - enforceSCA
+          - hardBlock
+          - scoreBased
           type: string
         reference:
           description: Your reference for the transaction rule, maximum 150 characters.
@@ -7524,10 +7711,10 @@ components:
             Possible values: **authorization**, **authentication**,
             **tokenization**, **bankTransfer**.
           enum:
-            - authentication
-            - authorization
-            - bankTransfer
-            - tokenization
+          - authentication
+          - authorization
+          - bankTransfer
+          - tokenization
           type: string
         ruleRestrictions:
           x-addedInVersion: '2'
@@ -7571,8 +7758,8 @@ components:
 
             Possible values: **active**, **inactive**.
           enum:
-            - active
-            - inactive
+          - active
+          - inactive
           type: string
         type:
           description: >
@@ -7587,18 +7774,18 @@ components:
              * **maxUsage**: add the amount or number of transactions for the lifetime of a payment instrument, and then decline a transaction when the specified limits are met.
              * **velocity**: add the amount or number of transactions based on a specified time interval, and then decline a transaction when the specified limits are met.
           enum:
-            - allowList
-            - blockList
-            - maxUsage
-            - velocity
+          - allowList
+          - blockList
+          - maxUsage
+          - velocity
           type: string
       required:
-        - type
-        - description
-        - reference
-        - entityKey
-        - interval
-        - ruleRestrictions
+      - type
+      - description
+      - reference
+      - entityKey
+      - interval
+      - ruleRestrictions
       type: object
     TransactionRuleEntityKey:
       properties:
@@ -7676,9 +7863,9 @@ components:
             specified. Adyen calculates the total score and if it exceeds 100,
             the transaction is declined.
           enum:
-            - enforceSCA
-            - hardBlock
-            - scoreBased
+          - enforceSCA
+          - hardBlock
+          - scoreBased
           type: string
         reference:
           description: Your reference for the transaction rule, maximum 150 characters.
@@ -7694,10 +7881,10 @@ components:
             Possible values: **authorization**, **authentication**,
             **tokenization**, **bankTransfer**.
           enum:
-            - authentication
-            - authorization
-            - bankTransfer
-            - tokenization
+          - authentication
+          - authorization
+          - bankTransfer
+          - tokenization
           type: string
         ruleRestrictions:
           x-addedInVersion: '2'
@@ -7741,8 +7928,8 @@ components:
 
             Possible values: **active**, **inactive**.
           enum:
-            - active
-            - inactive
+          - active
+          - inactive
           type: string
         type:
           description: >
@@ -7757,18 +7944,18 @@ components:
              * **maxUsage**: add the amount or number of transactions for the lifetime of a payment instrument, and then decline a transaction when the specified limits are met.
              * **velocity**: add the amount or number of transactions based on a specified time interval, and then decline a transaction when the specified limits are met.
           enum:
-            - allowList
-            - blockList
-            - maxUsage
-            - velocity
+          - allowList
+          - blockList
+          - maxUsage
+          - velocity
           type: string
       required:
-        - type
-        - description
-        - reference
-        - entityKey
-        - interval
-        - ruleRestrictions
+      - type
+      - description
+      - reference
+      - entityKey
+      - interval
+      - ruleRestrictions
       type: object
     TransactionRuleInterval:
       properties:
@@ -7790,13 +7977,13 @@ components:
             Possible values: **sunday**, **monday**, **tuesday**, **wednesday**,
             **thursday**, **friday**.
           enum:
-            - friday
-            - monday
-            - saturday
-            - sunday
-            - thursday
-            - tuesday
-            - wednesday
+          - friday
+          - monday
+          - saturday
+          - sunday
+          - thursday
+          - tuesday
+          - wednesday
           type: string
         duration:
           x-addedInVersion: '2'
@@ -7834,19 +8021,20 @@ components:
              * **weekly**: the counters are reset every Monday at 00:00:00 UTC. 
              * **monthly**: the counters reset every first day of the month at 00:00:00 UTC. 
              * **lifetime**: conditions are applied to the lifetime of the payment instrument.
-             * **rolling**: conditions are applied and the counters are reset based on a `duration`. If the reset date and time are not provided, Adyen applies the default reset time similar to fixed intervals. For example, if the duration is every two weeks, the counter resets every third Monday at 00:00:00 UTC.
+             * **rolling**: conditions are applied and the counters are reset based on a `duration`. If the reset date and time are not provided, Adyen applies the default reset time similar to fixed intervals.
+            For example, if the duration is every two weeks, the counter resets every third Monday at 00:00:00 UTC.
              * **sliding**: conditions are applied and the counters are reset based on the current time and a `duration` that you specify.
           enum:
-            - daily
-            - lifetime
-            - monthly
-            - perTransaction
-            - rolling
-            - sliding
-            - weekly
+          - daily
+          - lifetime
+          - monthly
+          - perTransaction
+          - rolling
+          - sliding
+          - weekly
           type: string
       required:
-        - type
+      - type
       type: object
     TransactionRuleResponse:
       properties:
@@ -8019,15 +8207,15 @@ components:
 
               - **bank**: Transfer to a [transfer instrument](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/transferInstruments__resParam_id) or a bank account.
           enum:
-            - bank
-            - card
-            - grants
-            - internal
-            - issuedCard
-            - migration
-            - platformPayment
-            - topUp
-            - upgrade
+          - bank
+          - card
+          - grants
+          - internal
+          - issuedCard
+          - migration
+          - platformPayment
+          - topUp
+          - upgrade
           type: string
         country:
           description: >-
@@ -8067,12 +8255,12 @@ components:
             * **internal**: Transfer to an Adyen-issued business bank account
             (by bank account number/IBAN).
           enum:
-            - crossBorder
-            - fast
-            - instant
-            - internal
-            - regular
-            - wire
+          - crossBorder
+          - fast
+          - instant
+          - internal
+          - regular
+          - wire
           type: string
         requirements:
           description: >-
@@ -8082,10 +8270,10 @@ components:
             requirements may be returned. Each requirement is defined with a
             `type` and `description`.
           oneOf:
-            - $ref: '#/components/schemas/AddressRequirement'
-            - $ref: '#/components/schemas/AmountMinMaxRequirement'
-            - $ref: '#/components/schemas/BankAccountIdentificationTypeRequirement'
-            - $ref: '#/components/schemas/PaymentInstrumentRequirement'
+          - $ref: '#/components/schemas/AddressRequirement'
+          - $ref: '#/components/schemas/AmountMinMaxRequirement'
+          - $ref: '#/components/schemas/BankAccountIdentificationTypeRequirement'
+          - $ref: '#/components/schemas/PaymentInstrumentRequirement'
       type: object
     TransferRouteRequest:
       properties:
@@ -8107,7 +8295,7 @@ components:
 
               - **bank**: Transfer to a [transfer instrument](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/transferInstruments__resParam_id) or a bank account.
           enum:
-            - bank
+          - bank
           type: string
         counterparty:
           description: >-
@@ -8157,18 +8345,18 @@ components:
             (by bank account number/IBAN).
           items:
             enum:
-              - crossBorder
-              - fast
-              - instant
-              - internal
-              - regular
-              - wire
+            - crossBorder
+            - fast
+            - instant
+            - internal
+            - regular
+            - wire
             type: string
           type: array
       required:
-        - balancePlatform
-        - currency
-        - category
+      - balancePlatform
+      - currency
+      - category
       type: object
     TransferRouteResponse:
       properties:
@@ -8199,12 +8387,12 @@ components:
           default: ukLocal
           description: '**ukLocal**'
           enum:
-            - ukLocal
+          - ukLocal
           type: string
       required:
-        - type
-        - accountNumber
-        - sortCode
+      - type
+      - accountNumber
+      - sortCode
       type: object
     USLocalAccountIdentification:
       additionalProperties: false
@@ -8223,8 +8411,8 @@ components:
             Possible values: **checking** or **savings**. Defaults to
             **checking**.
           enum:
-            - checking
-            - savings
+          - checking
+          - savings
           type: string
         routingNumber:
           description: >-
@@ -8238,12 +8426,12 @@ components:
           default: usLocal
           description: '**usLocal**'
           enum:
-            - usLocal
+          - usLocal
           type: string
       required:
-        - type
-        - accountNumber
-        - routingNumber
+      - type
+      - accountNumber
+      - routingNumber
       type: object
     UpdateNetworkTokenRequest:
       properties:
@@ -8253,9 +8441,9 @@ components:
             **suspended**, **closed**. The **closed** status is final and cannot
             be changed.
           enum:
-            - active
-            - suspended
-            - closed
+          - active
+          - suspended
+          - closed
           type: string
       type: object
     UpdatePaymentInstrument:
@@ -8271,8 +8459,8 @@ components:
             Contains the business account details. Returned when you create a
             payment instrument with `type` **bankAccount**.
           oneOf:
-            - $ref: '#/components/schemas/IbanAccountIdentification'
-            - $ref: '#/components/schemas/USLocalAccountIdentification'
+          - $ref: '#/components/schemas/IbanAccountIdentification'
+          - $ref: '#/components/schemas/USLocalAccountIdentification'
         card:
           description: >-
             Contains information about the card payment instrument. Returned
@@ -8323,10 +8511,10 @@ components:
              * **closed**: The payment instrument is permanently closed. This action cannot be undone. 
 
           enum:
-            - active
-            - closed
-            - inactive
-            - suspended
+          - active
+          - closed
+          - inactive
+          - suspended
           type: string
         statusComment:
           description: |-
@@ -8347,15 +8535,15 @@ components:
             If the reason is **other**, you must also send the `statusComment`
             parameter describing the status change.
           enum:
-            - accountClosure
-            - damaged
-            - endOfLife
-            - expired
-            - lost
-            - other
-            - stolen
-            - suspectedFraud
-            - transactionRule
+          - accountClosure
+          - damaged
+          - endOfLife
+          - expired
+          - lost
+          - other
+          - stolen
+          - suspectedFraud
+          - transactionRule
           type: string
         type:
           description: |-
@@ -8363,14 +8551,14 @@ components:
 
             Possible value: **card**, **bankAccount**. 
           enum:
-            - bankAccount
-            - card
+          - bankAccount
+          - card
           type: string
       required:
-        - balanceAccountId
-        - issuingCountryCode
-        - type
-        - id
+      - balanceAccountId
+      - issuingCountryCode
+      - type
+      - id
       type: object
     UpdateSweepConfigurationV2:
       properties:
@@ -8391,9 +8579,9 @@ components:
 
             Required when setting `priorities`.
           enum:
-            - bank
-            - internal
-            - platformPayment
+          - bank
+          - internal
+          - platformPayment
           type: string
         counterparty:
           description: >-
@@ -8468,33 +8656,33 @@ components:
             setup](https://docs.adyen.com/marketplaces-and-platforms/payout-to-users/scheduled-payouts#optional-priorities-setup).
           items:
             enum:
-              - crossBorder
-              - fast
-              - instant
-              - internal
-              - regular
-              - wire
+            - crossBorder
+            - fast
+            - instant
+            - internal
+            - regular
+            - wire
             type: string
           type: array
         reason:
           description: The reason for disabling the sweep.
           enum:
-            - amountLimitExceeded
-            - approved
-            - balanceAccountTemporarilyBlockedByTransactionRule
-            - counterpartyAccountBlocked
-            - counterpartyAccountClosed
-            - counterpartyAccountNotFound
-            - counterpartyAddressRequired
-            - counterpartyBankTimedOut
-            - counterpartyBankUnavailable
-            - declinedByTransactionRule
-            - error
-            - notEnoughBalance
-            - refusedByCounterpartyBank
-            - routeNotFound
-            - scaFailed
-            - unknown
+          - amountLimitExceeded
+          - approved
+          - balanceAccountTemporarilyBlockedByTransactionRule
+          - counterpartyAccountBlocked
+          - counterpartyAccountClosed
+          - counterpartyAccountNotFound
+          - counterpartyAddressRequired
+          - counterpartyBankTimedOut
+          - counterpartyBankUnavailable
+          - declinedByTransactionRule
+          - error
+          - notEnoughBalance
+          - refusedByCounterpartyBank
+          - routeNotFound
+          - scaFailed
+          - unknown
           readOnly: true
           type: string
         schedule:
@@ -8516,8 +8704,8 @@ components:
              * **inactive**: the sweep is disabled and cannot be triggered. 
 
           enum:
-            - active
-            - inactive
+          - active
+          - inactive
           type: string
         sweepAmount:
           description: >-
@@ -8558,8 +8746,8 @@ components:
 
              * **pull**: _pull in funds_ from a source merchant account, transfer instrument, or balance account.
           enum:
-            - pull
-            - push
+          - pull
+          - push
           type: string
       type: object
     VerificationDeadline:
@@ -8568,56 +8756,56 @@ components:
           description: The names of the capabilities to be disallowed.
           items:
             enum:
-              - acceptExternalFunding
-              - acceptPspFunding
-              - acceptTransactionInRestrictedCountries
-              - acceptTransactionInRestrictedCountriesCommercial
-              - acceptTransactionInRestrictedCountriesConsumer
-              - acceptTransactionInRestrictedIndustries
-              - acceptTransactionInRestrictedIndustriesCommercial
-              - acceptTransactionInRestrictedIndustriesConsumer
-              - acquiring
-              - atmWithdrawal
-              - atmWithdrawalCommercial
-              - atmWithdrawalConsumer
-              - atmWithdrawalInRestrictedCountries
-              - atmWithdrawalInRestrictedCountriesCommercial
-              - atmWithdrawalInRestrictedCountriesConsumer
-              - authorisedPaymentInstrumentUser
-              - getGrantOffers
-              - issueBankAccount
-              - issueCard
-              - issueCardCommercial
-              - issueCardConsumer
-              - localAcceptance
-              - payout
-              - payoutToTransferInstrument
-              - processing
-              - receiveFromBalanceAccount
-              - receiveFromPlatformPayments
-              - receiveFromThirdParty
-              - receiveFromTransferInstrument
-              - receiveGrants
-              - receivePayments
-              - sendToBalanceAccount
-              - sendToThirdParty
-              - sendToTransferInstrument
-              - thirdPartyFunding
-              - useCard
-              - useCardCommercial
-              - useCardConsumer
-              - useCardInRestrictedCountries
-              - useCardInRestrictedCountriesCommercial
-              - useCardInRestrictedCountriesConsumer
-              - useCardInRestrictedIndustries
-              - useCardInRestrictedIndustriesCommercial
-              - useCardInRestrictedIndustriesConsumer
-              - withdrawFromAtm
-              - withdrawFromAtmCommercial
-              - withdrawFromAtmConsumer
-              - withdrawFromAtmInRestrictedCountries
-              - withdrawFromAtmInRestrictedCountriesCommercial
-              - withdrawFromAtmInRestrictedCountriesConsumer
+            - acceptExternalFunding
+            - acceptPspFunding
+            - acceptTransactionInRestrictedCountries
+            - acceptTransactionInRestrictedCountriesCommercial
+            - acceptTransactionInRestrictedCountriesConsumer
+            - acceptTransactionInRestrictedIndustries
+            - acceptTransactionInRestrictedIndustriesCommercial
+            - acceptTransactionInRestrictedIndustriesConsumer
+            - acquiring
+            - atmWithdrawal
+            - atmWithdrawalCommercial
+            - atmWithdrawalConsumer
+            - atmWithdrawalInRestrictedCountries
+            - atmWithdrawalInRestrictedCountriesCommercial
+            - atmWithdrawalInRestrictedCountriesConsumer
+            - authorisedPaymentInstrumentUser
+            - getGrantOffers
+            - issueBankAccount
+            - issueCard
+            - issueCardCommercial
+            - issueCardConsumer
+            - localAcceptance
+            - payout
+            - payoutToTransferInstrument
+            - processing
+            - receiveFromBalanceAccount
+            - receiveFromPlatformPayments
+            - receiveFromThirdParty
+            - receiveFromTransferInstrument
+            - receiveGrants
+            - receivePayments
+            - sendToBalanceAccount
+            - sendToThirdParty
+            - sendToTransferInstrument
+            - thirdPartyFunding
+            - useCard
+            - useCardCommercial
+            - useCardConsumer
+            - useCardInRestrictedCountries
+            - useCardInRestrictedCountriesCommercial
+            - useCardInRestrictedCountriesConsumer
+            - useCardInRestrictedIndustries
+            - useCardInRestrictedIndustriesCommercial
+            - useCardInRestrictedIndustriesConsumer
+            - withdrawFromAtm
+            - withdrawFromAtmCommercial
+            - withdrawFromAtmConsumer
+            - withdrawFromAtmInRestrictedCountries
+            - withdrawFromAtmInRestrictedCountriesCommercial
+            - withdrawFromAtmInRestrictedCountriesConsumer
             type: string
           readOnly: true
           type: array
@@ -8637,8 +8825,8 @@ components:
           readOnly: true
           type: string
       required:
-        - expiresAt
-        - capabilities
+      - expiresAt
+      - capabilities
       type: object
     VerificationError:
       properties:
@@ -8646,56 +8834,56 @@ components:
           description: Contains the capabilities that the verification error applies to.
           items:
             enum:
-              - acceptExternalFunding
-              - acceptPspFunding
-              - acceptTransactionInRestrictedCountries
-              - acceptTransactionInRestrictedCountriesCommercial
-              - acceptTransactionInRestrictedCountriesConsumer
-              - acceptTransactionInRestrictedIndustries
-              - acceptTransactionInRestrictedIndustriesCommercial
-              - acceptTransactionInRestrictedIndustriesConsumer
-              - acquiring
-              - atmWithdrawal
-              - atmWithdrawalCommercial
-              - atmWithdrawalConsumer
-              - atmWithdrawalInRestrictedCountries
-              - atmWithdrawalInRestrictedCountriesCommercial
-              - atmWithdrawalInRestrictedCountriesConsumer
-              - authorisedPaymentInstrumentUser
-              - getGrantOffers
-              - issueBankAccount
-              - issueCard
-              - issueCardCommercial
-              - issueCardConsumer
-              - localAcceptance
-              - payout
-              - payoutToTransferInstrument
-              - processing
-              - receiveFromBalanceAccount
-              - receiveFromPlatformPayments
-              - receiveFromThirdParty
-              - receiveFromTransferInstrument
-              - receiveGrants
-              - receivePayments
-              - sendToBalanceAccount
-              - sendToThirdParty
-              - sendToTransferInstrument
-              - thirdPartyFunding
-              - useCard
-              - useCardCommercial
-              - useCardConsumer
-              - useCardInRestrictedCountries
-              - useCardInRestrictedCountriesCommercial
-              - useCardInRestrictedCountriesConsumer
-              - useCardInRestrictedIndustries
-              - useCardInRestrictedIndustriesCommercial
-              - useCardInRestrictedIndustriesConsumer
-              - withdrawFromAtm
-              - withdrawFromAtmCommercial
-              - withdrawFromAtmConsumer
-              - withdrawFromAtmInRestrictedCountries
-              - withdrawFromAtmInRestrictedCountriesCommercial
-              - withdrawFromAtmInRestrictedCountriesConsumer
+            - acceptExternalFunding
+            - acceptPspFunding
+            - acceptTransactionInRestrictedCountries
+            - acceptTransactionInRestrictedCountriesCommercial
+            - acceptTransactionInRestrictedCountriesConsumer
+            - acceptTransactionInRestrictedIndustries
+            - acceptTransactionInRestrictedIndustriesCommercial
+            - acceptTransactionInRestrictedIndustriesConsumer
+            - acquiring
+            - atmWithdrawal
+            - atmWithdrawalCommercial
+            - atmWithdrawalConsumer
+            - atmWithdrawalInRestrictedCountries
+            - atmWithdrawalInRestrictedCountriesCommercial
+            - atmWithdrawalInRestrictedCountriesConsumer
+            - authorisedPaymentInstrumentUser
+            - getGrantOffers
+            - issueBankAccount
+            - issueCard
+            - issueCardCommercial
+            - issueCardConsumer
+            - localAcceptance
+            - payout
+            - payoutToTransferInstrument
+            - processing
+            - receiveFromBalanceAccount
+            - receiveFromPlatformPayments
+            - receiveFromThirdParty
+            - receiveFromTransferInstrument
+            - receiveGrants
+            - receivePayments
+            - sendToBalanceAccount
+            - sendToThirdParty
+            - sendToTransferInstrument
+            - thirdPartyFunding
+            - useCard
+            - useCardCommercial
+            - useCardConsumer
+            - useCardInRestrictedCountries
+            - useCardInRestrictedCountriesCommercial
+            - useCardInRestrictedCountriesConsumer
+            - useCardInRestrictedIndustries
+            - useCardInRestrictedIndustriesCommercial
+            - useCardInRestrictedIndustriesConsumer
+            - withdrawFromAtm
+            - withdrawFromAtmCommercial
+            - withdrawFromAtmConsumer
+            - withdrawFromAtmInRestrictedCountries
+            - withdrawFromAtmInRestrictedCountriesCommercial
+            - withdrawFromAtmInRestrictedCountriesConsumer
             type: string
           type: array
         code:
@@ -8722,9 +8910,9 @@ components:
 
              Possible values: **invalidInput**, **dataMissing**.
           enum:
-            - dataMissing
-            - invalidInput
-            - pendingStatus
+          - dataMissing
+          - invalidInput
+          - pendingStatus
           type: string
       type: object
     VerificationError-recursive:
@@ -8733,56 +8921,56 @@ components:
           description: Contains the capabilities that the verification error applies to.
           items:
             enum:
-              - acceptExternalFunding
-              - acceptPspFunding
-              - acceptTransactionInRestrictedCountries
-              - acceptTransactionInRestrictedCountriesCommercial
-              - acceptTransactionInRestrictedCountriesConsumer
-              - acceptTransactionInRestrictedIndustries
-              - acceptTransactionInRestrictedIndustriesCommercial
-              - acceptTransactionInRestrictedIndustriesConsumer
-              - acquiring
-              - atmWithdrawal
-              - atmWithdrawalCommercial
-              - atmWithdrawalConsumer
-              - atmWithdrawalInRestrictedCountries
-              - atmWithdrawalInRestrictedCountriesCommercial
-              - atmWithdrawalInRestrictedCountriesConsumer
-              - authorisedPaymentInstrumentUser
-              - getGrantOffers
-              - issueBankAccount
-              - issueCard
-              - issueCardCommercial
-              - issueCardConsumer
-              - localAcceptance
-              - payout
-              - payoutToTransferInstrument
-              - processing
-              - receiveFromBalanceAccount
-              - receiveFromPlatformPayments
-              - receiveFromThirdParty
-              - receiveFromTransferInstrument
-              - receiveGrants
-              - receivePayments
-              - sendToBalanceAccount
-              - sendToThirdParty
-              - sendToTransferInstrument
-              - thirdPartyFunding
-              - useCard
-              - useCardCommercial
-              - useCardConsumer
-              - useCardInRestrictedCountries
-              - useCardInRestrictedCountriesCommercial
-              - useCardInRestrictedCountriesConsumer
-              - useCardInRestrictedIndustries
-              - useCardInRestrictedIndustriesCommercial
-              - useCardInRestrictedIndustriesConsumer
-              - withdrawFromAtm
-              - withdrawFromAtmCommercial
-              - withdrawFromAtmConsumer
-              - withdrawFromAtmInRestrictedCountries
-              - withdrawFromAtmInRestrictedCountriesCommercial
-              - withdrawFromAtmInRestrictedCountriesConsumer
+            - acceptExternalFunding
+            - acceptPspFunding
+            - acceptTransactionInRestrictedCountries
+            - acceptTransactionInRestrictedCountriesCommercial
+            - acceptTransactionInRestrictedCountriesConsumer
+            - acceptTransactionInRestrictedIndustries
+            - acceptTransactionInRestrictedIndustriesCommercial
+            - acceptTransactionInRestrictedIndustriesConsumer
+            - acquiring
+            - atmWithdrawal
+            - atmWithdrawalCommercial
+            - atmWithdrawalConsumer
+            - atmWithdrawalInRestrictedCountries
+            - atmWithdrawalInRestrictedCountriesCommercial
+            - atmWithdrawalInRestrictedCountriesConsumer
+            - authorisedPaymentInstrumentUser
+            - getGrantOffers
+            - issueBankAccount
+            - issueCard
+            - issueCardCommercial
+            - issueCardConsumer
+            - localAcceptance
+            - payout
+            - payoutToTransferInstrument
+            - processing
+            - receiveFromBalanceAccount
+            - receiveFromPlatformPayments
+            - receiveFromThirdParty
+            - receiveFromTransferInstrument
+            - receiveGrants
+            - receivePayments
+            - sendToBalanceAccount
+            - sendToThirdParty
+            - sendToTransferInstrument
+            - thirdPartyFunding
+            - useCard
+            - useCardCommercial
+            - useCardConsumer
+            - useCardInRestrictedCountries
+            - useCardInRestrictedCountriesCommercial
+            - useCardInRestrictedCountriesConsumer
+            - useCardInRestrictedIndustries
+            - useCardInRestrictedIndustriesCommercial
+            - useCardInRestrictedIndustriesConsumer
+            - withdrawFromAtm
+            - withdrawFromAtmCommercial
+            - withdrawFromAtmConsumer
+            - withdrawFromAtmInRestrictedCountries
+            - withdrawFromAtmInRestrictedCountriesCommercial
+            - withdrawFromAtmInRestrictedCountriesConsumer
             type: string
           type: array
         code:
@@ -8797,9 +8985,9 @@ components:
 
              Possible values: **invalidInput**, **dataMissing**.
           enum:
-            - dataMissing
-            - invalidInput
-            - pendingStatus
+          - dataMissing
+          - invalidInput
+          - pendingStatus
           type: string
         remediatingActions:
           description: >-
@@ -8917,27 +9105,27 @@ components:
         account holder
       value:
         balanceAccounts:
-          - accountHolderId: AH32272223222B5CTBMZT6W2V
-            defaultCurrencyCode: EUR
-            description: S. Hopper - Main Account
-            reference: YOUR_REFERENCE-X173L
-            timeZone: Europe/Amsterdam
-            id: BA32272223222B5CTDNB66W2Z
-            status: active
-          - accountHolderId: AH32272223222B5CTBMZT6W2V
-            defaultCurrencyCode: EUR
-            description: S. Hopper - Main Account
-            reference: YOUR_REFERENCE-X173L
-            timeZone: Europe/Amsterdam
-            id: BA32272223222B5CTDQPM6W2H
-            status: active
-          - accountHolderId: AH32272223222B5CTBMZT6W2V
-            defaultCurrencyCode: EUR
-            description: S. Hopper - Main Account
-            reference: YOUR_REFERENCE-X173L
-            timeZone: Europe/Amsterdam
-            id: BA32272223222B5CVF5J63LMW
-            status: active
+        - accountHolderId: AH32272223222B5CTBMZT6W2V
+          defaultCurrencyCode: EUR
+          description: S. Hopper - Main Account
+          reference: YOUR_REFERENCE-X173L
+          timeZone: Europe/Amsterdam
+          id: BA32272223222B5CTDNB66W2Z
+          status: active
+        - accountHolderId: AH32272223222B5CTBMZT6W2V
+          defaultCurrencyCode: EUR
+          description: S. Hopper - Main Account
+          reference: YOUR_REFERENCE-X173L
+          timeZone: Europe/Amsterdam
+          id: BA32272223222B5CTDQPM6W2H
+          status: active
+        - accountHolderId: AH32272223222B5CTBMZT6W2V
+          defaultCurrencyCode: EUR
+          description: S. Hopper - Main Account
+          reference: YOUR_REFERENCE-X173L
+          timeZone: Europe/Amsterdam
+          id: BA32272223222B5CVF5J63LMW
+          status: active
         hasNext: true
         hasPrevious: false
     get-accountHolders-id-success-200:
@@ -8969,11 +9157,11 @@ components:
             requested: true
             allowed: false
             transferInstruments:
-              - enabled: true
-                requested: true
-                allowed: false
-                id: SE322KH223222F5GXZFNM3BGP
-                verificationStatus: pending
+            - enabled: true
+              requested: true
+              allowed: false
+              id: SE322KH223222F5GXZFNM3BGP
+              verificationStatus: pending
             verificationStatus: pending
         id: AH3227C223222C5GXQXF658WB
         status: active
@@ -8991,20 +9179,20 @@ components:
         hasNext: false
         hasPrevious: false
         sweeps:
-          - id: SWPC4227C224555B5FTD2NT2JV4WN5
-            schedule:
-              type: daily
-            status: active
-            targetAmount:
-              currency: EUR
-              value: 0
-            triggerAmount:
-              currency: EUR
-              value: 0
-            type: push
-            counterparty:
-              balanceAccountId: BA32272223222B5FTD2KR6TJD
+        - id: SWPC4227C224555B5FTD2NT2JV4WN5
+          schedule:
+            type: daily
+          status: active
+          targetAmount:
             currency: EUR
+            value: 0
+          triggerAmount:
+            currency: EUR
+            value: 0
+          type: push
+          counterparty:
+            balanceAccountId: BA32272223222B5FTD2KR6TJD
+          currency: EUR
     get-balanceAccounts-balanceAccountId-sweeps-sweepId-success-200:
       summary: Sweep retrieved
       description: Example response when retrieving a sweep
@@ -9032,38 +9220,38 @@ components:
         hasNext: true
         hasPrevious: false
         paymentInstruments:
-          - balanceAccountId: BA32272223222B59CZ3T52DKZ
-            issuingCountryCode: GB
-            status: active
-            type: card
-            card:
-              brand: mc
-              brandVariant: mc
-              cardholderName: name
-              formFactor: virtual
-              bin: '555544'
-              expiration:
-                month: '12'
-                year: '2022'
-              lastFour: '2357'
-              number: '************2357'
-            id: PI32272223222B59M5TM658DT
-          - balanceAccountId: BA32272223222B59CZ3T52DKZ
-            issuingCountryCode: GB
-            status: active
-            type: card
-            card:
-              brand: mc
-              brandVariant: mc
-              cardholderName: name
-              formFactor: virtual
-              bin: '555544'
-              expiration:
-                month: '01'
-                year: '2023'
-              lastFour: '8331'
-              number: '************8331'
-            id: PI32272223222B59PXDGQDLSF
+        - balanceAccountId: BA32272223222B59CZ3T52DKZ
+          issuingCountryCode: GB
+          status: active
+          type: card
+          card:
+            brand: mc
+            brandVariant: mc
+            cardholderName: name
+            formFactor: virtual
+            bin: '555544'
+            expiration:
+              month: '12'
+              year: '2022'
+            lastFour: '2357'
+            number: '************2357'
+          id: PI32272223222B59M5TM658DT
+        - balanceAccountId: BA32272223222B59CZ3T52DKZ
+          issuingCountryCode: GB
+          status: active
+          type: card
+          card:
+            brand: mc
+            brandVariant: mc
+            cardholderName: name
+            formFactor: virtual
+            bin: '555544'
+            expiration:
+              month: '01'
+              year: '2023'
+            lastFour: '8331'
+            number: '************8331'
+          id: PI32272223222B59PXDGQDLSF
     get-balanceAccounts-id-success-200:
       summary: Balance account details retrieved
       description: Example response for retrieving a balance account
@@ -9072,11 +9260,11 @@ components:
         defaultCurrencyCode: EUR
         timeZone: Europe/Amsterdam
         balances:
-          - available: 0
-            balance: 0
-            currency: EUR
-            reserved: 0
-            pending: 0
+        - available: 0
+          balance: 0
+          currency: EUR
+          reserved: 0
+          pending: 0
         id: BA3227C223222B5BLP6JQC3FD
         status: active
     get-balancePlatforms-id-accountHolders-success-200:
@@ -9086,21 +9274,21 @@ components:
         balance platform
       value:
         accountHolders:
-          - description: Test-305
-            legalEntityId: LE3227C223222D5D8S5S33M4M
-            reference: LegalEntity internal error test
-            id: AH32272223222B5GFSNSXFFL9
-            status: active
-          - description: Test-751
-            legalEntityId: LE3227C223222D5D8S5TT3SRX
-            reference: LegalEntity internal error test
-            id: AH32272223222B5GFSNVGFFM7
-            status: active
-          - description: Explorer Holder
-            legalEntityId: LE3227C223222D5D8S5TT3SRX
-            reference: Account from the Explorer Holder
-            id: AH32272223222B5GFWNRFFVR6
-            status: active
+        - description: Test-305
+          legalEntityId: LE3227C223222D5D8S5S33M4M
+          reference: LegalEntity internal error test
+          id: AH32272223222B5GFSNSXFFL9
+          status: active
+        - description: Test-751
+          legalEntityId: LE3227C223222D5D8S5TT3SRX
+          reference: LegalEntity internal error test
+          id: AH32272223222B5GFSNVGFFM7
+          status: active
+        - description: Explorer Holder
+          legalEntityId: LE3227C223222D5D8S5TT3SRX
+          reference: Account from the Explorer Holder
+          id: AH32272223222B5GFWNRFFVR6
+          status: active
         hasNext: true
         hasPrevious: true
     get-balancePlatforms-id-success-200:
@@ -9114,13 +9302,13 @@ components:
       description: Example response for retrieving the item list of a specific card order
       value:
         data:
-          - card:
-              status: shipped
-            cardOrderItemId: UNIQUE_CARD_ORDER_ITEM_ID
-            paymentInstrumentId: UNIQUE_PAYMENT_INSTRUMENT_ID
-            pin:
-              status: produced
-            shippingMethod: Cardholder Post Basic National
+        - card:
+            status: shipped
+          cardOrderItemId: UNIQUE_CARD_ORDER_ITEM_ID
+          paymentInstrumentId: UNIQUE_PAYMENT_INSTRUMENT_ID
+          pin:
+            status: produced
+          shippingMethod: Cardholder Post Basic National
         hasNext: false
         hasPrevious: false
     get-cardorders-success-200:
@@ -9128,13 +9316,13 @@ components:
       description: Example response for retrieving a paginated list of card orders
       value:
         cardOrders:
-          - beginDate: '2022-12-05T00:00:00+01:00'
-            cardManufacturingProfileId: UNIQUE_CARD_MANUFACTURER_PROFILE_ID
-            endDate: '2022-12-06T00:00:00+01:00'
-            id: UNIQUE_CARD_ORDER_ID
-            lockDate: '2023-04-14T16:43:02+02:00'
-            serviceCenter: IDEMIA Sittard
-            status: closed
+        - beginDate: '2022-12-05T00:00:00+01:00'
+          cardManufacturingProfileId: UNIQUE_CARD_MANUFACTURER_PROFILE_ID
+          endDate: '2022-12-06T00:00:00+01:00'
+          id: UNIQUE_CARD_ORDER_ID
+          lockDate: '2023-04-14T16:43:02+02:00'
+          serviceCenter: IDEMIA Sittard
+          status: closed
         hasNext: true
         hasPrevious: false
     get-paymentInstrumentGroups-id-success-200:
@@ -9151,52 +9339,52 @@ components:
         a payment instrument group
       value:
         transactionRules:
-          - aggregationLevel: paymentInstrument
-            description: Up to 1000 EUR per card for the last 12 hours
-            entityKey:
-              entityReference: PG3227C223222C5GXR3M5592Q
-              entityType: paymentInstrumentGroup
-            interval:
-              duration:
-                unit: hours
-                value: 12
-              timeZone: UTC
-              type: sliding
-            outcomeType: hardBlock
-            reference: YOUR_REFERENCE_2918A
-            requestType: authorization
-            ruleRestrictions:
-              totalAmount:
-                operation: greaterThan
-                value:
-                  currency: EUR
-                  value: 100000
-            status: inactive
-            type: velocity
-            id: TR3227C223222C5GXR3XP596N
-          - aggregationLevel: paymentInstrument
-            description: NL only
-            entityKey:
-              entityReference: PG3227C223222C5GXR3M5592Q
-              entityType: paymentInstrumentGroup
-            interval:
-              duration:
-                unit: hours
-                value: 12
-              timeZone: UTC
-              type: sliding
-            outcomeType: hardBlock
-            reference: myRule12345
-            requestType: authorization
-            ruleRestrictions:
-              totalAmount:
-                operation: greaterThan
-                value:
-                  currency: EUR
-                  value: 100000
-            status: inactive
-            type: velocity
-            id: TR3227C223222C5GXR3WC595H
+        - aggregationLevel: paymentInstrument
+          description: Up to 1000 EUR per card for the last 12 hours
+          entityKey:
+            entityReference: PG3227C223222C5GXR3M5592Q
+            entityType: paymentInstrumentGroup
+          interval:
+            duration:
+              unit: hours
+              value: 12
+            timeZone: UTC
+            type: sliding
+          outcomeType: hardBlock
+          reference: YOUR_REFERENCE_2918A
+          requestType: authorization
+          ruleRestrictions:
+            totalAmount:
+              operation: greaterThan
+              value:
+                currency: EUR
+                value: 100000
+          status: inactive
+          type: velocity
+          id: TR3227C223222C5GXR3XP596N
+        - aggregationLevel: paymentInstrument
+          description: NL only
+          entityKey:
+            entityReference: PG3227C223222C5GXR3M5592Q
+            entityType: paymentInstrumentGroup
+          interval:
+            duration:
+              unit: hours
+              value: 12
+            timeZone: UTC
+            type: sliding
+          outcomeType: hardBlock
+          reference: myRule12345
+          requestType: authorization
+          ruleRestrictions:
+            totalAmount:
+              operation: greaterThan
+              value:
+                currency: EUR
+                value: 100000
+          status: inactive
+          type: velocity
+          id: TR3227C223222C5GXR3WC595H
     get-paymentInstruments-id-reveal-success-200:
       summary: Get the card's primary account number (PAN)
       description: Example response for getting the card PAN
@@ -9236,45 +9424,45 @@ components:
         a payment instrument
       value:
         transactionRules:
-          - description: Only allow point-of-sale transactions
-            entityKey:
-              entityReference: PI3227C223222B5FN65FN5NS9
-              entityType: paymentInstrument
-            interval:
-              timeZone: UTC
-              type: perTransaction
-            outcomeType: hardBlock
-            reference: YOUR_REFERENCE_4F7346
-            requestType: authorization
-            ruleRestrictions:
-              processingTypes:
-                operation: noneMatch
-                value:
-                  - pos
-            startDate: '2022-08-02T16:07:00.851374+02:00'
-            status: active
-            type: blockList
-            id: TR32272223222B5GFSGFLFCHM
-          - description: >-
-              Set the maximum number of active network tokens to one for this
-              card
-            entityKey:
-              entityReference: PI3227C223222B5FN65FN5NS9
-              entityType: paymentInstrument
-            interval:
-              timeZone: UTC
-              type: perTransaction
-            outcomeType: hardBlock
-            reference: myRule123
-            requestType: authorization
-            ruleRestrictions:
-              activeNetworkTokens:
-                operation: greaterThanOrEqualTo
-                value: 1
-            startDate: '2022-10-03T14:48:28.999314+02:00'
-            status: active
-            type: blockList
-            id: TR32272223222C5GQJ93L7J8Z
+        - description: Only allow point-of-sale transactions
+          entityKey:
+            entityReference: PI3227C223222B5FN65FN5NS9
+            entityType: paymentInstrument
+          interval:
+            timeZone: UTC
+            type: perTransaction
+          outcomeType: hardBlock
+          reference: YOUR_REFERENCE_4F7346
+          requestType: authorization
+          ruleRestrictions:
+            processingTypes:
+              operation: noneMatch
+              value:
+              - pos
+          startDate: '2022-08-02T16:07:00.851374+02:00'
+          status: active
+          type: blockList
+          id: TR32272223222B5GFSGFLFCHM
+        - description: >-
+            Set the maximum number of active network tokens to one for this
+            card
+          entityKey:
+            entityReference: PI3227C223222B5FN65FN5NS9
+            entityType: paymentInstrument
+          interval:
+            timeZone: UTC
+            type: perTransaction
+          outcomeType: hardBlock
+          reference: myRule123
+          requestType: authorization
+          ruleRestrictions:
+            activeNetworkTokens:
+              operation: greaterThanOrEqualTo
+              value: 1
+          startDate: '2022-10-03T14:48:28.999314+02:00'
+          status: active
+          type: blockList
+          id: TR32272223222C5GQJ93L7J8Z
     get-transactionRules-transactionRuleId-success-200:
       summary: Transaction rules retrieved
       description: Example response when retrieving a transaction rule
@@ -9294,7 +9482,7 @@ components:
             processingTypes:
               operation: noneMatch
               value:
-                - pos
+              - pos
           startDate: '2022-08-02T16:07:00.851374+02:00'
           status: active
           type: blockList
@@ -9376,10 +9564,10 @@ components:
         defaultCurrencyCode: EUR
         timeZone: Europe/Amsterdam
         balances:
-          - available: 0
-            balance: 0
-            currency: EUR
-            reserved: 0
+        - available: 0
+          balance: 0
+          currency: EUR
+          reserved: 0
         id: BA32272223222B59K6ZXHBFN6
         status: active
     patch-paymentInstruments-id-updatePaymentInstrumentBalanceAccount:
@@ -9452,7 +9640,7 @@ components:
           processingTypes:
             operation: noneMatch
             value:
-              - pos
+            - pos
         type: blockList
     patch-transactionRules-transactionRuleId-updateTransactionRuleStatus-200:
       summary: Transaction rule status updated
@@ -9598,8 +9786,8 @@ components:
           value: 50000
         currency: EUR
         priorities:
-          - fast
-          - instant
+        - fast
+        - instant
         category: bank
         schedule:
           type: weekly
@@ -9617,8 +9805,8 @@ components:
           value: 50000
         currency: EUR
         priorities:
-          - fast
-          - instant
+        - fast
+        - instant
         category: bank
         schedule:
           type: weekly
@@ -9639,10 +9827,10 @@ components:
         description: S.Hopper - Main balance account
         timeZone: Europe/Amsterdam
         balances:
-          - available: 0
-            balance: 0
-            currency: EUR
-            reserved: 0
+        - available: 0
+          balance: 0
+          currency: EUR
+          reserved: 0
         id: BA3227C223222H5J4DCGQ9V9L
         status: active
     post-paymentInstrumentGroups-createPaymentInstrumentGroups:
@@ -9819,7 +10007,7 @@ components:
           processingTypes:
             operation: noneMatch
             value:
-              - pos
+            - pos
         type: blockList
     post-transactionRules-createTransactionRuleAllowPos-200:
       summary: Transaction rule to allow only point-of-sale transactions
@@ -9839,7 +10027,7 @@ components:
           processingTypes:
             operation: noneMatch
             value:
-              - pos
+            - pos
         startDate: '2023-06-29T22:34:36.173226192+02:00'
         status: active
         type: blockList
@@ -10014,52 +10202,52 @@ components:
       description: Example response for calculating transfer routes
       value:
         transferRoutes:
-          - country: NL
-            currency: USD
-            priority: crossBorder
-            requirements:
-              - description: >-
-                  Amount of transfer must be at least 100, and no greater than
-                  99999999999
-                max: 99999999999
-                min: 100
-                type: amountMinMaxRequirement
-              - description: Country, street and city is required.
-                requiredAddressFields:
-                  - STREET
-                  - CITY
-                type: addressRequirement
-              - description: Bank account identification type must be iban or numberAndBic
-                bankAccountIdentificationTypes:
-                  - iban
-                  - numberAndBic
-                type: bankAccountIdentificationTypeRequirement
-              - issuingCountryCode: NL
-                paymentInstrumentType: BankAccount
-                type: paymentInstrumentRequirement
-          - country: NL
-            currency: USD
-            priority: wire
-            requirements:
-              - description: >-
-                  Amount of transfer must be at least 100, and no greater than
-                  99999999999
-                max: 99999999999
-                min: 100
-                type: amountMinMaxRequirement
-              - description: Country, street and city is required.
-                requiredAddressFields:
-                  - STREET
-                  - CITY
-                type: addressRequirement
-              - description: Bank account identification type must be iban or numberAndBic
-                bankAccountIdentificationTypes:
-                  - iban
-                  - numberAndBic
-                type: bankAccountIdentificationTypeRequirement
-              - issuingCountryCode: NL
-                paymentInstrumentType: BankAccount
-                type: paymentInstrumentRequirement
+        - country: NL
+          currency: USD
+          priority: crossBorder
+          requirements:
+          - description: >-
+              Amount of transfer must be at least 100, and no greater than
+              99999999999
+            max: 99999999999
+            min: 100
+            type: amountMinMaxRequirement
+          - description: Country, street and city is required.
+            requiredAddressFields:
+            - STREET
+            - CITY
+            type: addressRequirement
+          - description: Bank account identification type must be iban or numberAndBic
+            bankAccountIdentificationTypes:
+            - iban
+            - numberAndBic
+            type: bankAccountIdentificationTypeRequirement
+          - issuingCountryCode: NL
+            paymentInstrumentType: BankAccount
+            type: paymentInstrumentRequirement
+        - country: NL
+          currency: USD
+          priority: wire
+          requirements:
+          - description: >-
+              Amount of transfer must be at least 100, and no greater than
+              99999999999
+            max: 99999999999
+            min: 100
+            type: amountMinMaxRequirement
+          - description: Country, street and city is required.
+            requiredAddressFields:
+            - STREET
+            - CITY
+            type: addressRequirement
+          - description: Bank account identification type must be iban or numberAndBic
+            bankAccountIdentificationTypes:
+            - iban
+            - numberAndBic
+            type: bankAccountIdentificationTypeRequirement
+          - issuingCountryCode: NL
+            paymentInstrumentType: BankAccount
+            type: paymentInstrumentRequirement
     post-validateBankAccountIdentification-validateBankAccountIdentificationIban:
       summary: Validate an IBAN
       value:
@@ -10074,9 +10262,9 @@ components:
         detail: Provided IBAN is incorrect
         status: 422
         invalidFields:
-          - name: iban
-            value: '1001001234'
-            message: Invalid IBAN.
+        - name: iban
+          value: '1001001234'
+          message: Invalid IBAN.
         errorCode: '33_01'
     post-validateBankAccountIdentification-validateBankAccountIdentificationUs:
       summary: Validate a US bank account
@@ -10094,9 +10282,9 @@ components:
         detail: Provided account number and the routing number are incorrect
         status: 422
         invalidFields:
-          - name: accountNumber
-            value: 12345JHDhjkf67890
-            message: Invalid account number.
-          - name: routingNumber
-            value: '121000567'
-            message: Invalid routing number.
+        - name: accountNumber
+          value: 12345JHDhjkf67890
+          message: Invalid account number.
+        - name: routingNumber
+          value: '121000567'
+          message: Invalid routing number.

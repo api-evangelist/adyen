@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/legal-entity-legal-entity-info-structure.json",
+  "description": "LegalEntityInfo schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "capabilities": {
+      "additionalProperties": {
+        "$ref": "#/components/schemas/LegalEntityCapability"
+      },
+      "description": "Contains key-value pairs that specify the actions that the legal entity can do in your platform.The key is a capability required for your integration. For example, **issueCard** for Issuing.The value is an object containing the settings for the capability.",
+      "readOnly": true,
+      "type": "object"
+    },
+    "entityAssociations": {
+      "description": "List of legal entities associated with the current legal entity.\nFor example, ultimate beneficial owners associated with an organization through ownership or control, or as signatories.",
+      "items": {
+        "$ref": "#/components/schemas/LegalEntityAssociation"
+      },
+      "type": "array"
+    },
+    "individual": {
+      "description": "Information about the individual. Required if `type` is **individual**.",
+      "$ref": "#/components/schemas/Individual"
+    },
+    "organization": {
+      "description": "Information about the organization. Required if `type` is **organization**.",
+      "$ref": "#/components/schemas/Organization"
+    },
+    "reference": {
+      "description": "Your reference for the legal entity, maximum 150 characters.",
+      "maxLength": 150,
+      "type": "string"
+    },
+    "soleProprietorship": {
+      "x-addedInVersion": "2",
+      "description": "Information about the sole proprietorship. Required if `type` is **soleProprietorship**.",
+      "$ref": "#/components/schemas/SoleProprietorship"
+    },
+    "trust": {
+      "description": "Information about the trust. Required if `type` is **trust**.",
+      "$ref": "#/components/schemas/Trust"
+    },
+    "type": {
+      "description": "The type of legal entity.\n\nPossible values: **individual**, **organization**, **soleProprietorship**, or **trust**.",
+      "enum": [
+        "individual",
+        "organization",
+        "soleProprietorship",
+        "trust",
+        "unincorporatedPartnership"
+      ],
+      "type": "string"
+    },
+    "unincorporatedPartnership": {
+      "description": "Information about the unincorporated partnership. Required if `type` is **unincorporatedPartnership**.",
+      "$ref": "#/components/schemas/UnincorporatedPartnership"
+    },
+    "verificationPlan": {
+      "description": "A key-value pair that specifies the [verification process](https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details/) for a legal entity. Set to **upfront** for [upfront verification](https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details#upfront).",
+      "type": "string"
+    }
+  },
+  "name": "LegalEntityInfo"
+}

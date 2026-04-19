@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/checkout-three-d-secure-data-structure.json",
+  "description": "ThreeDSecureData schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "authenticationResponse": {
+      "description": "In 3D Secure 1, the authentication response if the shopper was redirected.\n\nIn 3D Secure 2, this is the `transStatus` from the challenge result. If the transaction was frictionless, omit this parameter.",
+      "enum": [
+        "Y",
+        "N",
+        "U",
+        "A"
+      ],
+      "type": "string"
+    },
+    "cavv": {
+      "description": "The cardholder authentication value (base64 encoded, 20 bytes in a decoded form).",
+      "format": "byte",
+      "type": "string"
+    },
+    "cavvAlgorithm": {
+      "description": "The CAVV algorithm used. Include this only for 3D Secure 1.",
+      "type": "string"
+    },
+    "challengeCancel": {
+      "x-addedInVersion": "67",
+      "description": "Indicator informing the Access Control Server (ACS) and the Directory Server (DS) that the authentication has been cancelled. For possible values, refer to [3D Secure API reference](https://docs.adyen.com/online-payments/3d-secure/api-reference#mpidata).",
+      "enum": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07"
+      ],
+      "type": "string"
+    },
+    "directoryResponse": {
+      "description": "In 3D Secure 1, this is the enrollment response from the 3D directory server.\n\nIn 3D Secure 2, this is the `transStatus` from the `ARes`.",
+      "enum": [
+        "A",
+        "C",
+        "D",
+        "I",
+        "N",
+        "R",
+        "U",
+        "Y"
+      ],
+      "type": "string"
+    },
+    "dsTransID": {
+      "x-addedInVersion": "40",
+      "description": "Supported for 3D Secure 2. The unique transaction identifier assigned by the Directory Server (DS) to identify a single transaction.",
+      "type": "string"
+    },
+    "eci": {
+      "description": "The electronic commerce indicator.",
+      "type": "string"
+    },
+    "riskScore": {
+      "x-addedInVersion": "67",
+      "description": "Risk score calculated by Directory Server (DS). Required for Cartes Bancaires integrations.",
+      "type": "string"
+    },
+    "threeDSVersion": {
+      "x-addedInVersion": "40",
+      "description": "The version of the 3D Secure protocol.",
+      "type": "string"
+    },
+    "tokenAuthenticationVerificationValue": {
+      "x-addedInVersion": "68",
+      "description": "Network token authentication verification value (TAVV). The network token cryptogram.",
+      "format": "byte",
+      "type": "string"
+    },
+    "transStatusReason": {
+      "x-addedInVersion": "67",
+      "description": "Provides information on why the `transStatus` field has the specified value. For possible values, refer to [our docs](https://docs.adyen.com/online-payments/3d-secure/api-reference#possible-transstatusreason-values).",
+      "type": "string"
+    },
+    "xid": {
+      "description": "Supported for 3D Secure 1. The transaction identifier (Base64-encoded, 20 bytes in a decoded form).",
+      "format": "byte",
+      "type": "string"
+    }
+  },
+  "name": "ThreeDSecureData"
+}

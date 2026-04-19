@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/hosted-onboarding-get-onboarding-url-request-structure.json",
+  "description": "GetOnboardingUrlRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountHolderCode": {
+      "description": "The account holder code you provided when you created the account holder.",
+      "type": "string"
+    },
+    "collectInformation": {
+      "description": "Contains indicators whether the page should only collect information for specific [KYC checks](https://docs.adyen.com/marketplaces-and-platforms/classic/verification-checks). By default, the page collects information for all KYC checks that apply to the [legal entity type](https://docs.adyen.com/marketplaces-and-platforms/classic/account-holders-and-accounts#legal-entity-types).",
+      "$ref": "#/components/schemas/CollectInformation"
+    },
+    "editMode": {
+      "description": "Indicates if editing checks is allowed even if all the checks have passed.",
+      "type": "boolean"
+    },
+    "mobileOAuthCallbackUrl": {
+      "description": "The URL to which the account holder is redirected after completing an OAuth authentication with a bank through Trustly/PayMyBank.",
+      "type": "string"
+    },
+    "platformName": {
+      "description": "The platform name which will show up in the welcome page.",
+      "type": "string"
+    },
+    "returnUrl": {
+      "description": "The URL where the account holder will be redirected back to after they complete the onboarding, or if their session times out. Maximum length of 500 characters. If you don't provide this, the account holder will be redirected back to the default return URL configured in your platform account.",
+      "type": "string"
+    },
+    "shopperLocale": {
+      "description": "The language to be used in the page, specified by a combination of a language and country code. For example, **pt-BR**. \n\nIf not specified in the request or if the language is not supported, the page uses the browser language. If the browser language is not supported, the page uses **en-US** by default.\n\nFor a list of supported languages, refer to [Change the page language](https://docs.adyen.com/marketplaces-and-platforms/classic/hosted-onboarding-page/customize-experience#change-page-language).",
+      "type": "string"
+    },
+    "showPages": {
+      "description": "Contains indicators whether specific pages must be shown to the account holder.",
+      "$ref": "#/components/schemas/ShowPages"
+    }
+  },
+  "required": [
+    "accountHolderCode"
+  ],
+  "name": "GetOnboardingUrlRequest"
+}

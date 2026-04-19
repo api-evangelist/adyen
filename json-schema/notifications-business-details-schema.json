@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/notifications-business-details-schema.json",
+  "title": "BusinessDetails",
+  "description": "BusinessDetails schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "doingBusinessAs": {
+      "description": "The registered name of the company (if it differs from the legal name of the company).",
+      "type": "string"
+    },
+    "legalBusinessName": {
+      "description": "The legal name of the company.",
+      "type": "string"
+    },
+    "listedUltimateParentCompany": {
+      "description": "Information about the parent public company. Required if the account holder is 100% owned by a publicly listed company.",
+      "items": {
+        "$ref": "#/components/schemas/UltimateParentCompany"
+      },
+      "type": "array"
+    },
+    "registrationNumber": {
+      "x-addedInVersion": "4",
+      "description": "The registration number of the company.",
+      "type": "string"
+    },
+    "shareholders": {
+      "description": "Array containing information about individuals associated with the account holder either through ownership or control. For details about how you can identify them, refer to [our verification guide](https://docs.adyen.com/marketplaces-and-platforms/classic/verification-process#identify-ubos).",
+      "items": {
+        "$ref": "#/components/schemas/ShareholderContact"
+      },
+      "type": "array"
+    },
+    "signatories": {
+      "description": "Signatories associated with the company.\nEach array entry should represent one signatory.",
+      "items": {
+        "$ref": "#/components/schemas/SignatoryContact"
+      },
+      "type": "array"
+    },
+    "stockExchange": {
+      "x-addedInVersion": "6",
+      "description": "Market Identifier Code (MIC).",
+      "type": "string"
+    },
+    "stockNumber": {
+      "x-addedInVersion": "6",
+      "description": "International Securities Identification Number (ISIN).",
+      "type": "string"
+    },
+    "stockTicker": {
+      "x-addedInVersion": "6",
+      "description": "Stock Ticker symbol.",
+      "type": "string"
+    },
+    "taxId": {
+      "description": "The tax ID of the company.",
+      "type": "string"
+    }
+  }
+}

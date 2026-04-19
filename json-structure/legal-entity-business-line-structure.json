@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/legal-entity-business-line-structure.json",
+  "description": "BusinessLine schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "capability": {
+      "deprecated": true,
+      "x-deprecatedInVersion": "3",
+      "x-deprecatedMessage": "Use `service` instead.",
+      "description": "The capability for which you are creating the business line.\n\nPossible values: **receivePayments**, **receiveFromPlatformPayments**, **issueBankAccount**",
+      "enum": [
+        "receivePayments",
+        "receiveFromPlatformPayments",
+        "issueBankAccount"
+      ],
+      "type": "string"
+    },
+    "id": {
+      "description": "The unique identifier of the business line.",
+      "readOnly": true,
+      "type": "string"
+    },
+    "industryCode": {
+      "description": "A code that represents the [industry of the legal entity](https://docs.adyen.com/marketplaces-and-platforms/verification-requirements/reference-additional-products/#list-industry-codes). For example, **4431A** for computer software stores.",
+      "type": "string"
+    },
+    "legalEntityId": {
+      "description": "Unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/legalEntities__resParam_id) that owns the business line.",
+      "type": "string"
+    },
+    "problems": {
+      "x-addedInVersion": "3",
+      "description": "The verification errors related to capabilities for this supporting entity.",
+      "items": {
+        "$ref": "#/components/schemas/CapabilityProblem"
+      },
+      "type": "array"
+    },
+    "salesChannels": {
+      "description": "A list of channels where goods or services are sold.\n\nPossible values: **pos**, **posMoto**, **eCommerce**, **ecomMoto**, **payByLink**.\n\nRequired only in combination with the `service` **paymentProcessing**.",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "service": {
+      "x-addedInVersion": "3",
+      "description": "The service for which you are creating the business line.\n\n\n\nPossible values:\n*  **paymentProcessing**\n*  **banking**\n\n",
+      "enum": [
+        "paymentProcessing",
+        "banking"
+      ],
+      "type": "string"
+    },
+    "sourceOfFunds": {
+      "description": "Contains information about the source of your user's funds. Required only for the `service` **banking**.",
+      "$ref": "#/components/schemas/SourceOfFunds"
+    },
+    "webData": {
+      "description": "List of website URLs where your user's goods or services are sold. When this is required for a service but your user does not have an online presence, provide the reason in the `webDataExemption` object.",
+      "items": {
+        "$ref": "#/components/schemas/WebData"
+      },
+      "type": "array"
+    },
+    "webDataExemption": {
+      "description": "The reason why the web data is not provided.",
+      "$ref": "#/components/schemas/WebDataExemption"
+    }
+  },
+  "required": [
+    "service",
+    "industryCode",
+    "legalEntityId",
+    "id"
+  ],
+  "name": "BusinessLine"
+}

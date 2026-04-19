@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/terminal-sale-data-structure.json",
+  "description": "Data associated to the Sale System, with a particular value during the processing of the payment by the POI, including the cards acquisition. Data related to the Sale System.",
+  "type": "object",
+  "properties": {
+    "OperatorID": {
+      "type": "string",
+      "pattern": "^.+$"
+    },
+    "OperatorLanguage": {
+      "type": "string",
+      "pattern": "^[a-z]{2,2}$",
+      "description": "if different from the Login."
+    },
+    "ShiftNumber": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "if different from the Login and  see Login .SaleData."
+    },
+    "SaleTransactionID": {
+      "$ref": "#/components/schemas/TransactionIDType"
+    },
+    "SaleReferenceID": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "If payment reservation."
+    },
+    "SaleTerminalData": {
+      "$ref": "#/components/schemas/SaleTerminalData"
+    },
+    "TokenRequestedType": {
+      "$ref": "#/components/schemas/TokenRequestedType"
+    },
+    "CustomerOrderID": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "Additional and optional identification of a customer order."
+    },
+    "CustomerOrderReq": {
+      "$ref": "#/components/schemas/CustomerOrderReq"
+    },
+    "SaleToPOIData": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "Stored with the transaction."
+    },
+    "SaleToAcquirerData": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "Send to the Acquirer if present."
+    },
+    "SaleToIssuerData": {
+      "$ref": "#/components/schemas/SaleToIssuerData"
+    }
+  },
+  "required": [
+    "SaleTransactionID"
+  ],
+  "name": "SaleData"
+}

@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/recurring-notify-shopper-request-schema.json",
+  "title": "NotifyShopperRequest",
+  "description": "NotifyShopperRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "amount": {
+      "description": "The amount of the upcoming payment.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "billingDate": {
+      "description": "Date on which the subscription amount will be debited from the shopper. In YYYY-MM-DD format",
+      "type": "string"
+    },
+    "billingSequenceNumber": {
+      "description": "Sequence of the debit. Depends on Frequency and Billing Attempts Rule.",
+      "type": "string"
+    },
+    "displayedReference": {
+      "description": "Reference of Pre-debit notification that is displayed to the shopper. Optional field. Maps to reference if missing",
+      "type": "string"
+    },
+    "merchantAccount": {
+      "description": "The merchant account identifier with which you want to process the transaction.",
+      "type": "string"
+    },
+    "recurringDetailReference": {
+      "description": "This is the `recurringDetailReference` returned in the response when you created the token.",
+      "type": "string"
+    },
+    "reference": {
+      "description": "Pre-debit notification reference sent by the merchant. This is a mandatory field",
+      "type": "string"
+    },
+    "shopperReference": {
+      "description": "The ID that uniquely identifies the shopper.\n\nThis `shopperReference` must be the same as the `shopperReference` used in the initial payment.",
+      "type": "string"
+    },
+    "storedPaymentMethodId": {
+      "description": "This is the `recurringDetailReference` returned in the response when you created the token.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "merchantAccount",
+    "shopperReference",
+    "amount",
+    "reference"
+  ]
+}

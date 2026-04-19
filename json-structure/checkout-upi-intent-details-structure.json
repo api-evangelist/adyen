@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/checkout-upi-intent-details-structure.json",
+  "description": "UpiIntentDetails schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "checkoutAttemptId": {
+      "x-addedInVersion": "68",
+      "description": "The checkout attempt identifier.",
+      "type": "string"
+    },
+    "recurringDetailReference": {
+      "deprecated": true,
+      "x-deprecatedInVersion": "49",
+      "x-deprecatedMessage": "Use `storedPaymentMethodId` instead.",
+      "description": "This is the `recurringDetailReference` returned in the response when you created the token.",
+      "type": "string"
+    },
+    "shopperNotificationReference": {
+      "description": "The `shopperNotificationReference` returned in the response when you requested to notify the shopper. Used for recurring payment only.",
+      "type": "string"
+    },
+    "storedPaymentMethodId": {
+      "x-addedInVersion": "49",
+      "description": "This is the `recurringDetailReference` returned in the response when you created the token.",
+      "maxLength": 64,
+      "type": "string"
+    },
+    "type": {
+      "default": "upi_intent",
+      "description": "**upi_intent**",
+      "enum": [
+        "upi_intent"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "type"
+  ],
+  "additionalProperties": false,
+  "name": "UpiIntentDetails"
+}

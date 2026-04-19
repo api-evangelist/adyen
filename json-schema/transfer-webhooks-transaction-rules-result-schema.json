@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/transfer-webhooks-transaction-rules-result-schema.json",
+  "title": "TransactionRulesResult",
+  "description": "TransactionRulesResult schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "advice": {
+      "description": "The advice given by the Risk analysis.",
+      "type": "string"
+    },
+    "allHardBlockRulesPassed": {
+      "x-addedInVersion": "4",
+      "description": "Indicates whether the transaction passed the evaluation for all hardblock rules",
+      "type": "boolean"
+    },
+    "score": {
+      "description": "The score of the Risk analysis.",
+      "format": "int32",
+      "type": "integer"
+    },
+    "triggeredTransactionRules": {
+      "x-addedInVersion": "4",
+      "description": "Array containing all the transaction rules that the transaction triggered.",
+      "items": {
+        "$ref": "#/components/schemas/TransactionEventViolation"
+      },
+      "type": "array"
+    }
+  }
+}

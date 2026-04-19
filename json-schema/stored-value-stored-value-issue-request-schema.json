@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/stored-value-stored-value-issue-request-schema.json",
+  "title": "StoredValueIssueRequest",
+  "description": "StoredValueIssueRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "amount": {
+      "description": "The amount information for the transaction.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "merchantAccount": {
+      "description": "The merchant account identifier, with which you want to process the transaction.",
+      "type": "string"
+    },
+    "paymentMethod": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "The collection that contains the type of the payment method and its specific information if available",
+      "type": "object"
+    },
+    "recurringDetailReference": {
+      "type": "string"
+    },
+    "reference": {
+      "description": "The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. We recommend using a unique value per payment; however, it is not a requirement.\nIf you need to provide multiple references for a transaction, separate them with hyphens (\"-\").\nMaximum length: 80 characters.",
+      "type": "string"
+    },
+    "shopperInteraction": {
+      "description": "Specifies the sales channel, through which the shopper gives their card details, and whether the shopper is a returning customer.\nFor the web service API, Adyen assumes Ecommerce shopper interaction by default.\n\nThis field has the following possible values:\n* `Ecommerce` - Online transactions where the cardholder is present (online). For better authorisation rates, we recommend sending the card security code (CSC) along with the request.\n* `ContAuth` - Card on file and/or subscription transactions, where the cardholder is known to the merchant (returning customer). If the shopper is present (online), you can supply also the CSC to improve authorisation (one-click payment).\n* `Moto` - Mail-order and telephone-order transactions where the shopper is in contact with the merchant via email or telephone.\n* `POS` - Point-of-sale transactions where the shopper is physically present to make a payment using a secure payment terminal.",
+      "enum": [
+        "Ecommerce",
+        "ContAuth",
+        "Moto",
+        "POS"
+      ],
+      "type": "string"
+    },
+    "shopperReference": {
+      "type": "string"
+    },
+    "store": {
+      "description": "The physical store, for which this payment is processed.",
+      "maxLength": 16,
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "merchantAccount",
+    "reference",
+    "paymentMethod"
+  ]
+}

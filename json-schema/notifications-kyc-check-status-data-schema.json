@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/notifications-kyc-check-status-data-schema.json",
+  "title": "KYCCheckStatusData",
+  "description": "KYCCheckStatusData schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "requiredFields": {
+      "description": "A list of the fields required for execution of the check.",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "status": {
+      "description": "The status of the check.\n\nPossible values: **AWAITING_DATA** , **DATA_PROVIDED**, **FAILED**, **INVALID_DATA**, **PASSED**, **PENDING**, **RETRY_LIMIT_REACHED**.",
+      "enum": [
+        "AWAITING_DATA",
+        "DATA_PROVIDED",
+        "FAILED",
+        "INVALID_DATA",
+        "PASSED",
+        "PENDING",
+        "PENDING_REVIEW",
+        "RETRY_LIMIT_REACHED",
+        "UNCHECKED"
+      ],
+      "type": "string"
+    },
+    "summary": {
+      "description": "A summary of the execution of the check.",
+      "$ref": "#/components/schemas/KYCCheckSummary"
+    },
+    "type": {
+      "description": "The type of check.\n\nPossible values:\n\n * **BANK_ACCOUNT_VERIFICATION**: Used in v5 and earlier. Replaced by **PAYOUT_METHOD_VERIFICATION** in v6 and later.\n\n * **COMPANY_VERIFICATION**\n\n  * **CARD_VERIFICATION**\n\n* **IDENTITY_VERIFICATION**\n\n* **LEGAL_ARRANGEMENT_VERIFICATION**\n\n* **NONPROFIT_VERIFICATION**\n\n * **PASSPORT_VERIFICATION**\n\n* **PAYOUT_METHOD_VERIFICATION**: Used in v6 and later.\n\n* **PCI_VERIFICATION**",
+      "enum": [
+        "BANK_ACCOUNT_VERIFICATION",
+        "CARD_VERIFICATION",
+        "COMPANY_VERIFICATION",
+        "IDENTITY_VERIFICATION",
+        "LEGAL_ARRANGEMENT_VERIFICATION",
+        "NONPROFIT_VERIFICATION",
+        "PASSPORT_VERIFICATION",
+        "PAYOUT_METHOD_VERIFICATION",
+        "PCI_VERIFICATION"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "status"
+  ]
+}

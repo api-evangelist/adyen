@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/transfer-webhooks-transfer-event-schema.json",
+  "title": "TransferEvent",
+  "description": "TransferEvent schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "amount": {
+      "x-addedInVersion": "3",
+      "description": "The original journal amount.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "amountAdjustments": {
+      "x-addedInVersion": "3",
+      "description": "The amount adjustments in this transfer.",
+      "items": {
+        "$ref": "#/components/schemas/AmountAdjustment"
+      },
+      "type": "array"
+    },
+    "bookingDate": {
+      "x-addedInVersion": "3",
+      "description": "The date when the transfer request was sent.",
+      "format": "date-time",
+      "type": "string"
+    },
+    "estimatedArrivalTime": {
+      "x-addedInVersion": "3",
+      "description": "The estimated time the beneficiary should have access to the funds.",
+      "format": "date-time",
+      "type": "string"
+    },
+    "id": {
+      "x-addedInVersion": "3",
+      "description": "The unique identifier of the transfer event.",
+      "type": "string"
+    },
+    "modification": {
+      "x-addedInVersion": "3",
+      "description": "Payment modification.",
+      "$ref": "#/components/schemas/Modification"
+    },
+    "mutations": {
+      "x-addedInVersion": "3",
+      "description": "The list of the balance mutation per event.",
+      "items": {
+        "$ref": "#/components/schemas/BalanceMutation"
+      },
+      "type": "array"
+    },
+    "originalAmount": {
+      "x-addedInVersion": "3",
+      "description": "The amount in the original currency.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "reason": {
+      "x-addedInVersion": "3",
+      "description": "The reason for the transfer status.",
+      "enum": [
+        "amountLimitExceeded",
+        "approved",
+        "balanceAccountTemporarilyBlockedByTransactionRule",
+        "counterpartyAccountBlocked",
+        "counterpartyAccountClosed",
+        "counterpartyAccountNotFound",
+        "counterpartyAddressRequired",
+        "counterpartyBankTimedOut",
+        "counterpartyBankUnavailable",
+        "declinedByTransactionRule",
+        "error",
+        "notEnoughBalance",
+        "refusedByCounterpartyBank",
+        "routeNotFound",
+        "scaFailed",
+        "unknown"
+      ],
+      "type": "string"
+    },
+    "status": {
+      "x-addedInVersion": "3",
+      "description": "The status of the transfer event.",
+      "enum": [
+        "approvalPending",
+        "atmWithdrawal",
+        "atmWithdrawalReversalPending",
+        "atmWithdrawalReversed",
+        "authAdjustmentAuthorised",
+        "authAdjustmentError",
+        "authAdjustmentRefused",
+        "authorised",
+        "bankTransfer",
+        "bankTransferPending",
+        "booked",
+        "bookingPending",
+        "cancelled",
+        "capturePending",
+        "captureReversalPending",
+        "captureReversed",
+        "captured",
+        "capturedExternally",
+        "chargeback",
+        "chargebackExternally",
+        "chargebackPending",
+        "chargebackReversalPending",
+        "chargebackReversed",
+        "credited",
+        "depositCorrection",
+        "depositCorrectionPending",
+        "dispute",
+        "disputeClosed",
+        "disputeExpired",
+        "disputeNeedsReview",
+        "error",
+        "expired",
+        "failed",
+        "fee",
+        "feePending",
+        "internalTransfer",
+        "internalTransferPending",
+        "invoiceDeduction",
+        "invoiceDeductionPending",
+        "manualCorrectionPending",
+        "manuallyCorrected",
+        "matchedStatement",
+        "matchedStatementPending",
+        "merchantPayin",
+        "merchantPayinPending",
+        "merchantPayinReversed",
+        "merchantPayinReversedPending",
+        "miscCost",
+        "miscCostPending",
+        "paymentCost",
+        "paymentCostPending",
+        "received",
+        "refundPending",
+        "refundReversalPending",
+        "refundReversed",
+        "refunded",
+        "refundedExternally",
+        "refused",
+        "reserveAdjustment",
+        "reserveAdjustmentPending",
+        "returned",
+        "secondChargeback",
+        "secondChargebackPending",
+        "undefined"
+      ],
+      "type": "string"
+    },
+    "transactionId": {
+      "x-addedInVersion": "3",
+      "description": "The id of the transaction that is related to this accounting event. Only sent for events of type **accounting** where the balance changes.",
+      "type": "string"
+    },
+    "type": {
+      "x-addedInVersion": "3",
+      "description": "The type of the transfer event. Possible values: **accounting**, **tracking**.",
+      "enum": [
+        "accounting",
+        "tracking"
+      ],
+      "type": "string"
+    },
+    "updateDate": {
+      "x-addedInVersion": "3",
+      "description": "The date when the tracking status was updated.",
+      "format": "date-time",
+      "type": "string"
+    },
+    "valueDate": {
+      "x-addedInVersion": "3",
+      "description": "A future date, when the funds are expected to be deducted from or credited to the balance account.",
+      "format": "date-time",
+      "type": "string"
+    }
+  }
+}

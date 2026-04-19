@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/management-split-configuration-logic-structure.json",
+  "description": "SplitConfigurationLogic schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "acquiringFees": {
+      "description": "Specifies the logic to apply when booking the transaction fees. Should be combined with adyenFees.\n\nPossible values: **deductFromLiableAccount**, **deductFromOneBalanceAccount**.",
+      "enum": [
+        "deductFromLiableAccount",
+        "deductFromOneBalanceAccount"
+      ],
+      "type": "string"
+    },
+    "additionalCommission": {
+      "description": "Contains the logic used to calculate your user's commission, booked directly to their balance account.",
+      "$ref": "#/components/schemas/AdditionalCommission"
+    },
+    "adyenCommission": {
+      "description": "Specifies the logic to apply when booking the transaction fees. Should be combined with schemeFee, interchange & adyenMarkup.\n\nPossible values: **deductFromLiableAccount**, **deductFromOneBalanceAccount**.",
+      "enum": [
+        "deductFromLiableAccount",
+        "deductFromOneBalanceAccount"
+      ],
+      "type": "string"
+    },
+    "adyenFees": {
+      "description": "Specifies the logic to apply when booking the transaction fees. Should be combined with acquiringFees.\n\nPossible values: **deductFromLiableAccount**, **deductFromOneBalanceAccount**.",
+      "enum": [
+        "deductFromLiableAccount",
+        "deductFromOneBalanceAccount"
+      ],
+      "type": "string"
+    },
+    "adyenMarkup": {
+      "description": "Specifies the logic to apply when booking the transaction fees. Should be combined with schemeFee, adyenCommission & interchange.\n\nPossible values: **deductFromLiableAccount**, **deductFromOneBalanceAccount**.",
+      "enum": [
+        "deductFromLiableAccount",
+        "deductFromOneBalanceAccount"
+      ],
+      "type": "string"
+    },
+    "chargeback": {
+      "description": "Specifies the logic to apply when booking the chargeback amount.\n\nPossible values: **deductFromLiableAccount**, **deductFromOneBalanceAccount**, **deductAccordingToSplitRatio**.",
+      "enum": [
+        "deductFromLiableAccount",
+        "deductFromOneBalanceAccount",
+        "deductAccordingToSplitRatio"
+      ],
+      "type": "string"
+    },
+    "chargebackCostAllocation": {
+      "description": "Specifies the logic to apply when allocating the chargeback costs.\n\nPossible values: **deductFromLiableAccount**, **deductFromOneBalanceAccount**",
+      "enum": [
+        "deductFromLiableAccount",
+        "deductFromOneBalanceAccount"
+      ],
+      "type": "string"
+    },
+    "commission": {
+      "description": "Contains the logic used to the calculate your platform's commission, booked to your liable balance account.",
+      "$ref": "#/components/schemas/Commission"
+    },
+    "interchange": {
+      "description": "Specifies the logic to apply when booking the transaction fees. Should be combined with schemeFee, adyenCommission & adyenMarkup.\n\nPossible values: **deductFromLiableAccount**, **deductFromOneBalanceAccount**.",
+      "enum": [
+        "deductFromLiableAccount",
+        "deductFromOneBalanceAccount"
+      ],
+      "type": "string"
+    },
+    "paymentFee": {
+      "description": "Specifies the logic to apply when booking the transaction fees. Cannot be combined with other fees.\n\nPossible values: **deductFromLiableAccount**, **deductFromOneBalanceAccount**.",
+      "enum": [
+        "deductFromLiableAccount",
+        "deductFromOneBalanceAccount"
+      ],
+      "type": "string"
+    },
+    "remainder": {
+      "description": "Specifies the logic to apply when booking the amount left over after currency conversion.\n\nPossible values: **addToLiableAccount**, **addToOneBalanceAccount**.",
+      "enum": [
+        "addToLiableAccount",
+        "addToOneBalanceAccount"
+      ],
+      "type": "string"
+    },
+    "schemeFee": {
+      "description": "Specifies the logic to apply when booking the transaction fees. Should be combined with interchange, adyenCommission & adyenMarkup.\n\nPossible values: **deductFromLiableAccount**, **deductFromOneBalanceAccount**.",
+      "enum": [
+        "deductFromLiableAccount",
+        "deductFromOneBalanceAccount"
+      ],
+      "type": "string"
+    },
+    "splitLogicId": {
+      "description": "Unique identifier of the split logic that is applied when the split configuration conditions are met.",
+      "readOnly": true,
+      "type": "string"
+    },
+    "surcharge": {
+      "description": "Specifies the logic to apply when booking the surcharge amount.\n\nPossible values: **addToLiableAccount**, **addToOneBalanceAccount**",
+      "enum": [
+        "addToLiableAccount",
+        "addToOneBalanceAccount"
+      ],
+      "type": "string"
+    },
+    "tip": {
+      "description": "Specifies the logic to apply when booking tips (gratuity).\n\nPossible values: **addToLiableAccount**, **addToOneBalanceAccount**.",
+      "enum": [
+        "addToLiableAccount",
+        "addToOneBalanceAccount"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "commission"
+  ],
+  "name": "SplitConfigurationLogic"
+}

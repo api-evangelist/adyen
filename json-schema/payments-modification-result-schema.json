@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/payments-modification-result-schema.json",
+  "title": "ModificationResult",
+  "description": "ModificationResult schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "additionalData": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "This field contains additional data, which may be returned in a particular modification response.",
+      "type": "object"
+    },
+    "pspReference": {
+      "description": "Adyen's 16-character string reference associated with the transaction/request. This value is globally unique; quote it when communicating with us about this request.",
+      "type": "string"
+    },
+    "response": {
+      "description": "Indicates if the modification request has been received for processing.",
+      "enum": [
+        "[capture-received]",
+        "[cancel-received]",
+        "[refund-received]",
+        "[cancelOrRefund-received]",
+        "[adjustAuthorisation-received]",
+        "[donation-received]",
+        "[technical-cancel-received]",
+        "[voidPendingRefund-received]"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "response",
+    "pspReference"
+  ]
+}

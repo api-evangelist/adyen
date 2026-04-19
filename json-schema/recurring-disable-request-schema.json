@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/recurring-disable-request-schema.json",
+  "title": "DisableRequest",
+  "description": "DisableRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "contract": {
+      "x-addedInVersion": "3",
+      "description": "Specify the contract if you only want to disable a specific use.\n\nThis field can be set to one of the following values, or to their combination (comma-separated):\n* ONECLICK\n* RECURRING\n* PAYOUT",
+      "type": "string"
+    },
+    "merchantAccount": {
+      "description": "The merchant account identifier with which you want to process the transaction.",
+      "type": "string"
+    },
+    "recurringDetailReference": {
+      "description": "The ID that uniquely identifies the recurring detail reference.\n\nIf it is not provided, the whole recurring contract of the `shopperReference` will be disabled, which includes all recurring details.",
+      "type": "string"
+    },
+    "shopperReference": {
+      "description": "The ID that uniquely identifies the shopper.\n\nThis `shopperReference` must be the same as the `shopperReference` used in the initial payment.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "merchantAccount",
+    "shopperReference"
+  ]
+}

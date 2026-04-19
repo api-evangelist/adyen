@@ -1,0 +1,190 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Adyen Merchant Account Management"
+  description: "Unified capability for managing Adyen merchant accounts, stores, payment terminals, and dispute resolution. Combines Management API and Disputes API to give operations teams and platform administrators complete control over merchant configuration and chargeback handling. Primary persona: Merchant Operations Team or Platform Administrator."
+  tags:
+    - Adyen
+    - Management
+    - Merchants
+    - Disputes
+    - Operations
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+binds:
+  - namespace: env
+    keys:
+      ADYEN_MANAGEMENT_API_KEY: ADYEN_MANAGEMENT_API_KEY
+      ADYEN_API_KEY: ADYEN_API_KEY
+
+capability:
+  consumes:
+    - import: management
+      location: ./shared/management.yaml
+    - import: disputes
+      location: ./shared/disputes.yaml
+
+  exposes:
+    - type: rest
+      port: 8081
+      namespace: adyen-merchant-management-api
+      description: "Unified REST API for Adyen merchant account management and dispute handling."
+      resources:
+        - path: /v1/merchants
+          name: merchants
+          description: "Manage merchant accounts."
+          operations:
+            - method: GET
+              name: list-merchants
+              description: "List all merchant accounts."
+              call: "management.list-merchants"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/merchants/{merchantId}/stores
+          name: stores
+          description: "Manage merchant stores."
+          operations:
+            - method: GET
+              name: list-stores
+              description: "List stores for a merchant."
+              call: "management.list-stores"
+              with:
+                merchantId: "rest.merchantId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/merchants/{merchantId}/terminals
+          name: terminals
+          description: "Manage payment terminals."
+          operations:
+            - method: GET
+              name: list-terminals
+              description: "List terminals for a merchant."
+              call: "management.list-terminals"
+              with:
+                merchantId: "rest.merchantId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/disputes/defense-reasons
+          name: dispute-defense-reasons
+          description: "Get dispute defense reasons."
+          operations:
+            - method: POST
+              name: get-defense-reasons
+              description: "Retrieve defense reasons for a dispute."
+              call: "disputes.get-defense-reasons"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/disputes/documents
+          name: dispute-documents
+          description: "Submit dispute defense documents."
+          operations:
+            - method: POST
+              name: supply-defense-document
+              description: "Submit a defense document."
+              call: "disputes.supply-defense-document"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/disputes/accept
+          name: dispute-accept
+          description: "Accept a dispute."
+          operations:
+            - method: POST
+              name: accept-dispute
+              description: "Accept a chargeback dispute."
+              call: "disputes.accept-dispute"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9081
+      namespace: adyen-merchant-management-mcp
+      transport: http
+      description: "MCP server for AI-assisted Adyen merchant management and dispute handling."
+      tools:
+        - name: list-merchants
+          description: "List all Adyen merchant accounts."
+          hints:
+            readOnly: true
+            destructive: false
+          call: "management.list-merchants"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-merchant
+          description: "Get details of a specific merchant account."
+          hints:
+            readOnly: true
+            destructive: false
+          call: "management.get-merchant"
+          with:
+            merchantId: "tools.merchantId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-stores
+          description: "List all stores for a merchant account."
+          hints:
+            readOnly: true
+            destructive: false
+          call: "management.list-stores"
+          with:
+            merchantId: "tools.merchantId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-terminals
+          description: "List all payment terminals for a merchant account."
+          hints:
+            readOnly: true
+            destructive: false
+          call: "management.list-terminals"
+          with:
+            merchantId: "tools.merchantId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-payment-method-settings
+          description: "List payment method settings for a merchant."
+          hints:
+            readOnly: true
+            destructive: false
+          call: "management.list-payment-methods"
+          with:
+            merchantId: "tools.merchantId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-dispute-defense-reasons
+          description: "Get applicable defense reasons for a chargeback dispute."
+          hints:
+            readOnly: true
+            destructive: false
+          call: "disputes.get-defense-reasons"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: supply-dispute-defense-document
+          description: "Submit a defense document for a chargeback dispute."
+          hints:
+            readOnly: false
+            destructive: false
+          call: "disputes.supply-defense-document"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: accept-chargeback-dispute
+          description: "Accept a chargeback dispute and let it proceed."
+          hints:
+            readOnly: false
+            destructive: true
+          call: "disputes.accept-dispute"
+          outputParameters:
+            - type: object
+              mapping: "$."

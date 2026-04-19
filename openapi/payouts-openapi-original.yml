@@ -1,6 +1,6 @@
 openapi: 3.1.0
 servers:
-  - url: https://pal-test.adyen.com/pal/servlet/Payout/v68
+- url: https://pal-test.adyen.com/pal/servlet/Payout/v68
 info:
   version: '68'
   x-publicVersion: true
@@ -105,18 +105,18 @@ info:
     name: Adyen Developer Experience team
     url: https://github.com/Adyen/adyen-openapi
 tags:
-  - name: confirmThirdParty
-  - name: declineThirdParty
-  - name: Payout
-  - name: storeDetail
-  - name: storeDetailAndSubmitThirdParty
-  - name: submitThirdParty
+- name: confirmThirdParty
+- name: declineThirdParty
+- name: Payout
+- name: storeDetail
+- name: storeDetailAndSubmitThirdParty
+- name: submitThirdParty
 paths:
   /confirmThirdParty:
     post:
       tags:
-        - confirmThirdParty
-      summary: Adyen Confirm a payout
+      - confirmThirdParty
+      summary: Adyen Confirm a Payout
       description: |-
         Confirms a previously submitted payout.
 
@@ -126,8 +126,8 @@ paths:
       x-sortIndex: 1
       x-methodName: confirmThirdParty
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -161,30 +161,77 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-confirmThirdParty401Example:
+                  summary: Default post-confirmThirdParty 401 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-confirmThirdParty403Example:
+                  summary: Default post-confirmThirdParty 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-confirmThirdParty422Example:
+                  summary: Default post-confirmThirdParty 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-confirmThirdParty500Example:
+                  summary: Default post-confirmThirdParty 500 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /declineThirdParty:
     post:
       tags:
-        - declineThirdParty
-      summary: Adyen Cancel a payout
+      - declineThirdParty
+      summary: Adyen Cancel a Payout
       description: |-
         Cancels a previously submitted payout.
 
@@ -194,8 +241,8 @@ paths:
       x-sortIndex: 2
       x-methodName: declineThirdParty
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -229,30 +276,77 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-declineThirdParty401Example:
+                  summary: Default post-declineThirdParty 401 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-declineThirdParty403Example:
+                  summary: Default post-declineThirdParty 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-declineThirdParty422Example:
+                  summary: Default post-declineThirdParty 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-declineThirdParty500Example:
+                  summary: Default post-declineThirdParty 500 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /payout:
     post:
       tags:
-        - Payout
-      summary: Adyen Make an instant card payout
+      - Payout
+      summary: Adyen Make an Instant Card Payout
       description: >-
         With this call, you can pay out to your customers, and funds will be
         made available within 30 minutes on the cardholder's bank account (this
@@ -263,8 +357,8 @@ paths:
       x-sortIndex: 1
       x-methodName: payout
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -281,6 +375,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayoutResponse'
+              examples:
+                post-payout200Example:
+                  summary: Default post-payout 200 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    authCode: CODE123
+                    dccAmount: 1000
+                    dccSignature: example_value
+                    fraudResult: example_value
+                    issuerUrl: https://example.com/resource
+                    md: example_value
+                    paRequest: example_value
+                    pspReference: REF-001
+                    refusalReason: REF-001
+                    resultCode: AuthenticationFinished
           description: OK - the request has succeeded.
         '400':
           content:
@@ -296,30 +406,77 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-payout401Example:
+                  summary: Default post-payout 401 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-payout403Example:
+                  summary: Default post-payout 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-payout422Example:
+                  summary: Default post-payout 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-payout500Example:
+                  summary: Default post-payout 500 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /storeDetail:
     post:
       tags:
-        - storeDetail
-      summary: Adyen Store payout details
+      - storeDetail
+      summary: Adyen Store Payout Details
       description: >-
         Stores payment details under the `PAYOUT` recurring contract. These
         payment details can be used later to submit a payout via the
@@ -328,8 +485,8 @@ paths:
       x-sortIndex: 2
       x-methodName: storeDetail
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -362,30 +519,77 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-storeDetail401Example:
+                  summary: Default post-storeDetail 401 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-storeDetail403Example:
+                  summary: Default post-storeDetail 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-storeDetail422Example:
+                  summary: Default post-storeDetail 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-storeDetail500Example:
+                  summary: Default post-storeDetail 500 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /storeDetailAndSubmitThirdParty:
     post:
       tags:
-        - storeDetailAndSubmitThirdParty
-      summary: Adyen Store details and submit a payout
+      - storeDetailAndSubmitThirdParty
+      summary: Adyen Store Details and Submit a Payout
       description: >-
         Submits a payout and stores its details for subsequent payouts.
 
@@ -397,8 +601,8 @@ paths:
       x-sortIndex: 1
       x-methodName: storeDetailAndSubmitThirdParty
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -426,6 +630,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StoreDetailAndSubmitResponse'
+              examples:
+                post-storeDetailAndSubmitThirdParty200Example:
+                  summary: Default post-storeDetailAndSubmitThirdParty 200 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    pspReference: REF-001
+                    refusalReason: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '400':
           content:
@@ -441,30 +654,77 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-storeDetailAndSubmitThirdParty401Example:
+                  summary: Default post-storeDetailAndSubmitThirdParty 401 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-storeDetailAndSubmitThirdParty403Example:
+                  summary: Default post-storeDetailAndSubmitThirdParty 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-storeDetailAndSubmitThirdParty422Example:
+                  summary: Default post-storeDetailAndSubmitThirdParty 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-storeDetailAndSubmitThirdParty500Example:
+                  summary: Default post-storeDetailAndSubmitThirdParty 500 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /submitThirdParty:
     post:
       tags:
-        - submitThirdParty
-      summary: Adyen Submit a payout
+      - submitThirdParty
+      summary: Adyen Submit a Payout
       description: >-
         Submits a payout using the previously stored payment details. To store
         payment details, use the `/storeDetail` API call.
@@ -477,8 +737,8 @@ paths:
       x-sortIndex: 3
       x-methodName: submitThirdParty
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -493,6 +753,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SubmitResponse'
+              examples:
+                post-submitThirdParty200Example:
+                  summary: Default post-submitThirdParty 200 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    pspReference: REF-001
+                    refusalReason: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '400':
           content:
@@ -508,25 +777,72 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-submitThirdParty401Example:
+                  summary: Default post-submitThirdParty 401 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-submitThirdParty403Example:
+                  summary: Default post-submitThirdParty 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-submitThirdParty422Example:
+                  summary: Default post-submitThirdParty 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-submitThirdParty500Example:
+                  summary: Default post-submitThirdParty 500 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   schemas:
     Address:
@@ -568,11 +884,11 @@ components:
           maxLength: 3000
           type: string
       required:
-        - street
-        - houseNumberOrName
-        - city
-        - postalCode
-        - country
+      - street
+      - houseNumberOrName
+      - city
+      - postalCode
+      - country
       type: object
     Amount:
       properties:
@@ -590,8 +906,8 @@ components:
           format: int64
           type: integer
       required:
-        - value
-        - currency
+      - value
+      - currency
       type: object
     BankAccount:
       properties:
@@ -748,9 +1064,9 @@ components:
           description: The name of the risk check.
           type: string
       required:
-        - checkId
-        - name
-        - accountScore
+      - checkId
+      - name
+      - accountScore
       type: object
     FraudCheckResultWrapper:
       properties:
@@ -768,7 +1084,7 @@ components:
             $ref: '#/components/schemas/FraudCheckResultWrapper'
           type: array
       required:
-        - accountScore
+      - accountScore
       type: object
     FundSource:
       properties:
@@ -818,8 +1134,8 @@ components:
           description: The PSP reference received in the `/submitThirdParty` response.
           type: string
       required:
-        - merchantAccount
-        - originalReference
+      - merchantAccount
+      - originalReference
       type: object
     ModifyResponse:
       properties:
@@ -846,8 +1162,8 @@ components:
             * In case of an error, an informational message is returned.
           type: string
       required:
-        - pspReference
-        - response
+      - pspReference
+      - response
       type: object
     Name:
       properties:
@@ -858,8 +1174,8 @@ components:
           description: The last name.
           type: string
       required:
-        - firstName
-        - lastName
+      - firstName
+      - lastName
       type: object
     PayoutRequest:
       properties:
@@ -963,10 +1279,10 @@ components:
             * `POS` - Point-of-sale transactions where the shopper is physically
             present to make a payment using a secure payment terminal.
           enum:
-            - Ecommerce
-            - ContAuth
-            - Moto
-            - POS
+          - Ecommerce
+          - ContAuth
+          - Moto
+          - POS
           type: string
         shopperName:
           x-addedInVersion: '7'
@@ -987,9 +1303,9 @@ components:
           description: The shopper's telephone number.
           type: string
       required:
-        - merchantAccount
-        - reference
-        - amount
+      - merchantAccount
+      - reference
+      - amount
       type: object
     PayoutResponse:
       properties:
@@ -997,15 +1313,15 @@ components:
           additionalProperties:
             type: string
           x-anyOf:
-            - $ref: '#/components/schemas/ResponseAdditionalData3DSecure'
-            - $ref: '#/components/schemas/ResponseAdditionalDataBillingAddress'
-            - $ref: '#/components/schemas/ResponseAdditionalDataCard'
-            - $ref: '#/components/schemas/ResponseAdditionalDataCommon'
-            - $ref: '#/components/schemas/ResponseAdditionalDataDomesticError'
-            - $ref: '#/components/schemas/ResponseAdditionalDataInstallments'
-            - $ref: '#/components/schemas/ResponseAdditionalDataNetworkTokens'
-            - $ref: '#/components/schemas/ResponseAdditionalDataOpi'
-            - $ref: '#/components/schemas/ResponseAdditionalDataSepa'
+          - $ref: '#/components/schemas/ResponseAdditionalData3DSecure'
+          - $ref: '#/components/schemas/ResponseAdditionalDataBillingAddress'
+          - $ref: '#/components/schemas/ResponseAdditionalDataCard'
+          - $ref: '#/components/schemas/ResponseAdditionalDataCommon'
+          - $ref: '#/components/schemas/ResponseAdditionalDataDomesticError'
+          - $ref: '#/components/schemas/ResponseAdditionalDataInstallments'
+          - $ref: '#/components/schemas/ResponseAdditionalDataNetworkTokens'
+          - $ref: '#/components/schemas/ResponseAdditionalDataOpi'
+          - $ref: '#/components/schemas/ResponseAdditionalDataSepa'
           description: >-
             Contains additional information about the payment. Some data fields
             are included only if you select them first: Go to **Customer Area**
@@ -1141,20 +1457,20 @@ components:
             * **Refused** – Indicates the payment was refused. The reason is
             given in the `refusalReason` field. This is a final state.
           enum:
-            - AuthenticationFinished
-            - AuthenticationNotRequired
-            - Authorised
-            - Cancelled
-            - ChallengeShopper
-            - Error
-            - IdentifyShopper
-            - PartiallyAuthorised
-            - Pending
-            - PresentToShopper
-            - Received
-            - RedirectShopper
-            - Refused
-            - Success
+          - AuthenticationFinished
+          - AuthenticationNotRequired
+          - Authorised
+          - Cancelled
+          - ChallengeShopper
+          - Error
+          - IdentifyShopper
+          - PartiallyAuthorised
+          - Pending
+          - PresentToShopper
+          - Received
+          - RedirectShopper
+          - Refused
+          - Success
           type: string
       type: object
     Recurring:
@@ -1179,9 +1495,9 @@ components:
             * `PAYOUT` – Payment details can be used to [make a
             payout](https://docs.adyen.com/online-payments/online-payouts).
           enum:
-            - ONECLICK
-            - RECURRING
-            - PAYOUT
+          - ONECLICK
+          - RECURRING
+          - PAYOUT
           type: string
         recurringDetailName:
           description: A descriptive name for this detail.
@@ -1201,10 +1517,10 @@ components:
           x-addedInVersion: '25'
           description: The name of the token service.
           enum:
-            - VISATOKENSERVICE
-            - MCTOKENSERVICE
-            - AMEXTOKENSERVICE
-            - TOKEN_SHARING
+          - VISATOKENSERVICE
+          - MCTOKENSERVICE
+          - AMEXTOKENSERVICE
+          - TOKEN_SHARING
           type: string
       type: object
     ResponseAdditionalData3DSecure:
@@ -1483,8 +1799,8 @@ components:
         fraudResultType:
           description: The fraud result properties of the payment.
           enum:
-            - GREEN
-            - FRAUD
+          - GREEN
+          - FRAUD
           type: string
         fundingSource:
           description: >-
@@ -1698,9 +2014,9 @@ components:
           x-addedInVersion: '40'
           description: The processing model used for the recurring transaction.
           enum:
-            - CardOnFile
-            - Subscription
-            - UnscheduledCardOnFile
+          - CardOnFile
+          - Subscription
+          - UnscheduledCardOnFile
           type: string
         referred:
           description: >-
@@ -1998,8 +2314,8 @@ components:
           x-addedInVersion: '24'
           description: The type of the entity the payout is processed for.
           enum:
-            - NaturalPerson
-            - Company
+          - NaturalPerson
+          - Company
           type: string
         fraudOffset:
           description: >-
@@ -2071,15 +2387,15 @@ components:
           description: The shopper's phone number.
           type: string
       required:
-        - merchantAccount
-        - shopperEmail
-        - shopperReference
-        - recurring
-        - dateOfBirth
-        - nationality
-        - entityType
-        - reference
-        - amount
+      - merchantAccount
+      - shopperEmail
+      - shopperReference
+      - recurring
+      - dateOfBirth
+      - nationality
+      - entityType
+      - reference
+      - amount
       type: object
     StoreDetailAndSubmitResponse:
       properties:
@@ -2104,8 +2420,8 @@ components:
             * In case of an error, an informational message is returned.
           type: string
       required:
-        - pspReference
-        - resultCode
+      - pspReference
+      - resultCode
       type: object
     StoreDetailRequest:
       properties:
@@ -2153,8 +2469,8 @@ components:
           x-addedInVersion: '24'
           description: The type of the entity the payout is processed for.
           enum:
-            - NaturalPerson
-            - Company
+          - NaturalPerson
+          - Company
           type: string
         fraudOffset:
           description: >-
@@ -2212,13 +2528,13 @@ components:
           description: The shopper's phone number.
           type: string
       required:
-        - merchantAccount
-        - shopperEmail
-        - shopperReference
-        - recurring
-        - dateOfBirth
-        - nationality
-        - entityType
+      - merchantAccount
+      - shopperEmail
+      - shopperReference
+      - recurring
+      - dateOfBirth
+      - nationality
+      - entityType
       type: object
     StoreDetailResponse:
       properties:
@@ -2241,9 +2557,9 @@ components:
             details were stored successfully.
           type: string
       required:
-        - pspReference
-        - recurringDetailReference
-        - resultCode
+      - pspReference
+      - recurringDetailReference
+      - resultCode
       type: object
     SubmitRequest:
       properties:
@@ -2292,8 +2608,8 @@ components:
             > This field is required to update the existing `entityType` that is
             associated with this recurring contract.
           enum:
-            - NaturalPerson
-            - Company
+          - NaturalPerson
+          - Company
           type: string
         fraudOffset:
           description: >-
@@ -2371,13 +2687,13 @@ components:
           description: The shopper's social security number.
           type: string
       required:
-        - merchantAccount
-        - reference
-        - amount
-        - shopperEmail
-        - shopperReference
-        - recurring
-        - selectedRecurringDetailReference
+      - merchantAccount
+      - reference
+      - amount
+      - shopperEmail
+      - shopperReference
+      - recurring
+      - selectedRecurringDetailReference
       type: object
     SubmitResponse:
       properties:
@@ -2401,8 +2717,8 @@ components:
             * In case of an error, an informational message is returned.
           type: string
       required:
-        - pspReference
-        - resultCode
+      - pspReference
+      - resultCode
       type: object
   securitySchemes:
     ApiKeyAuth:

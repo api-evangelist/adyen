@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/notifications-account-holder-store-status-change-notification-content-structure.json",
+  "description": "AccountHolderStoreStatusChangeNotificationContent schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountHolderCode": {
+      "x-addedInVersion": "5",
+      "description": "The code of the account holder.",
+      "type": "string"
+    },
+    "invalidFields": {
+      "x-addedInVersion": "5",
+      "description": "In case the store status has not been updated, contains fields that did not pass the validation.",
+      "items": {
+        "$ref": "#/components/schemas/ErrorFieldType"
+      },
+      "type": "array"
+    },
+    "newStatus": {
+      "x-addedInVersion": "5",
+      "description": "The new status of the account holder.",
+      "enum": [
+        "Active",
+        "Closed",
+        "Inactive",
+        "InactiveWithModifications",
+        "Pending"
+      ],
+      "type": "string"
+    },
+    "oldStatus": {
+      "x-addedInVersion": "5",
+      "description": "The former status of the account holder.",
+      "enum": [
+        "Active",
+        "Closed",
+        "Inactive",
+        "InactiveWithModifications",
+        "Pending"
+      ],
+      "type": "string"
+    },
+    "reason": {
+      "x-addedInVersion": "5",
+      "description": "The reason for the status change.",
+      "type": "string"
+    },
+    "store": {
+      "x-addedInVersion": "5",
+      "description": "Alphanumeric identifier of the store.",
+      "type": "string"
+    },
+    "storeReference": {
+      "x-addedInVersion": "5",
+      "description": "Store store reference.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "accountHolderCode",
+    "store",
+    "storeReference",
+    "oldStatus",
+    "newStatus"
+  ],
+  "name": "AccountHolderStoreStatusChangeNotificationContent"
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/legal-entity-number-and-bic-account-identification-structure.json",
+  "description": "NumberAndBicAccountIdentification schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountNumber": {
+      "description": "The bank account number, without separators or whitespace. The length and format depends on the bank or country.",
+      "maxLength": 34,
+      "type": "string"
+    },
+    "additionalBankIdentification": {
+      "description": "Additional identification codes of the bank. Some banks may require these identifiers for cross-border transfers.",
+      "$ref": "#/components/schemas/AdditionalBankIdentification"
+    },
+    "bic": {
+      "description": "The bank's 8- or 11-character BIC or SWIFT code.",
+      "maxLength": 11,
+      "minLength": 8,
+      "type": "string"
+    },
+    "type": {
+      "default": "numberAndBic",
+      "description": "**numberAndBic**",
+      "enum": [
+        "numberAndBic"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "accountNumber",
+    "bic"
+  ],
+  "additionalProperties": false,
+  "name": "NumberAndBicAccountIdentification"
+}

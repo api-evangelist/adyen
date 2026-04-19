@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/payments-fund-destination-structure.json",
+  "description": "FundDestination schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "additionalData": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "a map of name/value pairs for passing in additional/industry-specific data",
+      "type": "object"
+    },
+    "billingAddress": {
+      "description": "The address where to send the invoice.",
+      "$ref": "#/components/schemas/Address"
+    },
+    "card": {
+      "description": "Credit card data.\n\nOptional if `shopperReference` and `selectedRecurringDetailReference` are provided.",
+      "$ref": "#/components/schemas/Card"
+    },
+    "selectedRecurringDetailReference": {
+      "description": "The `recurringDetailReference` you want to use for this payment. The value `LATEST` can be used to select the most recently stored recurring detail.",
+      "type": "string"
+    },
+    "shopperEmail": {
+      "description": "the email address of the person",
+      "type": "string"
+    },
+    "shopperName": {
+      "description": "the name of the person",
+      "$ref": "#/components/schemas/Name"
+    },
+    "shopperReference": {
+      "description": "Required for recurring payments. \nYour reference to uniquely identify this shopper, for example user ID or account ID. Minimum length: 3 characters.\n> Your reference must not include personally identifiable information (PII), for example name or email address.",
+      "type": "string"
+    },
+    "subMerchant": {
+      "description": "Required for Back-to-Back/ purchase driven load in Wallet transactions.\nContains the final merchant who will be receiving the money, also known as subMerchant, information.",
+      "$ref": "#/components/schemas/SubMerchant"
+    },
+    "telephoneNumber": {
+      "description": "the telephone number of the person",
+      "type": "string"
+    }
+  },
+  "name": "FundDestination"
+}

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/transaction-webhooks-transaction-schema.json",
+  "title": "Transaction",
+  "description": "Transaction schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountHolder": {
+      "x-addedInVersion": "4",
+      "description": "Contains information about the account holder associated with the `balanceAccount`.",
+      "$ref": "#/components/schemas/ResourceReference"
+    },
+    "amount": {
+      "x-addedInVersion": "1",
+      "description": "Contains information about the amount of the transaction.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "balanceAccount": {
+      "x-addedInVersion": "4",
+      "description": "Contains information about the balance account involved in the transaction.",
+      "$ref": "#/components/schemas/ResourceReference"
+    },
+    "balancePlatform": {
+      "x-addedInVersion": "1",
+      "description": "The unique identifier of the balance platform.",
+      "type": "string"
+    },
+    "bookingDate": {
+      "x-addedInVersion": "1",
+      "description": "The date the transaction was booked into the balance account.",
+      "format": "date-time",
+      "type": "string"
+    },
+    "creationDate": {
+      "description": "The date and time when the event was triggered, in ISO 8601 extended format. For example, **2020-12-18T10:15:30+01:00**.",
+      "format": "date-time",
+      "type": "string"
+    },
+    "id": {
+      "x-addedInVersion": "1",
+      "description": "The unique identifier of the transaction.",
+      "type": "string"
+    },
+    "status": {
+      "x-addedInVersion": "1",
+      "description": "The status of the transaction.\n\n Possible values:\n\n* **pending**: The transaction is still pending.\n\n* **booked**: The transaction has been booked to the balance account.\n\n",
+      "enum": [
+        "booked",
+        "pending"
+      ],
+      "type": "string"
+    },
+    "transfer": {
+      "x-addedInVersion": "4",
+      "description": "Contains information about the transfer related to the transaction.",
+      "$ref": "#/components/schemas/TransferData"
+    },
+    "valueDate": {
+      "x-addedInVersion": "1",
+      "description": "The date the transfer amount becomes available in the balance account.",
+      "format": "date-time",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "accountHolder",
+    "balanceAccount",
+    "amount",
+    "status",
+    "bookingDate",
+    "valueDate",
+    "balancePlatform"
+  ]
+}

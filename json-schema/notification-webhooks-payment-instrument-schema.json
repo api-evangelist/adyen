@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/notification-webhooks-payment-instrument-schema.json",
+  "title": "PaymentInstrument",
+  "description": "PaymentInstrument schema from Adyen API",
+  "properties": {
+    "balanceAccountId": {
+      "description": "The unique identifier of the [balance account](https://docs.adyen.com/api-explorer/#/balanceplatform/v1/post/balanceAccounts__resParam_id) associated with the payment instrument.",
+      "type": "string"
+    },
+    "bankAccount": {
+      "description": "Contains the business account details. Returned when you create a payment instrument with `type` **bankAccount**.",
+      "$ref": "#/components/schemas/BankAccount"
+    },
+    "card": {
+      "description": "Contains information about the card payment instrument. Returned when you create a payment instrument with `type` **card**.",
+      "$ref": "#/components/schemas/Card"
+    },
+    "description": {
+      "description": "Your description for the payment instrument, maximum 300 characters.",
+      "maxLength": 300,
+      "type": "string"
+    },
+    "id": {
+      "description": "The unique identifier of the payment instrument.",
+      "type": "string"
+    },
+    "issuingCountryCode": {
+      "description": "The two-character [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code where the payment instrument is issued. For example, **NL** or **US**.",
+      "type": "string"
+    },
+    "paymentInstrumentGroupId": {
+      "description": "The unique identifier of the [payment instrument group](https://docs.adyen.com/api-explorer/#/balanceplatform/v1/post/paymentInstrumentGroups__resParam_id) to which the payment instrument belongs.",
+      "type": "string"
+    },
+    "reference": {
+      "description": "Your reference for the payment instrument, maximum 150 characters.",
+      "maxLength": 150,
+      "type": "string"
+    },
+    "status": {
+      "x-enum": [
+        {
+          "description": "The payment instrument has been requested. This state is applicable when creating physical cards.",
+          "value": "Requested"
+        },
+        {
+          "description": "The payment instrument is active and can be used to make payments.",
+          "value": "Active"
+        },
+        {
+          "description": "The payment instrument is inactive and cannot be used to make payments.",
+          "value": "Inactive"
+        },
+        {
+          "description": "The payment instrument is temporarily suspended and cannot be used to make payments.",
+          "value": "Suspended"
+        },
+        {
+          "description": "The payment instrument is permanently closed. This action cannot be undone.",
+          "value": "Closed"
+        },
+        {
+          "description": "The payment instrument is suspended. Either because it was stolen or lost.",
+          "value": "blocked"
+        },
+        {
+          "description": "The payment instrument is permanently closed. This action cannot be undone.",
+          "value": "discarded"
+        }
+      ],
+      "description": "The status of the payment instrument. If a status is not specified when creating a payment instrument, it is set to **Active** by default. However, there can be exceptions for cards based on the `card.formFactor` and the `issuingCountryCode`. For example, when issuing physical cards in the US, the default status is **Requested**.\n\nPossible values: \n\n * **Active**:  The payment instrument is active and can be used to make payments. \n\n * **Requested**: The payment instrument has been requested. This state is applicable for physical cards. \n\n* **Inactive**: The payment instrument is inactive and cannot be used to make payments. \n\n * **Suspended**: The payment instrument is temporarily suspended and cannot be used to make payments. \n\n * **Closed**: The payment instrument is permanently closed. This action cannot be undone. \n\n* **Stolen** \n\n * **Lost**\n\n ",
+      "enum": [
+        "Active",
+        "Closed",
+        "Inactive",
+        "Lost",
+        "Requested",
+        "Stolen",
+        "Suspended",
+        "blocked",
+        "discarded"
+      ],
+      "type": "string"
+    },
+    "type": {
+      "description": "Type of payment instrument.\n\nPossible value: **card**, **bankAccount**. ",
+      "enum": [
+        "bankAccount",
+        "card"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "balanceAccountId",
+    "issuingCountryCode",
+    "type",
+    "id"
+  ],
+  "type": "object"
+}

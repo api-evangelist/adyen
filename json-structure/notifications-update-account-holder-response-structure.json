@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/notifications-update-account-holder-response-structure.json",
+  "description": "UpdateAccountHolderResponse schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountHolderCode": {
+      "description": "The code of the account holder.",
+      "type": "string"
+    },
+    "accountHolderDetails": {
+      "description": "Details of the account holder.",
+      "$ref": "#/components/schemas/AccountHolderDetails"
+    },
+    "accountHolderStatus": {
+      "x-addedInVersion": "2",
+      "description": "The new status of the account holder.",
+      "$ref": "#/components/schemas/AccountHolderStatus"
+    },
+    "description": {
+      "x-addedInVersion": "4",
+      "description": "The description of the account holder.",
+      "type": "string"
+    },
+    "invalidFields": {
+      "x-addedInVersion": "5",
+      "description": "in case the account holder has not been updated, contains account holder fields, that did not pass the validation.",
+      "items": {
+        "$ref": "#/components/schemas/ErrorFieldType"
+      },
+      "type": "array"
+    },
+    "legalEntity": {
+      "x-addedInVersion": "4",
+      "description": "The legal entity of the account holder.",
+      "enum": [
+        "Business",
+        "Individual",
+        "NonProfit",
+        "Partnership",
+        "PublicCompany"
+      ],
+      "type": "string"
+    },
+    "primaryCurrency": {
+      "x-addedInVersion": "5",
+      "deprecated": true,
+      "description": "The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes), with which the prospective account holder primarily deals.",
+      "type": "string"
+    },
+    "pspReference": {
+      "description": "The reference of a request. Can be used to uniquely identify the request.",
+      "type": "string"
+    },
+    "resultCode": {
+      "description": "The result code.",
+      "type": "string"
+    },
+    "verification": {
+      "x-addedInVersion": "2",
+      "description": "The details of KYC Verification of the account holder.",
+      "$ref": "#/components/schemas/KYCVerificationResult"
+    },
+    "verificationProfile": {
+      "x-addedInVersion": "6",
+      "description": "The identifier of the profile that applies to this entity.",
+      "type": "string"
+    }
+  },
+  "name": "UpdateAccountHolderResponse"
+}

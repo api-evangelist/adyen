@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/balance-control-balance-transfer-request-schema.json",
+  "title": "BalanceTransferRequest",
+  "description": "BalanceTransferRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "amount": {
+      "description": "The amount of the transfer in [minor units](https://docs.adyen.com/development-resources/currency-codes).",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "description": {
+      "description": "A human-readable description for the transfer. You can use alphanumeric characters and hyphens. We recommend sending a maximum of 140 characters, otherwise the description may be truncated.",
+      "maxLength": 140,
+      "type": "string"
+    },
+    "fromMerchant": {
+      "description": "The unique identifier of the source merchant account from which funds are deducted.",
+      "type": "string"
+    },
+    "reference": {
+      "description": "A reference for the balance transfer. If you don't provide this in the request, Adyen generates a unique reference.\nMaximum length: 80 characters.",
+      "maxLength": 80,
+      "type": "string"
+    },
+    "toMerchant": {
+      "description": "The unique identifier of the destination merchant account from which funds are transferred.",
+      "type": "string"
+    },
+    "type": {
+      "description": "The type of balance transfer. Possible values: **tax**, **fee**, **terminalSale**, **credit**, **debit**, and **adjustment**.",
+      "enum": [
+        "tax",
+        "fee",
+        "terminalSale",
+        "credit",
+        "debit",
+        "adjustment"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "amount",
+    "fromMerchant",
+    "toMerchant",
+    "type"
+  ]
+}

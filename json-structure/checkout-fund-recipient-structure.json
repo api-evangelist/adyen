@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/checkout-fund-recipient-structure.json",
+  "description": "FundRecipient schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "billingAddress": {
+      "description": "The address where to send the invoice.",
+      "$ref": "#/components/schemas/Address"
+    },
+    "paymentMethod": {
+      "description": "the used paymentMetohd",
+      "$ref": "#/components/schemas/CardDetails"
+    },
+    "shopperEmail": {
+      "description": "the email address of the person",
+      "type": "string"
+    },
+    "shopperName": {
+      "description": "the name of the person",
+      "$ref": "#/components/schemas/Name"
+    },
+    "shopperReference": {
+      "description": "Required for recurring payments. \nYour reference to uniquely identify this shopper, for example user ID or account ID. Minimum length: 3 characters.\n> Your reference must not include personally identifiable information (PII), for example name or email address.",
+      "maxLength": 256,
+      "minLength": 3,
+      "type": "string"
+    },
+    "storedPaymentMethodId": {
+      "description": "This is the `recurringDetailReference` returned in the response when you created the token.",
+      "maxLength": 64,
+      "type": "string"
+    },
+    "subMerchant": {
+      "description": "Required for Back-to-Back/ purchase driven load in Wallet transactions.\nContains the final merchant who will be receiving the money, also known as subMerchant, information.",
+      "$ref": "#/components/schemas/SubMerchant"
+    },
+    "telephoneNumber": {
+      "description": "the telephone number of the person",
+      "type": "string"
+    },
+    "walletIdentifier": {
+      "description": "indicates where the money is going",
+      "type": "string"
+    },
+    "walletOwnerTaxId": {
+      "description": "indicates the tax identifier of the fund recepient",
+      "type": "string"
+    }
+  },
+  "name": "FundRecipient"
+}

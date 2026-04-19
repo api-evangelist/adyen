@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/webhooks-notification-request-item-structure.json",
+  "description": "NotificationRequestItem schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "additionalData": {
+      "description": "A generic container for extra fields.",
+      "$ref": "#/components/schemas/NotificationAdditionalData"
+    },
+    "amount": {
+      "description": "The payment amount. For HTTP POST notifications, currency and value are returned as URL parameters.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "eventCode": {
+      "description": "The type of event the notification item is for.",
+      "enum": [
+        "AUTHORISATION_ADJUSTMENT",
+        "AUTORESCUE",
+        "CANCELLATION",
+        "CANCEL_AUTORESCUE",
+        "CANCEL_OR_REFUND",
+        "CAPTURE",
+        "CAPTURE_FAILED",
+        "CHARGEBACK",
+        "CHARGEBACK_REVERSED",
+        "MANUAL_REVIEW_ACCEPT",
+        "MANUAL_REVIEW_REJECT",
+        "NOTIFICATION_OF_CHARGEBACK",
+        "NOTIFICATION_OF_FRAUD",
+        "OFFER_CLOSED",
+        "ORDER_CLOSED",
+        "ORDER_OPENED",
+        "PAYOUT_DECLINE",
+        "PAYOUT_EXPIRE",
+        "PAYOUT_THIRDPARTY",
+        "POSTPONED_REFUND",
+        "PREARBITRATION_LOST",
+        "PREARBITRATION_WON",
+        "REFUND",
+        "REFUNDED_REVERSED",
+        "REFUND_FAILED",
+        "REFUND_WITH_DATA",
+        "REQUEST_FOR_INFORMATION",
+        "SECOND_CHARGEBACK",
+        "TECHNICAL_CANCEL",
+        "VOID_PENDING_REFUND"
+      ],
+      "type": "string"
+    },
+    "eventDate": {
+      "description": "The time when the event was generated. Format: ISO 8601; yyyy-MM-DDThh:mm:ssTZD",
+      "example": "2021-07-17T13:42:40+01:00",
+      "type": "datetime"
+    },
+    "merchantAccountCode": {
+      "description": "The merchant account identifier used in the transaction the notification item is for.",
+      "type": "string"
+    },
+    "merchantReference": {
+      "description": "Your reference to uniquely identify the payment.",
+      "type": "string"
+    },
+    "originalReference": {
+      "description": "For modifications, this field corresponds to the payment request assigned to the original payment.",
+      "type": "string"
+    },
+    "paymentMethod": {
+      "description": "The payment method used in the transaction.",
+      "example": "visa, mc, iDeal",
+      "type": "string"
+    },
+    "pspReference": {
+      "description": "Adyen's 16-character unique reference associated with the transaction or request. This value is globally unique. Use it when communicating with us about this request.",
+      "type": "string"
+    },
+    "reason": {
+      "description": "If `success` = `false`, then this includes a short message with an explanation for the refusal.",
+      "type": "string"
+    },
+    "success": {
+      "description": "Informs about the outcome of the event (`eventCode`) the notification is for. \nIf `true`: the event was executed successfully. \nIf `false`: the event was not executed successfully.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "pspReference",
+    "merchantReference",
+    "merchantAccountCode",
+    "eventDate",
+    "eventCode",
+    "amount",
+    "success"
+  ],
+  "name": "NotificationRequestItem"
+}

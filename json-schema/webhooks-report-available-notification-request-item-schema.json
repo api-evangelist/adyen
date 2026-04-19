@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/webhooks-report-available-notification-request-item-schema.json",
+  "title": "ReportAvailableNotificationRequestItem",
+  "description": "ReportAvailableNotificationRequestItem schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "additionalData": {
+      "description": "A generic container for extra fields.",
+      "$ref": "#/components/schemas/NotificationAdditionalData"
+    },
+    "amount": {
+      "description": "The payment amount. For HTTP POST notifications, currency and value are returned as URL parameters.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "eventCode": {
+      "description": "The type of event the notification item is for.",
+      "enum": [
+        "REPORT_AVAILABLE"
+      ],
+      "type": "string"
+    },
+    "eventDate": {
+      "description": "The time when the event was generated. Format: ISO 8601; yyyy-MM-DDThh:mm:ssTZD",
+      "example": "2021-07-17T13:42:40+01:00",
+      "format": "date-time",
+      "type": "string"
+    },
+    "merchantAccountCode": {
+      "description": "The merchant account identifier used in the transaction the notification item is for.",
+      "type": "string"
+    },
+    "merchantReference": {
+      "description": "Your reference to uniquely identify the payment.",
+      "type": "string"
+    },
+    "originalReference": {
+      "description": "For modifications, this field corresponds to the payment request assigned to the original payment.",
+      "type": "string"
+    },
+    "paymentMethod": {
+      "description": "The payment method used in the transaction.",
+      "example": "visa, mc, iDeal",
+      "type": "string"
+    },
+    "pspReference": {
+      "description": "Contains the file name of the report.",
+      "type": "string"
+    },
+    "reason": {
+      "description": "Contains the download URL where you can obtain a copy of the report.",
+      "type": "string"
+    },
+    "success": {
+      "description": "Always `true`.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "merchantReference",
+    "merchantAccountCode",
+    "eventDate",
+    "amount",
+    "eventCode",
+    "reason",
+    "success",
+    "pspReference"
+  ]
+}

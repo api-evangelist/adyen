@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/authentication-webhooks-authentication-notification-data-schema.json",
+  "title": "AuthenticationNotificationData",
+  "description": "AuthenticationNotificationData schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "authentication": {
+      "description": "Information about the authentication.",
+      "$ref": "#/components/schemas/AuthenticationInfo"
+    },
+    "balancePlatform": {
+      "description": "The unique identifier of the balance platform.",
+      "type": "string"
+    },
+    "id": {
+      "description": "Unique identifier of the authentication.",
+      "type": "string"
+    },
+    "paymentInstrumentId": {
+      "description": "Unique identifier of the payment instrument that was used for the authentication.",
+      "type": "string"
+    },
+    "purchase": {
+      "description": "Information about the purchase.",
+      "$ref": "#/components/schemas/PurchaseInfo"
+    },
+    "status": {
+      "description": "Outcome of the authentication.\nAllowed values:\n* authenticated\n* rejected\n* error",
+      "enum": [
+        "authenticated",
+        "rejected",
+        "error"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "paymentInstrumentId",
+    "status",
+    "authentication",
+    "purchase"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/notifications-account-holder-status-schema.json",
+  "title": "AccountHolderStatus",
+  "description": "AccountHolderStatus schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "events": {
+      "description": "A list of events scheduled for the account holder.",
+      "items": {
+        "$ref": "#/components/schemas/AccountEvent"
+      },
+      "type": "array"
+    },
+    "payoutState": {
+      "description": "The payout state of the account holder.",
+      "$ref": "#/components/schemas/AccountPayoutState"
+    },
+    "processingState": {
+      "description": "The processing state of the account holder.",
+      "$ref": "#/components/schemas/AccountProcessingState"
+    },
+    "status": {
+      "description": "The status of the account holder.\n>Permitted values: `Active`, `Inactive`, `Suspended`, `Closed`.",
+      "enum": [
+        "Active",
+        "Closed",
+        "Inactive",
+        "Suspended"
+      ],
+      "type": "string"
+    },
+    "statusReason": {
+      "description": "The reason why the status was assigned to the account holder.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "status"
+  ]
+}

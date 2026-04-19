@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/terminal-event-notification-structure.json",
+  "description": "It conveys Information related to the event, and possible action (maintenance, message to display). Content of the EventNotification message.",
+  "type": "object",
+  "properties": {
+    "TimeStamp": {
+      "type": "datetime",
+      "description": "Date and time of a transaction for the Sale System, the POI System or the Acquirer."
+    },
+    "EventToNotify": {
+      "$ref": "#/components/schemas/EventToNotify"
+    },
+    "EventDetails": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "If present, the Sale logs it for further examination."
+    },
+    "RejectedMessage": {
+      "type": "string",
+      "format": "byte",
+      "pattern": "^.+$",
+      "description": "Mandatory if EventToNotify is Reject, absent in other cases."
+    },
+    "MaintenanceRequiredFlag": {
+      "type": "boolean",
+      "default": false,
+      "description": "Indicates if the occurred event requires maintenance call or action."
+    },
+    "CustomerLanguage": {
+      "type": "string",
+      "pattern": "^[a-z]{2,2}$",
+      "description": "If the language is selected by the Sale System before the request to the POI."
+    },
+    "DisplayOutput": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/DisplayOutput"
+      }
+    }
+  },
+  "required": [
+    "TimeStamp",
+    "EventToNotify"
+  ],
+  "name": "EventNotification"
+}

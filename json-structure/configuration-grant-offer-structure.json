@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/configuration-grant-offer-structure.json",
+  "description": "GrantOffer schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountHolderId": {
+      "description": "The identifier of the account holder to which the grant is offered.",
+      "type": "string"
+    },
+    "amount": {
+      "description": "The principal amount of the grant.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "contractType": {
+      "description": "The contract type of the grant offer. Possible value: **cashAdvance**, **loan**.",
+      "enum": [
+        "cashAdvance",
+        "loan"
+      ],
+      "type": "string"
+    },
+    "expiresAt": {
+      "description": "The end date of the grant offer validity period.",
+      "type": "datetime"
+    },
+    "fee": {
+      "description": "Details of the fee configuration.",
+      "$ref": "#/components/schemas/Fee"
+    },
+    "id": {
+      "description": "The unique identifier of the grant offer.",
+      "type": "string"
+    },
+    "repayment": {
+      "description": "Details of the repayment configuration.",
+      "$ref": "#/components/schemas/Repayment"
+    },
+    "startsAt": {
+      "description": "The starting date of the grant offer validity period.",
+      "type": "datetime"
+    }
+  },
+  "required": [
+    "accountHolderId"
+  ],
+  "name": "GrantOffer"
+}

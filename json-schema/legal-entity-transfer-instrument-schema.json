@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/legal-entity-transfer-instrument-schema.json",
+  "title": "TransferInstrument",
+  "description": "TransferInstrument schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "bankAccount": {
+      "description": "Contains information about the legal entity's bank account.",
+      "$ref": "#/components/schemas/BankAccountInfo"
+    },
+    "capabilities": {
+      "x-addedInVersion": "3",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/SupportingEntityCapability"
+      },
+      "description": "List of capabilities for this transfer instrument.",
+      "type": "object"
+    },
+    "documentDetails": {
+      "x-addedInVersion": "2",
+      "description": "List of documents uploaded for the transfer instrument.",
+      "items": {
+        "$ref": "#/components/schemas/DocumentReference"
+      },
+      "type": "array"
+    },
+    "id": {
+      "description": "The unique identifier of the transfer instrument.",
+      "readOnly": true,
+      "type": "string"
+    },
+    "legalEntityId": {
+      "description": "The unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/legalentity/latest/post/legalEntities#responses-200-id) that owns the transfer instrument.",
+      "type": "string"
+    },
+    "problems": {
+      "x-addedInVersion": "3",
+      "description": "The verification errors related to capabilities for this transfer instrument.",
+      "items": {
+        "$ref": "#/components/schemas/CapabilityProblem"
+      },
+      "type": "array"
+    },
+    "type": {
+      "description": "The type of transfer instrument.\n\nPossible value: **bankAccount**.",
+      "enum": [
+        "bankAccount",
+        "recurringDetail"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "legalEntityId",
+    "type",
+    "bankAccount",
+    "id"
+  ]
+}

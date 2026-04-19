@@ -1,0 +1,364 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/checkout-payment-setup-request-structure.json",
+  "description": "PaymentSetupRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "additionalAmount": {
+      "description": "If you want a [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) request to use a non-zero value, assign this value to `additionalAmount` (while the amount must be still set to 0 to trigger BIN or card verification).\nRequired to be in the same currency as the `amount`. ",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "additionalData": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "x-anyOf": [
+        {
+          "$ref": "#/components/schemas/AdditionalData3DSecure"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataAirline"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataCarRental"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataCommon"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataLevel23"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataLodging"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataOpenInvoice"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataOpi"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataRatepay"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataRetry"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataRisk"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataRiskStandalone"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataSubMerchant"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataTemporaryServices"
+        },
+        {
+          "$ref": "#/components/schemas/AdditionalDataWallets"
+        }
+      ],
+      "description": "This field contains additional data, which may be required for a particular payment request.\n\nThe `additionalData` object consists of entries, each of which includes the key and value.",
+      "type": "object"
+    },
+    "allowedPaymentMethods": {
+      "x-addedInVersion": "33",
+      "description": "List of payment methods to be presented to the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types).\n\nExample: `\"allowedPaymentMethods\":[\"ideal\",\"giropay\"]`",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "amount": {
+      "description": "The amount information for the transaction (in [minor units](https://docs.adyen.com/development-resources/currency-codes)). For [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) requests, set amount to 0 (zero).",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "applicationInfo": {
+      "x-addedInVersion": "40",
+      "description": "Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions).",
+      "$ref": "#/components/schemas/ApplicationInfo"
+    },
+    "billingAddress": {
+      "x-addedInVersion": "4",
+      "description": "The address where to send the invoice.\n> The `billingAddress` object is required in the following scenarios. Include all of the fields within this object.\n>* For 3D Secure 2 transactions in all browser-based and mobile implementations.\n>* For cross-border payouts to and from Canada.",
+      "$ref": "#/components/schemas/Address"
+    },
+    "blockedPaymentMethods": {
+      "x-addedInVersion": "33",
+      "description": "List of payment methods to be hidden from the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types).\n\nExample: `\"blockedPaymentMethods\":[\"ideal\",\"giropay\"]`",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "captureDelayHours": {
+      "x-addedInVersion": "2",
+      "description": "The delay between the authorisation and scheduled auto-capture, specified in hours.",
+      "type": "int32"
+    },
+    "channel": {
+      "description": "The platform where a payment transaction takes place. This field is optional for filtering out payment methods that are only available on specific platforms. If this value is not set, then we will try to infer it from the `sdkVersion` or `token`.\n\nPossible values:\n* iOS\n* Android\n* Web",
+      "enum": [
+        "iOS",
+        "Android",
+        "Web"
+      ],
+      "type": "string"
+    },
+    "checkoutAttemptId": {
+      "x-addedInVersion": "68",
+      "description": "Checkout attempt ID that corresponds to the Id generated by the client SDK for tracking user payment journey.",
+      "type": "string"
+    },
+    "company": {
+      "x-addedInVersion": "32",
+      "description": "Information regarding the company.",
+      "$ref": "#/components/schemas/Company"
+    },
+    "configuration": {
+      "description": "Specify configurations to enable additional features.",
+      "$ref": "#/components/schemas/Configuration"
+    },
+    "conversionId": {
+      "x-addedInVersion": "49",
+      "deprecated": true,
+      "x-deprecatedInVersion": "68",
+      "x-deprecatedMessage": "Use `checkoutAttemptId` instead",
+      "description": "Conversion ID that corresponds to the Id generated by the client SDK for tracking user payment journey.",
+      "type": "string"
+    },
+    "countryCode": {
+      "description": "The shopper country.\n\nFormat: [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)\nExample: NL or DE",
+      "type": "string"
+    },
+    "dateOfBirth": {
+      "x-addedInVersion": "7",
+      "description": "The shopper's date of birth.\n\nFormat [ISO-8601](https://www.w3.org/TR/NOTE-datetime): YYYY-MM-DD",
+      "type": "date"
+    },
+    "dccQuote": {
+      "description": "The forex quote as returned in the response of the forex service.",
+      "$ref": "#/components/schemas/ForexQuote"
+    },
+    "deliveryAddress": {
+      "description": "The address where the purchased goods should be delivered.",
+      "$ref": "#/components/schemas/Address"
+    },
+    "deliveryDate": {
+      "x-addedInVersion": "8",
+      "description": "The date and time the purchased goods should be delivered.\n\nFormat [ISO 8601](https://www.w3.org/TR/NOTE-datetime): YYYY-MM-DDThh:mm:ss.sssTZD\n\nExample: 2017-07-17T13:42:40.428+01:00",
+      "type": "datetime"
+    },
+    "enableOneClick": {
+      "x-addedInVersion": "32",
+      "description": "When true and `shopperReference` is provided, the shopper will be asked if the payment details should be stored for future one-click payments.",
+      "type": "boolean"
+    },
+    "enablePayOut": {
+      "x-addedInVersion": "32",
+      "description": "When true and `shopperReference` is provided, the payment details will be tokenized for payouts.",
+      "type": "boolean"
+    },
+    "enableRecurring": {
+      "x-addedInVersion": "32",
+      "description": "When true and `shopperReference` is provided, the payment details will be tokenized for recurring payments.",
+      "type": "boolean"
+    },
+    "entityType": {
+      "x-addedInVersion": "24",
+      "description": "The type of the entity the payment is processed for.",
+      "enum": [
+        "NaturalPerson",
+        "CompanyName"
+      ],
+      "type": "string"
+    },
+    "fraudOffset": {
+      "description": "An integer value that is added to the normal fraud score. The value can be either positive or negative.",
+      "type": "int32"
+    },
+    "installments": {
+      "x-addedInVersion": "4",
+      "description": "Contains installment settings. For more information, refer to [Installments](https://docs.adyen.com/payment-methods/cards/credit-card-installments).",
+      "$ref": "#/components/schemas/Installments"
+    },
+    "lineItems": {
+      "x-addedInVersion": "32",
+      "description": "Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment).\n> This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip.",
+      "items": {
+        "$ref": "#/components/schemas/LineItem"
+      },
+      "type": "array"
+    },
+    "localizedShopperStatement": {
+      "x-addedInVersion": "68",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "The `localizedShopperStatement` field lets you use dynamic values for your shopper statement in a local character set.\nIf not supplied, left empty, or for cross-border transactions, **shopperStatement** is used.\n\nAdyen currently supports the ja-Kana character set for Visa and Mastercard payments in Japan using Japanese cards. This character set supports:\n\n* UTF-8 based Katakana, capital letters, numbers and special characters. \n* Half-width or full-width characters.",
+      "type": "object"
+    },
+    "mandate": {
+      "description": "The mandate details to initiate recurring transaction.",
+      "$ref": "#/components/schemas/Mandate"
+    },
+    "mcc": {
+      "x-addedInVersion": "12",
+      "description": "The [merchant category code](https://en.wikipedia.org/wiki/Merchant_category_code) (MCC) is a four-digit number, which relates to a particular market segment. This code reflects the predominant activity that is conducted by the merchant.",
+      "type": "string"
+    },
+    "merchantAccount": {
+      "description": "The merchant account identifier, with which you want to process the transaction.",
+      "type": "string"
+    },
+    "merchantOrderReference": {
+      "x-addedInVersion": "9",
+      "description": "This reference allows linking multiple transactions to each other for reporting purposes (i.e. order auth-rate). The reference should be unique per billing cycle.\nThe same merchant order reference should never be reused after the first authorised attempt. If used, this field should be supplied for all incoming authorisations.\n> We strongly recommend you send the `merchantOrderReference` value to benefit from linking payment requests when authorisation retries take place. In addition, we recommend you provide `retry.orderAttemptNumber`, `retry.chainAttemptNumber`, and `retry.skipRetry` values in `PaymentRequest.additionalData`.",
+      "type": "string"
+    },
+    "metadata": {
+      "x-addedInVersion": "17",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Metadata consists of entries, each of which includes a key and a value.\nLimits:\n* Maximum 20 key-value pairs per request. When exceeding, the \"177\" error occurs: \"Metadata size exceeds limit\".\n* Maximum 20 characters per key.\n* Maximum 80 characters per value. ",
+      "type": "object"
+    },
+    "orderReference": {
+      "description": "When you are doing multiple partial (gift card) payments, this is the `pspReference` of the first payment. We use this to link the multiple payments to each other. As your own reference for linking multiple payments, use the `merchantOrderReference`instead.",
+      "type": "string"
+    },
+    "origin": {
+      "description": "Required for the Web integration.\n\nSet this parameter to the origin URL of the page that you are loading the SDK from.",
+      "type": "string"
+    },
+    "platformChargebackLogic": {
+      "x-addedInVersion": "68",
+      "description": "Defines how to book chargebacks when using [Adyen for Platforms](https://docs.adyen.com/marketplaces-and-platforms/processing-payments#chargebacks-and-disputes).",
+      "$ref": "#/components/schemas/PlatformChargebackLogic"
+    },
+    "recurringExpiry": {
+      "description": "Date after which no further authorisations shall be performed. Only for 3D Secure 2.",
+      "type": "string"
+    },
+    "recurringFrequency": {
+      "description": "Minimum number of days between authorisations. Only for 3D Secure 2.",
+      "type": "string"
+    },
+    "reference": {
+      "description": "The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. We recommend using a unique value per payment; however, it is not a requirement.\nIf you need to provide multiple references for a transaction, separate them with hyphens (\"-\").\nMaximum length: 80 characters.",
+      "type": "string"
+    },
+    "returnUrl": {
+      "description": "The URL to return to in case of a redirection.\nThe format depends on the channel. This URL can have a maximum of 1024 characters.\n* For web, include the protocol `http://` or `https://`. You can also include your own additional query parameters, for example, shopper ID or order reference number.\nExample: `https://your-company.com/checkout?shopperOrder=12xy`\n* For iOS, use the custom URL for your app. To know more about setting custom URL schemes, refer to the [Apple Developer documentation](https://developer.apple.com/documentation/uikit/inter-process_communication/allowing_apps_and_websites_to_link_to_your_content/defining_a_custom_url_scheme_for_your_app).\nExample: `my-app://`\n* For Android, use a custom URL handled by an Activity on your app. You can configure it with an [intent filter](https://developer.android.com/guide/components/intents-filters).\nExample: `my-app://your.package.name`",
+      "maxLength": 8000,
+      "type": "string"
+    },
+    "riskData": {
+      "description": "Contains risk data, such as client-side data, used to identify risk for a transaction.",
+      "$ref": "#/components/schemas/RiskData"
+    },
+    "sdkVersion": {
+      "x-addedInVersion": "32",
+      "description": "The version of the SDK you are using (for Web SDK integrations only).",
+      "type": "string"
+    },
+    "sessionValidity": {
+      "description": "The date and time until when the session remains valid, in [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format.\n\nFor example: 2020-07-18T15:42:40.428+01:00",
+      "type": "string"
+    },
+    "shopperEmail": {
+      "description": "The shopper's email address. We recommend that you provide this data, as it is used in velocity fraud checks.\n> For 3D Secure 2 transactions, schemes require `shopperEmail` for all browser-based and mobile implementations.",
+      "type": "string"
+    },
+    "shopperIP": {
+      "description": "The shopper's IP address. In general, we recommend that you provide this data, as it is used in a number of risk checks (for instance, number of payment attempts or location-based checks).\n> For 3D Secure 2 transactions, schemes require `shopperIP` for all browser-based implementations.\nThis field is also mandatory for some merchants depending on your business model. For more information, [contact Support](https://www.adyen.help/hc/en-us/requests/new).",
+      "type": "string"
+    },
+    "shopperInteraction": {
+      "description": "Specifies the sales channel, through which the shopper gives their card details, and whether the shopper is a returning customer.\nFor the web service API, Adyen assumes Ecommerce shopper interaction by default.\n\nThis field has the following possible values:\n* `Ecommerce` - Online transactions where the cardholder is present (online). For better authorisation rates, we recommend sending the card security code (CSC) along with the request.\n* `ContAuth` - Card on file and/or subscription transactions, where the cardholder is known to the merchant (returning customer). If the shopper is present (online), you can supply also the CSC to improve authorisation (one-click payment).\n* `Moto` - Mail-order and telephone-order transactions where the shopper is in contact with the merchant via email or telephone.\n* `POS` - Point-of-sale transactions where the shopper is physically present to make a payment using a secure payment terminal.",
+      "enum": [
+        "Ecommerce",
+        "ContAuth",
+        "Moto",
+        "POS"
+      ],
+      "type": "string"
+    },
+    "shopperLocale": {
+      "x-addedInVersion": "7",
+      "description": "The combination of a language code and a country code to specify the language to be used in the payment.",
+      "type": "string"
+    },
+    "shopperName": {
+      "x-addedInVersion": "7",
+      "description": "The shopper's full name.",
+      "$ref": "#/components/schemas/Name"
+    },
+    "shopperReference": {
+      "description": "Required for recurring payments. \nYour reference to uniquely identify this shopper, for example user ID or account ID. Minimum length: 3 characters.\n> Your reference must not include personally identifiable information (PII), for example name or email address.",
+      "type": "string"
+    },
+    "shopperStatement": {
+      "description": "The text to be shown on the shopper's bank statement.\n We recommend sending a maximum of 22 characters, otherwise banks might truncate the string.\n Allowed characters: **a-z**, **A-Z**, **0-9**, spaces, and special characters **. , ' _ - ? + * /**.",
+      "type": "string"
+    },
+    "socialSecurityNumber": {
+      "x-addedInVersion": "4",
+      "description": "The shopper's social security number.",
+      "type": "string"
+    },
+    "splits": {
+      "x-addedInVersion": "37",
+      "description": "An array of objects specifying how the payment should be split when using [Adyen for Platforms](https://docs.adyen.com/marketplaces-and-platforms/processing-payments#providing-split-information) or [Issuing](https://docs.adyen.com/issuing/add-manage-funds#split).",
+      "items": {
+        "$ref": "#/components/schemas/Split"
+      },
+      "type": "array"
+    },
+    "store": {
+      "x-addedInVersion": "23",
+      "description": "Required for Adyen for Platforms integrations if you have a platform setup. This is your [reference](https://docs.adyen.com/api-explorer/Management/3/post/merchants/(merchantId)/stores#request-reference) (on [balance platform](https://docs.adyen.com/marketplaces-and-platforms/classic/platforms-for-partners#route-payments)) or the [storeReference](https://docs.adyen.com/api-explorer/Account/latest/post/updateAccountHolder#request-accountHolderDetails-storeDetails-storeReference) (in the [classic integration](https://docs.adyen.com/marketplaces-and-platforms/processing-payments/route-payment-to-store/#route-a-payment-to-a-store)) for the ecommerce or point-of-sale store that is processing the payment.",
+      "maxLength": 16,
+      "minLength": 1,
+      "type": "string"
+    },
+    "storePaymentMethod": {
+      "x-addedInVersion": "49",
+      "description": "When true and `shopperReference` is provided, the payment details will be stored.",
+      "type": "boolean"
+    },
+    "telephoneNumber": {
+      "x-addedInVersion": "7",
+      "description": "The shopper's telephone number.",
+      "type": "string"
+    },
+    "threeDSAuthenticationOnly": {
+      "x-addedInVersion": "50",
+      "deprecated": true,
+      "x-deprecatedInVersion": "69",
+      "x-deprecatedMessage": "Use `authenticationData.authenticationOnly` instead.",
+      "default": false,
+      "description": "If set to true, you will only perform the [3D Secure 2 authentication](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only), and not the payment authorisation.",
+      "type": "boolean"
+    },
+    "token": {
+      "description": "The token obtained when initializing the SDK.\n\n> This parameter is required for iOS and Android; not required for Web.",
+      "type": "string"
+    },
+    "trustedShopper": {
+      "x-addedInVersion": "37",
+      "description": "Set to true if the payment should be routed to a trusted MID.",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "merchantAccount",
+    "reference",
+    "amount",
+    "returnUrl",
+    "countryCode"
+  ],
+  "name": "PaymentSetupRequest"
+}

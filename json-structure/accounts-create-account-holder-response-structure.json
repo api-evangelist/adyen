@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/accounts-create-account-holder-response-structure.json",
+  "description": "CreateAccountHolderResponse schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountCode": {
+      "description": "The code of a new account created for the account holder.",
+      "type": "string"
+    },
+    "accountHolderCode": {
+      "description": "The code of the new account holder.",
+      "type": "string"
+    },
+    "accountHolderDetails": {
+      "description": "Details of the new account holder.",
+      "$ref": "#/components/schemas/AccountHolderDetails"
+    },
+    "accountHolderStatus": {
+      "x-addedInVersion": "2",
+      "description": "The status of the new account holder.",
+      "$ref": "#/components/schemas/AccountHolderStatus"
+    },
+    "description": {
+      "x-addedInVersion": "4",
+      "description": "The description of the new account holder.",
+      "type": "string"
+    },
+    "invalidFields": {
+      "x-addedInVersion": "5",
+      "description": "A list of fields that caused the `/createAccountHolder` request to fail.",
+      "items": {
+        "$ref": "#/components/schemas/ErrorFieldType"
+      },
+      "type": "array"
+    },
+    "legalEntity": {
+      "x-addedInVersion": "4",
+      "description": "The type of legal entity of the new account holder.",
+      "enum": [
+        "Business",
+        "Individual",
+        "NonProfit",
+        "Partnership",
+        "PublicCompany"
+      ],
+      "type": "string"
+    },
+    "primaryCurrency": {
+      "x-addedInVersion": "5",
+      "deprecated": true,
+      "description": "The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes), with which the prospective account holder primarily deals.",
+      "type": "string"
+    },
+    "pspReference": {
+      "description": "The reference of a request. Can be used to uniquely identify the request.",
+      "type": "string"
+    },
+    "resultCode": {
+      "description": "The result code.",
+      "type": "string"
+    },
+    "verification": {
+      "x-addedInVersion": "2",
+      "description": "The details of KYC Verification of the account holder.",
+      "$ref": "#/components/schemas/KYCVerificationResult"
+    },
+    "verificationProfile": {
+      "x-addedInVersion": "6",
+      "description": "The identifier of the profile that applies to this entity.",
+      "type": "string"
+    }
+  },
+  "name": "CreateAccountHolderResponse"
+}

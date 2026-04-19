@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/checkout-split-schema.json",
+  "title": "Split",
+  "description": "Split schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "account": {
+      "description": "The unique identifier of the account to which the split amount is booked. Required if `type` is **MarketPlace** or **BalanceAccount**.\n\n* [Classic Platforms integration](https://docs.adyen.com/marketplaces-and-platforms/classic): The [`accountCode`](https://docs.adyen.com/api-explorer/Account/latest/post/updateAccount#request-accountCode) of the account to which the split amount is booked.\n* [Balance Platform](https://docs.adyen.com/marketplaces-and-platforms): The [`balanceAccountId`](https://docs.adyen.com/api-explorer/balanceplatform/latest/get/balanceAccounts/_id_#path-id) of the account to which the split amount is booked.",
+      "type": "string"
+    },
+    "amount": {
+      "description": "The amount of the split item.\n\n* Required for all split types in the [Classic Platforms integration](https://docs.adyen.com/marketplaces-and-platforms/classic).\n* Required if `type` is **BalanceAccount**, **Commission**, **Default**, or **VAT** in your [Balance Platform](https://docs.adyen.com/marketplaces-and-platforms) integration.",
+      "$ref": "#/components/schemas/SplitAmount"
+    },
+    "description": {
+      "description": "Your description for the split item.",
+      "type": "string"
+    },
+    "reference": {
+      "description": "Your unique reference for the split item.\n\nThis is required if `type` is **MarketPlace** ([Classic Platforms integration](https://docs.adyen.com/marketplaces-and-platforms/classic)) or **BalanceAccount** ([Balance Platform](https://docs.adyen.com/marketplaces-and-platforms)).\n\nFor the other types, we also recommend providing a **unique** reference so you can reconcile the split and the associated payment in the transaction overview and in the reports.",
+      "type": "string"
+    },
+    "type": {
+      "description": "The type of the split item.\n\nPossible values:\n\n* [Classic Platforms integration](https://docs.adyen.com/marketplaces-and-platforms/classic): **Commission**, **Default**, **Marketplace**, **PaymentFee**, **VAT**.\n* [Balance Platform](https://docs.adyen.com/marketplaces-and-platforms): **BalanceAccount**, **Commission**, **Default**, **PaymentFee**, **Remainder**, **Surcharge**, **Tip**, **VAT**.",
+      "enum": [
+        "AcquiringFees",
+        "AdyenCommission",
+        "AdyenFees",
+        "AdyenMarkup",
+        "BalanceAccount",
+        "Commission",
+        "Default",
+        "Interchange",
+        "MarketPlace",
+        "PaymentFee",
+        "Remainder",
+        "SchemeFee",
+        "Surcharge",
+        "Tip",
+        "VAT"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "type"
+  ]
+}

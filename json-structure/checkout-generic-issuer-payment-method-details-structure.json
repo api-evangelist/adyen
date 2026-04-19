@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/checkout-generic-issuer-payment-method-details-structure.json",
+  "description": "GenericIssuerPaymentMethodDetails schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "checkoutAttemptId": {
+      "x-addedInVersion": "68",
+      "description": "The checkout attempt identifier.",
+      "type": "string"
+    },
+    "issuer": {
+      "description": "The issuer id of the shopper's selected bank.",
+      "type": "string"
+    },
+    "recurringDetailReference": {
+      "deprecated": true,
+      "x-deprecatedInVersion": "49",
+      "x-deprecatedMessage": "Use `storedPaymentMethodId` instead.",
+      "description": "This is the `recurringDetailReference` returned in the response when you created the token.",
+      "type": "string"
+    },
+    "storedPaymentMethodId": {
+      "x-addedInVersion": "49",
+      "description": "This is the `recurringDetailReference` returned in the response when you created the token.",
+      "maxLength": 64,
+      "type": "string"
+    },
+    "type": {
+      "description": "**genericissuer**",
+      "enum": [
+        "onlineBanking_PL",
+        "eps",
+        "onlineBanking_SK",
+        "onlineBanking_CZ"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "issuer"
+  ],
+  "additionalProperties": false,
+  "name": "GenericIssuerPaymentMethodDetails"
+}

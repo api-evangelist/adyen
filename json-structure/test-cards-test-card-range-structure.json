@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/test-cards-test-card-range-structure.json",
+  "description": "TestCardRange schema from Adyen API",
+  "properties": {
+    "address": {
+      "description": "Contains the billing address of the card holder. The address details need to be AVS-compliant, which means that you need to provide at least street address.",
+      "$ref": "#/components/schemas/AvsAddress"
+    },
+    "cardHolderName": {
+      "description": "The name of the card holder, as it appears on the card, for the test card range.",
+      "type": "string"
+    },
+    "cvc": {
+      "description": "The test card range security code.\n\nExample: 123",
+      "type": "string"
+    },
+    "expiryMonth": {
+      "description": "Expiry month for the test card range.\n\nAllowed values:\n* JANUARY\n* FEBRUARY\n* MARCH\n* APRIL\n* MAY\n* JUNE\n* JULY\n* AUGUST\n* SEPTEMBER\n* OCTOBER\n* NOVEMBER\n* DECEMBER",
+      "enum": [
+        "APRIL",
+        "AUGUST",
+        "DECEMBER",
+        "FEBRUARY",
+        "JANUARY",
+        "JULY",
+        "JUNE",
+        "MARCH",
+        "MAY",
+        "NOVEMBER",
+        "OCTOBER",
+        "SEPTEMBER"
+      ],
+      "type": "string"
+    },
+    "expiryYear": {
+      "description": "Expiry year for the test card range.\n\nExample: 2020",
+      "type": "int32"
+    },
+    "rangeEnd": {
+      "description": "The last test card number in the test card range (inclusive):\n\n* Min 6, max 19 digits\n* BIN compliant\nExample: 5432 1234 1234 4321",
+      "type": "string"
+    },
+    "rangeStart": {
+      "description": "The first test card number in the test card range (inclusive):\n\n* Min 6, max 19 digits\n* BIN compliant\nExample: 5432 1234 1234 1234",
+      "type": "string"
+    },
+    "threeDDirectoryServerResponse": {
+      "description": "3D Secure server response. It notifies whether the specified card holder is enrolled in a 3D Secure service. Possible values:\n\n* Y (Authentication available)\n* N (Card holder not enrolled/not participating)\n* U (Unable to authenticate)",
+      "enum": [
+        "N",
+        "U",
+        "Y"
+      ],
+      "type": "string"
+    },
+    "threeDPassword": {
+      "description": "The password used for 3D Secure authentication.",
+      "type": "string"
+    },
+    "threeDUsername": {
+      "description": "The username used for 3D Secure authentication.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "rangeStart",
+    "rangeEnd",
+    "expiryMonth",
+    "expiryYear",
+    "cardHolderName"
+  ],
+  "type": "object",
+  "name": "TestCardRange"
+}

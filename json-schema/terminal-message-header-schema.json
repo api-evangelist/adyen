@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/terminal-message-header-schema.json",
+  "title": "MessageHeader",
+  "description": "It conveys Information related to the Sale to POI protocol management. Message header of the Sale to POI protocol message.",
+  "type": "object",
+  "properties": {
+    "ProtocolVersion": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "If MessageCategory is Login or Diagnosis."
+    },
+    "MessageClass": {
+      "$ref": "#/components/schemas/MessageClass"
+    },
+    "MessageCategory": {
+      "$ref": "#/components/schemas/MessageCategory"
+    },
+    "MessageType": {
+      "$ref": "#/components/schemas/MessageType"
+    },
+    "ServiceID": {
+      "type": "string",
+      "pattern": "^.{1,10}$",
+      "description": "Required if Service or Event MessageClass message or if Device MessageClass and request from POI or response from Sale."
+    },
+    "DeviceID": {
+      "type": "string",
+      "pattern": "^.{1,10}$",
+      "description": "If Device MessageClass."
+    },
+    "SaleID": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "Identification of a Sale System or a Sale Terminal for the Sale to POI protocol."
+    },
+    "POIID": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "Identification of a POI System or a POI Terminal for the Sale to POI protocol."
+    }
+  },
+  "required": [
+    "MessageClass",
+    "MessageCategory",
+    "MessageType",
+    "SaleID",
+    "POIID"
+  ]
+}

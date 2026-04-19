@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/recurring-create-permit-request-schema.json",
+  "title": "CreatePermitRequest",
+  "description": "CreatePermitRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "merchantAccount": {
+      "description": "The merchant account identifier, with which you want to process the transaction.",
+      "type": "string"
+    },
+    "permits": {
+      "description": "The permits to create for this recurring contract.",
+      "items": {
+        "$ref": "#/components/schemas/Permit"
+      },
+      "type": "array"
+    },
+    "recurringDetailReference": {
+      "description": "The recurring contract the new permits will use.",
+      "type": "string"
+    },
+    "shopperReference": {
+      "description": "The shopper's reference to uniquely identify this shopper (e.g. user ID or account ID).",
+      "type": "string"
+    }
+  },
+  "required": [
+    "merchantAccount",
+    "shopperReference",
+    "recurringDetailReference",
+    "permits"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/terminal-currency-conversion-structure.json",
+  "description": "A currency conversion occurred in the payment, and the merchant needs to know information related to this conversion (e.g. to print on the sale receipt). Information related to a currency conversion.",
+  "type": "object",
+  "properties": {
+    "CustomerApprovedFlag": {
+      "type": "boolean",
+      "default": true,
+      "description": "Notify if the customer has approved something. Indicates if the customer has accepted a currency conversion."
+    },
+    "ConvertedAmount": {
+      "$ref": "#/components/schemas/ConvertedAmount"
+    },
+    "Rate": {
+      "type": "string",
+      "description": "Rate of currency conversion."
+    },
+    "Markup": {
+      "type": "string",
+      "description": "Markup of a currency conversion amount as a percentage."
+    },
+    "Commission": {
+      "type": "double",
+      "maximum": 99999999.999999,
+      "minimum": 0,
+      "description": "Commission for a currency conversion."
+    },
+    "Declaration": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "If a declaration has to be presented to the customer."
+    }
+  },
+  "required": [
+    "ConvertedAmount"
+  ],
+  "name": "CurrencyConversion"
+}

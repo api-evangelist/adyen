@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/terminal-transaction-conditions-schema.json",
+  "title": "TransactionConditions",
+  "description": "Conditions on which the transaction must be processed.",
+  "type": "object",
+  "properties": {
+    "AllowedPaymentBrand": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^.+$",
+        "description": "Restrict brand if data sent."
+      }
+    },
+    "AcquirerID": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "description": "Restrict to these Acquirer if present."
+      }
+    },
+    "DebitPreferredFlag": {
+      "type": "boolean",
+      "description": "The preferred type of payment is a debit transaction rather a credit transaction."
+    },
+    "AllowedLoyaltyBrand": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^.+$",
+        "description": "Restrict brand if data sent."
+      }
+    },
+    "LoyaltyHandling": {
+      "$ref": "#/components/schemas/LoyaltyHandling"
+    },
+    "CustomerLanguage": {
+      "type": "string",
+      "pattern": "^[a-z]{2,2}$",
+      "description": "If the language is selected by the Sale System before the request to the POI."
+    },
+    "ForceOnlineFlag": {
+      "type": "boolean",
+      "default": false,
+      "description": "Go online if data sent."
+    },
+    "ForceEntryMode": {
+      "$ref": "#/components/schemas/ForceEntryMode"
+    },
+    "MerchantCategoryCode": {
+      "type": "string",
+      "pattern": "^.{3,4}$",
+      "description": "The payment implies a specific MCC."
+    }
+  }
+}

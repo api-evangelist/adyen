@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/terminal-card-acquisition-response-schema.json",
+  "title": "CardAcquisitionResponse",
+  "description": "It conveys Information related to the payment and loyalty cards read and processed by the POI System and entered by the Customer. Content of the Card Acquisition Response message.",
+  "type": "object",
+  "properties": {
+    "Response": {
+      "$ref": "#/components/schemas/Response"
+    },
+    "SaleData": {
+      "$ref": "#/components/schemas/SaleData"
+    },
+    "POIData": {
+      "$ref": "#/components/schemas/POIData"
+    },
+    "CustomerLanguage": {
+      "type": "string",
+      "pattern": "^[a-z]{2,2}$",
+      "description": "Data related to the POI System."
+    },
+    "PaymentBrand": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^.+$",
+        "description": "Brands available for payment by the card and not chosen by the Customer."
+      }
+    },
+    "PaymentInstrumentData": {
+      "$ref": "#/components/schemas/PaymentInstrumentData"
+    },
+    "LoyaltyAccount": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/LoyaltyAccount"
+      }
+    }
+  },
+  "required": [
+    "Response",
+    "SaleData",
+    "POIData"
+  ]
+}

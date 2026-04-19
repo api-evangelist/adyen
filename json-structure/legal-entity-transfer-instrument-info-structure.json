@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/legal-entity-transfer-instrument-info-structure.json",
+  "description": "TransferInstrumentInfo schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "bankAccount": {
+      "description": "Contains information about the legal entity's bank account.",
+      "$ref": "#/components/schemas/BankAccountInfo"
+    },
+    "legalEntityId": {
+      "description": "The unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/legalentity/latest/post/legalEntities#responses-200-id) that owns the transfer instrument.",
+      "type": "string"
+    },
+    "type": {
+      "description": "The type of transfer instrument.\n\nPossible value: **bankAccount**.",
+      "enum": [
+        "bankAccount",
+        "recurringDetail"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "legalEntityId",
+    "type",
+    "bankAccount"
+  ],
+  "name": "TransferInstrumentInfo"
+}

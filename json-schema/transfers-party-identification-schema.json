@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/transfers-party-identification-schema.json",
+  "title": "PartyIdentification",
+  "description": "PartyIdentification schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "address": {
+      "description": "Address of the bank account owner.",
+      "$ref": "#/components/schemas/Address"
+    },
+    "dateOfBirth": {
+      "description": "The date of birth of the individual in [ISO-8601](https://www.w3.org/TR/NOTE-datetime) format. For example, **YYYY-MM-DD**. Should not be before January 1, 1900.\n\nAllowed only when `type` is **individual**.",
+      "format": "date",
+      "type": "string"
+    },
+    "firstName": {
+      "description": "First name of the individual.\n\nAllowed only when `type` is **individual**.",
+      "type": "string"
+    },
+    "fullName": {
+      "description": "The name of the entity.",
+      "type": "string"
+    },
+    "lastName": {
+      "description": "Last name of the individual.\n\nAllowed only when `type` is **individual**.",
+      "type": "string"
+    },
+    "reference": {
+      "description": "A unique reference to identify the party or counterparty involved in transfers. This identifier ensures consistency and uniqueness throughout all transactions initiated to and from the same party. For example, your client's unique wallet or payee ID.",
+      "maxLength": 150,
+      "type": "string"
+    },
+    "type": {
+      "default": "unknown",
+      "description": "The type of entity that owns the bank account.\n\n Possible values: **individual**, **organization**, or **unknown**.",
+      "enum": [
+        "individual",
+        "organization",
+        "unknown"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "fullName"
+  ]
+}

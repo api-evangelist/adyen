@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/management-webhooks-payment-method-created-notification-request-schema.json",
+  "title": "PaymentMethodCreatedNotificationRequest",
+  "description": "PaymentMethodCreatedNotificationRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "createdAt": {
+      "description": "Timestamp for when the webhook was created.",
+      "format": "date-time",
+      "type": "string"
+    },
+    "data": {
+      "description": "Contains event details.",
+      "$ref": "#/components/schemas/MidServiceNotificationData"
+    },
+    "environment": {
+      "description": "The environment from which the webhook originated.\n\nPossible values: **test**, **live**.",
+      "type": "string"
+    },
+    "type": {
+      "description": "Type of notification.",
+      "enum": [
+        "paymentMethod.created"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "environment",
+    "createdAt",
+    "data",
+    "type"
+  ]
+}

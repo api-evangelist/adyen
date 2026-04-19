@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/terminal-reversal-request-structure.json",
+  "description": "It conveys Information related to the reversal of a previous payment or a loyalty transaction. Content of the Reversal Request message.",
+  "type": "object",
+  "properties": {
+    "SaleData": {
+      "$ref": "#/components/schemas/SaleData"
+    },
+    "OriginalPOITransaction": {
+      "$ref": "#/components/schemas/OriginalPOITransaction"
+    },
+    "ReversedAmount": {
+      "type": "double",
+      "maximum": 99999999.999999,
+      "minimum": 0,
+      "description": "ReversedAmount is implicitely the AuthorizedAmount if absent."
+    },
+    "ReversalReason": {
+      "$ref": "#/components/schemas/ReversalReason"
+    },
+    "CustomerOrder": {
+      "$ref": "#/components/schemas/CustomerOrder"
+    }
+  },
+  "required": [
+    "OriginalPOITransaction",
+    "ReversalReason"
+  ],
+  "name": "ReversalRequest"
+}

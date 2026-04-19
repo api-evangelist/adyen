@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/checkout-upi-collect-details-structure.json",
+  "description": "UpiCollectDetails schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "billingSequenceNumber": {
+      "description": "The sequence number for the debit. For example, send **2** if this is the second debit for the subscription. The sequence number is included in the notification sent to the shopper.",
+      "type": "string"
+    },
+    "checkoutAttemptId": {
+      "x-addedInVersion": "68",
+      "description": "The checkout attempt identifier.",
+      "type": "string"
+    },
+    "recurringDetailReference": {
+      "deprecated": true,
+      "x-deprecatedInVersion": "49",
+      "x-deprecatedMessage": "Use `storedPaymentMethodId` instead.",
+      "description": "This is the `recurringDetailReference` returned in the response when you created the token.",
+      "type": "string"
+    },
+    "shopperNotificationReference": {
+      "description": "The `shopperNotificationReference` returned in the response when you requested to notify the shopper. Used for recurring payment only.",
+      "type": "string"
+    },
+    "storedPaymentMethodId": {
+      "x-addedInVersion": "49",
+      "description": "This is the `recurringDetailReference` returned in the response when you created the token.",
+      "maxLength": 64,
+      "type": "string"
+    },
+    "type": {
+      "default": "upi_collect",
+      "description": "**upi_collect**",
+      "enum": [
+        "upi_collect"
+      ],
+      "type": "string"
+    },
+    "virtualPaymentAddress": {
+      "description": "The virtual payment address for UPI.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "billingSequenceNumber"
+  ],
+  "additionalProperties": false,
+  "name": "UpiCollectDetails"
+}

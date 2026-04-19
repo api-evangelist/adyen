@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/checkout-platform-chargeback-logic-structure.json",
+  "description": "PlatformChargebackLogic schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "behavior": {
+      "x-addedInVersion": "68",
+      "description": "The method of handling the chargeback.\n\nPossible values: **deductFromLiableAccount**, **deductFromOneBalanceAccount**, **deductAccordingToSplitRatio**.",
+      "enum": [
+        "deductAccordingToSplitRatio",
+        "deductFromLiableAccount",
+        "deductFromOneBalanceAccount"
+      ],
+      "type": "string"
+    },
+    "costAllocationAccount": {
+      "x-addedInVersion": "68",
+      "description": "The unique identifier of the balance account to which the chargeback fees are booked. By default, the chargeback fees are booked to your liable balance account.",
+      "type": "string"
+    },
+    "targetAccount": {
+      "x-addedInVersion": "68",
+      "description": "The unique identifier of the balance account against which the disputed amount is booked.\n\nRequired if `behavior` is **deductFromOneBalanceAccount**.",
+      "type": "string"
+    }
+  },
+  "name": "PlatformChargebackLogic"
+}

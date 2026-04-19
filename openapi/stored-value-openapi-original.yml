@@ -1,6 +1,6 @@
 openapi: 3.1.0
 servers:
-  - url: https://pal-test.adyen.com/pal/servlet/StoredValue/v46
+- url: https://pal-test.adyen.com/pal/servlet/StoredValue/v46
 info:
   version: '46'
   x-publicVersion: true
@@ -11,20 +11,20 @@ info:
     name: Adyen Developer Experience team
     url: https://github.com/Adyen/adyen-openapi
 x-groups:
-  - General
+- General
 tags:
-  - name: changeStatus
-  - name: checkBalance
-  - name: Issue
-  - name: Load
-  - name: mergeBalance
-  - name: voidTransaction
+- name: changeStatus
+- name: checkBalance
+- name: Issue
+- name: Load
+- name: mergeBalance
+- name: voidTransaction
 paths:
   /changeStatus:
     post:
       tags:
-        - changeStatus
-      summary: Adyen Changes the status of the payment method.
+      - changeStatus
+      summary: Adyen Changes the Status of the Payment Method.
       description: >-
         Changes the status of the provided payment method to the specified
         status.
@@ -33,8 +33,8 @@ paths:
       x-sortIndex: 0
       x-methodName: changeStatus
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -46,44 +46,102 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StoredValueStatusChangeResponse'
+              examples:
+                post-changeStatus200Example:
+                  summary: Default post-changeStatus 200 response
+                  x-microcks-default: true
+                  value:
+                    authCode: CODE123
+                    currentBalance: example_value
+                    pspReference: REF-001
+                    refusalReason: REF-001
+                    resultCode: Success
+                    thirdPartyRefusalReason: REF-001
           description: OK - the request has succeeded.
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-changeStatus400Example:
+                  summary: Default post-changeStatus 400 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-changeStatus401Example:
+                  summary: Default post-changeStatus 401 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-changeStatus403Example:
+                  summary: Default post-changeStatus 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-changeStatus500Example:
+                  summary: Default post-changeStatus 500 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /checkBalance:
     post:
       tags:
-        - checkBalance
-      summary: Adyen Checks the balance.
+      - checkBalance
+      summary: Adyen Checks the Balance.
       description: Checks the balance of the provided payment method.
       operationId: post-checkBalance
       x-groupName: General
       x-sortIndex: 0
       x-methodName: checkBalance
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -95,44 +153,101 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StoredValueBalanceCheckResponse'
+              examples:
+                post-checkBalance200Example:
+                  summary: Default post-checkBalance 200 response
+                  x-microcks-default: true
+                  value:
+                    currentBalance: example_value
+                    pspReference: REF-001
+                    refusalReason: REF-001
+                    resultCode: Success
+                    thirdPartyRefusalReason: REF-001
           description: OK - the request has succeeded.
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-checkBalance400Example:
+                  summary: Default post-checkBalance 400 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-checkBalance401Example:
+                  summary: Default post-checkBalance 401 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-checkBalance403Example:
+                  summary: Default post-checkBalance 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-checkBalance500Example:
+                  summary: Default post-checkBalance 500 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /issue:
     post:
       tags:
-        - Issue
-      summary: Adyen Issues a new card.
+      - Issue
+      summary: Adyen Issues a New Card.
       description: Issues a new card of the given payment method.
       operationId: post-issue
       x-groupName: General
       x-sortIndex: 0
       x-methodName: issue
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -144,44 +259,103 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StoredValueIssueResponse'
+              examples:
+                post-issue200Example:
+                  summary: Default post-issue 200 response
+                  x-microcks-default: true
+                  value:
+                    authCode: CODE123
+                    currentBalance: example_value
+                    paymentMethod: {}
+                    pspReference: REF-001
+                    refusalReason: REF-001
+                    resultCode: Success
+                    thirdPartyRefusalReason: REF-001
           description: OK - the request has succeeded.
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-issue400Example:
+                  summary: Default post-issue 400 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-issue401Example:
+                  summary: Default post-issue 401 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-issue403Example:
+                  summary: Default post-issue 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-issue500Example:
+                  summary: Default post-issue 500 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /load:
     post:
       tags:
-        - Load
-      summary: Adyen Loads the payment method.
+      - Load
+      summary: Adyen Loads the Payment Method.
       description: Loads the payment method with the specified funds.
       operationId: post-load
       x-groupName: General
       x-sortIndex: 0
       x-methodName: load
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -193,36 +367,94 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StoredValueLoadResponse'
+              examples:
+                post-load200Example:
+                  summary: Default post-load 200 response
+                  x-microcks-default: true
+                  value:
+                    authCode: CODE123
+                    currentBalance: example_value
+                    pspReference: REF-001
+                    refusalReason: REF-001
+                    resultCode: Success
+                    thirdPartyRefusalReason: REF-001
           description: OK - the request has succeeded.
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-load400Example:
+                  summary: Default post-load 400 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-load401Example:
+                  summary: Default post-load 401 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-load403Example:
+                  summary: Default post-load 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-load500Example:
+                  summary: Default post-load 500 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /mergeBalance:
     post:
       tags:
-        - mergeBalance
-      summary: Adyen Merge the balance of two cards.
+      - mergeBalance
+      summary: Adyen Merge the Balance of Two Cards.
       description: >-
         Increases the balance of the paymentmethod by the full amount left on
         the source paymentmethod
@@ -231,8 +463,8 @@ paths:
       x-sortIndex: 0
       x-methodName: mergeBalance
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -244,44 +476,102 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StoredValueBalanceMergeResponse'
+              examples:
+                post-mergeBalance200Example:
+                  summary: Default post-mergeBalance 200 response
+                  x-microcks-default: true
+                  value:
+                    authCode: CODE123
+                    currentBalance: example_value
+                    pspReference: REF-001
+                    refusalReason: REF-001
+                    resultCode: Success
+                    thirdPartyRefusalReason: REF-001
           description: OK - the request has succeeded.
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-mergeBalance400Example:
+                  summary: Default post-mergeBalance 400 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-mergeBalance401Example:
+                  summary: Default post-mergeBalance 401 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-mergeBalance403Example:
+                  summary: Default post-mergeBalance 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-mergeBalance500Example:
+                  summary: Default post-mergeBalance 500 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /voidTransaction:
     post:
       tags:
-        - voidTransaction
-      summary: Adyen Voids a transaction.
+      - voidTransaction
+      summary: Adyen Voids a Transaction.
       description: Voids the referenced stored value transaction.
       operationId: post-voidTransaction
       x-groupName: General
       x-sortIndex: 0
       x-methodName: voidTransaction
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -293,31 +583,88 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StoredValueVoidResponse'
+              examples:
+                post-voidTransaction200Example:
+                  summary: Default post-voidTransaction 200 response
+                  x-microcks-default: true
+                  value:
+                    currentBalance: example_value
+                    pspReference: REF-001
+                    refusalReason: REF-001
+                    resultCode: Success
+                    thirdPartyRefusalReason: REF-001
           description: OK - the request has succeeded.
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-voidTransaction400Example:
+                  summary: Default post-voidTransaction 400 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-voidTransaction401Example:
+                  summary: Default post-voidTransaction 401 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-voidTransaction403Example:
+                  summary: Default post-voidTransaction 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-voidTransaction500Example:
+                  summary: Default post-voidTransaction 500 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   schemas:
     Amount:
@@ -336,8 +683,8 @@ components:
           format: int64
           type: integer
       required:
-        - value
-        - currency
+      - value
+      - currency
       type: object
     ServiceError:
       properties:
@@ -423,10 +770,10 @@ components:
             * `POS` - Point-of-sale transactions where the shopper is physically
             present to make a payment using a secure payment terminal.
           enum:
-            - Ecommerce
-            - ContAuth
-            - Moto
-            - POS
+          - Ecommerce
+          - ContAuth
+          - Moto
+          - POS
           type: string
         shopperReference:
           type: string
@@ -436,9 +783,9 @@ components:
           minLength: 1
           type: string
       required:
-        - merchantAccount
-        - reference
-        - paymentMethod
+      - merchantAccount
+      - reference
+      - paymentMethod
       type: object
     StoredValueBalanceCheckResponse:
       properties:
@@ -477,10 +824,10 @@ components:
             than the amount given in the request. Only applicable to balance
             checks. 
           enum:
-            - Success
-            - Refused
-            - Error
-            - NotEnoughBalance
+          - Success
+          - Refused
+          - Error
+          - NotEnoughBalance
           type: string
         thirdPartyRefusalReason:
           description: Raw refusal reason received from the third party, where available
@@ -542,10 +889,10 @@ components:
             * `POS` - Point-of-sale transactions where the shopper is physically
             present to make a payment using a secure payment terminal.
           enum:
-            - Ecommerce
-            - ContAuth
-            - Moto
-            - POS
+          - Ecommerce
+          - ContAuth
+          - Moto
+          - POS
           type: string
         shopperReference:
           type: string
@@ -563,10 +910,10 @@ components:
           minLength: 1
           type: string
       required:
-        - merchantAccount
-        - reference
-        - paymentMethod
-        - sourcePaymentMethod
+      - merchantAccount
+      - reference
+      - paymentMethod
+      - sourcePaymentMethod
       type: object
     StoredValueBalanceMergeResponse:
       properties:
@@ -614,10 +961,10 @@ components:
             than the amount given in the request. Only applicable to balance
             checks. 
           enum:
-            - Success
-            - Refused
-            - Error
-            - NotEnoughBalance
+          - Success
+          - Refused
+          - Error
+          - NotEnoughBalance
           type: string
         thirdPartyRefusalReason:
           description: Raw refusal reason received from the third party, where available
@@ -679,10 +1026,10 @@ components:
             * `POS` - Point-of-sale transactions where the shopper is physically
             present to make a payment using a secure payment terminal.
           enum:
-            - Ecommerce
-            - ContAuth
-            - Moto
-            - POS
+          - Ecommerce
+          - ContAuth
+          - Moto
+          - POS
           type: string
         shopperReference:
           type: string
@@ -692,9 +1039,9 @@ components:
           minLength: 1
           type: string
       required:
-        - merchantAccount
-        - reference
-        - paymentMethod
+      - merchantAccount
+      - reference
+      - paymentMethod
       type: object
     StoredValueIssueResponse:
       properties:
@@ -749,10 +1096,10 @@ components:
             than the amount given in the request. Only applicable to balance
             checks. 
           enum:
-            - Success
-            - Refused
-            - Error
-            - NotEnoughBalance
+          - Success
+          - Refused
+          - Error
+          - NotEnoughBalance
           type: string
         thirdPartyRefusalReason:
           description: Raw refusal reason received from the third party, where available
@@ -768,8 +1115,8 @@ components:
             The type of load you are trying to do, when absent we default to
             'Load'
           enum:
-            - merchandiseReturn
-            - load
+          - merchandiseReturn
+          - load
           type: string
         merchantAccount:
           description: >-
@@ -822,10 +1169,10 @@ components:
             * `POS` - Point-of-sale transactions where the shopper is physically
             present to make a payment using a secure payment terminal.
           enum:
-            - Ecommerce
-            - ContAuth
-            - Moto
-            - POS
+          - Ecommerce
+          - ContAuth
+          - Moto
+          - POS
           type: string
         shopperReference:
           type: string
@@ -835,10 +1182,10 @@ components:
           minLength: 1
           type: string
       required:
-        - merchantAccount
-        - reference
-        - paymentMethod
-        - amount
+      - merchantAccount
+      - reference
+      - paymentMethod
+      - amount
       type: object
     StoredValueLoadResponse:
       properties:
@@ -886,10 +1233,10 @@ components:
             than the amount given in the request. Only applicable to balance
             checks. 
           enum:
-            - Success
-            - Refused
-            - Error
-            - NotEnoughBalance
+          - Success
+          - Refused
+          - Error
+          - NotEnoughBalance
           type: string
         thirdPartyRefusalReason:
           description: Raw refusal reason received from the third party, where available
@@ -951,18 +1298,18 @@ components:
             * `POS` - Point-of-sale transactions where the shopper is physically
             present to make a payment using a secure payment terminal.
           enum:
-            - Ecommerce
-            - ContAuth
-            - Moto
-            - POS
+          - Ecommerce
+          - ContAuth
+          - Moto
+          - POS
           type: string
         shopperReference:
           type: string
         status:
           description: The status you want to change to
           enum:
-            - active
-            - inactive
+          - active
+          - inactive
           type: string
         store:
           description: The physical store, for which this payment is processed.
@@ -970,10 +1317,10 @@ components:
           minLength: 1
           type: string
       required:
-        - merchantAccount
-        - reference
-        - paymentMethod
-        - status
+      - merchantAccount
+      - reference
+      - paymentMethod
+      - status
       type: object
     StoredValueStatusChangeResponse:
       properties:
@@ -1021,10 +1368,10 @@ components:
             than the amount given in the request. Only applicable to balance
             checks. 
           enum:
-            - Success
-            - Refused
-            - Error
-            - NotEnoughBalance
+          - Success
+          - Refused
+          - Error
+          - NotEnoughBalance
           type: string
         thirdPartyRefusalReason:
           description: Raw refusal reason received from the third party, where available
@@ -1059,8 +1406,8 @@ components:
           description: The unique ID of a POS terminal.
           type: string
       required:
-        - merchantAccount
-        - originalReference
+      - merchantAccount
+      - originalReference
       type: object
     StoredValueVoidResponse:
       properties:
@@ -1099,10 +1446,10 @@ components:
             than the amount given in the request. Only applicable to balance
             checks. 
           enum:
-            - Success
-            - Refused
-            - Error
-            - NotEnoughBalance
+          - Success
+          - Refused
+          - Error
+          - NotEnoughBalance
           type: string
         thirdPartyRefusalReason:
           description: Raw refusal reason received from the third party, where available

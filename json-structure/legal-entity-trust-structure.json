@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/legal-entity-trust-structure.json",
+  "description": "Trust schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "countryOfGoverningLaw": {
+      "description": "The two-character [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code of the governing country.",
+      "type": "string"
+    },
+    "dateOfIncorporation": {
+      "x-addedInVersion": "2",
+      "description": "The date when the legal arrangement was incorporated in YYYY-MM-DD format.",
+      "type": "string"
+    },
+    "description": {
+      "x-addedInVersion": "3",
+      "description": "Short description about the trust.",
+      "type": "string"
+    },
+    "doingBusinessAs": {
+      "description": "The registered name, if different from the `name`.",
+      "type": "string"
+    },
+    "name": {
+      "description": "The legal name.",
+      "type": "string"
+    },
+    "principalPlaceOfBusiness": {
+      "description": "The business address. Required if the principal place of business is different from the `registeredAddress`.",
+      "$ref": "#/components/schemas/Address"
+    },
+    "registeredAddress": {
+      "description": "The address registered at the registrar, such as the Chamber of Commerce.",
+      "$ref": "#/components/schemas/Address"
+    },
+    "registrationNumber": {
+      "description": "The registration number.",
+      "type": "string"
+    },
+    "taxInformation": {
+      "x-addedInVersion": "2",
+      "description": "The tax information of the entity.",
+      "items": {
+        "$ref": "#/components/schemas/TaxInformation"
+      },
+      "type": "array"
+    },
+    "type": {
+      "description": "Type of trust.\n\nPossible values for Australian trusts: **cashManagementTrust**, **corporateUnitTrust**, **deceasedEstate**, **discretionaryInvestmentTrust**, **discretionaryServicesManagementTrust**, **discretionaryTradingTrust**, **firstHomeSaverAccountsTrust**, **fixedTrust**, **fixedUnitTrust**, **hybridTrust**, **listedPublicUnitTrust**, **otherTrust**, **pooledSuperannuationTrust**, **publicTradingTrust**, **unlistedPublicUnitTrust**.",
+      "enum": [
+        "cashManagementTrust",
+        "corporateUnitTrust",
+        "deceasedEstate",
+        "discretionaryInvestmentTrust",
+        "discretionaryServicesManagementTrust",
+        "discretionaryTradingTrust",
+        "firstHomeSaverAccountsTrust",
+        "fixedTrust",
+        "fixedUnitTrust",
+        "hybridTrust",
+        "listedPublicUnitTrust",
+        "otherTrust",
+        "pooledSuperannuationTrust",
+        "publicTradingTrust",
+        "unlistedPublicUnitTrust"
+      ],
+      "type": "string"
+    },
+    "undefinedBeneficiaryInfo": {
+      "x-addedInVersion": "2",
+      "description": "The undefined beneficiary information of the entity.",
+      "items": {
+        "$ref": "#/components/schemas/UndefinedBeneficiary"
+      },
+      "type": "array"
+    },
+    "vatAbsenceReason": {
+      "description": "The reason for not providing a VAT number.\n\nPossible values: **industryExemption**, **belowTaxThreshold**.",
+      "enum": [
+        "industryExemption",
+        "belowTaxThreshold"
+      ],
+      "type": "string"
+    },
+    "vatNumber": {
+      "description": "The VAT number.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "countryOfGoverningLaw",
+    "registeredAddress",
+    "type"
+  ],
+  "name": "Trust"
+}

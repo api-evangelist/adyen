@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/configuration-transfer-route-request-structure.json",
+  "description": "TransferRouteRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "balanceAccountId": {
+      "description": "The unique identifier of the source [balance account](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/post/balanceAccounts__resParam_id).\nRequired if `counterparty` is **transferInstrumentId**.",
+      "type": "string"
+    },
+    "balancePlatform": {
+      "description": "The unique identifier assigned to the balance platform associated with the account holder.",
+      "type": "string"
+    },
+    "category": {
+      "description": " The type of transfer. Possible values:\n\n  - **bank**: Transfer to a [transfer instrument](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/transferInstruments__resParam_id) or a bank account.\n",
+      "enum": [
+        "bank"
+      ],
+      "type": "string"
+    },
+    "counterparty": {
+      "description": "The recipient of the funds transfer. A bank account or a transfer instrument.",
+      "$ref": "#/components/schemas/Counterparty"
+    },
+    "country": {
+      "description": "The two-character ISO-3166-1 alpha-2 country code of the counterparty. For example, **US** or **NL**.\n > Either `counterparty` or `country` field must be provided in a transfer route request.",
+      "type": "string"
+    },
+    "currency": {
+      "description": "The three-character ISO currency code of transfer. For example, **USD** or **EUR**.",
+      "type": "string"
+    },
+    "priorities": {
+      "description": "The list of priorities for the bank transfer. Priorities set the speed at which the transfer is sent and the fees that you have to pay. Multiple values can be provided.\nPossible values:\n\n* **regular**: For normal, low-value transactions.\n\n* **fast**: Faster way to transfer funds but has higher fees. Recommended for high-priority, low-value transactions.\n\n* **wire**: Fastest way to transfer funds but has the highest fees. Recommended for high-priority, high-value transactions.\n\n* **instant**: Instant way to transfer funds in [SEPA countries](https://www.ecb.europa.eu/paym/integration/retail/sepa/html/index.en.html).\n\n* **crossBorder**: High-value transfer to a recipient in a different country.\n\n* **internal**: Transfer to an Adyen-issued business bank account (by bank account number/IBAN).",
+      "items": {
+        "enum": [
+          "crossBorder",
+          "fast",
+          "instant",
+          "internal",
+          "regular",
+          "wire"
+        ],
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "balancePlatform",
+    "currency",
+    "category"
+  ],
+  "name": "TransferRouteRequest"
+}

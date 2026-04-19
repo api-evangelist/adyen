@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/management-webhooks-capability-problem-entity-structure.json",
+  "description": "CapabilityProblemEntity schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "documents": {
+      "description": "List of document IDs to which the verification errors related to the capabilities correspond to.",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "id": {
+      "description": "The ID of the entity.",
+      "type": "string"
+    },
+    "owner": {
+      "description": "The owner of the entity that has an error. For example, if the `entity.type` is **BankAccount**, then the `owner` contains the details of the legal entity that owns the bank account.",
+      "$ref": "#/components/schemas/CapabilityProblemEntity-recursive"
+    },
+    "type": {
+      "description": "The type of entity.\n\nPossible values: **LegalEntity**, **BankAccount**, or **Document**.",
+      "enum": [
+        "BankAccount",
+        "Document",
+        "LegalEntity"
+      ],
+      "type": "string"
+    }
+  },
+  "name": "CapabilityProblemEntity"
+}

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/notification-webhooks-incoming-transfer-notification-data-schema.json",
+  "title": "IncomingTransferNotificationData",
+  "description": "IncomingTransferNotificationData schema from Adyen API",
+  "properties": {
+    "accountHolder": {
+      "description": "Contains information about the account holder.",
+      "$ref": "#/components/schemas/ResourceReference"
+    },
+    "amount": {
+      "description": "The amount converted to the balance account's currency, in case the original transaction currency is different.\n\n* A _positive_ value means the amount is added to the balance account.\n\n * A _negative_ value means the amount is deducted from the balance account. ",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "balanceAccount": {
+      "description": "Contains information about the balance account.",
+      "$ref": "#/components/schemas/ResourceReference"
+    },
+    "balancePlatform": {
+      "description": "Unique identifier of the balance platform.",
+      "type": "string"
+    },
+    "counterparty": {
+      "description": "Contains information about the other party in the transaction.",
+      "$ref": "#/components/schemas/Counterparty"
+    },
+    "creationDate": {
+      "description": "Date and time when the event was triggered, in ISO 8601 extended format. For example, **2020-12-18T10:15:30+01:00**.",
+      "format": "date-time",
+      "type": "string"
+    },
+    "description": {
+      "description": "Your description for the transfer. If you send a description longer than 140 characters, the text is truncated.",
+      "type": "string"
+    },
+    "id": {
+      "description": "The ID of the resource.",
+      "type": "string"
+    },
+    "modification": {
+      "description": "Contains the amount and type of modification that triggered the notification. For example, this object contains the amount of a partial cancellation or partial expired authorisation.",
+      "$ref": "#/components/schemas/NotificationModificationData"
+    },
+    "originalAmount": {
+      "description": "The amount in the original currency of the transaction.\n\n* A _positive_ value means the amount is added to the balance account.\n\n * A _negative_ value means the amount is deducted from the balance account. ",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "paymentId": {
+      "description": "The ID of the original payment authorisation, refund, or funds transfer request. Use this to trace the original request from the `balancePlatform.payment.created` webhook.",
+      "type": "string"
+    },
+    "paymentInstrument": {
+      "description": "Contains information about the payment instrument.",
+      "$ref": "#/components/schemas/ResourceReference"
+    },
+    "platformPayment": {
+      "description": "Contains information about the related platform payment.",
+      "$ref": "#/components/schemas/PlatformPayment"
+    },
+    "reference": {
+      "description": "An Adyen-generated unique reference for the transfer.",
+      "maxLength": 80,
+      "type": "string"
+    },
+    "referenceForBeneficiary": {
+      "description": "The reference sent to or received from the counterparty.\n\n* For outgoing funds, this is the [`referenceForBeneficiary`](https://docs.adyen.com/api-explorer/#/transfers/latest/post/transfers__resParam_referenceForBeneficiary) from the  [`/transfers`](https://docs.adyen.com/api-explorer/#/transfers/latest/post/transfers) request.\n\n * For incoming funds, this is the reference from the sender.",
+      "maxLength": 80,
+      "type": "string"
+    },
+    "status": {
+      "description": "The event status. The possible values depend on the `type`.\n\n* **Authorised**, **Refused**, or **Error** for type `balancePlatform.payment.created`\n\n * **Expired** or **Cancelled** for type `balancePlatform.payment.updated`\n\n* **PendingIncomingTransfer** for type `balancePlatform.incomingTransfer.created` \n\n* **Refunded** or **IncomingTransfer** for type `balancePlatform.incomingTransfer.updated`\n\n * **Captured** or **OutgoingTransfer** for type `balancePlatform.outgoingTransfer.created`\n\n* **TransferConfirmed**, **TransferSentOut**, or **TransferFailed** for type `balancePlatform.outgoingTransfer.updated`\n\n  ",
+      "type": "string"
+    },
+    "valueDate": {
+      "description": "Indicates the expected settlement date of this transaction, in ISO 8601 extended format. For example, **2021-08-17T15:34:37+02:00**.",
+      "format": "date-time",
+      "type": "string"
+    }
+  },
+  "required": [
+    "counterparty"
+  ],
+  "type": "object"
+}

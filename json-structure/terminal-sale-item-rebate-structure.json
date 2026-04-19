@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/terminal-sale-item-rebate-structure.json",
+  "description": "To be differentiated from the award which is the amount or quantity earned on the loyalty account. The awarded amount that is attached to an item as a rebate.",
+  "type": "object",
+  "properties": {
+    "ItemID": {
+      "type": "int32",
+      "description": "Item identification inside a transaction (0 to n)."
+    },
+    "ProductCode": {
+      "type": "int32",
+      "minimum": 1,
+      "maximum": 20,
+      "description": "Product code of item purchased with the transaction."
+    },
+    "EanUpc": {
+      "type": "int32"
+    },
+    "UnitOfMeasure": {
+      "$ref": "#/components/schemas/UnitOfMeasure"
+    },
+    "Quantity": {
+      "type": "string",
+      "description": "if rebate is additional units."
+    },
+    "ItemAmount": {
+      "type": "double",
+      "maximum": 99999999.999999,
+      "minimum": 0,
+      "description": "if rebate on the line item amount."
+    },
+    "RebateLabel": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "If provided by the Acquirer."
+    }
+  },
+  "required": [
+    "ItemID",
+    "ProductCode"
+  ],
+  "name": "SaleItemRebate"
+}

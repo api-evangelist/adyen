@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/legal-entity-capability-settings-schema.json",
+  "title": "CapabilitySettings",
+  "description": "CapabilitySettings schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "amountPerIndustry": {
+      "additionalProperties": {
+        "$ref": "#/components/schemas/Amount"
+      },
+      "description": "The maximum amount a card holder can spend per industry.",
+      "type": "object"
+    },
+    "authorizedCardUsers": {
+      "description": "The number of card holders who can use the card.",
+      "type": "boolean"
+    },
+    "fundingSource": {
+      "description": "The funding source of the card, for example **debit**.",
+      "items": {
+        "enum": [
+          "credit",
+          "debit",
+          "prepaid"
+        ],
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "interval": {
+      "description": "The period when the rule conditions apply.",
+      "enum": [
+        "daily",
+        "monthly",
+        "weekly"
+      ],
+      "type": "string"
+    },
+    "maxAmount": {
+      "description": "The maximum amount a card holder can withdraw per day.",
+      "$ref": "#/components/schemas/Amount"
+    }
+  }
+}

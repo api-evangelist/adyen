@@ -1,6 +1,6 @@
 openapi: 3.1.0
 servers:
-  - url: https://ca-test.adyen.com/ca/services/DataProtectionService/v1
+- url: https://ca-test.adyen.com/ca/services/DataProtectionService/v1
 info:
   version: '1'
   x-publicVersion: true
@@ -16,16 +16,16 @@ info:
     name: Adyen Developer Experience team
     url: https://github.com/Adyen/adyen-openapi
 tags:
-  - name: Erasure
-  - name: Request
-  - name: Subjects
+- name: Erasure
+- name: Request
+- name: Subjects
 paths:
   /requestSubjectErasure:
     post:
       tags:
-        - Erasure
-        - Request
-        - Subjects
+      - Erasure
+      - Request
+      - Subjects
       summary: Adyen Submit a Subject Erasure Request.
       description: >-
         Sends the PSP reference containing the shopper data that should be
@@ -34,8 +34,8 @@ paths:
       x-sortIndex: 0
       x-methodName: requestSubjectErasure
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -47,37 +47,96 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SubjectErasureResponse'
+              examples:
+                post-requestSubjectErasure200Example:
+                  summary: Default post-requestSubjectErasure 200 response
+                  x-microcks-default: true
+                  value:
+                    result: ACTIVE_RECURRING_TOKEN_EXISTS
           description: OK - the request has succeeded.
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-requestSubjectErasure400Example:
+                  summary: Default post-requestSubjectErasure 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-requestSubjectErasure401Example:
+                  summary: Default post-requestSubjectErasure 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-requestSubjectErasure403Example:
+                  summary: Default post-requestSubjectErasure 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-requestSubjectErasure422Example:
+                  summary: Default post-requestSubjectErasure 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-requestSubjectErasure500Example:
+                  summary: Default post-requestSubjectErasure 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   schemas:
     ServiceError:
@@ -122,10 +181,10 @@ components:
         result:
           description: The result of this operation.
           enum:
-            - ACTIVE_RECURRING_TOKEN_EXISTS
-            - ALREADY_PROCESSED
-            - PAYMENT_NOT_FOUND
-            - SUCCESS
+          - ACTIVE_RECURRING_TOKEN_EXISTS
+          - ALREADY_PROCESSED
+          - PAYMENT_NOT_FOUND
+          - SUCCESS
           type: string
       type: object
   securitySchemes:

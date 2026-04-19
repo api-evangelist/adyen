@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/terminal-stored-value-data-schema.json",
+  "title": "StoredValueData",
+  "description": "It contains: - the identification of the stored value accounts or the stored value cards, if provided by the Sale System, and - the associated products sold by the Sale System.. Data related to the stored value card.",
+  "type": "object",
+  "properties": {
+    "StoredValueProvider": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "If more than one provider to manage on the POI, and StoredValueAccountID absent."
+    },
+    "StoredValueTransactionType": {
+      "$ref": "#/components/schemas/StoredValueTransactionType"
+    },
+    "StoredValueAccountID": {
+      "$ref": "#/components/schemas/StoredValueAccountID"
+    },
+    "OriginalPOITransaction": {
+      "$ref": "#/components/schemas/OriginalPOITransaction"
+    },
+    "ProductCode": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20,
+      "description": "Product code of item purchased with the transaction."
+    },
+    "EanUpc": {
+      "type": "integer",
+      "description": "Standard product code of item purchased with the transaction."
+    },
+    "ItemAmount": {
+      "type": "number",
+      "maximum": 99999999.999999,
+      "minimum": 0,
+      "description": "Total amount of the item line."
+    },
+    "Currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3,3}$",
+      "description": "Currency of a monetary amount."
+    }
+  },
+  "required": [
+    "StoredValueTransactionType"
+  ]
+}

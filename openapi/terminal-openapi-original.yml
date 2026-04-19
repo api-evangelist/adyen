@@ -7,12 +7,12 @@ info:
     shopper information, and perform other shopper-terminal interactions using a
     payment terminal supplied by Adyen.
 servers:
-  - description: with cloud integration
-    url: https://terminal-api-test.adyen.com/sync
-  - description: with cloud integration
-    url: https://terminal-api-test.adyen.com/async
-  - description: with local-hosting
-    url: <local-terminal-IP-address>
+- description: with cloud integration
+  url: https://terminal-api-test.adyen.com/sync
+- description: with cloud integration
+  url: https://terminal-api-test.adyen.com/async
+- description: with local-hosting
+  url: <local-terminal-IP-address>
 paths:
   /login:
     post:
@@ -22,8 +22,8 @@ paths:
         message.
       summary: Adyen Login Request
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -35,18 +35,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LoginResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
+                    POISystemData: example_value
+                    TokenRequestStatus: true
+                    CustomerOrderStatus: true
           description: >-
             It conveys Information related to the Login to process. Content of
             the Login Response message.
       tags:
-        - Login
+      - Login
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /logout:
     post:
       description: Empty. Content of the Logout Request message.
       summary: Adyen Logout Request
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -58,11 +70,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LogoutResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
           description: >-
             It conveys the result of the Logout. Content of the Logout Response
             message.
       tags:
-        - Logout
+      - Logout
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /enableservice:
     post:
       description: >-
@@ -72,8 +93,8 @@ paths:
         Request message.
       summary: Adyen EnableService Request
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -85,18 +106,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EnableServiceResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
           description: >-
             It conveys the result of the Enable Service processing. Content of
             the Enable Service Response message.
       tags:
-        - Enableservice
+      - Enableservice
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /admin:
     post:
       description: Empty. Content of the Custom Admin Request message.
       summary: Adyen Admin Request
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -108,11 +138,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AdminResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
           description: >-
             It conveys the result of the Custom Admin. Content of the Custom
             Admin Response message.
       tags:
-        - Admin
+      - Admin
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /payment:
     post:
       description: >-
@@ -121,8 +160,8 @@ paths:
         Request message.
       summary: Adyen Payment Request
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -134,11 +173,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
+                    SaleData: example_value
+                    POIData: example_value
+                    PaymentResult: example_value
+                    LoyaltyResult:
+                    - example_value
+                    PaymentReceipt:
+                    - example_value
+                    CustomerOrder:
+                    - example_value
           description: >-
             It conveys Information related to the Payment transaction processed
             by the POI System. Content of the Payment Response message.
       tags:
-        - Payment
+      - Payment
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /cardacquisition:
     post:
       description: >-
@@ -148,8 +205,8 @@ paths:
         pair. Content of the Card Acquisition Request message.
       summary: Adyen CardAcquisition Request
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -161,12 +218,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CardAcquisitionResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
+                    SaleData: example_value
+                    POIData: example_value
+                    CustomerLanguage: example_value
+                    PaymentBrand:
+                    - example_value
+                    PaymentInstrumentData: example_value
+                    LoyaltyAccount:
+                    - example_value
           description: >-
             It conveys Information related to the payment and loyalty cards read
             and processed by the POI System and entered by the Customer. Content
             of the Card Acquisition Response message.
       tags:
-        - Cardacquisition
+      - Cardacquisition
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /loyalty:
     post:
       description: >-
@@ -174,8 +248,8 @@ paths:
         Content of the Loyalty Request message.
       summary: Adyen Loyalty Request
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -187,11 +261,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LoyaltyResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
+                    SaleData: example_value
+                    POIData: example_value
+                    LoyaltyResult:
+                    - example_value
+                    PaymentReceipt:
+                    - example_value
           description: >-
             It conveys Information related to the Loyalty transaction processed
             by the POI System. Content of the Loyalty Response message.
       tags:
-        - Loyalty
+      - Loyalty
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /storedvalue:
     post:
       description: >-
@@ -199,8 +288,8 @@ paths:
         process. Content of the Stored Value Request message.
       summary: Adyen StoredValue Request
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -212,12 +301,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StoredValueResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
+                    SaleData: example_value
+                    POIData: example_value
+                    StoredValueResult:
+                    - example_value
+                    PaymentReceipt:
+                    - example_value
           description: >-
             It conveys Information related to the Stored Value transaction
             processed by the POI System. Content of the Stored Value Response
             message.
       tags:
-        - Storedvalue
+      - Storedvalue
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /reversal:
     post:
       description: >-
@@ -225,8 +329,8 @@ paths:
         a loyalty transaction. Content of the Reversal Request message.
       summary: Adyen Reversal Request
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -238,11 +342,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReversalResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
+                    POIData: example_value
+                    OriginalPOITransaction: example_value
+                    ReversedAmount: 0.0
+                    CustomerOrder:
+                    - example_value
+                    PaymentReceipt:
+                    - example_value
           description: >-
             It conveys Information related to the reversal processed by the POI
             System. Content of the Reversal Response message.
       tags:
-        - Reversal
+      - Reversal
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /reconciliation:
     post:
       description: >-
@@ -250,8 +370,8 @@ paths:
         Sale System. Content of the Reconciliation Request message.
       summary: Adyen Reconciliation Request
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -263,12 +383,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReconciliationResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
+                    ReconciliationType: standard
+                    POIReconciliationID: 500
+                    TransactionTotals:
+                    - example_value
           description: >-
             It conveys Information related to the Reconciliation transaction
             processed by the POI System. Content of the Reconciliation Response
             message.
       tags:
-        - Reconciliation
+      - Reconciliation
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /gettotals:
     post:
       description: >-
@@ -277,8 +410,8 @@ paths:
         Get Totals Request message.
       summary: Adyen GetTotals Request
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -290,12 +423,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetTotalsResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
+                    POIReconciliationID: 500
+                    TransactionTotals:
+                    - example_value
           description: >-
             It conveys Information related to the Reconciliation transaction
             processed by the POI System. Content of the Reconciliation Response
             message.
       tags:
-        - Gettotals
+      - Gettotals
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /balanceinquiry:
     post:
       description: >-
@@ -303,8 +448,8 @@ paths:
         Inquiry is requested. Content of the Balance Inquiry Request message.
       summary: Adyen BalanceInquiry Request
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -316,12 +461,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BalanceInquiryResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
+                    PaymentAccountStatus: active
+                    LoyaltyAccountStatus: active
+                    PaymentReceipt:
+                    - example_value
           description: >-
             It conveys the balance and the identification of the associated
             payment, loyalty or stored value account. Content of the Balance
             Inquiry Response message.
       tags:
-        - Balanceinquiry
+      - Balanceinquiry
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /transactionstatus:
     post:
       description: >-
@@ -330,8 +488,8 @@ paths:
         TransactionStatus Request message.
       summary: Adyen TransactionStatus Request
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -343,12 +501,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionStatusResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
+                    MessageReference: REF-001
+                    RepeatedMessageResponse: example_value
           description: >-
             It conveys Information related to the status of the last or current
             Payment, Loyalty or Reversal transaction. Content of the
             TransactionStatus Response message.
       tags:
-        - Transactionstatus
+      - Transactionstatus
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /diagnosis:
     post:
       description: >-
@@ -356,8 +525,8 @@ paths:
         is requested. Content of the Diagnosis Request message.
       summary: Adyen Diagnosis Request
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -369,12 +538,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DiagnosisResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
+                    LoggedSaleID:
+                    - '500123'
+                    POIStatus: active
+                    HostStatus:
+                    - active
           description: >-
             It conveys the result of the requested diagnosis and a possible
             message to display on a logical device. Content of the Diagnosis
             Response message.
       tags:
-        - Diagnosis
+      - Diagnosis
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /display:
     post:
       description: >-
@@ -384,8 +567,8 @@ paths:
         Display Request message.
       summary: Adyen Display Request
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -397,12 +580,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DisplayResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    OutputResult:
+                    - example_value
           description: >-
             It conveys the result of the display, parallel to the message
             request, except if response not required and absent. Content of the
             Display Response message.
       tags:
-        - Display
+      - Display
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /input:
     post:
       description: >-
@@ -412,8 +605,8 @@ paths:
         element) per Display Device type. Content of the Input Request message.
       summary: Adyen Input Request
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -425,12 +618,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InputResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    OutputResult: example_value
+                    InputResult: example_value
           description: >-
             It conveys the result of the input or the result of the outputs,
             parallel to the message request, except if response not required and
             absent. Content of the Input Response message.
       tags:
-        - Input
+      - Input
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /print:
     post:
       description: >-
@@ -439,8 +642,8 @@ paths:
         message.
       summary: Adyen Print Request
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -452,12 +655,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PrintResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    DocumentQualifier: example_value
+                    Response: example_value
           description: >-
             It conveys the result of the print, parallel to the message request,
             except if response not required and absent. Content of the Print
             Response message.
       tags:
-        - Print
+      - Print
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /cardreaderapdu:
     post:
       description: >-
@@ -466,8 +679,8 @@ paths:
         CustomerInterface. Content of the Card Reader APDU Request message.
       summary: Adyen CardReaderAPDU Request
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -479,564 +692,575 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CardReaderAPDUResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
+                    APDUData: example_value
+                    CardStatusWords: active
           description: >-
             It contains the result of the requested service, APDU response sent
             by the chip of the card in response to the APDU request. Content of
             the Card Reader APDU Response message.
       tags:
-        - Cardreaderapdu
+      - Cardreaderapdu
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   schemas:
     TerminalEnvironment:
       type: string
       enum:
-        - Attended
-        - SemiAttended
-        - Unattended
+      - Attended
+      - SemiAttended
+      - Unattended
     GenericProfile:
       type: string
       enum:
-        - Basic
-        - Extended
-        - Standard
+      - Basic
+      - Extended
+      - Standard
     ServiceProfiles:
       type: array
       items:
         type: string
         enum:
-          - Batch
-          - CardReader
-          - Communication
-          - Loyalty
-          - OneTimeRes
-          - PIN
-          - Reservation
-          - Sound
-          - StoredValue
-          - Synchro
+        - Batch
+        - CardReader
+        - Communication
+        - Loyalty
+        - OneTimeRes
+        - PIN
+        - Reservation
+        - Sound
+        - StoredValue
+        - Synchro
     SaleCapabilities:
       type: array
       items:
         type: string
         enum:
-          - CashierDisplay
-          - CashierError
-          - CashierInput
-          - CashierStatus
-          - CustomerAssistance
-          - CustomerDisplay
-          - CustomerError
-          - CustomerInput
-          - EMVContactless
-          - ICC
-          - MagStripe
-          - POIReplication
-          - PrinterDocument
-          - PrinterReceipt
-          - PrinterVoucher
+        - CashierDisplay
+        - CashierError
+        - CashierInput
+        - CashierStatus
+        - CustomerAssistance
+        - CustomerDisplay
+        - CustomerError
+        - CustomerInput
+        - EMVContactless
+        - ICC
+        - MagStripe
+        - POIReplication
+        - PrinterDocument
+        - PrinterReceipt
+        - PrinterVoucher
     TokenRequestedType:
       type: string
       enum:
-        - Customer
-        - Transaction
+      - Customer
+      - Transaction
     CustomerOrderReq:
       type: array
       items:
         type: string
         enum:
-          - Both
-          - Closed
-          - Open
+        - Both
+        - Closed
+        - Open
     TrackFormat:
       type: string
       enum:
-        - AAMVA
-        - ISO
+      - AAMVA
+      - ISO
     EntryMode:
       type: array
       items:
         type: string
         enum:
-          - Contactless
-          - File
-          - ICC
-          - Keyed
-          - MagStripe
-          - Manual
-          - Mobile
-          - RFID
-          - Scanned
-          - SynchronousICC
-          - Tapped
+        - Contactless
+        - File
+        - ICC
+        - Keyed
+        - MagStripe
+        - Manual
+        - Mobile
+        - RFID
+        - Scanned
+        - SynchronousICC
+        - Tapped
     Result:
       type: string
       enum:
-        - Failure
-        - Partial
-        - Success
+      - Failure
+      - Partial
+      - Success
     ErrorCondition:
       type: string
       enum:
-        - Aborted
-        - Busy
-        - Cancel
-        - DeviceOut
-        - InProgress
-        - InsertedCard
-        - InvalidCard
-        - LoggedOut
-        - MessageFormat
-        - NotAllowed
-        - NotFound
-        - PaymentRestriction
-        - Refusal
-        - UnavailableDevice
-        - UnavailableService
-        - UnreachableHost
-        - WrongPIN
+      - Aborted
+      - Busy
+      - Cancel
+      - DeviceOut
+      - InProgress
+      - InsertedCard
+      - InvalidCard
+      - LoggedOut
+      - MessageFormat
+      - NotAllowed
+      - NotFound
+      - PaymentRestriction
+      - Refusal
+      - UnavailableDevice
+      - UnavailableService
+      - UnreachableHost
+      - WrongPIN
     GlobalStatus:
       type: string
       enum:
-        - Busy
-        - Maintenance
-        - OK
-        - Unreachable
+      - Busy
+      - Maintenance
+      - OK
+      - Unreachable
     PrinterStatus:
       type: string
       enum:
-        - NoPaper
-        - OK
-        - OutOfOrder
-        - PaperJam
-        - PaperLow
+      - NoPaper
+      - OK
+      - OutOfOrder
+      - PaperJam
+      - PaperLow
     POICapabilities:
       type: array
       items:
         type: string
         enum:
-          - CashHandling
-          - CashierDisplay
-          - CashierError
-          - CashierInput
-          - CustomerDisplay
-          - CustomerError
-          - CustomerInput
-          - EMVContactless
-          - ICC
-          - MagStripe
-          - PrinterDocument
-          - PrinterReceipt
-          - PrinterVoucher
+        - CashHandling
+        - CashierDisplay
+        - CashierError
+        - CashierInput
+        - CustomerDisplay
+        - CustomerError
+        - CustomerInput
+        - EMVContactless
+        - ICC
+        - MagStripe
+        - PrinterDocument
+        - PrinterReceipt
+        - PrinterVoucher
     Device:
       type: string
       enum:
-        - CashierDisplay
-        - CashierInput
-        - CustomerDisplay
-        - CustomerInput
+      - CashierDisplay
+      - CashierInput
+      - CustomerDisplay
+      - CustomerInput
     InfoQualify:
       type: string
       enum:
-        - CustomerAssistance
-        - Display
-        - Document
-        - Error
-        - Input
-        - POIReplication
-        - Receipt
-        - Sound
-        - Status
-        - Voucher
+      - CustomerAssistance
+      - Display
+      - Document
+      - Error
+      - Input
+      - POIReplication
+      - Receipt
+      - Sound
+      - Status
+      - Voucher
     OutputFormat:
       type: string
       enum:
-        - BarCode
-        - MessageRef
-        - Text
-        - XHTML
+      - BarCode
+      - MessageRef
+      - Text
+      - XHTML
     Color:
       type: string
       enum:
-        - Black
-        - Blue
-        - Cyan
-        - Green
-        - Magenta
-        - Red
-        - White
-        - Yellow
+      - Black
+      - Blue
+      - Cyan
+      - Green
+      - Magenta
+      - Red
+      - White
+      - Yellow
     CharacterWidth:
       type: string
       enum:
-        - DoubleWidth
-        - SingleWidth
+      - DoubleWidth
+      - SingleWidth
     CharacterHeight:
       type: string
       enum:
-        - DoubleHeight
-        - HalfHeight
-        - SingleHeight
+      - DoubleHeight
+      - HalfHeight
+      - SingleHeight
     CharacterStyle:
       type: string
       enum:
-        - Bold
-        - Italic
-        - Normal
-        - Underline
+      - Bold
+      - Italic
+      - Normal
+      - Underline
     Alignment:
       type: string
       enum:
-        - Centred
-        - Justified
-        - Left
-        - Right
+      - Centred
+      - Justified
+      - Left
+      - Right
     BarcodeType:
       type: string
       enum:
-        - Code128
-        - Code25
-        - EAN13
-        - EAN8
-        - PDF417
-        - QRCode
-        - UPCA
+      - Code128
+      - Code25
+      - EAN13
+      - EAN8
+      - PDF417
+      - QRCode
+      - UPCA
     MenuEntryTag:
       type: string
       description: Characteristics related to the selection of a menu entry.
       enum:
-        - NonSelectable
-        - NonSelectableSubMenu
-        - Selectable
-        - SubMenu
+      - NonSelectable
+      - NonSelectableSubMenu
+      - Selectable
+      - SubMenu
     TransactionAction:
       type: string
       description: Action to realise on a transaction.
       enum:
-        - AbortTransaction
-        - StartTransaction
+      - AbortTransaction
+      - StartTransaction
     ServicesEnabled:
       type: array
       items:
         type: string
         enum:
-          - CardAcquisition
-          - Loyalty
-          - Payment
+        - CardAcquisition
+        - Loyalty
+        - Payment
     UnitOfMeasure:
       type: string
       enum:
-        - Case
-        - Centilitre
-        - Centimetre
-        - Foot
-        - Gram
-        - Inch
-        - Kilogram
-        - Kilometre
-        - Litre
-        - Meter
-        - Mile
-        - Other
-        - Ounce
-        - Pint
-        - Pound
-        - Quart
-        - UKGallon
-        - USGallon
-        - Yard
+      - Case
+      - Centilitre
+      - Centimetre
+      - Foot
+      - Gram
+      - Inch
+      - Kilogram
+      - Kilometre
+      - Litre
+      - Meter
+      - Mile
+      - Other
+      - Ounce
+      - Pint
+      - Pound
+      - Quart
+      - UKGallon
+      - USGallon
+      - Yard
     PaymentType:
       type: string
       enum:
-        - CashAdvance
-        - CashDeposit
-        - Completion
-        - FirstReservation
-        - Instalment
-        - IssuerInstalment
-        - Normal
-        - OneTimeReservation
-        - PaidOut
-        - Recurring
-        - Refund
-        - UpdateReservation
+      - CashAdvance
+      - CashDeposit
+      - Completion
+      - FirstReservation
+      - Instalment
+      - IssuerInstalment
+      - Normal
+      - OneTimeReservation
+      - PaidOut
+      - Recurring
+      - Refund
+      - UpdateReservation
     PaymentInstrumentType:
       type: string
       enum:
-        - Card
-        - Cash
-        - Check
-        - Mobile
-        - StoredValue
+      - Card
+      - Cash
+      - Check
+      - Mobile
+      - StoredValue
     TypeCode:
       type: string
       enum:
-        - Company
-        - Personal
+      - Company
+      - Personal
     StoredValueAccountType:
       type: string
       enum:
-        - GiftCard
-        - Other
-        - PhoneCard
+      - GiftCard
+      - Other
+      - PhoneCard
     IdentificationType:
       type: string
       enum:
-        - AccountNumber
-        - BarCode
-        - ISOTrack2
-        - PAN
-        - PhoneNumber
+      - AccountNumber
+      - BarCode
+      - ISOTrack2
+      - PAN
+      - PhoneNumber
     LoyaltyUnit:
       type: string
       enum:
-        - Monetary
-        - Point
+      - Monetary
+      - Point
     IdentificationSupport:
       type: string
       enum:
-        - HybridCard
-        - LinkedCard
-        - LoyaltyCard
-        - NoCard
+      - HybridCard
+      - LinkedCard
+      - LoyaltyCard
+      - NoCard
     InstalmentType:
       type: string
       enum:
-        - DeferredInstalments
-        - EqualInstalments
-        - InequalInstalments
+      - DeferredInstalments
+      - EqualInstalments
+      - InequalInstalments
     PeriodUnit:
       type: string
       enum:
-        - Annual
-        - Daily
-        - Monthly
-        - Weekly
+      - Annual
+      - Daily
+      - Monthly
+      - Weekly
     LoyaltyHandling:
       type: string
       enum:
-        - Allowed
-        - Forbidden
-        - Processed
-        - Proposed
-        - Required
+      - Allowed
+      - Forbidden
+      - Processed
+      - Proposed
+      - Required
     ForceEntryMode:
       type: array
       items:
         type: string
         enum:
-          - CheckReader
-          - Contactless
-          - File
-          - ICC
-          - Keyed
-          - MagStripe
-          - Manual
-          - RFID
-          - Scanned
-          - SynchronousICC
-          - Tapped
+        - CheckReader
+        - Contactless
+        - File
+        - ICC
+        - Keyed
+        - MagStripe
+        - Manual
+        - RFID
+        - Scanned
+        - SynchronousICC
+        - Tapped
     DocumentQualifier:
       type: string
       enum:
-        - CashierReceipt
-        - CustomerReceipt
-        - Document
-        - Journal
-        - SaleReceipt
-        - Voucher
+      - CashierReceipt
+      - CustomerReceipt
+      - Document
+      - Journal
+      - SaleReceipt
+      - Voucher
     AuthenticationMethod:
       type: array
       items:
         type: string
         enum:
-          - Bypass
-          - ManualVerification
-          - MerchantAuthentication
-          - OfflinePIN
-          - OnlinePIN
-          - PaperSignature
-          - SecureCertificate
-          - SecureNoCertificate
-          - SecuredChannel
-          - SignatureCapture
-          - UnknownMethod
+        - Bypass
+        - ManualVerification
+        - MerchantAuthentication
+        - OfflinePIN
+        - OnlinePIN
+        - PaperSignature
+        - SecureCertificate
+        - SecureNoCertificate
+        - SecuredChannel
+        - SignatureCapture
+        - UnknownMethod
     LoyaltyTransactionType:
       type: string
       enum:
-        - Award
-        - AwardRefund
-        - Rebate
-        - RebateRefund
-        - Redemption
-        - RedemptionRefund
+      - Award
+      - AwardRefund
+      - Rebate
+      - RebateRefund
+      - Redemption
+      - RedemptionRefund
     StoredValueTransactionType:
       type: string
       enum:
-        - Activate
-        - Duplicate
-        - Load
-        - Reserve
-        - Reverse
-        - Unload
+      - Activate
+      - Duplicate
+      - Load
+      - Reserve
+      - Reverse
+      - Unload
     ReversalReason:
       type: string
       description: Reason of the payment or loyalty reversal..
       enum:
-        - CustCancel
-        - Malfunction
-        - MerchantCancel
-        - Unable2Compl
+      - CustCancel
+      - Malfunction
+      - MerchantCancel
+      - Unable2Compl
     ReconciliationType:
       type: string
       enum:
-        - AcquirerReconciliation
-        - AcquirerSynchronisation
-        - PreviousReconciliation
-        - SaleReconciliation
+      - AcquirerReconciliation
+      - AcquirerSynchronisation
+      - PreviousReconciliation
+      - SaleReconciliation
     TransactionType:
       type: string
       enum:
-        - Award
-        - CashAdvance
-        - CompletedDeffered
-        - CompletedReservation
-        - Credit
-        - Debit
-        - Declined
-        - Failed
-        - FirstReservation
-        - IssuerInstalment
-        - OneTimeReservation
-        - Rebate
-        - Redemption
-        - ReverseAward
-        - ReverseCredit
-        - ReverseDebit
-        - ReverseRebate
-        - ReverseRedemption
-        - UpdateReservation
+      - Award
+      - CashAdvance
+      - CompletedDeffered
+      - CompletedReservation
+      - Credit
+      - Debit
+      - Declined
+      - Failed
+      - FirstReservation
+      - IssuerInstalment
+      - OneTimeReservation
+      - Rebate
+      - Redemption
+      - ReverseAward
+      - ReverseCredit
+      - ReverseDebit
+      - ReverseRebate
+      - ReverseRedemption
+      - UpdateReservation
     TotalDetails:
       type: array
       items:
         type: string
         enum:
-          - OperatorID
-          - POIID
-          - SaleID
-          - ShiftNumber
-          - TotalsGroupID
+        - OperatorID
+        - POIID
+        - SaleID
+        - ShiftNumber
+        - TotalsGroupID
     AccountType:
       type: string
       enum:
-        - CardTotals
-        - Checking
-        - CreditCard
-        - Default
-        - EpurseCard
-        - Investment
-        - Savings
-        - Universal
+      - CardTotals
+      - Checking
+      - CreditCard
+      - Default
+      - EpurseCard
+      - Investment
+      - Savings
+      - Universal
     MessageCategory:
       type: string
       enum:
-        - Abort
-        - Admin
-        - BalanceInquiry
-        - CardAcquisition
-        - CardReaderAPDU
-        - Diagnosis
-        - Display
-        - EnableService
-        - Event
-        - GetTotals
-        - Input
-        - InputUpdate
-        - Login
-        - Logout
-        - Loyalty
-        - Payment
-        - Print
-        - Reconciliation
-        - Reversal
-        - StoredValue
-        - TransactionStatus
+      - Abort
+      - Admin
+      - BalanceInquiry
+      - CardAcquisition
+      - CardReaderAPDU
+      - Diagnosis
+      - Display
+      - EnableService
+      - Event
+      - GetTotals
+      - Input
+      - InputUpdate
+      - Login
+      - Logout
+      - Loyalty
+      - Payment
+      - Print
+      - Reconciliation
+      - Reversal
+      - StoredValue
+      - TransactionStatus
     MessageType:
       type: string
       enum:
-        - Notification
-        - Request
-        - Response
+      - Notification
+      - Request
+      - Response
     MessageClass:
       type: string
       enum:
-        - Device
-        - Event
-        - Service
+      - Device
+      - Event
+      - Service
     EventToNotify:
       type: string
       description: Event the POI notifies to the Sale System.
       enum:
-        - Abort
-        - BeginMaintenance
-        - CardInserted
-        - CardRemoved
-        - Completed
-        - CustomerLanguage
-        - EndMaintenance
-        - Initialised
-        - KeyPressed
-        - OutOfOrder
-        - Reject
-        - SaleAdmin
-        - SaleWakeUp
-        - SecurityAlarm
-        - Shutdown
-        - StopAssistance
+      - Abort
+      - BeginMaintenance
+      - CardInserted
+      - CardRemoved
+      - Completed
+      - CustomerLanguage
+      - EndMaintenance
+      - Initialised
+      - KeyPressed
+      - OutOfOrder
+      - Reject
+      - SaleAdmin
+      - SaleWakeUp
+      - SecurityAlarm
+      - Shutdown
+      - StopAssistance
     InputCommand:
       type: string
       enum:
-        - DecimalString
-        - DigitString
-        - GetAnyKey
-        - GetConfirmation
-        - GetFunctionKey
-        - GetMenuEntry
-        - Password
-        - SiteManager
-        - TextString
+      - DecimalString
+      - DigitString
+      - GetAnyKey
+      - GetConfirmation
+      - GetFunctionKey
+      - GetMenuEntry
+      - Password
+      - SiteManager
+      - TextString
     ResponseMode:
       type: string
       enum:
-        - Immediate
-        - NotRequired
-        - PrintEnd
-        - SoundEnd
+      - Immediate
+      - NotRequired
+      - PrintEnd
+      - SoundEnd
     SoundFormat:
       type: string
       enum:
-        - MessageRef
-        - SoundRef
-        - Text
+      - MessageRef
+      - SoundRef
+      - Text
     SoundAction:
       type: string
       enum:
-        - SetDefaultVolume
-        - StartSound
-        - StopSound
+      - SetDefaultVolume
+      - StartSound
+      - StopSound
     PINFormat:
       type: string
       enum:
-        - ISO0
-        - ISO1
-        - ISO2
-        - ISO3
+      - ISO0
+      - ISO1
+      - ISO2
+      - ISO3
     PINRequestType:
       type: string
       description: Type of PIN Service.
       enum:
-        - PINEnter
-        - PINVerify
-        - PINVerifyOnly
+      - PINEnter
+      - PINVerify
+      - PINVerifyOnly
     SaleToIssuerData:
       type: object
       description: >-
@@ -1068,7 +1292,7 @@ components:
           type: string
           pattern: ^.{1,104}$
       required:
-        - TrackValue
+      - TrackValue
     SensitiveCardData:
       type: object
       description: >-
@@ -1115,8 +1339,8 @@ components:
           format: date-time
           description: Expiry date and time. Limits the validity of a payment token.
       required:
-        - TokenRequestedType
-        - TokenValue
+      - TokenRequestedType
+      - TokenValue
     CustomerOrder:
       type: object
       description: >-
@@ -1162,10 +1386,10 @@ components:
           pattern: ^.+$
           description: Unqualified information.
       required:
-        - SaleReferenceID
-        - StartDate
-        - ForecastedAmount
-        - CurrentAmount
+      - SaleReferenceID
+      - StartDate
+      - ForecastedAmount
+      - CurrentAmount
     AllowedProduct:
       type: object
       description: >-
@@ -1189,7 +1413,7 @@ components:
           pattern: ^.+$
           description: Additionl information related to the line item.
       required:
-        - ProductCode
+      - ProductCode
     CardData:
       type: object
       description: >-
@@ -1248,8 +1472,8 @@ components:
           type: string
           format: date-time
       required:
-        - TransactionID
-        - TimeStamp
+      - TransactionID
+      - TimeStamp
     SaleTerminalData:
       type: object
       description: >-
@@ -1308,7 +1532,7 @@ components:
         SaleToIssuerData:
           $ref: '#/components/schemas/SaleToIssuerData'
       required:
-        - SaleTransactionID
+      - SaleTransactionID
     POIData:
       type: object
       description: >-
@@ -1321,7 +1545,7 @@ components:
           type: integer
           description: If Result is Success.
       required:
-        - POITransactionID
+      - POITransactionID
     SaleSoftware:
       type: object
       description: >-
@@ -1341,10 +1565,10 @@ components:
           type: string
           pattern: ^.+$
       required:
-        - ManufacturerID
-        - ApplicationName
-        - SoftwareVersion
-        - CertificationCode
+      - ManufacturerID
+      - ApplicationName
+      - SoftwareVersion
+      - CertificationCode
     CoinsOrBills:
       type: object
       description: >-
@@ -1362,8 +1586,8 @@ components:
           type: integer
           description: Number of elements.
       required:
-        - UnitValue
-        - Number
+      - UnitValue
+      - Number
     CashHandlingDevice:
       type: object
       description: >-
@@ -1382,9 +1606,9 @@ components:
           items:
             $ref: '#/components/schemas/CoinsOrBills'
       required:
-        - CashHandlingOKFlag
-        - Currency
-        - CoinsOrBills
+      - CashHandlingOKFlag
+      - Currency
+      - CoinsOrBills
     POIStatus:
       type: object
       description: >-
@@ -1416,7 +1640,7 @@ components:
           type: boolean
           description: default False.
       required:
-        - GlobalStatus
+      - GlobalStatus
     Response:
       type: object
       description: >-
@@ -1436,7 +1660,7 @@ components:
           pattern: ^.+$
           description: If present, the POI logs it for further examination.
       required:
-        - Result
+      - Result
     POISoftware:
       type: object
       properties:
@@ -1453,10 +1677,10 @@ components:
           type: string
           pattern: ^.+$
       required:
-        - ManufacturerID
-        - ApplicationName
-        - SoftwareVersion
-        - CertificationCode
+      - ManufacturerID
+      - ApplicationName
+      - SoftwareVersion
+      - CertificationCode
     POIProfile:
       type: object
       properties:
@@ -1477,9 +1701,9 @@ components:
           type: string
           pattern: ^.+$
       required:
-        - TerminalEnvironment
-        - POICapabilities
-        - POISerialNumber
+      - TerminalEnvironment
+      - POICapabilities
+      - POISerialNumber
     POISystemData:
       type: object
       properties:
@@ -1493,8 +1717,8 @@ components:
         POIStatus:
           $ref: '#/components/schemas/POIStatus'
       required:
-        - DateTime
-        - POISoftware
+      - DateTime
+      - POISoftware
     OutputText:
       type: object
       description: >-
@@ -1532,7 +1756,7 @@ components:
           type: boolean
           default: true
       required:
-        - Text
+      - Text
     PredefinedContent:
       type: object
       description: >-
@@ -1548,7 +1772,7 @@ components:
           pattern: ^[a-z]{2,2}$
           description: Identification of a language.
       required:
-        - ReferenceID
+      - ReferenceID
     OutputBarcode:
       type: object
       properties:
@@ -1558,7 +1782,7 @@ components:
           type: string
           pattern: ^.+$
       required:
-        - BarcodeValue
+      - BarcodeValue
     OutputContent:
       type: object
       description: >-
@@ -1581,7 +1805,7 @@ components:
         OutputBarcode:
           $ref: '#/components/schemas/OutputBarcode'
       required:
-        - OutputFormat
+      - OutputFormat
     MenuEntry:
       type: object
       description: >-
@@ -1607,7 +1831,7 @@ components:
           format: byte
           pattern: ^.+$
       required:
-        - OutputFormat
+      - OutputFormat
     DisplayOutput:
       type: object
       description: >-
@@ -1644,9 +1868,9 @@ components:
             If protection has to be provided to the vendor on the text to
             display or print.
       required:
-        - Device
-        - InfoQualify
-        - OutputContent
+      - Device
+      - InfoQualify
+      - OutputContent
     SaleItem:
       type: object
       description: >-
@@ -1704,9 +1928,9 @@ components:
             If data sent, POI has to store it and send it if the host protocol
             allows it.
       required:
-        - ItemID
-        - ProductCode
-        - ItemAmount
+      - ItemID
+      - ProductCode
+      - ItemAmount
     LoyaltyAmount:
       type: object
       description: >-
@@ -1723,7 +1947,7 @@ components:
           maximum: 99999999.999999
           minimum: 0
       required:
-        - AmountValue
+      - AmountValue
     LoyaltyAccountID:
       type: object
       description: >-
@@ -1741,9 +1965,9 @@ components:
         LoyaltyID:
           type: string
       required:
-        - EntryMode
-        - IdentificationType
-        - LoyaltyID
+      - EntryMode
+      - IdentificationType
+      - LoyaltyID
     LoyaltyData:
       type: object
       description: >-
@@ -1800,7 +2024,7 @@ components:
         IMEI:
           type: integer
       required:
-        - MSISDN
+      - MSISDN
     UTMCoordinates:
       type: object
       properties:
@@ -1814,9 +2038,9 @@ components:
           type: string
           pattern: ^.+$
       required:
-        - UTMZone
-        - UTMEastward
-        - UTMNorthward
+      - UTMZone
+      - UTMEastward
+      - UTMNorthward
     GeographicCoordinates:
       type: object
       properties:
@@ -1827,8 +2051,8 @@ components:
           type: string
           pattern: ^.+$
       required:
-        - Latitude
-        - Longitude
+      - Latitude
+      - Longitude
     Geolocation:
       type: object
       properties:
@@ -1921,10 +2145,10 @@ components:
           type: string
           pattern: ^.+$
       required:
-        - StoredValueAccountType
-        - EntryMode
-        - IdentificationType
-        - StoredValueID
+      - StoredValueAccountType
+      - EntryMode
+      - IdentificationType
+      - StoredValueID
     PaymentInstrumentData:
       type: object
       description: >-
@@ -1945,7 +2169,7 @@ components:
         StoredValueAccountID:
           $ref: '#/components/schemas/StoredValueAccountID'
       required:
-        - PaymentInstrumentType
+      - PaymentInstrumentType
     OriginalPOITransaction:
       type: object
       description: >-
@@ -2087,8 +2311,8 @@ components:
           maximum: 99999999.999999
           minimum: 0
       required:
-        - Currency
-        - RequestedAmount
+      - Currency
+      - RequestedAmount
     PaymentTransaction:
       type: object
       properties:
@@ -2103,7 +2327,7 @@ components:
           items:
             $ref: '#/components/schemas/SaleItem'
       required:
-        - AmountsReq
+      - AmountsReq
     ConvertedAmount:
       type: object
       properties:
@@ -2115,8 +2339,8 @@ components:
           type: string
           pattern: ^[A-Z]{3,3}$
       required:
-        - AmountValue
-        - Currency
+      - AmountValue
+      - Currency
     CurrencyConversion:
       type: object
       description: >-
@@ -2148,7 +2372,7 @@ components:
           pattern: ^.+$
           description: If a declaration has to be presented to the customer.
       required:
-        - ConvertedAmount
+      - ConvertedAmount
     Point:
       type: object
       properties:
@@ -2157,8 +2381,8 @@ components:
         'Y':
           type: string
       required:
-        - X
-        - 'Y'
+      - X
+      - 'Y'
     SaleItemRebate:
       type: object
       description: >-
@@ -2191,8 +2415,8 @@ components:
           pattern: ^.+$
           description: If provided by the Acquirer.
       required:
-        - ItemID
-        - ProductCode
+      - ItemID
+      - ProductCode
     LoyaltyAccount:
       type: object
       description: >-
@@ -2207,7 +2431,7 @@ components:
           pattern: ^.+$
           description: If a card is analysed.
       required:
-        - LoyaltyAccountID
+      - LoyaltyAccountID
     LoyaltyAcquirerData:
       type: object
       properties:
@@ -2256,7 +2480,7 @@ components:
         Rebates:
           $ref: '#/components/schemas/Rebates'
       required:
-        - LoyaltyAccount
+      - LoyaltyAccount
     PaymentReceipt:
       type: object
       description: >-
@@ -2278,8 +2502,8 @@ components:
         OutputContent:
           $ref: '#/components/schemas/OutputContent'
       required:
-        - DocumentQualifier
-        - OutputContent
+      - DocumentQualifier
+      - OutputContent
     PaymentAcquirerData:
       type: object
       description: Data related to the response from the payment Acquirer.
@@ -2305,8 +2529,8 @@ components:
           type: string
           pattern: ^.+$
       required:
-        - MerchantID
-        - AcquirerPOIID
+      - MerchantID
+      - AcquirerPOIID
     AreaSize:
       type: object
       properties:
@@ -2315,8 +2539,8 @@ components:
         'Y':
           type: string
       required:
-        - X
-        - 'Y'
+      - X
+      - 'Y'
     CapturedSignature:
       type: object
       properties:
@@ -2353,7 +2577,7 @@ components:
           maximum: 99999999.999999
           minimum: 0
       required:
-        - AuthorizedAmount
+      - AuthorizedAmount
     PaymentResult:
       type: object
       properties:
@@ -2440,7 +2664,7 @@ components:
           items:
             $ref: '#/components/schemas/SaleItem'
       required:
-        - LoyaltyTransactionType
+      - LoyaltyTransactionType
     StoredValueData:
       type: object
       description: >-
@@ -2479,7 +2703,7 @@ components:
           pattern: ^[A-Z]{3,3}$
           description: Currency of a monetary amount.
       required:
-        - StoredValueTransactionType
+      - StoredValueTransactionType
     StoredValueAccountStatus:
       type: object
       properties:
@@ -2490,7 +2714,7 @@ components:
           maximum: 99999999.999999
           minimum: 0
       required:
-        - StoredValueAccountID
+      - StoredValueAccountID
     StoredValueResult:
       type: object
       description: >-
@@ -2521,7 +2745,7 @@ components:
         HostTransactionID:
           $ref: '#/components/schemas/TransactionIDType'
       required:
-        - StoredValueTransactionType
+      - StoredValueTransactionType
     PerformedTransaction:
       type: object
       properties:
@@ -2542,7 +2766,7 @@ components:
           maximum: 99999999.999999
           minimum: 0
       required:
-        - Response
+      - Response
     PaymentTotals:
       type: object
       description: Totals of the payment transaction during the reconciliation period.
@@ -2558,9 +2782,9 @@ components:
           minimum: 0
           description: Sum of amount of processed transaction during the period.
       required:
-        - TransactionType
-        - TransactionCount
-        - TransactionAmount
+      - TransactionType
+      - TransactionCount
+      - TransactionAmount
     LoyaltyTotals:
       type: object
       description: Totals of the loyalty transaction during the reconciliation period.
@@ -2576,9 +2800,9 @@ components:
           minimum: 0
           description: Sum of amount of processed transaction during the period.
       required:
-        - TransactionType
-        - TransactionCount
-        - TransactionAmount
+      - TransactionType
+      - TransactionCount
+      - TransactionAmount
     TransactionTotals:
       type: object
       description: >-
@@ -2641,7 +2865,7 @@ components:
           items:
             $ref: '#/components/schemas/LoyaltyTotals'
       required:
-        - PaymentInstrumentType
+      - PaymentInstrumentType
     TotalFilter:
       type: object
       properties:
@@ -2705,7 +2929,7 @@ components:
           type: string
           pattern: ^[A-Z]{3,3}$
       required:
-        - LoyaltyAccount
+      - LoyaltyAccount
     MessageReference:
       type: object
       description: >-
@@ -2771,11 +2995,11 @@ components:
             Identification of a POI System or a POI Terminal for the Sale to POI
             protocol.
       required:
-        - MessageClass
-        - MessageCategory
-        - MessageType
-        - SaleID
-        - POIID
+      - MessageClass
+      - MessageCategory
+      - MessageType
+      - SaleID
+      - POIID
     RepeatedResponseMessageBody:
       type: object
       properties:
@@ -2799,8 +3023,8 @@ components:
         RepeatedResponseMessageBody:
           $ref: '#/components/schemas/RepeatedResponseMessageBody'
       required:
-        - MessageHeader
-        - RepeatedResponseMessageBody
+      - MessageHeader
+      - RepeatedResponseMessageBody
     HostStatus:
       type: object
       description: >-
@@ -2815,7 +3039,7 @@ components:
           default: true
           description: Indicate if a Host is reachable.
       required:
-        - AcquirerID
+      - AcquirerID
     OutputResult:
       type: object
       description: >-
@@ -2830,9 +3054,9 @@ components:
         Response:
           $ref: '#/components/schemas/Response'
       required:
-        - Device
-        - InfoQualify
-        - Response
+      - Device
+      - InfoQualify
+      - Response
     InputData:
       type: object
       properties:
@@ -2893,9 +3117,9 @@ components:
           type: boolean
           default: false
       required:
-        - Device
-        - InfoQualify
-        - InputCommand
+      - Device
+      - InfoQualify
+      - InputCommand
     Input:
       type: object
       properties:
@@ -2916,7 +3140,7 @@ components:
           items:
             type: integer
       required:
-        - InputCommand
+      - InputCommand
     InputResult:
       type: object
       properties:
@@ -2929,9 +3153,9 @@ components:
         Input:
           $ref: '#/components/schemas/Input'
       required:
-        - Device
-        - InfoQualify
-        - Response
+      - Device
+      - InfoQualify
+      - Response
     PrintOutput:
       type: object
       properties:
@@ -2948,9 +3172,9 @@ components:
         OutputContent:
           $ref: '#/components/schemas/OutputContent'
       required:
-        - DocumentQualifier
-        - ResponseMode
-        - OutputContent
+      - DocumentQualifier
+      - ResponseMode
+      - OutputContent
     SoundContent:
       type: object
       properties:
@@ -2966,7 +3190,7 @@ components:
           type: string
           pattern: ^.+$
       required:
-        - SoundFormat
+      - SoundFormat
     CardHolderPIN:
       type: object
       properties:
@@ -2978,8 +3202,8 @@ components:
           type: string
           pattern: ^.+$
       required:
-        - EncrPINBlock
-        - PINFormat
+      - EncrPINBlock
+      - PINFormat
     ICCResetData:
       type: object
       properties:
@@ -3013,11 +3237,11 @@ components:
           format: byte
           pattern: ^.+$
       required:
-        - AdyenCryptoVersion
-        - KeyIdentifier
-        - KeyVersion
-        - Nonce
-        - Hmac
+      - AdyenCryptoVersion
+      - KeyIdentifier
+      - KeyVersion
+      - Nonce
+      - Hmac
     LoginRequest:
       type: object
       description: >-
@@ -3062,9 +3286,9 @@ components:
             If the login involve a POI Terminal and not the first Login to the
             POI System.
       required:
-        - DateTime
-        - SaleSoftware
-        - OperatorLanguage
+      - DateTime
+      - SaleSoftware
+      - OperatorLanguage
     LogoutRequest:
       type: object
       description: Empty. Content of the Logout Request message.
@@ -3087,7 +3311,7 @@ components:
         DisplayOutput:
           $ref: '#/components/schemas/DisplayOutput'
       required:
-        - TransactionAction
+      - TransactionAction
     AdminRequest:
       type: object
       description: Empty. Content of the Custom Admin Request message.
@@ -3114,8 +3338,8 @@ components:
           items:
             $ref: '#/components/schemas/LoyaltyData'
       required:
-        - SaleData
-        - PaymentTransaction
+      - SaleData
+      - PaymentTransaction
     CardAcquisitionRequest:
       type: object
       description: >-
@@ -3129,8 +3353,8 @@ components:
         CardAcquisitionTransaction:
           $ref: '#/components/schemas/CardAcquisitionTransaction'
       required:
-        - SaleData
-        - CardAcquisitionTransaction
+      - SaleData
+      - CardAcquisitionTransaction
     LoyaltyRequest:
       type: object
       description: >-
@@ -3144,9 +3368,9 @@ components:
         LoyaltyData:
           $ref: '#/components/schemas/LoyaltyData'
       required:
-        - SaleData
-        - LoyaltyTransaction
-        - LoyaltyData
+      - SaleData
+      - LoyaltyTransaction
+      - LoyaltyData
     StoredValueRequest:
       type: object
       description: >-
@@ -3166,8 +3390,8 @@ components:
           items:
             $ref: '#/components/schemas/StoredValueData'
       required:
-        - SaleData
-        - StoredValueData
+      - SaleData
+      - StoredValueData
     ReversalRequest:
       type: object
       description: >-
@@ -3188,8 +3412,8 @@ components:
         CustomerOrder:
           $ref: '#/components/schemas/CustomerOrder'
       required:
-        - OriginalPOITransaction
-        - ReversalReason
+      - OriginalPOITransaction
+      - ReversalReason
     ReconciliationRequest:
       type: object
       description: >-
@@ -3209,7 +3433,7 @@ components:
           type: integer
           description: Absent if ReconciliationType is not PreviousReconciliation.
       required:
-        - ReconciliationType
+      - ReconciliationType
     GetTotalsRequest:
       type: object
       description: >-
@@ -3265,8 +3489,8 @@ components:
         DisplayOutput:
           $ref: '#/components/schemas/DisplayOutput'
       required:
-        - MessageReference
-        - AbortReason
+      - MessageReference
+      - AbortReason
     EventNotification:
       type: object
       description: >-
@@ -3306,8 +3530,8 @@ components:
           items:
             $ref: '#/components/schemas/DisplayOutput'
       required:
-        - TimeStamp
-        - EventToNotify
+      - TimeStamp
+      - EventToNotify
     DiagnosisRequest:
       type: object
       description: >-
@@ -3340,7 +3564,7 @@ components:
           items:
             $ref: '#/components/schemas/DisplayOutput'
       required:
-        - DisplayOutput
+      - DisplayOutput
     InputRequest:
       type: object
       description: >-
@@ -3354,7 +3578,7 @@ components:
         InputData:
           $ref: '#/components/schemas/InputData'
       required:
-        - InputData
+      - InputData
     InputUpdate:
       type: object
       description: "Definition: Content of the Input Update message. : It conveys \t\t\t\tupdate of the display of an Input request in progress."
@@ -3378,8 +3602,8 @@ components:
         MaxDecimalLength:
           type: integer
       required:
-        - MessageReference
-        - OutputContent
+      - MessageReference
+      - OutputContent
     PrintRequest:
       type: object
       description: >-
@@ -3390,7 +3614,7 @@ components:
         PrintOutput:
           $ref: '#/components/schemas/PrintOutput'
       required:
-        - PrintOutput
+      - PrintOutput
     CardReaderAPDURequest:
       type: object
       description: >-
@@ -3431,10 +3655,10 @@ components:
             Expected length of the data field of the APDU response to the
             command (Le).
       required:
-        - APDUClass
-        - APDUInstruction
-        - APDUPar1
-        - APDUPar2
+      - APDUClass
+      - APDUInstruction
+      - APDUPar1
+      - APDUPar2
     LoginResponse:
       type: object
       description: >-
@@ -3450,7 +3674,7 @@ components:
         CustomerOrderStatus:
           type: boolean
       required:
-        - Response
+      - Response
     LogoutResponse:
       type: object
       description: >-
@@ -3460,7 +3684,7 @@ components:
         Response:
           $ref: '#/components/schemas/Response'
       required:
-        - Response
+      - Response
     EnableServiceResponse:
       type: object
       description: >-
@@ -3470,7 +3694,7 @@ components:
         Response:
           $ref: '#/components/schemas/Response'
       required:
-        - Response
+      - Response
     AdminResponse:
       type: object
       description: >-
@@ -3480,7 +3704,7 @@ components:
         Response:
           $ref: '#/components/schemas/Response'
       required:
-        - Response
+      - Response
     PaymentResponse:
       type: object
       description: >-
@@ -3508,9 +3732,9 @@ components:
           items:
             $ref: '#/components/schemas/CustomerOrder'
       required:
-        - Response
-        - SaleData
-        - POIData
+      - Response
+      - SaleData
+      - POIData
     CardAcquisitionResponse:
       type: object
       description: >-
@@ -3543,9 +3767,9 @@ components:
           items:
             $ref: '#/components/schemas/LoyaltyAccount'
       required:
-        - Response
-        - SaleData
-        - POIData
+      - Response
+      - SaleData
+      - POIData
     LoyaltyResponse:
       type: object
       description: >-
@@ -3567,9 +3791,9 @@ components:
           items:
             $ref: '#/components/schemas/PaymentReceipt'
       required:
-        - Response
-        - SaleData
-        - POIData
+      - Response
+      - SaleData
+      - POIData
     StoredValueResponse:
       type: object
       description: >-
@@ -3591,9 +3815,9 @@ components:
           items:
             $ref: '#/components/schemas/PaymentReceipt'
       required:
-        - Response
-        - SaleData
-        - POIData
+      - Response
+      - SaleData
+      - POIData
     ReversalResponse:
       type: object
       description: >-
@@ -3620,7 +3844,7 @@ components:
           items:
             $ref: '#/components/schemas/PaymentReceipt'
       required:
-        - Response
+      - Response
     ReconciliationResponse:
       type: object
       description: >-
@@ -3640,8 +3864,8 @@ components:
           items:
             $ref: '#/components/schemas/TransactionTotals'
       required:
-        - Response
-        - ReconciliationType
+      - Response
+      - ReconciliationType
     GetTotalsResponse:
       type: object
       description: >-
@@ -3659,8 +3883,8 @@ components:
           items:
             $ref: '#/components/schemas/TransactionTotals'
       required:
-        - Response
-        - POIReconciliationID
+      - Response
+      - POIReconciliationID
     BalanceInquiryResponse:
       type: object
       description: >-
@@ -3679,7 +3903,7 @@ components:
           items:
             $ref: '#/components/schemas/PaymentReceipt'
       required:
-        - Response
+      - Response
     CardReaderAPDUResponse:
       type: object
       description: >-
@@ -3700,8 +3924,8 @@ components:
           pattern: ^.{2,2}$
           description: Status of a smartcard response to a command (SW1-SW2).
       required:
-        - Response
-        - CardStatusWords
+      - Response
+      - CardStatusWords
     TransactionStatusResponse:
       type: object
       description: >-
@@ -3716,7 +3940,7 @@ components:
         RepeatedMessageResponse:
           $ref: '#/components/schemas/RepeatedMessageResponse'
       required:
-        - Response
+      - Response
     DiagnosisResponse:
       type: object
       description: >-
@@ -3739,7 +3963,7 @@ components:
           items:
             $ref: '#/components/schemas/HostStatus'
       required:
-        - Response
+      - Response
     DisplayResponse:
       type: object
       description: >-
@@ -3752,7 +3976,7 @@ components:
           items:
             $ref: '#/components/schemas/OutputResult'
       required:
-        - OutputResult
+      - OutputResult
     InputResponse:
       type: object
       description: >-
@@ -3765,7 +3989,7 @@ components:
         InputResult:
           $ref: '#/components/schemas/InputResult'
       required:
-        - InputResult
+      - InputResult
     PrintResponse:
       type: object
       description: >-
@@ -3778,8 +4002,8 @@ components:
         Response:
           $ref: '#/components/schemas/Response'
       required:
-        - DocumentQualifier
-        - Response
+      - DocumentQualifier
+      - Response
   securitySchemes:
     ApiKeyAuth:
       in: header
@@ -3789,21 +4013,21 @@ components:
       scheme: basic
       type: http
 tags:
-  - name: Admin
-  - name: Balanceinquiry
-  - name: Cardacquisition
-  - name: Cardreaderapdu
-  - name: Diagnosis
-  - name: Display
-  - name: Enableservice
-  - name: Gettotals
-  - name: Input
-  - name: Login
-  - name: Logout
-  - name: Loyalty
-  - name: Payment
-  - name: Print
-  - name: Reconciliation
-  - name: Reversal
-  - name: Storedvalue
-  - name: Transactionstatus
+- name: Admin
+- name: Balanceinquiry
+- name: Cardacquisition
+- name: Cardreaderapdu
+- name: Diagnosis
+- name: Display
+- name: Enableservice
+- name: Gettotals
+- name: Input
+- name: Login
+- name: Logout
+- name: Loyalty
+- name: Payment
+- name: Print
+- name: Reconciliation
+- name: Reversal
+- name: Storedvalue
+- name: Transactionstatus

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/checkout-card-details-request-schema.json",
+  "title": "CardDetailsRequest",
+  "description": "CardDetailsRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "cardNumber": {
+      "description": "A minimum of the first 8 digits of the card number and a maximum of the full card number. 11 digits gives the best result. \n\nYou must be [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide) to collect raw card data.",
+      "type": "string"
+    },
+    "countryCode": {
+      "description": "The shopper country.\n\nFormat: [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)\nExample: NL or DE",
+      "type": "string"
+    },
+    "encryptedCardNumber": {
+      "description": "The encrypted card number.",
+      "type": "string"
+    },
+    "merchantAccount": {
+      "description": "The merchant account identifier, with which you want to process the transaction.",
+      "type": "string"
+    },
+    "supportedBrands": {
+      "description": "The card brands you support. This is the [`brands`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/paymentMethods__resParam_paymentMethods-brands) array from your [`/paymentMethods`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/paymentMethods) response. \n\nIf not included, our API uses the ones configured for your merchant account and, if provided, the country code.",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "cardNumber",
+    "merchantAccount"
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/authentication-webhooks-authentication-info-structure.json",
+  "description": "AuthenticationInfo schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "acsTransId": {
+      "description": "Universally unique transaction identifier assigned by the Access Control Server (ACS) to identify a single transaction.",
+      "type": "string"
+    },
+    "challenge": {
+      "description": "Information about Strong Customer Authentication (SCA). Returned when `type` is **challenge**.",
+      "$ref": "#/components/schemas/ChallengeInfo"
+    },
+    "challengeIndicator": {
+      "description": "Specifies a preference for receiving a challenge. Possible values:\n\n* **01**: No preference\n* **02**: No challenge requested\n* **03**: Challenge requested (preference)\n* **04**: Challenge requested (mandate)\n* **05**: No challenge requested (transactional risk analysis is already performed)\n* **07**: No challenge requested (SCA is already performed)\n* **08**: No challenge requested (trusted beneficiaries exemption of no challenge required)\n* **09**: Challenge requested (trusted beneficiaries prompt requested if challenge required)\n* **80**: No challenge requested (secure corporate payment with Mastercard)\n* **82**: No challenge requested (secure corporate payment with Visa)\n",
+      "enum": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "07",
+        8,
+        9,
+        "80",
+        "82"
+      ],
+      "type": "string"
+    },
+    "createdAt": {
+      "description": "Date and time in UTC of the cardholder authentication. \n\n[ISO 8601](https://www.w3.org/TR/NOTE-datetime) format: YYYY-MM-DDThh:mm:ss+TZD, for example, **2020-12-18T10:15:30+01:00**.",
+      "type": "datetime"
+    },
+    "deviceChannel": {
+      "description": "Indicates the type of channel interface being used to initiate the transaction. Possible values:\n\n* **app**\n* **browser**\n* **3DSRequestorInitiated** (initiated by a merchant when the cardholder is not available)",
+      "enum": [
+        "app",
+        "browser",
+        "ThreeDSRequestorInitiated"
+      ],
+      "type": "string"
+    },
+    "dsTransID": {
+      "description": "Universally unique transaction identifier assigned by the DS (card scheme) to identify a single transaction.",
+      "type": "string"
+    },
+    "exemptionIndicator": {
+      "description": "Indicates the exemption type that was applied to the authentication by the issuer, if exemption applied. Possible values:\n\n* **lowValue**\n* **secureCorporate**\n* **trustedBeneficiary**\n* **transactionRiskAnalysis**\n* **acquirerExemption**\n* **noExemptionApplied**\n* **visaDAFExemption**\n",
+      "enum": [
+        "lowValue",
+        "secureCorporate",
+        "trustedBeneficiary",
+        "transactionRiskAnalysis",
+        "acquirerExemption",
+        "noExemptionApplied",
+        "visaDAFExemption"
+      ],
+      "type": "string"
+    },
+    "inPSD2Scope": {
+      "description": "Indicates if the purchase was in the PSD2 scope.",
+      "type": "boolean"
+    },
+    "messageCategory": {
+      "description": "Identifies the category of the message for a specific use case. Possible values:\n\n* **payment**\n* **nonPayment**",
+      "enum": [
+        "payment",
+        "nonPayment"
+      ],
+      "type": "string"
+    },
+    "messageVersion": {
+      "description": "The `messageVersion` value as defined in the 3D Secure 2 specification.",
+      "type": "string"
+    },
+    "riskScore": {
+      "description": "Risk score calculated from the transaction rules.",
+      "type": "int32"
+    },
+    "threeDSServerTransID": {
+      "description": "The `threeDSServerTransID` value as defined in the 3D Secure 2 specification.",
+      "type": "string"
+    },
+    "transStatus": {
+      "description": "The `transStatus` value as defined in the 3D Secure 2 specification. Possible values:\n\n* **Y**: Authentication / Account verification successful.\n* **N**: Not Authenticated / Account not verified. Transaction denied.\n* **U**: Authentication / Account verification could not be performed.\n* **I**: Informational Only / 3D Secure Requestor challenge preference acknowledged.\n* **R**: Authentication / Account verification rejected by the Issuer.\n",
+      "enum": [
+        "Y",
+        "N",
+        "R",
+        "I",
+        "U"
+      ],
+      "type": "string"
+    },
+    "transStatusReason": {
+      "description": "Provides information on why the `transStatus` field has the specified value. For possible values, refer to [our docs](https://docs.adyen.com/online-payments/3d-secure/api-reference#possible-transstatusreason-values).",
+      "enum": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        8,
+        9,
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88"
+      ],
+      "type": "string"
+    },
+    "type": {
+      "description": "The type of authentication performed. Possible values:\n\n* **frictionless**\n* **challenge**",
+      "enum": [
+        "frictionless",
+        "challenge"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "challengeIndicator",
+    "dsTransID",
+    "messageVersion",
+    "threeDSServerTransID",
+    "transStatus",
+    "createdAt",
+    "type",
+    "inPSD2Scope",
+    "deviceChannel",
+    "messageCategory",
+    "acsTransId"
+  ],
+  "name": "AuthenticationInfo"
+}

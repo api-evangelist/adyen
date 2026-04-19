@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/terminal-login-request-structure.json",
+  "description": "It conveys Information related to the session (period between a Login and the following Logout) to process. Content of the Login Request message.",
+  "type": "object",
+  "properties": {
+    "DateTime": {
+      "type": "datetime",
+      "description": "Date and Time."
+    },
+    "SaleSoftware": {
+      "$ref": "#/components/schemas/SaleSoftware"
+    },
+    "SaleTerminalData": {
+      "$ref": "#/components/schemas/SaleTerminalData"
+    },
+    "TrainingModeFlag": {
+      "type": "boolean",
+      "default": false,
+      "description": "The POI does not realise the transaction with the Acquirer."
+    },
+    "OperatorLanguage": {
+      "type": "string",
+      "pattern": "^[a-z]{2,2}$",
+      "description": "Default value for Device type displays."
+    },
+    "OperatorID": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "4 conditions to send it: a) the Sale System wants the POI log it in the transaction log b) because of reconciliation."
+    },
+    "ShiftNumber": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "Same as OperatorID."
+    },
+    "TokenRequestedType": {
+      "$ref": "#/components/schemas/TokenRequestedType"
+    },
+    "CustomerOrderReq": {
+      "$ref": "#/components/schemas/CustomerOrderReq"
+    },
+    "POISerialNumber": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "If the login involve a POI Terminal and not the first Login to the POI System."
+    }
+  },
+  "required": [
+    "DateTime",
+    "SaleSoftware",
+    "OperatorLanguage"
+  ],
+  "name": "LoginRequest"
+}

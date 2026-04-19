@@ -1,6 +1,6 @@
 openapi: 3.1.0
 servers:
-  - url: https://pal-test.adyen.com/pal/services/TestCard/v1
+- url: https://pal-test.adyen.com/pal/services/TestCard/v1
 info:
   version: '1'
   x-publicVersion: true
@@ -17,22 +17,22 @@ info:
     url: https://www.adyen.help/hc/en-us/community/topics
     email: developer-experience@adyen.com
 x-groups:
-  - General
+- General
 tags:
-  - name: createTestCardRanges
+- name: createTestCardRanges
 paths:
   /createTestCardRanges:
     post:
       tags:
-        - createTestCardRanges
-      summary: Adyen Creates one or more test card ranges.
+      - createTestCardRanges
+      summary: Adyen Creates One or More Test Card Ranges.
       description: Creates one or more test card ranges.
       operationId: post-createTestCardRanges
       x-groupName: General
       x-sortIndex: 0
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -44,37 +44,97 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateTestCardRangesResult'
+              examples:
+                post-createTestCardRanges200Example:
+                  summary: Default post-createTestCardRanges 200 response
+                  x-microcks-default: true
+                  value:
+                    rangeCreationResults:
+                    - example_value
           description: OK - the request has succeeded.
         '400':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-createTestCardRanges400Example:
+                  summary: Default post-createTestCardRanges 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Bad Request - a problem reading or understanding the request.
         '401':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-createTestCardRanges401Example:
+                  summary: Default post-createTestCardRanges 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-createTestCardRanges403Example:
+                  summary: Default post-createTestCardRanges 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Forbidden - insufficient permissions to process the request.
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-createTestCardRanges422Example:
+                  summary: Default post-createTestCardRanges 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-createTestCardRanges500Example:
+                  summary: Default post-createTestCardRanges 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   schemas:
     AvsAddress:
@@ -92,7 +152,7 @@ components:
             Example: CA 95014
           type: string
       required:
-        - streetAddress
+      - streetAddress
     CreateTestCardRangesRequest:
       properties:
         accountCode:
@@ -120,9 +180,9 @@ components:
             $ref: '#/components/schemas/TestCardRange'
           type: array
       required:
-        - accountTypeCode
-        - accountCode
-        - testCardRanges
+      - accountTypeCode
+      - accountCode
+      - testCardRanges
     CreateTestCardRangesResult:
       properties:
         rangeCreationResults:
@@ -131,7 +191,7 @@ components:
             $ref: '#/components/schemas/TestCardRangeCreationResult'
           type: array
       required:
-        - rangeCreationResults
+      - rangeCreationResults
     ServiceError:
       properties:
         errorCode:
@@ -187,18 +247,18 @@ components:
             * NOVEMBER
             * DECEMBER
           enum:
-            - APRIL
-            - AUGUST
-            - DECEMBER
-            - FEBRUARY
-            - JANUARY
-            - JULY
-            - JUNE
-            - MARCH
-            - MAY
-            - NOVEMBER
-            - OCTOBER
-            - SEPTEMBER
+          - APRIL
+          - AUGUST
+          - DECEMBER
+          - FEBRUARY
+          - JANUARY
+          - JULY
+          - JUNE
+          - MARCH
+          - MAY
+          - NOVEMBER
+          - OCTOBER
+          - SEPTEMBER
           type: string
         expiryYear:
           description: |-
@@ -235,9 +295,9 @@ components:
 
             * U (Unable to authenticate)
           enum:
-            - 'N'
-            - U
-            - 'Y'
+          - 'N'
+          - U
+          - 'Y'
           type: string
         threeDPassword:
           description: The password used for 3D Secure authentication.
@@ -246,11 +306,11 @@ components:
           description: The username used for 3D Secure authentication.
           type: string
       required:
-        - rangeStart
-        - rangeEnd
-        - expiryMonth
-        - expiryYear
-        - cardHolderName
+      - rangeStart
+      - rangeEnd
+      - expiryMonth
+      - expiryYear
+      - cardHolderName
     TestCardRangeCreationResult:
       properties:
         cardNumberRangeEnd:
@@ -276,17 +336,17 @@ components:
 
             * ERROR
           enum:
-            - ALREADY_EXISTS
-            - CREATED
-            - ERROR
+          - ALREADY_EXISTS
+          - CREATED
+          - ERROR
           type: string
         message:
           description: An optional information message about the result.
           type: string
       required:
-        - cardNumberRangeStart
-        - cardNumberRangeEnd
-        - creationResultCode
+      - cardNumberRangeStart
+      - cardNumberRangeEnd
+      - creationResultCode
   securitySchemes:
     ApiKeyAuth:
       in: header

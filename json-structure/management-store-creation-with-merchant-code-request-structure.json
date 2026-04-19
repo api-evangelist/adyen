@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/management-store-creation-with-merchant-code-request-structure.json",
+  "description": "StoreCreationWithMerchantCodeRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "address": {
+      "description": "The address of the store.",
+      "$ref": "#/components/schemas/StoreLocation"
+    },
+    "businessLineIds": {
+      "description": "The unique identifiers of the [business lines](https://docs.adyen.com/api-explorer/legalentity/latest/post/businessLines#responses-200-id) that the store is associated with.\nIf not specified, the business line of the merchant account is used. Required when there are multiple business lines under the merchant account.",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "description": {
+      "description": "Your description of the store.",
+      "type": "string"
+    },
+    "externalReferenceId": {
+      "description": "The unique identifier of the store, used by certain payment methods and tax authorities. Accepts up to 14 digits.\n\nRequired for CNPJ in Brazil, in the format 00.000.000/00git00-00 separated by dots, slashes, hyphens, or without separators.\n\nOptional for Zip in Australia and SIRET in France, required except for nonprofit organizations and incorporated associations.\n\n",
+      "type": "string"
+    },
+    "merchantId": {
+      "description": "The unique identifier of the merchant account that the store belongs to.",
+      "type": "string"
+    },
+    "phoneNumber": {
+      "description": "The phone number of the store, including '+' and country code in the [E.164](https://en.wikipedia.org/wiki/E.164) format. If passed in a different format, we convert and validate the phone number against E.164. ",
+      "type": "string"
+    },
+    "reference": {
+      "description": "Your reference to recognize the store by. Also known as the store code.\n Allowed characters: lowercase and uppercase letters without diacritics, numbers 0 through 9, hyphen (-), and underscore (_).\n\nIf you do not provide a reference in your POST request, it is populated with the Adyen-generated [id](https://docs.adyen.com/api-explorer/Management/latest/post/stores#responses-200-id).",
+      "type": "string"
+    },
+    "shopperStatement": {
+      "description": "The store name to be shown on the shopper's bank or credit card statement and on the shopper receipt.\nMaximum length: 22 characters; can't be all numbers.",
+      "type": "string"
+    },
+    "splitConfiguration": {
+      "description": "Rules for Adyen for Platforms merchants to split the transaction amount and fees.",
+      "$ref": "#/components/schemas/StoreSplitConfiguration"
+    }
+  },
+  "required": [
+    "description",
+    "shopperStatement",
+    "phoneNumber",
+    "address",
+    "merchantId"
+  ],
+  "name": "StoreCreationWithMerchantCodeRequest"
+}

@@ -1,0 +1,183 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Adyen Online Payment Processing"
+  description: "Unified capability for accepting and managing online payments. Combines the Checkout API and Payments API to provide merchants and developers with a complete payment acceptance workflow including session creation, payment authorisation, refunds, and cancellations. Primary persona: Developer or Merchant Platform Engineer."
+  tags:
+    - Adyen
+    - Payments
+    - Checkout
+    - Online Payments
+    - E-Commerce
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+binds:
+  - namespace: env
+    keys:
+      ADYEN_API_KEY: ADYEN_API_KEY
+
+capability:
+  consumes:
+    - import: checkout
+      location: ./shared/checkout.yaml
+    - import: payments
+      location: ./shared/payments.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: adyen-online-payments-api
+      description: "Unified REST API for Adyen online payment processing workflows."
+      resources:
+        - path: /v1/sessions
+          name: checkout-sessions
+          description: "Create checkout sessions for hosted payment flows."
+          operations:
+            - method: POST
+              name: create-checkout-session
+              description: "Create a checkout session."
+              call: "checkout.create-session"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/payment-methods
+          name: payment-methods
+          description: "Get available payment methods for a shopper."
+          operations:
+            - method: POST
+              name: list-payment-methods
+              description: "List available payment methods."
+              call: "checkout.list-payment-methods"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/payments
+          name: payments
+          description: "Initiate and manage payments."
+          operations:
+            - method: POST
+              name: create-payment
+              description: "Create a payment via Checkout API."
+              call: "checkout.create-payment"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/payments/authorise
+          name: authorise
+          description: "Authorise a payment via classic Payments API."
+          operations:
+            - method: POST
+              name: authorise-payment
+              description: "Authorise a payment."
+              call: "payments.authorise-payment"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/payments/capture
+          name: capture
+          description: "Capture authorised payments."
+          operations:
+            - method: POST
+              name: capture-payment
+              description: "Capture an authorised payment."
+              call: "payments.capture-payment"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/payments/{paymentPspReference}/refunds
+          name: refunds
+          description: "Refund completed payments."
+          operations:
+            - method: POST
+              name: refund-payment
+              description: "Refund a payment."
+              call: "checkout.refund-payment"
+              with:
+                paymentPspReference: "rest.paymentPspReference"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/payments/cancel
+          name: cancels
+          description: "Cancel authorised payments."
+          operations:
+            - method: POST
+              name: cancel-payment
+              description: "Cancel an authorised payment."
+              call: "checkout.cancel-payment"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9080
+      namespace: adyen-online-payments-mcp
+      transport: http
+      description: "MCP server for AI-assisted Adyen online payment processing."
+      tools:
+        - name: create-checkout-session
+          description: "Create an Adyen checkout session for hosted payment flows."
+          hints:
+            readOnly: false
+            destructive: false
+          call: "checkout.create-session"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-payment-methods
+          description: "List available payment methods for a shopper based on their context."
+          hints:
+            readOnly: true
+            destructive: false
+          call: "checkout.list-payment-methods"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-payment
+          description: "Initiate a payment via Adyen Checkout API."
+          hints:
+            readOnly: false
+            destructive: false
+          call: "checkout.create-payment"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: authorise-payment
+          description: "Authorise a payment via classic Adyen Payments API."
+          hints:
+            readOnly: false
+            destructive: false
+          call: "payments.authorise-payment"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: capture-payment
+          description: "Capture a previously authorised payment."
+          hints:
+            readOnly: false
+            destructive: false
+          call: "payments.capture-payment"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: refund-payment
+          description: "Refund a completed payment using its PSP reference."
+          hints:
+            readOnly: false
+            destructive: false
+          call: "checkout.refund-payment"
+          with:
+            paymentPspReference: "tools.paymentPspReference"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: cancel-payment
+          description: "Cancel an authorised payment before capture."
+          hints:
+            readOnly: false
+            destructive: true
+          call: "checkout.cancel-payment"
+          outputParameters:
+            - type: object
+              mapping: "$."

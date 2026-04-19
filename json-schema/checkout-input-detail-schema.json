@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/checkout-input-detail-schema.json",
+  "title": "InputDetail",
+  "description": "InputDetail schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "configuration": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Configuration parameters for the required input.",
+      "type": "object"
+    },
+    "details": {
+      "description": "Input details can also be provided recursively.",
+      "items": {
+        "$ref": "#/components/schemas/SubInputDetail"
+      },
+      "type": "array"
+    },
+    "inputDetails": {
+      "deprecated": true,
+      "description": "Input details can also be provided recursively (deprecated).",
+      "items": {
+        "$ref": "#/components/schemas/SubInputDetail"
+      },
+      "type": "array"
+    },
+    "itemSearchUrl": {
+      "description": "In case of a select, the URL from which to query the items.",
+      "type": "string"
+    },
+    "items": {
+      "description": "In case of a select, the items to choose from.",
+      "items": {
+        "$ref": "#/components/schemas/Item"
+      },
+      "type": "array"
+    },
+    "key": {
+      "description": "The value to provide in the result.",
+      "type": "string"
+    },
+    "optional": {
+      "description": "True if this input value is optional.",
+      "type": "boolean"
+    },
+    "type": {
+      "description": "The type of the required input.",
+      "type": "string"
+    },
+    "value": {
+      "description": "The value can be pre-filled, if available.",
+      "type": "string"
+    }
+  }
+}

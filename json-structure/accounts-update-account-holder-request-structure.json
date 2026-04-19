@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/accounts-update-account-holder-request-structure.json",
+  "description": "UpdateAccountHolderRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountHolderCode": {
+      "description": "The code of the Account Holder to be updated.",
+      "type": "string"
+    },
+    "accountHolderDetails": {
+      "description": "The details to which the Account Holder should be updated.\n\nRequired if a processingTier is not provided.",
+      "$ref": "#/components/schemas/AccountHolderDetails"
+    },
+    "description": {
+      "x-addedInVersion": "4",
+      "description": "A description of the account holder, maximum 256 characters. You can use alphanumeric characters (A-Z, a-z, 0-9), white spaces, and underscores `_`.",
+      "type": "string"
+    },
+    "legalEntity": {
+      "x-addedInVersion": "5",
+      "description": "The legal entity type of the account holder. This determines the information that should be provided in the request.\n\nPossible values: **Business**, **Individual**, or **NonProfit**.\n\n* If set to **Business** or **NonProfit**, then `accountHolderDetails.businessDetails` must be provided, with at least one entry in the `accountHolderDetails.businessDetails.shareholders` list.\n\n* If set to **Individual**, then `accountHolderDetails.individualDetails` must be provided.",
+      "enum": [
+        "Business",
+        "Individual",
+        "NonProfit",
+        "Partnership",
+        "PublicCompany"
+      ],
+      "type": "string"
+    },
+    "primaryCurrency": {
+      "x-addedInVersion": "4",
+      "deprecated": true,
+      "description": "The primary three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes), to which the account holder should be updated.",
+      "type": "string"
+    },
+    "processingTier": {
+      "x-addedInVersion": "3",
+      "description": "The processing tier to which the Account Holder should be updated.\n>The processing tier can not be lowered through this request.\n\n>Required if accountHolderDetails are not provided.",
+      "type": "int32"
+    },
+    "verificationProfile": {
+      "x-addedInVersion": "6",
+      "description": "The identifier of the profile that applies to this entity.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "accountHolderCode"
+  ],
+  "name": "UpdateAccountHolderRequest"
+}

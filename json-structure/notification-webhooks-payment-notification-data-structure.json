@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/notification-webhooks-payment-notification-data-structure.json",
+  "description": "PaymentNotificationData schema from Adyen API",
+  "properties": {
+    "accountHolder": {
+      "description": "Contains information about the account holder.",
+      "$ref": "#/components/schemas/ResourceReference"
+    },
+    "amount": {
+      "description": "The amount converted to the balance account's currency, in case the original transaction currency is different.\n\n* A _positive_ value means the amount is added to the balance account.\n\n * A _negative_ value means the amount is deducted from the balance account. ",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "authCode": {
+      "description": "The authorisation code for the payment.",
+      "type": "string"
+    },
+    "balanceAccount": {
+      "description": "Contains information about the balance account.",
+      "$ref": "#/components/schemas/ResourceReference"
+    },
+    "balancePlatform": {
+      "description": "Unique identifier of the balance platform.",
+      "type": "string"
+    },
+    "creationDate": {
+      "description": "Date and time when the event was triggered, in ISO 8601 extended format. For example, **2020-12-18T10:15:30+01:00**.",
+      "type": "datetime"
+    },
+    "description": {
+      "description": "Your description for the transfer. If you send a description longer than 140 characters, the text is truncated.",
+      "type": "string"
+    },
+    "id": {
+      "description": "The ID of the resource.",
+      "type": "string"
+    },
+    "merchantData": {
+      "description": "Contains information about the merchant that processed the payment. This object is only included for payment authorisation requests and captures.",
+      "$ref": "#/components/schemas/MerchantData"
+    },
+    "modification": {
+      "description": "Contains the amount and type of modification that triggered the notification. For example, this object contains the amount of a partial cancellation or partial expired authorisation.",
+      "$ref": "#/components/schemas/NotificationModificationData"
+    },
+    "originalAmount": {
+      "description": "The amount in the original currency of the transaction.\n\n* A _positive_ value means the amount is added to the balance account.\n\n * A _negative_ value means the amount is deducted from the balance account. ",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "paymentInstrument": {
+      "description": "Contains information about the payment instrument.",
+      "$ref": "#/components/schemas/ResourceReference"
+    },
+    "platformPayment": {
+      "description": "Contains information about the related platform payment.",
+      "$ref": "#/components/schemas/PlatformPayment"
+    },
+    "processingType": {
+      "description": "Contains information about how the payment was processed. For example, **ecommerce** for online or **pos** for point-of-sale payments.",
+      "type": "string"
+    },
+    "reference": {
+      "description": "The [`reference`](https://docs.adyen.com/api-explorer/#/transfers/latest/post/transfers__reqParam_reference) from the `/transfers` request. If you haven't provided any, Adyen generates a unique reference.",
+      "maxLength": 80,
+      "type": "string"
+    },
+    "referenceForBeneficiary": {
+      "description": "The reference sent to or received from the counterparty.\n\n* For outgoing funds, this is the [`referenceForBeneficiary`](https://docs.adyen.com/api-explorer/#/transfers/latest/post/transfers__resParam_referenceForBeneficiary) from the  [`/transfers`](https://docs.adyen.com/api-explorer/#/transfers/latest/post/transfers) request.\n\n * For incoming funds, this is the reference from the sender.",
+      "maxLength": 80,
+      "type": "string"
+    },
+    "relayedAuthorisationData": {
+      "description": "If you're using [relayed authorisation](https://docs.adyen.com/issuing/processing-payments-for-cards#relayed-authorisation), this object contains information from the relayed authorisation response from your server.",
+      "$ref": "#/components/schemas/RelayedAuthorisationData"
+    },
+    "status": {
+      "description": "The event status. The possible values depend on the `type`.\n\n* **Authorised**, **Refused**, or **Error** for type `balancePlatform.payment.created`\n\n * **Expired** or **Cancelled** for type `balancePlatform.payment.updated`\n\n* **PendingIncomingTransfer** for type `balancePlatform.incomingTransfer.created` \n\n* **Refunded** or **IncomingTransfer** for type `balancePlatform.incomingTransfer.updated`\n\n * **Captured** or **OutgoingTransfer** for type `balancePlatform.outgoingTransfer.created`\n\n* **TransferConfirmed**, **TransferSentOut**, or **TransferFailed** for type `balancePlatform.outgoingTransfer.updated`\n\n  ",
+      "type": "string"
+    },
+    "transactionRulesResult": {
+      "description": "Contains results from the evaluation of [transaction rules](https://docs.adyen.com/issuing/transaction-rules).",
+      "$ref": "#/components/schemas/TransactionRulesResult"
+    },
+    "validationResult": {
+      "description": "Array of checks that Adyen performed to validate the payment and the result of each.",
+      "items": {
+        "$ref": "#/components/schemas/ValidationResult"
+      },
+      "type": "array"
+    }
+  },
+  "type": "object",
+  "name": "PaymentNotificationData"
+}

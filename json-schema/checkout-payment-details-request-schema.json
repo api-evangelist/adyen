@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/checkout-payment-details-request-schema.json",
+  "title": "PaymentDetailsRequest",
+  "description": "PaymentDetailsRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "authenticationData": {
+      "x-addedInVersion": "69",
+      "description": "Data for 3DS authentication.",
+      "$ref": "#/components/schemas/DetailsRequestAuthenticationData"
+    },
+    "details": {
+      "description": "Use this collection to submit the details that were returned as a result of the `/payments` call.",
+      "$ref": "#/components/schemas/PaymentCompletionDetails"
+    },
+    "paymentData": {
+      "description": "Encoded payment data. For [authorizing a payment after using 3D Secure 2 Authentication-only](https://docs.adyen.com/online-payments/3d-secure/other-3ds-flows/authentication-only/#authorise-the-payment-with-adyen):\n\nIf you received `resultCode`: **AuthenticationNotRequired** in the `/payments` response, use the `threeDSPaymentData` from the same response.\n\nIf you received `resultCode`: **AuthenticationFinished** in the `/payments` response, use the `action.paymentData` from the same response.",
+      "maxLength": 200000,
+      "type": "string"
+    },
+    "threeDSAuthenticationOnly": {
+      "x-addedInVersion": "40",
+      "deprecated": true,
+      "x-deprecatedInVersion": "69",
+      "x-deprecatedMessage": "Use `authenticationData.authenticationOnly` instead.",
+      "description": "Change the `authenticationOnly` indicator originally set in the `/payments` request. Only needs to be set if you want to modify the value set previously.",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "details"
+  ]
+}

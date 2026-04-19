@@ -1,6 +1,6 @@
 openapi: 3.1.0
 servers:
-  - url: https://cal-test.adyen.com/cal/services/Account/v6
+- url: https://cal-test.adyen.com/cal/services/Account/v6
 info:
   version: '6'
   x-publicVersion: true
@@ -18,37 +18,37 @@ info:
     name: Adyen Developer Experience team
     url: https://github.com/Adyen/adyen-openapi
 x-groups:
-  - Account holders
-  - Accounts
-  - Verification
+- Account holders
+- Accounts
+- Verification
 tags:
-  - name: Account
-  - name: Accounts
-  - name: Arrangements
-  - name: Bank
-  - name: Checks
-  - name: Close
-  - name: Documents
-  - name: Forms
-  - name: Holders
-  - name: Legal
-  - name: Methods
-  - name: Shareholders
-  - name: Signatories
-  - name: State
-  - name: Stores
-  - name: Suspend
-  - name: Tax
-  - name: Uploaded
-  - name: Uploads
+- name: Account
+- name: Accounts
+- name: Arrangements
+- name: Bank
+- name: Checks
+- name: Close
+- name: Documents
+- name: Forms
+- name: Holders
+- name: Legal
+- name: Methods
+- name: Shareholders
+- name: Signatories
+- name: State
+- name: Stores
+- name: Suspend
+- name: Tax
+- name: Uploaded
+- name: Uploads
 paths:
   /checkAccountHolder:
     post:
       tags:
-        - Accounts
-        - Checks
-        - Holders
-      summary: Adyen Trigger verification
+      - Accounts
+      - Checks
+      - Holders
+      summary: Adyen Trigger Verification
       description: >-
         Triggers the verification of an account holder even if the checks are
         not yet required for the volume that they are currently processing.
@@ -58,8 +58,8 @@ paths:
       x-sortIndex: 3
       x-methodName: checkAccountHolder
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -74,12 +74,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericResponse'
+              examples:
+                post-checkAccountHolder200Example:
+                  summary: Default post-checkAccountHolder 200 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericResponse'
+              examples:
+                post-checkAccountHolder202Example:
+                  summary: Default post-checkAccountHolder 202 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -97,6 +115,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-checkAccountHolder401Example:
+                  summary: Default post-checkAccountHolder 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -112,19 +140,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-checkAccountHolder422Example:
+                  summary: Default post-checkAccountHolder 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-checkAccountHolder500Example:
+                  summary: Default post-checkAccountHolder 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /closeAccount:
     post:
       tags:
-        - Accounts
-        - Close
-      summary: Adyen Close an account
+      - Accounts
+      - Close
+      summary: Adyen Close an Account
       description: >-
         Closes an account. If an account is closed, you cannot process
         transactions, pay out its funds, or reopen it. If payments are made to a
@@ -134,8 +185,8 @@ paths:
       x-sortIndex: 3
       x-methodName: closeAccount
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -150,12 +201,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CloseAccountResponse'
+              examples:
+                post-closeAccount200Example:
+                  summary: Default post-closeAccount 200 response
+                  x-microcks-default: true
+                  value:
+                    accountCode: CODE123
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
+                    status: Active
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CloseAccountResponse'
+              examples:
+                post-closeAccount202Example:
+                  summary: Default post-closeAccount 202 response
+                  x-microcks-default: true
+                  value:
+                    accountCode: CODE123
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
+                    status: Active
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -173,6 +246,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-closeAccount401Example:
+                  summary: Default post-closeAccount 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -188,20 +271,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-closeAccount422Example:
+                  summary: Default post-closeAccount 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-closeAccount500Example:
+                  summary: Default post-closeAccount 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /closeAccountHolder:
     post:
       tags:
-        - Accounts
-        - Close
-        - Holders
-      summary: Adyen Close an account holder
+      - Accounts
+      - Close
+      - Holders
+      summary: Adyen Close an Account Holder
       description: >-
         Changes the [status of an account
         holder](https://docs.adyen.com/marketplaces-and-platforms/classic/account-holders-and-accounts#account-holder-statuses)
@@ -215,8 +321,8 @@ paths:
       x-sortIndex: 7
       x-methodName: closeAccountHolder
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -231,12 +337,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CloseAccountHolderResponse'
+              examples:
+                post-closeAccountHolder200Example:
+                  summary: Default post-closeAccountHolder 200 response
+                  x-microcks-default: true
+                  value:
+                    accountHolderStatus: active
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CloseAccountHolderResponse'
+              examples:
+                post-closeAccountHolder202Example:
+                  summary: Default post-closeAccountHolder 202 response
+                  x-microcks-default: true
+                  value:
+                    accountHolderStatus: active
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -254,6 +380,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-closeAccountHolder401Example:
+                  summary: Default post-closeAccountHolder 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -269,19 +405,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-closeAccountHolder422Example:
+                  summary: Default post-closeAccountHolder 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-closeAccountHolder500Example:
+                  summary: Default post-closeAccountHolder 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /closeStores:
     post:
       tags:
-        - Close
-        - Stores
-      summary: Adyen Close stores
+      - Close
+      - Stores
+      summary: Adyen Close Stores
       description: Closes stores associated with an account holder.
       x-addedInVersion: '5'
       operationId: post-closeStores
@@ -289,8 +448,8 @@ paths:
       x-sortIndex: 9
       x-methodName: closeStores
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -302,6 +461,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericResponse'
+              examples:
+                post-closeStores200Example:
+                  summary: Default post-closeStores 200 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '400':
           content:
@@ -317,6 +485,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-closeStores401Example:
+                  summary: Default post-closeStores 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -332,18 +510,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-closeStores422Example:
+                  summary: Default post-closeStores 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-closeStores500Example:
+                  summary: Default post-closeStores 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /createAccount:
     post:
       tags:
-        - Account
-      summary: Adyen Create an account
+      - Account
+      summary: Adyen Create an Account
       description: >-
         Creates an account under an account holder. An account holder can have
         [multiple
@@ -353,8 +554,8 @@ paths:
       x-sortIndex: 1
       x-methodName: createAccount
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -369,12 +570,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateAccountResponse'
+              examples:
+                post-createAccount200Example:
+                  summary: Default post-createAccount 200 response
+                  x-microcks-default: true
+                  value:
+                    accountCode: CODE123
+                    accountHolderCode: CODE123
+                    bankAccountUUID: '500123'
+                    description: A sample description for this resource.
+                    invalidFields:
+                    - example_value
+                    metadata: {}
+                    payoutMethodCode: CODE123
+                    payoutSchedule: example_value
+                    payoutSpeed: INSTANT
+                    pspReference: REF-001
+                    resultCode: CODE123
+                    status: Active
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateAccountResponse'
+              examples:
+                post-createAccount202Example:
+                  summary: Default post-createAccount 202 response
+                  x-microcks-default: true
+                  value:
+                    accountCode: CODE123
+                    accountHolderCode: CODE123
+                    bankAccountUUID: '500123'
+                    description: A sample description for this resource.
+                    invalidFields:
+                    - example_value
+                    metadata: {}
+                    payoutMethodCode: CODE123
+                    payoutSchedule: example_value
+                    payoutSpeed: INSTANT
+                    pspReference: REF-001
+                    resultCode: CODE123
+                    status: Active
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -392,6 +629,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-createAccount401Example:
+                  summary: Default post-createAccount 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -407,19 +654,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-createAccount422Example:
+                  summary: Default post-createAccount 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-createAccount500Example:
+                  summary: Default post-createAccount 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /createAccountHolder:
     post:
       tags:
-        - Account
-        - Holders
-      summary: Adyen Create an account holder
+      - Account
+      - Holders
+      summary: Adyen Create an Account Holder
       description: >-
         Creates an account holder that [represents the sub-merchant's
         entity](https://docs.adyen.com/marketplaces-and-platforms/classic/account-structure#your-platform)
@@ -432,8 +702,8 @@ paths:
       x-sortIndex: 1
       x-methodName: createAccountHolder
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -450,6 +720,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateAccountHolderResponse'
+              examples:
+                post-createAccountHolder200Example:
+                  summary: Default post-createAccountHolder 200 response
+                  x-microcks-default: true
+                  value:
+                    accountCode: CODE123
+                    accountHolderCode: CODE123
+                    accountHolderDetails: example_value
+                    accountHolderStatus: active
+                    description: A sample description for this resource.
+                    invalidFields:
+                    - example_value
+                    legalEntity: Business
+                    primaryCurrency: USD
+                    pspReference: REF-001
+                    resultCode: CODE123
+                    verification: example_value
+                    verificationProfile: example_value
           description: OK - the request has succeeded.
         '400':
           content:
@@ -465,6 +753,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-createAccountHolder401Example:
+                  summary: Default post-createAccountHolder 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -480,27 +778,50 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-createAccountHolder422Example:
+                  summary: Default post-createAccountHolder 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-createAccountHolder500Example:
+                  summary: Default post-createAccountHolder 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /deleteBankAccounts:
     post:
       tags:
-        - Accounts
-        - Bank
-      summary: Adyen Delete bank accounts
+      - Accounts
+      - Bank
+      summary: Adyen Delete Bank Accounts
       description: 'Deletes bank accounts associated with an account holder. '
       operationId: post-deleteBankAccounts
       x-groupName: Verification
       x-sortIndex: 4
       x-methodName: deleteBankAccounts
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -515,12 +836,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericResponse'
+              examples:
+                post-deleteBankAccounts200Example:
+                  summary: Default post-deleteBankAccounts 200 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericResponse'
+              examples:
+                post-deleteBankAccounts202Example:
+                  summary: Default post-deleteBankAccounts 202 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -538,6 +877,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-deleteBankAccounts401Example:
+                  summary: Default post-deleteBankAccounts 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -553,19 +902,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-deleteBankAccounts422Example:
+                  summary: Default post-deleteBankAccounts 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-deleteBankAccounts500Example:
+                  summary: Default post-deleteBankAccounts 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /deleteLegalArrangements:
     post:
       tags:
-        - Arrangements
-        - Legal
-      summary: Adyen Delete legal arrangements
+      - Arrangements
+      - Legal
+      summary: Adyen Delete Legal Arrangements
       description: >-
         Deletes legal arrangements and/or legal arrangement entities associated
         with an account holder.
@@ -574,8 +946,8 @@ paths:
       x-sortIndex: 6
       x-methodName: deleteLegalArrangements
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -606,6 +978,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericResponse'
+              examples:
+                post-deleteLegalArrangements202Example:
+                  summary: Default post-deleteLegalArrangements 202 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -629,6 +1010,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-deleteLegalArrangements401Example:
+                  summary: Default post-deleteLegalArrangements 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -644,18 +1035,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-deleteLegalArrangements422Example:
+                  summary: Default post-deleteLegalArrangements 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-deleteLegalArrangements500Example:
+                  summary: Default post-deleteLegalArrangements 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /deletePayoutMethods:
     post:
       tags:
-        - Methods
-      summary: Adyen Delete payout methods
+      - Methods
+      summary: Adyen Delete Payout Methods
       description: Deletes payout methods associated with an account holder.
       x-addedInVersion: '5'
       operationId: post-deletePayoutMethods
@@ -663,8 +1077,8 @@ paths:
       x-sortIndex: 5
       x-methodName: deletePayoutMethods
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -679,12 +1093,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericResponse'
+              examples:
+                post-deletePayoutMethods200Example:
+                  summary: Default post-deletePayoutMethods 200 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericResponse'
+              examples:
+                post-deletePayoutMethods202Example:
+                  summary: Default post-deletePayoutMethods 202 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -702,6 +1134,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-deletePayoutMethods401Example:
+                  summary: Default post-deletePayoutMethods 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -717,26 +1159,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-deletePayoutMethods422Example:
+                  summary: Default post-deletePayoutMethods 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-deletePayoutMethods500Example:
+                  summary: Default post-deletePayoutMethods 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /deleteShareholders:
     post:
       tags:
-        - Shareholders
-      summary: Adyen Delete shareholders
+      - Shareholders
+      summary: Adyen Delete Shareholders
       description: Deletes shareholders associated with an account holder.
       operationId: post-deleteShareholders
       x-groupName: Verification
       x-sortIndex: 7
       x-methodName: deleteShareholders
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -751,12 +1216,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericResponse'
+              examples:
+                post-deleteShareholders200Example:
+                  summary: Default post-deleteShareholders 200 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericResponse'
+              examples:
+                post-deleteShareholders202Example:
+                  summary: Default post-deleteShareholders 202 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -774,6 +1257,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-deleteShareholders401Example:
+                  summary: Default post-deleteShareholders 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -789,26 +1282,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-deleteShareholders422Example:
+                  summary: Default post-deleteShareholders 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-deleteShareholders500Example:
+                  summary: Default post-deleteShareholders 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /deleteSignatories:
     post:
       tags:
-        - Signatories
-      summary: Adyen Delete signatories
+      - Signatories
+      summary: Adyen Delete Signatories
       description: Deletes signatories associated with an account holder.
       operationId: post-deleteSignatories
       x-groupName: Verification
       x-sortIndex: 8
       x-methodName: deleteSignatories
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -820,12 +1336,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericResponse'
+              examples:
+                post-deleteSignatories200Example:
+                  summary: Default post-deleteSignatories 200 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericResponse'
+              examples:
+                post-deleteSignatories202Example:
+                  summary: Default post-deleteSignatories 202 response
+                  x-microcks-default: true
+                  value:
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -843,6 +1377,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-deleteSignatories401Example:
+                  summary: Default post-deleteSignatories 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -858,27 +1402,50 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-deleteSignatories422Example:
+                  summary: Default post-deleteSignatories 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-deleteSignatories500Example:
+                  summary: Default post-deleteSignatories 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /getAccountHolder:
     post:
       tags:
-        - Account
-        - Holders
-      summary: Adyen Get an account holder
+      - Account
+      - Holders
+      summary: Adyen Get an Account Holder
       description: Returns the details of an account holder.
       operationId: post-getAccountHolder
       x-groupName: Account holders
       x-sortIndex: 2
       x-methodName: getAccountHolder
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -895,12 +1462,54 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetAccountHolderResponse'
+              examples:
+                post-getAccountHolder200Example:
+                  summary: Default post-getAccountHolder 200 response
+                  x-microcks-default: true
+                  value:
+                    accountHolderCode: CODE123
+                    accountHolderDetails: example_value
+                    accountHolderStatus: active
+                    accounts:
+                    - example_value
+                    description: A sample description for this resource.
+                    invalidFields:
+                    - example_value
+                    legalEntity: Business
+                    migrationData: example_value
+                    primaryCurrency: USD
+                    pspReference: REF-001
+                    resultCode: CODE123
+                    systemUpToDateTime: '2025-03-15T14:30:00Z'
+                    verification: example_value
+                    verificationProfile: example_value
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetAccountHolderResponse'
+              examples:
+                post-getAccountHolder202Example:
+                  summary: Default post-getAccountHolder 202 response
+                  x-microcks-default: true
+                  value:
+                    accountHolderCode: CODE123
+                    accountHolderDetails: example_value
+                    accountHolderStatus: active
+                    accounts:
+                    - example_value
+                    description: A sample description for this resource.
+                    invalidFields:
+                    - example_value
+                    legalEntity: Business
+                    migrationData: example_value
+                    primaryCurrency: USD
+                    pspReference: REF-001
+                    resultCode: CODE123
+                    systemUpToDateTime: '2025-03-15T14:30:00Z'
+                    verification: example_value
+                    verificationProfile: example_value
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -918,6 +1527,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getAccountHolder401Example:
+                  summary: Default post-getAccountHolder 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -933,19 +1552,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getAccountHolder422Example:
+                  summary: Default post-getAccountHolder 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getAccountHolder500Example:
+                  summary: Default post-getAccountHolder 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /getTaxForm:
     post:
       tags:
-        - Forms
-        - Tax
-      summary: Adyen Get a tax form
+      - Forms
+      - Tax
+      summary: Adyen Get a Tax Form
       description: >-
         Generates a tax form for account holders operating in the US. For more
         information, refer to [Providing tax
@@ -955,8 +1597,8 @@ paths:
       x-sortIndex: 8
       x-methodName: getTaxForm
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -971,6 +1613,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetTaxFormResponse'
+              examples:
+                post-getTaxForm200Example:
+                  summary: Default post-getTaxForm 200 response
+                  x-microcks-default: true
+                  value:
+                    content: example_value
+                    contentType: standard
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '400':
           content:
@@ -986,6 +1639,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getTaxForm401Example:
+                  summary: Default post-getTaxForm 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -1001,19 +1664,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getTaxForm422Example:
+                  summary: Default post-getTaxForm 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getTaxForm500Example:
+                  summary: Default post-getTaxForm 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /getUploadedDocuments:
     post:
       tags:
-        - Documents
-        - Uploaded
-      summary: Adyen Get documents
+      - Documents
+      - Uploaded
+      summary: Adyen Get Documents
       description: >
         Returns documents that were previously uploaded for an account holder.
         Adyen uses the documents during the [verification
@@ -1023,8 +1709,8 @@ paths:
       x-sortIndex: 2
       x-methodName: getUploadedDocuments
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -1039,6 +1725,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetUploadedDocumentsResponse'
+              examples:
+                post-getUploadedDocuments200Example:
+                  summary: Default post-getUploadedDocuments 200 response
+                  x-microcks-default: true
+                  value:
+                    documentDetails:
+                    - example_value
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '400':
           content:
@@ -1054,6 +1751,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getUploadedDocuments401Example:
+                  summary: Default post-getUploadedDocuments 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -1069,20 +1776,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getUploadedDocuments422Example:
+                  summary: Default post-getUploadedDocuments 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getUploadedDocuments500Example:
+                  summary: Default post-getUploadedDocuments 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /suspendAccountHolder:
     post:
       tags:
-        - Accounts
-        - Holders
-        - Suspend
-      summary: Adyen Suspend an account holder
+      - Accounts
+      - Holders
+      - Suspend
+      summary: Adyen Suspend an Account Holder
       description: >-
         Changes the [status of an account
         holder](https://docs.adyen.com/marketplaces-and-platforms/classic/account-holders-and-accounts#account-holder-statuses)
@@ -1092,8 +1822,8 @@ paths:
       x-sortIndex: 5
       x-methodName: suspendAccountHolder
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -1108,12 +1838,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuspendAccountHolderResponse'
+              examples:
+                post-suspendAccountHolder200Example:
+                  summary: Default post-suspendAccountHolder 200 response
+                  x-microcks-default: true
+                  value:
+                    accountHolderStatus: active
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuspendAccountHolderResponse'
+              examples:
+                post-suspendAccountHolder202Example:
+                  summary: Default post-suspendAccountHolder 202 response
+                  x-microcks-default: true
+                  value:
+                    accountHolderStatus: active
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -1131,6 +1881,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-suspendAccountHolder401Example:
+                  summary: Default post-suspendAccountHolder 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -1146,20 +1906,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-suspendAccountHolder422Example:
+                  summary: Default post-suspendAccountHolder 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-suspendAccountHolder500Example:
+                  summary: Default post-suspendAccountHolder 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /unSuspendAccountHolder:
     post:
       tags:
-        - Accounts
-        - Holders
-        - Suspend
-      summary: Adyen Unsuspend an account holder
+      - Accounts
+      - Holders
+      - Suspend
+      summary: Adyen Unsuspend an Account Holder
       description: >-
         Changes the [status of an account
         holder](https://docs.adyen.com/marketplaces-and-platforms/classic/account-holders-and-accounts#account-holder-statuses)
@@ -1180,8 +1963,8 @@ paths:
       x-sortIndex: 6
       x-methodName: unSuspendAccountHolder
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -1196,12 +1979,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UnSuspendAccountHolderResponse'
+              examples:
+                post-unSuspendAccountHolder200Example:
+                  summary: Default post-unSuspendAccountHolder 200 response
+                  x-microcks-default: true
+                  value:
+                    accountHolderStatus: active
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/UnSuspendAccountHolderResponse'
+              examples:
+                post-unSuspendAccountHolder202Example:
+                  summary: Default post-unSuspendAccountHolder 202 response
+                  x-microcks-default: true
+                  value:
+                    accountHolderStatus: active
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -1219,6 +2022,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-unSuspendAccountHolder401Example:
+                  summary: Default post-unSuspendAccountHolder 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -1234,26 +2047,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-unSuspendAccountHolder422Example:
+                  summary: Default post-unSuspendAccountHolder 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-unSuspendAccountHolder500Example:
+                  summary: Default post-unSuspendAccountHolder 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /updateAccount:
     post:
       tags:
-        - Account
-      summary: Adyen Update an account
+      - Account
+      summary: Adyen Update an Account
       description: Updates the description or payout schedule of an account.
       operationId: post-updateAccount
       x-groupName: Accounts
       x-sortIndex: 2
       x-methodName: updateAccount
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -1268,12 +2104,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateAccountResponse'
+              examples:
+                post-updateAccount200Example:
+                  summary: Default post-updateAccount 200 response
+                  x-microcks-default: true
+                  value:
+                    accountCode: CODE123
+                    bankAccountUUID: '500123'
+                    description: A sample description for this resource.
+                    invalidFields:
+                    - example_value
+                    metadata: {}
+                    payoutMethodCode: CODE123
+                    payoutSchedule: example_value
+                    payoutSpeed: INSTANT
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateAccountResponse'
+              examples:
+                post-updateAccount202Example:
+                  summary: Default post-updateAccount 202 response
+                  x-microcks-default: true
+                  value:
+                    accountCode: CODE123
+                    bankAccountUUID: '500123'
+                    description: A sample description for this resource.
+                    invalidFields:
+                    - example_value
+                    metadata: {}
+                    payoutMethodCode: CODE123
+                    payoutSchedule: example_value
+                    payoutSpeed: INSTANT
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -1291,6 +2159,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-updateAccount401Example:
+                  summary: Default post-updateAccount 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -1306,19 +2184,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-updateAccount422Example:
+                  summary: Default post-updateAccount 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-updateAccount500Example:
+                  summary: Default post-updateAccount 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /updateAccountHolder:
     post:
       tags:
-        - Account
-        - Holders
-      summary: Adyen Update an account holder
+      - Account
+      - Holders
+      summary: Adyen Update an Account Holder
       description: >+
         Updates the `accountHolderDetails` and `processingTier` of an account
         holder, and adds bank accounts and shareholders.
@@ -1356,8 +2257,8 @@ paths:
       x-sortIndex: 3
       x-methodName: updateAccountHolder
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -1379,12 +2280,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateAccountHolderResponse'
+              examples:
+                post-updateAccountHolder200Example:
+                  summary: Default post-updateAccountHolder 200 response
+                  x-microcks-default: true
+                  value:
+                    accountHolderCode: CODE123
+                    accountHolderDetails: example_value
+                    accountHolderStatus: active
+                    description: A sample description for this resource.
+                    invalidFields:
+                    - example_value
+                    legalEntity: Business
+                    primaryCurrency: USD
+                    pspReference: REF-001
+                    resultCode: CODE123
+                    verification: example_value
+                    verificationProfile: example_value
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateAccountHolderResponse'
+              examples:
+                post-updateAccountHolder202Example:
+                  summary: Default post-updateAccountHolder 202 response
+                  x-microcks-default: true
+                  value:
+                    accountHolderCode: CODE123
+                    accountHolderDetails: example_value
+                    accountHolderStatus: active
+                    description: A sample description for this resource.
+                    invalidFields:
+                    - example_value
+                    legalEntity: Business
+                    primaryCurrency: USD
+                    pspReference: REF-001
+                    resultCode: CODE123
+                    verification: example_value
+                    verificationProfile: example_value
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -1402,6 +2337,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-updateAccountHolder401Example:
+                  summary: Default post-updateAccountHolder 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -1417,28 +2362,51 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-updateAccountHolder422Example:
+                  summary: Default post-updateAccountHolder 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-updateAccountHolder500Example:
+                  summary: Default post-updateAccountHolder 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /updateAccountHolderState:
     post:
       tags:
-        - Account
-        - Holders
-        - State
-      summary: Adyen Update payout or processing state
+      - Account
+      - Holders
+      - State
+      summary: Adyen Update Payout or Processing State
       description: Disables or enables the processing or payout state of an account holder.
       operationId: post-updateAccountHolderState
       x-groupName: Account holders
       x-sortIndex: 4
       x-methodName: updateAccountHolderState
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -1453,12 +2421,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetAccountHolderStatusResponse'
+              examples:
+                post-updateAccountHolderState200Example:
+                  summary: Default post-updateAccountHolderState 200 response
+                  x-microcks-default: true
+                  value:
+                    accountHolderCode: CODE123
+                    accountHolderStatus: active
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetAccountHolderStatusResponse'
+              examples:
+                post-updateAccountHolderState202Example:
+                  summary: Default post-updateAccountHolderState 202 response
+                  x-microcks-default: true
+                  value:
+                    accountHolderCode: CODE123
+                    accountHolderStatus: active
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -1476,6 +2466,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-updateAccountHolderState401Example:
+                  summary: Default post-updateAccountHolderState 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -1491,19 +2491,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-updateAccountHolderState422Example:
+                  summary: Default post-updateAccountHolderState 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-updateAccountHolderState500Example:
+                  summary: Default post-updateAccountHolderState 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /uploadDocument:
     post:
       tags:
-        - Documents
-        - Uploads
-      summary: Adyen Upload a document
+      - Documents
+      - Uploads
+      summary: Adyen Upload a Document
       description: >-
         Uploads a document for an account holder. Adyen uses the documents
         during the [verification
@@ -1513,8 +2536,8 @@ paths:
       x-sortIndex: 1
       x-methodName: uploadDocument
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -1529,12 +2552,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateAccountHolderResponse'
+              examples:
+                post-uploadDocument200Example:
+                  summary: Default post-uploadDocument 200 response
+                  x-microcks-default: true
+                  value:
+                    accountHolderCode: CODE123
+                    accountHolderDetails: example_value
+                    accountHolderStatus: active
+                    description: A sample description for this resource.
+                    invalidFields:
+                    - example_value
+                    legalEntity: Business
+                    primaryCurrency: USD
+                    pspReference: REF-001
+                    resultCode: CODE123
+                    verification: example_value
+                    verificationProfile: example_value
           description: OK - the request has succeeded.
         '202':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateAccountHolderResponse'
+              examples:
+                post-uploadDocument202Example:
+                  summary: Default post-uploadDocument 202 response
+                  x-microcks-default: true
+                  value:
+                    accountHolderCode: CODE123
+                    accountHolderDetails: example_value
+                    accountHolderStatus: active
+                    description: A sample description for this resource.
+                    invalidFields:
+                    - example_value
+                    legalEntity: Business
+                    primaryCurrency: USD
+                    pspReference: REF-001
+                    resultCode: CODE123
+                    verification: example_value
+                    verificationProfile: example_value
           description: >-
             Accepted - the request has been accepted for processing, but the
             processing has not been completed.
@@ -1552,6 +2609,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-uploadDocument401Example:
+                  summary: Default post-uploadDocument 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -1567,13 +2634,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-uploadDocument422Example:
+                  summary: Default post-uploadDocument 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unprocessable Entity - a request validation error.
         '500':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-uploadDocument500Example:
+                  summary: Default post-uploadDocument 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   schemas:
     Account:
@@ -1633,9 +2723,9 @@ components:
             Speed with which payouts for this account are processed. Permitted
             values: `STANDARD`, `SAME_DAY`.
           enum:
-            - INSTANT
-            - SAME_DAY
-            - STANDARD
+          - INSTANT
+          - SAME_DAY
+          - STANDARD
           type: string
         status:
           x-addedInVersion: '4'
@@ -1655,8 +2745,8 @@ components:
             For more information, refer to [Verification
             checks](https://docs.adyen.com/marketplaces-and-platforms/classic/verification-process).
           enum:
-            - InactivateAccount
-            - RefundNotPaidOutTransfers
+          - InactivateAccount
+          - RefundNotPaidOutTransfers
           type: string
         executionDate:
           description: The date on which the event will take place.
@@ -1773,7 +2863,7 @@ components:
           description: The URL of the website of the account holder.
           type: string
       required:
-        - address
+      - address
       type: object
     AccountHolderStatus:
       properties:
@@ -1793,16 +2883,16 @@ components:
             The status of the account holder.
             >Permitted values: `Active`, `Inactive`, `Suspended`, `Closed`.
           enum:
-            - Active
-            - Closed
-            - Inactive
-            - Suspended
+          - Active
+          - Closed
+          - Inactive
+          - Suspended
           type: string
         statusReason:
           description: The reason why the status was assigned to the account holder.
           type: string
       required:
-        - status
+      - status
       type: object
     AccountPayoutState:
       properties:
@@ -1891,8 +2981,8 @@ components:
           format: int64
           type: integer
       required:
-        - value
-        - currency
+      - value
+      - currency
       type: object
     BankAccountDetail:
       properties:
@@ -2200,7 +3290,7 @@ components:
           description: The code of the Account Holder to be closed.
           type: string
       required:
-        - accountHolderCode
+      - accountHolderCode
       type: object
     CloseAccountHolderResponse:
       properties:
@@ -2230,7 +3320,7 @@ components:
           description: The code of account to be closed.
           type: string
       required:
-        - accountCode
+      - accountCode
       type: object
     CloseAccountResponse:
       properties:
@@ -2260,10 +3350,10 @@ components:
             The new status of the account.
             >Permitted values: `Active`, `Inactive`, `Suspended`, `Closed`.
           enum:
-            - Active
-            - Closed
-            - Inactive
-            - Suspended
+          - Active
+          - Closed
+          - Inactive
+          - Suspended
           type: string
       type: object
     CloseStoresRequest:
@@ -2277,8 +3367,8 @@ components:
             type: string
           type: array
       required:
-        - accountHolderCode
-        - stores
+      - accountHolderCode
+      - stores
       type: object
     CreateAccountHolderRequest:
       properties:
@@ -2324,11 +3414,11 @@ components:
             * If set to **Individual**, then
             `accountHolderDetails.individualDetails` must be provided.
           enum:
-            - Business
-            - Individual
-            - NonProfit
-            - Partnership
-            - PublicCompany
+          - Business
+          - Individual
+          - NonProfit
+          - Partnership
+          - PublicCompany
           type: string
         primaryCurrency:
           x-addedInVersion: '4'
@@ -2351,9 +3441,9 @@ components:
           description: The identifier of the profile that applies to this entity.
           type: string
       required:
-        - accountHolderCode
-        - legalEntity
-        - accountHolderDetails
+      - accountHolderCode
+      - legalEntity
+      - accountHolderDetails
       type: object
     CreateAccountHolderResponse:
       properties:
@@ -2386,11 +3476,11 @@ components:
           x-addedInVersion: '4'
           description: The type of legal entity of the new account holder.
           enum:
-            - Business
-            - Individual
-            - NonProfit
-            - Partnership
-            - PublicCompany
+          - Business
+          - Individual
+          - NonProfit
+          - Partnership
+          - PublicCompany
           type: string
         primaryCurrency:
           x-addedInVersion: '5'
@@ -2464,21 +3554,21 @@ components:
             The payout schedule of the prospective account.
             >Permitted values: `DEFAULT`, `HOLD`, `DAILY`, `WEEKLY`, `MONTHLY`.
           enum:
-            - BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT
-            - DAILY
-            - DAILY_AU
-            - DAILY_EU
-            - DAILY_SG
-            - DAILY_US
-            - HOLD
-            - MONTHLY
-            - WEEKLY
-            - WEEKLY_MON_TO_FRI_AU
-            - WEEKLY_MON_TO_FRI_EU
-            - WEEKLY_MON_TO_FRI_US
-            - WEEKLY_ON_TUE_FRI_MIDNIGHT
-            - WEEKLY_SUN_TO_THU_AU
-            - WEEKLY_SUN_TO_THU_US
+          - BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT
+          - DAILY
+          - DAILY_AU
+          - DAILY_EU
+          - DAILY_SG
+          - DAILY_US
+          - HOLD
+          - MONTHLY
+          - WEEKLY
+          - WEEKLY_MON_TO_FRI_AU
+          - WEEKLY_MON_TO_FRI_EU
+          - WEEKLY_MON_TO_FRI_US
+          - WEEKLY_ON_TUE_FRI_MIDNIGHT
+          - WEEKLY_SUN_TO_THU_AU
+          - WEEKLY_SUN_TO_THU_US
           type: string
         payoutScheduleReason:
           description: |-
@@ -2492,12 +3582,12 @@ components:
             Speed with which payouts for this account are processed. Permitted
             values: `STANDARD`, `SAME_DAY`.
           enum:
-            - INSTANT
-            - SAME_DAY
-            - STANDARD
+          - INSTANT
+          - SAME_DAY
+          - STANDARD
           type: string
       required:
-        - accountHolderCode
+      - accountHolderCode
       type: object
     CreateAccountResponse:
       properties:
@@ -2548,9 +3638,9 @@ components:
             Speed with which payouts for this account are processed. Permitted
             values: `STANDARD`, `SAME_DAY`.
           enum:
-            - INSTANT
-            - SAME_DAY
-            - STANDARD
+          - INSTANT
+          - SAME_DAY
+          - STANDARD
           type: string
         pspReference:
           description: >-
@@ -2566,10 +3656,10 @@ components:
             The status of the account.
             >Permitted values: `Active`.
           enum:
-            - Active
-            - Closed
-            - Inactive
-            - Suspended
+          - Active
+          - Closed
+          - Inactive
+          - Suspended
           type: string
       type: object
     DeleteBankAccountRequest:
@@ -2585,8 +3675,8 @@ components:
             type: string
           type: array
       required:
-        - accountHolderCode
-        - bankAccountUUIDs
+      - accountHolderCode
+      - bankAccountUUIDs
       type: object
     DeleteLegalArrangementRequest:
       properties:
@@ -2599,8 +3689,8 @@ components:
             $ref: '#/components/schemas/LegalArrangementRequest'
           type: array
       required:
-        - accountHolderCode
-        - legalArrangements
+      - accountHolderCode
+      - legalArrangements
       type: object
     DeletePayoutMethodRequest:
       properties:
@@ -2615,8 +3705,8 @@ components:
             type: string
           type: array
       required:
-        - accountHolderCode
-        - payoutMethodCodes
+      - accountHolderCode
+      - payoutMethodCodes
       type: object
     DeleteShareholderRequest:
       properties:
@@ -2631,8 +3721,8 @@ components:
             type: string
           type: array
       required:
-        - accountHolderCode
-        - shareholderCodes
+      - accountHolderCode
+      - shareholderCodes
       type: object
     DeleteSignatoriesRequest:
       properties:
@@ -2645,8 +3735,8 @@ components:
             type: string
           type: array
       required:
-        - accountHolderCode
-        - signatoryCodes
+      - accountHolderCode
+      - signatoryCodes
       type: object
     DocumentDetail:
       properties:
@@ -2709,20 +3799,20 @@ components:
             **DRIVING_LICENCE_FRONT** and **DRIVING_LICENCE_FRONT** must be
             submitted.
           enum:
-            - BANK_STATEMENT
-            - BSN
-            - COMPANY_REGISTRATION_SCREENING
-            - CONSTITUTIONAL_DOCUMENT
-            - DRIVING_LICENCE
-            - DRIVING_LICENCE_BACK
-            - DRIVING_LICENCE_FRONT
-            - ID_CARD
-            - ID_CARD_BACK
-            - ID_CARD_FRONT
-            - PASSPORT
-            - PROOF_OF_RESIDENCY
-            - SSN
-            - SUPPORTING_DOCUMENTS
+          - BANK_STATEMENT
+          - BSN
+          - COMPANY_REGISTRATION_SCREENING
+          - CONSTITUTIONAL_DOCUMENT
+          - DRIVING_LICENCE
+          - DRIVING_LICENCE_BACK
+          - DRIVING_LICENCE_FRONT
+          - ID_CARD
+          - ID_CARD_BACK
+          - ID_CARD_FRONT
+          - PASSPORT
+          - PROOF_OF_RESIDENCY
+          - SSN
+          - SUPPORTING_DOCUMENTS
           type: string
         filename:
           description: Filename of the document.
@@ -2738,7 +3828,8 @@ components:
           x-addedInVersion: '6'
           description: >-
             The Adyen-generated
-            [`legalArrangementEntityCode`](https://docs.adyen.com/api-explorer/#/Account/v6/post/createAccountHolder__resParam_accountHolderDetails-legalArrangements-legalArrangementEntities-legalArrangementEntityCode)  to which the document must be linked.
+            [`legalArrangementEntityCode`](https://docs.adyen.com/api-explorer/#/Account/v6/post/createAccountHolder__resParam_accountHolderDetails-legalArrangements-legalArrangementEntities-legalArrangementEntityCode)  to
+            which the document must be linked.
           type: string
         shareholderCode:
           x-addedInVersion: '2'
@@ -2761,7 +3852,7 @@ components:
             to which the document must be linked.
           type: string
       required:
-        - documentType
+      - documentType
       type: object
     ErrorFieldType:
       properties:
@@ -2784,168 +3875,168 @@ components:
         fieldName:
           description: The type of the field.
           enum:
-            - accountCode
-            - accountHolderCode
-            - accountHolderDetails
-            - accountNumber
-            - accountStateType
-            - accountStatus
-            - accountType
-            - address
-            - balanceAccount
-            - balanceAccountActive
-            - balanceAccountCode
-            - balanceAccountId
-            - bankAccount
-            - bankAccountCode
-            - bankAccountName
-            - bankAccountUUID
-            - bankBicSwift
-            - bankCity
-            - bankCode
-            - bankName
-            - bankStatement
-            - branchCode
-            - businessContact
-            - cardToken
-            - checkCode
-            - city
-            - companyRegistration
-            - constitutionalDocument
-            - controller
-            - country
-            - countryCode
-            - currency
-            - currencyCode
-            - dateOfBirth
-            - description
-            - destinationAccountCode
-            - document
-            - documentContent
-            - documentExpirationDate
-            - documentIssuerCountry
-            - documentIssuerState
-            - documentName
-            - documentNumber
-            - documentType
-            - doingBusinessAs
-            - drivingLicence
-            - drivingLicenceBack
-            - drivingLicenceFront
-            - drivingLicense
-            - email
-            - firstName
-            - formType
-            - fullPhoneNumber
-            - gender
-            - hopWebserviceUser
-            - houseNumberOrName
-            - iban
-            - idCard
-            - idCardBack
-            - idCardFront
-            - idNumber
-            - identityDocument
-            - individualDetails
-            - infix
-            - jobTitle
-            - lastName
-            - lastReviewDate
-            - legalArrangement
-            - legalArrangementCode
-            - legalArrangementEntity
-            - legalArrangementEntityCode
-            - legalArrangementLegalForm
-            - legalArrangementMember
-            - legalArrangementMembers
-            - legalArrangementName
-            - legalArrangementReference
-            - legalArrangementRegistrationNumber
-            - legalArrangementTaxNumber
-            - legalArrangementType
-            - legalBusinessName
-            - legalEntity
-            - legalEntityType
-            - logo
-            - merchantAccount
-            - merchantCategoryCode
-            - merchantHouseNumber
-            - merchantReference
-            - microDeposit
-            - name
-            - nationality
-            - originalReference
-            - ownerCity
-            - ownerCountryCode
-            - ownerDateOfBirth
-            - ownerHouseNumberOrName
-            - ownerName
-            - ownerPostalCode
-            - ownerState
-            - ownerStreet
-            - passport
-            - passportNumber
-            - payoutMethod
-            - payoutMethodCode
-            - payoutSchedule
-            - pciSelfAssessment
-            - personalData
-            - phoneCountryCode
-            - phoneNumber
-            - postalCode
-            - primaryCurrency
-            - reason
-            - registrationNumber
-            - returnUrl
-            - schedule
-            - shareholder
-            - shareholderCode
-            - shareholderCodeAndSignatoryCode
-            - shareholderCodeOrSignatoryCode
-            - shareholderType
-            - shareholderTypes
-            - shopperInteraction
-            - signatory
-            - signatoryCode
-            - socialSecurityNumber
-            - sourceAccountCode
-            - splitAccount
-            - splitConfigurationUUID
-            - splitCurrency
-            - splitValue
-            - splits
-            - stateOrProvince
-            - status
-            - stockExchange
-            - stockNumber
-            - stockTicker
-            - store
-            - storeDetail
-            - storeName
-            - storeReference
-            - street
-            - taxId
-            - tier
-            - tierNumber
-            - transferCode
-            - ultimateParentCompany
-            - ultimateParentCompanyAddressDetails
-            - ultimateParentCompanyAddressDetailsCountry
-            - ultimateParentCompanyBusinessDetails
-            - ultimateParentCompanyBusinessDetailsLegalBusinessName
-            - ultimateParentCompanyBusinessDetailsRegistrationNumber
-            - ultimateParentCompanyCode
-            - ultimateParentCompanyStockExchange
-            - ultimateParentCompanyStockNumber
-            - ultimateParentCompanyStockNumberOrStockTicker
-            - ultimateParentCompanyStockTicker
-            - unknown
-            - value
-            - verificationType
-            - virtualAccount
-            - visaNumber
-            - webAddress
-            - year
+          - accountCode
+          - accountHolderCode
+          - accountHolderDetails
+          - accountNumber
+          - accountStateType
+          - accountStatus
+          - accountType
+          - address
+          - balanceAccount
+          - balanceAccountActive
+          - balanceAccountCode
+          - balanceAccountId
+          - bankAccount
+          - bankAccountCode
+          - bankAccountName
+          - bankAccountUUID
+          - bankBicSwift
+          - bankCity
+          - bankCode
+          - bankName
+          - bankStatement
+          - branchCode
+          - businessContact
+          - cardToken
+          - checkCode
+          - city
+          - companyRegistration
+          - constitutionalDocument
+          - controller
+          - country
+          - countryCode
+          - currency
+          - currencyCode
+          - dateOfBirth
+          - description
+          - destinationAccountCode
+          - document
+          - documentContent
+          - documentExpirationDate
+          - documentIssuerCountry
+          - documentIssuerState
+          - documentName
+          - documentNumber
+          - documentType
+          - doingBusinessAs
+          - drivingLicence
+          - drivingLicenceBack
+          - drivingLicenceFront
+          - drivingLicense
+          - email
+          - firstName
+          - formType
+          - fullPhoneNumber
+          - gender
+          - hopWebserviceUser
+          - houseNumberOrName
+          - iban
+          - idCard
+          - idCardBack
+          - idCardFront
+          - idNumber
+          - identityDocument
+          - individualDetails
+          - infix
+          - jobTitle
+          - lastName
+          - lastReviewDate
+          - legalArrangement
+          - legalArrangementCode
+          - legalArrangementEntity
+          - legalArrangementEntityCode
+          - legalArrangementLegalForm
+          - legalArrangementMember
+          - legalArrangementMembers
+          - legalArrangementName
+          - legalArrangementReference
+          - legalArrangementRegistrationNumber
+          - legalArrangementTaxNumber
+          - legalArrangementType
+          - legalBusinessName
+          - legalEntity
+          - legalEntityType
+          - logo
+          - merchantAccount
+          - merchantCategoryCode
+          - merchantHouseNumber
+          - merchantReference
+          - microDeposit
+          - name
+          - nationality
+          - originalReference
+          - ownerCity
+          - ownerCountryCode
+          - ownerDateOfBirth
+          - ownerHouseNumberOrName
+          - ownerName
+          - ownerPostalCode
+          - ownerState
+          - ownerStreet
+          - passport
+          - passportNumber
+          - payoutMethod
+          - payoutMethodCode
+          - payoutSchedule
+          - pciSelfAssessment
+          - personalData
+          - phoneCountryCode
+          - phoneNumber
+          - postalCode
+          - primaryCurrency
+          - reason
+          - registrationNumber
+          - returnUrl
+          - schedule
+          - shareholder
+          - shareholderCode
+          - shareholderCodeAndSignatoryCode
+          - shareholderCodeOrSignatoryCode
+          - shareholderType
+          - shareholderTypes
+          - shopperInteraction
+          - signatory
+          - signatoryCode
+          - socialSecurityNumber
+          - sourceAccountCode
+          - splitAccount
+          - splitConfigurationUUID
+          - splitCurrency
+          - splitValue
+          - splits
+          - stateOrProvince
+          - status
+          - stockExchange
+          - stockNumber
+          - stockTicker
+          - store
+          - storeDetail
+          - storeName
+          - storeReference
+          - street
+          - taxId
+          - tier
+          - tierNumber
+          - transferCode
+          - ultimateParentCompany
+          - ultimateParentCompanyAddressDetails
+          - ultimateParentCompanyAddressDetailsCountry
+          - ultimateParentCompanyBusinessDetails
+          - ultimateParentCompanyBusinessDetailsLegalBusinessName
+          - ultimateParentCompanyBusinessDetailsRegistrationNumber
+          - ultimateParentCompanyCode
+          - ultimateParentCompanyStockExchange
+          - ultimateParentCompanyStockNumber
+          - ultimateParentCompanyStockNumberOrStockTicker
+          - ultimateParentCompanyStockTicker
+          - unknown
+          - value
+          - verificationType
+          - virtualAccount
+          - visaNumber
+          - webAddress
+          - year
           type: string
         shareholderCode:
           description: >-
@@ -3021,11 +4112,11 @@ components:
         legalEntity:
           description: The legal entity of the account holder.
           enum:
-            - Business
-            - Individual
-            - NonProfit
-            - Partnership
-            - PublicCompany
+          - Business
+          - Individual
+          - NonProfit
+          - Partnership
+          - PublicCompany
           type: string
         migrationData:
           x-addedInVersion: '5'
@@ -3103,9 +4194,9 @@ components:
           format: int32
           type: integer
       required:
-        - accountHolderCode
-        - formType
-        - year
+      - accountHolderCode
+      - formType
+      - year
       type: object
     GetTaxFormResponse:
       properties:
@@ -3146,7 +4237,7 @@ components:
           description: The code of the Shareholder for which to retrieve the documents.
           type: string
       required:
-        - accountHolderCode
+      - accountHolderCode
       type: object
     GetUploadedDocumentsResponse:
       properties:
@@ -3208,15 +4299,15 @@ components:
             Possible values: **AWAITING_DATA** , **DATA_PROVIDED**, **FAILED**,
             **INVALID_DATA**, **PASSED**, **PENDING**, **RETRY_LIMIT_REACHED**.
           enum:
-            - AWAITING_DATA
-            - DATA_PROVIDED
-            - FAILED
-            - INVALID_DATA
-            - PASSED
-            - PENDING
-            - PENDING_REVIEW
-            - RETRY_LIMIT_REACHED
-            - UNCHECKED
+          - AWAITING_DATA
+          - DATA_PROVIDED
+          - FAILED
+          - INVALID_DATA
+          - PASSED
+          - PENDING
+          - PENDING_REVIEW
+          - RETRY_LIMIT_REACHED
+          - UNCHECKED
           type: string
         summary:
           description: A summary of the execution of the check.
@@ -3245,19 +4336,19 @@ components:
 
             * **PCI_VERIFICATION**
           enum:
-            - BANK_ACCOUNT_VERIFICATION
-            - CARD_VERIFICATION
-            - COMPANY_VERIFICATION
-            - IDENTITY_VERIFICATION
-            - LEGAL_ARRANGEMENT_VERIFICATION
-            - NONPROFIT_VERIFICATION
-            - PASSPORT_VERIFICATION
-            - PAYOUT_METHOD_VERIFICATION
-            - PCI_VERIFICATION
+          - BANK_ACCOUNT_VERIFICATION
+          - CARD_VERIFICATION
+          - COMPANY_VERIFICATION
+          - IDENTITY_VERIFICATION
+          - LEGAL_ARRANGEMENT_VERIFICATION
+          - NONPROFIT_VERIFICATION
+          - PASSPORT_VERIFICATION
+          - PAYOUT_METHOD_VERIFICATION
+          - PCI_VERIFICATION
           type: string
       required:
-        - type
-        - status
+      - type
+      - status
       type: object
     KYCCheckSummary:
       properties:
@@ -3445,24 +4536,24 @@ components:
             - For `type` **Partnership**: **LimitedPartnership**,
             **FamilyPartnership**, or **OtherPartnership**
           enum:
-            - CashManagementTrust
-            - CorporateUnitTrust
-            - DeceasedEstate
-            - DiscretionaryInvestmentTrust
-            - DiscretionaryServicesManagementTrust
-            - DiscretionaryTradingTrust
-            - FirstHomeSaverAccountsTrust
-            - FixedTrust
-            - FixedUnitTrust
-            - HybridTrust
-            - ListedPublicUnitTrust
-            - OtherTrust
-            - PooledSuperannuationTrust
-            - PublicTradingTrust
-            - UnlistedPublicUnitTrust
-            - LimitedPartnership
-            - FamilyPartnership
-            - OtherPartnership
+          - CashManagementTrust
+          - CorporateUnitTrust
+          - DeceasedEstate
+          - DiscretionaryInvestmentTrust
+          - DiscretionaryServicesManagementTrust
+          - DiscretionaryTradingTrust
+          - FirstHomeSaverAccountsTrust
+          - FixedTrust
+          - FixedUnitTrust
+          - HybridTrust
+          - ListedPublicUnitTrust
+          - OtherTrust
+          - PooledSuperannuationTrust
+          - PublicTradingTrust
+          - UnlistedPublicUnitTrust
+          - LimitedPartnership
+          - FamilyPartnership
+          - OtherPartnership
           type: string
         name:
           description: >-
@@ -3496,15 +4587,15 @@ components:
             - **Trust** 
 
           enum:
-            - Association
-            - Partnership
-            - SoleProprietorship
-            - Trust
+          - Association
+          - Partnership
+          - SoleProprietorship
+          - Trust
           type: string
       required:
-        - type
-        - name
-        - address
+      - type
+      - name
+      - address
       type: object
     LegalArrangementEntityDetail:
       properties:
@@ -3564,13 +4655,13 @@ components:
 
           items:
             enum:
-              - Beneficiary
-              - ControllingPerson
-              - Partner
-              - Protector
-              - Settlor
-              - Shareholder
-              - Trustee
+            - Beneficiary
+            - ControllingPerson
+            - Partner
+            - Protector
+            - Settlor
+            - Shareholder
+            - Trustee
             type: string
           type: array
         legalEntityType:
@@ -3581,11 +4672,11 @@ components:
             Possible values: **Business**, **Individual**, **NonProfit**,
             **PublicCompany**, or **Partnership**. 
           enum:
-            - Business
-            - Individual
-            - NonProfit
-            - Partnership
-            - PublicCompany
+          - Business
+          - Individual
+          - NonProfit
+          - Partnership
+          - PublicCompany
           type: string
         phoneNumber:
           description: The phone number of the entity.
@@ -3608,7 +4699,7 @@ components:
             type: string
           type: array
       required:
-        - legalArrangementCode
+      - legalArrangementCode
       type: object
     MigratedAccounts:
       properties:
@@ -3723,7 +4814,8 @@ components:
         recurringDetailReference:
           description: >-
             The
-            [`recurringDetailReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_additionalData-ResponseAdditionalDataCommon-recurring-recurringDetailReference)  returned in the `/payments` response when you [saved the account
+            [`recurringDetailReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_additionalData-ResponseAdditionalDataCommon-recurring-recurringDetailReference)  returned
+            in the `/payments` response when you [saved the account
             holder's card
             details](https://docs.adyen.com/marketplaces-and-platforms/classic/payouts/manual-payout/payout-to-cards#check-and-store).
           type: string
@@ -3736,9 +4828,9 @@ components:
             details](https://docs.adyen.com/marketplaces-and-platforms/classic/payouts/manual-payout/payout-to-cards#check-and-store).
           type: string
       required:
-        - merchantAccount
-        - shopperReference
-        - recurringDetailReference
+      - merchantAccount
+      - shopperReference
+      - recurringDetailReference
       type: object
     PayoutScheduleResponse:
       properties:
@@ -3754,21 +4846,21 @@ components:
             `DAILY_AU`, `DAILY_SG`, `WEEKLY`, `WEEKLY_ON_TUE_FRI_MIDNIGHT`,
             `BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT`, `MONTHLY`, `HOLD`.
           enum:
-            - BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT
-            - DAILY
-            - DAILY_AU
-            - DAILY_EU
-            - DAILY_SG
-            - DAILY_US
-            - HOLD
-            - MONTHLY
-            - WEEKLY
-            - WEEKLY_MON_TO_FRI_AU
-            - WEEKLY_MON_TO_FRI_EU
-            - WEEKLY_MON_TO_FRI_US
-            - WEEKLY_ON_TUE_FRI_MIDNIGHT
-            - WEEKLY_SUN_TO_THU_AU
-            - WEEKLY_SUN_TO_THU_US
+          - BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT
+          - DAILY
+          - DAILY_AU
+          - DAILY_EU
+          - DAILY_SG
+          - DAILY_US
+          - HOLD
+          - MONTHLY
+          - WEEKLY
+          - WEEKLY_MON_TO_FRI_AU
+          - WEEKLY_MON_TO_FRI_EU
+          - WEEKLY_MON_TO_FRI_US
+          - WEEKLY_ON_TUE_FRI_MIDNIGHT
+          - WEEKLY_SUN_TO_THU_AU
+          - WEEKLY_SUN_TO_THU_US
           type: string
       type: object
     PerformVerificationRequest:
@@ -3781,21 +4873,21 @@ components:
             The state required for the account holder.
             > Permitted values: `Processing`, `Payout`.
           enum:
-            - LimitedPayout
-            - LimitedProcessing
-            - LimitlessPayout
-            - LimitlessProcessing
-            - Payout
-            - Processing
+          - LimitedPayout
+          - LimitedProcessing
+          - LimitlessPayout
+          - LimitlessProcessing
+          - Payout
+          - Processing
           type: string
         tier:
           description: The tier required for the account holder.
           format: int32
           type: integer
       required:
-        - accountHolderCode
-        - accountStateType
-        - tier
+      - accountHolderCode
+      - accountStateType
+      - tier
       type: object
     PersonalDocumentData:
       properties:
@@ -3829,14 +4921,14 @@ components:
             To delete an existing entry for a document `type`, send only the
             `type` field in your request. 
           enum:
-            - DRIVINGLICENSE
-            - ID
-            - PASSPORT
-            - SOCIALSECURITY
-            - VISA
+          - DRIVINGLICENSE
+          - ID
+          - PASSPORT
+          - SOCIALSECURITY
+          - VISA
           type: string
       required:
-        - type
+      - type
       type: object
     ServiceError:
       properties:
@@ -3933,9 +5025,9 @@ components:
             * **Controller**: Individuals who are members of senior management
             staff responsible for managing a company or organization.
           enum:
-            - Controller
-            - Owner
-            - Signatory
+          - Controller
+          - Owner
+          - Signatory
           type: string
         webAddress:
           description: The URL of the person's website.
@@ -4043,8 +5135,8 @@ components:
           x-addedInVersion: '5'
           description: 'The sales channel. Possible values: **Ecommerce**, **POS**.'
           enum:
-            - Ecommerce
-            - POS
+          - Ecommerce
+          - POS
           type: string
         splitConfigurationUUID:
           x-addedInVersion: '5'
@@ -4060,11 +5152,11 @@ components:
             The status of the store. Possible values: **Pending**, **Active**,
             **Inactive**, **InactiveWithModifications**, **Closed**.
           enum:
-            - Active
-            - Closed
-            - Inactive
-            - InactiveWithModifications
-            - Pending
+          - Active
+          - Closed
+          - Inactive
+          - InactiveWithModifications
+          - Pending
           type: string
         store:
           description: >-
@@ -4105,9 +5197,9 @@ components:
           description: URL of the ecommerce store.
           type: string
       required:
-        - merchantCategoryCode
-        - address
-        - merchantAccount
+      - merchantCategoryCode
+      - address
+      - merchantAccount
       type: object
     SuspendAccountHolderRequest:
       properties:
@@ -4115,7 +5207,7 @@ components:
           description: The code of the account holder to be suspended.
           type: string
       required:
-        - accountHolderCode
+      - accountHolderCode
       type: object
     SuspendAccountHolderResponse:
       properties:
@@ -4179,7 +5271,7 @@ components:
           description: The code of the account holder to be reinstated.
           type: string
       required:
-        - accountHolderCode
+      - accountHolderCode
       type: object
     UnSuspendAccountHolderResponse:
       properties:
@@ -4240,11 +5332,11 @@ components:
             * If set to **Individual**, then
             `accountHolderDetails.individualDetails` must be provided.
           enum:
-            - Business
-            - Individual
-            - NonProfit
-            - Partnership
-            - PublicCompany
+          - Business
+          - Individual
+          - NonProfit
+          - Partnership
+          - PublicCompany
           type: string
         primaryCurrency:
           x-addedInVersion: '4'
@@ -4268,7 +5360,7 @@ components:
           description: The identifier of the profile that applies to this entity.
           type: string
       required:
-        - accountHolderCode
+      - accountHolderCode
       type: object
     UpdateAccountHolderResponse:
       properties:
@@ -4298,11 +5390,11 @@ components:
           x-addedInVersion: '4'
           description: The legal entity of the account holder.
           enum:
-            - Business
-            - Individual
-            - NonProfit
-            - Partnership
-            - PublicCompany
+          - Business
+          - Individual
+          - NonProfit
+          - Partnership
+          - PublicCompany
           type: string
         primaryCurrency:
           x-addedInVersion: '5'
@@ -4349,17 +5441,17 @@ components:
             The state to be updated.
             >Permitted values are: `Processing`, `Payout`
           enum:
-            - LimitedPayout
-            - LimitedProcessing
-            - LimitlessPayout
-            - LimitlessProcessing
-            - Payout
-            - Processing
+          - LimitedPayout
+          - LimitedProcessing
+          - LimitlessPayout
+          - LimitlessProcessing
+          - Payout
+          - Processing
           type: string
       required:
-        - accountHolderCode
-        - stateType
-        - disable
+      - accountHolderCode
+      - stateType
+      - disable
       type: object
     UpdateAccountRequest:
       properties:
@@ -4414,12 +5506,12 @@ components:
             Speed with which payouts for this account are processed. Permitted
             values: `STANDARD`, `SAME_DAY`.
           enum:
-            - INSTANT
-            - SAME_DAY
-            - STANDARD
+          - INSTANT
+          - SAME_DAY
+          - STANDARD
           type: string
       required:
-        - accountCode
+      - accountCode
       type: object
     UpdateAccountResponse:
       properties:
@@ -4467,9 +5559,9 @@ components:
             Speed with which payouts for this account are processed. Permitted
             values: `STANDARD`, `SAME_DAY`.
           enum:
-            - INSTANT
-            - SAME_DAY
-            - STANDARD
+          - INSTANT
+          - SAME_DAY
+          - STANDARD
           type: string
         pspReference:
           description: >-
@@ -4480,7 +5572,7 @@ components:
           description: The result code.
           type: string
       required:
-        - accountCode
+      - accountCode
       type: object
     UpdatePayoutScheduleRequest:
       properties:
@@ -4497,9 +5589,9 @@ components:
 
             * `NOTHING` (**default**) will allow the payout to proceed.
           enum:
-            - CLOSE
-            - NOTHING
-            - UPDATE
+          - CLOSE
+          - NOTHING
+          - UPDATE
           type: string
         reason:
           description: >-
@@ -4519,24 +5611,24 @@ components:
             `HOLD` will prevent scheduled payouts from happening but will still
             allow manual payouts to occur.
           enum:
-            - BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT
-            - DAILY
-            - DAILY_AU
-            - DAILY_EU
-            - DAILY_SG
-            - DAILY_US
-            - HOLD
-            - MONTHLY
-            - WEEKLY
-            - WEEKLY_MON_TO_FRI_AU
-            - WEEKLY_MON_TO_FRI_EU
-            - WEEKLY_MON_TO_FRI_US
-            - WEEKLY_ON_TUE_FRI_MIDNIGHT
-            - WEEKLY_SUN_TO_THU_AU
-            - WEEKLY_SUN_TO_THU_US
+          - BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT
+          - DAILY
+          - DAILY_AU
+          - DAILY_EU
+          - DAILY_SG
+          - DAILY_US
+          - HOLD
+          - MONTHLY
+          - WEEKLY
+          - WEEKLY_MON_TO_FRI_AU
+          - WEEKLY_MON_TO_FRI_EU
+          - WEEKLY_MON_TO_FRI_US
+          - WEEKLY_ON_TUE_FRI_MIDNIGHT
+          - WEEKLY_SUN_TO_THU_AU
+          - WEEKLY_SUN_TO_THU_US
           type: string
       required:
-        - schedule
+      - schedule
       type: object
     UploadDocumentRequest:
       properties:
@@ -4553,8 +5645,8 @@ components:
           description: Details of the document being submitted.
           $ref: '#/components/schemas/DocumentDetail'
       required:
-        - documentDetail
-        - documentContent
+      - documentDetail
+      - documentContent
       type: object
     ViasAddress:
       properties:
@@ -4606,7 +5698,7 @@ components:
             `postalCode`, or `stateOrProvince` are provided.
           type: string
       required:
-        - country
+      - country
       type: object
     ViasName:
       properties:
@@ -4619,9 +5711,9 @@ components:
             The gender.
             >The following values are permitted: `MALE`, `FEMALE`, `UNKNOWN`.
           enum:
-            - MALE
-            - FEMALE
-            - UNKNOWN
+          - MALE
+          - FEMALE
+          - UNKNOWN
           maxLength: 1
           type: string
         infix:
@@ -4681,10 +5773,10 @@ components:
             >The following values are permitted: `Landline`, `Mobile`, `SIP`,
             `Fax`.
           enum:
-            - Fax
-            - Landline
-            - Mobile
-            - SIP
+          - Fax
+          - Landline
+          - Mobile
+          - SIP
           type: string
       type: object
   securitySchemes:
@@ -4739,12 +5831,12 @@ components:
             doingBusinessAs: Real Good Restaurant
             legalBusinessName: Real Good Restaurant Inc.
             shareholders:
-              - name:
-                  firstName: John
-                  lastName: Carpenter
-                address:
-                  country: NL
-                email: testshareholder@email.com
+            - name:
+                firstName: John
+                lastName: Carpenter
+              address:
+                country: NL
+              email: testshareholder@email.com
           email: test@email.com
           webAddress: https://www.your-website.com
         legalEntity: Business
@@ -4767,14 +5859,14 @@ components:
       value:
         accountHolderCode: CODE_OF_ACCOUNT_HOLDER
         bankAccountUUIDs:
-          - eeb6ed22-3bae-483c-83b9-bc2097a75d40
+        - eeb6ed22-3bae-483c-83b9-bc2097a75d40
     post-deleteLegalArrangements-arrangements:
       summary: Delete legal arrangements
       description: Example request for deleting legal arrangements
       value:
         accountHolderCode: CODE_OF_ACCOUNT_HOLDER
         legalArrangements:
-          - legalArrangementCode: cdf92f5a-a114-4ce6-8f19-c3f6ec83141c
+        - legalArrangementCode: cdf92f5a-a114-4ce6-8f19-c3f6ec83141c
     post-deleteLegalArrangements-arrangements-200:
       summary: Legal arrangement deleted
       value:
@@ -4784,13 +5876,13 @@ components:
       summary: Response code 400. Bad Request.
       value:
         invalidFields:
-          - errorCode: 34
-            errorDescription: >-
-              An invalid legalArrangementCode code is provided for value
-              'cdf92f5a-a114-4ce6-8f19-c3f6ec83141c'
-            fieldType:
-              field: AccountHolderDetails.LegalArrangements.legalArrangementCode
-              fieldName: legalArrangementCode
+        - errorCode: 34
+          errorDescription: >-
+            An invalid legalArrangementCode code is provided for value
+            'cdf92f5a-a114-4ce6-8f19-c3f6ec83141c'
+          fieldType:
+            field: AccountHolderDetails.LegalArrangements.legalArrangementCode
+            fieldName: legalArrangementCode
         pspReference: '9916613322577326'
     post-deleteLegalArrangements-entities:
       summary: Delete legal arrangement entities
@@ -4798,9 +5890,9 @@ components:
       value:
         accountHolderCode: CODE_OF_ACCOUNT_HOLDER
         legalArrangements:
-          - legalArrangementCode: cdf92f5a-a114-4ce6-8f19-c3f6ec83141c
-            legalArrangementEntityCodes:
-              - 755881d3-d6b0-4b34-8ace-1caceb8add63
+        - legalArrangementCode: cdf92f5a-a114-4ce6-8f19-c3f6ec83141c
+          legalArrangementEntityCodes:
+          - 755881d3-d6b0-4b34-8ace-1caceb8add63
     post-deleteLegalArrangements-entities-200:
       summary: Legal arrangement entities deleted
       value:
@@ -4810,27 +5902,27 @@ components:
       summary: Response code 400. Bad Request.
       value:
         invalidFields:
-          - errorCode: 34
-            errorDescription: >-
-              An invalid legalArrangementEntityCode code is provided for value
-              'c92bb932-4867-4cef-bf9d-4ecde37745cf'
-            fieldType:
-              field: >-
-                AccountHolderDetails.LegalArrangements.LegalArrangementsEntities.legalArrangementEntityCode
-              fieldName: legalArrangementEntityCode
+        - errorCode: 34
+          errorDescription: >-
+            An invalid legalArrangementEntityCode code is provided for value
+            'c92bb932-4867-4cef-bf9d-4ecde37745cf'
+          fieldType:
+            field: >-
+              AccountHolderDetails.LegalArrangements.LegalArrangementsEntities.legalArrangementEntityCode
+            fieldName: legalArrangementEntityCode
         pspReference: '9916613324987358'
     post-deletePayoutMethods-basic:
       summary: Delete a payout method
       value:
         accountHolderCode: CODE_OF_ACCOUNT_HOLDER
         payoutMethodCodes:
-          - 34b6ed22-3bae-483c-83b9-bc2097a75d40
+        - 34b6ed22-3bae-483c-83b9-bc2097a75d40
     post-deleteShareholders-basic:
       summary: Delete shareholders
       value:
         accountHolderCode: CODE_OF_ACCOUNT_HOLDER
         shareholderCodes:
-          - 9188218c-576e-4cbe-8e86-72722f453920
+        - 9188218c-576e-4cbe-8e86-72722f453920
     post-getAccountHolder-accountCode:
       summary: Get an account holder
       value:
@@ -4872,22 +5964,22 @@ components:
         accountHolderDetails:
           businessDetails:
             shareholders:
-              - name:
-                  firstName: Alice
-                  lastName: Fields
-                address:
-                  city: San Francisco
-                  country: US
-                  houseNumberOrName: '274'
-                  postalCode: '94107'
-                  stateOrProvince: CA
-                  street: Brannan
-                email: testshareholder2@email.com
-                personalData:
-                  dateOfBirth: '1970-01-01'
-                  documentData:
-                    - number: '1234567890'
-                      type: ID
+            - name:
+                firstName: Alice
+                lastName: Fields
+              address:
+                city: San Francisco
+                country: US
+                houseNumberOrName: '274'
+                postalCode: '94107'
+                stateOrProvince: CA
+                street: Brannan
+              email: testshareholder2@email.com
+              personalData:
+                dateOfBirth: '1970-01-01'
+                documentData:
+                - number: '1234567890'
+                  type: ID
             taxId: '123456789'
           email: test@email.com
           fullPhoneNumber: '+14154890281'
@@ -4903,17 +5995,17 @@ components:
               firstName: Tim
               lastName: Green
           bankAccountDetails:
-            - accountNumber: '1678116852'
-              branchCode: '053101273'
-              countryCode: US
-              currencyCode: USD
-              ownerName: Tim Green
-              ownerHouseNumberOrName: '100'
-              ownerStreet: Main Street
-              ownerPostalCode: 2894
-              ownerCity: Springfield
-              ownerState: AZ
-              ownerCountryCode: US
+          - accountNumber: '1678116852'
+            branchCode: '053101273'
+            countryCode: US
+            currencyCode: USD
+            ownerName: Tim Green
+            ownerHouseNumberOrName: '100'
+            ownerStreet: Main Street
+            ownerPostalCode: 2894
+            ownerCity: Springfield
+            ownerState: AZ
+            ownerCountryCode: US
     post-updateAccountHolder-businessDetails:
       summary: Update business details
       value:
@@ -4921,17 +6013,17 @@ components:
         accountHolderDetails:
           businessDetails:
             shareholders:
-              - address:
-                  city: Amsterdam
-                  country: NL
-                  houseNumberOrName: '1'
-                  postalCode: 1111AA
-                  stateOrProvince: NH
-                  street: Awesome St
-                email: testshareholder2@email.com
-                name:
-                  firstName: Alice
-                  lastName: Fields
+            - address:
+                city: Amsterdam
+                country: NL
+                houseNumberOrName: '1'
+                postalCode: 1111AA
+                stateOrProvince: NH
+                street: Awesome St
+              email: testshareholder2@email.com
+              name:
+                firstName: Alice
+                lastName: Fields
             taxId: BV123456789
           email: test@email.com
           fullPhoneNumber: '+31612345678'
@@ -4956,8 +6048,8 @@ components:
             personalData:
               dateOfBirth: '1970-01-01'
               documentData:
-                - number: '1234567890'
-                  type: ID
+              - number: '1234567890'
+                type: ID
               nationality: NL
           merchantCategoryCode: '7999'
           fullPhoneNumber: '+31612345678'

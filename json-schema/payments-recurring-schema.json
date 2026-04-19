@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/payments-recurring-schema.json",
+  "title": "Recurring",
+  "description": "Recurring schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "contract": {
+      "description": "The type of recurring contract to be used.\nPossible values:\n* `ONECLICK` \u2013 Payment details can be used to initiate a one-click payment, where the shopper enters the [card security code (CVC/CVV)](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-security-code-cvc-cvv-cid).\n* `RECURRING` \u2013 Payment details can be used without the card security code to initiate [card-not-present transactions](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-not-present-cnp).\n* `ONECLICK,RECURRING` \u2013 Payment details can be used regardless of whether the shopper is on your site or not.\n* `PAYOUT` \u2013 Payment details can be used to [make a payout](https://docs.adyen.com/online-payments/online-payouts).",
+      "enum": [
+        "ONECLICK",
+        "RECURRING",
+        "PAYOUT"
+      ],
+      "type": "string"
+    },
+    "recurringDetailName": {
+      "description": "A descriptive name for this detail.",
+      "type": "string"
+    },
+    "recurringExpiry": {
+      "x-addedInVersion": "40",
+      "description": "Date after which no further authorisations shall be performed. Only for 3D Secure 2.",
+      "format": "date-time",
+      "type": "string"
+    },
+    "recurringFrequency": {
+      "x-addedInVersion": "40",
+      "description": "Minimum number of days between authorisations. Only for 3D Secure 2.",
+      "type": "string"
+    },
+    "tokenService": {
+      "x-addedInVersion": "25",
+      "description": "The name of the token service.",
+      "enum": [
+        "VISATOKENSERVICE",
+        "MCTOKENSERVICE",
+        "AMEXTOKENSERVICE",
+        "TOKEN_SHARING"
+      ],
+      "type": "string"
+    }
+  }
+}

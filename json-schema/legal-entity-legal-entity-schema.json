@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/legal-entity-legal-entity-schema.json",
+  "title": "LegalEntity",
+  "description": "LegalEntity schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "capabilities": {
+      "additionalProperties": {
+        "$ref": "#/components/schemas/LegalEntityCapability"
+      },
+      "description": "Contains key-value pairs that specify the actions that the legal entity can do in your platform.The key is a capability required for your integration. For example, **issueCard** for Issuing.The value is an object containing the settings for the capability.",
+      "readOnly": true,
+      "type": "object"
+    },
+    "documentDetails": {
+      "x-addedInVersion": "2",
+      "description": "List of documents uploaded for the legal entity.",
+      "items": {
+        "$ref": "#/components/schemas/DocumentReference"
+      },
+      "type": "array"
+    },
+    "documents": {
+      "deprecated": true,
+      "x-deprecatedInVersion": "1",
+      "x-deprecatedMessage": "Use the `documentDetails` array instead.",
+      "description": "List of documents uploaded for the legal entity.",
+      "items": {
+        "$ref": "#/components/schemas/EntityReference"
+      },
+      "type": "array"
+    },
+    "entityAssociations": {
+      "description": "List of legal entities associated with the current legal entity.\nFor example, ultimate beneficial owners associated with an organization through ownership or control, or as signatories.",
+      "items": {
+        "$ref": "#/components/schemas/LegalEntityAssociation"
+      },
+      "type": "array"
+    },
+    "id": {
+      "description": "The unique identifier of the legal entity.",
+      "readOnly": true,
+      "type": "string"
+    },
+    "individual": {
+      "description": "Information about the individual. Required if `type` is **individual**.",
+      "$ref": "#/components/schemas/Individual"
+    },
+    "organization": {
+      "description": "Information about the organization. Required if `type` is **organization**.",
+      "$ref": "#/components/schemas/Organization"
+    },
+    "problems": {
+      "x-addedInVersion": "3",
+      "description": "List of verification errors related to capabilities for the legal entity.",
+      "items": {
+        "$ref": "#/components/schemas/CapabilityProblem"
+      },
+      "type": "array"
+    },
+    "reference": {
+      "description": "Your reference for the legal entity, maximum 150 characters.",
+      "maxLength": 150,
+      "type": "string"
+    },
+    "soleProprietorship": {
+      "x-addedInVersion": "2",
+      "description": "Information about the sole proprietorship. Required if `type` is **soleProprietorship**.",
+      "$ref": "#/components/schemas/SoleProprietorship"
+    },
+    "transferInstruments": {
+      "description": "List of transfer instruments that the legal entity owns.",
+      "items": {
+        "$ref": "#/components/schemas/TransferInstrumentReference"
+      },
+      "readOnly": true,
+      "type": "array"
+    },
+    "trust": {
+      "description": "Information about the trust. Required if `type` is **trust**.",
+      "$ref": "#/components/schemas/Trust"
+    },
+    "type": {
+      "description": "The type of legal entity.\n\nPossible values: **individual**, **organization**, **soleProprietorship**, or **trust**.",
+      "enum": [
+        "individual",
+        "organization",
+        "soleProprietorship",
+        "trust",
+        "unincorporatedPartnership"
+      ],
+      "type": "string"
+    },
+    "unincorporatedPartnership": {
+      "description": "Information about the unincorporated partnership. Required if `type` is **unincorporatedPartnership**.",
+      "$ref": "#/components/schemas/UnincorporatedPartnership"
+    },
+    "verificationDeadlines": {
+      "x-addedInVersion": "3",
+      "description": "List of verification deadlines and the capabilities that will be disallowed if verification errors are not resolved.",
+      "items": {
+        "$ref": "#/components/schemas/VerificationDeadline"
+      },
+      "readOnly": true,
+      "type": "array"
+    },
+    "verificationPlan": {
+      "description": "A key-value pair that specifies the [verification process](https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details/) for a legal entity. Set to **upfront** for [upfront verification](https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details#upfront).",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id"
+  ]
+}

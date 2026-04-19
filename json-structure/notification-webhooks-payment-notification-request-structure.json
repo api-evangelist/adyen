@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/notification-webhooks-payment-notification-request-structure.json",
+  "description": "PaymentNotificationRequest schema from Adyen API",
+  "properties": {
+    "data": {
+      "description": "Contains event details.",
+      "$ref": "#/components/schemas/PaymentInstrumentNotificationData"
+    },
+    "environment": {
+      "description": "The environment from which the webhook originated.\n\nPossible values: **test**, **live**.",
+      "type": "string"
+    },
+    "type": {
+      "description": "Type of notification.",
+      "enum": [
+        "balancePlatform.paymentInstrument.created",
+        "balancePlatform.paymentInstrument.updated"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "environment",
+    "type",
+    "data"
+  ],
+  "type": "object",
+  "name": "PaymentNotificationRequest"
+}

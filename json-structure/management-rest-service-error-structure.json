@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/management-rest-service-error-structure.json",
+  "description": "RestServiceError schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "detail": {
+      "description": "A human-readable explanation specific to this occurrence of the problem.",
+      "type": "string"
+    },
+    "errorCode": {
+      "description": "A code that identifies the problem type.",
+      "type": "string"
+    },
+    "instance": {
+      "description": "A unique URI that identifies the specific occurrence of the problem.",
+      "type": "string"
+    },
+    "invalidFields": {
+      "description": "Detailed explanation of each validation error, when applicable.",
+      "items": {
+        "$ref": "#/components/schemas/InvalidField"
+      },
+      "type": "array"
+    },
+    "requestId": {
+      "description": "A unique reference for the request, essentially the same as `pspReference`.",
+      "type": "string"
+    },
+    "response": {
+      "description": "JSON response payload.",
+      "$ref": "#/components/schemas/JSONObject"
+    },
+    "status": {
+      "description": "The HTTP status code.",
+      "type": "int32"
+    },
+    "title": {
+      "description": "A short, human-readable summary of the problem type.",
+      "type": "string"
+    },
+    "type": {
+      "description": "A URI that identifies the problem type, pointing to human-readable documentation on this problem type.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "errorCode",
+    "title",
+    "detail",
+    "status"
+  ],
+  "name": "RestServiceError"
+}

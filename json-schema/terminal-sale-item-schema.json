@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/terminal-sale-item-schema.json",
+  "title": "SaleItem",
+  "description": "In loyalty or value added payment card transaction, the items of the sale are entering in the processing of the transaction. Sale items of a transaction.",
+  "type": "object",
+  "properties": {
+    "ItemID": {
+      "type": "integer",
+      "description": "Item identification inside a transaction (0 to n)."
+    },
+    "ProductCode": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20,
+      "description": "Product code of item purchased with the transaction."
+    },
+    "EanUpc": {
+      "type": "integer",
+      "description": "If data sent, POI has to store it and send it if the host protocol allows it."
+    },
+    "UnitOfMeasure": {
+      "$ref": "#/components/schemas/UnitOfMeasure"
+    },
+    "Quantity": {
+      "type": "string",
+      "description": "If data sent, POI has to store it and send it if the host protocol allows it."
+    },
+    "UnitPrice": {
+      "type": "number",
+      "maximum": 99999999.999999,
+      "minimum": 0,
+      "description": "if Quantity present."
+    },
+    "ItemAmount": {
+      "type": "number",
+      "maximum": 99999999.999999,
+      "minimum": 0,
+      "description": "Total amount of the item line."
+    },
+    "TaxCode": {
+      "type": "integer",
+      "description": "If data sent, POI has to store it and send it if the host protocol allows it."
+    },
+    "SaleChannel": {
+      "type": "integer",
+      "description": "If data sent, POI has to store it and send it if the host protocol allows it."
+    },
+    "ProductLabel": {
+      "type": "string",
+      "pattern": "^.+$"
+    },
+    "AdditionalProductInfo": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "If data sent, POI has to store it and send it if the host protocol allows it."
+    }
+  },
+  "required": [
+    "ItemID",
+    "ProductCode",
+    "ItemAmount"
+  ]
+}

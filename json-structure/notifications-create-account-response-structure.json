@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/notifications-create-account-response-structure.json",
+  "description": "CreateAccountResponse schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountCode": {
+      "description": "The code of the new account.",
+      "type": "string"
+    },
+    "accountHolderCode": {
+      "description": "The code of the account holder.",
+      "type": "string"
+    },
+    "bankAccountUUID": {
+      "x-addedInVersion": "5",
+      "description": "The bankAccountUUID of the bank account held by the account holder to couple the account with. Scheduled payouts in currencies matching the currency of this bank account will be sent to this bank account. Payouts in different currencies will be sent to a matching bank account of the account holder.",
+      "type": "string"
+    },
+    "description": {
+      "x-addedInVersion": "4",
+      "description": "The description of the account.",
+      "type": "string"
+    },
+    "invalidFields": {
+      "x-addedInVersion": "5",
+      "description": "A list of fields that caused the `/createAccount` request to fail.",
+      "items": {
+        "$ref": "#/components/schemas/ErrorFieldType"
+      },
+      "type": "array"
+    },
+    "metadata": {
+      "x-addedInVersion": "5",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "A set of key and value pairs containing metadata.",
+      "type": "object"
+    },
+    "payoutMethodCode": {
+      "x-addedInVersion": "5",
+      "description": "The payout method code held by the account holder to couple the account with. Scheduled card payouts will be sent using this payout method code.",
+      "type": "string"
+    },
+    "payoutSchedule": {
+      "description": "The payout schedule of the account.",
+      "$ref": "#/components/schemas/PayoutScheduleResponse"
+    },
+    "payoutSpeed": {
+      "x-addedInVersion": "5",
+      "description": "Speed with which payouts for this account are processed. Permitted values: `STANDARD`, `SAME_DAY`.",
+      "enum": [
+        "INSTANT",
+        "SAME_DAY",
+        "STANDARD"
+      ],
+      "type": "string"
+    },
+    "pspReference": {
+      "description": "The reference of a request. Can be used to uniquely identify the request.",
+      "type": "string"
+    },
+    "resultCode": {
+      "description": "The result code.",
+      "type": "string"
+    },
+    "status": {
+      "x-addedInVersion": "2",
+      "description": "The status of the account.\n>Permitted values: `Active`.",
+      "enum": [
+        "Active",
+        "Closed",
+        "Inactive",
+        "Suspended"
+      ],
+      "type": "string"
+    }
+  },
+  "name": "CreateAccountResponse"
+}

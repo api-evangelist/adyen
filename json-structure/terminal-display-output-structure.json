@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/terminal-display-output-structure.json",
+  "description": "It contains a complete display operation for a Display or an Input Device type. For the Input Devices, Diagnosis and EnableService, ResponseRequiredFlag and MinimumDisplayTime shall be absent. Information to display and the way to process the display.",
+  "type": "object",
+  "properties": {
+    "ResponseRequiredFlag": {
+      "type": "boolean",
+      "default": true,
+      "description": "Request of a message response."
+    },
+    "MinimumDisplayTime": {
+      "type": "int32",
+      "minimum": 0,
+      "maximum": 999,
+      "default": 0,
+      "description": "Number of seconds the message has to be displayed."
+    },
+    "Device": {
+      "$ref": "#/components/schemas/Device"
+    },
+    "InfoQualify": {
+      "$ref": "#/components/schemas/InfoQualify"
+    },
+    "OutputContent": {
+      "$ref": "#/components/schemas/OutputContent"
+    },
+    "MenuEntry": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/MenuEntry"
+      }
+    },
+    "OutputSignature": {
+      "type": "string",
+      "format": "byte",
+      "pattern": "^.+$",
+      "description": "If protection has to be provided to the vendor on the text to display or print."
+    }
+  },
+  "required": [
+    "Device",
+    "InfoQualify",
+    "OutputContent"
+  ],
+  "name": "DisplayOutput"
+}

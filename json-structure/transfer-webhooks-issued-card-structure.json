@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/transfer-webhooks-issued-card-structure.json",
+  "description": "IssuedCard schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "authorisationType": {
+      "x-addedInVersion": "4",
+      "description": "The authorisation type. For example, **defaultAuthorisation**, **preAuthorisation**, **finalAuthorisation**",
+      "type": "string"
+    },
+    "panEntryMode": {
+      "x-addedInVersion": "4",
+      "description": "Indicates the method used for entering the PAN to initiate a transaction.\n\nPossible values: **manual**, **chip**, **magstripe**, **contactless**, **cof**, **ecommerce**, **token**.",
+      "enum": [
+        "chip",
+        "cof",
+        "contactless",
+        "ecommerce",
+        "magstripe",
+        "manual",
+        "token"
+      ],
+      "type": "string"
+    },
+    "processingType": {
+      "x-addedInVersion": "4",
+      "description": "Contains information about how the payment was processed. For example, **ecommerce** for online or **pos** for in-person payments.",
+      "enum": [
+        "atmWithdraw",
+        "balanceInquiry",
+        "ecommerce",
+        "moto",
+        "pos",
+        "purchaseWithCashback",
+        "recurring",
+        "token"
+      ],
+      "type": "string"
+    },
+    "relayedAuthorisationData": {
+      "x-addedInVersion": "4",
+      "description": "If you are using relayed authorisation, this object contains information from the relayed authorisation response from your server.",
+      "$ref": "#/components/schemas/RelayedAuthorisationData"
+    },
+    "schemeTraceId": {
+      "x-addedInVersion": "4",
+      "description": "The identifier of the original payment provided by the scheme. The Id could be alphanumeric or numeric depending on the scheme. The schemeTraceID should be referring to an original schemeUniqueTransactionID provided in an earlier payment (not necessarily processed by Adyen). Instances of available schemeTraceId is authAdjustment or recurring payments.",
+      "type": "string"
+    },
+    "schemeUniqueTransactionId": {
+      "x-addedInVersion": "4",
+      "description": "The unique identifier created by the scheme. The ID could be alphanumeric or numeric depending on the scheme.",
+      "type": "string"
+    },
+    "type": {
+      "default": "issuedCard",
+      "description": "**issuedCard**",
+      "enum": [
+        "issuedCard"
+      ],
+      "type": "string"
+    },
+    "validationFacts": {
+      "x-addedInVersion": "4",
+      "description": "The evaluation of the validation facts. See [validation checks](https://docs.adyen.com/issuing/validation-checks) for more information.",
+      "items": {
+        "$ref": "#/components/schemas/TransferNotificationValidationFact"
+      },
+      "type": "array"
+    }
+  },
+  "additionalProperties": false,
+  "name": "IssuedCard"
+}

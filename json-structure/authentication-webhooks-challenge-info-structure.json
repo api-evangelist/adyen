@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/authentication-webhooks-challenge-info-structure.json",
+  "description": "ChallengeInfo schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "challengeCancel": {
+      "description": "Indicator informing the Access Control Server (ACS) and the Directory Server (DS) that the authentication has been cancelled. For possible values, refer to [3D Secure API reference](https://docs.adyen.com/online-payments/3d-secure/api-reference#mpidata).",
+      "enum": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07"
+      ],
+      "type": "string"
+    },
+    "flow": {
+      "description": "The flow used in the challenge. Possible values:\n\n* **OTP_SMS**: one-time password (OTP) flow\n* **OOB**: out-of-band (OOB) flow",
+      "enum": [
+        "OTP_SMS",
+        "OOB"
+      ],
+      "type": "string"
+    },
+    "lastInteraction": {
+      "description": "The last time of interaction with the challenge.",
+      "type": "datetime"
+    },
+    "phoneNumber": {
+      "description": "The last four digits of the phone number used in the challenge.",
+      "type": "string"
+    },
+    "resends": {
+      "description": "The number of times the one-time password (OTP) was resent during the challenge.",
+      "type": "int32"
+    },
+    "retries": {
+      "description": "The number of retries used in the challenge.",
+      "type": "int32"
+    }
+  },
+  "required": [
+    "flow",
+    "lastInteraction"
+  ],
+  "name": "ChallengeInfo"
+}

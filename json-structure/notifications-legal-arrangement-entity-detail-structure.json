@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/notifications-legal-arrangement-entity-detail-structure.json",
+  "description": "LegalArrangementEntityDetail schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "address": {
+      "description": "The address of the entity.",
+      "$ref": "#/components/schemas/ViasAddress"
+    },
+    "businessDetails": {
+      "description": "Required when creating an entity with `legalEntityType` **Business**, **NonProfit**, **PublicCompany**, or **Partnership**.",
+      "$ref": "#/components/schemas/BusinessDetails"
+    },
+    "email": {
+      "description": "The e-mail address of the entity.",
+      "type": "string"
+    },
+    "fullPhoneNumber": {
+      "description": "The phone number of the contact provided as a single string.  It will be handled as a landline phone.\n**Examples:** \"0031 6 11 22 33 44\", \"+316/1122-3344\", \"(0031) 611223344\"",
+      "type": "string"
+    },
+    "individualDetails": {
+      "description": "Required when creating an entity with `legalEntityType` **Individual**.",
+      "$ref": "#/components/schemas/IndividualDetails"
+    },
+    "legalArrangementEntityCode": {
+      "description": "Adyen-generated unique alphanumeric identifier (UUID) for the entry, returned in the response when you create a legal arrangement entity.\nUse only when updating an account holder. If you include this field when creating an account holder, the request will fail.",
+      "type": "string"
+    },
+    "legalArrangementEntityReference": {
+      "description": "Your reference for the legal arrangement entity.",
+      "type": "string"
+    },
+    "legalArrangementMembers": {
+      "description": "An array containing the roles of the entity in the legal arrangement.\n\nThe possible values depend on the legal arrangement `type`.\n\n- For `type` **Association**: **ControllingPerson** and **Shareholder**.\n\n- For `type` **Partnership**: **Partner** and **Shareholder**.\n\n- For `type` **Trust**: **Trustee**, **Settlor**, **Protector**, **Beneficiary**,  and **Shareholder**.\n\n",
+      "items": {
+        "enum": [
+          "Beneficiary",
+          "ControllingPerson",
+          "Partner",
+          "Protector",
+          "Settlor",
+          "Shareholder",
+          "Trustee"
+        ],
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "legalEntityType": {
+      "description": "The legal entity type.\n\nPossible values: **Business**, **Individual**, **NonProfit**, **PublicCompany**, or **Partnership**. ",
+      "enum": [
+        "Business",
+        "Individual",
+        "NonProfit",
+        "Partnership",
+        "PublicCompany"
+      ],
+      "type": "string"
+    },
+    "phoneNumber": {
+      "description": "The phone number of the entity.",
+      "$ref": "#/components/schemas/ViasPhoneNumber"
+    },
+    "webAddress": {
+      "description": "The URL of the website of the contact.",
+      "type": "string"
+    }
+  },
+  "name": "LegalArrangementEntityDetail"
+}

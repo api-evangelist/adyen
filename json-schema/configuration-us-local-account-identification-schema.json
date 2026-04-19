@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/configuration-us-local-account-identification-schema.json",
+  "title": "USLocalAccountIdentification",
+  "description": "USLocalAccountIdentification schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountNumber": {
+      "description": "The bank account number, without separators or whitespace.",
+      "maxLength": 18,
+      "minLength": 2,
+      "type": "string"
+    },
+    "accountType": {
+      "default": "checking",
+      "description": "The bank account type.\n\nPossible values: **checking** or **savings**. Defaults to **checking**.",
+      "enum": [
+        "checking",
+        "savings"
+      ],
+      "type": "string"
+    },
+    "routingNumber": {
+      "description": "The 9-digit [routing number](https://en.wikipedia.org/wiki/ABA_routing_transit_number), without separators or whitespace.",
+      "maxLength": 9,
+      "minLength": 9,
+      "type": "string"
+    },
+    "type": {
+      "default": "usLocal",
+      "description": "**usLocal**",
+      "enum": [
+        "usLocal"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "accountNumber",
+    "routingNumber"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/payments-donation-request-schema.json",
+  "title": "DonationRequest",
+  "description": "DonationRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "donationAccount": {
+      "description": "The Adyen account name of the charity.",
+      "type": "string"
+    },
+    "merchantAccount": {
+      "description": "The merchant account that is used to process the payment.",
+      "type": "string"
+    },
+    "modificationAmount": {
+      "description": "The amount to be donated.The `currency` must match the currency used in authorisation, the `value` must be smaller than or equal to the authorised amount.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "originalReference": {
+      "description": "The original pspReference of the payment to modify.\nThis reference is returned in:\n* authorisation response\n* authorisation notification\n\n",
+      "type": "string"
+    },
+    "platformChargebackLogic": {
+      "x-addedInVersion": "68",
+      "description": "Defines how to book chargebacks when using [Adyen for Platforms](https://docs.adyen.com/marketplaces-and-platforms/processing-payments#chargebacks-and-disputes).",
+      "$ref": "#/components/schemas/PlatformChargebackLogic"
+    },
+    "reference": {
+      "description": "Your reference for the payment modification. This reference is visible in Customer Area and in reports.\nMaximum length: 80 characters.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "merchantAccount",
+    "donationAccount",
+    "modificationAmount"
+  ]
+}

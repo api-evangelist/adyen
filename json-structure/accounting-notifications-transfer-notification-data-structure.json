@@ -1,0 +1,327 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/accounting-notifications-transfer-notification-data-structure.json",
+  "description": "TransferNotificationData schema from Adyen API",
+  "properties": {
+    "accountHolder": {
+      "x-addedInVersion": "3",
+      "description": "The account holder associated with the balance account used in the transfer.",
+      "$ref": "#/components/schemas/ResourceReference"
+    },
+    "amount": {
+      "x-addedInVersion": "1",
+      "description": "The amount of the transfer.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "balanceAccount": {
+      "x-addedInVersion": "3",
+      "description": "Contains information about the balance account involved in the transfer.",
+      "$ref": "#/components/schemas/ResourceReference"
+    },
+    "balanceAccountId": {
+      "x-addedInVersion": "3",
+      "deprecated": true,
+      "x-deprecatedInVersion": "3",
+      "x-deprecatedMessage": "Use the [id](https://docs.adyen.com/api-explorer/accounting-webhooks/latest/post/balancePlatform.transfer.created#request-data-balanceAccount-id) in the `balanceAccount` object instead.",
+      "description": "The unique identifier of the source [balance account](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/post/balanceAccounts__resParam_id).",
+      "type": "string"
+    },
+    "balances": {
+      "x-addedInVersion": "3",
+      "description": "The list of the latest balance statuses in the transfer.",
+      "items": {
+        "$ref": "#/components/schemas/BalanceMutation"
+      },
+      "type": "array"
+    },
+    "category": {
+      "x-addedInVersion": "3",
+      "description": "The type of transfer.\n\nPossible values:\n\n - **bank**: Transfer to a [transfer instrument](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/transferInstruments__resParam_id) or a bank account.\n\n- **internal**: Transfer to another [balance account](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/post/balanceAccounts__resParam_id) within your platform.\n\n- **issuedCard**: Transfer initiated by a Adyen-issued card.\n\n- **platformPayment**: Fund movements related to payments that are acquired for your users.",
+      "enum": [
+        "bank",
+        "internal",
+        "issuedCard",
+        "platformPayment"
+      ],
+      "type": "string"
+    },
+    "counterparty": {
+      "x-addedInVersion": "3",
+      "description": "The other party in the transfer.",
+      "$ref": "#/components/schemas/CounterpartyV3"
+    },
+    "description": {
+      "x-addedInVersion": "1",
+      "description": "A human-readable description for the transfer. You can use alphanumeric characters and hyphens. We recommend sending a maximum of 140 characters, otherwise the description may be truncated.",
+      "type": "string"
+    },
+    "direction": {
+      "x-addedInVersion": "2",
+      "description": "The direction of the transfer.\n\nPossible values: **incoming**, **outgoing**.",
+      "enum": [
+        "incoming",
+        "outgoing"
+      ],
+      "type": "string"
+    },
+    "events": {
+      "x-addedInVersion": "3",
+      "description": "The list of events leading up to the current status of the transfer.",
+      "items": {
+        "$ref": "#/components/schemas/TransferEvent"
+      },
+      "type": "array"
+    },
+    "id": {
+      "description": "The ID of the resource.",
+      "type": "string"
+    },
+    "modificationMerchantReference": {
+      "x-addedInVersion": "3",
+      "description": "The capture's merchant reference included in the transfer.",
+      "type": "string"
+    },
+    "modificationPspReference": {
+      "x-addedInVersion": "3",
+      "description": "The capture reference included in the transfer.",
+      "type": "string"
+    },
+    "panEntryMode": {
+      "x-addedInVersion": "3",
+      "description": "Indicates the method used for entering the PAN to initiate a transaction.\n\nPossible values: **manual**, **chip**, **magstripe**, **contactless**, **cof**, **ecommerce**, **token**.",
+      "enum": [
+        "chip",
+        "cof",
+        "contactless",
+        "ecommerce",
+        "magstripe",
+        "manual",
+        "token"
+      ],
+      "type": "string"
+    },
+    "paymentInstrument": {
+      "x-addedInVersion": "3",
+      "description": "Contains information about the payment instrument used in the transfer.",
+      "$ref": "#/components/schemas/PaymentInstrument"
+    },
+    "paymentInstrumentId": {
+      "description": "The unique identifier of the source [payment instrument](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/post/paymentInstruments__resParam_id).",
+      "type": "string"
+    },
+    "paymentMerchantReference": {
+      "x-addedInVersion": "3",
+      "description": "The payment's merchant reference included in the transfer.",
+      "type": "string"
+    },
+    "priority": {
+      "x-addedInVersion": "3",
+      "description": "The priority for the bank transfer. This sets the speed at which the transfer is sent and the fees that you have to pay. Required for transfers with `category` **bank**.\n\nPossible values:\n\n* **regular**: For normal, low-value transactions.\n\n* **fast**: Faster way to transfer funds but has higher fees. Recommended for high-priority, low-value transactions.\n\n* **wire**: Fastest way to transfer funds but has the highest fees. Recommended for high-priority, high-value transactions.\n\n* **instant**: Instant way to transfer funds in [SEPA countries](https://www.ecb.europa.eu/paym/integration/retail/sepa/html/index.en.html)\n\n.* **crossBorder**: High value transfer to receipt in a different country. ",
+      "enum": [
+        "crossBorder",
+        "directDebit",
+        "fast",
+        "instant",
+        "regular",
+        "wire"
+      ],
+      "type": "string"
+    },
+    "processingType": {
+      "x-addedInVersion": "3",
+      "description": "Contains information about how the payment was processed. For example, **ecommerce** for online or **pos** for in-person payments.",
+      "enum": [
+        "atmWithdraw",
+        "balanceInquiry",
+        "ecommerce",
+        "moto",
+        "pos",
+        "purchaseWithCashback",
+        "recurring",
+        "token"
+      ],
+      "type": "string"
+    },
+    "pspPaymentReference": {
+      "x-addedInVersion": "3",
+      "description": "The payment reference included in the transfer.",
+      "type": "string"
+    },
+    "reason": {
+      "x-addedInVersion": "2",
+      "description": "Additional information about the status of the transfer.",
+      "enum": [
+        "amountLimitExceded",
+        "approved",
+        "counterpartyAccountBlocked",
+        "counterpartyAccountClosed",
+        "counterpartyAccountNotFound",
+        "counterpartyAddressRequired",
+        "counterpartyBankTimedOut",
+        "counterpartyBankUnavailable",
+        "error",
+        "notEnoughBalance",
+        "refusedByCounterpartyBank",
+        "routeNotFound",
+        "unknown"
+      ],
+      "type": "string"
+    },
+    "reference": {
+      "x-addedInVersion": "2",
+      "description": "Your reference for the transfer, used internally within your platform. If you don't provide this in the request, Adyen generates a unique reference.",
+      "maxLength": 80,
+      "type": "string"
+    },
+    "referenceForBeneficiary": {
+      "x-addedInVersion": "2",
+      "description": " A reference that is sent to the recipient. This reference is also sent in all notification webhooks related to the transfer, so you can use it to track statuses for both the source and recipient of funds.\n\n Supported characters: **a-z**, **A-Z**, **0-9**. The maximum length depends on the `category`.\n\n- **internal**: 80 characters\n\n- **bank**: 35 characters when transferring to an IBAN, 15 characters for others.",
+      "maxLength": 80,
+      "type": "string"
+    },
+    "relayedAuthorisationData": {
+      "x-addedInVersion": "3",
+      "description": "If you are using relayed authorisation, this object contains information from the relayed authorisation response from your server.",
+      "$ref": "#/components/schemas/RelayedAuthorisationData-2"
+    },
+    "sequenceNumber": {
+      "x-addedInVersion": "3",
+      "description": "The sequence number of the transfer notification. The numbers start from 1 and increase with each new notification for a specific transfer.\n\nIt can help you restore the correct sequence of events even if they arrive out of order.",
+      "type": "int32"
+    },
+    "status": {
+      "x-addedInVersion": "2",
+      "description": "The result of the transfer.\n\n For example, **authorised**, **refused**, or **error**.",
+      "enum": [
+        "atmWithdrawal",
+        "atmWithdrawalReversalPending",
+        "atmWithdrawalReversed",
+        "authAdjustmentAuthorised",
+        "authAdjustmentError",
+        "authAdjustmentRefused",
+        "authorised",
+        "bankTransfer",
+        "bankTransferPending",
+        "booked",
+        "bookingPending",
+        "cancelled",
+        "capturePending",
+        "captureReversalPending",
+        "captureReversed",
+        "captured",
+        "chargeback",
+        "chargebackPending",
+        "chargebackReversalPending",
+        "chargebackReversed",
+        "credited",
+        "depositCorrection",
+        "depositCorrectionPending",
+        "dispute",
+        "disputeClosed",
+        "disputeExpired",
+        "disputeNeedsReview",
+        "error",
+        "expired",
+        "failed",
+        "fee",
+        "feePending",
+        "internalTransfer",
+        "internalTransferPending",
+        "invoiceDeduction",
+        "invoiceDeductionPending",
+        "manualCorrectionPending",
+        "manuallyCorrected",
+        "matchedStatement",
+        "matchedStatementPending",
+        "merchantPayin",
+        "merchantPayinPending",
+        "merchantPayinReversed",
+        "merchantPayinReversedPending",
+        "miscCost",
+        "miscCostPending",
+        "paymentCost",
+        "paymentCostPending",
+        "received",
+        "refundPending",
+        "refundReversalPending",
+        "refundReversed",
+        "refunded",
+        "refused",
+        "reserveAdjustment",
+        "reserveAdjustmentPending",
+        "returned",
+        "secondChargeback",
+        "secondChargebackPending",
+        "undefined"
+      ],
+      "type": "string"
+    },
+    "tracking": {
+      "x-addedInVersion": "3",
+      "description": "The tracking information for the transfer.",
+      "$ref": "#/components/schemas/TransferNotificationTransferTracking"
+    },
+    "transactionId": {
+      "x-addedInVersion": "3",
+      "deprecated": true,
+      "x-deprecatedInVersion": "3",
+      "x-deprecatedMessage": "Use the [transactionId](https://docs.adyen.com/api-explorer/accounting-webhooks/latest/post/balancePlatform.transfer.created#request-data-events-transactionId) in the `events` array instead.",
+      "description": "The ID of the transaction that is created based on the transfer.",
+      "type": "string"
+    },
+    "transactionRulesResult": {
+      "x-addedInVersion": "3",
+      "description": "Contains the results of the evaluation of the transaction rules.",
+      "$ref": "#/components/schemas/TransactionRulesResult"
+    },
+    "type": {
+      "x-addedInVersion": "3",
+      "description": "The type of transfer or transaction. For example, **refund**, **payment**, **internalTransfer**, **bankTransfer**.",
+      "enum": [
+        "atmWithdrawal",
+        "atmWithdrawalReversal",
+        "balanceAdjustment",
+        "balanceRollover",
+        "bankTransfer",
+        "capture",
+        "captureReversal",
+        "chargeback",
+        "chargebackReversal",
+        "depositCorrection",
+        "fee",
+        "grant",
+        "installment",
+        "installmentReversal",
+        "internalTransfer",
+        "invoiceDeduction",
+        "leftover",
+        "manualCorrection",
+        "miscCost",
+        "payment",
+        "paymentCost",
+        "refund",
+        "refundReversal",
+        "repayment",
+        "reserveAdjustment",
+        "secondChargeback"
+      ],
+      "type": "string"
+    },
+    "validationFacts": {
+      "x-addedInVersion": "3",
+      "description": "The evaluation of the validation facts. See [validation checks](https://docs.adyen.com/issuing/validation-checks) for more information.",
+      "items": {
+        "$ref": "#/components/schemas/TransferNotificationValidationFact"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "category",
+    "amount",
+    "counterparty",
+    "status"
+  ],
+  "type": "object",
+  "name": "TransferNotificationData"
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/terminal-customer-order-structure.json",
+  "description": "Customer order attached to a customer, recorded in the POI system.  Allows the management of customer orders by the POI, for instance in a multi-channel or a click and collect sale transaction.",
+  "type": "object",
+  "properties": {
+    "CustomerOrderID": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "Additional and optional identification of a customer order."
+    },
+    "SaleReferenceID": {
+      "type": "string",
+      "pattern": "^.+$"
+    },
+    "OpenOrderState": {
+      "type": "boolean",
+      "default": true
+    },
+    "StartDate": {
+      "type": "datetime",
+      "description": "Date time of the beginning of an operation."
+    },
+    "EndDate": {
+      "type": "datetime",
+      "description": "Date time of the end of an operation."
+    },
+    "ForecastedAmount": {
+      "type": "double",
+      "maximum": 99999999.999999,
+      "minimum": 0
+    },
+    "CurrentAmount": {
+      "type": "double",
+      "maximum": 99999999.999999,
+      "minimum": 0,
+      "description": "Total amount of all completed transactions of a customer order."
+    },
+    "Currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3,3}$",
+      "description": "Currency of a monetary amount."
+    },
+    "AccessedBy": {
+      "type": "string",
+      "pattern": "^.+$"
+    },
+    "AdditionalInformation": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "Unqualified information."
+    }
+  },
+  "required": [
+    "SaleReferenceID",
+    "StartDate",
+    "ForecastedAmount",
+    "CurrentAmount"
+  ],
+  "name": "CustomerOrder"
+}

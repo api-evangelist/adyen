@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/notifications-account-holder-status-change-notification-content-schema.json",
+  "title": "AccountHolderStatusChangeNotificationContent",
+  "description": "AccountHolderStatusChangeNotificationContent schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "accountHolderCode": {
+      "description": "The code of the account holder.",
+      "type": "string"
+    },
+    "invalidFields": {
+      "x-addedInVersion": "5",
+      "description": "in case the account holder has not been updated, contains account holder fields, that did not pass the validation.",
+      "items": {
+        "$ref": "#/components/schemas/ErrorFieldType"
+      },
+      "type": "array"
+    },
+    "newStatus": {
+      "x-addedInVersion": "2",
+      "description": "The new status of the account holder.",
+      "$ref": "#/components/schemas/AccountHolderStatus"
+    },
+    "oldStatus": {
+      "x-addedInVersion": "2",
+      "description": "The former status of the account holder.",
+      "$ref": "#/components/schemas/AccountHolderStatus"
+    },
+    "reason": {
+      "description": "The reason for the status change.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "accountHolderCode"
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/checkout-additional-data-open-invoice-schema.json",
+  "title": "AdditionalDataOpenInvoice",
+  "description": "AdditionalDataOpenInvoice schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "openinvoicedata.merchantData": {
+      "description": "Holds different merchant data points like product, purchase, customer, and so on. It takes data in a Base64 encoded string.\n\nThe `merchantData` parameter needs to be added to the `openinvoicedata` signature at the end.\n\nSince the field is optional, if it's not included it does not impact computing the merchant signature.\n\nApplies only to Klarna.\n\nYou can contact Klarna for the format and structure of the string.",
+      "type": "string"
+    },
+    "openinvoicedata.numberOfLines": {
+      "description": "The number of invoice lines included in `openinvoicedata`.\n\nThere needs to be at least one line, so `numberOfLines` needs to be at least 1.",
+      "type": "string"
+    },
+    "openinvoicedata.recipientFirstName": {
+      "description": "First name of the recipient. If the delivery address and the billing address are different, specify the `recipientFirstName` and `recipientLastName` to share the delivery address with Klarna. Otherwise, only the billing address is shared with Klarna.",
+      "type": "string"
+    },
+    "openinvoicedata.recipientLastName": {
+      "description": "Last name of the recipient. If the delivery address and the billing address are different, specify the `recipientFirstName` and `recipientLastName` to share the delivery address with Klarna. Otherwise, only the billing address is shared with Klarna.",
+      "type": "string"
+    },
+    "openinvoicedataLine[itemNr].currencyCode": {
+      "description": "The three-character ISO currency code.",
+      "type": "string"
+    },
+    "openinvoicedataLine[itemNr].description": {
+      "description": "A text description of the product the invoice line refers to.",
+      "type": "string"
+    },
+    "openinvoicedataLine[itemNr].itemAmount": {
+      "description": "The price for one item in the invoice line, represented in minor units.\n\nThe due amount for the item, VAT excluded.",
+      "type": "string"
+    },
+    "openinvoicedataLine[itemNr].itemId": {
+      "description": "A unique id for this item. Required for RatePay if the description of each item is not unique.",
+      "type": "string"
+    },
+    "openinvoicedataLine[itemNr].itemVatAmount": {
+      "description": "The VAT due for one item in the invoice line, represented in minor units.",
+      "type": "string"
+    },
+    "openinvoicedataLine[itemNr].itemVatPercentage": {
+      "description": "The VAT percentage for one item in the invoice line, represented in minor units.\n\nFor example, 19% VAT is specified as 1900.",
+      "type": "string"
+    },
+    "openinvoicedataLine[itemNr].numberOfItems": {
+      "description": "The number of units purchased of a specific product.",
+      "type": "string"
+    },
+    "openinvoicedataLine[itemNr].returnShippingCompany": {
+      "description": "Name of the shipping company handling the the return shipment.",
+      "type": "string"
+    },
+    "openinvoicedataLine[itemNr].returnTrackingNumber": {
+      "description": "The tracking number for the return of the shipment.",
+      "type": "string"
+    },
+    "openinvoicedataLine[itemNr].returnTrackingUri": {
+      "description": "URI where the customer can track the return of their shipment.",
+      "type": "string"
+    },
+    "openinvoicedataLine[itemNr].shippingCompany": {
+      "description": "Name of the shipping company handling the delivery.",
+      "type": "string"
+    },
+    "openinvoicedataLine[itemNr].shippingMethod": {
+      "description": "Shipping method.",
+      "type": "string"
+    },
+    "openinvoicedataLine[itemNr].trackingNumber": {
+      "description": "The tracking number for the shipment.",
+      "type": "string"
+    },
+    "openinvoicedataLine[itemNr].trackingUri": {
+      "description": "URI where the customer can track their shipment.",
+      "type": "string"
+    }
+  }
+}

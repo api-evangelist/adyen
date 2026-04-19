@@ -1,6 +1,6 @@
 openapi: 3.1.0
 servers:
-  - url: https://postfmapi-test.adyen.com/postfmapi/terminal/v1
+- url: https://postfmapi-test.adyen.com/postfmapi/terminal/v1
 info:
   version: '1'
   x-publicVersion: true
@@ -15,17 +15,17 @@ info:
     name: Adyen Developer Experience team
     url: https://github.com/Adyen/adyen-openapi
 tags:
-  - name: assignTerminals
-  - name: findTerminal
-  - name: getStoresUnderAccount
-  - name: getTerminalDetails
-  - name: getTerminalsUnderAccount
+- name: assignTerminals
+- name: findTerminal
+- name: getStoresUnderAccount
+- name: getTerminalDetails
+- name: getTerminalsUnderAccount
 paths:
   /assignTerminals:
     post:
       tags:
-        - assignTerminals
-      summary: Adyen Assign terminals
+      - assignTerminals
+      summary: Adyen Assign Terminals
       description: >-
         Assigns one or more payment terminals to a merchant account or a store.
         You can also use this endpoint to reassign terminals between merchant
@@ -35,8 +35,8 @@ paths:
       x-sortIndex: 1
       x-methodName: assignTerminals
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -82,6 +82,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-assignTerminals401Example:
+                  summary: Default post-assignTerminals 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -110,11 +120,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /findTerminal:
     post:
       tags:
-        - findTerminal
-      summary: Adyen Get the account or store of a terminal
+      - findTerminal
+      summary: Adyen Get the Account or Store of a Terminal
       description: >-
         Returns the company account, merchant account, or store that a payment
         terminal is assigned to.
@@ -122,8 +135,8 @@ paths:
       x-sortIndex: 1
       x-methodName: findTerminal
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -156,6 +169,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-findTerminal401Example:
+                  summary: Default post-findTerminal 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -184,11 +207,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /getStoresUnderAccount:
     post:
       tags:
-        - getStoresUnderAccount
-      summary: Adyen Get the stores of an account
+      - getStoresUnderAccount
+      summary: Adyen Get the Stores of an Account
       description: >-
         Returns a list of stores associated with a company account or a merchant
         account, including the status of each store.
@@ -196,8 +222,8 @@ paths:
       x-sortIndex: 1
       x-methodName: getStoresUnderAccount
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -238,6 +264,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getStoresUnderAccount401Example:
+                  summary: Default post-getStoresUnderAccount 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -266,11 +302,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /getTerminalDetails:
     post:
       tags:
-        - getTerminalDetails
-      summary: Adyen Get the details of a terminal
+      - getTerminalDetails
+      summary: Adyen Get the Details of a Terminal
       description: >-
         Returns the details of a payment terminal, including where the terminal
         is assigned to. The response returns the same details that are provided
@@ -280,8 +319,8 @@ paths:
       x-sortIndex: 1
       x-methodName: getTerminalDetails
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -316,6 +355,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getTerminalDetails401Example:
+                  summary: Default post-getTerminalDetails 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -344,11 +393,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /getTerminalsUnderAccount:
     post:
       tags:
-        - getTerminalsUnderAccount
-      summary: Adyen Get the list of terminals
+      - getTerminalsUnderAccount
+      summary: Adyen Get the List of Terminals
       description: >-
         Returns a list of payment terminals associated with a company account,
         merchant account, or store. The response shows whether the terminals are
@@ -357,8 +409,8 @@ paths:
       x-sortIndex: 1
       x-methodName: getTerminalsUnderAccount
       security:
-        - BasicAuth: []
-        - ApiKeyAuth: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
       requestBody:
         content:
           application/json:
@@ -405,6 +457,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getTerminalsUnderAccount401Example:
+                  summary: Default post-getTerminalsUnderAccount 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
           description: Unauthorized - authentication required.
         '403':
           content:
@@ -433,6 +495,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceError'
           description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   schemas:
     Address:
@@ -496,8 +561,8 @@ components:
             type: string
           type: array
       required:
-        - companyAccount
-        - terminals
+      - companyAccount
+      - terminals
       type: object
     AssignTerminalsResponse:
       properties:
@@ -515,12 +580,13 @@ components:
 
              - `AssignmentScheduled`: The terminal will be assigned asynschronously.
 
-             - `RemoveConfigScheduled`: The terminal was previously assigned and boarded. Wait for the terminal to synchronize with the Adyen platform. For more information, refer to [Reassigning boarded terminals](https://docs.adyen.com/point-of-sale/managing-terminals/assign-terminals#reassign-boarded-terminals).
+             - `RemoveConfigScheduled`: The terminal was previously assigned and boarded. Wait for the terminal to synchronize with the Adyen platform. For more information, refer to [Reassigning boarded
+            terminals](https://docs.adyen.com/point-of-sale/managing-terminals/assign-terminals#reassign-boarded-terminals).
 
              - `Error`: There was an error when assigning the terminal. 
           type: object
       required:
-        - results
+      - results
       type: object
     FindTerminalRequest:
       properties:
@@ -533,7 +599,7 @@ components:
             For example, **V400m-324689776**.
           type: string
       required:
-        - terminal
+      - terminal
       type: object
     FindTerminalResponse:
       properties:
@@ -571,8 +637,8 @@ components:
           description: The unique terminal ID.
           type: string
       required:
-        - companyAccount
-        - terminal
+      - companyAccount
+      - terminal
       type: object
     GetStoresUnderAccountRequest:
       properties:
@@ -588,7 +654,7 @@ components:
             includes the stores of the specified merchant account.
           type: string
       required:
-        - companyAccount
+      - companyAccount
       type: object
     GetStoresUnderAccountResponse:
       properties:
@@ -611,7 +677,7 @@ components:
             For example, **V400m-324689776**.
           type: string
       required:
-        - terminal
+      - terminal
       type: object
     GetTerminalDetailsResponse:
       properties:
@@ -736,18 +802,18 @@ components:
             `ReAssignToMerchantInventoryPending`: Indicates the terminal is
             scheduled to be reassigned.
           enum:
-            - OnlineLast1Day
-            - OnlineLast2Days
-            - OnlineLast3Days
-            - OnlineLast4Days
-            - OnlineLast5Days
-            - OnlineLast6Days
-            - OnlineLast7Days
-            - OnlineToday
-            - ReAssignToInventoryPending
-            - ReAssignToMerchantInventoryPending
-            - ReAssignToStorePending
-            - SwitchedOff
+          - OnlineLast1Day
+          - OnlineLast2Days
+          - OnlineLast3Days
+          - OnlineLast4Days
+          - OnlineLast5Days
+          - OnlineLast6Days
+          - OnlineLast7Days
+          - OnlineToday
+          - ReAssignToInventoryPending
+          - ReAssignToMerchantInventoryPending
+          - ReAssignToStorePending
+          - SwitchedOff
           type: string
         wifiIp:
           description: The terminal's IP address in your Wi-Fi network.
@@ -756,8 +822,8 @@ components:
           description: The terminal's MAC address in your Wi-Fi network.
           type: string
       required:
-        - companyAccount
-        - terminal
+      - companyAccount
+      - terminal
       type: object
     GetTerminalsUnderAccountRequest:
       properties:
@@ -780,7 +846,7 @@ components:
             includes the terminals assigned to the specified store.
           type: string
       required:
-        - companyAccount
+      - companyAccount
       type: object
     GetTerminalsUnderAccountResponse:
       properties:
@@ -802,7 +868,7 @@ components:
             $ref: '#/components/schemas/MerchantAccount'
           type: array
       required:
-        - companyAccount
+      - companyAccount
       type: object
     MerchantAccount:
       properties:
@@ -830,7 +896,7 @@ components:
             $ref: '#/components/schemas/Store'
           type: array
       required:
-        - merchantAccount
+      - merchantAccount
       type: object
     ServiceError:
       properties:
@@ -892,7 +958,7 @@ components:
           description: The code of the store.
           type: string
       required:
-        - store
+      - store
       type: object
   securitySchemes:
     ApiKeyAuth:
@@ -937,7 +1003,7 @@ components:
       value:
         companyAccount: YOUR_COMPANY_ACCOUNT
         terminals:
-          - P400Plus-275479597
+        - P400Plus-275479597
     post-assignTerminals-assignTerminalCompany-200:
       summary: Example response for request 'assignTerminalCompany'
       value:
@@ -951,7 +1017,7 @@ components:
         merchantAccount: YOUR_MERCHANT_ACCOUNT
         merchantInventory: true
         terminals:
-          - P400Plus-275479597
+        - P400Plus-275479597
     post-assignTerminals-assignTerminalMerchant-200:
       summary: Example response for request 'assignTerminalMerchant'
       value:
@@ -965,7 +1031,7 @@ components:
         merchantAccount: YOUR_MERCHANT_ACCOUNT
         store: YOUR_STORE
         terminals:
-          - P400Plus-275479597
+        - P400Plus-275479597
     post-assignTerminals-assignTerminalStore-200:
       summary: Example response for request 'assignTerminalStore'
       value:
@@ -997,15 +1063,15 @@ components:
       summary: Example response for request 'getStoresCompany'
       value:
         stores:
-          - store: YOUR_STORE
-            description: YOUR_STORE
-            address:
-              city: The City
-              countryCode: NL
-              postalCode: '1234'
-              streetAddress: The Street
-            status: Active
-            merchantAccountCode: YOUR_MERCHANT_ACCOUNT
+        - store: YOUR_STORE
+          description: YOUR_STORE
+          address:
+            city: The City
+            countryCode: NL
+            postalCode: '1234'
+            streetAddress: The Street
+          status: Active
+          merchantAccountCode: YOUR_MERCHANT_ACCOUNT
     post-getStoresUnderAccount-getStoresMerchant:
       summary: Get all the stores under a merchant account
       description: >-
@@ -1018,15 +1084,15 @@ components:
       summary: Example response for request 'getStoresMerchant'
       value:
         stores:
-          - store: YOUR_STORE
-            description: YOUR_STORE
-            address:
-              city: The City
-              countryCode: NL
-              postalCode: '1234'
-              streetAddress: The Street
-            status: Active
-            merchantAccountCode: YOUR_MERCHANT_ACCOUNT
+        - store: YOUR_STORE
+          description: YOUR_STORE
+          address:
+            city: The City
+            countryCode: NL
+            postalCode: '1234'
+            streetAddress: The Street
+          status: Active
+          merchantAccountCode: YOUR_MERCHANT_ACCOUNT
     post-getTerminalDetails-getTerminalDetails:
       summary: Get information about a specific terminal
       description: >-
@@ -1073,13 +1139,13 @@ components:
       value:
         companyAccount: YOUR_COMPANY_ACCOUNT
         merchantAccounts:
-          - merchantAccount: YOUR_MERCHANT_ACCOUNT
+        - merchantAccount: YOUR_MERCHANT_ACCOUNT
+          inStoreTerminals:
+          - P400Plus-275479597
+          stores:
+          - store: YOUR_STORE
             inStoreTerminals:
-              - P400Plus-275479597
-            stores:
-              - store: YOUR_STORE
-                inStoreTerminals:
-                  - M400-401972715
+            - M400-401972715
     post-getTerminalsUnderAccount-getTerminalsMerchant:
       summary: Get all the terminals under a merchant account
       description: >-
@@ -1093,13 +1159,13 @@ components:
       value:
         companyAccount: YOUR_COMPANY_ACCOUNT
         merchantAccounts:
-          - merchantAccount: YOUR_MERCHANT_ACCOUNT
+        - merchantAccount: YOUR_MERCHANT_ACCOUNT
+          inStoreTerminals:
+          - P400Plus-275479597
+          stores:
+          - store: YOUR_STORE
             inStoreTerminals:
-              - P400Plus-275479597
-            stores:
-              - store: YOUR_STORE
-                inStoreTerminals:
-                  - M400-401972715
+            - M400-401972715
     post-getTerminalsUnderAccount-getTerminalsStore:
       summary: Get all the terminals assigned to a store
       description: Returns a list of terminals assigned to the specified store.
@@ -1112,8 +1178,8 @@ components:
       value:
         companyAccount: YOUR_COMPANY_ACCOUNT
         merchantAccounts:
-          - merchantAccount: YOUR_MERCHANT_ACCOUNT
-            stores:
-              - store: YOUR_STORE
-                inStoreTerminals:
-                  - M400-401972715
+        - merchantAccount: YOUR_MERCHANT_ACCOUNT
+          stores:
+          - store: YOUR_STORE
+            inStoreTerminals:
+            - M400-401972715

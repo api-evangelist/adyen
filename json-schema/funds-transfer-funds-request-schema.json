@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/funds-transfer-funds-request-schema.json",
+  "title": "TransferFundsRequest",
+  "description": "TransferFundsRequest schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "amount": {
+      "description": "The amount to be transferred.",
+      "$ref": "#/components/schemas/Amount"
+    },
+    "destinationAccountCode": {
+      "description": "The code of the account to which the funds are to be credited.\n>The state of the Account Holder of this account must be Active.",
+      "type": "string"
+    },
+    "merchantReference": {
+      "x-addedInVersion": "2",
+      "description": "A value that can be supplied at the discretion of the executing user in order to link multiple transactions to one another.",
+      "type": "string"
+    },
+    "sourceAccountCode": {
+      "description": "The code of the account from which the funds are to be debited.\n>The state of the Account Holder of this account must be Active and allow payouts.",
+      "type": "string"
+    },
+    "transferCode": {
+      "description": "The code related to the type of transfer being performed.\n>The permitted codes differ for each platform account and are defined in their service level agreement.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "sourceAccountCode",
+    "destinationAccountCode",
+    "transferCode",
+    "amount"
+  ]
+}

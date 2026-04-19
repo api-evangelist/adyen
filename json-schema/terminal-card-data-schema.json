@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/terminal-card-data-schema.json",
+  "title": "CardData",
+  "description": "Allows acquisition of the card data by the Sale System before the Payment, CardAcquisition  or BalanceInquiry request to the POI. It could also be sent in the CardAcquisition response, to be processed by the Sale System. Information related to the payment card used for the transaction.",
+  "type": "object",
+  "properties": {
+    "PaymentBrand": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "If card PAN is readable ."
+    },
+    "MaskedPan": {
+      "type": "string",
+      "pattern": "^.+$"
+    },
+    "PaymentAccountRef": {
+      "type": "string",
+      "pattern": "^.+$"
+    },
+    "EntryMode": {
+      "$ref": "#/components/schemas/EntryMode"
+    },
+    "CardCountryCode": {
+      "type": "integer",
+      "minimum": 3,
+      "maximum": 3,
+      "description": "If available in the card."
+    },
+    "ProtectedCardData": {
+      "type": "string",
+      "description": "SensitiveCardData protected by CMS EnvelopedData."
+    },
+    "SensitiveCardData": {
+      "$ref": "#/components/schemas/SensitiveCardData"
+    },
+    "AllowedProductCode": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 20
+      }
+    },
+    "AllowedProduct": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/AllowedProduct"
+      }
+    },
+    "PaymentToken": {
+      "$ref": "#/components/schemas/PaymentToken"
+    },
+    "CustomerOrder": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/CustomerOrder"
+      }
+    }
+  }
+}

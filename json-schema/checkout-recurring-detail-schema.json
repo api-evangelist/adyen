@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-schema/checkout-recurring-detail-schema.json",
+  "title": "RecurringDetail",
+  "description": "RecurringDetail schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "brand": {
+      "x-addedInVersion": "65",
+      "description": "Brand for the selected gift card. For example: plastix, hmclub.",
+      "type": "string"
+    },
+    "brands": {
+      "x-addedInVersion": "49",
+      "description": "List of possible brands. For example: visa, mc.",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "configuration": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "The configuration of the payment method.",
+      "type": "object"
+    },
+    "fundingSource": {
+      "x-addedInVersion": "53",
+      "description": "The funding source of the payment method.",
+      "enum": [
+        "credit",
+        "debit"
+      ],
+      "type": "string"
+    },
+    "group": {
+      "description": "The group where this payment method belongs to.",
+      "$ref": "#/components/schemas/PaymentMethodGroup"
+    },
+    "inputDetails": {
+      "deprecated": true,
+      "description": "All input details to be provided to complete the payment with this payment method.",
+      "items": {
+        "$ref": "#/components/schemas/InputDetail"
+      },
+      "type": "array"
+    },
+    "issuers": {
+      "x-addedInVersion": "68",
+      "description": "A list of issuers for this payment method.",
+      "items": {
+        "$ref": "#/components/schemas/PaymentMethodIssuer"
+      },
+      "type": "array"
+    },
+    "name": {
+      "description": "The displayable name of this payment method.",
+      "type": "string"
+    },
+    "recurringDetailReference": {
+      "description": "The reference that uniquely identifies the recurring detail.",
+      "type": "string"
+    },
+    "storedDetails": {
+      "description": "Contains information on previously stored payment details.",
+      "$ref": "#/components/schemas/StoredDetails"
+    },
+    "type": {
+      "description": "The unique payment method code.",
+      "type": "string"
+    }
+  }
+}

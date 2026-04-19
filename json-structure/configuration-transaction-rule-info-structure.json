@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/configuration-transaction-rule-info-structure.json",
+  "description": "TransactionRuleInfo schema from Adyen API",
+  "type": "object",
+  "properties": {
+    "aggregationLevel": {
+      "x-addedInVersion": "2",
+      "description": "The level at which data must be accumulated, used in rules with `type` **velocity** or **maxUsage**. The level must be the [same or lower in hierarchy](https://docs.adyen.com/issuing/transaction-rules#accumulate-data) than the `entityKey`.\n\nIf not provided, by default, the rule will accumulate data at the **paymentInstrument** level.\n\nPossible values: **paymentInstrument**, **paymentInstrumentGroup**, **balanceAccount**, **accountHolder**, **balancePlatform**.",
+      "type": "string"
+    },
+    "description": {
+      "description": "Your description for the transaction rule, maximum 300 characters.",
+      "maxLength": 300,
+      "type": "string"
+    },
+    "endDate": {
+      "description": "The date when the rule will stop being evaluated, in ISO 8601 extended offset date-time format. For example, **2020-12-18T10:15:30+01:00**.\n\nIf not provided, the rule will be evaluated until the rule status is set to **inactive**.",
+      "type": "string"
+    },
+    "entityKey": {
+      "x-addedInVersion": "2",
+      "description": "The type and unique identifier of the resource to which the rule applies.",
+      "$ref": "#/components/schemas/TransactionRuleEntityKey"
+    },
+    "interval": {
+      "description": "The [time interval](https://docs.adyen.com/issuing/transaction-rules#time-intervals) when the rule conditions apply.",
+      "$ref": "#/components/schemas/TransactionRuleInterval"
+    },
+    "outcomeType": {
+      "x-addedInVersion": "2",
+      "description": "The [outcome](https://docs.adyen.com/issuing/transaction-rules#outcome) that will be applied when a transaction meets the conditions of the rule. If not provided, by default, this is set to **hardBlock**.\n\nPossible values:\n\n * **hardBlock**: the transaction is declined.\n\n* **scoreBased**: the transaction is assigned the `score` you specified. Adyen calculates the total score and if it exceeds 100, the transaction is declined.",
+      "enum": [
+        "enforceSCA",
+        "hardBlock",
+        "scoreBased"
+      ],
+      "type": "string"
+    },
+    "reference": {
+      "description": "Your reference for the transaction rule, maximum 150 characters.",
+      "maxLength": 150,
+      "type": "string"
+    },
+    "requestType": {
+      "x-addedInVersion": "2",
+      "description": "Indicates the type of request to which the rule applies. If not provided, by default, this is set to **authorization**.\n\nPossible values: **authorization**, **authentication**, **tokenization**, **bankTransfer**.",
+      "enum": [
+        "authentication",
+        "authorization",
+        "bankTransfer",
+        "tokenization"
+      ],
+      "type": "string"
+    },
+    "ruleRestrictions": {
+      "x-addedInVersion": "2",
+      "description": "Contains one or more objects that define the [rule conditions](https://docs.adyen.com/issuing/transaction-rules#conditions). Each object must have a value and an operation which determines how the values must be evaluated.\n\nFor example, a `countries` object can have a list of country codes **[\"US\", \"CA\"]** in the `value` field and **anyMatch** in the `operation` field.",
+      "$ref": "#/components/schemas/TransactionRuleRestrictions"
+    },
+    "score": {
+      "x-addedInVersion": "2",
+      "description": "A positive or negative score applied to the transaction if it meets the conditions of the rule. Required when `outcomeType` is **scoreBased**.  The value must be between **-100** and **100**.",
+      "type": "int32"
+    },
+    "startDate": {
+      "description": "The date when the rule will start to be evaluated, in ISO 8601 extended offset date-time format. For example, **2020-12-18T10:15:30+01:00**.\n\nIf not provided when creating a transaction rule, the `startDate` is set to the date when the rule status is set to **active**. \n\n",
+      "type": "string"
+    },
+    "status": {
+      "description": "The status of the transaction rule. If you provide a `startDate` in the request, the rule is automatically created \nwith an **active** status. \n\nPossible values: **active**, **inactive**.",
+      "enum": [
+        "active",
+        "inactive"
+      ],
+      "type": "string"
+    },
+    "type": {
+      "description": "The [type of rule](https://docs.adyen.com/issuing/transaction-rules#rule-types), which defines if a rule blocks transactions based on individual characteristics or accumulates data.\n\nPossible values:\n * **blockList**: decline a transaction when the conditions are met.\n * **maxUsage**: add the amount or number of transactions for the lifetime of a payment instrument, and then decline a transaction when the specified limits are met.\n * **velocity**: add the amount or number of transactions based on a specified time interval, and then decline a transaction when the specified limits are met.\n",
+      "enum": [
+        "allowList",
+        "blockList",
+        "maxUsage",
+        "velocity"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "description",
+    "reference",
+    "entityKey",
+    "interval",
+    "ruleRestrictions"
+  ],
+  "name": "TransactionRuleInfo"
+}

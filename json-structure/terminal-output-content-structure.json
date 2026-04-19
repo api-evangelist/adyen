@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/json-structure/terminal-output-content-structure.json",
+  "description": "This is a sequence of elements if they have different formats. Content to display or print.",
+  "type": "object",
+  "properties": {
+    "OutputFormat": {
+      "$ref": "#/components/schemas/OutputFormat"
+    },
+    "PredefinedContent": {
+      "$ref": "#/components/schemas/PredefinedContent"
+    },
+    "OutputText": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/OutputText"
+      }
+    },
+    "OutputXHTML": {
+      "type": "string",
+      "format": "byte",
+      "pattern": "^.{0,262144}$",
+      "description": "Mandatory, if OutputFormat is XHTML, not allowed otherwise."
+    },
+    "OutputBarcode": {
+      "$ref": "#/components/schemas/OutputBarcode"
+    }
+  },
+  "required": [
+    "OutputFormat"
+  ],
+  "name": "OutputContent"
+}
