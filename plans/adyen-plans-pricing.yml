@@ -1,0 +1,95 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Adyen
+providerId: adyen
+created: '2026-05-04'
+modified: '2026-05-04'
+reconciled: true
+tags:
+  - Payments
+  - Acquiring
+description: 'Adyen Interchange++ pricing: $0.13 fixed processing fee + payment-method markup. No setup
+  or monthly fees.'
+sources:
+  - https://www.adyen.com/pricing
+plans:
+  - id: adyen-standard
+    name: Standard Payment Processing
+    type: usage-based
+    description: $0.13 fixed processing fee per transaction + payment method fee.
+    entries:
+      - label: Per transaction (fixed)
+        name: tx_fixed
+        type: metered
+        metric: transaction
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: '0.13'
+        userMultiplied: false
+      - label: Visa/Mastercard markup
+        name: tx_visa_mc
+        type: metered
+        metric: transaction
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: Interchange++ + 0.60%
+        userMultiplied: false
+      - label: PayPal
+        name: tx_paypal
+        type: metered
+        metric: transaction
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.13 + direct contract + management fee
+        userMultiplied: false
+      - label: Klarna
+        name: tx_klarna
+        type: metered
+        metric: transaction
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.13 + 0.99%-4.99%
+        userMultiplied: false
+      - label: Affirm
+        name: tx_affirm
+        type: metered
+        metric: transaction
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.13 + 4.19%-5.19% + $0.30
+        userMultiplied: false
+    elements:
+      - name: No setup or monthly fees
+      - name: Single integration for all methods
+      - name: Flexible payout
+      - name: IC++ pricing for transparency
+  - id: adyen-custom
+    name: Custom (Enterprise)
+    type: enterprise
+    description: Custom pricing on request.
+    entries:
+      - label: Custom contract
+        name: contract
+        type: subscription
+        metric: year
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: custom
+        userMultiplied: false
+    elements:
+      - name: Custom rate negotiation
+      - name: Volume discounts
+      - name: Account manager

@@ -1,0 +1,33 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Adyen
+providerId: adyen
+created: '2026-05-04'
+modified: '2026-05-04'
+reconciled: true
+tags:
+  - Rate Limiting
+  - Payments
+description: Adyen API rate limits per merchant account.
+sources:
+  - https://www.adyen.com/pricing
+  - https://docs.adyen.com/development-resources/rate-limits/
+headers: {}
+responseCodes:
+  throttled: 429
+limits:
+  - name: API requests (default)
+    scope: merchant
+    metric: requests_per_second
+    limit: 100
+    timeFrame: second
+  - name: Reporting API
+    scope: merchant
+    metric: concurrent
+    limit: 5
+  - name: Bulk endpoints
+    scope: merchant
+    metric: requests_per_minute
+    limit: 60
+    timeFrame: minute
