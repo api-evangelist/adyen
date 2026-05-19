@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Stored Value API — mergeBalance
+  description: 'Adyen Stored Value API — mergeBalance. 1 operations. Lead operation: Adyen Merge the Balance of Two Cards..
+    Self-contained Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - mergeBalance
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: stored-value-mergebalance
+    baseUri: https://pal-test.adyen.com/pal/servlet/StoredValue/v46
+    description: Adyen Stored Value API — mergeBalance business capability. Self-contained, no shared references.
+    resources:
+    - name: mergeBalance
+      path: /mergeBalance
+      operations:
+      - name: postmergebalance
+        method: POST
+        description: Adyen Merge the Balance of Two Cards.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: stored-value-mergebalance-rest
+    port: 8080
+    description: REST adapter for Adyen Stored Value API — mergeBalance. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/mergebalance
+      name: mergebalance
+      description: REST surface for mergeBalance.
+      operations:
+      - method: POST
+        name: postmergebalance
+        description: Adyen Merge the Balance of Two Cards.
+        call: stored-value-mergebalance.postmergebalance
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: stored-value-mergebalance-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Stored Value API — mergeBalance. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: adyen-merge-balance-two-cards
+      description: Adyen Merge the Balance of Two Cards.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: stored-value-mergebalance.postmergebalance
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

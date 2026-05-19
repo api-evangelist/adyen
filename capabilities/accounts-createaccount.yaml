@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Account API — createAccount
+  description: 'Adyen Account API — createAccount. 1 operations. Lead operation: Adyen Create an Account. Self-contained Naftiko
+    capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - createAccount
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: accounts-createaccount
+    baseUri: https://cal-test.adyen.com/cal/services/Account/v6
+    description: Adyen Account API — createAccount business capability. Self-contained, no shared references.
+    resources:
+    - name: createAccount
+      path: /createAccount
+      operations:
+      - name: postcreateaccount
+        method: POST
+        description: Adyen Create an Account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: accounts-createaccount-rest
+    port: 8080
+    description: REST adapter for Adyen Account API — createAccount. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/createaccount
+      name: createaccount
+      description: REST surface for createAccount.
+      operations:
+      - method: POST
+        name: postcreateaccount
+        description: Adyen Create an Account
+        call: accounts-createaccount.postcreateaccount
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: accounts-createaccount-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Account API — createAccount. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: adyen-create-account
+      description: Adyen Create an Account
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: accounts-createaccount.postcreateaccount
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

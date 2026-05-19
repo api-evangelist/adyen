@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Configuration API — Offer
+  description: 'Adyen Configuration API — Offer. 1 operations. Lead operation: Adyen Get a Grant Offer. Self-contained Naftiko
+    capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - Offer
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: configuration-offer
+    baseUri: https://balanceplatform-api-test.adyen.com/bcl/v2
+    description: Adyen Configuration API — Offer business capability. Self-contained, no shared references.
+    resources:
+    - name: grantOffers-grantOfferId
+      path: /grantOffers/{grantOfferId}
+      operations:
+      - name: getgrantoffersgrantofferid
+        method: GET
+        description: Adyen Get a Grant Offer
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: grantOfferId
+          in: path
+          type: string
+          description: The unique identifier of the grant offer.
+          required: true
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: configuration-offer-rest
+    port: 8080
+    description: REST adapter for Adyen Configuration API — Offer. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/grantoffers/{grantofferid}
+      name: grantoffers-grantofferid
+      description: REST surface for grantOffers-grantOfferId.
+      operations:
+      - method: GET
+        name: getgrantoffersgrantofferid
+        description: Adyen Get a Grant Offer
+        call: configuration-offer.getgrantoffersgrantofferid
+        with:
+          grantOfferId: rest.grantOfferId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: configuration-offer-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Configuration API — Offer. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: adyen-get-grant-offer
+      description: Adyen Get a Grant Offer
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: configuration-offer.getgrantoffersgrantofferid
+      with:
+        grantOfferId: tools.grantOfferId
+      outputParameters:
+      - type: object
+        mapping: $.

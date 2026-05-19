@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Terminal API — Enableservice
+  description: 'Adyen Terminal API — Enableservice. 1 operations. Lead operation: Adyen EnableService Request. Self-contained
+    Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - Enableservice
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: terminal-enableservice
+    baseUri: https://terminal-api-test.adyen.com/sync
+    description: Adyen Terminal API — Enableservice business capability. Self-contained, no shared references.
+    resources:
+    - name: enableservice
+      path: /enableservice
+      operations:
+      - name: post
+        method: POST
+        description: Adyen EnableService Request
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: terminal-enableservice-rest
+    port: 8080
+    description: REST adapter for Adyen Terminal API — Enableservice. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/enableservice
+      name: enableservice
+      description: REST surface for enableservice.
+      operations:
+      - method: POST
+        name: post
+        description: Adyen EnableService Request
+        call: terminal-enableservice.post
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: terminal-enableservice-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Terminal API — Enableservice. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: adyen-enableservice-request
+      description: Adyen EnableService Request
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: terminal-enableservice.post
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

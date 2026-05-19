@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Checkout API — Balance
+  description: 'Adyen Checkout API — Balance. 1 operations. Lead operation: Adyen Get the Balance of a Gift Card. Self-contained
+    Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - Balance
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: checkout-balance
+    baseUri: https://checkout-test.adyen.com/v71
+    description: Adyen Checkout API — Balance business capability. Self-contained, no shared references.
+    resources:
+    - name: paymentMethods-balance
+      path: /paymentMethods/balance
+      operations:
+      - name: postpaymentmethodsbalance
+        method: POST
+        description: Adyen Get the Balance of a Gift Card
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: checkout-balance-rest
+    port: 8080
+    description: REST adapter for Adyen Checkout API — Balance. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/paymentmethods/balance
+      name: paymentmethods-balance
+      description: REST surface for paymentMethods-balance.
+      operations:
+      - method: POST
+        name: postpaymentmethodsbalance
+        description: Adyen Get the Balance of a Gift Card
+        call: checkout-balance.postpaymentmethodsbalance
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: checkout-balance-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Checkout API — Balance. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: adyen-get-balance-gift-card
+      description: Adyen Get the Balance of a Gift Card
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: checkout-balance.postpaymentmethodsbalance
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

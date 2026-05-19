@@ -1,0 +1,87 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Configuration API — Keys
+  description: 'Adyen Configuration API — Keys. 1 operations. Lead operation: Adyen Get RSA PublicKey. Self-contained Naftiko
+    capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - Keys
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: configuration-keys
+    baseUri: https://balanceplatform-api-test.adyen.com/bcl/v2
+    description: Adyen Configuration API — Keys business capability. Self-contained, no shared references.
+    resources:
+    - name: pins-publicKey
+      path: /pins/publicKey
+      operations:
+      - name: getpinspublickey
+        method: GET
+        description: Adyen Get RSA PublicKey
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: purpose
+          in: query
+          type: string
+          description: Purpose of publicKey.
+        - name: format
+          in: query
+          type: string
+          description: Format of publicKey.
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: configuration-keys-rest
+    port: 8080
+    description: REST adapter for Adyen Configuration API — Keys. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/pins/publickey
+      name: pins-publickey
+      description: REST surface for pins-publicKey.
+      operations:
+      - method: GET
+        name: getpinspublickey
+        description: Adyen Get RSA PublicKey
+        call: configuration-keys.getpinspublickey
+        with:
+          purpose: rest.purpose
+          format: rest.format
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: configuration-keys-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Configuration API — Keys. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: adyen-get-rsa-publickey
+      description: Adyen Get RSA PublicKey
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: configuration-keys.getpinspublickey
+      with:
+        purpose: tools.purpose
+        format: tools.format
+      outputParameters:
+      - type: object
+        mapping: $.

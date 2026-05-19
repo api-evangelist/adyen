@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Account API — createAccountHolder
+  description: 'Adyen Account API — createAccountHolder. 1 operations. Lead operation: Adyen Create an Account Holder. Self-contained
+    Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - createAccountHolder
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: accounts-createaccountholder
+    baseUri: https://cal-test.adyen.com/cal/services/Account/v6
+    description: Adyen Account API — createAccountHolder business capability. Self-contained, no shared references.
+    resources:
+    - name: createAccountHolder
+      path: /createAccountHolder
+      operations:
+      - name: postcreateaccountholder
+        method: POST
+        description: Adyen Create an Account Holder
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: accounts-createaccountholder-rest
+    port: 8080
+    description: REST adapter for Adyen Account API — createAccountHolder. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/createaccountholder
+      name: createaccountholder
+      description: REST surface for createAccountHolder.
+      operations:
+      - method: POST
+        name: postcreateaccountholder
+        description: Adyen Create an Account Holder
+        call: accounts-createaccountholder.postcreateaccountholder
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: accounts-createaccountholder-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Account API — createAccountHolder. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: adyen-create-account-holder
+      description: Adyen Create an Account Holder
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: accounts-createaccountholder.postcreateaccountholder
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

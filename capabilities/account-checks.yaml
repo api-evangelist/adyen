@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Account API — Checks
+  description: 'Adyen Account API — Checks. 1 operations. Lead operation: Adyen Trigger Verification. Self-contained Naftiko
+    capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - Checks
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: account-checks
+    baseUri: https://cal-test.adyen.com/cal/services/Account/v6
+    description: Adyen Account API — Checks business capability. Self-contained, no shared references.
+    resources:
+    - name: checkAccountHolder
+      path: /checkAccountHolder
+      operations:
+      - name: postcheckaccountholder
+        method: POST
+        description: Adyen Trigger Verification
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: account-checks-rest
+    port: 8080
+    description: REST adapter for Adyen Account API — Checks. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/checkaccountholder
+      name: checkaccountholder
+      description: REST surface for checkAccountHolder.
+      operations:
+      - method: POST
+        name: postcheckaccountholder
+        description: Adyen Trigger Verification
+        call: account-checks.postcheckaccountholder
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: account-checks-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Account API — Checks. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: adyen-trigger-verification
+      description: Adyen Trigger Verification
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: account-checks.postcheckaccountholder
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

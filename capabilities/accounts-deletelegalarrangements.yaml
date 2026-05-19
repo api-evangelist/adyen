@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Account API — deleteLegalArrangements
+  description: 'Adyen Account API — deleteLegalArrangements. 1 operations. Lead operation: Adyen Delete Legal Arrangements.
+    Self-contained Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - deleteLegalArrangements
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: accounts-deletelegalarrangements
+    baseUri: https://cal-test.adyen.com/cal/services/Account/v6
+    description: Adyen Account API — deleteLegalArrangements business capability. Self-contained, no shared references.
+    resources:
+    - name: deleteLegalArrangements
+      path: /deleteLegalArrangements
+      operations:
+      - name: postdeletelegalarrangements
+        method: POST
+        description: Adyen Delete Legal Arrangements
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: accounts-deletelegalarrangements-rest
+    port: 8080
+    description: REST adapter for Adyen Account API — deleteLegalArrangements. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/deletelegalarrangements
+      name: deletelegalarrangements
+      description: REST surface for deleteLegalArrangements.
+      operations:
+      - method: POST
+        name: postdeletelegalarrangements
+        description: Adyen Delete Legal Arrangements
+        call: accounts-deletelegalarrangements.postdeletelegalarrangements
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: accounts-deletelegalarrangements-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Account API — deleteLegalArrangements. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: adyen-delete-legal-arrangements
+      description: Adyen Delete Legal Arrangements
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: accounts-deletelegalarrangements.postdeletelegalarrangements
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

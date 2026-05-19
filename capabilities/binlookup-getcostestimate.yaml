@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen BinLookup API — getCostEstimate
+  description: 'Adyen BinLookup API — getCostEstimate. 1 operations. Lead operation: Adyen Get a Fees Cost Estimate. Self-contained
+    Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - getCostEstimate
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: binlookup-getcostestimate
+    baseUri: https://pal-test.adyen.com/pal/servlet/BinLookup/v54
+    description: Adyen BinLookup API — getCostEstimate business capability. Self-contained, no shared references.
+    resources:
+    - name: getCostEstimate
+      path: /getCostEstimate
+      operations:
+      - name: postgetcostestimate
+        method: POST
+        description: Adyen Get a Fees Cost Estimate
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: binlookup-getcostestimate-rest
+    port: 8080
+    description: REST adapter for Adyen BinLookup API — getCostEstimate. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/getcostestimate
+      name: getcostestimate
+      description: REST surface for getCostEstimate.
+      operations:
+      - method: POST
+        name: postgetcostestimate
+        description: Adyen Get a Fees Cost Estimate
+        call: binlookup-getcostestimate.postgetcostestimate
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: binlookup-getcostestimate-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen BinLookup API — getCostEstimate. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: adyen-get-fees-cost-estimate
+      description: Adyen Get a Fees Cost Estimate
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: binlookup-getcostestimate.postgetcostestimate
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

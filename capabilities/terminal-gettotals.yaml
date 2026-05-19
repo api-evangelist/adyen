@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Terminal API — Gettotals
+  description: 'Adyen Terminal API — Gettotals. 1 operations. Lead operation: Adyen GetTotals Request. Self-contained Naftiko
+    capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - Gettotals
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: terminal-gettotals
+    baseUri: https://terminal-api-test.adyen.com/sync
+    description: Adyen Terminal API — Gettotals business capability. Self-contained, no shared references.
+    resources:
+    - name: gettotals
+      path: /gettotals
+      operations:
+      - name: post
+        method: POST
+        description: Adyen GetTotals Request
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: terminal-gettotals-rest
+    port: 8080
+    description: REST adapter for Adyen Terminal API — Gettotals. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/gettotals
+      name: gettotals
+      description: REST surface for gettotals.
+      operations:
+      - method: POST
+        name: post
+        description: Adyen GetTotals Request
+        call: terminal-gettotals.post
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: terminal-gettotals-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Terminal API — Gettotals. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: adyen-gettotals-request
+      description: Adyen GetTotals Request
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: terminal-gettotals.post
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

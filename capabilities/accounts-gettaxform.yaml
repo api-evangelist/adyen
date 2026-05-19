@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Account API — getTaxForm
+  description: 'Adyen Account API — getTaxForm. 1 operations. Lead operation: Adyen Get a Tax Form. Self-contained Naftiko
+    capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - getTaxForm
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: accounts-gettaxform
+    baseUri: https://cal-test.adyen.com/cal/services/Account/v6
+    description: Adyen Account API — getTaxForm business capability. Self-contained, no shared references.
+    resources:
+    - name: getTaxForm
+      path: /getTaxForm
+      operations:
+      - name: postgettaxform
+        method: POST
+        description: Adyen Get a Tax Form
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: accounts-gettaxform-rest
+    port: 8080
+    description: REST adapter for Adyen Account API — getTaxForm. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/gettaxform
+      name: gettaxform
+      description: REST surface for getTaxForm.
+      operations:
+      - method: POST
+        name: postgettaxform
+        description: Adyen Get a Tax Form
+        call: accounts-gettaxform.postgettaxform
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: accounts-gettaxform-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Account API — getTaxForm. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: adyen-get-tax-form
+      description: Adyen Get a Tax Form
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: accounts-gettaxform.postgettaxform
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,201 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Configuration API — transactionRules
+  description: 'Adyen Configuration API — transactionRules. 4 operations. Lead operation: Adyen Create a Transaction Rule.
+    Self-contained Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - transactionRules
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: configuration-transactionrules
+    baseUri: https://balanceplatform-api-test.adyen.com/bcl/v2
+    description: Adyen Configuration API — transactionRules business capability. Self-contained, no shared references.
+    resources:
+    - name: transactionRules
+      path: /transactionRules
+      operations:
+      - name: posttransactionrules
+        method: POST
+        description: Adyen Create a Transaction Rule
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: transactionRules-transactionRuleId
+      path: /transactionRules/{transactionRuleId}
+      operations:
+      - name: deletetransactionrulestransactionruleid
+        method: DELETE
+        description: Adyen Delete a Transaction Rule
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: transactionRuleId
+          in: path
+          type: string
+          description: The unique identifier of the transaction rule.
+          required: true
+      - name: gettransactionrulestransactionruleid
+        method: GET
+        description: Adyen Get a Transaction Rule
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: transactionRuleId
+          in: path
+          type: string
+          description: The unique identifier of the transaction rule.
+          required: true
+      - name: patchtransactionrulestransactionruleid
+        method: PATCH
+        description: Adyen Update a Transaction Rule
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: transactionRuleId
+          in: path
+          type: string
+          description: The unique identifier of the transaction rule.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: configuration-transactionrules-rest
+    port: 8080
+    description: REST adapter for Adyen Configuration API — transactionRules. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/transactionrules
+      name: transactionrules
+      description: REST surface for transactionRules.
+      operations:
+      - method: POST
+        name: posttransactionrules
+        description: Adyen Create a Transaction Rule
+        call: configuration-transactionrules.posttransactionrules
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/transactionrules/{transactionruleid}
+      name: transactionrules-transactionruleid
+      description: REST surface for transactionRules-transactionRuleId.
+      operations:
+      - method: DELETE
+        name: deletetransactionrulestransactionruleid
+        description: Adyen Delete a Transaction Rule
+        call: configuration-transactionrules.deletetransactionrulestransactionruleid
+        with:
+          transactionRuleId: rest.transactionRuleId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: gettransactionrulestransactionruleid
+        description: Adyen Get a Transaction Rule
+        call: configuration-transactionrules.gettransactionrulestransactionruleid
+        with:
+          transactionRuleId: rest.transactionRuleId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchtransactionrulestransactionruleid
+        description: Adyen Update a Transaction Rule
+        call: configuration-transactionrules.patchtransactionrulestransactionruleid
+        with:
+          transactionRuleId: rest.transactionRuleId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: configuration-transactionrules-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Configuration API — transactionRules. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: adyen-create-transaction-rule
+      description: Adyen Create a Transaction Rule
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: configuration-transactionrules.posttransactionrules
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-delete-transaction-rule
+      description: Adyen Delete a Transaction Rule
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: configuration-transactionrules.deletetransactionrulestransactionruleid
+      with:
+        transactionRuleId: tools.transactionRuleId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-transaction-rule
+      description: Adyen Get a Transaction Rule
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: configuration-transactionrules.gettransactionrulestransactionruleid
+      with:
+        transactionRuleId: tools.transactionRuleId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-transaction-rule
+      description: Adyen Update a Transaction Rule
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: configuration-transactionrules.patchtransactionrulestransactionruleid
+      with:
+        transactionRuleId: tools.transactionRuleId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

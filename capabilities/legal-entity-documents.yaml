@@ -1,0 +1,215 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Legal Entity Management API — Documents
+  description: 'Adyen Legal Entity Management API — Documents. 4 operations. Lead operation: Adyen Upload a Document for Verification
+    Checks. Self-contained Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - Documents
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: legal-entity-documents
+    baseUri: https://kyc-test.adyen.com/lem/v3
+    description: Adyen Legal Entity Management API — Documents business capability. Self-contained, no shared references.
+    resources:
+    - name: documents
+      path: /documents
+      operations:
+      - name: postdocuments
+        method: POST
+        description: Adyen Upload a Document for Verification Checks
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: x-requested-verification-code
+          in: header
+          type: string
+          description: Use a suberror code as your requested verification code. You can include one code at a time in your
+            request header. Requested verification codes can only be use
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: documents-id
+      path: /documents/{id}
+      operations:
+      - name: deletedocumentsid
+        method: DELETE
+        description: Adyen Delete a Document
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The unique identifier of the document to be deleted.
+          required: true
+      - name: getdocumentsid
+        method: GET
+        description: Adyen Get a Document
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The unique identifier of the document.
+          required: true
+      - name: patchdocumentsid
+        method: PATCH
+        description: Adyen Update a Document
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The unique identifier of the document to be updated.
+          required: true
+        - name: x-requested-verification-code
+          in: header
+          type: string
+          description: Use the requested verification code 0_0001 to resolve any suberrors associated with the document. Requested
+            verification codes can only be used in your test env
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: legal-entity-documents-rest
+    port: 8080
+    description: REST adapter for Adyen Legal Entity Management API — Documents. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/documents
+      name: documents
+      description: REST surface for documents.
+      operations:
+      - method: POST
+        name: postdocuments
+        description: Adyen Upload a Document for Verification Checks
+        call: legal-entity-documents.postdocuments
+        with:
+          x-requested-verification-code: rest.x-requested-verification-code
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/documents/{id}
+      name: documents-id
+      description: REST surface for documents-id.
+      operations:
+      - method: DELETE
+        name: deletedocumentsid
+        description: Adyen Delete a Document
+        call: legal-entity-documents.deletedocumentsid
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getdocumentsid
+        description: Adyen Get a Document
+        call: legal-entity-documents.getdocumentsid
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchdocumentsid
+        description: Adyen Update a Document
+        call: legal-entity-documents.patchdocumentsid
+        with:
+          id: rest.id
+          x-requested-verification-code: rest.x-requested-verification-code
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: legal-entity-documents-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Legal Entity Management API — Documents. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: adyen-upload-document-verification-checks
+      description: Adyen Upload a Document for Verification Checks
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: legal-entity-documents.postdocuments
+      with:
+        x-requested-verification-code: tools.x-requested-verification-code
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-delete-document
+      description: Adyen Delete a Document
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: legal-entity-documents.deletedocumentsid
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-document
+      description: Adyen Get a Document
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: legal-entity-documents.getdocumentsid
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-document
+      description: Adyen Update a Document
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: legal-entity-documents.patchdocumentsid
+      with:
+        id: tools.id
+        x-requested-verification-code: tools.x-requested-verification-code
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

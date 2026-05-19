@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Terminal API — Cardreaderapdu
+  description: 'Adyen Terminal API — Cardreaderapdu. 1 operations. Lead operation: Adyen CardReaderAPDU Request. Self-contained
+    Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - Cardreaderapdu
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: terminal-cardreaderapdu
+    baseUri: https://terminal-api-test.adyen.com/sync
+    description: Adyen Terminal API — Cardreaderapdu business capability. Self-contained, no shared references.
+    resources:
+    - name: cardreaderapdu
+      path: /cardreaderapdu
+      operations:
+      - name: post
+        method: POST
+        description: Adyen CardReaderAPDU Request
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: terminal-cardreaderapdu-rest
+    port: 8080
+    description: REST adapter for Adyen Terminal API — Cardreaderapdu. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/cardreaderapdu
+      name: cardreaderapdu
+      description: REST surface for cardreaderapdu.
+      operations:
+      - method: POST
+        name: post
+        description: Adyen CardReaderAPDU Request
+        call: terminal-cardreaderapdu.post
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: terminal-cardreaderapdu-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Terminal API — Cardreaderapdu. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: adyen-cardreaderapdu-request
+      description: Adyen CardReaderAPDU Request
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: terminal-cardreaderapdu.post
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

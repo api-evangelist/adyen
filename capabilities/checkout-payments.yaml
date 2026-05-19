@@ -1,0 +1,773 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Checkout API — Payments
+  description: 'Adyen Checkout API — Payments. 16 operations. Lead operation: Adyen Create a Payment Link. Self-contained
+    Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - Payments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: checkout-payments
+    baseUri: https://checkout-test.adyen.com/v71
+    description: Adyen Checkout API — Payments business capability. Self-contained, no shared references.
+    resources:
+    - name: paymentLinks
+      path: /paymentLinks
+      operations:
+      - name: postpaymentlinks
+        method: POST
+        description: Adyen Create a Payment Link
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: paymentLinks-linkId
+      path: /paymentLinks/{linkId}
+      operations:
+      - name: getpaymentlinkslinkid
+        method: GET
+        description: Adyen Get a Payment Link
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: linkId
+          in: path
+          type: string
+          description: Unique identifier of the payment link.
+          required: true
+      - name: patchpaymentlinkslinkid
+        method: PATCH
+        description: Adyen Update the Status of a Payment Link
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: linkId
+          in: path
+          type: string
+          description: Unique identifier of the payment link.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: paymentMethods
+      path: /paymentMethods
+      operations:
+      - name: postpaymentmethods
+        method: POST
+        description: Adyen Get a List of Available Payment Methods
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: paymentMethods-balance
+      path: /paymentMethods/balance
+      operations:
+      - name: postpaymentmethodsbalance
+        method: POST
+        description: Adyen Get the Balance of a Gift Card
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: paymentSession
+      path: /paymentSession
+      operations:
+      - name: postpaymentsession
+        method: POST
+        description: Adyen Create a Payment Session
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: payments
+      path: /payments
+      operations:
+      - name: postpayments
+        method: POST
+        description: Adyen Start a Transaction
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: payments-details
+      path: /payments/details
+      operations:
+      - name: postpaymentsdetails
+        method: POST
+        description: Adyen Submit Details for a Payment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: payments-result
+      path: /payments/result
+      operations:
+      - name: postpaymentsresult
+        method: POST
+        description: Adyen Verify a Payment Result
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: payments-paymentPspReference-amountUpdates
+      path: /payments/{paymentPspReference}/amountUpdates
+      operations:
+      - name: postpaymentspaymentpspreferenceamountupdates
+        method: POST
+        description: Adyen Update an Authorised Amount
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: paymentPspReference
+          in: path
+          type: string
+          description: The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference)
+            of the payment.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: payments-paymentPspReference-cancels
+      path: /payments/{paymentPspReference}/cancels
+      operations:
+      - name: postpaymentspaymentpspreferencecancels
+        method: POST
+        description: Adyen Cancel an Authorised Payment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: paymentPspReference
+          in: path
+          type: string
+          description: The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference)
+            of the payment that you want to cancel.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: payments-paymentPspReference-captures
+      path: /payments/{paymentPspReference}/captures
+      operations:
+      - name: postpaymentspaymentpspreferencecaptures
+        method: POST
+        description: Adyen Capture an Authorised Payment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: paymentPspReference
+          in: path
+          type: string
+          description: The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference)
+            of the payment that you want to capture.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: payments-paymentPspReference-refunds
+      path: /payments/{paymentPspReference}/refunds
+      operations:
+      - name: postpaymentspaymentpspreferencerefunds
+        method: POST
+        description: Adyen Refund a Captured Payment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: paymentPspReference
+          in: path
+          type: string
+          description: The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference)
+            of the payment that you want to refund.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: payments-paymentPspReference-reversals
+      path: /payments/{paymentPspReference}/reversals
+      operations:
+      - name: postpaymentspaymentpspreferencereversals
+        method: POST
+        description: Adyen Refund or Cancel a Payment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: paymentPspReference
+          in: path
+          type: string
+          description: The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference)
+            of the payment that you want to reverse.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: storedPaymentMethods
+      path: /storedPaymentMethods
+      operations:
+      - name: getstoredpaymentmethods
+        method: GET
+        description: Adyen Get Tokens for Stored Payment Details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: shopperReference
+          in: query
+          type: string
+          description: 'Your reference to uniquely identify this shopper, for example user ID or account ID. Minimum length:
+            3 characters.'
+        - name: merchantAccount
+          in: query
+          type: string
+          description: Your merchant account.
+    - name: storedPaymentMethods-storedPaymentMethodId
+      path: /storedPaymentMethods/{storedPaymentMethodId}
+      operations:
+      - name: deletestoredpaymentmethodsstoredpaymentmethodid
+        method: DELETE
+        description: Adyen Delete a Token for Stored Payment Details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: storedPaymentMethodId
+          in: path
+          type: string
+          description: The unique identifier of the token.
+          required: true
+        - name: shopperReference
+          in: query
+          type: string
+          description: 'Your reference to uniquely identify this shopper, for example user ID or account ID. Minimum length:
+            3 characters.'
+          required: true
+        - name: merchantAccount
+          in: query
+          type: string
+          description: Your merchant account.
+          required: true
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: checkout-payments-rest
+    port: 8080
+    description: REST adapter for Adyen Checkout API — Payments. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/paymentlinks
+      name: paymentlinks
+      description: REST surface for paymentLinks.
+      operations:
+      - method: POST
+        name: postpaymentlinks
+        description: Adyen Create a Payment Link
+        call: checkout-payments.postpaymentlinks
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/paymentlinks/{linkid}
+      name: paymentlinks-linkid
+      description: REST surface for paymentLinks-linkId.
+      operations:
+      - method: GET
+        name: getpaymentlinkslinkid
+        description: Adyen Get a Payment Link
+        call: checkout-payments.getpaymentlinkslinkid
+        with:
+          linkId: rest.linkId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchpaymentlinkslinkid
+        description: Adyen Update the Status of a Payment Link
+        call: checkout-payments.patchpaymentlinkslinkid
+        with:
+          linkId: rest.linkId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/paymentmethods
+      name: paymentmethods
+      description: REST surface for paymentMethods.
+      operations:
+      - method: POST
+        name: postpaymentmethods
+        description: Adyen Get a List of Available Payment Methods
+        call: checkout-payments.postpaymentmethods
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/paymentmethods/balance
+      name: paymentmethods-balance
+      description: REST surface for paymentMethods-balance.
+      operations:
+      - method: POST
+        name: postpaymentmethodsbalance
+        description: Adyen Get the Balance of a Gift Card
+        call: checkout-payments.postpaymentmethodsbalance
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/paymentsession
+      name: paymentsession
+      description: REST surface for paymentSession.
+      operations:
+      - method: POST
+        name: postpaymentsession
+        description: Adyen Create a Payment Session
+        call: checkout-payments.postpaymentsession
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/payments
+      name: payments
+      description: REST surface for payments.
+      operations:
+      - method: POST
+        name: postpayments
+        description: Adyen Start a Transaction
+        call: checkout-payments.postpayments
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/payments/details
+      name: payments-details
+      description: REST surface for payments-details.
+      operations:
+      - method: POST
+        name: postpaymentsdetails
+        description: Adyen Submit Details for a Payment
+        call: checkout-payments.postpaymentsdetails
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/payments/result
+      name: payments-result
+      description: REST surface for payments-result.
+      operations:
+      - method: POST
+        name: postpaymentsresult
+        description: Adyen Verify a Payment Result
+        call: checkout-payments.postpaymentsresult
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/payments/{paymentpspreference}/amountupdates
+      name: payments-paymentpspreference-amountupdates
+      description: REST surface for payments-paymentPspReference-amountUpdates.
+      operations:
+      - method: POST
+        name: postpaymentspaymentpspreferenceamountupdates
+        description: Adyen Update an Authorised Amount
+        call: checkout-payments.postpaymentspaymentpspreferenceamountupdates
+        with:
+          paymentPspReference: rest.paymentPspReference
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/payments/{paymentpspreference}/cancels
+      name: payments-paymentpspreference-cancels
+      description: REST surface for payments-paymentPspReference-cancels.
+      operations:
+      - method: POST
+        name: postpaymentspaymentpspreferencecancels
+        description: Adyen Cancel an Authorised Payment
+        call: checkout-payments.postpaymentspaymentpspreferencecancels
+        with:
+          paymentPspReference: rest.paymentPspReference
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/payments/{paymentpspreference}/captures
+      name: payments-paymentpspreference-captures
+      description: REST surface for payments-paymentPspReference-captures.
+      operations:
+      - method: POST
+        name: postpaymentspaymentpspreferencecaptures
+        description: Adyen Capture an Authorised Payment
+        call: checkout-payments.postpaymentspaymentpspreferencecaptures
+        with:
+          paymentPspReference: rest.paymentPspReference
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/payments/{paymentpspreference}/refunds
+      name: payments-paymentpspreference-refunds
+      description: REST surface for payments-paymentPspReference-refunds.
+      operations:
+      - method: POST
+        name: postpaymentspaymentpspreferencerefunds
+        description: Adyen Refund a Captured Payment
+        call: checkout-payments.postpaymentspaymentpspreferencerefunds
+        with:
+          paymentPspReference: rest.paymentPspReference
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/payments/{paymentpspreference}/reversals
+      name: payments-paymentpspreference-reversals
+      description: REST surface for payments-paymentPspReference-reversals.
+      operations:
+      - method: POST
+        name: postpaymentspaymentpspreferencereversals
+        description: Adyen Refund or Cancel a Payment
+        call: checkout-payments.postpaymentspaymentpspreferencereversals
+        with:
+          paymentPspReference: rest.paymentPspReference
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/storedpaymentmethods
+      name: storedpaymentmethods
+      description: REST surface for storedPaymentMethods.
+      operations:
+      - method: GET
+        name: getstoredpaymentmethods
+        description: Adyen Get Tokens for Stored Payment Details
+        call: checkout-payments.getstoredpaymentmethods
+        with:
+          shopperReference: rest.shopperReference
+          merchantAccount: rest.merchantAccount
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/storedpaymentmethods/{storedpaymentmethodid}
+      name: storedpaymentmethods-storedpaymentmethodid
+      description: REST surface for storedPaymentMethods-storedPaymentMethodId.
+      operations:
+      - method: DELETE
+        name: deletestoredpaymentmethodsstoredpaymentmethodid
+        description: Adyen Delete a Token for Stored Payment Details
+        call: checkout-payments.deletestoredpaymentmethodsstoredpaymentmethodid
+        with:
+          storedPaymentMethodId: rest.storedPaymentMethodId
+          shopperReference: rest.shopperReference
+          merchantAccount: rest.merchantAccount
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: checkout-payments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Checkout API — Payments. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: adyen-create-payment-link
+      description: Adyen Create a Payment Link
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: checkout-payments.postpaymentlinks
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-payment-link
+      description: Adyen Get a Payment Link
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: checkout-payments.getpaymentlinkslinkid
+      with:
+        linkId: tools.linkId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-status-payment-link
+      description: Adyen Update the Status of a Payment Link
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: checkout-payments.patchpaymentlinkslinkid
+      with:
+        linkId: tools.linkId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-list-available-payment
+      description: Adyen Get a List of Available Payment Methods
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: checkout-payments.postpaymentmethods
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-balance-gift-card
+      description: Adyen Get the Balance of a Gift Card
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: checkout-payments.postpaymentmethodsbalance
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-create-payment-session
+      description: Adyen Create a Payment Session
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: checkout-payments.postpaymentsession
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-start-transaction
+      description: Adyen Start a Transaction
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: checkout-payments.postpayments
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-submit-details-payment
+      description: Adyen Submit Details for a Payment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: checkout-payments.postpaymentsdetails
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-verify-payment-result
+      description: Adyen Verify a Payment Result
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: checkout-payments.postpaymentsresult
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-authorised-amount
+      description: Adyen Update an Authorised Amount
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: checkout-payments.postpaymentspaymentpspreferenceamountupdates
+      with:
+        paymentPspReference: tools.paymentPspReference
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-cancel-authorised-payment
+      description: Adyen Cancel an Authorised Payment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: checkout-payments.postpaymentspaymentpspreferencecancels
+      with:
+        paymentPspReference: tools.paymentPspReference
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-capture-authorised-payment
+      description: Adyen Capture an Authorised Payment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: checkout-payments.postpaymentspaymentpspreferencecaptures
+      with:
+        paymentPspReference: tools.paymentPspReference
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-refund-captured-payment
+      description: Adyen Refund a Captured Payment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: checkout-payments.postpaymentspaymentpspreferencerefunds
+      with:
+        paymentPspReference: tools.paymentPspReference
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-refund-cancel-payment
+      description: Adyen Refund or Cancel a Payment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: checkout-payments.postpaymentspaymentpspreferencereversals
+      with:
+        paymentPspReference: tools.paymentPspReference
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-tokens-stored-payment
+      description: Adyen Get Tokens for Stored Payment Details
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: checkout-payments.getstoredpaymentmethods
+      with:
+        shopperReference: tools.shopperReference
+        merchantAccount: tools.merchantAccount
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-delete-token-stored-payment
+      description: Adyen Delete a Token for Stored Payment Details
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: checkout-payments.deletestoredpaymentmethodsstoredpaymentmethodid
+      with:
+        storedPaymentMethodId: tools.storedPaymentMethodId
+        shopperReference: tools.shopperReference
+        merchantAccount: tools.merchantAccount
+      outputParameters:
+      - type: object
+        mapping: $.

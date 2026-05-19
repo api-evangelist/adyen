@@ -1,0 +1,90 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Checkout API — Amount
+  description: 'Adyen Checkout API — Amount. 1 operations. Lead operation: Adyen Update an Authorised Amount. Self-contained
+    Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - Amount
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: checkout-amount
+    baseUri: https://checkout-test.adyen.com/v71
+    description: Adyen Checkout API — Amount business capability. Self-contained, no shared references.
+    resources:
+    - name: payments-paymentPspReference-amountUpdates
+      path: /payments/{paymentPspReference}/amountUpdates
+      operations:
+      - name: postpaymentspaymentpspreferenceamountupdates
+        method: POST
+        description: Adyen Update an Authorised Amount
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: paymentPspReference
+          in: path
+          type: string
+          description: The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference)
+            of the payment.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: checkout-amount-rest
+    port: 8080
+    description: REST adapter for Adyen Checkout API — Amount. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/payments/{paymentpspreference}/amountupdates
+      name: payments-paymentpspreference-amountupdates
+      description: REST surface for payments-paymentPspReference-amountUpdates.
+      operations:
+      - method: POST
+        name: postpaymentspaymentpspreferenceamountupdates
+        description: Adyen Update an Authorised Amount
+        call: checkout-amount.postpaymentspaymentpspreferenceamountupdates
+        with:
+          paymentPspReference: rest.paymentPspReference
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: checkout-amount-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Checkout API — Amount. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: adyen-update-authorised-amount
+      description: Adyen Update an Authorised Amount
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: checkout-amount.postpaymentspaymentpspreferenceamountupdates
+      with:
+        paymentPspReference: tools.paymentPspReference
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

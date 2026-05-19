@@ -1,0 +1,3340 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Management API — Merchants
+  description: 'Adyen Management API — Merchants. 67 operations. Lead operation: Adyen Get a List of Merchant Accounts. Self-contained
+    Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - Merchants
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: management-merchants
+    baseUri: https://management-test.adyen.com/v3
+    description: Adyen Management API — Merchants business capability. Self-contained, no shared references.
+    resources:
+    - name: merchants
+      path: /merchants
+      operations:
+      - name: getmerchants
+        method: GET
+        description: Adyen Get a List of Merchant Accounts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: pageNumber
+          in: query
+          type: integer
+          description: The number of the page to fetch.
+        - name: pageSize
+          in: query
+          type: integer
+          description: The number of items to have on a page, maximum 100. The default is 10 items on a page.
+      - name: postmerchants
+        method: POST
+        description: Adyen Create a Merchant Account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId
+      path: /merchants/{merchantId}
+      operations:
+      - name: getmerchantsmerchantid
+        method: GET
+        description: Adyen Get a Merchant Account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+    - name: merchants-merchantId-activate
+      path: /merchants/{merchantId}/activate
+      operations:
+      - name: postmerchantsmerchantidactivate
+        method: POST
+        description: Adyen Request to Activate a Merchant Account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+    - name: merchants-merchantId-apiCredentials
+      path: /merchants/{merchantId}/apiCredentials
+      operations:
+      - name: getmerchantsmerchantidapicredentials
+        method: GET
+        description: Adyen Get a List of API Credentials
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: pageNumber
+          in: query
+          type: integer
+          description: The number of the page to fetch.
+        - name: pageSize
+          in: query
+          type: integer
+          description: The number of items to have on a page, maximum 100. The default is 10 items on a page.
+      - name: postmerchantsmerchantidapicredentials
+        method: POST
+        description: Adyen Create an API Credential
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-apiCredentials-apiCredentialId
+      path: /merchants/{merchantId}/apiCredentials/{apiCredentialId}
+      operations:
+      - name: getmerchantsmerchantidapicredentialsapicredentialid
+        method: GET
+        description: Adyen Get an API Credential
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: apiCredentialId
+          in: path
+          type: string
+          description: Unique identifier of the API credential.
+          required: true
+      - name: patchmerchantsmerchantidapicredentialsapicredentialid
+        method: PATCH
+        description: Adyen Update an API Credential
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: apiCredentialId
+          in: path
+          type: string
+          description: Unique identifier of the API credential.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-apiCredentials-apiCredentialId-allowedOrigins
+      path: /merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins
+      operations:
+      - name: getmerchantsmerchantidapicredentialsapicredentialidallowedorigins
+        method: GET
+        description: Adyen Get a List of Allowed Origins
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: apiCredentialId
+          in: path
+          type: string
+          description: Unique identifier of the API credential.
+          required: true
+      - name: postmerchantsmerchantidapicredentialsapicredentialidallowedorigins
+        method: POST
+        description: Adyen Create an Allowed Origin
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: apiCredentialId
+          in: path
+          type: string
+          description: Unique identifier of the API credential.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-apiCredentials-apiCredentialId-allowedOrigins-originId
+      path: /merchants/{merchantId}/apiCredentials/{apiCredentialId}/allowedOrigins/{originId}
+      operations:
+      - name: deletemerchantsmerchantidapicredentialsapicredentialidallowedoriginsoriginid
+        method: DELETE
+        description: Adyen Delete an Allowed Origin
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: apiCredentialId
+          in: path
+          type: string
+          description: Unique identifier of the API credential.
+          required: true
+        - name: originId
+          in: path
+          type: string
+          description: Unique identifier of the allowed origin.
+          required: true
+      - name: getmerchantsmerchantidapicredentialsapicredentialidallowedoriginsoriginid
+        method: GET
+        description: Adyen Get an Allowed Origin
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: apiCredentialId
+          in: path
+          type: string
+          description: Unique identifier of the API credential.
+          required: true
+        - name: originId
+          in: path
+          type: string
+          description: Unique identifier of the allowed origin.
+          required: true
+    - name: merchants-merchantId-apiCredentials-apiCredentialId-generateApiKey
+      path: /merchants/{merchantId}/apiCredentials/{apiCredentialId}/generateApiKey
+      operations:
+      - name: postmerchantsmerchantidapicredentialsapicredentialidgenerateapikey
+        method: POST
+        description: Adyen Generate New API Key
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: apiCredentialId
+          in: path
+          type: string
+          description: Unique identifier of the API credential.
+          required: true
+    - name: merchants-merchantId-apiCredentials-apiCredentialId-generateClientKey
+      path: /merchants/{merchantId}/apiCredentials/{apiCredentialId}/generateClientKey
+      operations:
+      - name: postmerchantsmerchantidapicredentialsapicredentialidgenerateclientkey
+        method: POST
+        description: Adyen Generate New Client Key
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: apiCredentialId
+          in: path
+          type: string
+          description: Unique identifier of the API credential.
+          required: true
+    - name: merchants-merchantId-billingEntities
+      path: /merchants/{merchantId}/billingEntities
+      operations:
+      - name: getmerchantsmerchantidbillingentities
+        method: GET
+        description: Adyen Get a List of Billing Entities
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: name
+          in: query
+          type: string
+          description: The name of the billing entity.
+    - name: merchants-merchantId-paymentMethodSettings
+      path: /merchants/{merchantId}/paymentMethodSettings
+      operations:
+      - name: getmerchantsmerchantidpaymentmethodsettings
+        method: GET
+        description: Adyen Get All Payment Methods
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: storeId
+          in: query
+          type: string
+          description: The unique identifier of the store for which to return the payment methods.
+        - name: businessLineId
+          in: query
+          type: string
+          description: The unique identifier of the Business Line for which to return the payment methods.
+        - name: pageSize
+          in: query
+          type: integer
+          description: The number of items to have on a page, maximum 100. The default is 10 items on a page.
+        - name: pageNumber
+          in: query
+          type: integer
+          description: The number of the page to fetch.
+      - name: postmerchantsmerchantidpaymentmethodsettings
+        method: POST
+        description: Adyen Request a Payment Method
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-paymentMethodSettings-paymentMethodId
+      path: /merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}
+      operations:
+      - name: getmerchantsmerchantidpaymentmethodsettingspaymentmethodid
+        method: GET
+        description: Adyen Get Payment Method Details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: paymentMethodId
+          in: path
+          type: string
+          description: The unique identifier of the payment method.
+          required: true
+      - name: patchmerchantsmerchantidpaymentmethodsettingspaymentmethodid
+        method: PATCH
+        description: Adyen Update a Payment Method
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: paymentMethodId
+          in: path
+          type: string
+          description: The unique identifier of the payment method.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-paymentMethodSettings-paymentMethodId-addApplePayDomains
+      path: /merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/addApplePayDomains
+      operations:
+      - name: postmerchantsmerchantidpaymentmethodsettingspaymentmethodidaddapplepaydomains
+        method: POST
+        description: Adyen Add an Apple Pay Domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: paymentMethodId
+          in: path
+          type: string
+          description: The unique identifier of the payment method.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-paymentMethodSettings-paymentMethodId-getApplePayDomains
+      path: /merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}/getApplePayDomains
+      operations:
+      - name: getmerchantsmerchantidpaymentmethodsettingspaymentmethodidgetapplepaydomains
+        method: GET
+        description: Adyen Get Apple Pay Domains
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: paymentMethodId
+          in: path
+          type: string
+          description: The unique identifier of the payment method.
+          required: true
+    - name: merchants-merchantId-payoutSettings
+      path: /merchants/{merchantId}/payoutSettings
+      operations:
+      - name: getmerchantsmerchantidpayoutsettings
+        method: GET
+        description: Adyen Get a List of Payout Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+      - name: postmerchantsmerchantidpayoutsettings
+        method: POST
+        description: Adyen Add a Payout Setting
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-payoutSettings-payoutSettingsId
+      path: /merchants/{merchantId}/payoutSettings/{payoutSettingsId}
+      operations:
+      - name: deletemerchantsmerchantidpayoutsettingspayoutsettingsid
+        method: DELETE
+        description: Adyen Delete a Payout Setting
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: payoutSettingsId
+          in: path
+          type: string
+          description: The unique identifier of the payout setting.
+          required: true
+      - name: getmerchantsmerchantidpayoutsettingspayoutsettingsid
+        method: GET
+        description: Adyen Get a Payout Setting
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: payoutSettingsId
+          in: path
+          type: string
+          description: The unique identifier of the payout setting.
+          required: true
+      - name: patchmerchantsmerchantidpayoutsettingspayoutsettingsid
+        method: PATCH
+        description: Adyen Update a Payout Setting
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: payoutSettingsId
+          in: path
+          type: string
+          description: The unique identifier of the payout setting.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-shippingLocations
+      path: /merchants/{merchantId}/shippingLocations
+      operations:
+      - name: getmerchantsmerchantidshippinglocations
+        method: GET
+        description: Adyen Get a List of Shipping Locations
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: name
+          in: query
+          type: string
+          description: The name of the shipping location.
+        - name: offset
+          in: query
+          type: integer
+          description: The number of locations to skip.
+        - name: limit
+          in: query
+          type: integer
+          description: The number of locations to return.
+      - name: postmerchantsmerchantidshippinglocations
+        method: POST
+        description: Adyen Create a Shipping Location
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-splitConfigurations
+      path: /merchants/{merchantId}/splitConfigurations
+      operations:
+      - name: getmerchantsmerchantidsplitconfigurations
+        method: GET
+        description: Adyen Get a List of Split Configurations
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+      - name: postmerchantsmerchantidsplitconfigurations
+        method: POST
+        description: Adyen Create a Split Configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-splitConfigurations-splitConfigurationId
+      path: /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}
+      operations:
+      - name: deletemerchantsmerchantidsplitconfigurationssplitconfigurationid
+        method: DELETE
+        description: Adyen Delete a Split Configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: splitConfigurationId
+          in: path
+          type: string
+          description: The unique identifier of the split configuration.
+          required: true
+      - name: getmerchantsmerchantidsplitconfigurationssplitconfigurationid
+        method: GET
+        description: Adyen Get a Split Configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: splitConfigurationId
+          in: path
+          type: string
+          description: The unique identifier of the split configuration.
+          required: true
+      - name: patchmerchantsmerchantidsplitconfigurationssplitconfigurationid
+        method: PATCH
+        description: Adyen Update Split Configuration Description
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: splitConfigurationId
+          in: path
+          type: string
+          description: The unique identifier of the split configuration.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: postmerchantsmerchantidsplitconfigurationssplitconfigurationid
+        method: POST
+        description: Adyen Create a Rule
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: splitConfigurationId
+          in: path
+          type: string
+          description: The unique identifier of the split configuration.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-splitConfigurations-splitConfigurationId-rules-ruleId
+      path: /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}
+      operations:
+      - name: deletemerchantsmerchantidsplitconfigurationssplitconfigurationidrulesruleid
+        method: DELETE
+        description: Adyen Delete a Split Configuration Rule
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: splitConfigurationId
+          in: path
+          type: string
+          description: The unique identifier of the split configuration.
+          required: true
+        - name: ruleId
+          in: path
+          type: string
+          required: true
+      - name: patchmerchantsmerchantidsplitconfigurationssplitconfigurationidrulesruleid
+        method: PATCH
+        description: Adyen Update Split Conditions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: splitConfigurationId
+          in: path
+          type: string
+          description: The identifier of the split configuration.
+          required: true
+        - name: ruleId
+          in: path
+          type: string
+          description: The unique identifier of the split configuration rule.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-splitConfigurations-splitConfigurationId-rules-ruleId-split
+      path: /merchants/{merchantId}/splitConfigurations/{splitConfigurationId}/rules/{ruleId}/splitLogic/{splitLogicId}
+      operations:
+      - name: patchmerchantsmerchantidsplitconfigurationssplitconfigurationidrulesruleidsplitlogicsplitlogicid
+        method: PATCH
+        description: Adyen Update the Split Logic
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: splitConfigurationId
+          in: path
+          type: string
+          description: The unique identifier of the split configuration.
+          required: true
+        - name: ruleId
+          in: path
+          type: string
+          description: The unique identifier of the split configuration rule.
+          required: true
+        - name: splitLogicId
+          in: path
+          type: string
+          description: The unique identifier of the split configuration split.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-stores
+      path: /merchants/{merchantId}/stores
+      operations:
+      - name: getmerchantsmerchantidstores
+        method: GET
+        description: Adyen Get a List of Stores
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: pageNumber
+          in: query
+          type: integer
+          description: The number of the page to fetch.
+        - name: pageSize
+          in: query
+          type: integer
+          description: The number of items to have on a page, maximum 100. The default is 10 items on a page.
+        - name: reference
+          in: query
+          type: string
+          description: The reference of the store.
+      - name: postmerchantsmerchantidstores
+        method: POST
+        description: Adyen Create a Store
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-stores-reference-terminalLogos
+      path: /merchants/{merchantId}/stores/{reference}/terminalLogos
+      operations:
+      - name: getmerchantsmerchantidstoresreferenceterminallogos
+        method: GET
+        description: Adyen Get the Terminal Logo
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: reference
+          in: path
+          type: string
+          description: The reference that identifies the store.
+          required: true
+        - name: model
+          in: query
+          type: string
+          description: 'The terminal model. Possible values: E355, VX675WIFIBT, VX680, VX690, VX700, VX820, M400, MX925, P400Plus,
+            UX300, UX410, V200cPlus, V240mPlus, V400cPlus, V400m,'
+          required: true
+      - name: patchmerchantsmerchantidstoresreferenceterminallogos
+        method: PATCH
+        description: Adyen Update the Terminal Logo
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: reference
+          in: path
+          type: string
+          description: The reference that identifies the store.
+          required: true
+        - name: model
+          in: query
+          type: string
+          description: 'The terminal model. Possible values: E355, VX675WIFIBT, VX680, VX690, VX700, VX820, M400, MX925, P400Plus,
+            UX300, UX410, V200cPlus, V240mPlus, V400cPlus, V400m,'
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-stores-reference-terminalSettings
+      path: /merchants/{merchantId}/stores/{reference}/terminalSettings
+      operations:
+      - name: getmerchantsmerchantidstoresreferenceterminalsettings
+        method: GET
+        description: Adyen Get Terminal Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: reference
+          in: path
+          type: string
+          description: The reference that identifies the store.
+          required: true
+      - name: patchmerchantsmerchantidstoresreferenceterminalsettings
+        method: PATCH
+        description: Adyen Update Terminal Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: reference
+          in: path
+          type: string
+          description: The reference that identifies the store.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-stores-storeId
+      path: /merchants/{merchantId}/stores/{storeId}
+      operations:
+      - name: getmerchantsmerchantidstoresstoreid
+        method: GET
+        description: Adyen Get a Store
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: storeId
+          in: path
+          type: string
+          description: The unique identifier of the store.
+          required: true
+      - name: patchmerchantsmerchantidstoresstoreid
+        method: PATCH
+        description: Adyen Update a Store
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: storeId
+          in: path
+          type: string
+          description: The unique identifier of the store.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-terminalLogos
+      path: /merchants/{merchantId}/terminalLogos
+      operations:
+      - name: getmerchantsmerchantidterminallogos
+        method: GET
+        description: Adyen Get the Terminal Logo
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: model
+          in: query
+          type: string
+          description: 'The terminal model. Possible values: E355, VX675WIFIBT, VX680, VX690, VX700, VX820, M400, MX925, P400Plus,
+            UX300, UX410, V200cPlus, V240mPlus, V400cPlus, V400m,'
+          required: true
+      - name: patchmerchantsmerchantidterminallogos
+        method: PATCH
+        description: Adyen Update the Terminal Logo
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: model
+          in: query
+          type: string
+          description: 'The terminal model. Allowed values: E355, VX675WIFIBT, VX680, VX690, VX700, VX820, M400, MX925, P400Plus,
+            UX300, UX410, V200cPlus, V240mPlus, V400cPlus, V400m, '
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-terminalModels
+      path: /merchants/{merchantId}/terminalModels
+      operations:
+      - name: getmerchantsmerchantidterminalmodels
+        method: GET
+        description: Adyen Get a List of Terminal Models
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+    - name: merchants-merchantId-terminalOrders
+      path: /merchants/{merchantId}/terminalOrders
+      operations:
+      - name: getmerchantsmerchantidterminalorders
+        method: GET
+        description: Adyen Get a List of Orders
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          required: true
+        - name: customerOrderReference
+          in: query
+          type: string
+          description: Your purchase order number.
+        - name: status
+          in: query
+          type: string
+          description: 'The order status. Possible values (not case-sensitive): Placed, Confirmed, Cancelled, Shipped, Delivered.'
+        - name: offset
+          in: query
+          type: integer
+          description: The number of orders to skip.
+        - name: limit
+          in: query
+          type: integer
+          description: The number of orders to return.
+      - name: postmerchantsmerchantidterminalorders
+        method: POST
+        description: Adyen Create an Order
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-terminalOrders-orderId
+      path: /merchants/{merchantId}/terminalOrders/{orderId}
+      operations:
+      - name: getmerchantsmerchantidterminalordersorderid
+        method: GET
+        description: Adyen Get an Order
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: orderId
+          in: path
+          type: string
+          description: The unique identifier of the order.
+          required: true
+      - name: patchmerchantsmerchantidterminalordersorderid
+        method: PATCH
+        description: Adyen Update an Order
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: orderId
+          in: path
+          type: string
+          description: The unique identifier of the order.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-terminalOrders-orderId-cancel
+      path: /merchants/{merchantId}/terminalOrders/{orderId}/cancel
+      operations:
+      - name: postmerchantsmerchantidterminalordersorderidcancel
+        method: POST
+        description: Adyen Cancel an Order
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: orderId
+          in: path
+          type: string
+          description: The unique identifier of the order.
+          required: true
+    - name: merchants-merchantId-terminalProducts
+      path: /merchants/{merchantId}/terminalProducts
+      operations:
+      - name: getmerchantsmerchantidterminalproducts
+        method: GET
+        description: Adyen Get a List of Terminal Products
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: country
+          in: query
+          type: string
+          description: The country to return products for, in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+            format. For example, **US**
+          required: true
+        - name: terminalModelId
+          in: query
+          type: string
+          description: The terminal model to return products for. Use the ID returned in the [GET `/terminalModels`](https://docs.adyen.com/api-explorer/#/ManagementService/latest/get
+        - name: offset
+          in: query
+          type: integer
+          description: The number of products to skip.
+        - name: limit
+          in: query
+          type: integer
+          description: The number of products to return.
+    - name: merchants-merchantId-terminalSettings
+      path: /merchants/{merchantId}/terminalSettings
+      operations:
+      - name: getmerchantsmerchantidterminalsettings
+        method: GET
+        description: Adyen Get Terminal Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+      - name: patchmerchantsmerchantidterminalsettings
+        method: PATCH
+        description: Adyen Update Terminal Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-users
+      path: /merchants/{merchantId}/users
+      operations:
+      - name: getmerchantsmerchantidusers
+        method: GET
+        description: Adyen Get a List of Users
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: Unique identifier of the merchant.
+          required: true
+        - name: pageNumber
+          in: query
+          type: integer
+          description: The number of the page to fetch.
+        - name: pageSize
+          in: query
+          type: integer
+          description: The number of items to have on a page. Maximum value is **100**. The default is **10** items on a page.
+        - name: username
+          in: query
+          type: string
+          description: The partial or complete username to select all users that match.
+      - name: postmerchantsmerchantidusers
+        method: POST
+        description: Adyen Create a New User
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: Unique identifier of the merchant.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-users-userId
+      path: /merchants/{merchantId}/users/{userId}
+      operations:
+      - name: getmerchantsmerchantidusersuserid
+        method: GET
+        description: Adyen Get User Details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: Unique identifier of the merchant.
+          required: true
+        - name: userId
+          in: path
+          type: string
+          description: Unique identifier of the user.
+          required: true
+      - name: patchmerchantsmerchantidusersuserid
+        method: PATCH
+        description: Adyen Update a User
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: Unique identifier of the merchant.
+          required: true
+        - name: userId
+          in: path
+          type: string
+          description: Unique identifier of the user.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-webhooks
+      path: /merchants/{merchantId}/webhooks
+      operations:
+      - name: getmerchantsmerchantidwebhooks
+        method: GET
+        description: Adyen List All Webhooks
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: pageNumber
+          in: query
+          type: integer
+          description: The number of the page to fetch.
+        - name: pageSize
+          in: query
+          type: integer
+          description: The number of items to have on a page, maximum 100. The default is 10 items on a page.
+      - name: postmerchantsmerchantidwebhooks
+        method: POST
+        description: Adyen Set Up a Webhook
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-webhooks-webhookId
+      path: /merchants/{merchantId}/webhooks/{webhookId}
+      operations:
+      - name: deletemerchantsmerchantidwebhookswebhookid
+        method: DELETE
+        description: Adyen Remove a Webhook
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: webhookId
+          in: path
+          type: string
+          description: Unique identifier of the webhook configuration.
+          required: true
+      - name: getmerchantsmerchantidwebhookswebhookid
+        method: GET
+        description: Adyen Get a Webhook
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: webhookId
+          in: path
+          type: string
+          description: Unique identifier of the webhook configuration.
+          required: true
+      - name: patchmerchantsmerchantidwebhookswebhookid
+        method: PATCH
+        description: Adyen Update a Webhook
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: webhookId
+          in: path
+          type: string
+          description: Unique identifier of the webhook configuration.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: merchants-merchantId-webhooks-webhookId-generateHmac
+      path: /merchants/{merchantId}/webhooks/{webhookId}/generateHmac
+      operations:
+      - name: postmerchantsmerchantidwebhookswebhookidgeneratehmac
+        method: POST
+        description: Adyen Generate an HMAC Key
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: webhookId
+          in: path
+          type: string
+          required: true
+    - name: merchants-merchantId-webhooks-webhookId-test
+      path: /merchants/{merchantId}/webhooks/{webhookId}/test
+      operations:
+      - name: postmerchantsmerchantidwebhookswebhookidtest
+        method: POST
+        description: Adyen Test a Webhook
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchantId
+          in: path
+          type: string
+          description: The unique identifier of the merchant account.
+          required: true
+        - name: webhookId
+          in: path
+          type: string
+          description: Unique identifier of the webhook configuration.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: management-merchants-rest
+    port: 8080
+    description: REST adapter for Adyen Management API — Merchants. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/merchants
+      name: merchants
+      description: REST surface for merchants.
+      operations:
+      - method: GET
+        name: getmerchants
+        description: Adyen Get a List of Merchant Accounts
+        call: management-merchants.getmerchants
+        with:
+          pageNumber: rest.pageNumber
+          pageSize: rest.pageSize
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: postmerchants
+        description: Adyen Create a Merchant Account
+        call: management-merchants.postmerchants
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}
+      name: merchants-merchantid
+      description: REST surface for merchants-merchantId.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantid
+        description: Adyen Get a Merchant Account
+        call: management-merchants.getmerchantsmerchantid
+        with:
+          merchantId: rest.merchantId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/activate
+      name: merchants-merchantid-activate
+      description: REST surface for merchants-merchantId-activate.
+      operations:
+      - method: POST
+        name: postmerchantsmerchantidactivate
+        description: Adyen Request to Activate a Merchant Account
+        call: management-merchants.postmerchantsmerchantidactivate
+        with:
+          merchantId: rest.merchantId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/apicredentials
+      name: merchants-merchantid-apicredentials
+      description: REST surface for merchants-merchantId-apiCredentials.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidapicredentials
+        description: Adyen Get a List of API Credentials
+        call: management-merchants.getmerchantsmerchantidapicredentials
+        with:
+          merchantId: rest.merchantId
+          pageNumber: rest.pageNumber
+          pageSize: rest.pageSize
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: postmerchantsmerchantidapicredentials
+        description: Adyen Create an API Credential
+        call: management-merchants.postmerchantsmerchantidapicredentials
+        with:
+          merchantId: rest.merchantId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/apicredentials/{apicredentialid}
+      name: merchants-merchantid-apicredentials-apicredentialid
+      description: REST surface for merchants-merchantId-apiCredentials-apiCredentialId.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidapicredentialsapicredentialid
+        description: Adyen Get an API Credential
+        call: management-merchants.getmerchantsmerchantidapicredentialsapicredentialid
+        with:
+          merchantId: rest.merchantId
+          apiCredentialId: rest.apiCredentialId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchmerchantsmerchantidapicredentialsapicredentialid
+        description: Adyen Update an API Credential
+        call: management-merchants.patchmerchantsmerchantidapicredentialsapicredentialid
+        with:
+          merchantId: rest.merchantId
+          apiCredentialId: rest.apiCredentialId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/apicredentials/{apicredentialid}/allowedorigins
+      name: merchants-merchantid-apicredentials-apicredentialid-allowedorigins
+      description: REST surface for merchants-merchantId-apiCredentials-apiCredentialId-allowedOrigins.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidapicredentialsapicredentialidallowedorigins
+        description: Adyen Get a List of Allowed Origins
+        call: management-merchants.getmerchantsmerchantidapicredentialsapicredentialidallowedorigins
+        with:
+          merchantId: rest.merchantId
+          apiCredentialId: rest.apiCredentialId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: postmerchantsmerchantidapicredentialsapicredentialidallowedorigins
+        description: Adyen Create an Allowed Origin
+        call: management-merchants.postmerchantsmerchantidapicredentialsapicredentialidallowedorigins
+        with:
+          merchantId: rest.merchantId
+          apiCredentialId: rest.apiCredentialId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/apicredentials/{apicredentialid}/allowedorigins/{originid}
+      name: merchants-merchantid-apicredentials-apicredentialid-allowedorigins-originid
+      description: REST surface for merchants-merchantId-apiCredentials-apiCredentialId-allowedOrigins-originId.
+      operations:
+      - method: DELETE
+        name: deletemerchantsmerchantidapicredentialsapicredentialidallowedoriginsoriginid
+        description: Adyen Delete an Allowed Origin
+        call: management-merchants.deletemerchantsmerchantidapicredentialsapicredentialidallowedoriginsoriginid
+        with:
+          merchantId: rest.merchantId
+          apiCredentialId: rest.apiCredentialId
+          originId: rest.originId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getmerchantsmerchantidapicredentialsapicredentialidallowedoriginsoriginid
+        description: Adyen Get an Allowed Origin
+        call: management-merchants.getmerchantsmerchantidapicredentialsapicredentialidallowedoriginsoriginid
+        with:
+          merchantId: rest.merchantId
+          apiCredentialId: rest.apiCredentialId
+          originId: rest.originId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/apicredentials/{apicredentialid}/generateapikey
+      name: merchants-merchantid-apicredentials-apicredentialid-generateapikey
+      description: REST surface for merchants-merchantId-apiCredentials-apiCredentialId-generateApiKey.
+      operations:
+      - method: POST
+        name: postmerchantsmerchantidapicredentialsapicredentialidgenerateapikey
+        description: Adyen Generate New API Key
+        call: management-merchants.postmerchantsmerchantidapicredentialsapicredentialidgenerateapikey
+        with:
+          merchantId: rest.merchantId
+          apiCredentialId: rest.apiCredentialId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/apicredentials/{apicredentialid}/generateclientkey
+      name: merchants-merchantid-apicredentials-apicredentialid-generateclientkey
+      description: REST surface for merchants-merchantId-apiCredentials-apiCredentialId-generateClientKey.
+      operations:
+      - method: POST
+        name: postmerchantsmerchantidapicredentialsapicredentialidgenerateclientkey
+        description: Adyen Generate New Client Key
+        call: management-merchants.postmerchantsmerchantidapicredentialsapicredentialidgenerateclientkey
+        with:
+          merchantId: rest.merchantId
+          apiCredentialId: rest.apiCredentialId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/billingentities
+      name: merchants-merchantid-billingentities
+      description: REST surface for merchants-merchantId-billingEntities.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidbillingentities
+        description: Adyen Get a List of Billing Entities
+        call: management-merchants.getmerchantsmerchantidbillingentities
+        with:
+          merchantId: rest.merchantId
+          name: rest.name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/paymentmethodsettings
+      name: merchants-merchantid-paymentmethodsettings
+      description: REST surface for merchants-merchantId-paymentMethodSettings.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidpaymentmethodsettings
+        description: Adyen Get All Payment Methods
+        call: management-merchants.getmerchantsmerchantidpaymentmethodsettings
+        with:
+          merchantId: rest.merchantId
+          storeId: rest.storeId
+          businessLineId: rest.businessLineId
+          pageSize: rest.pageSize
+          pageNumber: rest.pageNumber
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: postmerchantsmerchantidpaymentmethodsettings
+        description: Adyen Request a Payment Method
+        call: management-merchants.postmerchantsmerchantidpaymentmethodsettings
+        with:
+          merchantId: rest.merchantId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/paymentmethodsettings/{paymentmethodid}
+      name: merchants-merchantid-paymentmethodsettings-paymentmethodid
+      description: REST surface for merchants-merchantId-paymentMethodSettings-paymentMethodId.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidpaymentmethodsettingspaymentmethodid
+        description: Adyen Get Payment Method Details
+        call: management-merchants.getmerchantsmerchantidpaymentmethodsettingspaymentmethodid
+        with:
+          merchantId: rest.merchantId
+          paymentMethodId: rest.paymentMethodId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchmerchantsmerchantidpaymentmethodsettingspaymentmethodid
+        description: Adyen Update a Payment Method
+        call: management-merchants.patchmerchantsmerchantidpaymentmethodsettingspaymentmethodid
+        with:
+          merchantId: rest.merchantId
+          paymentMethodId: rest.paymentMethodId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/paymentmethodsettings/{paymentmethodid}/addapplepaydomains
+      name: merchants-merchantid-paymentmethodsettings-paymentmethodid-addapplepaydomains
+      description: REST surface for merchants-merchantId-paymentMethodSettings-paymentMethodId-addApplePayDomains.
+      operations:
+      - method: POST
+        name: postmerchantsmerchantidpaymentmethodsettingspaymentmethodidaddapplepaydomains
+        description: Adyen Add an Apple Pay Domain
+        call: management-merchants.postmerchantsmerchantidpaymentmethodsettingspaymentmethodidaddapplepaydomains
+        with:
+          merchantId: rest.merchantId
+          paymentMethodId: rest.paymentMethodId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/paymentmethodsettings/{paymentmethodid}/getapplepaydomains
+      name: merchants-merchantid-paymentmethodsettings-paymentmethodid-getapplepaydomains
+      description: REST surface for merchants-merchantId-paymentMethodSettings-paymentMethodId-getApplePayDomains.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidpaymentmethodsettingspaymentmethodidgetapplepaydomains
+        description: Adyen Get Apple Pay Domains
+        call: management-merchants.getmerchantsmerchantidpaymentmethodsettingspaymentmethodidgetapplepaydomains
+        with:
+          merchantId: rest.merchantId
+          paymentMethodId: rest.paymentMethodId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/payoutsettings
+      name: merchants-merchantid-payoutsettings
+      description: REST surface for merchants-merchantId-payoutSettings.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidpayoutsettings
+        description: Adyen Get a List of Payout Settings
+        call: management-merchants.getmerchantsmerchantidpayoutsettings
+        with:
+          merchantId: rest.merchantId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: postmerchantsmerchantidpayoutsettings
+        description: Adyen Add a Payout Setting
+        call: management-merchants.postmerchantsmerchantidpayoutsettings
+        with:
+          merchantId: rest.merchantId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/payoutsettings/{payoutsettingsid}
+      name: merchants-merchantid-payoutsettings-payoutsettingsid
+      description: REST surface for merchants-merchantId-payoutSettings-payoutSettingsId.
+      operations:
+      - method: DELETE
+        name: deletemerchantsmerchantidpayoutsettingspayoutsettingsid
+        description: Adyen Delete a Payout Setting
+        call: management-merchants.deletemerchantsmerchantidpayoutsettingspayoutsettingsid
+        with:
+          merchantId: rest.merchantId
+          payoutSettingsId: rest.payoutSettingsId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getmerchantsmerchantidpayoutsettingspayoutsettingsid
+        description: Adyen Get a Payout Setting
+        call: management-merchants.getmerchantsmerchantidpayoutsettingspayoutsettingsid
+        with:
+          merchantId: rest.merchantId
+          payoutSettingsId: rest.payoutSettingsId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchmerchantsmerchantidpayoutsettingspayoutsettingsid
+        description: Adyen Update a Payout Setting
+        call: management-merchants.patchmerchantsmerchantidpayoutsettingspayoutsettingsid
+        with:
+          merchantId: rest.merchantId
+          payoutSettingsId: rest.payoutSettingsId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/shippinglocations
+      name: merchants-merchantid-shippinglocations
+      description: REST surface for merchants-merchantId-shippingLocations.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidshippinglocations
+        description: Adyen Get a List of Shipping Locations
+        call: management-merchants.getmerchantsmerchantidshippinglocations
+        with:
+          merchantId: rest.merchantId
+          name: rest.name
+          offset: rest.offset
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: postmerchantsmerchantidshippinglocations
+        description: Adyen Create a Shipping Location
+        call: management-merchants.postmerchantsmerchantidshippinglocations
+        with:
+          merchantId: rest.merchantId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/splitconfigurations
+      name: merchants-merchantid-splitconfigurations
+      description: REST surface for merchants-merchantId-splitConfigurations.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidsplitconfigurations
+        description: Adyen Get a List of Split Configurations
+        call: management-merchants.getmerchantsmerchantidsplitconfigurations
+        with:
+          merchantId: rest.merchantId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: postmerchantsmerchantidsplitconfigurations
+        description: Adyen Create a Split Configuration
+        call: management-merchants.postmerchantsmerchantidsplitconfigurations
+        with:
+          merchantId: rest.merchantId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/splitconfigurations/{splitconfigurationid}
+      name: merchants-merchantid-splitconfigurations-splitconfigurationid
+      description: REST surface for merchants-merchantId-splitConfigurations-splitConfigurationId.
+      operations:
+      - method: DELETE
+        name: deletemerchantsmerchantidsplitconfigurationssplitconfigurationid
+        description: Adyen Delete a Split Configuration
+        call: management-merchants.deletemerchantsmerchantidsplitconfigurationssplitconfigurationid
+        with:
+          merchantId: rest.merchantId
+          splitConfigurationId: rest.splitConfigurationId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getmerchantsmerchantidsplitconfigurationssplitconfigurationid
+        description: Adyen Get a Split Configuration
+        call: management-merchants.getmerchantsmerchantidsplitconfigurationssplitconfigurationid
+        with:
+          merchantId: rest.merchantId
+          splitConfigurationId: rest.splitConfigurationId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchmerchantsmerchantidsplitconfigurationssplitconfigurationid
+        description: Adyen Update Split Configuration Description
+        call: management-merchants.patchmerchantsmerchantidsplitconfigurationssplitconfigurationid
+        with:
+          merchantId: rest.merchantId
+          splitConfigurationId: rest.splitConfigurationId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: postmerchantsmerchantidsplitconfigurationssplitconfigurationid
+        description: Adyen Create a Rule
+        call: management-merchants.postmerchantsmerchantidsplitconfigurationssplitconfigurationid
+        with:
+          merchantId: rest.merchantId
+          splitConfigurationId: rest.splitConfigurationId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/splitconfigurations/{splitconfigurationid}/rules/{ruleid}
+      name: merchants-merchantid-splitconfigurations-splitconfigurationid-rules-ruleid
+      description: REST surface for merchants-merchantId-splitConfigurations-splitConfigurationId-rules-ruleId.
+      operations:
+      - method: DELETE
+        name: deletemerchantsmerchantidsplitconfigurationssplitconfigurationidrulesruleid
+        description: Adyen Delete a Split Configuration Rule
+        call: management-merchants.deletemerchantsmerchantidsplitconfigurationssplitconfigurationidrulesruleid
+        with:
+          merchantId: rest.merchantId
+          splitConfigurationId: rest.splitConfigurationId
+          ruleId: rest.ruleId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchmerchantsmerchantidsplitconfigurationssplitconfigurationidrulesruleid
+        description: Adyen Update Split Conditions
+        call: management-merchants.patchmerchantsmerchantidsplitconfigurationssplitconfigurationidrulesruleid
+        with:
+          merchantId: rest.merchantId
+          splitConfigurationId: rest.splitConfigurationId
+          ruleId: rest.ruleId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/splitconfigurations/{splitconfigurationid}/rules/{ruleid}/splitlogic/{splitlogicid}
+      name: merchants-merchantid-splitconfigurations-splitconfigurationid-rules-ruleid-split
+      description: REST surface for merchants-merchantId-splitConfigurations-splitConfigurationId-rules-ruleId-split.
+      operations:
+      - method: PATCH
+        name: patchmerchantsmerchantidsplitconfigurationssplitconfigurationidrulesruleidsplitlogicsplitlogicid
+        description: Adyen Update the Split Logic
+        call: management-merchants.patchmerchantsmerchantidsplitconfigurationssplitconfigurationidrulesruleidsplitlogicsplitlogicid
+        with:
+          merchantId: rest.merchantId
+          splitConfigurationId: rest.splitConfigurationId
+          ruleId: rest.ruleId
+          splitLogicId: rest.splitLogicId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/stores
+      name: merchants-merchantid-stores
+      description: REST surface for merchants-merchantId-stores.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidstores
+        description: Adyen Get a List of Stores
+        call: management-merchants.getmerchantsmerchantidstores
+        with:
+          merchantId: rest.merchantId
+          pageNumber: rest.pageNumber
+          pageSize: rest.pageSize
+          reference: rest.reference
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: postmerchantsmerchantidstores
+        description: Adyen Create a Store
+        call: management-merchants.postmerchantsmerchantidstores
+        with:
+          merchantId: rest.merchantId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/stores/{reference}/terminallogos
+      name: merchants-merchantid-stores-reference-terminallogos
+      description: REST surface for merchants-merchantId-stores-reference-terminalLogos.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidstoresreferenceterminallogos
+        description: Adyen Get the Terminal Logo
+        call: management-merchants.getmerchantsmerchantidstoresreferenceterminallogos
+        with:
+          merchantId: rest.merchantId
+          reference: rest.reference
+          model: rest.model
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchmerchantsmerchantidstoresreferenceterminallogos
+        description: Adyen Update the Terminal Logo
+        call: management-merchants.patchmerchantsmerchantidstoresreferenceterminallogos
+        with:
+          merchantId: rest.merchantId
+          reference: rest.reference
+          model: rest.model
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/stores/{reference}/terminalsettings
+      name: merchants-merchantid-stores-reference-terminalsettings
+      description: REST surface for merchants-merchantId-stores-reference-terminalSettings.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidstoresreferenceterminalsettings
+        description: Adyen Get Terminal Settings
+        call: management-merchants.getmerchantsmerchantidstoresreferenceterminalsettings
+        with:
+          merchantId: rest.merchantId
+          reference: rest.reference
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchmerchantsmerchantidstoresreferenceterminalsettings
+        description: Adyen Update Terminal Settings
+        call: management-merchants.patchmerchantsmerchantidstoresreferenceterminalsettings
+        with:
+          merchantId: rest.merchantId
+          reference: rest.reference
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/stores/{storeid}
+      name: merchants-merchantid-stores-storeid
+      description: REST surface for merchants-merchantId-stores-storeId.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidstoresstoreid
+        description: Adyen Get a Store
+        call: management-merchants.getmerchantsmerchantidstoresstoreid
+        with:
+          merchantId: rest.merchantId
+          storeId: rest.storeId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchmerchantsmerchantidstoresstoreid
+        description: Adyen Update a Store
+        call: management-merchants.patchmerchantsmerchantidstoresstoreid
+        with:
+          merchantId: rest.merchantId
+          storeId: rest.storeId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/terminallogos
+      name: merchants-merchantid-terminallogos
+      description: REST surface for merchants-merchantId-terminalLogos.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidterminallogos
+        description: Adyen Get the Terminal Logo
+        call: management-merchants.getmerchantsmerchantidterminallogos
+        with:
+          merchantId: rest.merchantId
+          model: rest.model
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchmerchantsmerchantidterminallogos
+        description: Adyen Update the Terminal Logo
+        call: management-merchants.patchmerchantsmerchantidterminallogos
+        with:
+          merchantId: rest.merchantId
+          model: rest.model
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/terminalmodels
+      name: merchants-merchantid-terminalmodels
+      description: REST surface for merchants-merchantId-terminalModels.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidterminalmodels
+        description: Adyen Get a List of Terminal Models
+        call: management-merchants.getmerchantsmerchantidterminalmodels
+        with:
+          merchantId: rest.merchantId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/terminalorders
+      name: merchants-merchantid-terminalorders
+      description: REST surface for merchants-merchantId-terminalOrders.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidterminalorders
+        description: Adyen Get a List of Orders
+        call: management-merchants.getmerchantsmerchantidterminalorders
+        with:
+          merchantId: rest.merchantId
+          customerOrderReference: rest.customerOrderReference
+          status: rest.status
+          offset: rest.offset
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: postmerchantsmerchantidterminalorders
+        description: Adyen Create an Order
+        call: management-merchants.postmerchantsmerchantidterminalorders
+        with:
+          merchantId: rest.merchantId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/terminalorders/{orderid}
+      name: merchants-merchantid-terminalorders-orderid
+      description: REST surface for merchants-merchantId-terminalOrders-orderId.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidterminalordersorderid
+        description: Adyen Get an Order
+        call: management-merchants.getmerchantsmerchantidterminalordersorderid
+        with:
+          merchantId: rest.merchantId
+          orderId: rest.orderId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchmerchantsmerchantidterminalordersorderid
+        description: Adyen Update an Order
+        call: management-merchants.patchmerchantsmerchantidterminalordersorderid
+        with:
+          merchantId: rest.merchantId
+          orderId: rest.orderId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/terminalorders/{orderid}/cancel
+      name: merchants-merchantid-terminalorders-orderid-cancel
+      description: REST surface for merchants-merchantId-terminalOrders-orderId-cancel.
+      operations:
+      - method: POST
+        name: postmerchantsmerchantidterminalordersorderidcancel
+        description: Adyen Cancel an Order
+        call: management-merchants.postmerchantsmerchantidterminalordersorderidcancel
+        with:
+          merchantId: rest.merchantId
+          orderId: rest.orderId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/terminalproducts
+      name: merchants-merchantid-terminalproducts
+      description: REST surface for merchants-merchantId-terminalProducts.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidterminalproducts
+        description: Adyen Get a List of Terminal Products
+        call: management-merchants.getmerchantsmerchantidterminalproducts
+        with:
+          merchantId: rest.merchantId
+          country: rest.country
+          terminalModelId: rest.terminalModelId
+          offset: rest.offset
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/terminalsettings
+      name: merchants-merchantid-terminalsettings
+      description: REST surface for merchants-merchantId-terminalSettings.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidterminalsettings
+        description: Adyen Get Terminal Settings
+        call: management-merchants.getmerchantsmerchantidterminalsettings
+        with:
+          merchantId: rest.merchantId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchmerchantsmerchantidterminalsettings
+        description: Adyen Update Terminal Settings
+        call: management-merchants.patchmerchantsmerchantidterminalsettings
+        with:
+          merchantId: rest.merchantId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/users
+      name: merchants-merchantid-users
+      description: REST surface for merchants-merchantId-users.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidusers
+        description: Adyen Get a List of Users
+        call: management-merchants.getmerchantsmerchantidusers
+        with:
+          merchantId: rest.merchantId
+          pageNumber: rest.pageNumber
+          pageSize: rest.pageSize
+          username: rest.username
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: postmerchantsmerchantidusers
+        description: Adyen Create a New User
+        call: management-merchants.postmerchantsmerchantidusers
+        with:
+          merchantId: rest.merchantId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/users/{userid}
+      name: merchants-merchantid-users-userid
+      description: REST surface for merchants-merchantId-users-userId.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidusersuserid
+        description: Adyen Get User Details
+        call: management-merchants.getmerchantsmerchantidusersuserid
+        with:
+          merchantId: rest.merchantId
+          userId: rest.userId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchmerchantsmerchantidusersuserid
+        description: Adyen Update a User
+        call: management-merchants.patchmerchantsmerchantidusersuserid
+        with:
+          merchantId: rest.merchantId
+          userId: rest.userId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/webhooks
+      name: merchants-merchantid-webhooks
+      description: REST surface for merchants-merchantId-webhooks.
+      operations:
+      - method: GET
+        name: getmerchantsmerchantidwebhooks
+        description: Adyen List All Webhooks
+        call: management-merchants.getmerchantsmerchantidwebhooks
+        with:
+          merchantId: rest.merchantId
+          pageNumber: rest.pageNumber
+          pageSize: rest.pageSize
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: postmerchantsmerchantidwebhooks
+        description: Adyen Set Up a Webhook
+        call: management-merchants.postmerchantsmerchantidwebhooks
+        with:
+          merchantId: rest.merchantId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/webhooks/{webhookid}
+      name: merchants-merchantid-webhooks-webhookid
+      description: REST surface for merchants-merchantId-webhooks-webhookId.
+      operations:
+      - method: DELETE
+        name: deletemerchantsmerchantidwebhookswebhookid
+        description: Adyen Remove a Webhook
+        call: management-merchants.deletemerchantsmerchantidwebhookswebhookid
+        with:
+          merchantId: rest.merchantId
+          webhookId: rest.webhookId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getmerchantsmerchantidwebhookswebhookid
+        description: Adyen Get a Webhook
+        call: management-merchants.getmerchantsmerchantidwebhookswebhookid
+        with:
+          merchantId: rest.merchantId
+          webhookId: rest.webhookId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchmerchantsmerchantidwebhookswebhookid
+        description: Adyen Update a Webhook
+        call: management-merchants.patchmerchantsmerchantidwebhookswebhookid
+        with:
+          merchantId: rest.merchantId
+          webhookId: rest.webhookId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/webhooks/{webhookid}/generatehmac
+      name: merchants-merchantid-webhooks-webhookid-generatehmac
+      description: REST surface for merchants-merchantId-webhooks-webhookId-generateHmac.
+      operations:
+      - method: POST
+        name: postmerchantsmerchantidwebhookswebhookidgeneratehmac
+        description: Adyen Generate an HMAC Key
+        call: management-merchants.postmerchantsmerchantidwebhookswebhookidgeneratehmac
+        with:
+          merchantId: rest.merchantId
+          webhookId: rest.webhookId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/merchants/{merchantid}/webhooks/{webhookid}/test
+      name: merchants-merchantid-webhooks-webhookid-test
+      description: REST surface for merchants-merchantId-webhooks-webhookId-test.
+      operations:
+      - method: POST
+        name: postmerchantsmerchantidwebhookswebhookidtest
+        description: Adyen Test a Webhook
+        call: management-merchants.postmerchantsmerchantidwebhookswebhookidtest
+        with:
+          merchantId: rest.merchantId
+          webhookId: rest.webhookId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: management-merchants-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Management API — Merchants. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: adyen-get-list-merchant-accounts
+      description: Adyen Get a List of Merchant Accounts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchants
+      with:
+        pageNumber: tools.pageNumber
+        pageSize: tools.pageSize
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-create-merchant-account
+      description: Adyen Create a Merchant Account
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchants
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-merchant-account
+      description: Adyen Get a Merchant Account
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantid
+      with:
+        merchantId: tools.merchantId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-request-activate-merchant-account
+      description: Adyen Request to Activate a Merchant Account
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchantsmerchantidactivate
+      with:
+        merchantId: tools.merchantId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-list-api-credentials
+      description: Adyen Get a List of API Credentials
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidapicredentials
+      with:
+        merchantId: tools.merchantId
+        pageNumber: tools.pageNumber
+        pageSize: tools.pageSize
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-create-api-credential
+      description: Adyen Create an API Credential
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchantsmerchantidapicredentials
+      with:
+        merchantId: tools.merchantId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-api-credential
+      description: Adyen Get an API Credential
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidapicredentialsapicredentialid
+      with:
+        merchantId: tools.merchantId
+        apiCredentialId: tools.apiCredentialId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-api-credential
+      description: Adyen Update an API Credential
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-merchants.patchmerchantsmerchantidapicredentialsapicredentialid
+      with:
+        merchantId: tools.merchantId
+        apiCredentialId: tools.apiCredentialId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-list-allowed-origins
+      description: Adyen Get a List of Allowed Origins
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidapicredentialsapicredentialidallowedorigins
+      with:
+        merchantId: tools.merchantId
+        apiCredentialId: tools.apiCredentialId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-create-allowed-origin
+      description: Adyen Create an Allowed Origin
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchantsmerchantidapicredentialsapicredentialidallowedorigins
+      with:
+        merchantId: tools.merchantId
+        apiCredentialId: tools.apiCredentialId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-delete-allowed-origin
+      description: Adyen Delete an Allowed Origin
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: management-merchants.deletemerchantsmerchantidapicredentialsapicredentialidallowedoriginsoriginid
+      with:
+        merchantId: tools.merchantId
+        apiCredentialId: tools.apiCredentialId
+        originId: tools.originId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-allowed-origin
+      description: Adyen Get an Allowed Origin
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidapicredentialsapicredentialidallowedoriginsoriginid
+      with:
+        merchantId: tools.merchantId
+        apiCredentialId: tools.apiCredentialId
+        originId: tools.originId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-generate-new-api-key
+      description: Adyen Generate New API Key
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchantsmerchantidapicredentialsapicredentialidgenerateapikey
+      with:
+        merchantId: tools.merchantId
+        apiCredentialId: tools.apiCredentialId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-generate-new-client-key
+      description: Adyen Generate New Client Key
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchantsmerchantidapicredentialsapicredentialidgenerateclientkey
+      with:
+        merchantId: tools.merchantId
+        apiCredentialId: tools.apiCredentialId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-list-billing-entities
+      description: Adyen Get a List of Billing Entities
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidbillingentities
+      with:
+        merchantId: tools.merchantId
+        name: tools.name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-all-payment-methods
+      description: Adyen Get All Payment Methods
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidpaymentmethodsettings
+      with:
+        merchantId: tools.merchantId
+        storeId: tools.storeId
+        businessLineId: tools.businessLineId
+        pageSize: tools.pageSize
+        pageNumber: tools.pageNumber
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-request-payment-method
+      description: Adyen Request a Payment Method
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchantsmerchantidpaymentmethodsettings
+      with:
+        merchantId: tools.merchantId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-payment-method-details
+      description: Adyen Get Payment Method Details
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidpaymentmethodsettingspaymentmethodid
+      with:
+        merchantId: tools.merchantId
+        paymentMethodId: tools.paymentMethodId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-payment-method
+      description: Adyen Update a Payment Method
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-merchants.patchmerchantsmerchantidpaymentmethodsettingspaymentmethodid
+      with:
+        merchantId: tools.merchantId
+        paymentMethodId: tools.paymentMethodId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-add-apple-pay-domain
+      description: Adyen Add an Apple Pay Domain
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchantsmerchantidpaymentmethodsettingspaymentmethodidaddapplepaydomains
+      with:
+        merchantId: tools.merchantId
+        paymentMethodId: tools.paymentMethodId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-apple-pay-domains
+      description: Adyen Get Apple Pay Domains
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidpaymentmethodsettingspaymentmethodidgetapplepaydomains
+      with:
+        merchantId: tools.merchantId
+        paymentMethodId: tools.paymentMethodId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-list-payout-settings
+      description: Adyen Get a List of Payout Settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidpayoutsettings
+      with:
+        merchantId: tools.merchantId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-add-payout-setting
+      description: Adyen Add a Payout Setting
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchantsmerchantidpayoutsettings
+      with:
+        merchantId: tools.merchantId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-delete-payout-setting
+      description: Adyen Delete a Payout Setting
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: management-merchants.deletemerchantsmerchantidpayoutsettingspayoutsettingsid
+      with:
+        merchantId: tools.merchantId
+        payoutSettingsId: tools.payoutSettingsId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-payout-setting
+      description: Adyen Get a Payout Setting
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidpayoutsettingspayoutsettingsid
+      with:
+        merchantId: tools.merchantId
+        payoutSettingsId: tools.payoutSettingsId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-payout-setting
+      description: Adyen Update a Payout Setting
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-merchants.patchmerchantsmerchantidpayoutsettingspayoutsettingsid
+      with:
+        merchantId: tools.merchantId
+        payoutSettingsId: tools.payoutSettingsId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-list-shipping-locations
+      description: Adyen Get a List of Shipping Locations
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidshippinglocations
+      with:
+        merchantId: tools.merchantId
+        name: tools.name
+        offset: tools.offset
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-create-shipping-location
+      description: Adyen Create a Shipping Location
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchantsmerchantidshippinglocations
+      with:
+        merchantId: tools.merchantId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-list-split-configurations
+      description: Adyen Get a List of Split Configurations
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidsplitconfigurations
+      with:
+        merchantId: tools.merchantId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-create-split-configuration
+      description: Adyen Create a Split Configuration
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchantsmerchantidsplitconfigurations
+      with:
+        merchantId: tools.merchantId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-delete-split-configuration
+      description: Adyen Delete a Split Configuration
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: management-merchants.deletemerchantsmerchantidsplitconfigurationssplitconfigurationid
+      with:
+        merchantId: tools.merchantId
+        splitConfigurationId: tools.splitConfigurationId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-split-configuration
+      description: Adyen Get a Split Configuration
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidsplitconfigurationssplitconfigurationid
+      with:
+        merchantId: tools.merchantId
+        splitConfigurationId: tools.splitConfigurationId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-split-configuration-description
+      description: Adyen Update Split Configuration Description
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-merchants.patchmerchantsmerchantidsplitconfigurationssplitconfigurationid
+      with:
+        merchantId: tools.merchantId
+        splitConfigurationId: tools.splitConfigurationId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-create-rule
+      description: Adyen Create a Rule
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchantsmerchantidsplitconfigurationssplitconfigurationid
+      with:
+        merchantId: tools.merchantId
+        splitConfigurationId: tools.splitConfigurationId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-delete-split-configuration-rule
+      description: Adyen Delete a Split Configuration Rule
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: management-merchants.deletemerchantsmerchantidsplitconfigurationssplitconfigurationidrulesruleid
+      with:
+        merchantId: tools.merchantId
+        splitConfigurationId: tools.splitConfigurationId
+        ruleId: tools.ruleId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-split-conditions
+      description: Adyen Update Split Conditions
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-merchants.patchmerchantsmerchantidsplitconfigurationssplitconfigurationidrulesruleid
+      with:
+        merchantId: tools.merchantId
+        splitConfigurationId: tools.splitConfigurationId
+        ruleId: tools.ruleId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-split-logic
+      description: Adyen Update the Split Logic
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-merchants.patchmerchantsmerchantidsplitconfigurationssplitconfigurationidrulesruleidsplitlogicsplitlogicid
+      with:
+        merchantId: tools.merchantId
+        splitConfigurationId: tools.splitConfigurationId
+        ruleId: tools.ruleId
+        splitLogicId: tools.splitLogicId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-list-stores
+      description: Adyen Get a List of Stores
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidstores
+      with:
+        merchantId: tools.merchantId
+        pageNumber: tools.pageNumber
+        pageSize: tools.pageSize
+        reference: tools.reference
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-create-store
+      description: Adyen Create a Store
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchantsmerchantidstores
+      with:
+        merchantId: tools.merchantId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-terminal-logo
+      description: Adyen Get the Terminal Logo
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidstoresreferenceterminallogos
+      with:
+        merchantId: tools.merchantId
+        reference: tools.reference
+        model: tools.model
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-terminal-logo
+      description: Adyen Update the Terminal Logo
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-merchants.patchmerchantsmerchantidstoresreferenceterminallogos
+      with:
+        merchantId: tools.merchantId
+        reference: tools.reference
+        model: tools.model
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-terminal-settings
+      description: Adyen Get Terminal Settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidstoresreferenceterminalsettings
+      with:
+        merchantId: tools.merchantId
+        reference: tools.reference
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-terminal-settings
+      description: Adyen Update Terminal Settings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-merchants.patchmerchantsmerchantidstoresreferenceterminalsettings
+      with:
+        merchantId: tools.merchantId
+        reference: tools.reference
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-store
+      description: Adyen Get a Store
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidstoresstoreid
+      with:
+        merchantId: tools.merchantId
+        storeId: tools.storeId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-store
+      description: Adyen Update a Store
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-merchants.patchmerchantsmerchantidstoresstoreid
+      with:
+        merchantId: tools.merchantId
+        storeId: tools.storeId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-terminal-logo-2
+      description: Adyen Get the Terminal Logo
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidterminallogos
+      with:
+        merchantId: tools.merchantId
+        model: tools.model
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-terminal-logo-2
+      description: Adyen Update the Terminal Logo
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-merchants.patchmerchantsmerchantidterminallogos
+      with:
+        merchantId: tools.merchantId
+        model: tools.model
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-list-terminal-models
+      description: Adyen Get a List of Terminal Models
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidterminalmodels
+      with:
+        merchantId: tools.merchantId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-list-orders
+      description: Adyen Get a List of Orders
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidterminalorders
+      with:
+        merchantId: tools.merchantId
+        customerOrderReference: tools.customerOrderReference
+        status: tools.status
+        offset: tools.offset
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-create-order
+      description: Adyen Create an Order
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchantsmerchantidterminalorders
+      with:
+        merchantId: tools.merchantId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-order
+      description: Adyen Get an Order
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidterminalordersorderid
+      with:
+        merchantId: tools.merchantId
+        orderId: tools.orderId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-order
+      description: Adyen Update an Order
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-merchants.patchmerchantsmerchantidterminalordersorderid
+      with:
+        merchantId: tools.merchantId
+        orderId: tools.orderId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-cancel-order
+      description: Adyen Cancel an Order
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchantsmerchantidterminalordersorderidcancel
+      with:
+        merchantId: tools.merchantId
+        orderId: tools.orderId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-list-terminal-products
+      description: Adyen Get a List of Terminal Products
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidterminalproducts
+      with:
+        merchantId: tools.merchantId
+        country: tools.country
+        terminalModelId: tools.terminalModelId
+        offset: tools.offset
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-terminal-settings-2
+      description: Adyen Get Terminal Settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidterminalsettings
+      with:
+        merchantId: tools.merchantId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-terminal-settings-2
+      description: Adyen Update Terminal Settings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-merchants.patchmerchantsmerchantidterminalsettings
+      with:
+        merchantId: tools.merchantId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-list-users
+      description: Adyen Get a List of Users
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidusers
+      with:
+        merchantId: tools.merchantId
+        pageNumber: tools.pageNumber
+        pageSize: tools.pageSize
+        username: tools.username
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-create-new-user
+      description: Adyen Create a New User
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchantsmerchantidusers
+      with:
+        merchantId: tools.merchantId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-user-details
+      description: Adyen Get User Details
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidusersuserid
+      with:
+        merchantId: tools.merchantId
+        userId: tools.userId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-user
+      description: Adyen Update a User
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-merchants.patchmerchantsmerchantidusersuserid
+      with:
+        merchantId: tools.merchantId
+        userId: tools.userId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-list-all-webhooks
+      description: Adyen List All Webhooks
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidwebhooks
+      with:
+        merchantId: tools.merchantId
+        pageNumber: tools.pageNumber
+        pageSize: tools.pageSize
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-set-up-webhook
+      description: Adyen Set Up a Webhook
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchantsmerchantidwebhooks
+      with:
+        merchantId: tools.merchantId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-remove-webhook
+      description: Adyen Remove a Webhook
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: management-merchants.deletemerchantsmerchantidwebhookswebhookid
+      with:
+        merchantId: tools.merchantId
+        webhookId: tools.webhookId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-webhook
+      description: Adyen Get a Webhook
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-merchants.getmerchantsmerchantidwebhookswebhookid
+      with:
+        merchantId: tools.merchantId
+        webhookId: tools.webhookId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-webhook
+      description: Adyen Update a Webhook
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-merchants.patchmerchantsmerchantidwebhookswebhookid
+      with:
+        merchantId: tools.merchantId
+        webhookId: tools.webhookId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-generate-hmac-key
+      description: Adyen Generate an HMAC Key
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchantsmerchantidwebhookswebhookidgeneratehmac
+      with:
+        merchantId: tools.merchantId
+        webhookId: tools.webhookId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-test-webhook
+      description: Adyen Test a Webhook
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: management-merchants.postmerchantsmerchantidwebhookswebhookidtest
+      with:
+        merchantId: tools.merchantId
+        webhookId: tools.webhookId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

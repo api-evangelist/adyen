@@ -1,0 +1,201 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Configuration API — Card Orders
+  description: 'Adyen Configuration API — Card Orders. 2 operations. Lead operation: Adyen Get a List of Card Orders. Self-contained
+    Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - Card Orders
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: configuration-card-orders
+    baseUri: https://balanceplatform-api-test.adyen.com/bcl/v2
+    description: Adyen Configuration API — Card Orders business capability. Self-contained, no shared references.
+    resources:
+    - name: cardorders
+      path: /cardorders
+      operations:
+      - name: getcardorders
+        method: GET
+        description: Adyen Get a List of Card Orders
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: query
+          type: string
+          description: The unique identifier of the card order.
+        - name: cardManufacturingProfileId
+          in: query
+          type: string
+          description: The unique identifier of the card manufacturer profile.
+        - name: status
+          in: query
+          type: string
+          description: The status of the card order.
+        - name: txVariantCode
+          in: query
+          type: string
+          description: The unique code of the card manufacturer profile.
+        - name: createdSince
+          in: query
+          type: string
+          description: Only include card orders that have been created on or after this point in time. The value must be in
+            ISO 8601 format. For example, **2021-05-30T15:07:40Z**.
+        - name: createdUntil
+          in: query
+          type: string
+          description: Only include card orders that have been created on or before this point in time. The value must be
+            in ISO 8601 format. For example, **2021-05-30T15:07:40Z**.
+        - name: lockedSince
+          in: query
+          type: string
+          description: Only include card orders that have been locked on or after this point in time. The value must be in
+            ISO 8601 format. For example, **2021-05-30T15:07:40Z**.
+        - name: lockedUntil
+          in: query
+          type: string
+          description: Only include card orders that have been locked on or before this point in time. The value must be in
+            ISO 8601 format. For example, **2021-05-30T15:07:40Z**.
+        - name: serviceCenter
+          in: query
+          type: string
+          description: The service center at which the card is issued. The value is case-sensitive.
+        - name: offset
+          in: query
+          type: integer
+          description: Specifies the position of an element in a list of card orders. The response includes a list of card
+            orders that starts at the specified offset.
+        - name: limit
+          in: query
+          type: integer
+          description: The number of card orders returned per page. **Default:** 10.
+    - name: cardorders-id-items
+      path: /cardorders/{id}/items
+      operations:
+      - name: getcardordersiditems
+        method: GET
+        description: Adyen Get Card Order Items
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The unique identifier of the card order.
+          required: true
+        - name: offset
+          in: query
+          type: integer
+          description: Specifies the position of an element in a list of card orders. The response includes a list of card
+            order items that starts at the specified offset.
+        - name: limit
+          in: query
+          type: integer
+          description: The number of card order items returned per page. **Default:** 10.
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: configuration-card-orders-rest
+    port: 8080
+    description: REST adapter for Adyen Configuration API — Card Orders. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/cardorders
+      name: cardorders
+      description: REST surface for cardorders.
+      operations:
+      - method: GET
+        name: getcardorders
+        description: Adyen Get a List of Card Orders
+        call: configuration-card-orders.getcardorders
+        with:
+          id: rest.id
+          cardManufacturingProfileId: rest.cardManufacturingProfileId
+          status: rest.status
+          txVariantCode: rest.txVariantCode
+          createdSince: rest.createdSince
+          createdUntil: rest.createdUntil
+          lockedSince: rest.lockedSince
+          lockedUntil: rest.lockedUntil
+          serviceCenter: rest.serviceCenter
+          offset: rest.offset
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/cardorders/{id}/items
+      name: cardorders-id-items
+      description: REST surface for cardorders-id-items.
+      operations:
+      - method: GET
+        name: getcardordersiditems
+        description: Adyen Get Card Order Items
+        call: configuration-card-orders.getcardordersiditems
+        with:
+          id: rest.id
+          offset: rest.offset
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: configuration-card-orders-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Configuration API — Card Orders. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: adyen-get-list-card-orders
+      description: Adyen Get a List of Card Orders
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: configuration-card-orders.getcardorders
+      with:
+        id: tools.id
+        cardManufacturingProfileId: tools.cardManufacturingProfileId
+        status: tools.status
+        txVariantCode: tools.txVariantCode
+        createdSince: tools.createdSince
+        createdUntil: tools.createdUntil
+        lockedSince: tools.lockedSince
+        lockedUntil: tools.lockedUntil
+        serviceCenter: tools.serviceCenter
+        offset: tools.offset
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-card-order-items
+      description: Adyen Get Card Order Items
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: configuration-card-orders.getcardordersiditems
+      with:
+        id: tools.id
+        offset: tools.offset
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Data Protection API — requestSubjectErasure
+  description: 'Adyen Data Protection API — requestSubjectErasure. 1 operations. Lead operation: Adyen Submit a Subject Erasure
+    Request.. Self-contained Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - requestSubjectErasure
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: data-protection-requestsubjecterasure
+    baseUri: https://ca-test.adyen.com/ca/services/DataProtectionService/v1
+    description: Adyen Data Protection API — requestSubjectErasure business capability. Self-contained, no shared references.
+    resources:
+    - name: requestSubjectErasure
+      path: /requestSubjectErasure
+      operations:
+      - name: postrequestsubjecterasure
+        method: POST
+        description: Adyen Submit a Subject Erasure Request.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: data-protection-requestsubjecterasure-rest
+    port: 8080
+    description: REST adapter for Adyen Data Protection API — requestSubjectErasure. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/requestsubjecterasure
+      name: requestsubjecterasure
+      description: REST surface for requestSubjectErasure.
+      operations:
+      - method: POST
+        name: postrequestsubjecterasure
+        description: Adyen Submit a Subject Erasure Request.
+        call: data-protection-requestsubjecterasure.postrequestsubjecterasure
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: data-protection-requestsubjecterasure-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Data Protection API — requestSubjectErasure. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: adyen-submit-subject-erasure-request
+      description: Adyen Submit a Subject Erasure Request.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: data-protection-requestsubjecterasure.postrequestsubjecterasure
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

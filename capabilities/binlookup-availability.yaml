@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen BinLookup API — Availability
+  description: 'Adyen BinLookup API — Availability. 1 operations. Lead operation: Adyen Check if 3D Secure is Available. Self-contained
+    Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - Availability
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: binlookup-availability
+    baseUri: https://pal-test.adyen.com/pal/servlet/BinLookup/v54
+    description: Adyen BinLookup API — Availability business capability. Self-contained, no shared references.
+    resources:
+    - name: get3dsAvailability
+      path: /get3dsAvailability
+      operations:
+      - name: postget3dsavailability
+        method: POST
+        description: Adyen Check if 3D Secure is Available
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: binlookup-availability-rest
+    port: 8080
+    description: REST adapter for Adyen BinLookup API — Availability. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/get3dsavailability
+      name: get3dsavailability
+      description: REST surface for get3dsAvailability.
+      operations:
+      - method: POST
+        name: postget3dsavailability
+        description: Adyen Check if 3D Secure is Available
+        call: binlookup-availability.postget3dsavailability
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: binlookup-availability-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen BinLookup API — Availability. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: adyen-check-if-3d-secure
+      description: Adyen Check if 3D Secure is Available
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: binlookup-availability.postget3dsavailability
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

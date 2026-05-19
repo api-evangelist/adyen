@@ -1,0 +1,386 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Management API — Terminals
+  description: 'Adyen Management API — Terminals. 7 operations. Lead operation: Adyen Get a List of Terminals. Self-contained
+    Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - Terminals
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: management-terminals
+    baseUri: https://management-test.adyen.com/v3
+    description: Adyen Management API — Terminals business capability. Self-contained, no shared references.
+    resources:
+    - name: terminals
+      path: /terminals
+      operations:
+      - name: getterminals
+        method: GET
+        description: Adyen Get a List of Terminals
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: searchQuery
+          in: query
+          type: string
+          description: Returns terminals with an ID that contains the specified string. If present, other query parameters
+            are ignored.
+        - name: otpQuery
+          in: query
+          type: string
+          description: Returns one or more terminals associated with the one-time passwords specified in the request. If this
+            query parameter is used, other query parameters are ignor
+        - name: countries
+          in: query
+          type: string
+          description: Returns terminals located in the countries specified by their [two-letter country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
+        - name: merchantIds
+          in: query
+          type: string
+          description: Returns terminals that belong to the merchant accounts specified by their unique merchant account ID.
+        - name: storeIds
+          in: query
+          type: string
+          description: Returns terminals that are assigned to the [stores](https://docs.adyen.com/api-explorer/#/ManagementService/latest/get/stores)
+            specified by their unique store I
+        - name: brandModels
+          in: query
+          type: string
+          description: Returns terminals of the [models](https://docs.adyen.com/api-explorer/#/ManagementService/latest/get/companies/{companyId}/terminalModels)
+            specified in the form
+        - name: pageNumber
+          in: query
+          type: integer
+          description: The number of the page to fetch.
+        - name: pageSize
+          in: query
+          type: integer
+          description: The number of items to have on a page, maximum 100. The default is 20 items on a page.
+    - name: terminals-scheduleActions
+      path: /terminals/scheduleActions
+      operations:
+      - name: postterminalsscheduleactions
+        method: POST
+        description: Adyen Create a Terminal Action
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: terminals-terminalId-reassign
+      path: /terminals/{terminalId}/reassign
+      operations:
+      - name: postterminalsterminalidreassign
+        method: POST
+        description: Adyen Reassign a Terminal
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: terminalId
+          in: path
+          type: string
+          description: The unique identifier of the payment terminal.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: terminals-terminalId-terminalLogos
+      path: /terminals/{terminalId}/terminalLogos
+      operations:
+      - name: getterminalsterminalidterminallogos
+        method: GET
+        description: Adyen Get the Terminal Logo
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: terminalId
+          in: path
+          type: string
+          description: The unique identifier of the payment terminal.
+          required: true
+      - name: patchterminalsterminalidterminallogos
+        method: PATCH
+        description: Adyen Update the Logo
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: terminalId
+          in: path
+          type: string
+          description: The unique identifier of the payment terminal.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: terminals-terminalId-terminalSettings
+      path: /terminals/{terminalId}/terminalSettings
+      operations:
+      - name: getterminalsterminalidterminalsettings
+        method: GET
+        description: Adyen Get Terminal Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: terminalId
+          in: path
+          type: string
+          description: The unique identifier of the payment terminal.
+          required: true
+      - name: patchterminalsterminalidterminalsettings
+        method: PATCH
+        description: Adyen Update Terminal Settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: terminalId
+          in: path
+          type: string
+          description: The unique identifier of the payment terminal.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: management-terminals-rest
+    port: 8080
+    description: REST adapter for Adyen Management API — Terminals. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/terminals
+      name: terminals
+      description: REST surface for terminals.
+      operations:
+      - method: GET
+        name: getterminals
+        description: Adyen Get a List of Terminals
+        call: management-terminals.getterminals
+        with:
+          searchQuery: rest.searchQuery
+          otpQuery: rest.otpQuery
+          countries: rest.countries
+          merchantIds: rest.merchantIds
+          storeIds: rest.storeIds
+          brandModels: rest.brandModels
+          pageNumber: rest.pageNumber
+          pageSize: rest.pageSize
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/terminals/scheduleactions
+      name: terminals-scheduleactions
+      description: REST surface for terminals-scheduleActions.
+      operations:
+      - method: POST
+        name: postterminalsscheduleactions
+        description: Adyen Create a Terminal Action
+        call: management-terminals.postterminalsscheduleactions
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/terminals/{terminalid}/reassign
+      name: terminals-terminalid-reassign
+      description: REST surface for terminals-terminalId-reassign.
+      operations:
+      - method: POST
+        name: postterminalsterminalidreassign
+        description: Adyen Reassign a Terminal
+        call: management-terminals.postterminalsterminalidreassign
+        with:
+          terminalId: rest.terminalId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/terminals/{terminalid}/terminallogos
+      name: terminals-terminalid-terminallogos
+      description: REST surface for terminals-terminalId-terminalLogos.
+      operations:
+      - method: GET
+        name: getterminalsterminalidterminallogos
+        description: Adyen Get the Terminal Logo
+        call: management-terminals.getterminalsterminalidterminallogos
+        with:
+          terminalId: rest.terminalId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchterminalsterminalidterminallogos
+        description: Adyen Update the Logo
+        call: management-terminals.patchterminalsterminalidterminallogos
+        with:
+          terminalId: rest.terminalId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/terminals/{terminalid}/terminalsettings
+      name: terminals-terminalid-terminalsettings
+      description: REST surface for terminals-terminalId-terminalSettings.
+      operations:
+      - method: GET
+        name: getterminalsterminalidterminalsettings
+        description: Adyen Get Terminal Settings
+        call: management-terminals.getterminalsterminalidterminalsettings
+        with:
+          terminalId: rest.terminalId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchterminalsterminalidterminalsettings
+        description: Adyen Update Terminal Settings
+        call: management-terminals.patchterminalsterminalidterminalsettings
+        with:
+          terminalId: rest.terminalId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: management-terminals-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Management API — Terminals. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: adyen-get-list-terminals
+      description: Adyen Get a List of Terminals
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-terminals.getterminals
+      with:
+        searchQuery: tools.searchQuery
+        otpQuery: tools.otpQuery
+        countries: tools.countries
+        merchantIds: tools.merchantIds
+        storeIds: tools.storeIds
+        brandModels: tools.brandModels
+        pageNumber: tools.pageNumber
+        pageSize: tools.pageSize
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-create-terminal-action
+      description: Adyen Create a Terminal Action
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-terminals.postterminalsscheduleactions
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-reassign-terminal
+      description: Adyen Reassign a Terminal
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-terminals.postterminalsterminalidreassign
+      with:
+        terminalId: tools.terminalId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-terminal-logo
+      description: Adyen Get the Terminal Logo
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-terminals.getterminalsterminalidterminallogos
+      with:
+        terminalId: tools.terminalId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-logo
+      description: Adyen Update the Logo
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-terminals.patchterminalsterminalidterminallogos
+      with:
+        terminalId: tools.terminalId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-terminal-settings
+      description: Adyen Get Terminal Settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-terminals.getterminalsterminalidterminalsettings
+      with:
+        terminalId: tools.terminalId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-terminal-settings
+      description: Adyen Update Terminal Settings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-terminals.patchterminalsterminalidterminalsettings
+      with:
+        terminalId: tools.terminalId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Fund API — refundFundsTransfer
+  description: 'Adyen Fund API — refundFundsTransfer. 1 operations. Lead operation: Adyen Refund a Funds Transfer. Self-contained
+    Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - refundFundsTransfer
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: funds-refundfundstransfer
+    baseUri: https://cal-test.adyen.com/cal/services/Fund/v6
+    description: Adyen Fund API — refundFundsTransfer business capability. Self-contained, no shared references.
+    resources:
+    - name: refundFundsTransfer
+      path: /refundFundsTransfer
+      operations:
+      - name: postrefundfundstransfer
+        method: POST
+        description: Adyen Refund a Funds Transfer
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: funds-refundfundstransfer-rest
+    port: 8080
+    description: REST adapter for Adyen Fund API — refundFundsTransfer. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/refundfundstransfer
+      name: refundfundstransfer
+      description: REST surface for refundFundsTransfer.
+      operations:
+      - method: POST
+        name: postrefundfundstransfer
+        description: Adyen Refund a Funds Transfer
+        call: funds-refundfundstransfer.postrefundfundstransfer
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: funds-refundfundstransfer-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Fund API — refundFundsTransfer. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: adyen-refund-funds-transfer
+      description: Adyen Refund a Funds Transfer
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: funds-refundfundstransfer.postrefundfundstransfer
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

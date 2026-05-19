@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Recurring API — Disable
+  description: 'Adyen Recurring API — Disable. 1 operations. Lead operation: Adyen Disable Stored Payment Details. Self-contained
+    Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - Disable
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: recurring-disable
+    baseUri: https://pal-test.adyen.com/pal/servlet/Recurring/v68
+    description: Adyen Recurring API — Disable business capability. Self-contained, no shared references.
+    resources:
+    - name: disable
+      path: /disable
+      operations:
+      - name: postdisable
+        method: POST
+        description: Adyen Disable Stored Payment Details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: recurring-disable-rest
+    port: 8080
+    description: REST adapter for Adyen Recurring API — Disable. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/disable
+      name: disable
+      description: REST surface for disable.
+      operations:
+      - method: POST
+        name: postdisable
+        description: Adyen Disable Stored Payment Details
+        call: recurring-disable.postdisable
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: recurring-disable-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Recurring API — Disable. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: adyen-disable-stored-payment-details
+      description: Adyen Disable Stored Payment Details
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: recurring-disable.postdisable
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

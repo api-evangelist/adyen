@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Payout API — declineThirdParty
+  description: 'Adyen Payout API — declineThirdParty. 1 operations. Lead operation: Adyen Cancel a Payout. Self-contained
+    Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - declineThirdParty
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: payouts-declinethirdparty
+    baseUri: https://pal-test.adyen.com/pal/servlet/Payout/v68
+    description: Adyen Payout API — declineThirdParty business capability. Self-contained, no shared references.
+    resources:
+    - name: declineThirdParty
+      path: /declineThirdParty
+      operations:
+      - name: postdeclinethirdparty
+        method: POST
+        description: Adyen Cancel a Payout
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: payouts-declinethirdparty-rest
+    port: 8080
+    description: REST adapter for Adyen Payout API — declineThirdParty. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/declinethirdparty
+      name: declinethirdparty
+      description: REST surface for declineThirdParty.
+      operations:
+      - method: POST
+        name: postdeclinethirdparty
+        description: Adyen Cancel a Payout
+        call: payouts-declinethirdparty.postdeclinethirdparty
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: payouts-declinethirdparty-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Payout API — declineThirdParty. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: adyen-cancel-payout
+      description: Adyen Cancel a Payout
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: payouts-declinethirdparty.postdeclinethirdparty
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

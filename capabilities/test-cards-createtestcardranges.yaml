@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Test Cards API — createTestCardRanges
+  description: 'Adyen Test Cards API — createTestCardRanges. 1 operations. Lead operation: Adyen Creates One or More Test
+    Card Ranges.. Self-contained Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - createTestCardRanges
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: test-cards-createtestcardranges
+    baseUri: https://pal-test.adyen.com/pal/services/TestCard/v1
+    description: Adyen Test Cards API — createTestCardRanges business capability. Self-contained, no shared references.
+    resources:
+    - name: createTestCardRanges
+      path: /createTestCardRanges
+      operations:
+      - name: postcreatetestcardranges
+        method: POST
+        description: Adyen Creates One or More Test Card Ranges.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: test-cards-createtestcardranges-rest
+    port: 8080
+    description: REST adapter for Adyen Test Cards API — createTestCardRanges. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/createtestcardranges
+      name: createtestcardranges
+      description: REST surface for createTestCardRanges.
+      operations:
+      - method: POST
+        name: postcreatetestcardranges
+        description: Adyen Creates One or More Test Card Ranges.
+        call: test-cards-createtestcardranges.postcreatetestcardranges
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: test-cards-createtestcardranges-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Test Cards API — createTestCardRanges. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: adyen-creates-one-more-test
+      description: Adyen Creates One or More Test Card Ranges.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: test-cards-createtestcardranges.postcreatetestcardranges
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

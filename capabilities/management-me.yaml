@@ -1,0 +1,248 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Management API — Me
+  description: 'Adyen Management API — Me. 6 operations. Lead operation: Adyen Get API Credential Details. Self-contained
+    Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - Me
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: management-me
+    baseUri: https://management-test.adyen.com/v3
+    description: Adyen Management API — Me business capability. Self-contained, no shared references.
+    resources:
+    - name: me
+      path: /me
+      operations:
+      - name: getme
+        method: GET
+        description: Adyen Get API Credential Details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: me-allowedOrigins
+      path: /me/allowedOrigins
+      operations:
+      - name: getmeallowedorigins
+        method: GET
+        description: Adyen Get Allowed Origins
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: postmeallowedorigins
+        method: POST
+        description: Adyen Add Allowed Origin
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: me-allowedOrigins-originId
+      path: /me/allowedOrigins/{originId}
+      operations:
+      - name: deletemeallowedoriginsoriginid
+        method: DELETE
+        description: Adyen Remove Allowed Origin
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: originId
+          in: path
+          type: string
+          description: Unique identifier of the allowed origin.
+          required: true
+      - name: getmeallowedoriginsoriginid
+        method: GET
+        description: Adyen Get Allowed Origin Details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: originId
+          in: path
+          type: string
+          description: Unique identifier of the allowed origin.
+          required: true
+    - name: me-generateClientKey
+      path: /me/generateClientKey
+      operations:
+      - name: postmegenerateclientkey
+        method: POST
+        description: Adyen Generate a Client Key
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: management-me-rest
+    port: 8080
+    description: REST adapter for Adyen Management API — Me. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/me
+      name: me
+      description: REST surface for me.
+      operations:
+      - method: GET
+        name: getme
+        description: Adyen Get API Credential Details
+        call: management-me.getme
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/me/allowedorigins
+      name: me-allowedorigins
+      description: REST surface for me-allowedOrigins.
+      operations:
+      - method: GET
+        name: getmeallowedorigins
+        description: Adyen Get Allowed Origins
+        call: management-me.getmeallowedorigins
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: postmeallowedorigins
+        description: Adyen Add Allowed Origin
+        call: management-me.postmeallowedorigins
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/me/allowedorigins/{originid}
+      name: me-allowedorigins-originid
+      description: REST surface for me-allowedOrigins-originId.
+      operations:
+      - method: DELETE
+        name: deletemeallowedoriginsoriginid
+        description: Adyen Remove Allowed Origin
+        call: management-me.deletemeallowedoriginsoriginid
+        with:
+          originId: rest.originId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getmeallowedoriginsoriginid
+        description: Adyen Get Allowed Origin Details
+        call: management-me.getmeallowedoriginsoriginid
+        with:
+          originId: rest.originId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/me/generateclientkey
+      name: me-generateclientkey
+      description: REST surface for me-generateClientKey.
+      operations:
+      - method: POST
+        name: postmegenerateclientkey
+        description: Adyen Generate a Client Key
+        call: management-me.postmegenerateclientkey
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: management-me-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Management API — Me. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: adyen-get-api-credential-details
+      description: Adyen Get API Credential Details
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-me.getme
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-allowed-origins
+      description: Adyen Get Allowed Origins
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-me.getmeallowedorigins
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-add-allowed-origin
+      description: Adyen Add Allowed Origin
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-me.postmeallowedorigins
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-remove-allowed-origin
+      description: Adyen Remove Allowed Origin
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: management-me.deletemeallowedoriginsoriginid
+      with:
+        originId: tools.originId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-allowed-origin-details
+      description: Adyen Get Allowed Origin Details
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-me.getmeallowedoriginsoriginid
+      with:
+        originId: tools.originId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-generate-client-key
+      description: Adyen Generate a Client Key
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-me.postmegenerateclientkey
+      outputParameters:
+      - type: object
+        mapping: $.

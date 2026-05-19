@@ -1,0 +1,229 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Checkout API — Methods
+  description: 'Adyen Checkout API — Methods. 4 operations. Lead operation: Adyen Get a List of Available Payment Methods.
+    Self-contained Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - Methods
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: checkout-methods
+    baseUri: https://checkout-test.adyen.com/v71
+    description: Adyen Checkout API — Methods business capability. Self-contained, no shared references.
+    resources:
+    - name: paymentMethods
+      path: /paymentMethods
+      operations:
+      - name: postpaymentmethods
+        method: POST
+        description: Adyen Get a List of Available Payment Methods
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: paymentMethods-balance
+      path: /paymentMethods/balance
+      operations:
+      - name: postpaymentmethodsbalance
+        method: POST
+        description: Adyen Get the Balance of a Gift Card
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: storedPaymentMethods
+      path: /storedPaymentMethods
+      operations:
+      - name: getstoredpaymentmethods
+        method: GET
+        description: Adyen Get Tokens for Stored Payment Details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: shopperReference
+          in: query
+          type: string
+          description: 'Your reference to uniquely identify this shopper, for example user ID or account ID. Minimum length:
+            3 characters.'
+        - name: merchantAccount
+          in: query
+          type: string
+          description: Your merchant account.
+    - name: storedPaymentMethods-storedPaymentMethodId
+      path: /storedPaymentMethods/{storedPaymentMethodId}
+      operations:
+      - name: deletestoredpaymentmethodsstoredpaymentmethodid
+        method: DELETE
+        description: Adyen Delete a Token for Stored Payment Details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: storedPaymentMethodId
+          in: path
+          type: string
+          description: The unique identifier of the token.
+          required: true
+        - name: shopperReference
+          in: query
+          type: string
+          description: 'Your reference to uniquely identify this shopper, for example user ID or account ID. Minimum length:
+            3 characters.'
+          required: true
+        - name: merchantAccount
+          in: query
+          type: string
+          description: Your merchant account.
+          required: true
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: checkout-methods-rest
+    port: 8080
+    description: REST adapter for Adyen Checkout API — Methods. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/paymentmethods
+      name: paymentmethods
+      description: REST surface for paymentMethods.
+      operations:
+      - method: POST
+        name: postpaymentmethods
+        description: Adyen Get a List of Available Payment Methods
+        call: checkout-methods.postpaymentmethods
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/paymentmethods/balance
+      name: paymentmethods-balance
+      description: REST surface for paymentMethods-balance.
+      operations:
+      - method: POST
+        name: postpaymentmethodsbalance
+        description: Adyen Get the Balance of a Gift Card
+        call: checkout-methods.postpaymentmethodsbalance
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/storedpaymentmethods
+      name: storedpaymentmethods
+      description: REST surface for storedPaymentMethods.
+      operations:
+      - method: GET
+        name: getstoredpaymentmethods
+        description: Adyen Get Tokens for Stored Payment Details
+        call: checkout-methods.getstoredpaymentmethods
+        with:
+          shopperReference: rest.shopperReference
+          merchantAccount: rest.merchantAccount
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/storedpaymentmethods/{storedpaymentmethodid}
+      name: storedpaymentmethods-storedpaymentmethodid
+      description: REST surface for storedPaymentMethods-storedPaymentMethodId.
+      operations:
+      - method: DELETE
+        name: deletestoredpaymentmethodsstoredpaymentmethodid
+        description: Adyen Delete a Token for Stored Payment Details
+        call: checkout-methods.deletestoredpaymentmethodsstoredpaymentmethodid
+        with:
+          storedPaymentMethodId: rest.storedPaymentMethodId
+          shopperReference: rest.shopperReference
+          merchantAccount: rest.merchantAccount
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: checkout-methods-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Checkout API — Methods. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: adyen-get-list-available-payment
+      description: Adyen Get a List of Available Payment Methods
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: checkout-methods.postpaymentmethods
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-balance-gift-card
+      description: Adyen Get the Balance of a Gift Card
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: checkout-methods.postpaymentmethodsbalance
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-tokens-stored-payment
+      description: Adyen Get Tokens for Stored Payment Details
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: checkout-methods.getstoredpaymentmethods
+      with:
+        shopperReference: tools.shopperReference
+        merchantAccount: tools.merchantAccount
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-delete-token-stored-payment
+      description: Adyen Delete a Token for Stored Payment Details
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: checkout-methods.deletestoredpaymentmethodsstoredpaymentmethodid
+      with:
+        storedPaymentMethodId: tools.storedPaymentMethodId
+        shopperReference: tools.shopperReference
+        merchantAccount: tools.merchantAccount
+      outputParameters:
+      - type: object
+        mapping: $.

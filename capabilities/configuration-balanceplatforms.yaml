@@ -1,0 +1,137 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Configuration API — balancePlatforms
+  description: 'Adyen Configuration API — balancePlatforms. 2 operations. Lead operation: Adyen Get a Balance Platform. Self-contained
+    Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - balancePlatforms
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: configuration-balanceplatforms
+    baseUri: https://balanceplatform-api-test.adyen.com/bcl/v2
+    description: Adyen Configuration API — balancePlatforms business capability. Self-contained, no shared references.
+    resources:
+    - name: balancePlatforms-id
+      path: /balancePlatforms/{id}
+      operations:
+      - name: getbalanceplatformsid
+        method: GET
+        description: Adyen Get a Balance Platform
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The unique identifier of the balance platform.
+          required: true
+    - name: balancePlatforms-id-accountHolders
+      path: /balancePlatforms/{id}/accountHolders
+      operations:
+      - name: getbalanceplatformsidaccountholders
+        method: GET
+        description: Adyen Get All Account Holders Under a Balance Platform
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The unique identifier of the balance platform.
+          required: true
+        - name: offset
+          in: query
+          type: integer
+          description: The number of items that you want to skip.
+        - name: limit
+          in: query
+          type: integer
+          description: The number of items returned per page, maximum 100 items. By default, the response returns 10 items
+            per page.
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: configuration-balanceplatforms-rest
+    port: 8080
+    description: REST adapter for Adyen Configuration API — balancePlatforms. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/balanceplatforms/{id}
+      name: balanceplatforms-id
+      description: REST surface for balancePlatforms-id.
+      operations:
+      - method: GET
+        name: getbalanceplatformsid
+        description: Adyen Get a Balance Platform
+        call: configuration-balanceplatforms.getbalanceplatformsid
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/balanceplatforms/{id}/accountholders
+      name: balanceplatforms-id-accountholders
+      description: REST surface for balancePlatforms-id-accountHolders.
+      operations:
+      - method: GET
+        name: getbalanceplatformsidaccountholders
+        description: Adyen Get All Account Holders Under a Balance Platform
+        call: configuration-balanceplatforms.getbalanceplatformsidaccountholders
+        with:
+          id: rest.id
+          offset: rest.offset
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: configuration-balanceplatforms-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Configuration API — balancePlatforms. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: adyen-get-balance-platform
+      description: Adyen Get a Balance Platform
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: configuration-balanceplatforms.getbalanceplatformsid
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-all-account-holders
+      description: Adyen Get All Account Holders Under a Balance Platform
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: configuration-balanceplatforms.getbalanceplatformsidaccountholders
+      with:
+        id: tools.id
+        offset: tools.offset
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.

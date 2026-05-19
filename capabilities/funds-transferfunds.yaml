@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Fund API — transferFunds
+  description: 'Adyen Fund API — transferFunds. 1 operations. Lead operation: Adyen Transfer Funds Between Platform Accounts.
+    Self-contained Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - transferFunds
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: funds-transferfunds
+    baseUri: https://cal-test.adyen.com/cal/services/Fund/v6
+    description: Adyen Fund API — transferFunds business capability. Self-contained, no shared references.
+    resources:
+    - name: transferFunds
+      path: /transferFunds
+      operations:
+      - name: posttransferfunds
+        method: POST
+        description: Adyen Transfer Funds Between Platform Accounts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: funds-transferfunds-rest
+    port: 8080
+    description: REST adapter for Adyen Fund API — transferFunds. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/transferfunds
+      name: transferfunds
+      description: REST surface for transferFunds.
+      operations:
+      - method: POST
+        name: posttransferfunds
+        description: Adyen Transfer Funds Between Platform Accounts
+        call: funds-transferfunds.posttransferfunds
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: funds-transferfunds-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Fund API — transferFunds. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: adyen-transfer-funds-between-platform
+      description: Adyen Transfer Funds Between Platform Accounts
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: funds-transferfunds.posttransferfunds
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

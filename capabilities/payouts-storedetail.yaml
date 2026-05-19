@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Payout API — storeDetail
+  description: 'Adyen Payout API — storeDetail. 1 operations. Lead operation: Adyen Store Payout Details. Self-contained Naftiko
+    capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - storeDetail
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: payouts-storedetail
+    baseUri: https://pal-test.adyen.com/pal/servlet/Payout/v68
+    description: Adyen Payout API — storeDetail business capability. Self-contained, no shared references.
+    resources:
+    - name: storeDetail
+      path: /storeDetail
+      operations:
+      - name: poststoredetail
+        method: POST
+        description: Adyen Store Payout Details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: payouts-storedetail-rest
+    port: 8080
+    description: REST adapter for Adyen Payout API — storeDetail. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/storedetail
+      name: storedetail
+      description: REST surface for storeDetail.
+      operations:
+      - method: POST
+        name: poststoredetail
+        description: Adyen Store Payout Details
+        call: payouts-storedetail.poststoredetail
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: payouts-storedetail-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Payout API — storeDetail. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: adyen-store-payout-details
+      description: Adyen Store Payout Details
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: payouts-storedetail.poststoredetail
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

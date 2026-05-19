@@ -1,0 +1,786 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Adyen Configuration API — Accounts
+  description: 'Adyen Configuration API — Accounts. 16 operations. Lead operation: Adyen Create an Account Holder. Self-contained
+    Naftiko capability covering one Adyen business surface.'
+  tags:
+  - Adyen
+  - Accounts
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ADYEN_API_KEY: ADYEN_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: configuration-accounts
+    baseUri: https://balanceplatform-api-test.adyen.com/bcl/v2
+    description: Adyen Configuration API — Accounts business capability. Self-contained, no shared references.
+    resources:
+    - name: accountHolders
+      path: /accountHolders
+      operations:
+      - name: postaccountholders
+        method: POST
+        description: Adyen Create an Account Holder
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: accountHolders-id
+      path: /accountHolders/{id}
+      operations:
+      - name: getaccountholdersid
+        method: GET
+        description: Adyen Get an Account Holder
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The unique identifier of the account holder.
+          required: true
+      - name: patchaccountholdersid
+        method: PATCH
+        description: Adyen Update an Account Holder
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The unique identifier of the account holder.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: accountHolders-id-balanceAccounts
+      path: /accountHolders/{id}/balanceAccounts
+      operations:
+      - name: getaccountholdersidbalanceaccounts
+        method: GET
+        description: Adyen Get All Balance Accounts of an Account Holder
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The unique identifier of the account holder.
+          required: true
+        - name: offset
+          in: query
+          type: integer
+          description: The number of items that you want to skip.
+        - name: limit
+          in: query
+          type: integer
+          description: The number of items returned per page, maximum 100 items. By default, the response returns 10 items
+            per page.
+    - name: accountHolders-id-taxForms
+      path: /accountHolders/{id}/taxForms
+      operations:
+      - name: getaccountholdersidtaxforms
+        method: GET
+        description: Adyen Get a Tax Form
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The unique identifier of the account holder.
+          required: true
+        - name: formType
+          in: query
+          type: string
+          description: The type of tax form you want to retrieve. Accepted values are **US1099k** and **US1099nec**
+          required: true
+        - name: year
+          in: query
+          type: integer
+          description: The tax year in YYYY format for the tax form you want to retrieve
+          required: true
+    - name: balanceAccounts
+      path: /balanceAccounts
+      operations:
+      - name: postbalanceaccounts
+        method: POST
+        description: Adyen Create a Balance Account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: balanceAccounts-balanceAccountId-sweeps
+      path: /balanceAccounts/{balanceAccountId}/sweeps
+      operations:
+      - name: getbalanceaccountsbalanceaccountidsweeps
+        method: GET
+        description: Adyen Get All Sweeps for a Balance Account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: balanceAccountId
+          in: path
+          type: string
+          description: The unique identifier of the balance account.
+          required: true
+        - name: offset
+          in: query
+          type: integer
+          description: The number of items that you want to skip.
+        - name: limit
+          in: query
+          type: integer
+          description: The number of items returned per page, maximum 100 items. By default, the response returns 10 items
+            per page.
+      - name: postbalanceaccountsbalanceaccountidsweeps
+        method: POST
+        description: Adyen Create a Sweep
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: balanceAccountId
+          in: path
+          type: string
+          description: The unique identifier of the balance account.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: balanceAccounts-balanceAccountId-sweeps-sweepId
+      path: /balanceAccounts/{balanceAccountId}/sweeps/{sweepId}
+      operations:
+      - name: deletebalanceaccountsbalanceaccountidsweepssweepid
+        method: DELETE
+        description: Adyen Delete a Sweep
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: balanceAccountId
+          in: path
+          type: string
+          description: The unique identifier of the balance account.
+          required: true
+        - name: sweepId
+          in: path
+          type: string
+          description: The unique identifier of the sweep.
+          required: true
+      - name: getbalanceaccountsbalanceaccountidsweepssweepid
+        method: GET
+        description: Adyen Get a Sweep
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: balanceAccountId
+          in: path
+          type: string
+          description: The unique identifier of the balance account.
+          required: true
+        - name: sweepId
+          in: path
+          type: string
+          description: The unique identifier of the sweep.
+          required: true
+      - name: patchbalanceaccountsbalanceaccountidsweepssweepid
+        method: PATCH
+        description: Adyen Update a Sweep
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: balanceAccountId
+          in: path
+          type: string
+          description: The unique identifier of the balance account.
+          required: true
+        - name: sweepId
+          in: path
+          type: string
+          description: The unique identifier of the sweep.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: balanceAccounts-id
+      path: /balanceAccounts/{id}
+      operations:
+      - name: getbalanceaccountsid
+        method: GET
+        description: Adyen Get a Balance Account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The unique identifier of the balance account.
+          required: true
+      - name: patchbalanceaccountsid
+        method: PATCH
+        description: Adyen Update a Balance Account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The unique identifier of the balance account.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: balanceAccounts-id-paymentInstruments
+      path: /balanceAccounts/{id}/paymentInstruments
+      operations:
+      - name: getbalanceaccountsidpaymentinstruments
+        method: GET
+        description: Adyen Get Payment Instruments Linked to a Balance Account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The unique identifier of the balance account.
+          required: true
+        - name: offset
+          in: query
+          type: integer
+          description: The number of items that you want to skip.
+        - name: limit
+          in: query
+          type: integer
+          description: The number of items returned per page, maximum 100 items. By default, the response returns 10 items
+            per page.
+        - name: status
+          in: query
+          type: string
+          description: The status of the payment instruments that you want to get. By default, the response includes payment
+            instruments with any status.
+    - name: grantAccounts-id
+      path: /grantAccounts/{id}
+      operations:
+      - name: getgrantaccountsid
+        method: GET
+        description: Adyen Get a Grant Account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The unique identifier of the grant account.
+          required: true
+    - name: validateBankAccountIdentification
+      path: /validateBankAccountIdentification
+      operations:
+      - name: postvalidatebankaccountidentification
+        method: POST
+        description: Adyen Validate a Bank Account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ADYEN_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: configuration-accounts-rest
+    port: 8080
+    description: REST adapter for Adyen Configuration API — Accounts. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/accountholders
+      name: accountholders
+      description: REST surface for accountHolders.
+      operations:
+      - method: POST
+        name: postaccountholders
+        description: Adyen Create an Account Holder
+        call: configuration-accounts.postaccountholders
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/accountholders/{id}
+      name: accountholders-id
+      description: REST surface for accountHolders-id.
+      operations:
+      - method: GET
+        name: getaccountholdersid
+        description: Adyen Get an Account Holder
+        call: configuration-accounts.getaccountholdersid
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchaccountholdersid
+        description: Adyen Update an Account Holder
+        call: configuration-accounts.patchaccountholdersid
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/accountholders/{id}/balanceaccounts
+      name: accountholders-id-balanceaccounts
+      description: REST surface for accountHolders-id-balanceAccounts.
+      operations:
+      - method: GET
+        name: getaccountholdersidbalanceaccounts
+        description: Adyen Get All Balance Accounts of an Account Holder
+        call: configuration-accounts.getaccountholdersidbalanceaccounts
+        with:
+          id: rest.id
+          offset: rest.offset
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/accountholders/{id}/taxforms
+      name: accountholders-id-taxforms
+      description: REST surface for accountHolders-id-taxForms.
+      operations:
+      - method: GET
+        name: getaccountholdersidtaxforms
+        description: Adyen Get a Tax Form
+        call: configuration-accounts.getaccountholdersidtaxforms
+        with:
+          id: rest.id
+          formType: rest.formType
+          year: rest.year
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/balanceaccounts
+      name: balanceaccounts
+      description: REST surface for balanceAccounts.
+      operations:
+      - method: POST
+        name: postbalanceaccounts
+        description: Adyen Create a Balance Account
+        call: configuration-accounts.postbalanceaccounts
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/balanceaccounts/{balanceaccountid}/sweeps
+      name: balanceaccounts-balanceaccountid-sweeps
+      description: REST surface for balanceAccounts-balanceAccountId-sweeps.
+      operations:
+      - method: GET
+        name: getbalanceaccountsbalanceaccountidsweeps
+        description: Adyen Get All Sweeps for a Balance Account
+        call: configuration-accounts.getbalanceaccountsbalanceaccountidsweeps
+        with:
+          balanceAccountId: rest.balanceAccountId
+          offset: rest.offset
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: postbalanceaccountsbalanceaccountidsweeps
+        description: Adyen Create a Sweep
+        call: configuration-accounts.postbalanceaccountsbalanceaccountidsweeps
+        with:
+          balanceAccountId: rest.balanceAccountId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/balanceaccounts/{balanceaccountid}/sweeps/{sweepid}
+      name: balanceaccounts-balanceaccountid-sweeps-sweepid
+      description: REST surface for balanceAccounts-balanceAccountId-sweeps-sweepId.
+      operations:
+      - method: DELETE
+        name: deletebalanceaccountsbalanceaccountidsweepssweepid
+        description: Adyen Delete a Sweep
+        call: configuration-accounts.deletebalanceaccountsbalanceaccountidsweepssweepid
+        with:
+          balanceAccountId: rest.balanceAccountId
+          sweepId: rest.sweepId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getbalanceaccountsbalanceaccountidsweepssweepid
+        description: Adyen Get a Sweep
+        call: configuration-accounts.getbalanceaccountsbalanceaccountidsweepssweepid
+        with:
+          balanceAccountId: rest.balanceAccountId
+          sweepId: rest.sweepId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchbalanceaccountsbalanceaccountidsweepssweepid
+        description: Adyen Update a Sweep
+        call: configuration-accounts.patchbalanceaccountsbalanceaccountidsweepssweepid
+        with:
+          balanceAccountId: rest.balanceAccountId
+          sweepId: rest.sweepId
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/balanceaccounts/{id}
+      name: balanceaccounts-id
+      description: REST surface for balanceAccounts-id.
+      operations:
+      - method: GET
+        name: getbalanceaccountsid
+        description: Adyen Get a Balance Account
+        call: configuration-accounts.getbalanceaccountsid
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchbalanceaccountsid
+        description: Adyen Update a Balance Account
+        call: configuration-accounts.patchbalanceaccountsid
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/balanceaccounts/{id}/paymentinstruments
+      name: balanceaccounts-id-paymentinstruments
+      description: REST surface for balanceAccounts-id-paymentInstruments.
+      operations:
+      - method: GET
+        name: getbalanceaccountsidpaymentinstruments
+        description: Adyen Get Payment Instruments Linked to a Balance Account
+        call: configuration-accounts.getbalanceaccountsidpaymentinstruments
+        with:
+          id: rest.id
+          offset: rest.offset
+          limit: rest.limit
+          status: rest.status
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/grantaccounts/{id}
+      name: grantaccounts-id
+      description: REST surface for grantAccounts-id.
+      operations:
+      - method: GET
+        name: getgrantaccountsid
+        description: Adyen Get a Grant Account
+        call: configuration-accounts.getgrantaccountsid
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/validatebankaccountidentification
+      name: validatebankaccountidentification
+      description: REST surface for validateBankAccountIdentification.
+      operations:
+      - method: POST
+        name: postvalidatebankaccountidentification
+        description: Adyen Validate a Bank Account
+        call: configuration-accounts.postvalidatebankaccountidentification
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: configuration-accounts-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Adyen Configuration API — Accounts. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: adyen-create-account-holder
+      description: Adyen Create an Account Holder
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: configuration-accounts.postaccountholders
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-account-holder
+      description: Adyen Get an Account Holder
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: configuration-accounts.getaccountholdersid
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-account-holder
+      description: Adyen Update an Account Holder
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: configuration-accounts.patchaccountholdersid
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-all-balance-accounts
+      description: Adyen Get All Balance Accounts of an Account Holder
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: configuration-accounts.getaccountholdersidbalanceaccounts
+      with:
+        id: tools.id
+        offset: tools.offset
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-tax-form
+      description: Adyen Get a Tax Form
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: configuration-accounts.getaccountholdersidtaxforms
+      with:
+        id: tools.id
+        formType: tools.formType
+        year: tools.year
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-create-balance-account
+      description: Adyen Create a Balance Account
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: configuration-accounts.postbalanceaccounts
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-all-sweeps-balance
+      description: Adyen Get All Sweeps for a Balance Account
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: configuration-accounts.getbalanceaccountsbalanceaccountidsweeps
+      with:
+        balanceAccountId: tools.balanceAccountId
+        offset: tools.offset
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-create-sweep
+      description: Adyen Create a Sweep
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: configuration-accounts.postbalanceaccountsbalanceaccountidsweeps
+      with:
+        balanceAccountId: tools.balanceAccountId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-delete-sweep
+      description: Adyen Delete a Sweep
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: configuration-accounts.deletebalanceaccountsbalanceaccountidsweepssweepid
+      with:
+        balanceAccountId: tools.balanceAccountId
+        sweepId: tools.sweepId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-sweep
+      description: Adyen Get a Sweep
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: configuration-accounts.getbalanceaccountsbalanceaccountidsweepssweepid
+      with:
+        balanceAccountId: tools.balanceAccountId
+        sweepId: tools.sweepId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-sweep
+      description: Adyen Update a Sweep
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: configuration-accounts.patchbalanceaccountsbalanceaccountidsweepssweepid
+      with:
+        balanceAccountId: tools.balanceAccountId
+        sweepId: tools.sweepId
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-balance-account
+      description: Adyen Get a Balance Account
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: configuration-accounts.getbalanceaccountsid
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-update-balance-account
+      description: Adyen Update a Balance Account
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: configuration-accounts.patchbalanceaccountsid
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-payment-instruments-linked
+      description: Adyen Get Payment Instruments Linked to a Balance Account
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: configuration-accounts.getbalanceaccountsidpaymentinstruments
+      with:
+        id: tools.id
+        offset: tools.offset
+        limit: tools.limit
+        status: tools.status
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-get-grant-account
+      description: Adyen Get a Grant Account
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: configuration-accounts.getgrantaccountsid
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: adyen-validate-bank-account
+      description: Adyen Validate a Bank Account
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: configuration-accounts.postvalidatebankaccountidentification
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
