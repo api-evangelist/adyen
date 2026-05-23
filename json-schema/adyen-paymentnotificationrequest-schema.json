@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PaymentNotificationRequest",
+  "title": "PaymentNotificationRequest",
+  "properties": {
+    "data": {
+      "description": "Contains event details.",
+      "$ref": "#/components/schemas/PaymentInstrumentNotificationData"
+    },
+    "environment": {
+      "description": "The environment from which the webhook originated.\n\nPossible values: **test**, **live**.",
+      "type": "string"
+    },
+    "type": {
+      "description": "Type of webhook.",
+      "enum": [
+        "balancePlatform.paymentInstrument.created",
+        "balancePlatform.paymentInstrument.updated"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "environment",
+    "type",
+    "data"
+  ],
+  "type": "object"
+}

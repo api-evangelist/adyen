@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PayPalDetails",
+  "title": "PayPal",
+  "additionalProperties": false,
+  "properties": {
+    "checkoutAttemptId": {
+      "x-addedInVersion": "68",
+      "description": "The checkout attempt identifier.",
+      "type": "string"
+    },
+    "orderID": {
+      "description": "The unique ID associated with the order.",
+      "type": "string"
+    },
+    "payeePreferred": {
+      "description": "IMMEDIATE_PAYMENT_REQUIRED or UNRESTRICTED",
+      "type": "string"
+    },
+    "payerID": {
+      "description": "The unique ID associated with the payer.",
+      "type": "string"
+    },
+    "payerSelected": {
+      "description": "PAYPAL or PAYPAL_CREDIT",
+      "type": "string"
+    },
+    "recurringDetailReference": {
+      "deprecated": true,
+      "x-deprecatedInVersion": "49",
+      "x-deprecatedMessage": "Use `storedPaymentMethodId` instead.",
+      "description": "This is the `recurringDetailReference` returned in the response when you created the token.",
+      "type": "string"
+    },
+    "storedPaymentMethodId": {
+      "x-addedInVersion": "49",
+      "description": "This is the `recurringDetailReference` returned in the response when you created the token.",
+      "maxLength": 64,
+      "type": "string"
+    },
+    "subtype": {
+      "description": "The type of flow to initiate.",
+      "enum": [
+        "redirect",
+        "sdk"
+      ],
+      "type": "string"
+    },
+    "type": {
+      "default": "paypal",
+      "description": "**paypal**",
+      "enum": [
+        "paypal"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "type"
+  ],
+  "type": "object"
+}

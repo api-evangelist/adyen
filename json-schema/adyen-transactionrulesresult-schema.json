@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TransactionRulesResult",
+  "title": "TransactionRulesResult",
+  "properties": {
+    "advice": {
+      "description": "The advice given by the Risk analysis.",
+      "type": "string"
+    },
+    "allRulesPassed": {
+      "description": "Indicates whether the transaction passed the evaluation for all transaction rules.",
+      "type": "boolean"
+    },
+    "failedTransactionRules": {
+      "description": "Array containing all the transaction rules that the transaction violated. This list is only sent when `allRulesPassed` is **false**.",
+      "items": {
+        "$ref": "#/components/schemas/TransactionEventViolation"
+      },
+      "type": "array"
+    },
+    "score": {
+      "description": "The score of the Risk analysis.",
+      "format": "int32",
+      "type": "integer"
+    }
+  }
+}
