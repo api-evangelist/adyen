@@ -1,0 +1,1277 @@
+asyncapi: '2.6.0'
+id: 'urn:com:adyen:webhooks'
+info:
+  title: Adyen Webhooks (Standard Notifications and Platforms)
+  version: '1.0.0'
+  description: |
+    AsyncAPI description of Adyen's webhook surface. Adyen pushes event-driven
+    messages to a customer-defined HTTPS endpoint using HTTP POST. This document
+    models two webhook surfaces:
+
+      * Standard Notifications - payment lifecycle events (AUTHORISATION,
+        CAPTURE, REFUND, CHARGEBACK, REPORT_AVAILABLE, etc.). The publisher is
+        the Adyen Payments Platform (`pal`). The eventCode is carried inside
+        the `NotificationRequestItem` payload.
+      * Platforms / Balance Platform - account holder, balance account, sweep,
+        payment instrument, card order, transfer, transaction, report,
+        authentication, and configuration events used by Adyen for Platforms,
+        Adyen Issuing, and Adyen Capital integrations. The publisher is the
+        Adyen Balance Platform (`balanceplatform`). The event identifier is the
+        top-level `type` property.
+
+    Authentication of inbound notifications is performed via an HMAC-SHA256
+    signature carried in `additionalData.hmacSignature` (Standard
+    Notifications) or in the `hmacsignature` HTTP header (Platforms /
+    JSON-styled balance platform webhooks). The receiver must compute the
+    HMAC-SHA256 of the payload using the shared HMAC key configured in the
+    Customer Area and compare it to the value Adyen supplied.
+
+    Source documents:
+      * https://docs.adyen.com/development-resources/webhooks/
+      * https://docs.adyen.com/development-resources/webhooks/verify-hmac-signatures
+      * openapi/webhooks-openapi-original.yml (Standard)
+      * openapi/notification-webhooks-openapi-original.yml (Balance Platform)
+      * openapi/configuration-webhooks-openapi-original.yml
+      * openapi/transfer-webhooks-openapi-original.yml
+      * openapi/transaction-webhooks-openapi-original.yml
+      * openapi/report-webhooks-openapi-original.yml
+      * openapi/management-webhooks-openapi-original.yml
+      * openapi/authentication-webhooks-openapi-original.yml
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://docs.adyen.com/development-resources/webhooks/
+    email: developer-experience@adyen.com
+  license:
+    name: Adyen API Terms
+    url: https://www.adyen.com/legal/terms-and-conditions
+
+defaultContentType: application/json
+
+servers:
+  customer-endpoint:
+    url: '{receiverHost}{receiverPath}'
+    protocol: https
+    description: |
+      The HTTPS endpoint that the merchant or platform exposes and registers in
+      the Adyen Customer Area to receive webhook deliveries. Adyen sends HTTP
+      POST requests to this URL.
+    variables:
+      receiverHost:
+        description: Hostname of the receiver of Adyen webhooks.
+        default: webhooks.example.com
+      receiverPath:
+        description: Path on the receiver server that accepts the webhook POST.
+        default: /adyen/webhooks
+    security:
+      - basicAuth: []
+      - hmacSignature: []
+
+channels:
+
+  # =====================================================================
+  # Standard Notifications - payment lifecycle webhooks
+  # Source: openapi/webhooks-openapi-original.yml
+  # =====================================================================
+
+  standard/AUTHORISATION:
+    description: |
+      Result of an authorisation request. Sent for both successful and refused
+      authorisations. The `success` field indicates the outcome.
+    publish:
+      operationId: receiveAuthorisation
+      summary: Receive an AUTHORISATION notification
+      message:
+        $ref: '#/components/messages/AuthorisationNotification'
+
+  standard/AUTHORISATION_ADJUSTMENT:
+    description: Result of a payment authorisation adjustment request.
+    publish:
+      operationId: receiveAuthorisationAdjustment
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/AUTORESCUE:
+    description: An Auto Rescue process ended (success or failure).
+    publish:
+      operationId: receiveAutoRescue
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/CANCELLATION:
+    description: Result of a cancel request for an unsettled payment.
+    publish:
+      operationId: receiveCancellation
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/CANCEL_AUTORESCUE:
+    description: An Auto Rescue process was cancelled.
+    publish:
+      operationId: receiveCancelAutoRescue
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/CANCEL_OR_REFUND:
+    description: Result of a combined cancel-or-refund request.
+    publish:
+      operationId: receiveCancelOrRefund
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/CAPTURE:
+    description: Result of a capture request.
+    publish:
+      operationId: receiveCapture
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/CAPTURE_FAILED:
+    description: A previously accepted capture failed during settlement.
+    publish:
+      operationId: receiveCaptureFailed
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/CHARGEBACK:
+    description: A chargeback has been processed against the original payment.
+    publish:
+      operationId: receiveChargeback
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/CHARGEBACK_REVERSED:
+    description: A chargeback was reversed in your favour.
+    publish:
+      operationId: receiveChargebackReversed
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/EXPIRE:
+    description: An authorised payment expired before being captured.
+    publish:
+      operationId: receiveExpire
+      message:
+        $ref: '#/components/messages/ExpireNotification'
+
+  standard/MANUAL_REVIEW_ACCEPT:
+    description: A manual fraud review was accepted.
+    publish:
+      operationId: receiveManualReviewAccept
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/MANUAL_REVIEW_REJECT:
+    description: A manual fraud review was rejected.
+    publish:
+      operationId: receiveManualReviewReject
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/NOTIFICATION_OF_CHARGEBACK:
+    description: A chargeback has been initiated; documents may still be requested.
+    publish:
+      operationId: receiveNotificationOfChargeback
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/NOTIFICATION_OF_FRAUD:
+    description: The issuer reported the transaction as fraudulent (TC40/SAFE).
+    publish:
+      operationId: receiveNotificationOfFraud
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/OFFER_CLOSED:
+    description: A pending payment offer was closed (for example, voucher expired).
+    publish:
+      operationId: receiveOfferClosed
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/ORDER_CLOSED:
+    description: An order containing one or more partial payments was closed.
+    publish:
+      operationId: receiveOrderClosed
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/ORDER_OPENED:
+    description: An order containing one or more partial payments was opened.
+    publish:
+      operationId: receiveOrderOpened
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/PAIDOUT_REVERSED:
+    description: A payout that was previously paid out has been reversed.
+    publish:
+      operationId: receivePaidoutReversed
+      message:
+        $ref: '#/components/messages/PaidoutReversedNotification'
+
+  standard/PAYOUT_DECLINED:
+    description: A payout to the recipient bank account was declined.
+    publish:
+      operationId: receivePayoutDecline
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/PAYOUT_EXPIRE:
+    description: A payout expired before being collected by the recipient.
+    publish:
+      operationId: receivePayoutExpire
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/PAYOUT_THIRDPARTY:
+    description: Result of a third-party payout.
+    publish:
+      operationId: receivePayoutThirdparty
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/POSTPONED_REFUND:
+    description: A refund has been postponed; final outcome will follow.
+    publish:
+      operationId: receivePostponedRefund
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/PREARBITRATION_LOST:
+    description: A pre-arbitration case was lost.
+    publish:
+      operationId: receivePrearbitrationLost
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/PREARBITRATION_WON:
+    description: A pre-arbitration case was won.
+    publish:
+      operationId: receivePrearbitrationWon
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/RECURRING_CONTRACT:
+    description: A recurring contract was created for a shopper / payment method.
+    publish:
+      operationId: receiveRecurringContract
+      message:
+        $ref: '#/components/messages/RecurringContractNotification'
+
+  standard/REFUND:
+    description: Result of a refund request.
+    publish:
+      operationId: receiveRefund
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/REFUNDED_REVERSED:
+    description: A refund that was previously processed has been reversed.
+    publish:
+      operationId: receiveRefundedReversed
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/REFUND_FAILED:
+    description: A previously accepted refund failed during settlement.
+    publish:
+      operationId: receiveRefundFailed
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/REFUND_WITH_DATA:
+    description: |
+      Result of a refund created with the standalone /refundWithData endpoint
+      (no original authorisation reference required).
+    publish:
+      operationId: receiveRefundWithData
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/REPORT_AVAILABLE:
+    description: A report has been generated and is available for download.
+    publish:
+      operationId: receiveReportAvailable
+      message:
+        $ref: '#/components/messages/ReportAvailableNotification'
+
+  standard/REQUEST_FOR_INFORMATION:
+    description: |
+      The issuer or scheme requested additional information about a payment
+      (typically a soft dispute).
+    publish:
+      operationId: receiveRequestForInformation
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/SECOND_CHARGEBACK:
+    description: A second chargeback has been initiated against the payment.
+    publish:
+      operationId: receiveSecondChargeback
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/TECHNICAL_CANCEL:
+    description: A technical cancel was performed on an authorisation.
+    publish:
+      operationId: receiveTechnicalCancel
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/VOID_PENDING_REFUND:
+    description: A pending refund was voided.
+    publish:
+      operationId: receiveVoidPendingRefund
+      message:
+        $ref: '#/components/messages/StandardNotification'
+
+  standard/ACH_NOTIFICATION_OF_CHANGE:
+    description: An ACH Notification of Change was received from the customer bank.
+    publish:
+      operationId: receiveAchNotificationOfChange
+      message:
+        $ref: '#/components/messages/AchNotificationOfChange'
+
+  # =====================================================================
+  # Platforms - Balance Platform Notification webhooks
+  # Source: openapi/notification-webhooks-openapi-original.yml
+  # =====================================================================
+
+  balancePlatform/accountHolder/created:
+    description: An account holder was created on the balance platform.
+    publish:
+      operationId: receiveAccountHolderCreated
+      message:
+        $ref: '#/components/messages/AccountHolderNotification'
+
+  balancePlatform/accountHolder/updated:
+    description: An account holder was updated.
+    publish:
+      operationId: receiveAccountHolderUpdated
+      message:
+        $ref: '#/components/messages/AccountHolderNotification'
+
+  balancePlatform/balanceAccount/created:
+    description: A balance account was created for an account holder.
+    publish:
+      operationId: receiveBalanceAccountCreated
+      message:
+        $ref: '#/components/messages/BalanceAccountNotification'
+
+  balancePlatform/balanceAccountSweep/created:
+    description: A balance account sweep configuration was created.
+    publish:
+      operationId: receiveBalanceAccountSweepCreated
+      message:
+        $ref: '#/components/messages/SweepConfigurationNotification'
+
+  balancePlatform/balanceAccountSweep/deleted:
+    description: A balance account sweep configuration was deleted.
+    publish:
+      operationId: receiveBalanceAccountSweepDeleted
+      message:
+        $ref: '#/components/messages/SweepConfigurationNotification'
+
+  balancePlatform/balanceAccountSweep/updated:
+    description: A balance account sweep configuration was updated.
+    publish:
+      operationId: receiveBalanceAccountSweepUpdated
+      message:
+        $ref: '#/components/messages/SweepConfigurationNotification'
+
+  balancePlatform/incomingTransfer/created:
+    description: An incoming transfer was created on the balance platform.
+    publish:
+      operationId: receiveIncomingTransferCreated
+      message:
+        $ref: '#/components/messages/TransferNotification'
+
+  balancePlatform/incomingTransfer/updated:
+    description: An incoming transfer status was updated.
+    publish:
+      operationId: receiveIncomingTransferUpdated
+      message:
+        $ref: '#/components/messages/TransferNotification'
+
+  balancePlatform/outgoingTransfer/created:
+    description: An outgoing transfer was created on the balance platform.
+    publish:
+      operationId: receiveOutgoingTransferCreated
+      message:
+        $ref: '#/components/messages/TransferNotification'
+
+  balancePlatform/outgoingTransfer/updated:
+    description: An outgoing transfer status was updated.
+    publish:
+      operationId: receiveOutgoingTransferUpdated
+      message:
+        $ref: '#/components/messages/TransferNotification'
+
+  balancePlatform/payment/created:
+    description: A payment was created via a card or other instrument.
+    publish:
+      operationId: receivePlatformPaymentCreated
+      message:
+        $ref: '#/components/messages/PaymentNotification'
+
+  balancePlatform/payment/updated:
+    description: A previously created payment changed state.
+    publish:
+      operationId: receivePlatformPaymentUpdated
+      message:
+        $ref: '#/components/messages/PaymentNotification'
+
+  balancePlatform/paymentInstrument/created:
+    description: A payment instrument (card, bank account) was created.
+    publish:
+      operationId: receivePaymentInstrumentCreated
+      message:
+        $ref: '#/components/messages/PaymentInstrumentNotification'
+
+  balancePlatform/paymentInstrument/updated:
+    description: A payment instrument was updated.
+    publish:
+      operationId: receivePaymentInstrumentUpdated
+      message:
+        $ref: '#/components/messages/PaymentInstrumentNotification'
+
+  balancePlatform/report/created:
+    description: A report generated on the balance platform is now available.
+    publish:
+      operationId: receivePlatformReportCreated
+      message:
+        $ref: '#/components/messages/ReportNotification'
+
+  # =====================================================================
+  # Configuration webhooks (Balance Platform)
+  # Source: openapi/configuration-webhooks-openapi-original.yml
+  # =====================================================================
+
+  balancePlatform/balanceAccount/updated:
+    description: A balance account was updated.
+    publish:
+      operationId: receiveBalanceAccountUpdated
+      message:
+        $ref: '#/components/messages/BalanceAccountNotification'
+
+  balancePlatform/cardorder/created:
+    description: A card order was created.
+    publish:
+      operationId: receiveCardOrderCreated
+      message:
+        $ref: '#/components/messages/CardOrderNotification'
+
+  balancePlatform/cardorder/updated:
+    description: A card order was updated.
+    publish:
+      operationId: receiveCardOrderUpdated
+      message:
+        $ref: '#/components/messages/CardOrderNotification'
+
+  # =====================================================================
+  # Transfer webhooks
+  # Source: openapi/transfer-webhooks-openapi-original.yml
+  # =====================================================================
+
+  balancePlatform/transfer/created:
+    description: A transfer was created on the balance platform.
+    publish:
+      operationId: receiveTransferCreated
+      message:
+        $ref: '#/components/messages/TransferNotification'
+
+  balancePlatform/transfer/updated:
+    description: A transfer status changed (booked, pending, failed, etc.).
+    publish:
+      operationId: receiveTransferUpdated
+      message:
+        $ref: '#/components/messages/TransferNotification'
+
+  # =====================================================================
+  # Transaction webhooks
+  # Source: openapi/transaction-webhooks-openapi-original.yml
+  # =====================================================================
+
+  balancePlatform/transaction/created:
+    description: A transaction was booked on a balance account.
+    publish:
+      operationId: receiveTransactionCreated
+      message:
+        $ref: '#/components/messages/TransactionNotification'
+
+  # =====================================================================
+  # Report webhooks (Balance Platform reports)
+  # Source: openapi/report-webhooks-openapi-original.yml
+  # =====================================================================
+
+  balancePlatform/balancePlatformReport/created:
+    description: A balance platform report is ready for download.
+    publish:
+      operationId: receiveBalancePlatformReportCreated
+      message:
+        $ref: '#/components/messages/ReportNotification'
+
+  # =====================================================================
+  # Authentication webhooks (Adyen Issuing 3DS)
+  # Source: openapi/authentication-webhooks-openapi-original.yml
+  # =====================================================================
+
+  balancePlatform/authentication/created:
+    description: A 3D Secure cardholder authentication event was created.
+    publish:
+      operationId: receiveAuthenticationCreated
+      message:
+        $ref: '#/components/messages/AuthenticationNotification'
+
+  # =====================================================================
+  # Management webhooks
+  # Source: openapi/management-webhooks-openapi-original.yml
+  # =====================================================================
+
+  management/merchant/created:
+    description: A merchant account was created under the company account.
+    publish:
+      operationId: receiveMerchantCreated
+      message:
+        $ref: '#/components/messages/ManagementNotification'
+
+  management/merchant/updated:
+    description: A merchant account was updated.
+    publish:
+      operationId: receiveMerchantUpdated
+      message:
+        $ref: '#/components/messages/ManagementNotification'
+
+  management/paymentMethod/created:
+    description: A payment method was added to a merchant account.
+    publish:
+      operationId: receivePaymentMethodCreated
+      message:
+        $ref: '#/components/messages/ManagementNotification'
+
+  management/paymentMethod/requestRemoved:
+    description: A request to remove a payment method was processed.
+    publish:
+      operationId: receivePaymentMethodRequestRemoved
+      message:
+        $ref: '#/components/messages/ManagementNotification'
+
+  management/paymentMethod/requestScheduledForRemoval:
+    description: A payment method has been scheduled for removal.
+    publish:
+      operationId: receivePaymentMethodScheduledForRemoval
+      message:
+        $ref: '#/components/messages/ManagementNotification'
+
+components:
+
+  securitySchemes:
+    basicAuth:
+      type: userPassword
+      description: |
+        HTTP Basic authentication using the credentials configured in the Adyen
+        Customer Area for the webhook subscription. Adyen sends these on every
+        webhook delivery.
+    hmacSignature:
+      type: apiKey
+      in: user
+      description: |
+        Adyen signs every webhook with HMAC-SHA256. For Standard Notifications
+        the signature is delivered inside the JSON payload at
+        `notificationItems[].NotificationRequestItem.additionalData.hmacSignature`.
+        For Balance Platform / Platforms JSON webhooks the signature is sent in
+        the `hmacsignature` HTTP header. Receivers verify by computing
+        HMAC-SHA256(payload, HMAC_KEY) and comparing values in constant time.
+        See https://docs.adyen.com/development-resources/webhooks/verify-hmac-signatures.
+
+  messages:
+
+    AuthorisationNotification:
+      name: AuthorisationNotification
+      title: AUTHORISATION
+      summary: Result of an authorisation request.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/AuthorisationNotificationRequest'
+
+    StandardNotification:
+      name: StandardNotification
+      title: Standard NotificationRequest
+      summary: |
+        Generic Standard Notifications envelope used for all event codes whose
+        item shape is the shared NotificationRequestItem. The receiver must
+        dispatch on `notificationItems[].NotificationRequestItem.eventCode`.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/NotificationRequest'
+
+    ExpireNotification:
+      name: ExpireNotification
+      title: EXPIRE
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ExpireNotificationRequest'
+
+    PaidoutReversedNotification:
+      name: PaidoutReversedNotification
+      title: PAIDOUT_REVERSED
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/PaidoutReversedNotificationRequest'
+
+    RecurringContractNotification:
+      name: RecurringContractNotification
+      title: RECURRING_CONTRACT
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/RecurringContractNotificationRequest'
+
+    ReportAvailableNotification:
+      name: ReportAvailableNotification
+      title: REPORT_AVAILABLE
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ReportAvailableNotificationRequest'
+
+    AchNotificationOfChange:
+      name: AchNotificationOfChange
+      title: ACH_NOTIFICATION_OF_CHANGE
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/AchNotificationOfChangeNotificationRequest'
+
+    AccountHolderNotification:
+      name: AccountHolderNotification
+      title: balancePlatform.accountHolder.*
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/BalancePlatformHeaders'
+      payload:
+        $ref: '#/components/schemas/AccountHolderNotificationRequest'
+
+    BalanceAccountNotification:
+      name: BalanceAccountNotification
+      title: balancePlatform.balanceAccount.*
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/BalancePlatformHeaders'
+      payload:
+        $ref: '#/components/schemas/BalanceAccountNotificationRequest'
+
+    SweepConfigurationNotification:
+      name: SweepConfigurationNotification
+      title: balancePlatform.balanceAccountSweep.*
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/BalancePlatformHeaders'
+      payload:
+        $ref: '#/components/schemas/SweepConfigurationNotificationRequest'
+
+    TransferNotification:
+      name: TransferNotification
+      title: balancePlatform.transfer.* / incomingTransfer / outgoingTransfer
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/BalancePlatformHeaders'
+      payload:
+        $ref: '#/components/schemas/TransferNotificationRequest'
+
+    PaymentNotification:
+      name: PaymentNotification
+      title: balancePlatform.payment.*
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/BalancePlatformHeaders'
+      payload:
+        $ref: '#/components/schemas/PaymentNotificationRequest'
+
+    PaymentInstrumentNotification:
+      name: PaymentInstrumentNotification
+      title: balancePlatform.paymentInstrument.*
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/BalancePlatformHeaders'
+      payload:
+        $ref: '#/components/schemas/PaymentInstrumentNotificationRequest'
+
+    ReportNotification:
+      name: ReportNotification
+      title: balancePlatform.report.created
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/BalancePlatformHeaders'
+      payload:
+        $ref: '#/components/schemas/ReportNotificationRequest'
+
+    CardOrderNotification:
+      name: CardOrderNotification
+      title: balancePlatform.cardorder.*
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/BalancePlatformHeaders'
+      payload:
+        $ref: '#/components/schemas/CardOrderNotificationRequest'
+
+    TransactionNotification:
+      name: TransactionNotification
+      title: balancePlatform.transaction.created
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/BalancePlatformHeaders'
+      payload:
+        $ref: '#/components/schemas/TransactionNotificationRequest'
+
+    AuthenticationNotification:
+      name: AuthenticationNotification
+      title: balancePlatform.authentication.created
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/BalancePlatformHeaders'
+      payload:
+        $ref: '#/components/schemas/AuthenticationNotificationRequest'
+
+    ManagementNotification:
+      name: ManagementNotification
+      title: merchant.* / paymentMethod.*
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/BalancePlatformHeaders'
+      payload:
+        $ref: '#/components/schemas/ManagementNotificationRequest'
+
+  schemas:
+
+    # ---------------------------------------------------------------
+    # Shared HTTP headers for Balance Platform / JSON-style webhooks
+    # ---------------------------------------------------------------
+
+    BalancePlatformHeaders:
+      type: object
+      properties:
+        hmacsignature:
+          type: string
+          description: |
+            HMAC-SHA256 signature of the raw payload, base64 encoded. Computed
+            using the HMAC key configured for the webhook in the Customer Area.
+          example: 9MihX6cnP5L3qY7C/zL8...
+      required:
+        - hmacsignature
+
+    # ---------------------------------------------------------------
+    # Standard Notifications - shared envelopes and items
+    # ---------------------------------------------------------------
+
+    Amount:
+      type: object
+      properties:
+        currency:
+          type: string
+          description: Three-letter ISO 4217 currency code.
+          minLength: 3
+          maxLength: 3
+          example: EUR
+        value:
+          type: integer
+          format: int64
+          description: Amount in minor units.
+          example: 1000
+      required:
+        - currency
+        - value
+
+    NotificationRequest:
+      description: |
+        Standard Notifications envelope. The `notificationItems` array carries
+        one or more `NotificationRequestItem` wrappers, each describing a single
+        event for a single payment.
+      type: object
+      properties:
+        live:
+          type: string
+          description: |
+            "true" if the notification originates from the live environment,
+            "false" otherwise.
+          example: 'false'
+        notificationItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationRequestItemWrapper'
+      required:
+        - live
+        - notificationItems
+
+    NotificationRequestItemWrapper:
+      type: object
+      properties:
+        NotificationRequestItem:
+          $ref: '#/components/schemas/NotificationRequestItem'
+      required:
+        - NotificationRequestItem
+
+    NotificationRequestItem:
+      type: object
+      description: A single payment lifecycle event delivered to the receiver.
+      properties:
+        additionalData:
+          $ref: '#/components/schemas/NotificationAdditionalData'
+        amount:
+          $ref: '#/components/schemas/Amount'
+        eventCode:
+          type: string
+          description: The event code identifying which lifecycle event this is.
+          enum:
+            - AUTHORISATION_ADJUSTMENT
+            - AUTORESCUE
+            - CANCELLATION
+            - CANCEL_AUTORESCUE
+            - CANCEL_OR_REFUND
+            - CAPTURE
+            - CAPTURE_FAILED
+            - CHARGEBACK
+            - CHARGEBACK_REVERSED
+            - MANUAL_REVIEW_ACCEPT
+            - MANUAL_REVIEW_REJECT
+            - NOTIFICATION_OF_CHARGEBACK
+            - NOTIFICATION_OF_FRAUD
+            - OFFER_CLOSED
+            - ORDER_CLOSED
+            - ORDER_OPENED
+            - PAYOUT_DECLINE
+            - PAYOUT_EXPIRE
+            - PAYOUT_THIRDPARTY
+            - POSTPONED_REFUND
+            - PREARBITRATION_LOST
+            - PREARBITRATION_WON
+            - REFUND
+            - REFUNDED_REVERSED
+            - REFUND_FAILED
+            - REFUND_WITH_DATA
+            - REQUEST_FOR_INFORMATION
+            - SECOND_CHARGEBACK
+            - TECHNICAL_CANCEL
+            - VOID_PENDING_REFUND
+        eventDate:
+          type: string
+          format: date-time
+          description: 'ISO 8601 timestamp when the event was generated.'
+          example: '2021-07-17T13:42:40+01:00'
+        merchantAccountCode:
+          type: string
+          description: The merchant account the event belongs to.
+        merchantReference:
+          type: string
+          description: The merchant reference (your reference) for the payment.
+        originalReference:
+          type: string
+          description: |
+            For modifications, the pspReference of the original payment.
+        paymentMethod:
+          type: string
+          description: 'Payment method used (e.g. visa, mc, ideal).'
+        pspReference:
+          type: string
+          description: |
+            Adyen's 16-character globally unique reference for this
+            transaction/event.
+        reason:
+          type: string
+          description: |
+            If success is false, a short message describing why. May also carry
+            auth-code/last-4/expiry for successful card auths.
+        success:
+          type: string
+          description: |
+            "true" if the event executed successfully, "false" otherwise.
+      required:
+        - pspReference
+        - merchantReference
+        - merchantAccountCode
+        - eventDate
+        - eventCode
+        - amount
+        - success
+
+    NotificationAdditionalData:
+      type: object
+      description: |
+        Generic container of extra fields. Adyen includes the HMAC-SHA256
+        signature here for Standard Notifications.
+      additionalProperties:
+        type: string
+      properties:
+        hmacSignature:
+          type: string
+          description: |
+            HMAC-SHA256 signature, hex encoded, of the canonical
+            `pspReference:originalReference:merchantAccountCode:merchantReference:value:currency:eventCode:success`
+            payload using the configured HMAC key. Must be verified before
+            trusting the notification.
+          example: b0ea55c2fe60d4d1d605e9c385e0e7...
+
+    AuthorisationNotificationRequest:
+      type: object
+      properties:
+        live:
+          type: string
+        notificationItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthorisationNotificationRequestItemWrapper'
+      required:
+        - live
+        - notificationItems
+
+    AuthorisationNotificationRequestItemWrapper:
+      type: object
+      properties:
+        NotificationRequestItem:
+          $ref: '#/components/schemas/AuthorisationNotificationRequestItem'
+      required:
+        - NotificationRequestItem
+
+    AuthorisationNotificationRequestItem:
+      type: object
+      properties:
+        additionalData:
+          $ref: '#/components/schemas/NotificationAdditionalData'
+        amount:
+          $ref: '#/components/schemas/Amount'
+        eventCode:
+          type: string
+          enum:
+            - AUTHORISATION
+        eventDate:
+          type: string
+          format: date-time
+        merchantAccountCode:
+          type: string
+        merchantReference:
+          type: string
+        operations:
+          type: array
+          items:
+            type: string
+            enum:
+              - CAPTURE
+              - CANCEL
+              - REFUND
+        paymentMethod:
+          type: string
+        pspReference:
+          type: string
+        reason:
+          type: string
+        success:
+          type: string
+      required:
+        - pspReference
+        - merchantReference
+        - merchantAccountCode
+        - eventDate
+        - amount
+        - eventCode
+        - success
+
+    ExpireNotificationRequest:
+      type: object
+      properties:
+        live:
+          type: string
+        notificationItems:
+          type: array
+          items:
+            type: object
+            properties:
+              NotificationRequestItem:
+                allOf:
+                  - $ref: '#/components/schemas/NotificationRequestItem'
+                  - type: object
+                    properties:
+                      eventCode:
+                        type: string
+                        enum: [EXPIRE]
+
+    RecurringContractNotificationRequest:
+      type: object
+      properties:
+        live:
+          type: string
+        notificationItems:
+          type: array
+          items:
+            type: object
+            properties:
+              NotificationRequestItem:
+                allOf:
+                  - $ref: '#/components/schemas/NotificationRequestItem'
+                  - type: object
+                    properties:
+                      eventCode:
+                        type: string
+                        enum: [RECURRING_CONTRACT]
+
+    ReportAvailableNotificationRequest:
+      type: object
+      properties:
+        live:
+          type: string
+        notificationItems:
+          type: array
+          items:
+            type: object
+            properties:
+              NotificationRequestItem:
+                allOf:
+                  - $ref: '#/components/schemas/NotificationRequestItem'
+                  - type: object
+                    properties:
+                      eventCode:
+                        type: string
+                        enum: [REPORT_AVAILABLE]
+
+    PaidoutReversedNotificationRequest:
+      type: object
+      properties:
+        live:
+          type: string
+        notificationItems:
+          type: array
+          items:
+            type: object
+            properties:
+              NotificationRequestItem:
+                allOf:
+                  - $ref: '#/components/schemas/NotificationRequestItem'
+                  - type: object
+                    properties:
+                      eventCode:
+                        type: string
+                        enum: [PAIDOUT_REVERSED]
+
+    AchNotificationOfChangeNotificationRequest:
+      type: object
+      properties:
+        live:
+          type: string
+        notificationItems:
+          type: array
+          items:
+            type: object
+            properties:
+              NotificationRequestItem:
+                allOf:
+                  - $ref: '#/components/schemas/NotificationRequestItem'
+                  - type: object
+                    properties:
+                      eventCode:
+                        type: string
+                        enum: [ACH_NOTIFICATION_OF_CHANGE]
+
+    # ---------------------------------------------------------------
+    # Balance Platform - JSON webhooks
+    # ---------------------------------------------------------------
+
+    AccountHolderNotificationRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          description: Notification data containing the account holder resource.
+          properties:
+            accountHolder:
+              type: object
+              description: The account holder resource that triggered the event.
+            balancePlatform:
+              type: string
+              description: Unique identifier of the balance platform.
+        environment:
+          type: string
+          description: 'Environment that produced this event: test or live.'
+        type:
+          type: string
+          enum:
+            - balancePlatform.accountHolder.created
+            - balancePlatform.accountHolder.updated
+      required:
+        - environment
+        - type
+
+    BalanceAccountNotificationRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          description: Notification data containing the balance account resource.
+        environment:
+          type: string
+        type:
+          type: string
+          enum:
+            - balancePlatform.balanceAccount.created
+            - balancePlatform.balanceAccount.updated
+      required:
+        - environment
+        - type
+
+    SweepConfigurationNotificationRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          description: Notification data containing the sweep configuration.
+        environment:
+          type: string
+        type:
+          type: string
+          enum:
+            - balancePlatform.balanceAccountSweep.created
+            - balancePlatform.balanceAccountSweep.updated
+            - balancePlatform.balanceAccountSweep.deleted
+      required:
+        - environment
+        - type
+
+    TransferNotificationRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          description: Notification data containing the transfer resource.
+        environment:
+          type: string
+        type:
+          type: string
+          enum:
+            - balancePlatform.transfer.created
+            - balancePlatform.transfer.updated
+            - balancePlatform.incomingTransfer.created
+            - balancePlatform.incomingTransfer.updated
+            - balancePlatform.outgoingTransfer.created
+            - balancePlatform.outgoingTransfer.updated
+      required:
+        - environment
+        - type
+
+    PaymentNotificationRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          description: Notification data containing the payment resource.
+        environment:
+          type: string
+        type:
+          type: string
+          enum:
+            - balancePlatform.payment.created
+            - balancePlatform.payment.updated
+      required:
+        - environment
+        - type
+
+    PaymentInstrumentNotificationRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          description: Notification data containing the payment instrument resource.
+        environment:
+          type: string
+        type:
+          type: string
+          enum:
+            - balancePlatform.paymentInstrument.created
+            - balancePlatform.paymentInstrument.updated
+      required:
+        - environment
+        - type
+
+    ReportNotificationRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          description: Notification data containing the report metadata.
+        environment:
+          type: string
+        type:
+          type: string
+          enum:
+            - balancePlatform.report.created
+      required:
+        - environment
+        - type
+
+    CardOrderNotificationRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          description: Notification data containing the card order resource.
+        environment:
+          type: string
+        type:
+          type: string
+          enum:
+            - balancePlatform.cardorder.created
+            - balancePlatform.cardorder.updated
+      required:
+        - environment
+        - type
+
+    TransactionNotificationRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          description: Notification data containing the booked transaction.
+        environment:
+          type: string
+        type:
+          type: string
+          enum:
+            - balancePlatform.transaction.created
+      required:
+        - environment
+        - type
+
+    AuthenticationNotificationRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          description: |
+            Notification data containing the 3D Secure authentication event for
+            an Adyen Issuing card.
+        environment:
+          type: string
+        type:
+          type: string
+          enum:
+            - balancePlatform.authentication.created
+      required:
+        - environment
+        - type
+
+    ManagementNotificationRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          description: |
+            Management notification payload containing the merchant or payment
+            method resource that triggered the event.
+        environment:
+          type: string
+        type:
+          type: string
+          enum:
+            - merchant.created
+            - merchant.updated
+            - paymentMethod.created
+            - paymentMethod.requestRemoved
+            - paymentMethod.requestScheduledForRemoval
+      required:
+        - environment
+        - type
