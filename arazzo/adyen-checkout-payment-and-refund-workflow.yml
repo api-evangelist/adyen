@@ -1,0 +1,103 @@
+arazzo: 1.0.1
+info:
+  title: Adyen Checkout Payment and Refund
+  summary: Make a captured card payment then refund all or part of it.
+  description: >-
+    This workflow makes a Checkout payment, confirms the authorisation, and
+    then refunds the supplied amount against the returned PSP reference. It is
+    the canonical post-settlement refund pattern for the Checkout API. Every
+    step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: checkoutApi
+  url: ../openapi/adyen-checkout-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: payment-and-refund
+  summary: Make a Checkout payment and refund it by PSP reference.
+  description: >-
+    Submits a payment and, once it is authorised, refunds the supplied amount
+    against the payment PSP reference.
+  inputs:
+    type: object
+    required:
+    - merchantAccount
+    - amount
+    - reference
+    - paymentMethod
+    - returnUrl
+    - refundAmount
+    properties:
+      merchantAccount:
+        type: string
+        description: The merchant account identifier that processes the payment.
+      amount:
+        type: object
+        description: The payment amount object with currency and value.
+      reference:
+        type: string
+        description: Your unique reference for the payment.
+      paymentMethod:
+        type: object
+        description: The payment method details (e.g. type scheme with card data).
+      returnUrl:
+        type: string
+        description: The URL the shopper is returned to after the payment.
+      refundAmount:
+        type: object
+        description: The amount object to refund (currency and value in minor units).
+      refundReference:
+        type: string
+        description: Your unique reference for the refund request.
+  steps:
+  - stepId: makePayment
+    description: >-
+      Submit the payment with the supplied payment method and amount to obtain
+      an authorisation and a payment PSP reference.
+    operationId: post-payments
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        amount: $inputs.amount
+        reference: $inputs.reference
+        paymentMethod: $inputs.paymentMethod
+        returnUrl: $inputs.returnUrl
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      pspReference: $response.body#/pspReference
+      resultCode: $response.body#/resultCode
+    onSuccess:
+    - name: authorised
+      type: goto
+      stepId: refundPayment
+      criteria:
+      - context: $response.body
+        condition: $.resultCode == "Authorised"
+        type: jsonpath
+  - stepId: refundPayment
+    description: >-
+      Refund the supplied amount against the payment PSP reference, returning
+      funds to the shopper.
+    operationId: post-payments-paymentPspReference-refunds
+    parameters:
+    - name: paymentPspReference
+      in: path
+      value: $steps.makePayment.outputs.pspReference
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        amount: $inputs.refundAmount
+        reference: $inputs.refundReference
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      refundPspReference: $response.body#/pspReference
+      status: $response.body#/status
+  outputs:
+    paymentPspReference: $steps.makePayment.outputs.pspReference
+    refundPspReference: $steps.refundPayment.outputs.refundPspReference
+    status: $steps.refundPayment.outputs.status

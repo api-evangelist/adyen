@@ -1,0 +1,88 @@
+arazzo: 1.0.1
+info:
+  title: Adyen Classic Authorise and Cancel
+  summary: Authorise a payment with the classic Payment API then cancel it.
+  description: >-
+    This workflow authorises a payment with the classic PAL Payment API,
+    confirms the result is Authorised, and then cancels the authorisation using
+    the authorisation PSP reference as the original reference. Cancel releases an
+    authorisation that has not yet been captured. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: paymentsApi
+  url: ../openapi/payments-openapi-original.yml
+  type: openapi
+workflows:
+- workflowId: authorise-and-cancel
+  summary: Authorise a classic payment and cancel it by original reference.
+  description: >-
+    Authorises a payment and, when the result code is Authorised, cancels the
+    authorisation using the PSP reference from the authorisation as the original
+    reference.
+  inputs:
+    type: object
+    required:
+    - merchantAccount
+    - amount
+    - reference
+    - card
+    properties:
+      merchantAccount:
+        type: string
+        description: The merchant account identifier that processes the payment.
+      amount:
+        type: object
+        description: The authorisation amount object with currency and value.
+      reference:
+        type: string
+        description: Your unique reference for the payment.
+      card:
+        type: object
+        description: The card details object (number, expiryMonth, expiryYear, cvc, holderName).
+  steps:
+  - stepId: authorise
+    description: >-
+      Authorise the payment with the supplied card and amount to obtain a PSP
+      reference and result code.
+    operationId: post-authorise
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        amount: $inputs.amount
+        reference: $inputs.reference
+        card: $inputs.card
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      pspReference: $response.body#/pspReference
+      resultCode: $response.body#/resultCode
+    onSuccess:
+    - name: authorised
+      type: goto
+      stepId: cancel
+      criteria:
+      - context: $response.body
+        condition: $.resultCode == "Authorised"
+        type: jsonpath
+  - stepId: cancel
+    description: >-
+      Cancel the authorisation using the PSP reference from the authorisation as
+      the original reference, releasing the hold before capture.
+    operationId: post-cancel
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        originalReference: $steps.authorise.outputs.pspReference
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      cancelPspReference: $response.body#/pspReference
+      response: $response.body#/response
+  outputs:
+    authPspReference: $steps.authorise.outputs.pspReference
+    cancelPspReference: $steps.cancel.outputs.cancelPspReference
+    response: $steps.cancel.outputs.response

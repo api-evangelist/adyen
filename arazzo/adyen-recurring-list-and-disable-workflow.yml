@@ -1,0 +1,76 @@
+arazzo: 1.0.1
+info:
+  title: Adyen List Recurring Details and Disable a Token
+  summary: List a shopper's stored payment tokens then disable one of them.
+  description: >-
+    Stored recurring details let you charge a shopper without re-collecting card
+    data. This workflow lists the recurring details stored for a shopper, and
+    when at least one stored token exists it disables the first one using its
+    recurring detail reference. Every step spells out its request inline so the
+    flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: recurringApi
+  url: ../openapi/recurring-openapi-original.yml
+  type: openapi
+workflows:
+- workflowId: list-and-disable-recurring
+  summary: List a shopper's recurring details and disable the first stored token.
+  description: >-
+    Retrieves the recurring details stored for a shopper reference, branches on
+    whether any tokens exist, and disables the first stored token by its
+    recurring detail reference.
+  inputs:
+    type: object
+    required:
+    - merchantAccount
+    - shopperReference
+    properties:
+      merchantAccount:
+        type: string
+        description: The merchant account identifier that stored the recurring details.
+      shopperReference:
+        type: string
+        description: The reference that uniquely identifies the shopper.
+  steps:
+  - stepId: listRecurringDetails
+    description: >-
+      List the recurring details stored for the shopper so a token can be
+      selected for disabling.
+    operationId: post-listRecurringDetails
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        shopperReference: $inputs.shopperReference
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      recurringDetailReference: $response.body#/details/0/RecurringDetail/recurringDetailReference
+    onSuccess:
+    - name: hasTokens
+      type: goto
+      stepId: disableToken
+      criteria:
+      - context: $response.body
+        condition: $.details.length > 0
+        type: jsonpath
+  - stepId: disableToken
+    description: >-
+      Disable the first stored token using its recurring detail reference so it
+      can no longer be used for recurring charges.
+    operationId: post-disable
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        shopperReference: $inputs.shopperReference
+        recurringDetailReference: $steps.listRecurringDetails.outputs.recurringDetailReference
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      response: $response.body#/response
+  outputs:
+    recurringDetailReference: $steps.listRecurringDetails.outputs.recurringDetailReference
+    response: $steps.disableToken.outputs.response

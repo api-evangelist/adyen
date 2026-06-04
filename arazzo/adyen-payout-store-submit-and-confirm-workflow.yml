@@ -1,0 +1,162 @@
+arazzo: 1.0.1
+info:
+  title: Adyen Third Party Payout Store, Submit and Confirm
+  summary: Store payout details, submit a third party payout, then confirm or decline it.
+  description: >-
+    Adyen third party payouts use a two-step review flow: one user submits a
+    payout and a second reviewer confirms or declines it. This workflow stores
+    the recipient's bank details to obtain a recurring detail reference, submits
+    a payout using that reference, and then branches to confirm the payout when
+    it was accepted or decline it otherwise. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: payoutsApi
+  url: ../openapi/payouts-openapi-original.yml
+  type: openapi
+workflows:
+- workflowId: payout-store-submit-and-confirm
+  summary: Store payout details, submit a third party payout, and confirm or decline it.
+  description: >-
+    Stores recipient details to obtain a recurring detail reference, submits a
+    third party payout referencing it, then confirms the payout when the submit
+    is accepted or declines it when it is not.
+  inputs:
+    type: object
+    required:
+    - merchantAccount
+    - shopperEmail
+    - shopperReference
+    - recurring
+    - dateOfBirth
+    - nationality
+    - entityType
+    - bank
+    - amount
+    - reference
+    properties:
+      merchantAccount:
+        type: string
+        description: The merchant account identifier that processes the payout.
+      shopperEmail:
+        type: string
+        description: The recipient email address.
+      shopperReference:
+        type: string
+        description: Your unique reference for the recipient.
+      recurring:
+        type: object
+        description: The recurring contract object (e.g. contract PAYOUT).
+      dateOfBirth:
+        type: string
+        description: The recipient date of birth.
+      nationality:
+        type: string
+        description: The recipient nationality (two-letter country code).
+      entityType:
+        type: string
+        description: The recipient entity type (NaturalPerson or Company).
+      bank:
+        type: object
+        description: The recipient bank account details.
+      amount:
+        type: object
+        description: The payout amount object with currency and value.
+      reference:
+        type: string
+        description: Your unique reference for the payout.
+  steps:
+  - stepId: storeDetail
+    description: >-
+      Store the recipient's bank details so the payout can reference a stored
+      recurring detail reference.
+    operationId: post-storeDetail
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        shopperEmail: $inputs.shopperEmail
+        shopperReference: $inputs.shopperReference
+        recurring: $inputs.recurring
+        dateOfBirth: $inputs.dateOfBirth
+        nationality: $inputs.nationality
+        entityType: $inputs.entityType
+        bank: $inputs.bank
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      recurringDetailReference: $response.body#/recurringDetailReference
+      storeResultCode: $response.body#/resultCode
+  - stepId: submitPayout
+    description: >-
+      Submit the third party payout for the supplied amount using the stored
+      recurring detail reference from the previous step.
+    operationId: post-submitThirdParty
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        reference: $inputs.reference
+        amount: $inputs.amount
+        shopperEmail: $inputs.shopperEmail
+        shopperReference: $inputs.shopperReference
+        recurring: $inputs.recurring
+        selectedRecurringDetailReference: $steps.storeDetail.outputs.recurringDetailReference
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      pspReference: $response.body#/pspReference
+      resultCode: $response.body#/resultCode
+    onSuccess:
+    - name: submitAccepted
+      type: goto
+      stepId: confirmPayout
+      criteria:
+      - context: $response.body
+        condition: $.resultCode == "payout-submit-received"
+        type: jsonpath
+    - name: submitNotAccepted
+      type: goto
+      stepId: declinePayout
+      criteria:
+      - context: $response.body
+        condition: $.resultCode != "payout-submit-received"
+        type: jsonpath
+  - stepId: confirmPayout
+    description: >-
+      Confirm the submitted payout using its PSP reference as the original
+      reference so the funds are released to the recipient.
+    operationId: post-confirmThirdParty
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        originalReference: $steps.submitPayout.outputs.pspReference
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      confirmPspReference: $response.body#/pspReference
+      response: $response.body#/response
+    onSuccess:
+    - name: done
+      type: end
+  - stepId: declinePayout
+    description: >-
+      Decline the submitted payout using its PSP reference as the original
+      reference when the submit was not accepted for confirmation.
+    operationId: post-declineThirdParty
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        originalReference: $steps.submitPayout.outputs.pspReference
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      declinePspReference: $response.body#/pspReference
+      response: $response.body#/response
+  outputs:
+    submitPspReference: $steps.submitPayout.outputs.pspReference
+    confirmPspReference: $steps.confirmPayout.outputs.confirmPspReference
+    declinePspReference: $steps.declinePayout.outputs.declinePspReference

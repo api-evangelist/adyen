@@ -1,0 +1,123 @@
+arazzo: 1.0.1
+info:
+  title: Adyen Management Create Webhook, Generate HMAC and Test
+  summary: Register a merchant webhook, generate its HMAC key, then send a test event.
+  description: >-
+    Setting up a webhook for a merchant account is a multi-step task: you create
+    the webhook subscription, generate the HMAC key used to verify incoming
+    notifications, send a test event to confirm the endpoint receives it, and
+    read the webhook back to confirm its configuration. This workflow chains
+    those calls in the Management API. Every step spells out its request inline
+    so the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: managementApi
+  url: ../openapi/management-openapi-original.yml
+  type: openapi
+workflows:
+- workflowId: create-webhook-hmac-and-test
+  summary: Create a merchant webhook, generate its HMAC key, and send a test event.
+  description: >-
+    Creates a webhook for a merchant account, generates the HMAC signing key for
+    it, sends a test notification to the configured url, and reads the webhook
+    back to confirm its final configuration.
+  inputs:
+    type: object
+    required:
+    - merchantId
+    - url
+    - communicationFormat
+    - type
+    properties:
+      merchantId:
+        type: string
+        description: The unique identifier of the merchant account.
+      url:
+        type: string
+        description: The public URL that will receive the webhook notifications.
+      communicationFormat:
+        type: string
+        description: The message format for notifications (soap, http, or json).
+      type:
+        type: string
+        description: The type of webhook (e.g. standard).
+  steps:
+  - stepId: createWebhook
+    description: >-
+      Create the webhook subscription for the merchant account with the supplied
+      url, communication format, and type.
+    operationId: post-merchants-merchantId-webhooks
+    parameters:
+    - name: merchantId
+      in: path
+      value: $inputs.merchantId
+    requestBody:
+      contentType: application/json
+      payload:
+        url: $inputs.url
+        active: true
+        communicationFormat: $inputs.communicationFormat
+        type: $inputs.type
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      webhookId: $response.body#/id
+  - stepId: generateHmac
+    description: >-
+      Generate the HMAC key for the new webhook so incoming notifications can be
+      signature-verified.
+    operationId: post-merchants-merchantId-webhooks-webhookId-generateHmac
+    parameters:
+    - name: merchantId
+      in: path
+      value: $inputs.merchantId
+    - name: webhookId
+      in: path
+      value: $steps.createWebhook.outputs.webhookId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      hmacKey: $response.body#/hmacKey
+  - stepId: testWebhook
+    description: >-
+      Send a test notification to the configured url to confirm the endpoint
+      receives and accepts webhook events.
+    operationId: post-merchants-merchantId-webhooks-webhookId-test
+    parameters:
+    - name: merchantId
+      in: path
+      value: $inputs.merchantId
+    - name: webhookId
+      in: path
+      value: $steps.createWebhook.outputs.webhookId
+    requestBody:
+      contentType: application/json
+      payload:
+        types:
+        - AUTHORISATION
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      testData: $response.body#/data
+  - stepId: getWebhook
+    description: >-
+      Read the webhook back by its id to confirm the final configuration after
+      setup is complete.
+    operationId: get-merchants-merchantId-webhooks-webhookId
+    parameters:
+    - name: merchantId
+      in: path
+      value: $inputs.merchantId
+    - name: webhookId
+      in: path
+      value: $steps.createWebhook.outputs.webhookId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      active: $response.body#/active
+      url: $response.body#/url
+  outputs:
+    webhookId: $steps.createWebhook.outputs.webhookId
+    hmacKey: $steps.generateHmac.outputs.hmacKey
+    url: $steps.getWebhook.outputs.url

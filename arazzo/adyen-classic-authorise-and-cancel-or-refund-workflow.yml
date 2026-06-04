@@ -1,0 +1,89 @@
+arazzo: 1.0.1
+info:
+  title: Adyen Classic Authorise and Cancel or Refund
+  summary: Authorise a payment then cancel or refund it without tracking its state.
+  description: >-
+    The cancelOrRefund endpoint lets you reverse a payment in a single call when
+    you do not know whether it has already been captured: it cancels an
+    uncaptured authorisation or refunds a captured payment. This workflow
+    authorises a payment, confirms the result is Authorised, and then issues a
+    cancelOrRefund against the authorisation PSP reference. Every step spells out
+    its request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: paymentsApi
+  url: ../openapi/payments-openapi-original.yml
+  type: openapi
+workflows:
+- workflowId: authorise-and-cancel-or-refund
+  summary: Authorise a classic payment and cancel or refund it by original reference.
+  description: >-
+    Authorises a payment and, when the result code is Authorised, issues a
+    cancelOrRefund using the PSP reference from the authorisation as the original
+    reference, reversing the payment whatever its current state.
+  inputs:
+    type: object
+    required:
+    - merchantAccount
+    - amount
+    - reference
+    - card
+    properties:
+      merchantAccount:
+        type: string
+        description: The merchant account identifier that processes the payment.
+      amount:
+        type: object
+        description: The authorisation amount object with currency and value.
+      reference:
+        type: string
+        description: Your unique reference for the payment.
+      card:
+        type: object
+        description: The card details object (number, expiryMonth, expiryYear, cvc, holderName).
+  steps:
+  - stepId: authorise
+    description: >-
+      Authorise the payment with the supplied card and amount to obtain a PSP
+      reference and result code.
+    operationId: post-authorise
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        amount: $inputs.amount
+        reference: $inputs.reference
+        card: $inputs.card
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      pspReference: $response.body#/pspReference
+      resultCode: $response.body#/resultCode
+    onSuccess:
+    - name: authorised
+      type: goto
+      stepId: cancelOrRefund
+      criteria:
+      - context: $response.body
+        condition: $.resultCode == "Authorised"
+        type: jsonpath
+  - stepId: cancelOrRefund
+    description: >-
+      Cancel or refund the payment using the PSP reference from the
+      authorisation as the original reference, reversing it whatever its state.
+    operationId: post-cancelOrRefund
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        originalReference: $steps.authorise.outputs.pspReference
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      modificationPspReference: $response.body#/pspReference
+      response: $response.body#/response
+  outputs:
+    authPspReference: $steps.authorise.outputs.pspReference
+    modificationPspReference: $steps.cancelOrRefund.outputs.modificationPspReference
+    response: $steps.cancelOrRefund.outputs.response

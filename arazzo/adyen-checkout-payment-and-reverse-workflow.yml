@@ -1,0 +1,98 @@
+arazzo: 1.0.1
+info:
+  title: Adyen Checkout Payment and Reverse
+  summary: Make a card payment then reverse it with a single request.
+  description: >-
+    Reversal cancels an authorisation, or refunds a payment if it has already
+    been captured, with one call. This workflow makes a Checkout payment,
+    confirms the authorisation, and reverses it against the returned PSP
+    reference. Every step spells out its request inline so the flow can be read
+    and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: checkoutApi
+  url: ../openapi/adyen-checkout-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: payment-and-reverse
+  summary: Make a Checkout payment and reverse it by PSP reference.
+  description: >-
+    Submits a payment and, once it is authorised, reverses it against the
+    payment PSP reference, cancelling or refunding it depending on its state.
+  inputs:
+    type: object
+    required:
+    - merchantAccount
+    - amount
+    - reference
+    - paymentMethod
+    - returnUrl
+    properties:
+      merchantAccount:
+        type: string
+        description: The merchant account identifier that processes the payment.
+      amount:
+        type: object
+        description: The payment amount object with currency and value.
+      reference:
+        type: string
+        description: Your unique reference for the payment.
+      paymentMethod:
+        type: object
+        description: The payment method details (e.g. type scheme with card data).
+      returnUrl:
+        type: string
+        description: The URL the shopper is returned to after the payment.
+      reversalReference:
+        type: string
+        description: Your unique reference for the reversal request.
+  steps:
+  - stepId: makePayment
+    description: >-
+      Submit the payment to obtain an authorisation and a payment PSP reference
+      that can later be reversed.
+    operationId: post-payments
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        amount: $inputs.amount
+        reference: $inputs.reference
+        paymentMethod: $inputs.paymentMethod
+        returnUrl: $inputs.returnUrl
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      pspReference: $response.body#/pspReference
+      resultCode: $response.body#/resultCode
+    onSuccess:
+    - name: authorised
+      type: goto
+      stepId: reversePayment
+      criteria:
+      - context: $response.body
+        condition: $.resultCode == "Authorised"
+        type: jsonpath
+  - stepId: reversePayment
+    description: >-
+      Reverse the payment against its PSP reference, which cancels the
+      authorisation or refunds the payment depending on its current state.
+    operationId: post-payments-paymentPspReference-reversals
+    parameters:
+    - name: paymentPspReference
+      in: path
+      value: $steps.makePayment.outputs.pspReference
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        reference: $inputs.reversalReference
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      reversalPspReference: $response.body#/pspReference
+      status: $response.body#/status
+  outputs:
+    paymentPspReference: $steps.makePayment.outputs.pspReference
+    reversalPspReference: $steps.reversePayment.outputs.reversalPspReference
+    status: $steps.reversePayment.outputs.status

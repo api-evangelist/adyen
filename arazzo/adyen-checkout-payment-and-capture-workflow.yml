@@ -1,0 +1,99 @@
+arazzo: 1.0.1
+info:
+  title: Adyen Checkout Payment and Capture
+  summary: Authorise a card payment then capture the authorised amount.
+  description: >-
+    Many Adyen integrations authorise a payment first and capture it later once
+    goods ship. This workflow makes a Checkout payment, confirms it was
+    authorised, and then captures the authorised amount against the returned
+    PSP reference. Every step spells out its request inline so the flow can be
+    read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: checkoutApi
+  url: ../openapi/adyen-checkout-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: payment-and-capture
+  summary: Authorise a Checkout payment and capture it by PSP reference.
+  description: >-
+    Submits a payment, branches on the result code, and when the payment is
+    authorised captures the supplied amount using the payment PSP reference.
+  inputs:
+    type: object
+    required:
+    - merchantAccount
+    - amount
+    - reference
+    - paymentMethod
+    - returnUrl
+    properties:
+      merchantAccount:
+        type: string
+        description: The merchant account identifier that processes the payment.
+      amount:
+        type: object
+        description: The amount object with currency and value (minor units).
+      reference:
+        type: string
+        description: Your unique reference for the payment.
+      paymentMethod:
+        type: object
+        description: The payment method details (e.g. type scheme with card data).
+      returnUrl:
+        type: string
+        description: The URL the shopper is returned to after the payment.
+      captureReference:
+        type: string
+        description: Your unique reference for the capture request.
+  steps:
+  - stepId: makePayment
+    description: >-
+      Submit the payment with the supplied payment method and amount to obtain
+      an authorisation and a payment PSP reference.
+    operationId: post-payments
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        amount: $inputs.amount
+        reference: $inputs.reference
+        paymentMethod: $inputs.paymentMethod
+        returnUrl: $inputs.returnUrl
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      pspReference: $response.body#/pspReference
+      resultCode: $response.body#/resultCode
+    onSuccess:
+    - name: authorised
+      type: goto
+      stepId: capturePayment
+      criteria:
+      - context: $response.body
+        condition: $.resultCode == "Authorised"
+        type: jsonpath
+  - stepId: capturePayment
+    description: >-
+      Capture the authorised amount against the payment PSP reference so the
+      funds are collected from the shopper.
+    operationId: post-payments-paymentPspReference-captures
+    parameters:
+    - name: paymentPspReference
+      in: path
+      value: $steps.makePayment.outputs.pspReference
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        amount: $inputs.amount
+        reference: $inputs.captureReference
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      capturePspReference: $response.body#/pspReference
+      status: $response.body#/status
+  outputs:
+    paymentPspReference: $steps.makePayment.outputs.pspReference
+    capturePspReference: $steps.capturePayment.outputs.capturePspReference
+    status: $steps.capturePayment.outputs.status

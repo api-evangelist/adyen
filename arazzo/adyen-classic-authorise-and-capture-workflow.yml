@@ -1,0 +1,92 @@
+arazzo: 1.0.1
+info:
+  title: Adyen Classic Authorise and Capture
+  summary: Authorise a payment with the classic Payment API then capture it.
+  description: >-
+    The classic PAL Payment API authorises a payment and returns a PSP reference
+    used as the original reference for later modifications. This workflow
+    authorises a payment, confirms the result is Authorised, and then captures
+    the authorised amount. Every step spells out its request inline so the flow
+    can be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: paymentsApi
+  url: ../openapi/payments-openapi-original.yml
+  type: openapi
+workflows:
+- workflowId: authorise-and-capture
+  summary: Authorise a classic payment and capture it by original reference.
+  description: >-
+    Authorises a payment and, when the result code is Authorised, captures the
+    amount using the PSP reference returned from the authorisation as the
+    original reference.
+  inputs:
+    type: object
+    required:
+    - merchantAccount
+    - amount
+    - reference
+    - card
+    - modificationAmount
+    properties:
+      merchantAccount:
+        type: string
+        description: The merchant account identifier that processes the payment.
+      amount:
+        type: object
+        description: The authorisation amount object with currency and value.
+      reference:
+        type: string
+        description: Your unique reference for the payment.
+      card:
+        type: object
+        description: The card details object (number, expiryMonth, expiryYear, cvc, holderName).
+      modificationAmount:
+        type: object
+        description: The amount object to capture (currency and value in minor units).
+  steps:
+  - stepId: authorise
+    description: >-
+      Authorise the payment with the supplied card and amount to obtain a PSP
+      reference and result code.
+    operationId: post-authorise
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        amount: $inputs.amount
+        reference: $inputs.reference
+        card: $inputs.card
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      pspReference: $response.body#/pspReference
+      resultCode: $response.body#/resultCode
+    onSuccess:
+    - name: authorised
+      type: goto
+      stepId: capture
+      criteria:
+      - context: $response.body
+        condition: $.resultCode == "Authorised"
+        type: jsonpath
+  - stepId: capture
+    description: >-
+      Capture the authorised amount using the PSP reference from the
+      authorisation as the original reference.
+    operationId: post-capture
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        modificationAmount: $inputs.modificationAmount
+        originalReference: $steps.authorise.outputs.pspReference
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      capturePspReference: $response.body#/pspReference
+      response: $response.body#/response
+  outputs:
+    authPspReference: $steps.authorise.outputs.pspReference
+    capturePspReference: $steps.capture.outputs.capturePspReference
+    response: $steps.capture.outputs.response

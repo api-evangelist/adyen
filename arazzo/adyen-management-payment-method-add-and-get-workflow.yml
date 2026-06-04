@@ -1,0 +1,79 @@
+arazzo: 1.0.1
+info:
+  title: Adyen Management Add Payment Method and Get Its Settings
+  summary: Add a payment method to a merchant account then read its settings back.
+  description: >-
+    Enabling a payment method for a merchant account and verifying its
+    configuration is a two-step task in the Management API. This workflow adds a
+    payment method of the supplied type to a merchant account, then reads the
+    settings of the newly added payment method back by its id. Every step spells
+    out its request inline so the flow can be read and executed without opening
+    the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: managementApi
+  url: ../openapi/management-openapi-original.yml
+  type: openapi
+workflows:
+- workflowId: add-payment-method-and-get
+  summary: Add a payment method to a merchant account and read its settings.
+  description: >-
+    Adds a payment method of the supplied type to a merchant account, then
+    retrieves the settings of the new payment method using its returned id.
+  inputs:
+    type: object
+    required:
+    - merchantId
+    - type
+    properties:
+      merchantId:
+        type: string
+        description: The unique identifier of the merchant account.
+      type:
+        type: string
+        description: The payment method type to add (e.g. visa, mc, ideal).
+      currencies:
+        type: array
+        description: The currencies the payment method supports.
+      countries:
+        type: array
+        description: The countries the payment method is available in.
+  steps:
+  - stepId: addPaymentMethod
+    description: >-
+      Add a payment method of the supplied type to the merchant account,
+      returning the new payment method id.
+    operationId: post-merchants-merchantId-paymentMethodSettings
+    parameters:
+    - name: merchantId
+      in: path
+      value: $inputs.merchantId
+    requestBody:
+      contentType: application/json
+      payload:
+        type: $inputs.type
+        currencies: $inputs.currencies
+        countries: $inputs.countries
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      paymentMethodId: $response.body#/id
+  - stepId: getPaymentMethod
+    description: >-
+      Read the settings of the newly added payment method back by its id to
+      confirm its configuration on the merchant account.
+    operationId: get-merchants-merchantId-paymentMethodSettings-paymentMethodId
+    parameters:
+    - name: merchantId
+      in: path
+      value: $inputs.merchantId
+    - name: paymentMethodId
+      in: path
+      value: $steps.addPaymentMethod.outputs.paymentMethodId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      paymentMethodType: $response.body#/type
+  outputs:
+    paymentMethodId: $steps.addPaymentMethod.outputs.paymentMethodId
+    paymentMethodType: $steps.getPaymentMethod.outputs.paymentMethodType

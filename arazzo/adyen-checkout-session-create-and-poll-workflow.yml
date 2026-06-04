@@ -1,0 +1,81 @@
+arazzo: 1.0.1
+info:
+  title: Adyen Create Checkout Session and Poll Result
+  summary: Create a hosted checkout payment session and poll for its final status.
+  description: >-
+    The Sessions flow is Adyen's recommended way to accept payments. This
+    workflow creates a payment session with the merchant account, amount, and
+    reference, then polls the session result endpoint until the session reaches
+    a terminal status. Every step spells out its request inline so the flow can
+    be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: checkoutApi
+  url: ../openapi/adyen-checkout-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: create-checkout-session-and-poll
+  summary: Create a payment session and poll its status until it completes.
+  description: >-
+    Creates a Checkout session for the supplied amount and reference, then reads
+    the session status with the returned session id so a caller can confirm
+    whether the shopper has completed payment.
+  inputs:
+    type: object
+    required:
+    - merchantAccount
+    - amount
+    - reference
+    - returnUrl
+    - countryCode
+    properties:
+      merchantAccount:
+        type: string
+        description: The merchant account identifier that processes the session.
+      amount:
+        type: object
+        description: The amount object with currency and value (minor units).
+      reference:
+        type: string
+        description: Your unique reference for the payment.
+      returnUrl:
+        type: string
+        description: The URL the shopper is returned to after the payment.
+      countryCode:
+        type: string
+        description: The shopper country code (e.g. NL).
+  steps:
+  - stepId: createSession
+    description: >-
+      Create a Checkout payment session that the front end uses to render the
+      available payment methods and collect the payment.
+    operationId: post-sessions
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        amount: $inputs.amount
+        reference: $inputs.reference
+        returnUrl: $inputs.returnUrl
+        countryCode: $inputs.countryCode
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      sessionId: $response.body#/id
+      sessionData: $response.body#/sessionData
+  - stepId: pollSessionResult
+    description: >-
+      Read the status of the payment session using the returned session id to
+      determine whether the shopper has completed the payment.
+    operationId: get-sessions-sessionId
+    parameters:
+    - name: sessionId
+      in: path
+      value: $steps.createSession.outputs.sessionId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      status: $response.body#/status
+  outputs:
+    sessionId: $steps.createSession.outputs.sessionId
+    status: $steps.pollSessionResult.outputs.status

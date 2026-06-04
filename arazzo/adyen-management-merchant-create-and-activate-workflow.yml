@@ -1,0 +1,69 @@
+arazzo: 1.0.1
+info:
+  title: Adyen Management Create Merchant Account and Request Activation
+  summary: Create a merchant account under a company then request its activation.
+  description: >-
+    Onboarding a new merchant account is a two-step task in the Management API:
+    you create the merchant account under a company, then request activation so
+    it can start processing live payments. This workflow creates the merchant
+    account and, using the returned merchant id, requests activation. Every step
+    spells out its request inline so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: managementApi
+  url: ../openapi/management-openapi-original.yml
+  type: openapi
+workflows:
+- workflowId: create-and-activate-merchant
+  summary: Create a merchant account and request its activation.
+  description: >-
+    Creates a merchant account under the supplied company and then requests
+    activation of the newly created merchant account by its id.
+  inputs:
+    type: object
+    required:
+    - companyId
+    properties:
+      companyId:
+        type: string
+        description: The unique identifier of the parent company account.
+      description:
+        type: string
+        description: A description of the merchant account.
+      reference:
+        type: string
+        description: Your reference for the merchant account.
+  steps:
+  - stepId: createMerchant
+    description: >-
+      Create a merchant account under the supplied company, returning the new
+      merchant account id.
+    operationId: post-merchants
+    requestBody:
+      contentType: application/json
+      payload:
+        companyId: $inputs.companyId
+        description: $inputs.description
+        reference: $inputs.reference
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      merchantId: $response.body#/id
+  - stepId: activateMerchant
+    description: >-
+      Request activation of the newly created merchant account so it can begin
+      processing payments.
+    operationId: post-merchants-merchantId-activate
+    parameters:
+    - name: merchantId
+      in: path
+      value: $steps.createMerchant.outputs.merchantId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      activatedMerchantId: $response.body#/merchantId
+      detail: $response.body#/detail
+  outputs:
+    merchantId: $steps.createMerchant.outputs.merchantId
+    detail: $steps.activateMerchant.outputs.detail

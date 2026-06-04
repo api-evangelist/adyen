@@ -1,0 +1,78 @@
+arazzo: 1.0.1
+info:
+  title: Adyen Create Payment Link and Get Status
+  summary: Create a Pay by Link payment link then read its current status.
+  description: >-
+    Pay by Link lets you collect a payment without building a checkout page.
+    This workflow creates a payment link for the supplied amount and reference,
+    then reads the link back by its id to confirm its url and status. Every step
+    spells out its request inline so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: checkoutApi
+  url: ../openapi/adyen-checkout-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: payment-link-create-and-get
+  summary: Create a payment link and retrieve it by id.
+  description: >-
+    Creates a Pay by Link payment link and then retrieves its details using the
+    returned link id so a caller can share the url and check the status.
+  inputs:
+    type: object
+    required:
+    - merchantAccount
+    - amount
+    - reference
+    - countryCode
+    properties:
+      merchantAccount:
+        type: string
+        description: The merchant account identifier that processes the link.
+      amount:
+        type: object
+        description: The amount object with currency and value (minor units).
+      reference:
+        type: string
+        description: Your unique reference for the payment link.
+      countryCode:
+        type: string
+        description: The shopper country code (e.g. NL).
+  steps:
+  - stepId: createLink
+    description: >-
+      Create a Pay by Link payment link for the supplied amount and reference,
+      returning a shareable url and a link id.
+    operationId: post-paymentLinks
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        amount: $inputs.amount
+        reference: $inputs.reference
+        countryCode: $inputs.countryCode
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      linkId: $response.body#/id
+      url: $response.body#/url
+      status: $response.body#/status
+  - stepId: getLink
+    description: >-
+      Retrieve the payment link by its id to confirm the current status before
+      sharing the url with the shopper.
+    operationId: get-paymentLinks-linkId
+    parameters:
+    - name: linkId
+      in: path
+      value: $steps.createLink.outputs.linkId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      status: $response.body#/status
+      url: $response.body#/url
+  outputs:
+    linkId: $steps.createLink.outputs.linkId
+    url: $steps.getLink.outputs.url
+    status: $steps.getLink.outputs.status

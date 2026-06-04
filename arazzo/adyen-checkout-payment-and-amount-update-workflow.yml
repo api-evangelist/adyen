@@ -1,0 +1,106 @@
+arazzo: 1.0.1
+info:
+  title: Adyen Checkout Payment and Amount Update
+  summary: Authorise a card payment then adjust the authorised amount.
+  description: >-
+    Some payment methods allow the authorised amount to be increased or
+    decreased before capture (for example a tip or a final hotel bill). This
+    workflow makes a Checkout payment, confirms the authorisation, and updates
+    the authorised amount against the returned PSP reference. Every step spells
+    out its request inline so the flow can be read and executed without opening
+    the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: checkoutApi
+  url: ../openapi/adyen-checkout-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: payment-and-amount-update
+  summary: Authorise a Checkout payment and update its authorised amount.
+  description: >-
+    Submits a payment and, once it is authorised, updates the authorised amount
+    against the payment PSP reference using the supplied industry use case.
+  inputs:
+    type: object
+    required:
+    - merchantAccount
+    - amount
+    - reference
+    - paymentMethod
+    - returnUrl
+    - updatedAmount
+    - industryUsage
+    properties:
+      merchantAccount:
+        type: string
+        description: The merchant account identifier that processes the payment.
+      amount:
+        type: object
+        description: The initial payment amount object with currency and value.
+      reference:
+        type: string
+        description: Your unique reference for the payment.
+      paymentMethod:
+        type: object
+        description: The payment method details (e.g. type scheme with card data).
+      returnUrl:
+        type: string
+        description: The URL the shopper is returned to after the payment.
+      updatedAmount:
+        type: object
+        description: The new amount object with currency and value (minor units).
+      industryUsage:
+        type: string
+        description: The reason for the update (delayedCharge, installment, or noShow).
+  steps:
+  - stepId: makePayment
+    description: >-
+      Submit the payment to obtain an authorisation and a payment PSP reference
+      whose amount can later be updated.
+    operationId: post-payments
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        amount: $inputs.amount
+        reference: $inputs.reference
+        paymentMethod: $inputs.paymentMethod
+        returnUrl: $inputs.returnUrl
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      pspReference: $response.body#/pspReference
+      resultCode: $response.body#/resultCode
+    onSuccess:
+    - name: authorised
+      type: goto
+      stepId: updateAmount
+      criteria:
+      - context: $response.body
+        condition: $.resultCode == "Authorised"
+        type: jsonpath
+  - stepId: updateAmount
+    description: >-
+      Update the authorised amount against the payment PSP reference, supplying
+      the industry usage that justifies the change.
+    operationId: post-payments-paymentPspReference-amountUpdates
+    parameters:
+    - name: paymentPspReference
+      in: path
+      value: $steps.makePayment.outputs.pspReference
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        amount: $inputs.updatedAmount
+        industryUsage: $inputs.industryUsage
+        reference: $inputs.reference
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      updatePspReference: $response.body#/pspReference
+      status: $response.body#/status
+  outputs:
+    paymentPspReference: $steps.makePayment.outputs.pspReference
+    updatePspReference: $steps.updateAmount.outputs.updatePspReference
+    status: $steps.updateAmount.outputs.status
