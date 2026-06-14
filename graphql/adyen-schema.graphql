@@ -1,0 +1,1632 @@
+# Adyen Conceptual GraphQL Schema
+# Derived from Adyen REST API types (Checkout, Payments, Payouts, Recurring,
+# Transfers, Balance Platform, Management, Legal Entity, Disputes, Notifications)
+# This is a conceptual schema — Adyen does not offer a native GraphQL endpoint.
+
+scalar DateTime
+scalar JSON
+
+# ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum PaymentResultCode {
+  Authorised
+  Cancelled
+  ChallengeShopper
+  Error
+  IdentifyShopper
+  Pending
+  PresentToShopper
+  Received
+  RedirectShopper
+  Refused
+}
+
+enum ShopperInteraction {
+  Ecommerce
+  ContAuth
+  Moto
+  POS
+}
+
+enum RecurringProcessingModel {
+  CardOnFile
+  Subscription
+  UnscheduledCardOnFile
+}
+
+enum FundOrigin {
+  BankAccount
+  Card
+  Unknown
+}
+
+enum TransactionStatus {
+  Booked
+  Pending
+  Returned
+  Unknown
+}
+
+enum DisputeStatus {
+  Open
+  Closed
+  Won
+  Lost
+  UnderReview
+}
+
+enum NotificationEventCode {
+  AUTHORISATION
+  CAPTURE
+  CAPTURE_FAILED
+  CANCELLATION
+  REFUND
+  REFUND_FAILED
+  CHARGEBACK
+  CHARGEBACK_REVERSED
+  DISPUTE_OPENED
+  PAYOUT_THIRDPARTY
+  REPORT_AVAILABLE
+  ORDER_OPENED
+  ORDER_CLOSED
+  RECURRING_CONTRACT
+}
+
+enum TerminalStatus {
+  Online
+  Offline
+  Reassigning
+  Unknown
+}
+
+enum AccountHolderStatus {
+  Active
+  Inactive
+  Suspended
+  Closed
+}
+
+enum LegalEntityType {
+  Individual
+  Organization
+  SoleProprietorship
+  Trust
+}
+
+enum DocumentType {
+  PASSPORT
+  ID_CARD
+  DRIVING_LICENSE
+  BANK_STATEMENT
+  PROOF_OF_RESIDENCE
+  UTILITY_BILL
+  COMPANY_REGISTRATION
+  CONSTITUTION
+}
+
+enum SplitType {
+  BalanceAccount
+  Commission
+  Default
+  MarketPlace
+  PaymentFee
+  Remainder
+  Surcharge
+  Tip
+  VAT
+}
+
+enum BalanceAccountStatus {
+  Active
+  Closed
+  Suspended
+}
+
+enum PaymentLinkStatus {
+  Active
+  Expired
+  Completed
+  PaymentPending
+}
+
+enum RefundReason {
+  FRAUD
+  CUSTOMER_REQUEST
+  RETURN
+  DUPLICATE
+  OTHER
+}
+
+# ─── Scalars / Value Types ────────────────────────────────────────────────────
+
+type Amount {
+  currency: String!
+  value: Int!
+}
+
+type Address {
+  city: String
+  country: String!
+  houseNumberOrName: String
+  postalCode: String
+  stateOrProvince: String
+  street: String
+}
+
+type Name {
+  firstName: String!
+  lastName: String!
+  gender: String
+  infix: String
+}
+
+type BrowserInfo {
+  acceptHeader: String!
+  colorDepth: Int!
+  javaEnabled: Boolean!
+  javaScriptEnabled: Boolean
+  language: String!
+  screenHeight: Int!
+  screenWidth: Int!
+  timeZoneOffset: Int!
+  userAgent: String!
+}
+
+type RiskData {
+  clientData: String
+  customFields: JSON
+  fraudOffset: Int
+  profileReference: String
+}
+
+type LineItem {
+  id: String
+  description: String
+  amountExcludingTax: Int
+  amountIncludingTax: Int
+  taxAmount: Int
+  taxPercentage: Int
+  quantity: Int
+  taxCategory: String
+  imageUrl: String
+  productUrl: String
+}
+
+# ─── Card ─────────────────────────────────────────────────────────────────────
+
+type Card {
+  number: String
+  expiryMonth: String
+  expiryYear: String
+  holderName: String
+  cvc: String
+  bin: String
+  lastFour: String
+  brand: String
+  brandVariant: String
+  networkPaymentReference: String
+}
+
+type CardSummary {
+  lastFour: String
+  expiryMonth: String
+  expiryYear: String
+  holderName: String
+  brand: String
+}
+
+# ─── Bank Account ─────────────────────────────────────────────────────────────
+
+type BankAccount {
+  bankAccountNumber: String
+  bankCity: String
+  bankLocationId: String
+  bankName: String
+  bic: String
+  countryCode: String
+  iban: String
+  ownerName: String
+  taxId: String
+}
+
+# ─── Payment Method ───────────────────────────────────────────────────────────
+
+type PaymentMethod {
+  type: String!
+  name: String
+  brands: [String]
+  details: [InputDetail]
+  fundingSource: String
+  group: PaymentMethodGroup
+  issuers: [Issuer]
+  configuration: JSON
+}
+
+type PaymentMethodGroup {
+  name: String
+  paymentMethodData: String
+  type: String
+}
+
+type Issuer {
+  id: String!
+  name: String!
+  disabled: Boolean
+}
+
+type InputDetail {
+  configuration: JSON
+  details: [SubInputDetail]
+  inputDetails: [SubInputDetail]
+  itemSearchUrl: String
+  items: [Item]
+  key: String
+  optional: Boolean
+  type: String
+  value: String
+}
+
+type SubInputDetail {
+  configuration: JSON
+  items: [Item]
+  key: String
+  optional: Boolean
+  type: String
+  value: String
+}
+
+type Item {
+  id: String
+  imageId: String
+  name: String
+}
+
+# ─── Stored Payment Method ────────────────────────────────────────────────────
+
+type StoredPaymentMethod {
+  id: String!
+  type: String!
+  name: String
+  brand: String
+  lastFour: String
+  expiryMonth: String
+  expiryYear: String
+  holderName: String
+  iban: String
+  ownerName: String
+  networkPaymentReference: String
+  shopperEmail: String
+  supportedShopperInteractions: [String]
+}
+
+# ─── 3DS / Authentication ─────────────────────────────────────────────────────
+
+type AuthenticationData {
+  attemptAuthentication: String
+  authenticationOnly: Boolean
+  threeDSRequestData: ThreeDSRequestData
+}
+
+type ThreeDSRequestData {
+  challengeWindowSize: String
+  dataOnly: String
+  nativeThreeDS: String
+  threeDSVersion: String
+}
+
+type ThreeDS2Result {
+  authenticationValue: String
+  cavvAlgorithm: String
+  challengeCancel: String
+  dsTransID: String
+  eci: String
+  exemptionIndicator: String
+  messageVersion: String
+  riskScore: String
+  threeDSServerTransID: String
+  timestamp: String
+  transStatus: String
+  transStatusReason: String
+}
+
+# ─── Recurring ────────────────────────────────────────────────────────────────
+
+type Recurring {
+  contract: RecurringProcessingModel
+  recurringDetailReference: String
+  shopperStatement: String
+  tokenService: String
+}
+
+type Mandate {
+  amount: String
+  amountRule: String
+  billingAttemptsRule: String
+  billingDay: String
+  endsAt: String
+  frequency: String
+  remarks: String
+  startsAt: String
+}
+
+# ─── Payment Request ──────────────────────────────────────────────────────────
+
+type PaymentRequest {
+  amount: Amount!
+  merchantAccount: String!
+  reference: String!
+  returnUrl: String
+  paymentMethod: JSON
+  card: Card
+  bankAccount: BankAccount
+  billingAddress: Address
+  deliveryAddress: Address
+  shopperName: Name
+  shopperEmail: String
+  shopperIP: String
+  shopperLocale: String
+  shopperReference: String
+  shopperInteraction: ShopperInteraction
+  recurringProcessingModel: RecurringProcessingModel
+  authenticationData: AuthenticationData
+  browserInfo: BrowserInfo
+  lineItems: [LineItem]
+  riskData: RiskData
+  storePaymentMethod: Boolean
+  channel: String
+  origin: String
+  countryCode: String
+  mcc: String
+  metadata: JSON
+  splits: [SplitItem]
+}
+
+# ─── Payment Response ─────────────────────────────────────────────────────────
+
+type PaymentResponse {
+  pspReference: String
+  resultCode: PaymentResultCode
+  merchantReference: String
+  amount: Amount
+  additionalData: JSON
+  action: PaymentAction
+  details: [InputDetail]
+  fraudResult: FraudResult
+  order: Order
+  outputDetails: JSON
+  paymentData: String
+  redirect: Redirect
+  refusalReason: String
+  refusalReasonCode: String
+  threeDS2Result: ThreeDS2Result
+}
+
+type PaymentAction {
+  alternativeReference: String
+  data: JSON
+  method: String
+  paymentData: String
+  paymentMethodType: String
+  qrCodeData: String
+  reference: String
+  subtype: String
+  token: String
+  type: String!
+  url: String
+}
+
+type FraudResult {
+  accountScore: Int!
+  results: [FraudCheckResult]
+}
+
+type FraudCheckResult {
+  accountScore: Int!
+  checkId: Int!
+  name: String!
+}
+
+type Redirect {
+  data: JSON
+  method: String
+  url: String
+}
+
+# ─── Checkout Result ──────────────────────────────────────────────────────────
+
+type CheckoutResult {
+  sessionId: String
+  sessionData: String
+  sessionResult: String
+  merchantAccount: String
+  reference: String
+  returnUrl: String
+  amount: Amount
+  expiresAt: DateTime
+  status: String
+  countryCode: String
+  shopperLocale: String
+  paymentMethods: [PaymentMethod]
+  storedPaymentMethods: [StoredPaymentMethod]
+}
+
+# ─── Payment Details ──────────────────────────────────────────────────────────
+
+type PaymentDetails {
+  details: JSON
+  paymentData: String
+  threeDSAuthenticationOnly: Boolean
+}
+
+# ─── Modification Operations ──────────────────────────────────────────────────
+
+type Capture {
+  merchantAccount: String!
+  originalReference: String!
+  modificationAmount: Amount!
+  pspReference: String
+  response: String
+  reference: String
+  splits: [SplitItem]
+}
+
+type Cancellation {
+  merchantAccount: String!
+  originalReference: String!
+  pspReference: String
+  response: String
+  reference: String
+  tenderReference: String
+}
+
+type Refund {
+  merchantAccount: String!
+  originalReference: String!
+  modificationAmount: Amount!
+  pspReference: String
+  response: String
+  reference: String
+  reason: RefundReason
+  splits: [SplitItem]
+  lineItems: [LineItem]
+}
+
+type VoidPending {
+  merchantAccount: String!
+  originalReference: String!
+  pspReference: String
+  response: String
+}
+
+# ─── Pay By Link ──────────────────────────────────────────────────────────────
+
+type PaymentLink {
+  id: String!
+  url: String!
+  amount: Amount!
+  merchantAccount: String!
+  reference: String!
+  status: PaymentLinkStatus!
+  expiresAt: DateTime
+  description: String
+  shopperReference: String
+  shopperEmail: String
+  countryCode: String
+  shopperLocale: String
+  billingAddress: Address
+  deliveryAddress: Address
+  lineItems: [LineItem]
+  allowedPaymentMethods: [String]
+  blockedPaymentMethods: [String]
+  recurringProcessingModel: RecurringProcessingModel
+  reusable: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type PayByLink {
+  id: String!
+  url: String!
+  amount: Amount!
+  status: PaymentLinkStatus!
+  expiresAt: DateTime
+  merchantAccount: String!
+  reference: String!
+}
+
+# ─── Payout ───────────────────────────────────────────────────────────────────
+
+type PayoutRequest {
+  amount: Amount!
+  merchantAccount: String!
+  reference: String!
+  shopperReference: String
+  shopperEmail: String
+  recurring: Recurring
+  selectedRecurringDetailReference: String
+  card: Card
+  bankAccount: BankAccount
+  shopperName: Name
+  billingAddress: Address
+  entityType: String
+  nationality: String
+  dateOfBirth: String
+}
+
+type PayoutResult {
+  pspReference: String
+  resultCode: String
+  response: String
+  additionalData: JSON
+  authCode: String
+  fraudResult: FraudResult
+  merchantReference: String
+}
+
+# ─── Account / AccountHolder (Classic Marketplaces) ──────────────────────────
+
+type AccountHolder {
+  accountHolderCode: String!
+  accountHolderDetails: AccountHolderDetails
+  status: AccountHolderStatus
+  verificationStatus: String
+  accounts: [Account]
+  legalEntity: LegalEntityType
+  primaryCurrency: String
+  processingTier: Int
+  payoutMethods: [PayoutMethod]
+  bankAccountDetails: [BankAccount]
+  description: String
+  metadata: JSON
+}
+
+type AccountHolderDetails {
+  address: Address
+  businessDetails: BusinessDetails
+  email: String
+  fullPhoneNumber: String
+  individualDetails: IndividualDetails
+  merchantCategoryCode: String
+  webAddress: String
+}
+
+type BusinessDetails {
+  doingBusinessAs: String
+  incorporatedAt: String
+  legalBusinessName: String
+  registrationNumber: String
+  shareholders: [ShareholderContact]
+  taxId: String
+}
+
+type IndividualDetails {
+  name: Name
+  dateOfBirth: String
+  documentData: [DocumentData]
+  nationality: String
+}
+
+type ShareholderContact {
+  address: Address
+  email: String
+  fullPhoneNumber: String
+  name: Name
+  personalData: JSON
+  shareholderCode: String
+  shareholderReference: String
+  webAddress: String
+}
+
+type DocumentData {
+  documentType: DocumentType
+  number: String
+  expirationDate: String
+  issuerCountry: String
+  issuerState: String
+}
+
+type Account {
+  accountCode: String!
+  bankAccountUUID: String
+  description: String
+  metadata: JSON
+  payoutSchedule: PayoutSchedule
+  payoutSpeed: String
+  status: String
+}
+
+type PayoutSchedule {
+  schedule: String
+  nextScheduledPayout: DateTime
+}
+
+type PayoutMethod {
+  merchantAccount: String
+  payoutMethodCode: String
+  payoutMethodType: String
+  recurringDetailReference: String
+  shopperReference: String
+}
+
+# ─── Fund / Transfer (Classic) ────────────────────────────────────────────────
+
+type Fund {
+  merchantAccount: String
+  accountCode: String
+  amount: Amount
+  transferCode: String
+  description: String
+}
+
+type Transfer {
+  id: String!
+  amount: Amount!
+  status: TransactionStatus!
+  type: String
+  direction: String
+  merchantAccount: String
+  accountHolder: String
+  balanceAccount: String
+  reference: String
+  description: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  counterparty: Counterparty
+  category: String
+  modificationMerchantReference: String
+  originalAmount: Amount
+  pspReference: String
+  reason: String
+}
+
+type Counterparty {
+  transferInstrumentId: String
+  bankAccount: BankAccount
+  card: CardSummary
+  merchant: CounterpartyMerchant
+}
+
+type CounterpartyMerchant {
+  mcc: String
+  merchantId: String
+  nameOrFriendlyName: String
+  originalMerchantId: String
+  postalCode: String
+}
+
+# ─── Balance Platform ──────────────────────────────────────────────────────────
+
+type MarketplaceAccount {
+  id: String!
+  status: BalanceAccountStatus!
+  accountHolderId: String!
+  description: String
+  reference: String
+  primaryBalanceAccount: String
+  metadata: JSON
+  timeZone: String
+  balances: [Balance]
+  sweepConfigurations: [SweepConfiguration]
+}
+
+type Balance {
+  available: Int!
+  balance: Int!
+  currency: String!
+  pending: Int
+  reserved: Int
+}
+
+type SweepConfiguration {
+  id: String!
+  currency: String!
+  schedule: SweepSchedule
+  status: String
+  targetAmount: Amount
+  triggerAmount: Amount
+  type: String
+  counterparty: JSON
+}
+
+type SweepSchedule {
+  cronExpression: String
+  type: String
+}
+
+# ─── Split ────────────────────────────────────────────────────────────────────
+
+type SplitItem {
+  account: String
+  amount: Amount
+  description: String
+  reference: String
+  type: SplitType!
+}
+
+# ─── Order ────────────────────────────────────────────────────────────────────
+
+type Order {
+  amount: Amount
+  expiresAt: DateTime
+  orderData: String
+  pspReference: String
+  reference: String
+  remainingAmount: Amount
+}
+
+# ─── Terminal / StoreDetails ──────────────────────────────────────────────────
+
+type Terminal {
+  id: String!
+  model: String
+  serialNumber: String
+  status: TerminalStatus
+  merchantAccount: String
+  storeId: String
+  store: StoreDetails
+  assignment: TerminalAssignment
+  lastActivityDateTime: DateTime
+  connectivity: TerminalConnectivity
+  firmware: TerminalFirmware
+}
+
+type TerminalAssignment {
+  companyId: String
+  merchantAccountCode: String
+  merchantInventory: Boolean
+  storeId: String
+}
+
+type TerminalConnectivity {
+  ethernet: Boolean
+  wifi: Boolean
+  cellularIccid: String
+}
+
+type TerminalFirmware {
+  version: String
+  scheduledVersion: String
+  scheduledAt: DateTime
+}
+
+type StoreDetails {
+  id: String!
+  reference: String
+  description: String
+  merchantAccount: String
+  status: String
+  shopperStatement: String
+  address: Address
+  businessLineIds: [String]
+  phoneNumber: String
+  splitConfiguration: JSON
+}
+
+# ─── Merchant Account ─────────────────────────────────────────────────────────
+
+type MerchantAccount {
+  id: String!
+  companyId: String!
+  reference: String
+  status: String
+  description: String
+  dataCenters: [DataCenter]
+  primarySettlementCurrency: String
+  captureDelay: String
+  defaultShopperInteraction: ShopperInteraction
+}
+
+type DataCenter {
+  livePrefix: String
+  name: String
+}
+
+# ─── Business Line ────────────────────────────────────────────────────────────
+
+type BusinessLine {
+  id: String!
+  capability: String
+  channelData: [ChannelData]
+  industry: String
+  legalEntityId: String
+  problems: [CapabilityProblem]
+  salesChannels: [String]
+  service: String
+  sourceOfFunds: JSON
+  webData: [WebData]
+}
+
+type ChannelData {
+  paymentMethodType: String
+  type: String
+  urls: [String]
+}
+
+type CapabilityProblem {
+  entity: JSON
+  verificationErrors: [VerificationError]
+}
+
+type VerificationError {
+  code: String
+  message: String
+  remediatingActions: [RemediatingAction]
+  subErrors: [VerificationError]
+  type: String
+}
+
+type RemediatingAction {
+  code: String
+  message: String
+}
+
+type WebData {
+  id: String
+  webAddress: String
+}
+
+# ─── Legal Entity ─────────────────────────────────────────────────────────────
+
+type LegalEntity {
+  id: String!
+  type: LegalEntityType!
+  capabilities: JSON
+  individual: Individual
+  organization: Organization
+  soleProprietorship: SoleProprietorship
+  transferInstruments: [TransferInstrument]
+  problems: [CapabilityProblem]
+  reference: String
+}
+
+type Individual {
+  birthData: BirthData
+  email: String
+  identificationData: IdentificationData
+  name: Name
+  nationality: String
+  phone: PhoneNumber
+  residentialAddress: Address
+  taxInformation: [TaxInformation]
+}
+
+type BirthData {
+  dateOfBirth: String
+}
+
+type IdentificationData {
+  cardNumber: String
+  expiryDate: String
+  issuerCountry: String
+  issuerState: String
+  nationalIdExempt: Boolean
+  number: String
+  type: DocumentType
+}
+
+type TaxInformation {
+  country: String
+  number: String
+  type: String
+}
+
+type PhoneNumber {
+  number: String
+  type: String
+}
+
+type Organization {
+  dateOfIncorporation: String
+  description: String
+  email: String
+  legalName: String!
+  phone: PhoneNumber
+  principalAddress: Address
+  registeredAddress: Address
+  registrationNumber: String
+  stockData: StockData
+  taxInformation: [TaxInformation]
+  taxReportingClassification: TaxReportingClassification
+  type: String
+  vatAbsenceReason: String
+  vatNumber: String
+  webData: [WebData]
+}
+
+type StockData {
+  marketIdentifier: String
+  stockNumber: String
+  stockNumberType: String
+}
+
+type TaxReportingClassification {
+  businessType: String
+  financialInstitutionNumber: String
+  mainSourceOfIncome: String
+  type: String
+}
+
+type SoleProprietorship {
+  countryOfGoverningLaw: String
+  dateOfIncorporation: String
+  description: String
+  doingBusinessAs: String
+  name: String
+  principalAddress: Address
+  registrationNumber: String
+  taxInformation: [TaxInformation]
+  vatNumber: String
+}
+
+type TransferInstrument {
+  id: String!
+  legalEntityId: String!
+  type: String!
+  bankAccount: BankAccount
+  card: CardSummary
+}
+
+# ─── Document ─────────────────────────────────────────────────────────────────
+
+type Document {
+  id: String!
+  type: DocumentType!
+  attachment: Attachment
+  attachments: [Attachment]
+  description: String
+  expiryDate: String
+  issuingCountry: String
+  issuingState: String
+  modificationDate: DateTime
+  number: String
+  owner: DocumentOwner
+}
+
+type Attachment {
+  content: String
+  contentType: String
+  filename: String
+  pageName: String
+  pageType: String
+}
+
+type DocumentOwner {
+  id: String!
+  type: LegalEntityType!
+}
+
+# ─── Report ───────────────────────────────────────────────────────────────────
+
+type Report {
+  id: String!
+  createdAt: DateTime!
+  downloadUrl: String
+  filename: String
+  reportType: String
+  status: String
+}
+
+# ─── Notification ─────────────────────────────────────────────────────────────
+
+type Notification {
+  live: Boolean!
+  notificationItems: [NotificationItem]
+}
+
+type NotificationItem {
+  NotificationRequestItem: NotificationRequestItem
+}
+
+type NotificationRequestItem {
+  additionalData: JSON
+  amount: Amount
+  eventCode: NotificationEventCode!
+  eventDate: DateTime!
+  merchantAccountCode: String!
+  merchantReference: String!
+  originalReference: String
+  paymentMethod: String
+  pspReference: String!
+  reason: String
+  success: Boolean!
+  operations: [String]
+}
+
+type WebhookConfig {
+  id: String!
+  type: String!
+  url: String!
+  username: String
+  active: Boolean!
+  communicationFormat: String
+  encryptionProtocol: String
+  hasError: Boolean
+  hasPassword: Boolean
+  merchantAccount: String
+  networkType: String
+  populateSoapActionHeader: Boolean
+  sslCertificate: String
+  filterMerchantAccountType: String
+  filterMerchantAccounts: [String]
+  additionalSettings: WebhookAdditionalSettings
+}
+
+type WebhookAdditionalSettings {
+  includeEventCodes: [String]
+  excludeEventCodes: [String]
+  properties: JSON
+}
+
+# ─── Dispute ──────────────────────────────────────────────────────────────────
+
+type DisputeData {
+  disputePspReference: String!
+  merchantAccountCode: String!
+  paymentPspReference: String!
+  reason: String
+  status: DisputeStatus!
+  amount: Amount
+  createdAt: DateTime
+  updatedAt: DateTime
+  defenseReasons: [DefenseReason]
+  defenseDocuments: [DefenseDocument]
+}
+
+type CaseStatus {
+  caseId: String!
+  status: DisputeStatus!
+  updatedAt: DateTime
+  reason: String
+}
+
+type DefenseReason {
+  defenseDocumentTypes: [DefenseDocumentType]
+  defensible: Boolean
+  reason: String!
+}
+
+type DefenseDocumentType {
+  available: Boolean
+  defenseDocumentTypeCode: String!
+  requirementLevel: String
+}
+
+type DefenseDocument {
+  content: String!
+  contentType: String!
+  defenseDocumentTypeCode: String!
+  filename: String
+}
+
+# ─── Tokenization / StorePaymentMethod ───────────────────────────────────────
+
+type StorePaymentMethod {
+  shopperReference: String!
+  shopperEmail: String
+  recurringDetailReference: String
+  recurringProcessingModel: RecurringProcessingModel
+  storedPaymentMethodId: String
+  paymentMethod: JSON
+}
+
+type TokenizationRequest {
+  shopperReference: String!
+  merchantAccount: String!
+  paymentMethod: JSON
+  recurringProcessingModel: RecurringProcessingModel
+  shopperEmail: String
+  shopperIP: String
+  shopperInteraction: ShopperInteraction
+  channel: String
+}
+
+# ─── Network ──────────────────────────────────────────────────────────────────
+
+type Network {
+  paymentMethodType: String
+  variants: [String]
+  label: String
+  txVariant: String
+}
+
+# ─── Queries ──────────────────────────────────────────────────────────────────
+
+type Query {
+  # Payment methods
+  paymentMethods(merchantAccount: String!, countryCode: String, shopperLocale: String, channel: String, amount: Int, currency: String): [PaymentMethod]
+
+  # Stored payment methods
+  storedPaymentMethods(merchantAccount: String!, shopperReference: String!): [StoredPaymentMethod]
+
+  # Payment link
+  paymentLink(id: String!): PaymentLink
+  paymentLinks(merchantAccount: String!, status: PaymentLinkStatus, createdSince: DateTime, createdUntil: DateTime): [PaymentLink]
+
+  # Orders
+  order(orderData: String!, pspReference: String!): Order
+
+  # Checkout session
+  checkoutSession(sessionId: String!): CheckoutResult
+
+  # Payout
+  payoutDetails(shopperReference: String!, merchantAccount: String!): [StoredPaymentMethod]
+
+  # Recurring
+  recurringDetails(merchantAccount: String!, shopperReference: String!): [StoredPaymentMethod]
+
+  # Account holder (classic marketplaces)
+  accountHolder(accountHolderCode: String!): AccountHolder
+  accountHolders(merchantAccount: String!, status: AccountHolderStatus): [AccountHolder]
+
+  # Account
+  account(accountCode: String!): Account
+
+  # Transfer
+  transfer(id: String!): Transfer
+  transfers(merchantAccount: String, balanceAccountId: String, status: TransactionStatus, createdSince: DateTime, createdUntil: DateTime, cursor: String, limit: Int): TransferPage
+
+  # Balance platform / marketplace account
+  marketplaceAccount(id: String!): MarketplaceAccount
+  marketplaceAccounts(accountHolderId: String): [MarketplaceAccount]
+
+  # Balance
+  balances(balanceAccountId: String!): [Balance]
+
+  # Merchant account
+  merchantAccount(merchantAccount: String!): MerchantAccount
+  merchantAccounts(companyId: String!): [MerchantAccount]
+
+  # Business line
+  businessLine(id: String!): BusinessLine
+  businessLines(legalEntityId: String): [BusinessLine]
+
+  # Legal entity
+  legalEntity(id: String!): LegalEntity
+  legalEntities(associatedWithMerchantAccount: String): [LegalEntity]
+
+  # Document
+  document(id: String!): Document
+
+  # Terminal
+  terminal(id: String!): Terminal
+  terminals(merchantAccount: String, storeId: String, status: TerminalStatus): [Terminal]
+
+  # Store
+  store(id: String!): StoreDetails
+  stores(merchantAccount: String!): [StoreDetails]
+
+  # Dispute
+  disputes(merchantAccount: String!, disputeStatus: DisputeStatus, createdSince: DateTime, createdUntil: DateTime): [DisputeData]
+  dispute(pspReference: String!, merchantAccount: String!): DisputeData
+  defenseReasons(pspReference: String!, merchantAccount: String!): [DefenseReason]
+
+  # Notification webhooks
+  webhookConfig(id: String!, merchantAccount: String!): WebhookConfig
+  webhookConfigs(merchantAccount: String!): [WebhookConfig]
+
+  # Reports
+  report(id: String!): Report
+  reports(merchantAccount: String!, reportType: String, createdSince: DateTime, createdUntil: DateTime): [Report]
+
+  # Transfer instrument
+  transferInstrument(id: String!): TransferInstrument
+  transferInstruments(legalEntityId: String!): [TransferInstrument]
+
+  # Networks
+  networks(merchantAccount: String!): [Network]
+}
+
+# ─── Mutations ────────────────────────────────────────────────────────────────
+
+type Mutation {
+  # Payment
+  makePayment(input: PaymentRequestInput!): PaymentResponse
+  submitPaymentDetails(input: PaymentDetailsInput!): PaymentResponse
+
+  # Checkout session
+  createCheckoutSession(input: CreateCheckoutSessionInput!): CheckoutResult
+
+  # Modifications
+  capturePayment(pspReference: String!, merchantAccount: String!, amount: Amount!, reference: String, splits: [SplitItemInput]): Capture
+  cancelPayment(pspReference: String!, merchantAccount: String!, reference: String): Cancellation
+  refundPayment(pspReference: String!, merchantAccount: String!, amount: Amount!, reference: String, splits: [SplitItemInput], lineItems: [LineItemInput]): Refund
+  voidPendingRefund(pspReference: String!, merchantAccount: String!): VoidPending
+  cancelOrRefundPayment(pspReference: String!, merchantAccount: String!, reference: String): PaymentResponse
+
+  # Payment link
+  createPaymentLink(input: CreatePaymentLinkInput!): PaymentLink
+  updatePaymentLink(id: String!, status: PaymentLinkStatus!): PaymentLink
+
+  # Payout
+  storePayout(input: PayoutRequestInput!): PayoutResult
+  submitPayout(input: PayoutRequestInput!): PayoutResult
+  confirmPayout(originalReference: String!, merchantAccount: String!): PayoutResult
+  declinePayout(originalReference: String!, merchantAccount: String!): PayoutResult
+
+  # Stored payment methods
+  disableStoredPaymentMethod(shopperReference: String!, merchantAccount: String!, recurringDetailReference: String): String
+  tokenizePayment(input: TokenizationInput!): StoredPaymentMethod
+
+  # Account holder (classic)
+  createAccountHolder(input: CreateAccountHolderInput!): AccountHolder
+  updateAccountHolder(accountHolderCode: String!, input: UpdateAccountHolderInput!): AccountHolder
+  suspendAccountHolder(accountHolderCode: String!): AccountHolder
+  unsuspendAccountHolder(accountHolderCode: String!): AccountHolder
+  closeAccountHolder(accountHolderCode: String!): AccountHolder
+
+  # Account
+  createAccount(accountHolderCode: String!, description: String): Account
+  updateAccount(accountCode: String!, description: String, payoutSchedule: String): Account
+  closeAccount(accountCode: String!): Account
+
+  # Fund transfer
+  transferFunds(sourceAccountCode: String!, destinationAccountCode: String!, amount: Amount!, transferCode: String!, description: String): Fund
+  payoutToAccountHolder(accountHolderCode: String!, accountCode: String!, amount: Amount!, description: String): Fund
+
+  # Marketplace account
+  createMarketplaceAccount(input: CreateMarketplaceAccountInput!): MarketplaceAccount
+  updateMarketplaceAccount(id: String!, description: String, reference: String, metadata: JSON): MarketplaceAccount
+  closeMarketplaceAccount(id: String!): MarketplaceAccount
+
+  # Business line
+  createBusinessLine(input: CreateBusinessLineInput!): BusinessLine
+  updateBusinessLine(id: String!, input: UpdateBusinessLineInput!): BusinessLine
+  deleteBusinessLine(id: String!): Boolean
+
+  # Legal entity
+  createLegalEntity(input: CreateLegalEntityInput!): LegalEntity
+  updateLegalEntity(id: String!, input: UpdateLegalEntityInput!): LegalEntity
+
+  # Document
+  uploadDocument(input: UploadDocumentInput!): Document
+  deleteDocument(id: String!): Boolean
+
+  # Terminal
+  assignTerminal(terminalId: String!, merchantAccount: String!, storeId: String): Terminal
+  reassignTerminalToInventory(terminalId: String!, companyId: String!): Terminal
+
+  # Store
+  createStore(merchantAccount: String!, input: CreateStoreInput!): StoreDetails
+  updateStore(id: String!, merchantAccount: String!, input: UpdateStoreInput!): StoreDetails
+
+  # Dispute
+  acceptDispute(pspReference: String!, merchantAccount: String!): CaseStatus
+  defendDispute(pspReference: String!, merchantAccount: String!, defenseReasonCode: String!, documents: [DefenseDocumentInput!]!): CaseStatus
+  uploadDefenseDocument(pspReference: String!, merchantAccount: String!, document: DefenseDocumentInput!): Boolean
+  deleteDefenseDocument(pspReference: String!, merchantAccount: String!, defenseDocumentTypeCode: String!): Boolean
+
+  # Webhooks
+  createWebhook(merchantAccount: String!, input: CreateWebhookInput!): WebhookConfig
+  updateWebhook(id: String!, merchantAccount: String!, input: UpdateWebhookInput!): WebhookConfig
+  deleteWebhook(id: String!, merchantAccount: String!): Boolean
+  testWebhook(id: String!, merchantAccount: String!): WebhookTestResult
+  generateWebhookHmac(id: String!, merchantAccount: String!): String
+
+  # Data protection (GDPR erasure)
+  requestDataErasure(shopperReference: String!, merchantAccount: String!, forceErasure: Boolean): Boolean
+
+  # Transfer instrument
+  createTransferInstrument(legalEntityId: String!, input: CreateTransferInstrumentInput!): TransferInstrument
+  updateTransferInstrument(id: String!, input: UpdateTransferInstrumentInput!): TransferInstrument
+  deleteTransferInstrument(id: String!): Boolean
+}
+
+# ─── Input Types ──────────────────────────────────────────────────────────────
+
+input AmountInput {
+  currency: String!
+  value: Int!
+}
+
+input AddressInput {
+  city: String
+  country: String!
+  houseNumberOrName: String
+  postalCode: String
+  stateOrProvince: String
+  street: String
+}
+
+input NameInput {
+  firstName: String!
+  lastName: String!
+  gender: String
+  infix: String
+}
+
+input LineItemInput {
+  id: String
+  description: String
+  amountExcludingTax: Int
+  amountIncludingTax: Int
+  taxAmount: Int
+  taxPercentage: Int
+  quantity: Int
+}
+
+input SplitItemInput {
+  account: String
+  amount: AmountInput
+  description: String
+  reference: String
+  type: SplitType!
+}
+
+input PaymentRequestInput {
+  amount: AmountInput!
+  merchantAccount: String!
+  reference: String!
+  returnUrl: String
+  paymentMethod: JSON!
+  billingAddress: AddressInput
+  deliveryAddress: AddressInput
+  shopperEmail: String
+  shopperIP: String
+  shopperLocale: String
+  shopperReference: String
+  shopperInteraction: ShopperInteraction
+  recurringProcessingModel: RecurringProcessingModel
+  storePaymentMethod: Boolean
+  channel: String
+  origin: String
+  countryCode: String
+  lineItems: [LineItemInput]
+  splits: [SplitItemInput]
+  metadata: JSON
+}
+
+input PaymentDetailsInput {
+  details: JSON!
+  paymentData: String
+  threeDSAuthenticationOnly: Boolean
+}
+
+input CreateCheckoutSessionInput {
+  amount: AmountInput!
+  merchantAccount: String!
+  reference: String!
+  returnUrl: String!
+  countryCode: String
+  shopperLocale: String
+  shopperEmail: String
+  shopperReference: String
+  channel: String
+  lineItems: [LineItemInput]
+  allowedPaymentMethods: [String]
+  expiresAt: DateTime
+}
+
+input CreatePaymentLinkInput {
+  amount: AmountInput!
+  merchantAccount: String!
+  reference: String!
+  description: String
+  shopperEmail: String
+  shopperReference: String
+  countryCode: String
+  shopperLocale: String
+  expiresAt: DateTime
+  lineItems: [LineItemInput]
+  billingAddress: AddressInput
+  allowedPaymentMethods: [String]
+  recurringProcessingModel: RecurringProcessingModel
+  reusable: Boolean
+}
+
+input PayoutRequestInput {
+  amount: AmountInput!
+  merchantAccount: String!
+  reference: String!
+  shopperReference: String!
+  shopperEmail: String
+  recurringDetailReference: String
+  entityType: String
+  nationality: String
+  dateOfBirth: String
+}
+
+input TokenizationInput {
+  shopperReference: String!
+  merchantAccount: String!
+  paymentMethod: JSON!
+  recurringProcessingModel: RecurringProcessingModel
+  shopperEmail: String
+  channel: String
+}
+
+input CreateAccountHolderInput {
+  accountHolderCode: String!
+  legalEntity: LegalEntityType!
+  accountHolderDetails: AccountHolderDetailsInput!
+  primaryCurrency: String
+  processingTier: Int
+}
+
+input AccountHolderDetailsInput {
+  email: String
+  fullPhoneNumber: String
+  webAddress: String
+  address: AddressInput
+}
+
+input UpdateAccountHolderInput {
+  accountHolderDetails: AccountHolderDetailsInput
+  primaryCurrency: String
+  processingTier: Int
+  description: String
+}
+
+input CreateMarketplaceAccountInput {
+  accountHolderId: String!
+  description: String
+  reference: String
+  metadata: JSON
+  timeZone: String
+}
+
+input CreateBusinessLineInput {
+  capability: String!
+  legalEntityId: String!
+  service: String!
+  industry: String
+  salesChannels: [String]
+  webData: [WebDataInput]
+}
+
+input UpdateBusinessLineInput {
+  capability: String
+  industry: String
+  salesChannels: [String]
+  webData: [WebDataInput]
+}
+
+input WebDataInput {
+  webAddress: String!
+}
+
+input CreateLegalEntityInput {
+  type: LegalEntityType!
+  individual: IndividualInput
+  organization: OrganizationInput
+  reference: String
+}
+
+input UpdateLegalEntityInput {
+  individual: IndividualInput
+  organization: OrganizationInput
+  reference: String
+}
+
+input IndividualInput {
+  name: NameInput
+  email: String
+  nationality: String
+  dateOfBirth: String
+  residentialAddress: AddressInput
+}
+
+input OrganizationInput {
+  legalName: String!
+  registrationNumber: String
+  vatNumber: String
+  taxInformation: [TaxInformationInput]
+  principalAddress: AddressInput
+  registeredAddress: AddressInput
+}
+
+input TaxInformationInput {
+  country: String!
+  number: String!
+  type: String
+}
+
+input UploadDocumentInput {
+  type: DocumentType!
+  ownerId: String!
+  ownerType: LegalEntityType!
+  number: String
+  expiryDate: String
+  issuingCountry: String
+  content: String!
+  contentType: String!
+  filename: String
+}
+
+input CreateStoreInput {
+  reference: String!
+  description: String
+  shopperStatement: String
+  address: AddressInput!
+  phoneNumber: String
+  businessLineIds: [String]
+}
+
+input UpdateStoreInput {
+  description: String
+  shopperStatement: String
+  address: AddressInput
+  phoneNumber: String
+  status: String
+  businessLineIds: [String]
+}
+
+input DefenseDocumentInput {
+  content: String!
+  contentType: String!
+  defenseDocumentTypeCode: String!
+  filename: String
+}
+
+input CreateWebhookInput {
+  type: String!
+  url: String!
+  username: String
+  password: String
+  active: Boolean!
+  communicationFormat: String
+  encryptionProtocol: String
+  networkType: String
+  populateSoapActionHeader: Boolean
+  filterMerchantAccountType: String
+  filterMerchantAccounts: [String]
+  additionalSettings: WebhookAdditionalSettingsInput
+}
+
+input UpdateWebhookInput {
+  url: String
+  username: String
+  password: String
+  active: Boolean
+  communicationFormat: String
+  encryptionProtocol: String
+  networkType: String
+  filterMerchantAccountType: String
+  filterMerchantAccounts: [String]
+  additionalSettings: WebhookAdditionalSettingsInput
+}
+
+input WebhookAdditionalSettingsInput {
+  includeEventCodes: [String]
+  excludeEventCodes: [String]
+  properties: JSON
+}
+
+input CreateTransferInstrumentInput {
+  type: String!
+  bankAccount: BankAccountInput
+}
+
+input UpdateTransferInstrumentInput {
+  bankAccount: BankAccountInput
+}
+
+input BankAccountInput {
+  iban: String
+  bankAccountNumber: String
+  bankLocationId: String
+  bic: String
+  countryCode: String!
+  ownerName: String!
+}
+
+# ─── Pagination ───────────────────────────────────────────────────────────────
+
+type TransferPage {
+  data: [Transfer]
+  hasNext: Boolean!
+  nextCursor: String
+}
+
+# ─── Auxiliary Results ────────────────────────────────────────────────────────
+
+type WebhookTestResult {
+  status: String
+  data: [WebhookTestData]
+}
+
+type WebhookTestData {
+  eventCode: String
+  merchantCode: String
+  response: String
+  success: Boolean
+}
