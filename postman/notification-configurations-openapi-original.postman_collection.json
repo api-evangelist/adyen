@@ -1,0 +1,2450 @@
+{
+  "info": {
+    "_postman_id": "29bfe0f6-4546-444c-bf9c-d914b45aec81",
+    "name": "Adyen Notification Configuration API",
+    "description": "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Notification Configuration API provides endpoints for setting up and testing notifications that inform you of events on your platform, for example when a verification check or a payout has been completed.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic/notifications).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Notification Configuration API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Notification/v6/createNotificationConfiguration\n```\n\nContact Support:\n Name: Adyen Developer Experience team",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T13:12:59.000Z",
+    "updatedAt": "2026-06-05T13:12:59.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-29bfe0f6-4546-444c-bf9c-d914b45aec81"
+  },
+  "item": [
+    {
+      "name": "createNotificationConfiguration",
+      "item": [
+        {
+          "name": "Adyen Subscribe to Notifications",
+          "id": "7deb9435-c202-44a0-85a8-87a25ad308f4",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"configurationDetails\": {\n    \"active\": \"<boolean>\",\n    \"apiVersion\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"eventConfigs\": [\n      {\n        \"eventType\": \"ACCOUNT_CLOSED\",\n        \"includeMode\": \"INCLUDE\"\n      },\n      {\n        \"eventType\": \"ACCOUNT_UPDATED\",\n        \"includeMode\": \"INCLUDE\"\n      }\n    ],\n    \"hmacSignatureKey\": \"<string>\",\n    \"notificationId\": \"<long>\",\n    \"notifyPassword\": \"<string>\",\n    \"notifyURL\": \"<string>\",\n    \"notifyUsername\": \"<string>\",\n    \"sslProtocol\": \"TLSv13\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/createNotificationConfiguration",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "createNotificationConfiguration"
+              ]
+            },
+            "description": "Creates a subscription to notifications informing you of events on your platform. After the subscription is created, the events specified in the configuration will be sent to the URL specified in the configuration. Subscriptions must be configured on a per-event basis (as opposed to, for example, a per-account holder basis), so all event notifications of a marketplace and of a given type will be sent to the same endpoint(s). A marketplace may have multiple endpoints if desired; an event notification may be sent to as many or as few different endpoints as configured."
+          },
+          "response": [
+            {
+              "id": "67cb11d4-defe-4262-9a7c-eb1ff851643d",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"configurationDetails\": {\n    \"active\": \"<boolean>\",\n    \"apiVersion\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"eventConfigs\": [\n      {\n        \"eventType\": \"ACCOUNT_CLOSED\",\n        \"includeMode\": \"INCLUDE\"\n      },\n      {\n        \"eventType\": \"ACCOUNT_UPDATED\",\n        \"includeMode\": \"INCLUDE\"\n      }\n    ],\n    \"hmacSignatureKey\": \"<string>\",\n    \"notificationId\": \"<long>\",\n    \"notifyPassword\": \"<string>\",\n    \"notifyURL\": \"<string>\",\n    \"notifyUsername\": \"<string>\",\n    \"sslProtocol\": \"TLSv13\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/createNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "createNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"configurationDetails\": {\n    \"active\": \"<boolean>\",\n    \"apiVersion\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"eventConfigs\": [\n      {\n        \"eventType\": \"REPORT_AVAILABLE\",\n        \"includeMode\": \"INCLUDE\"\n      },\n      {\n        \"eventType\": \"PAYMENT_FAILURE\",\n        \"includeMode\": \"EXCLUDE\"\n      }\n    ],\n    \"hmacSignatureKey\": \"<string>\",\n    \"notificationId\": \"<long>\",\n    \"notifyPassword\": \"<string>\",\n    \"notifyURL\": \"<string>\",\n    \"notifyUsername\": \"<string>\",\n    \"sslProtocol\": \"TLSv13\"\n  },\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"legalArrangementReference\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"ownerStreet\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-67cb11d4-defe-4262-9a7c-eb1ff851643d"
+            },
+            {
+              "id": "93ecede4-9f67-46ec-aa46-5be3bb361668",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"configurationDetails\": {\n    \"active\": \"<boolean>\",\n    \"apiVersion\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"eventConfigs\": [\n      {\n        \"eventType\": \"ACCOUNT_CLOSED\",\n        \"includeMode\": \"INCLUDE\"\n      },\n      {\n        \"eventType\": \"ACCOUNT_UPDATED\",\n        \"includeMode\": \"INCLUDE\"\n      }\n    ],\n    \"hmacSignatureKey\": \"<string>\",\n    \"notificationId\": \"<long>\",\n    \"notifyPassword\": \"<string>\",\n    \"notifyURL\": \"<string>\",\n    \"notifyUsername\": \"<string>\",\n    \"sslProtocol\": \"TLSv13\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/createNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "createNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-93ecede4-9f67-46ec-aa46-5be3bb361668"
+            },
+            {
+              "id": "fef7af01-51c0-405a-8f15-18fe4d85a02c",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"configurationDetails\": {\n    \"active\": \"<boolean>\",\n    \"apiVersion\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"eventConfigs\": [\n      {\n        \"eventType\": \"ACCOUNT_CLOSED\",\n        \"includeMode\": \"INCLUDE\"\n      },\n      {\n        \"eventType\": \"ACCOUNT_UPDATED\",\n        \"includeMode\": \"INCLUDE\"\n      }\n    ],\n    \"hmacSignatureKey\": \"<string>\",\n    \"notificationId\": \"<long>\",\n    \"notifyPassword\": \"<string>\",\n    \"notifyURL\": \"<string>\",\n    \"notifyUsername\": \"<string>\",\n    \"sslProtocol\": \"TLSv13\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/createNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "createNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-fef7af01-51c0-405a-8f15-18fe4d85a02c"
+            },
+            {
+              "id": "d4ce9473-2683-49c5-b281-9444b3db0761",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"configurationDetails\": {\n    \"active\": \"<boolean>\",\n    \"apiVersion\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"eventConfigs\": [\n      {\n        \"eventType\": \"ACCOUNT_CLOSED\",\n        \"includeMode\": \"INCLUDE\"\n      },\n      {\n        \"eventType\": \"ACCOUNT_UPDATED\",\n        \"includeMode\": \"INCLUDE\"\n      }\n    ],\n    \"hmacSignatureKey\": \"<string>\",\n    \"notificationId\": \"<long>\",\n    \"notifyPassword\": \"<string>\",\n    \"notifyURL\": \"<string>\",\n    \"notifyUsername\": \"<string>\",\n    \"sslProtocol\": \"TLSv13\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/createNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "createNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-d4ce9473-2683-49c5-b281-9444b3db0761"
+            },
+            {
+              "id": "741a4305-a013-46af-ba8c-d6e31b2ccb2d",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"configurationDetails\": {\n    \"active\": \"<boolean>\",\n    \"apiVersion\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"eventConfigs\": [\n      {\n        \"eventType\": \"ACCOUNT_CLOSED\",\n        \"includeMode\": \"INCLUDE\"\n      },\n      {\n        \"eventType\": \"ACCOUNT_UPDATED\",\n        \"includeMode\": \"INCLUDE\"\n      }\n    ],\n    \"hmacSignatureKey\": \"<string>\",\n    \"notificationId\": \"<long>\",\n    \"notifyPassword\": \"<string>\",\n    \"notifyURL\": \"<string>\",\n    \"notifyUsername\": \"<string>\",\n    \"sslProtocol\": \"TLSv13\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/createNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "createNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-741a4305-a013-46af-ba8c-d6e31b2ccb2d"
+            },
+            {
+              "id": "1c1ddfb0-0bf1-4119-9489-5a7b419862bd",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"configurationDetails\": {\n    \"active\": \"<boolean>\",\n    \"apiVersion\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"eventConfigs\": [\n      {\n        \"eventType\": \"ACCOUNT_CLOSED\",\n        \"includeMode\": \"INCLUDE\"\n      },\n      {\n        \"eventType\": \"ACCOUNT_UPDATED\",\n        \"includeMode\": \"INCLUDE\"\n      }\n    ],\n    \"hmacSignatureKey\": \"<string>\",\n    \"notificationId\": \"<long>\",\n    \"notifyPassword\": \"<string>\",\n    \"notifyURL\": \"<string>\",\n    \"notifyUsername\": \"<string>\",\n    \"sslProtocol\": \"TLSv13\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/createNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "createNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-1c1ddfb0-0bf1-4119-9489-5a7b419862bd"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:00.000Z",
+          "updatedAt": "2026-06-05T13:13:00.000Z",
+          "uid": "35240-7deb9435-c202-44a0-85a8-87a25ad308f4"
+        }
+      ],
+      "id": "fee1c9bc-6708-462b-abc8-d4a737fd64be",
+      "createdAt": "2026-06-05T13:13:00.000Z",
+      "updatedAt": "2026-06-05T13:13:00.000Z",
+      "uid": "35240-fee1c9bc-6708-462b-abc8-d4a737fd64be"
+    },
+    {
+      "name": "deleteNotificationConfigurations",
+      "item": [
+        {
+          "name": "Adyen Delete a Notification Subscription Configuration",
+          "id": "d0f1fa81-1d6d-4719-9a72-595d760ad002",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notificationIds\": [\n    \"<long>\",\n    \"<long>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/deleteNotificationConfigurations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "deleteNotificationConfigurations"
+              ]
+            },
+            "description": "Deletes an existing notification subscription configuration. After the subscription is deleted, no further event notifications will be sent to the URL defined in the subscription."
+          },
+          "response": [
+            {
+              "id": "1ba502e6-ea05-4e78-bbad-9b06e6f41793",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notificationIds\": [\n    \"<long>\",\n    \"<long>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/deleteNotificationConfigurations",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "deleteNotificationConfigurations"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"storeName\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"pciSelfAssessment\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-1ba502e6-ea05-4e78-bbad-9b06e6f41793"
+            },
+            {
+              "id": "4dcd1a67-b0a7-4038-825d-6a0e4cb24cd0",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notificationIds\": [\n    \"<long>\",\n    \"<long>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/deleteNotificationConfigurations",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "deleteNotificationConfigurations"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-4dcd1a67-b0a7-4038-825d-6a0e4cb24cd0"
+            },
+            {
+              "id": "744b911b-37ad-45e6-8352-231dfc50ad41",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notificationIds\": [\n    \"<long>\",\n    \"<long>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/deleteNotificationConfigurations",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "deleteNotificationConfigurations"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-744b911b-37ad-45e6-8352-231dfc50ad41"
+            },
+            {
+              "id": "ee7c2860-7ebe-43ee-ac85-586f3c94084e",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notificationIds\": [\n    \"<long>\",\n    \"<long>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/deleteNotificationConfigurations",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "deleteNotificationConfigurations"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-ee7c2860-7ebe-43ee-ac85-586f3c94084e"
+            },
+            {
+              "id": "f3455a46-68a8-4620-80e7-421d9a2e369f",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notificationIds\": [\n    \"<long>\",\n    \"<long>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/deleteNotificationConfigurations",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "deleteNotificationConfigurations"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-f3455a46-68a8-4620-80e7-421d9a2e369f"
+            },
+            {
+              "id": "6bd53404-9a63-4430-9d2d-713724c81b62",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notificationIds\": [\n    \"<long>\",\n    \"<long>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/deleteNotificationConfigurations",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "deleteNotificationConfigurations"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-6bd53404-9a63-4430-9d2d-713724c81b62"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:00.000Z",
+          "updatedAt": "2026-06-05T13:13:00.000Z",
+          "uid": "35240-d0f1fa81-1d6d-4719-9a72-595d760ad002"
+        }
+      ],
+      "id": "41d011b6-d868-406e-8051-783dec98fe07",
+      "createdAt": "2026-06-05T13:13:00.000Z",
+      "updatedAt": "2026-06-05T13:13:00.000Z",
+      "uid": "35240-41d011b6-d868-406e-8051-783dec98fe07"
+    },
+    {
+      "name": "getNotificationConfiguration",
+      "item": [
+        {
+          "name": "Adyen Get a Notification Subscription Configuration",
+          "id": "6e4a1404-a06f-45ea-a4ff-ec26138dc63e",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notificationId\": \"<long>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getNotificationConfiguration",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getNotificationConfiguration"
+              ]
+            },
+            "description": "Returns the details of the configuration of a notification subscription."
+          },
+          "response": [
+            {
+              "id": "e6c5ed70-cd32-44bb-bf61-1f261fdd45e7",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notificationId\": \"<long>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"configurationDetails\": {\n    \"active\": \"<boolean>\",\n    \"apiVersion\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"eventConfigs\": [\n      {\n        \"eventType\": \"REPORT_AVAILABLE\",\n        \"includeMode\": \"INCLUDE\"\n      },\n      {\n        \"eventType\": \"PAYMENT_FAILURE\",\n        \"includeMode\": \"EXCLUDE\"\n      }\n    ],\n    \"hmacSignatureKey\": \"<string>\",\n    \"notificationId\": \"<long>\",\n    \"notifyPassword\": \"<string>\",\n    \"notifyURL\": \"<string>\",\n    \"notifyUsername\": \"<string>\",\n    \"sslProtocol\": \"TLSv13\"\n  },\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"legalArrangementReference\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"ownerStreet\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-e6c5ed70-cd32-44bb-bf61-1f261fdd45e7"
+            },
+            {
+              "id": "2ae8abbb-0d74-49b9-969a-d7994452cf8a",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notificationId\": \"<long>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-2ae8abbb-0d74-49b9-969a-d7994452cf8a"
+            },
+            {
+              "id": "1c3c22da-19ff-4a22-a4e4-719957f60e0c",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notificationId\": \"<long>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-1c3c22da-19ff-4a22-a4e4-719957f60e0c"
+            },
+            {
+              "id": "03f88450-97ec-4c6f-8f6b-947f39c1f51a",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notificationId\": \"<long>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-03f88450-97ec-4c6f-8f6b-947f39c1f51a"
+            },
+            {
+              "id": "698bbea0-c8a9-4ea0-b10c-bf4c964ca0d6",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notificationId\": \"<long>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-698bbea0-c8a9-4ea0-b10c-bf4c964ca0d6"
+            },
+            {
+              "id": "e69ba5ab-ca07-426f-88f1-0f06fee8f747",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notificationId\": \"<long>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-e69ba5ab-ca07-426f-88f1-0f06fee8f747"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:00.000Z",
+          "updatedAt": "2026-06-05T13:13:00.000Z",
+          "uid": "35240-6e4a1404-a06f-45ea-a4ff-ec26138dc63e"
+        }
+      ],
+      "id": "286aba82-ae67-4c8f-9417-058296c52794",
+      "createdAt": "2026-06-05T13:13:00.000Z",
+      "updatedAt": "2026-06-05T13:13:00.000Z",
+      "uid": "35240-286aba82-ae67-4c8f-9417-058296c52794"
+    },
+    {
+      "name": "getNotificationConfigurationList",
+      "item": [
+        {
+          "name": "Adyen Get a List of Notification Subscription Configurations",
+          "id": "14906850-af46-4453-b7a3-bbd7ae1bf04e",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getNotificationConfigurationList",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getNotificationConfigurationList"
+              ]
+            },
+            "description": "Returns the details of the configurations of all of the notification subscriptions in the platform of the executing user."
+          },
+          "response": [
+            {
+              "id": "8998c727-09c3-410b-b5e7-e91d721c25be",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getNotificationConfigurationList",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getNotificationConfigurationList"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"configurations\": [\n    {\n      \"active\": \"<boolean>\",\n      \"apiVersion\": \"<integer>\",\n      \"description\": \"<string>\",\n      \"eventConfigs\": [\n        {\n          \"eventType\": \"ACCOUNT_HOLDER_PAYOUT\",\n          \"includeMode\": \"EXCLUDE\"\n        },\n        {\n          \"eventType\": \"ACCOUNT_HOLDER_LIMIT_REACHED\",\n          \"includeMode\": \"EXCLUDE\"\n        }\n      ],\n      \"hmacSignatureKey\": \"<string>\",\n      \"notificationId\": \"<long>\",\n      \"notifyPassword\": \"<string>\",\n      \"notifyURL\": \"<string>\",\n      \"notifyUsername\": \"<string>\",\n      \"sslProtocol\": \"TLSv13\"\n    },\n    {\n      \"active\": \"<boolean>\",\n      \"apiVersion\": \"<integer>\",\n      \"description\": \"<string>\",\n      \"eventConfigs\": [\n        {\n          \"eventType\": \"ACCOUNT_HOLDER_STORE_STATUS_CHANGE\",\n          \"includeMode\": \"INCLUDE\"\n        },\n        {\n          \"eventType\": \"TRANSFER_NOT_PAIDOUT_TRANSFERS\",\n          \"includeMode\": \"EXCLUDE\"\n        }\n      ],\n      \"hmacSignatureKey\": \"<string>\",\n      \"notificationId\": \"<long>\",\n      \"notifyPassword\": \"<string>\",\n      \"notifyURL\": \"<string>\",\n      \"notifyUsername\": \"<string>\",\n      \"sslProtocol\": \"TLSv13\"\n    }\n  ],\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"ultimateParentCompanyStockExchange\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"fullPhoneNumber\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-8998c727-09c3-410b-b5e7-e91d721c25be"
+            },
+            {
+              "id": "491752cb-2a0a-4023-9f6d-39312e78ccc8",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getNotificationConfigurationList",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getNotificationConfigurationList"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-491752cb-2a0a-4023-9f6d-39312e78ccc8"
+            },
+            {
+              "id": "92b7b53f-50bf-4ec7-9c74-fb83f15e8b26",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getNotificationConfigurationList",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getNotificationConfigurationList"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-92b7b53f-50bf-4ec7-9c74-fb83f15e8b26"
+            },
+            {
+              "id": "1f02ac0e-559d-4aa5-bb81-f5842f9bde4f",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getNotificationConfigurationList",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getNotificationConfigurationList"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-1f02ac0e-559d-4aa5-bb81-f5842f9bde4f"
+            },
+            {
+              "id": "f3fa84a3-b84f-479b-b575-10022378f9be",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getNotificationConfigurationList",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getNotificationConfigurationList"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-f3fa84a3-b84f-479b-b575-10022378f9be"
+            },
+            {
+              "id": "2c4628bf-fb44-4934-9839-3009a87918a2",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getNotificationConfigurationList",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getNotificationConfigurationList"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-2c4628bf-fb44-4934-9839-3009a87918a2"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:00.000Z",
+          "updatedAt": "2026-06-05T13:13:00.000Z",
+          "uid": "35240-14906850-af46-4453-b7a3-bbd7ae1bf04e"
+        }
+      ],
+      "id": "00f32513-6552-4a9e-a86a-a8f7f6301b1b",
+      "createdAt": "2026-06-05T13:13:00.000Z",
+      "updatedAt": "2026-06-05T13:13:00.000Z",
+      "uid": "35240-00f32513-6552-4a9e-a86a-a8f7f6301b1b"
+    },
+    {
+      "name": "testNotificationConfiguration",
+      "item": [
+        {
+          "name": "Adyen Test a Notification Configuration",
+          "id": "f6f342d6-58e2-43f8-bf37-13741d71ddd7",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notificationId\": \"<long>\",\n  \"eventTypes\": [\n    \"ACCOUNT_HOLDER_UPDATED\",\n    \"ACCOUNT_HOLDER_MIGRATED\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/testNotificationConfiguration",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "testNotificationConfiguration"
+              ]
+            },
+            "description": "Tests an existing notification subscription configuration. For each event type specified, a test notification will be generated and sent to the URL configured in the subscription specified."
+          },
+          "response": [
+            {
+              "id": "26eeed72-1a5a-464e-9cae-76ef955e7e5c",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notificationId\": \"<long>\",\n  \"eventTypes\": [\n    \"ACCOUNT_HOLDER_UPDATED\",\n    \"ACCOUNT_HOLDER_MIGRATED\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/testNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "testNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"notificationId\": \"<long>\",\n  \"errorMessages\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"eventTypes\": [\n    \"ACCOUNT_HOLDER_VERIFICATION\",\n    \"PAYMENT_FAILURE\"\n  ],\n  \"exchangeMessages\": [\n    {\n      \"messageCode\": \"<string>\",\n      \"messageDescription\": \"<string>\"\n    },\n    {\n      \"messageCode\": \"<string>\",\n      \"messageDescription\": \"<string>\"\n    }\n  ],\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"legalEntityType\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"legalArrangement\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"okMessages\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-26eeed72-1a5a-464e-9cae-76ef955e7e5c"
+            },
+            {
+              "id": "d2d5ed2d-0fc8-477c-9f8b-ce7621c46da2",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notificationId\": \"<long>\",\n  \"eventTypes\": [\n    \"ACCOUNT_HOLDER_UPDATED\",\n    \"ACCOUNT_HOLDER_MIGRATED\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/testNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "testNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-d2d5ed2d-0fc8-477c-9f8b-ce7621c46da2"
+            },
+            {
+              "id": "05b8ab1e-33f5-4d8e-8866-50fd9fb2b823",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notificationId\": \"<long>\",\n  \"eventTypes\": [\n    \"ACCOUNT_HOLDER_UPDATED\",\n    \"ACCOUNT_HOLDER_MIGRATED\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/testNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "testNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-05b8ab1e-33f5-4d8e-8866-50fd9fb2b823"
+            },
+            {
+              "id": "f8ef2b20-90ae-4fdd-90aa-297c8f8fc292",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notificationId\": \"<long>\",\n  \"eventTypes\": [\n    \"ACCOUNT_HOLDER_UPDATED\",\n    \"ACCOUNT_HOLDER_MIGRATED\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/testNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "testNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-f8ef2b20-90ae-4fdd-90aa-297c8f8fc292"
+            },
+            {
+              "id": "c8b1d42a-c66a-4de3-acfc-e0c7ad7c7e7e",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notificationId\": \"<long>\",\n  \"eventTypes\": [\n    \"ACCOUNT_HOLDER_UPDATED\",\n    \"ACCOUNT_HOLDER_MIGRATED\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/testNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "testNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-c8b1d42a-c66a-4de3-acfc-e0c7ad7c7e7e"
+            },
+            {
+              "id": "cc628acd-faff-4f15-ace0-179deebc81ae",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notificationId\": \"<long>\",\n  \"eventTypes\": [\n    \"ACCOUNT_HOLDER_UPDATED\",\n    \"ACCOUNT_HOLDER_MIGRATED\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/testNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "testNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-cc628acd-faff-4f15-ace0-179deebc81ae"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:00.000Z",
+          "updatedAt": "2026-06-05T13:13:00.000Z",
+          "uid": "35240-f6f342d6-58e2-43f8-bf37-13741d71ddd7"
+        }
+      ],
+      "id": "5e1435e5-e3f6-40ec-bb0d-531600dbc807",
+      "createdAt": "2026-06-05T13:13:00.000Z",
+      "updatedAt": "2026-06-05T13:13:00.000Z",
+      "uid": "35240-5e1435e5-e3f6-40ec-bb0d-531600dbc807"
+    },
+    {
+      "name": "updateNotificationConfiguration",
+      "item": [
+        {
+          "name": "Adyen Update a Notification Subscription Configuration",
+          "id": "05435338-e5e8-4544-822a-f29ae24f7b57",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"configurationDetails\": {\n    \"active\": \"<boolean>\",\n    \"apiVersion\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"eventConfigs\": [\n      {\n        \"eventType\": \"ACCOUNT_CLOSED\",\n        \"includeMode\": \"INCLUDE\"\n      },\n      {\n        \"eventType\": \"ACCOUNT_UPDATED\",\n        \"includeMode\": \"INCLUDE\"\n      }\n    ],\n    \"hmacSignatureKey\": \"<string>\",\n    \"notificationId\": \"<long>\",\n    \"notifyPassword\": \"<string>\",\n    \"notifyURL\": \"<string>\",\n    \"notifyUsername\": \"<string>\",\n    \"sslProtocol\": \"TLSv13\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/updateNotificationConfiguration",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "updateNotificationConfiguration"
+              ]
+            },
+            "description": "Updates an existing notification subscription configuration. If you are updating the event types, you must provide all event types, otherwise the previous event type configuration will be overwritten."
+          },
+          "response": [
+            {
+              "id": "09217d26-a593-4e67-93b5-3fbc7edd098f",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"configurationDetails\": {\n    \"active\": \"<boolean>\",\n    \"apiVersion\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"eventConfigs\": [\n      {\n        \"eventType\": \"ACCOUNT_CLOSED\",\n        \"includeMode\": \"INCLUDE\"\n      },\n      {\n        \"eventType\": \"ACCOUNT_UPDATED\",\n        \"includeMode\": \"INCLUDE\"\n      }\n    ],\n    \"hmacSignatureKey\": \"<string>\",\n    \"notificationId\": \"<long>\",\n    \"notifyPassword\": \"<string>\",\n    \"notifyURL\": \"<string>\",\n    \"notifyUsername\": \"<string>\",\n    \"sslProtocol\": \"TLSv13\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/updateNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "updateNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"configurationDetails\": {\n    \"active\": \"<boolean>\",\n    \"apiVersion\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"eventConfigs\": [\n      {\n        \"eventType\": \"REPORT_AVAILABLE\",\n        \"includeMode\": \"INCLUDE\"\n      },\n      {\n        \"eventType\": \"PAYMENT_FAILURE\",\n        \"includeMode\": \"EXCLUDE\"\n      }\n    ],\n    \"hmacSignatureKey\": \"<string>\",\n    \"notificationId\": \"<long>\",\n    \"notifyPassword\": \"<string>\",\n    \"notifyURL\": \"<string>\",\n    \"notifyUsername\": \"<string>\",\n    \"sslProtocol\": \"TLSv13\"\n  },\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"legalArrangementReference\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"ownerStreet\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-09217d26-a593-4e67-93b5-3fbc7edd098f"
+            },
+            {
+              "id": "747e2f79-65c0-4743-b75d-3ac6b304d3ee",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"configurationDetails\": {\n    \"active\": \"<boolean>\",\n    \"apiVersion\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"eventConfigs\": [\n      {\n        \"eventType\": \"ACCOUNT_CLOSED\",\n        \"includeMode\": \"INCLUDE\"\n      },\n      {\n        \"eventType\": \"ACCOUNT_UPDATED\",\n        \"includeMode\": \"INCLUDE\"\n      }\n    ],\n    \"hmacSignatureKey\": \"<string>\",\n    \"notificationId\": \"<long>\",\n    \"notifyPassword\": \"<string>\",\n    \"notifyURL\": \"<string>\",\n    \"notifyUsername\": \"<string>\",\n    \"sslProtocol\": \"TLSv13\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/updateNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "updateNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-747e2f79-65c0-4743-b75d-3ac6b304d3ee"
+            },
+            {
+              "id": "889bd390-3d6d-4fe6-897e-0ed9a507d534",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"configurationDetails\": {\n    \"active\": \"<boolean>\",\n    \"apiVersion\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"eventConfigs\": [\n      {\n        \"eventType\": \"ACCOUNT_CLOSED\",\n        \"includeMode\": \"INCLUDE\"\n      },\n      {\n        \"eventType\": \"ACCOUNT_UPDATED\",\n        \"includeMode\": \"INCLUDE\"\n      }\n    ],\n    \"hmacSignatureKey\": \"<string>\",\n    \"notificationId\": \"<long>\",\n    \"notifyPassword\": \"<string>\",\n    \"notifyURL\": \"<string>\",\n    \"notifyUsername\": \"<string>\",\n    \"sslProtocol\": \"TLSv13\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/updateNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "updateNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-889bd390-3d6d-4fe6-897e-0ed9a507d534"
+            },
+            {
+              "id": "b9245ca5-ca8b-4653-9e63-9b4f5c79adac",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"configurationDetails\": {\n    \"active\": \"<boolean>\",\n    \"apiVersion\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"eventConfigs\": [\n      {\n        \"eventType\": \"ACCOUNT_CLOSED\",\n        \"includeMode\": \"INCLUDE\"\n      },\n      {\n        \"eventType\": \"ACCOUNT_UPDATED\",\n        \"includeMode\": \"INCLUDE\"\n      }\n    ],\n    \"hmacSignatureKey\": \"<string>\",\n    \"notificationId\": \"<long>\",\n    \"notifyPassword\": \"<string>\",\n    \"notifyURL\": \"<string>\",\n    \"notifyUsername\": \"<string>\",\n    \"sslProtocol\": \"TLSv13\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/updateNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "updateNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-b9245ca5-ca8b-4653-9e63-9b4f5c79adac"
+            },
+            {
+              "id": "aa1f8469-4a93-47ec-ba57-3a05c7e87d4c",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"configurationDetails\": {\n    \"active\": \"<boolean>\",\n    \"apiVersion\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"eventConfigs\": [\n      {\n        \"eventType\": \"ACCOUNT_CLOSED\",\n        \"includeMode\": \"INCLUDE\"\n      },\n      {\n        \"eventType\": \"ACCOUNT_UPDATED\",\n        \"includeMode\": \"INCLUDE\"\n      }\n    ],\n    \"hmacSignatureKey\": \"<string>\",\n    \"notificationId\": \"<long>\",\n    \"notifyPassword\": \"<string>\",\n    \"notifyURL\": \"<string>\",\n    \"notifyUsername\": \"<string>\",\n    \"sslProtocol\": \"TLSv13\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/updateNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "updateNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-aa1f8469-4a93-47ec-ba57-3a05c7e87d4c"
+            },
+            {
+              "id": "ebe100d6-23f1-4511-b516-885d70733245",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"configurationDetails\": {\n    \"active\": \"<boolean>\",\n    \"apiVersion\": \"<integer>\",\n    \"description\": \"<string>\",\n    \"eventConfigs\": [\n      {\n        \"eventType\": \"ACCOUNT_CLOSED\",\n        \"includeMode\": \"INCLUDE\"\n      },\n      {\n        \"eventType\": \"ACCOUNT_UPDATED\",\n        \"includeMode\": \"INCLUDE\"\n      }\n    ],\n    \"hmacSignatureKey\": \"<string>\",\n    \"notificationId\": \"<long>\",\n    \"notifyPassword\": \"<string>\",\n    \"notifyURL\": \"<string>\",\n    \"notifyUsername\": \"<string>\",\n    \"sslProtocol\": \"TLSv13\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/updateNotificationConfiguration",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "updateNotificationConfiguration"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:00.000Z",
+              "updatedAt": "2026-06-05T13:13:00.000Z",
+              "uid": "35240-ebe100d6-23f1-4511-b516-885d70733245"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:00.000Z",
+          "updatedAt": "2026-06-05T13:13:00.000Z",
+          "uid": "35240-05435338-e5e8-4544-822a-f29ae24f7b57"
+        }
+      ],
+      "id": "bb88b39a-1549-4829-8994-5b166b0cb3ae",
+      "createdAt": "2026-06-05T13:13:00.000Z",
+      "updatedAt": "2026-06-05T13:13:00.000Z",
+      "uid": "35240-bb88b39a-1549-4829-8994-5b166b0cb3ae"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://cal-test.adyen.com/cal/services/Notification/v6"
+    }
+  ]
+}

@@ -1,0 +1,2450 @@
+{
+  "info": {
+    "_postman_id": "5288076f-2bc7-4956-841b-95a784844ae7",
+    "name": "Adyen Recurring API",
+    "description": "The Recurring APIs allow you to manage and remove your tokens or saved payment details. Tokens should be created with validation during a payment request.\n\nFor more information, refer to our [Tokenization documentation](https://docs.adyen.com/online-payments/tokenization).\n## Authentication\nYou need an [API credential](https://docs.adyen.com/development-resources/api-credentials) to authenticate to the API.\n\nIf using an API key, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication, for example:\n\n```\ncurl\n-U \"ws@Company.YOUR_COMPANY_ACCOUNT\":\"YOUR_BASIC_AUTHENTICATION_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\n\n## Versioning\nRecurring API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://pal-test.adyen.com/pal/servlet/Recurring/v68/disable\n```\n\n## Going live\n\nTo authenticate to the live endpoints, you need an [API credential](https://docs.adyen.com/development-resources/api-credentials) from your live Customer Area.\n\nThe live endpoint URLs contain a prefix which is unique to your company account:\n```\n\nhttps://{PREFIX}-pal-live.adyenpayments.com/pal/servlet/Recurring/v68/disable\n```\n\nGet your `{PREFIX}` from your live Customer Area under **Developers** > **API URLs** > **Prefix**.\n\nContact Support:\n Name: Adyen Developer Experience team",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T13:13:20.000Z",
+    "updatedAt": "2026-06-05T13:13:21.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-5288076f-2bc7-4956-841b-95a784844ae7"
+  },
+  "item": [
+    {
+      "name": "createPermit",
+      "item": [
+        {
+          "name": "Adyen Create New Permits Linked to a Recurring Contract.",
+          "id": "b74ef83c-3659-452d-894d-f35cee512215",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\",\n  \"permits\": [\n    {\n      \"partnerId\": \"<string>\",\n      \"profileReference\": \"<string>\",\n      \"restriction\": {\n        \"maxAmount\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleTransactionLimit\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleUse\": \"<boolean>\"\n      },\n      \"resultKey\": \"<string>\",\n      \"validTillDate\": \"<dateTime>\"\n    },\n    {\n      \"partnerId\": \"<string>\",\n      \"profileReference\": \"<string>\",\n      \"restriction\": {\n        \"maxAmount\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleTransactionLimit\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleUse\": \"<boolean>\"\n      },\n      \"resultKey\": \"<string>\",\n      \"validTillDate\": \"<dateTime>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/createPermit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "createPermit"
+              ]
+            },
+            "description": "Create permits for a recurring contract, including support for defining restrictions."
+          },
+          "response": [
+            {
+              "id": "00000198-575c-48a9-8601-1dbc2f389a4e",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\",\n  \"permits\": [\n    {\n      \"partnerId\": \"<string>\",\n      \"profileReference\": \"<string>\",\n      \"restriction\": {\n        \"maxAmount\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleTransactionLimit\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleUse\": \"<boolean>\"\n      },\n      \"resultKey\": \"<string>\",\n      \"validTillDate\": \"<dateTime>\"\n    },\n    {\n      \"partnerId\": \"<string>\",\n      \"profileReference\": \"<string>\",\n      \"restriction\": {\n        \"maxAmount\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleTransactionLimit\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleUse\": \"<boolean>\"\n      },\n      \"resultKey\": \"<string>\",\n      \"validTillDate\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/createPermit",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "createPermit"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"permitResultList\": [\n    {\n      \"resultKey\": \"<string>\",\n      \"token\": \"<string>\"\n    },\n    {\n      \"resultKey\": \"<string>\",\n      \"token\": \"<string>\"\n    }\n  ],\n  \"pspReference\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-00000198-575c-48a9-8601-1dbc2f389a4e"
+            },
+            {
+              "id": "3483eef5-5713-4688-9f54-f563eb8a2513",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\",\n  \"permits\": [\n    {\n      \"partnerId\": \"<string>\",\n      \"profileReference\": \"<string>\",\n      \"restriction\": {\n        \"maxAmount\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleTransactionLimit\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleUse\": \"<boolean>\"\n      },\n      \"resultKey\": \"<string>\",\n      \"validTillDate\": \"<dateTime>\"\n    },\n    {\n      \"partnerId\": \"<string>\",\n      \"profileReference\": \"<string>\",\n      \"restriction\": {\n        \"maxAmount\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleTransactionLimit\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleUse\": \"<boolean>\"\n      },\n      \"resultKey\": \"<string>\",\n      \"validTillDate\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/createPermit",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "createPermit"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-3483eef5-5713-4688-9f54-f563eb8a2513"
+            },
+            {
+              "id": "15c69a9f-464f-46d3-9eea-7ff7138571cd",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\",\n  \"permits\": [\n    {\n      \"partnerId\": \"<string>\",\n      \"profileReference\": \"<string>\",\n      \"restriction\": {\n        \"maxAmount\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleTransactionLimit\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleUse\": \"<boolean>\"\n      },\n      \"resultKey\": \"<string>\",\n      \"validTillDate\": \"<dateTime>\"\n    },\n    {\n      \"partnerId\": \"<string>\",\n      \"profileReference\": \"<string>\",\n      \"restriction\": {\n        \"maxAmount\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleTransactionLimit\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleUse\": \"<boolean>\"\n      },\n      \"resultKey\": \"<string>\",\n      \"validTillDate\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/createPermit",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "createPermit"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-15c69a9f-464f-46d3-9eea-7ff7138571cd"
+            },
+            {
+              "id": "150156f1-7f91-44a9-99a0-afec0214689f",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\",\n  \"permits\": [\n    {\n      \"partnerId\": \"<string>\",\n      \"profileReference\": \"<string>\",\n      \"restriction\": {\n        \"maxAmount\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleTransactionLimit\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleUse\": \"<boolean>\"\n      },\n      \"resultKey\": \"<string>\",\n      \"validTillDate\": \"<dateTime>\"\n    },\n    {\n      \"partnerId\": \"<string>\",\n      \"profileReference\": \"<string>\",\n      \"restriction\": {\n        \"maxAmount\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleTransactionLimit\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleUse\": \"<boolean>\"\n      },\n      \"resultKey\": \"<string>\",\n      \"validTillDate\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/createPermit",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "createPermit"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-150156f1-7f91-44a9-99a0-afec0214689f"
+            },
+            {
+              "id": "2e5726b6-69ad-45eb-8e2d-3c84940fb913",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\",\n  \"permits\": [\n    {\n      \"partnerId\": \"<string>\",\n      \"profileReference\": \"<string>\",\n      \"restriction\": {\n        \"maxAmount\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleTransactionLimit\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleUse\": \"<boolean>\"\n      },\n      \"resultKey\": \"<string>\",\n      \"validTillDate\": \"<dateTime>\"\n    },\n    {\n      \"partnerId\": \"<string>\",\n      \"profileReference\": \"<string>\",\n      \"restriction\": {\n        \"maxAmount\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleTransactionLimit\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleUse\": \"<boolean>\"\n      },\n      \"resultKey\": \"<string>\",\n      \"validTillDate\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/createPermit",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "createPermit"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-2e5726b6-69ad-45eb-8e2d-3c84940fb913"
+            },
+            {
+              "id": "39963feb-abc9-4ae9-bcee-752b78791d76",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\",\n  \"permits\": [\n    {\n      \"partnerId\": \"<string>\",\n      \"profileReference\": \"<string>\",\n      \"restriction\": {\n        \"maxAmount\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleTransactionLimit\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleUse\": \"<boolean>\"\n      },\n      \"resultKey\": \"<string>\",\n      \"validTillDate\": \"<dateTime>\"\n    },\n    {\n      \"partnerId\": \"<string>\",\n      \"profileReference\": \"<string>\",\n      \"restriction\": {\n        \"maxAmount\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleTransactionLimit\": {\n          \"value\": \"<long>\",\n          \"currency\": \"<string>\"\n        },\n        \"singleUse\": \"<boolean>\"\n      },\n      \"resultKey\": \"<string>\",\n      \"validTillDate\": \"<dateTime>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/createPermit",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "createPermit"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-39963feb-abc9-4ae9-bcee-752b78791d76"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:21.000Z",
+          "updatedAt": "2026-06-05T13:13:21.000Z",
+          "uid": "35240-b74ef83c-3659-452d-894d-f35cee512215"
+        }
+      ],
+      "id": "489a797d-0ba8-4e01-9010-8b2b1571ef8d",
+      "createdAt": "2026-06-05T13:13:21.000Z",
+      "updatedAt": "2026-06-05T13:13:21.000Z",
+      "uid": "35240-489a797d-0ba8-4e01-9010-8b2b1571ef8d"
+    },
+    {
+      "name": "disable",
+      "item": [
+        {
+          "name": "Adyen Disable Stored Payment Details",
+          "id": "56c932b9-b3a9-4ca2-b914-8a2708a1f47e",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"contract\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/disable",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "disable"
+              ]
+            },
+            "description": "Disables stored payment details to stop charging a shopper with this particular recurring detail ID.\n\nFor more information, refer to [Disable stored details](https://docs.adyen.com/classic-integration/recurring-payments/disable-stored-details/)."
+          },
+          "response": [
+            {
+              "id": "36343fd9-30b8-426f-a1d7-03f535089a05",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"contract\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/disable",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "disable"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"response\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-36343fd9-30b8-426f-a1d7-03f535089a05"
+            },
+            {
+              "id": "da316ebb-8061-4e85-915d-196a4674f3fe",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"contract\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/disable",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "disable"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-da316ebb-8061-4e85-915d-196a4674f3fe"
+            },
+            {
+              "id": "8cf6aa41-2332-4899-a7d8-f303844e5302",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"contract\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/disable",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "disable"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-8cf6aa41-2332-4899-a7d8-f303844e5302"
+            },
+            {
+              "id": "9408ddd0-1d3d-40df-ae6e-2ca8e59f9ef2",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"contract\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/disable",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "disable"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-9408ddd0-1d3d-40df-ae6e-2ca8e59f9ef2"
+            },
+            {
+              "id": "a9a77415-6da4-4b6b-ad67-70ad0e659ba6",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"contract\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/disable",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "disable"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-a9a77415-6da4-4b6b-ad67-70ad0e659ba6"
+            },
+            {
+              "id": "80e67fab-a14b-4c79-8a02-d4849c02ff4e",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"contract\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/disable",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "disable"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-80e67fab-a14b-4c79-8a02-d4849c02ff4e"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:21.000Z",
+          "updatedAt": "2026-06-05T13:13:21.000Z",
+          "uid": "35240-56c932b9-b3a9-4ca2-b914-8a2708a1f47e"
+        }
+      ],
+      "id": "fa0d9b60-5795-4e48-9eb0-11e7abb92f44",
+      "createdAt": "2026-06-05T13:13:21.000Z",
+      "updatedAt": "2026-06-05T13:13:21.000Z",
+      "uid": "35240-fa0d9b60-5795-4e48-9eb0-11e7abb92f44"
+    },
+    {
+      "name": "disablePermit",
+      "item": [
+        {
+          "name": "Adyen Disable an Existing Permit.",
+          "id": "f81475ea-faad-4779-9a45-d356f71fae26",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"token\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/disablePermit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "disablePermit"
+              ]
+            },
+            "description": "Disable a permit that was previously linked to a recurringDetailReference."
+          },
+          "response": [
+            {
+              "id": "ddfa1cef-57b6-4e7f-93c6-acbc67645071",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"token\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/disablePermit",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "disablePermit"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"pspReference\": \"<string>\",\n  \"status\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-ddfa1cef-57b6-4e7f-93c6-acbc67645071"
+            },
+            {
+              "id": "079f0748-c478-41ac-aa45-3359950c0022",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"token\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/disablePermit",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "disablePermit"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-079f0748-c478-41ac-aa45-3359950c0022"
+            },
+            {
+              "id": "b913e5fb-3e7d-44bf-a71d-f2743c51af67",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"token\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/disablePermit",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "disablePermit"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-b913e5fb-3e7d-44bf-a71d-f2743c51af67"
+            },
+            {
+              "id": "c2db45d0-72d4-4b44-8f6b-f358f87840cd",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"token\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/disablePermit",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "disablePermit"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-c2db45d0-72d4-4b44-8f6b-f358f87840cd"
+            },
+            {
+              "id": "a2eb76e0-e0dc-4889-9a13-44a83136af9f",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"token\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/disablePermit",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "disablePermit"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-a2eb76e0-e0dc-4889-9a13-44a83136af9f"
+            },
+            {
+              "id": "962544dd-213a-4af0-b3f4-167405f607d3",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"token\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/disablePermit",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "disablePermit"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-962544dd-213a-4af0-b3f4-167405f607d3"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:21.000Z",
+          "updatedAt": "2026-06-05T13:13:21.000Z",
+          "uid": "35240-f81475ea-faad-4779-9a45-d356f71fae26"
+        }
+      ],
+      "id": "212fa9bc-d996-43dc-a960-ff32c70f6fec",
+      "createdAt": "2026-06-05T13:13:21.000Z",
+      "updatedAt": "2026-06-05T13:13:21.000Z",
+      "uid": "35240-212fa9bc-d996-43dc-a960-ff32c70f6fec"
+    },
+    {
+      "name": "listRecurringDetails",
+      "item": [
+        {
+          "name": "Adyen Get Stored Payment Details",
+          "id": "51d828cb-910b-44ca-bd98-b046dac10b8b",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"RECURRING\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/listRecurringDetails",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "listRecurringDetails"
+              ]
+            },
+            "description": "Lists the stored payment details for a shopper, if there are any available. The recurring detail ID can be used with a regular authorisation request to charge the shopper. A summary of the payment detail is returned for presentation to the shopper.\n\nFor more information, refer to [Retrieve stored details](https://docs.adyen.com/classic-integration/recurring-payments/retrieve-stored-details/)."
+          },
+          "response": [
+            {
+              "id": "f77e5bd5-427c-498b-9822-e9f92d3fb5a0",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"RECURRING\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/listRecurringDetails",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "listRecurringDetails"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"creationDate\": \"<dateTime>\",\n  \"details\": [\n    {\n      \"RecurringDetail\": {\n        \"recurringDetailReference\": \"<string>\",\n        \"variant\": \"<string>\",\n        \"additionalData\": {\n          \"anim_a_\": \"<string>\"\n        },\n        \"alias\": \"<string>\",\n        \"aliasType\": \"<string>\",\n        \"bank\": {\n          \"bankAccountNumber\": \"<string>\",\n          \"bankCity\": \"<string>\",\n          \"bankLocationId\": \"<string>\",\n          \"bankName\": \"<string>\",\n          \"bic\": \"<string>\",\n          \"countryCode\": \"<string>\",\n          \"iban\": \"<string>\",\n          \"ownerName\": \"<string>\",\n          \"taxId\": \"<string>\"\n        },\n        \"billingAddress\": {\n          \"street\": \"<string>\",\n          \"houseNumberOrName\": \"<string>\",\n          \"city\": \"<string>\",\n          \"postalCode\": \"<string>\",\n          \"country\": \"<string>\",\n          \"stateOrProvince\": \"<string>\"\n        },\n        \"card\": {\n          \"cvc\": \"<string>\",\n          \"expiryMonth\": \"<string>\",\n          \"expiryYear\": \"<string>\",\n          \"holderName\": \"<string>\",\n          \"issueNumber\": \"<string>\",\n          \"number\": \"<string>\",\n          \"startMonth\": \"<string>\",\n          \"startYear\": \"<string>\"\n        },\n        \"contractTypes\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"creationDate\": \"<dateTime>\",\n        \"firstPspReference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"networkTxReference\": \"<string>\",\n        \"paymentMethodVariant\": \"<string>\",\n        \"shopperName\": {\n          \"firstName\": \"<string>\",\n          \"lastName\": \"<string>\"\n        },\n        \"socialSecurityNumber\": \"<string>\",\n        \"tokenDetails\": {\n          \"tokenData\": {\n            \"aliquip7\": \"<string>\"\n          },\n          \"tokenDataType\": \"<string>\"\n        }\n      }\n    },\n    {\n      \"RecurringDetail\": {\n        \"recurringDetailReference\": \"<string>\",\n        \"variant\": \"<string>\",\n        \"additionalData\": {\n          \"dolore_4_\": \"<string>\",\n          \"sunt0aa\": \"<string>\",\n          \"eu6b\": \"<string>\"\n        },\n        \"alias\": \"<string>\",\n        \"aliasType\": \"<string>\",\n        \"bank\": {\n          \"bankAccountNumber\": \"<string>\",\n          \"bankCity\": \"<string>\",\n          \"bankLocationId\": \"<string>\",\n          \"bankName\": \"<string>\",\n          \"bic\": \"<string>\",\n          \"countryCode\": \"<string>\",\n          \"iban\": \"<string>\",\n          \"ownerName\": \"<string>\",\n          \"taxId\": \"<string>\"\n        },\n        \"billingAddress\": {\n          \"street\": \"<string>\",\n          \"houseNumberOrName\": \"<string>\",\n          \"city\": \"<string>\",\n          \"postalCode\": \"<string>\",\n          \"country\": \"<string>\",\n          \"stateOrProvince\": \"<string>\"\n        },\n        \"card\": {\n          \"cvc\": \"<string>\",\n          \"expiryMonth\": \"<string>\",\n          \"expiryYear\": \"<string>\",\n          \"holderName\": \"<string>\",\n          \"issueNumber\": \"<string>\",\n          \"number\": \"<string>\",\n          \"startMonth\": \"<string>\",\n          \"startYear\": \"<string>\"\n        },\n        \"contractTypes\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"creationDate\": \"<dateTime>\",\n        \"firstPspReference\": \"<string>\",\n        \"name\": \"<string>\",\n        \"networkTxReference\": \"<string>\",\n        \"paymentMethodVariant\": \"<string>\",\n        \"shopperName\": {\n          \"firstName\": \"<string>\",\n          \"lastName\": \"<string>\"\n        },\n        \"socialSecurityNumber\": \"<string>\",\n        \"tokenDetails\": {\n          \"tokenData\": {\n            \"occaecat3\": \"<string>\"\n          },\n          \"tokenDataType\": \"<string>\"\n        }\n      }\n    }\n  ],\n  \"lastKnownShopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-f77e5bd5-427c-498b-9822-e9f92d3fb5a0"
+            },
+            {
+              "id": "d4263dc8-799d-4578-9191-57f390b8a374",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"RECURRING\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/listRecurringDetails",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "listRecurringDetails"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-d4263dc8-799d-4578-9191-57f390b8a374"
+            },
+            {
+              "id": "70f205f3-12f2-4083-8965-66fbeaf39a55",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"RECURRING\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/listRecurringDetails",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "listRecurringDetails"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-70f205f3-12f2-4083-8965-66fbeaf39a55"
+            },
+            {
+              "id": "f1f88d53-e00d-473f-a103-2e6c9fde9b8f",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"RECURRING\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/listRecurringDetails",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "listRecurringDetails"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-f1f88d53-e00d-473f-a103-2e6c9fde9b8f"
+            },
+            {
+              "id": "3f44a343-4f91-4484-aa61-bbbe8ef51280",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"RECURRING\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/listRecurringDetails",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "listRecurringDetails"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-3f44a343-4f91-4484-aa61-bbbe8ef51280"
+            },
+            {
+              "id": "6fd6b863-7db8-4ef6-ae06-fda3bac81442",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"RECURRING\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/listRecurringDetails",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "listRecurringDetails"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-6fd6b863-7db8-4ef6-ae06-fda3bac81442"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:21.000Z",
+          "updatedAt": "2026-06-05T13:13:21.000Z",
+          "uid": "35240-51d828cb-910b-44ca-bd98-b046dac10b8b"
+        }
+      ],
+      "id": "5ad0bde8-1ab4-4ea1-bd57-b8677d34730e",
+      "createdAt": "2026-06-05T13:13:21.000Z",
+      "updatedAt": "2026-06-05T13:13:21.000Z",
+      "uid": "35240-5ad0bde8-1ab4-4ea1-bd57-b8677d34730e"
+    },
+    {
+      "name": "notifyShopper",
+      "item": [
+        {
+          "name": "Adyen Ask Issuer to Notify the Shopper",
+          "id": "7eb311f9-b8c4-4ffc-9fc1-d4bff1d84ef1",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"reference\": \"<string>\",\n  \"billingDate\": \"<string>\",\n  \"billingSequenceNumber\": \"<string>\",\n  \"displayedReference\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\",\n  \"storedPaymentMethodId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/notifyShopper",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifyShopper"
+              ]
+            },
+            "description": "Sends a request to the issuer so they can inform the shopper about the upcoming recurring payment. This endpoint is used only for local acquiring in India. For more information, refer to [Recurring card payments in India](https://docs.adyen.com/payment-methods/cards/cards-recurring-india)."
+          },
+          "response": [
+            {
+              "id": "8fb64fc8-42aa-45bd-8e3f-b51b39cd0dbe",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"reference\": \"<string>\",\n  \"billingDate\": \"<string>\",\n  \"billingSequenceNumber\": \"<string>\",\n  \"displayedReference\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\",\n  \"storedPaymentMethodId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/notifyShopper",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "notifyShopper"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"displayedReference\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"resultCode\": \"<string>\",\n  \"shopperNotificationReference\": \"<string>\",\n  \"storedPaymentMethodId\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-8fb64fc8-42aa-45bd-8e3f-b51b39cd0dbe"
+            },
+            {
+              "id": "c5647703-bf17-4911-a6c4-83f0b4ef5803",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"reference\": \"<string>\",\n  \"billingDate\": \"<string>\",\n  \"billingSequenceNumber\": \"<string>\",\n  \"displayedReference\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\",\n  \"storedPaymentMethodId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/notifyShopper",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "notifyShopper"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-c5647703-bf17-4911-a6c4-83f0b4ef5803"
+            },
+            {
+              "id": "f41b8aaa-7ca1-432b-bd1b-1df68bd49bee",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"reference\": \"<string>\",\n  \"billingDate\": \"<string>\",\n  \"billingSequenceNumber\": \"<string>\",\n  \"displayedReference\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\",\n  \"storedPaymentMethodId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/notifyShopper",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "notifyShopper"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-f41b8aaa-7ca1-432b-bd1b-1df68bd49bee"
+            },
+            {
+              "id": "8142cfd9-9e11-428b-b3cf-0a746cb264be",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"reference\": \"<string>\",\n  \"billingDate\": \"<string>\",\n  \"billingSequenceNumber\": \"<string>\",\n  \"displayedReference\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\",\n  \"storedPaymentMethodId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/notifyShopper",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "notifyShopper"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-8142cfd9-9e11-428b-b3cf-0a746cb264be"
+            },
+            {
+              "id": "948f88ec-dc85-4db5-a3c5-c72d9fb79bb8",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"reference\": \"<string>\",\n  \"billingDate\": \"<string>\",\n  \"billingSequenceNumber\": \"<string>\",\n  \"displayedReference\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\",\n  \"storedPaymentMethodId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/notifyShopper",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "notifyShopper"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-948f88ec-dc85-4db5-a3c5-c72d9fb79bb8"
+            },
+            {
+              "id": "215f9e61-d2da-4b08-8f0a-092190fd4ae6",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"reference\": \"<string>\",\n  \"billingDate\": \"<string>\",\n  \"billingSequenceNumber\": \"<string>\",\n  \"displayedReference\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\",\n  \"storedPaymentMethodId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/notifyShopper",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "notifyShopper"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-215f9e61-d2da-4b08-8f0a-092190fd4ae6"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:21.000Z",
+          "updatedAt": "2026-06-05T13:13:21.000Z",
+          "uid": "35240-7eb311f9-b8c4-4ffc-9fc1-d4bff1d84ef1"
+        }
+      ],
+      "id": "2203ca91-921e-47f4-98e2-ec76a7097268",
+      "createdAt": "2026-06-05T13:13:21.000Z",
+      "updatedAt": "2026-06-05T13:13:21.000Z",
+      "uid": "35240-2203ca91-921e-47f4-98e2-ec76a7097268"
+    },
+    {
+      "name": "scheduleAccountUpdater",
+      "item": [
+        {
+          "name": "Adyen Schedule Running the Account Updater",
+          "id": "57f068ac-b54c-4c4b-a967-d53a83f4c0f3",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"additionalData\": {\n    \"elit3c8\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"shopperReference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/scheduleAccountUpdater",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "scheduleAccountUpdater"
+              ]
+            },
+            "description": "When making the API call, you can submit either the credit card information, or the recurring detail reference and the shopper reference:\n* If the card information is provided, all the sub-fields for `card` are mandatory.\n* If the recurring detail reference is provided, the fields for `shopperReference` and `selectedRecurringDetailReference` are mandatory."
+          },
+          "response": [
+            {
+              "id": "c327ad07-18fe-4382-a887-38e3f6542fd7",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"additionalData\": {\n    \"elit3c8\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"shopperReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/scheduleAccountUpdater",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "scheduleAccountUpdater"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"pspReference\": \"<string>\",\n  \"result\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-c327ad07-18fe-4382-a887-38e3f6542fd7"
+            },
+            {
+              "id": "cdd55bd4-b04d-4f57-a03b-0ea1959c4261",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"additionalData\": {\n    \"elit3c8\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"shopperReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/scheduleAccountUpdater",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "scheduleAccountUpdater"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-cdd55bd4-b04d-4f57-a03b-0ea1959c4261"
+            },
+            {
+              "id": "f691d71d-03dc-4c08-aec9-37b4ad3d8900",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"additionalData\": {\n    \"elit3c8\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"shopperReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/scheduleAccountUpdater",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "scheduleAccountUpdater"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-f691d71d-03dc-4c08-aec9-37b4ad3d8900"
+            },
+            {
+              "id": "cfb465b5-e50b-4125-a52f-6561281b33b9",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"additionalData\": {\n    \"elit3c8\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"shopperReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/scheduleAccountUpdater",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "scheduleAccountUpdater"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-cfb465b5-e50b-4125-a52f-6561281b33b9"
+            },
+            {
+              "id": "7a028764-8656-4c00-a18c-bc0c6eca8faf",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"additionalData\": {\n    \"elit3c8\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"shopperReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/scheduleAccountUpdater",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "scheduleAccountUpdater"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-7a028764-8656-4c00-a18c-bc0c6eca8faf"
+            },
+            {
+              "id": "f448992a-e49f-45cd-931f-b2976b1b966d",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"additionalData\": {\n    \"elit3c8\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"shopperReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/scheduleAccountUpdater",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "scheduleAccountUpdater"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"commodoa0\": \"<string>\",\n    \"dolore874\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:21.000Z",
+              "updatedAt": "2026-06-05T13:13:21.000Z",
+              "uid": "35240-f448992a-e49f-45cd-931f-b2976b1b966d"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:21.000Z",
+          "updatedAt": "2026-06-05T13:13:21.000Z",
+          "uid": "35240-57f068ac-b54c-4c4b-a967-d53a83f4c0f3"
+        }
+      ],
+      "id": "f7c3bebf-10ab-4093-92e2-249be16d0747",
+      "createdAt": "2026-06-05T13:13:21.000Z",
+      "updatedAt": "2026-06-05T13:13:21.000Z",
+      "uid": "35240-f7c3bebf-10ab-4093-92e2-249be16d0747"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://pal-test.adyen.com/pal/servlet/Recurring/v68"
+    }
+  ]
+}

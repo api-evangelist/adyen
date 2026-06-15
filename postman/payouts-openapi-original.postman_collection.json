@@ -1,0 +1,2450 @@
+{
+  "info": {
+    "_postman_id": "8aa6e9bf-4503-4d66-bfee-9e930877abe6",
+    "name": "Adyen Payout API",
+    "description": "A set of API endpoints that allow you to store payout details, confirm, or decline a payout.\n\nFor more information, refer to [Online payouts](https://docs.adyen.com/online-payments/online-payouts).\n## Authentication\nTo use the Payout API, you need to have [two API credentials](https://docs.adyen.com/online-payments/online-payouts#payouts-to-bank-accounts-and-wallets): one for storing payout details and submitting payouts, and another one for confirming or declining payouts. If you don't have the required API credentials, contact our [Support Team](https://www.adyen.help/hc/en-us/requests/new).\n\nIf using an API key, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using [basic authentication](https://docs.adyen.com/development-resources/api-credentials#basic-authentication).\n\nThe following example shows how to authenticate your request with basic authentication when submitting a payout:\n\n```\ncurl\n-U \"storePayout@Company.YOUR_COMPANY_ACCOUNT\":\"YOUR_BASIC_AUTHENTICATION_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\n\n## Versioning\nPayments API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://pal-test.adyen.com/pal/servlet/Payout/v68/payout\n```\n\n## Going live\n\nTo authenticate to the live endpoints, you need [API credentials](https://docs.adyen.com/development-resources/api-credentials) from your live Customer Area.\n\nThe live endpoint URLs contain a prefix which is unique to your company account:\n```\n\nhttps://{PREFIX}-pal-live.adyenpayments.com/pal/servlet/Payout/v68/payout\n```\n\nGet your `{PREFIX}` from your live Customer Area under **Developers** > **API URLs** > **Prefix**.\n\nContact Support:\n Name: Adyen Developer Experience team",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T13:13:17.000Z",
+    "updatedAt": "2026-06-05T13:13:17.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-8aa6e9bf-4503-4d66-bfee-9e930877abe6"
+  },
+  "item": [
+    {
+      "name": "confirmThirdParty",
+      "item": [
+        {
+          "name": "Adyen Confirm a Payout",
+          "id": "8b5947e8-ffd8-4c2e-ac73-f2673a2227ff",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"originalReference\": \"<string>\",\n  \"additionalData\": {\n    \"nulla_b_f\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/confirmThirdParty",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "confirmThirdParty"
+              ]
+            },
+            "description": "Confirms a previously submitted payout.\n\nTo cancel a payout, use the `/declineThirdParty` endpoint."
+          },
+          "response": [
+            {
+              "id": "a9f46466-5f9a-4811-bf8c-9a62eaf81af8",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"originalReference\": \"<string>\",\n  \"additionalData\": {\n    \"nulla_b_f\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/confirmThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "confirmThirdParty"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"pspReference\": \"<string>\",\n  \"response\": \"<string>\",\n  \"additionalData\": {\n    \"reprehenderit_25d\": \"<string>\",\n    \"non_5db\": \"<string>\",\n    \"esse_9\": \"<string>\"\n  }\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-a9f46466-5f9a-4811-bf8c-9a62eaf81af8"
+            },
+            {
+              "id": "8ec31cf0-5d50-4d29-a7cd-5782ff5be71a",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"originalReference\": \"<string>\",\n  \"additionalData\": {\n    \"nulla_b_f\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/confirmThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "confirmThirdParty"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-8ec31cf0-5d50-4d29-a7cd-5782ff5be71a"
+            },
+            {
+              "id": "27492086-885a-4559-b176-0f1edd17b692",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"originalReference\": \"<string>\",\n  \"additionalData\": {\n    \"nulla_b_f\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/confirmThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "confirmThirdParty"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-27492086-885a-4559-b176-0f1edd17b692"
+            },
+            {
+              "id": "9941830e-6dc8-462f-8255-859cd1054cc5",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"originalReference\": \"<string>\",\n  \"additionalData\": {\n    \"nulla_b_f\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/confirmThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "confirmThirdParty"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-9941830e-6dc8-462f-8255-859cd1054cc5"
+            },
+            {
+              "id": "6ad63e87-6e2a-4657-840e-d59429a5922b",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"originalReference\": \"<string>\",\n  \"additionalData\": {\n    \"nulla_b_f\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/confirmThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "confirmThirdParty"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-6ad63e87-6e2a-4657-840e-d59429a5922b"
+            },
+            {
+              "id": "47e6f289-bfe4-42f6-be72-6be11cacf087",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"originalReference\": \"<string>\",\n  \"additionalData\": {\n    \"nulla_b_f\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/confirmThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "confirmThirdParty"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-47e6f289-bfe4-42f6-be72-6be11cacf087"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:18.000Z",
+          "updatedAt": "2026-06-05T13:13:18.000Z",
+          "uid": "35240-8b5947e8-ffd8-4c2e-ac73-f2673a2227ff"
+        }
+      ],
+      "id": "e8ffc0e8-7128-4946-aba5-784598ed28a4",
+      "createdAt": "2026-06-05T13:13:18.000Z",
+      "updatedAt": "2026-06-05T13:13:18.000Z",
+      "uid": "35240-e8ffc0e8-7128-4946-aba5-784598ed28a4"
+    },
+    {
+      "name": "declineThirdParty",
+      "item": [
+        {
+          "name": "Adyen Cancel a Payout",
+          "id": "b8476ff3-a2b3-4df8-bde4-23e6029551b2",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"originalReference\": \"<string>\",\n  \"additionalData\": {\n    \"nulla_b_f\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/declineThirdParty",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "declineThirdParty"
+              ]
+            },
+            "description": "Cancels a previously submitted payout.\n\nTo confirm and send a payout, use the `/confirmThirdParty` endpoint."
+          },
+          "response": [
+            {
+              "id": "db1f8c3d-ed61-4f6d-b51b-5c3dcf82dc11",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"originalReference\": \"<string>\",\n  \"additionalData\": {\n    \"nulla_b_f\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/declineThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "declineThirdParty"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"pspReference\": \"<string>\",\n  \"response\": \"<string>\",\n  \"additionalData\": {\n    \"reprehenderit_25d\": \"<string>\",\n    \"non_5db\": \"<string>\",\n    \"esse_9\": \"<string>\"\n  }\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-db1f8c3d-ed61-4f6d-b51b-5c3dcf82dc11"
+            },
+            {
+              "id": "fe608efc-687b-411d-8983-e4b3b9f22ab7",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"originalReference\": \"<string>\",\n  \"additionalData\": {\n    \"nulla_b_f\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/declineThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "declineThirdParty"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-fe608efc-687b-411d-8983-e4b3b9f22ab7"
+            },
+            {
+              "id": "4f505a46-00bf-452c-a1ba-2fc897688d23",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"originalReference\": \"<string>\",\n  \"additionalData\": {\n    \"nulla_b_f\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/declineThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "declineThirdParty"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-4f505a46-00bf-452c-a1ba-2fc897688d23"
+            },
+            {
+              "id": "775eeeec-c406-42d0-b0da-29fe192e4d95",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"originalReference\": \"<string>\",\n  \"additionalData\": {\n    \"nulla_b_f\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/declineThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "declineThirdParty"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-775eeeec-c406-42d0-b0da-29fe192e4d95"
+            },
+            {
+              "id": "1f693bcd-ac30-4dfa-83ec-dd303ca77a69",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"originalReference\": \"<string>\",\n  \"additionalData\": {\n    \"nulla_b_f\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/declineThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "declineThirdParty"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-1f693bcd-ac30-4dfa-83ec-dd303ca77a69"
+            },
+            {
+              "id": "91dc30fa-3602-4ba1-b473-c1179e67fbdd",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"originalReference\": \"<string>\",\n  \"additionalData\": {\n    \"nulla_b_f\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/declineThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "declineThirdParty"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-91dc30fa-3602-4ba1-b473-c1179e67fbdd"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:18.000Z",
+          "updatedAt": "2026-06-05T13:13:18.000Z",
+          "uid": "35240-b8476ff3-a2b3-4df8-bde4-23e6029551b2"
+        }
+      ],
+      "id": "30f13568-94fa-4b09-8276-495242fb805a",
+      "createdAt": "2026-06-05T13:13:18.000Z",
+      "updatedAt": "2026-06-05T13:13:18.000Z",
+      "uid": "35240-30f13568-94fa-4b09-8276-495242fb805a"
+    },
+    {
+      "name": "payout",
+      "item": [
+        {
+          "name": "Adyen Make an Instant Card Payout",
+          "id": "e82a5f32-9310-4b26-941e-f43ec669252b",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"fundSource\": {\n    \"additionalData\": {\n      \"irure6_\": \"<string>\",\n      \"veniam186\": \"<string>\",\n      \"et_983\": \"<string>\",\n      \"laborum_7\": \"<string>\",\n      \"nostrud_bb\": \"<string>\"\n    },\n    \"billingAddress\": {\n      \"street\": \"<string>\",\n      \"houseNumberOrName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"country\": \"<string>\",\n      \"stateOrProvince\": \"<string>\"\n    },\n    \"card\": {\n      \"cvc\": \"<string>\",\n      \"expiryMonth\": \"<string>\",\n      \"expiryYear\": \"<string>\",\n      \"holderName\": \"<string>\",\n      \"issueNumber\": \"<string>\",\n      \"number\": \"<string>\",\n      \"startMonth\": \"<string>\",\n      \"startYear\": \"<string>\"\n    },\n    \"shopperEmail\": \"<string>\",\n    \"shopperName\": {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\"\n    },\n    \"telephoneNumber\": \"<string>\"\n  },\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperInteraction\": \"ContAuth\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperReference\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "payout"
+              ]
+            },
+            "description": "With this call, you can pay out to your customers, and funds will be made available within 30 minutes on the cardholder's bank account (this is dependent on whether the issuer supports this functionality). Instant card payouts are only supported for Visa and Mastercard cards."
+          },
+          "response": [
+            {
+              "id": "c027daf9-9036-4622-92ee-749ea6833fef",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"fundSource\": {\n    \"additionalData\": {\n      \"irure6_\": \"<string>\",\n      \"veniam186\": \"<string>\",\n      \"et_983\": \"<string>\",\n      \"laborum_7\": \"<string>\",\n      \"nostrud_bb\": \"<string>\"\n    },\n    \"billingAddress\": {\n      \"street\": \"<string>\",\n      \"houseNumberOrName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"country\": \"<string>\",\n      \"stateOrProvince\": \"<string>\"\n    },\n    \"card\": {\n      \"cvc\": \"<string>\",\n      \"expiryMonth\": \"<string>\",\n      \"expiryYear\": \"<string>\",\n      \"holderName\": \"<string>\",\n      \"issueNumber\": \"<string>\",\n      \"number\": \"<string>\",\n      \"startMonth\": \"<string>\",\n      \"startYear\": \"<string>\"\n    },\n    \"shopperEmail\": \"<string>\",\n    \"shopperName\": {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\"\n    },\n    \"telephoneNumber\": \"<string>\"\n  },\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperInteraction\": \"ContAuth\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperReference\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/payout",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "payout"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"in_032\": \"<string>\",\n    \"veniam_c7\": \"<string>\"\n  },\n  \"authCode\": \"<string>\",\n  \"dccAmount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"dccSignature\": \"<string>\",\n  \"fraudResult\": {\n    \"accountScore\": \"<integer>\",\n    \"results\": [\n      {\n        \"FraudCheckResult\": {\n          \"checkId\": \"<integer>\",\n          \"name\": \"<string>\",\n          \"accountScore\": \"<integer>\"\n        }\n      },\n      {\n        \"FraudCheckResult\": {\n          \"checkId\": \"<integer>\",\n          \"name\": \"<string>\",\n          \"accountScore\": \"<integer>\"\n        }\n      }\n    ]\n  },\n  \"issuerUrl\": \"<string>\",\n  \"md\": \"<string>\",\n  \"paRequest\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"refusalReason\": \"<string>\",\n  \"resultCode\": \"PresentToShopper\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-c027daf9-9036-4622-92ee-749ea6833fef"
+            },
+            {
+              "id": "1ca6edad-b80a-434a-b32d-ba4fbed43102",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"fundSource\": {\n    \"additionalData\": {\n      \"irure6_\": \"<string>\",\n      \"veniam186\": \"<string>\",\n      \"et_983\": \"<string>\",\n      \"laborum_7\": \"<string>\",\n      \"nostrud_bb\": \"<string>\"\n    },\n    \"billingAddress\": {\n      \"street\": \"<string>\",\n      \"houseNumberOrName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"country\": \"<string>\",\n      \"stateOrProvince\": \"<string>\"\n    },\n    \"card\": {\n      \"cvc\": \"<string>\",\n      \"expiryMonth\": \"<string>\",\n      \"expiryYear\": \"<string>\",\n      \"holderName\": \"<string>\",\n      \"issueNumber\": \"<string>\",\n      \"number\": \"<string>\",\n      \"startMonth\": \"<string>\",\n      \"startYear\": \"<string>\"\n    },\n    \"shopperEmail\": \"<string>\",\n    \"shopperName\": {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\"\n    },\n    \"telephoneNumber\": \"<string>\"\n  },\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperInteraction\": \"ContAuth\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperReference\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/payout",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "payout"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-1ca6edad-b80a-434a-b32d-ba4fbed43102"
+            },
+            {
+              "id": "97e86a04-e368-4b3b-93a1-0200d8cffd5c",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"fundSource\": {\n    \"additionalData\": {\n      \"irure6_\": \"<string>\",\n      \"veniam186\": \"<string>\",\n      \"et_983\": \"<string>\",\n      \"laborum_7\": \"<string>\",\n      \"nostrud_bb\": \"<string>\"\n    },\n    \"billingAddress\": {\n      \"street\": \"<string>\",\n      \"houseNumberOrName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"country\": \"<string>\",\n      \"stateOrProvince\": \"<string>\"\n    },\n    \"card\": {\n      \"cvc\": \"<string>\",\n      \"expiryMonth\": \"<string>\",\n      \"expiryYear\": \"<string>\",\n      \"holderName\": \"<string>\",\n      \"issueNumber\": \"<string>\",\n      \"number\": \"<string>\",\n      \"startMonth\": \"<string>\",\n      \"startYear\": \"<string>\"\n    },\n    \"shopperEmail\": \"<string>\",\n    \"shopperName\": {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\"\n    },\n    \"telephoneNumber\": \"<string>\"\n  },\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperInteraction\": \"ContAuth\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperReference\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/payout",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "payout"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-97e86a04-e368-4b3b-93a1-0200d8cffd5c"
+            },
+            {
+              "id": "679759b2-969e-4748-8b56-9968e88e2f94",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"fundSource\": {\n    \"additionalData\": {\n      \"irure6_\": \"<string>\",\n      \"veniam186\": \"<string>\",\n      \"et_983\": \"<string>\",\n      \"laborum_7\": \"<string>\",\n      \"nostrud_bb\": \"<string>\"\n    },\n    \"billingAddress\": {\n      \"street\": \"<string>\",\n      \"houseNumberOrName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"country\": \"<string>\",\n      \"stateOrProvince\": \"<string>\"\n    },\n    \"card\": {\n      \"cvc\": \"<string>\",\n      \"expiryMonth\": \"<string>\",\n      \"expiryYear\": \"<string>\",\n      \"holderName\": \"<string>\",\n      \"issueNumber\": \"<string>\",\n      \"number\": \"<string>\",\n      \"startMonth\": \"<string>\",\n      \"startYear\": \"<string>\"\n    },\n    \"shopperEmail\": \"<string>\",\n    \"shopperName\": {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\"\n    },\n    \"telephoneNumber\": \"<string>\"\n  },\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperInteraction\": \"ContAuth\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperReference\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/payout",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "payout"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-679759b2-969e-4748-8b56-9968e88e2f94"
+            },
+            {
+              "id": "025c93e6-95d2-4ffa-9477-598b0a1c23ab",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"fundSource\": {\n    \"additionalData\": {\n      \"irure6_\": \"<string>\",\n      \"veniam186\": \"<string>\",\n      \"et_983\": \"<string>\",\n      \"laborum_7\": \"<string>\",\n      \"nostrud_bb\": \"<string>\"\n    },\n    \"billingAddress\": {\n      \"street\": \"<string>\",\n      \"houseNumberOrName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"country\": \"<string>\",\n      \"stateOrProvince\": \"<string>\"\n    },\n    \"card\": {\n      \"cvc\": \"<string>\",\n      \"expiryMonth\": \"<string>\",\n      \"expiryYear\": \"<string>\",\n      \"holderName\": \"<string>\",\n      \"issueNumber\": \"<string>\",\n      \"number\": \"<string>\",\n      \"startMonth\": \"<string>\",\n      \"startYear\": \"<string>\"\n    },\n    \"shopperEmail\": \"<string>\",\n    \"shopperName\": {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\"\n    },\n    \"telephoneNumber\": \"<string>\"\n  },\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperInteraction\": \"ContAuth\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperReference\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/payout",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "payout"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-025c93e6-95d2-4ffa-9477-598b0a1c23ab"
+            },
+            {
+              "id": "f6334325-2db1-4ac6-89f3-3566509b45a6",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"fundSource\": {\n    \"additionalData\": {\n      \"irure6_\": \"<string>\",\n      \"veniam186\": \"<string>\",\n      \"et_983\": \"<string>\",\n      \"laborum_7\": \"<string>\",\n      \"nostrud_bb\": \"<string>\"\n    },\n    \"billingAddress\": {\n      \"street\": \"<string>\",\n      \"houseNumberOrName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"country\": \"<string>\",\n      \"stateOrProvince\": \"<string>\"\n    },\n    \"card\": {\n      \"cvc\": \"<string>\",\n      \"expiryMonth\": \"<string>\",\n      \"expiryYear\": \"<string>\",\n      \"holderName\": \"<string>\",\n      \"issueNumber\": \"<string>\",\n      \"number\": \"<string>\",\n      \"startMonth\": \"<string>\",\n      \"startYear\": \"<string>\"\n    },\n    \"shopperEmail\": \"<string>\",\n    \"shopperName\": {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\"\n    },\n    \"telephoneNumber\": \"<string>\"\n  },\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperInteraction\": \"ContAuth\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperReference\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/payout",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "payout"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-f6334325-2db1-4ac6-89f3-3566509b45a6"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:18.000Z",
+          "updatedAt": "2026-06-05T13:13:18.000Z",
+          "uid": "35240-e82a5f32-9310-4b26-941e-f43ec669252b"
+        }
+      ],
+      "id": "b2235157-09f5-43e5-8cc7-b792387705b2",
+      "createdAt": "2026-06-05T13:13:18.000Z",
+      "updatedAt": "2026-06-05T13:13:18.000Z",
+      "uid": "35240-b2235157-09f5-43e5-8cc7-b792387705b2"
+    },
+    {
+      "name": "storeDetail",
+      "item": [
+        {
+          "name": "Adyen Store Payout Details",
+          "id": "03aaf89a-6b91-430a-ac3f-6205890b943b",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"MCTOKENSERVICE\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"nationality\": \"<string>\",\n  \"entityType\": \"Company\",\n  \"additionalData\": {\n    \"consequat_96c\": \"<string>\"\n  },\n  \"bank\": {\n    \"bankAccountNumber\": \"<string>\",\n    \"bankCity\": \"<string>\",\n    \"bankLocationId\": \"<string>\",\n    \"bankName\": \"<string>\",\n    \"bic\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"iban\": \"<string>\",\n    \"ownerName\": \"<string>\",\n    \"taxId\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"selectedBrand\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"socialSecurityNumber\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/storeDetail",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "storeDetail"
+              ]
+            },
+            "description": "Stores payment details under the `PAYOUT` recurring contract. These payment details can be used later to submit a payout via the `/submitThirdParty` call."
+          },
+          "response": [
+            {
+              "id": "16836639-9db5-412b-86a4-dbfd4a6f509c",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"MCTOKENSERVICE\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"nationality\": \"<string>\",\n  \"entityType\": \"Company\",\n  \"additionalData\": {\n    \"consequat_96c\": \"<string>\"\n  },\n  \"bank\": {\n    \"bankAccountNumber\": \"<string>\",\n    \"bankCity\": \"<string>\",\n    \"bankLocationId\": \"<string>\",\n    \"bankName\": \"<string>\",\n    \"bic\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"iban\": \"<string>\",\n    \"ownerName\": \"<string>\",\n    \"taxId\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"selectedBrand\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"socialSecurityNumber\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/storeDetail",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "storeDetail"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"pspReference\": \"<string>\",\n  \"recurringDetailReference\": \"<string>\",\n  \"resultCode\": \"<string>\",\n  \"additionalData\": {\n    \"fugiat_600\": \"<string>\",\n    \"amet72\": \"<string>\"\n  }\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-16836639-9db5-412b-86a4-dbfd4a6f509c"
+            },
+            {
+              "id": "fed6b2c6-b76c-45ff-80bd-a6bede9fa236",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"MCTOKENSERVICE\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"nationality\": \"<string>\",\n  \"entityType\": \"Company\",\n  \"additionalData\": {\n    \"consequat_96c\": \"<string>\"\n  },\n  \"bank\": {\n    \"bankAccountNumber\": \"<string>\",\n    \"bankCity\": \"<string>\",\n    \"bankLocationId\": \"<string>\",\n    \"bankName\": \"<string>\",\n    \"bic\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"iban\": \"<string>\",\n    \"ownerName\": \"<string>\",\n    \"taxId\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"selectedBrand\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"socialSecurityNumber\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/storeDetail",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "storeDetail"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-fed6b2c6-b76c-45ff-80bd-a6bede9fa236"
+            },
+            {
+              "id": "e58df14f-1263-47a4-aec8-149dafaee217",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"MCTOKENSERVICE\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"nationality\": \"<string>\",\n  \"entityType\": \"Company\",\n  \"additionalData\": {\n    \"consequat_96c\": \"<string>\"\n  },\n  \"bank\": {\n    \"bankAccountNumber\": \"<string>\",\n    \"bankCity\": \"<string>\",\n    \"bankLocationId\": \"<string>\",\n    \"bankName\": \"<string>\",\n    \"bic\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"iban\": \"<string>\",\n    \"ownerName\": \"<string>\",\n    \"taxId\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"selectedBrand\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"socialSecurityNumber\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/storeDetail",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "storeDetail"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-e58df14f-1263-47a4-aec8-149dafaee217"
+            },
+            {
+              "id": "54425ee3-9f3e-4ab0-9e75-b81af7b2c2c7",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"MCTOKENSERVICE\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"nationality\": \"<string>\",\n  \"entityType\": \"Company\",\n  \"additionalData\": {\n    \"consequat_96c\": \"<string>\"\n  },\n  \"bank\": {\n    \"bankAccountNumber\": \"<string>\",\n    \"bankCity\": \"<string>\",\n    \"bankLocationId\": \"<string>\",\n    \"bankName\": \"<string>\",\n    \"bic\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"iban\": \"<string>\",\n    \"ownerName\": \"<string>\",\n    \"taxId\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"selectedBrand\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"socialSecurityNumber\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/storeDetail",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "storeDetail"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-54425ee3-9f3e-4ab0-9e75-b81af7b2c2c7"
+            },
+            {
+              "id": "9731e8ed-bc4d-498c-a223-5a05fbbed9a4",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"MCTOKENSERVICE\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"nationality\": \"<string>\",\n  \"entityType\": \"Company\",\n  \"additionalData\": {\n    \"consequat_96c\": \"<string>\"\n  },\n  \"bank\": {\n    \"bankAccountNumber\": \"<string>\",\n    \"bankCity\": \"<string>\",\n    \"bankLocationId\": \"<string>\",\n    \"bankName\": \"<string>\",\n    \"bic\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"iban\": \"<string>\",\n    \"ownerName\": \"<string>\",\n    \"taxId\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"selectedBrand\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"socialSecurityNumber\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/storeDetail",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "storeDetail"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-9731e8ed-bc4d-498c-a223-5a05fbbed9a4"
+            },
+            {
+              "id": "e4a0a377-b24b-413c-b8e3-181dba7a55fe",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"MCTOKENSERVICE\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"nationality\": \"<string>\",\n  \"entityType\": \"Company\",\n  \"additionalData\": {\n    \"consequat_96c\": \"<string>\"\n  },\n  \"bank\": {\n    \"bankAccountNumber\": \"<string>\",\n    \"bankCity\": \"<string>\",\n    \"bankLocationId\": \"<string>\",\n    \"bankName\": \"<string>\",\n    \"bic\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"iban\": \"<string>\",\n    \"ownerName\": \"<string>\",\n    \"taxId\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"selectedBrand\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"socialSecurityNumber\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/storeDetail",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "storeDetail"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-e4a0a377-b24b-413c-b8e3-181dba7a55fe"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:18.000Z",
+          "updatedAt": "2026-06-05T13:13:18.000Z",
+          "uid": "35240-03aaf89a-6b91-430a-ac3f-6205890b943b"
+        }
+      ],
+      "id": "28f192e2-10c7-438f-91a0-229ec73f2f45",
+      "createdAt": "2026-06-05T13:13:18.000Z",
+      "updatedAt": "2026-06-05T13:13:18.000Z",
+      "uid": "35240-28f192e2-10c7-438f-91a0-229ec73f2f45"
+    },
+    {
+      "name": "storeDetailAndSubmitThirdParty",
+      "item": [
+        {
+          "name": "Adyen Store Details and Submit a Payout",
+          "id": "1e669140-e4c0-4b73-82c8-50eb5bd68cef",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"nationality\": \"<string>\",\n  \"entityType\": \"NaturalPerson\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"additionalData\": {\n    \"cupidatatfe_\": \"<string>\",\n    \"veniam37\": \"<string>\"\n  },\n  \"bank\": {\n    \"bankAccountNumber\": \"<string>\",\n    \"bankCity\": \"<string>\",\n    \"bankLocationId\": \"<string>\",\n    \"bankName\": \"<string>\",\n    \"bic\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"iban\": \"<string>\",\n    \"ownerName\": \"<string>\",\n    \"taxId\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"selectedBrand\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperStatement\": \"<string>\",\n  \"socialSecurityNumber\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/storeDetailAndSubmitThirdParty",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "storeDetailAndSubmitThirdParty"
+              ]
+            },
+            "description": "Submits a payout and stores its details for subsequent payouts.\n\nThe submitted payout must be confirmed or declined either by a reviewer or via `/confirmThirdParty` or `/declineThirdParty` calls."
+          },
+          "response": [
+            {
+              "id": "229294a7-89ee-4965-9dee-99286e0f9c48",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"nationality\": \"<string>\",\n  \"entityType\": \"NaturalPerson\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"additionalData\": {\n    \"cupidatatfe_\": \"<string>\",\n    \"veniam37\": \"<string>\"\n  },\n  \"bank\": {\n    \"bankAccountNumber\": \"<string>\",\n    \"bankCity\": \"<string>\",\n    \"bankLocationId\": \"<string>\",\n    \"bankName\": \"<string>\",\n    \"bic\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"iban\": \"<string>\",\n    \"ownerName\": \"<string>\",\n    \"taxId\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"selectedBrand\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperStatement\": \"<string>\",\n  \"socialSecurityNumber\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/storeDetailAndSubmitThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "storeDetailAndSubmitThirdParty"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\",\n  \"additionalData\": {\n    \"dolor3cf\": \"<string>\"\n  },\n  \"refusalReason\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-229294a7-89ee-4965-9dee-99286e0f9c48"
+            },
+            {
+              "id": "1f29382e-000e-4312-91dc-2bf32a93d719",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"nationality\": \"<string>\",\n  \"entityType\": \"NaturalPerson\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"additionalData\": {\n    \"cupidatatfe_\": \"<string>\",\n    \"veniam37\": \"<string>\"\n  },\n  \"bank\": {\n    \"bankAccountNumber\": \"<string>\",\n    \"bankCity\": \"<string>\",\n    \"bankLocationId\": \"<string>\",\n    \"bankName\": \"<string>\",\n    \"bic\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"iban\": \"<string>\",\n    \"ownerName\": \"<string>\",\n    \"taxId\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"selectedBrand\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperStatement\": \"<string>\",\n  \"socialSecurityNumber\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/storeDetailAndSubmitThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "storeDetailAndSubmitThirdParty"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-1f29382e-000e-4312-91dc-2bf32a93d719"
+            },
+            {
+              "id": "a6dd0fd4-1b29-4ca2-832d-64ffe3cd8751",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"nationality\": \"<string>\",\n  \"entityType\": \"NaturalPerson\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"additionalData\": {\n    \"cupidatatfe_\": \"<string>\",\n    \"veniam37\": \"<string>\"\n  },\n  \"bank\": {\n    \"bankAccountNumber\": \"<string>\",\n    \"bankCity\": \"<string>\",\n    \"bankLocationId\": \"<string>\",\n    \"bankName\": \"<string>\",\n    \"bic\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"iban\": \"<string>\",\n    \"ownerName\": \"<string>\",\n    \"taxId\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"selectedBrand\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperStatement\": \"<string>\",\n  \"socialSecurityNumber\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/storeDetailAndSubmitThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "storeDetailAndSubmitThirdParty"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-a6dd0fd4-1b29-4ca2-832d-64ffe3cd8751"
+            },
+            {
+              "id": "7ebea91e-f24e-44b7-8fa5-5dced2aab3d4",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"nationality\": \"<string>\",\n  \"entityType\": \"NaturalPerson\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"additionalData\": {\n    \"cupidatatfe_\": \"<string>\",\n    \"veniam37\": \"<string>\"\n  },\n  \"bank\": {\n    \"bankAccountNumber\": \"<string>\",\n    \"bankCity\": \"<string>\",\n    \"bankLocationId\": \"<string>\",\n    \"bankName\": \"<string>\",\n    \"bic\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"iban\": \"<string>\",\n    \"ownerName\": \"<string>\",\n    \"taxId\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"selectedBrand\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperStatement\": \"<string>\",\n  \"socialSecurityNumber\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/storeDetailAndSubmitThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "storeDetailAndSubmitThirdParty"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-7ebea91e-f24e-44b7-8fa5-5dced2aab3d4"
+            },
+            {
+              "id": "6235a55f-8c86-4e88-a041-5cba97bdad0b",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"nationality\": \"<string>\",\n  \"entityType\": \"NaturalPerson\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"additionalData\": {\n    \"cupidatatfe_\": \"<string>\",\n    \"veniam37\": \"<string>\"\n  },\n  \"bank\": {\n    \"bankAccountNumber\": \"<string>\",\n    \"bankCity\": \"<string>\",\n    \"bankLocationId\": \"<string>\",\n    \"bankName\": \"<string>\",\n    \"bic\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"iban\": \"<string>\",\n    \"ownerName\": \"<string>\",\n    \"taxId\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"selectedBrand\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperStatement\": \"<string>\",\n  \"socialSecurityNumber\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/storeDetailAndSubmitThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "storeDetailAndSubmitThirdParty"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-6235a55f-8c86-4e88-a041-5cba97bdad0b"
+            },
+            {
+              "id": "fa97f2a2-8281-4731-ac37-6cc07a13f5c7",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"nationality\": \"<string>\",\n  \"entityType\": \"NaturalPerson\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"additionalData\": {\n    \"cupidatatfe_\": \"<string>\",\n    \"veniam37\": \"<string>\"\n  },\n  \"bank\": {\n    \"bankAccountNumber\": \"<string>\",\n    \"bankCity\": \"<string>\",\n    \"bankLocationId\": \"<string>\",\n    \"bankName\": \"<string>\",\n    \"bic\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"iban\": \"<string>\",\n    \"ownerName\": \"<string>\",\n    \"taxId\": \"<string>\"\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"card\": {\n    \"cvc\": \"<string>\",\n    \"expiryMonth\": \"<string>\",\n    \"expiryYear\": \"<string>\",\n    \"holderName\": \"<string>\",\n    \"issueNumber\": \"<string>\",\n    \"number\": \"<string>\",\n    \"startMonth\": \"<string>\",\n    \"startYear\": \"<string>\"\n  },\n  \"fraudOffset\": \"<integer>\",\n  \"selectedBrand\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperStatement\": \"<string>\",\n  \"socialSecurityNumber\": \"<string>\",\n  \"telephoneNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/storeDetailAndSubmitThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "storeDetailAndSubmitThirdParty"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-fa97f2a2-8281-4731-ac37-6cc07a13f5c7"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:18.000Z",
+          "updatedAt": "2026-06-05T13:13:18.000Z",
+          "uid": "35240-1e669140-e4c0-4b73-82c8-50eb5bd68cef"
+        }
+      ],
+      "id": "7eccabce-ace4-4998-b0bb-a310f2ebe4a4",
+      "createdAt": "2026-06-05T13:13:18.000Z",
+      "updatedAt": "2026-06-05T13:13:18.000Z",
+      "uid": "35240-7eccabce-ace4-4998-b0bb-a310f2ebe4a4"
+    },
+    {
+      "name": "submitThirdParty",
+      "item": [
+        {
+          "name": "Adyen Submit a Payout",
+          "id": "06bdfb6a-8ff5-4939-9b2b-1e779d0b7755",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"additionalData\": {\n    \"velit35f\": \"<string>\",\n    \"id_\": \"<string>\",\n    \"cillum_978\": \"<string>\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"entityType\": \"NaturalPerson\",\n  \"fraudOffset\": \"<integer>\",\n  \"nationality\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperStatement\": \"<string>\",\n  \"socialSecurityNumber\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/submitThirdParty",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "submitThirdParty"
+              ]
+            },
+            "description": "Submits a payout using the previously stored payment details. To store payment details, use the `/storeDetail` API call.\n\nThe submitted payout must be confirmed or declined either by a reviewer or via `/confirmThirdParty` or `/declineThirdParty` calls."
+          },
+          "response": [
+            {
+              "id": "55653c27-18cc-4cec-aa09-1aa6fa8b9707",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"additionalData\": {\n    \"velit35f\": \"<string>\",\n    \"id_\": \"<string>\",\n    \"cillum_978\": \"<string>\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"entityType\": \"NaturalPerson\",\n  \"fraudOffset\": \"<integer>\",\n  \"nationality\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperStatement\": \"<string>\",\n  \"socialSecurityNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/submitThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "submitThirdParty"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\",\n  \"additionalData\": {\n    \"nostrud_bc_\": \"<string>\",\n    \"deserunt__b\": \"<string>\"\n  },\n  \"refusalReason\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-55653c27-18cc-4cec-aa09-1aa6fa8b9707"
+            },
+            {
+              "id": "56c3c09e-facf-400a-9d46-0f362aa0a8c9",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"additionalData\": {\n    \"velit35f\": \"<string>\",\n    \"id_\": \"<string>\",\n    \"cillum_978\": \"<string>\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"entityType\": \"NaturalPerson\",\n  \"fraudOffset\": \"<integer>\",\n  \"nationality\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperStatement\": \"<string>\",\n  \"socialSecurityNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/submitThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "submitThirdParty"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-56c3c09e-facf-400a-9d46-0f362aa0a8c9"
+            },
+            {
+              "id": "e3dc207c-ba34-40b8-a168-bfc0c2d7ad9d",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"additionalData\": {\n    \"velit35f\": \"<string>\",\n    \"id_\": \"<string>\",\n    \"cillum_978\": \"<string>\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"entityType\": \"NaturalPerson\",\n  \"fraudOffset\": \"<integer>\",\n  \"nationality\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperStatement\": \"<string>\",\n  \"socialSecurityNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/submitThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "submitThirdParty"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-e3dc207c-ba34-40b8-a168-bfc0c2d7ad9d"
+            },
+            {
+              "id": "57d2bbb4-7f27-43a4-a4c4-b6a822df42f5",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"additionalData\": {\n    \"velit35f\": \"<string>\",\n    \"id_\": \"<string>\",\n    \"cillum_978\": \"<string>\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"entityType\": \"NaturalPerson\",\n  \"fraudOffset\": \"<integer>\",\n  \"nationality\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperStatement\": \"<string>\",\n  \"socialSecurityNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/submitThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "submitThirdParty"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-57d2bbb4-7f27-43a4-a4c4-b6a822df42f5"
+            },
+            {
+              "id": "357a1a00-9585-49d9-bee7-2568052f4714",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"additionalData\": {\n    \"velit35f\": \"<string>\",\n    \"id_\": \"<string>\",\n    \"cillum_978\": \"<string>\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"entityType\": \"NaturalPerson\",\n  \"fraudOffset\": \"<integer>\",\n  \"nationality\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperStatement\": \"<string>\",\n  \"socialSecurityNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/submitThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "submitThirdParty"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-357a1a00-9585-49d9-bee7-2568052f4714"
+            },
+            {
+              "id": "99b2e5e8-d5fd-4c3d-80ff-fcec3562a160",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"shopperEmail\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"ONECLICK\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"AMEXTOKENSERVICE\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"additionalData\": {\n    \"velit35f\": \"<string>\",\n    \"id_\": \"<string>\",\n    \"cillum_978\": \"<string>\"\n  },\n  \"dateOfBirth\": \"<date>\",\n  \"entityType\": \"NaturalPerson\",\n  \"fraudOffset\": \"<integer>\",\n  \"nationality\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperStatement\": \"<string>\",\n  \"socialSecurityNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/submitThirdParty",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "submitThirdParty"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"additionalData\": {\n    \"eiusmod56e\": \"<string>\"\n  },\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:13:18.000Z",
+              "updatedAt": "2026-06-05T13:13:18.000Z",
+              "uid": "35240-99b2e5e8-d5fd-4c3d-80ff-fcec3562a160"
+            }
+          ],
+          "createdAt": "2026-06-05T13:13:18.000Z",
+          "updatedAt": "2026-06-05T13:13:18.000Z",
+          "uid": "35240-06bdfb6a-8ff5-4939-9b2b-1e779d0b7755"
+        }
+      ],
+      "id": "3e5f28f8-3641-447d-85f4-5fd8a4cc3bec",
+      "createdAt": "2026-06-05T13:13:18.000Z",
+      "updatedAt": "2026-06-05T13:13:18.000Z",
+      "uid": "35240-3e5f28f8-3641-447d-85f4-5fd8a4cc3bec"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://pal-test.adyen.com/pal/servlet/Payout/v68"
+    }
+  ]
+}

@@ -1,0 +1,830 @@
+{
+  "info": {
+    "_postman_id": "8617f70a-3497-4dff-a48e-0972b1af91a5",
+    "name": "Adyen Hosted Onboarding API",
+    "description": "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Hosted onboarding API provides endpoints that you can use to generate links to Adyen-hosted pages, such as an [onboarding page](https://docs.adyen.com/marketplaces-and-platforms/classic/hosted-onboarding-page) or a [PCI compliance questionnaire](https://docs.adyen.com/marketplaces-and-platforms/classic/platforms-for-partners). You can provide these links to your account holders so that they can complete their onboarding.\n\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Hosted onboarding API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Hop/v6/getOnboardingUrl\n```\n\nContact Support:\n Name: Adyen Developer Experience team",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T13:12:43.000Z",
+    "updatedAt": "2026-06-05T13:12:43.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-8617f70a-3497-4dff-a48e-0972b1af91a5"
+  },
+  "item": [
+    {
+      "name": "getOnboardingUrl",
+      "item": [
+        {
+          "name": "Adyen Get a Link to a Adyen-hosted Onboarding Page",
+          "id": "b555d552-6cdf-4fde-a85e-2e5036711182",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"collectInformation\": {\n    \"bankDetails\": \"<boolean>\",\n    \"businessDetails\": \"<boolean>\",\n    \"individualDetails\": \"<boolean>\",\n    \"legalArrangementDetails\": \"<boolean>\",\n    \"pciQuestionnaire\": \"<boolean>\",\n    \"shareholderDetails\": \"<boolean>\"\n  },\n  \"editMode\": \"<boolean>\",\n  \"mobileOAuthCallbackUrl\": \"<string>\",\n  \"platformName\": \"<string>\",\n  \"returnUrl\": \"<string>\",\n  \"shopperLocale\": \"<string>\",\n  \"showPages\": {\n    \"bankDetailsSummaryPage\": \"<boolean>\",\n    \"bankVerificationPage\": \"<boolean>\",\n    \"businessDetailsSummaryPage\": \"<boolean>\",\n    \"checksOverviewPage\": \"<boolean>\",\n    \"individualDetailsSummaryPage\": \"<boolean>\",\n    \"legalArrangementsDetailsSummaryPage\": \"<boolean>\",\n    \"manualBankAccountPage\": \"<boolean>\",\n    \"shareholderDetailsSummaryPage\": \"<boolean>\",\n    \"welcomePage\": \"<boolean>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getOnboardingUrl",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getOnboardingUrl"
+              ]
+            },
+            "description": "Returns a link to an Adyen-hosted onboarding page (HOP) that you can send to your account holder. For more information on how to use HOP, refer to [Hosted onboarding](https://docs.adyen.com/marketplaces-and-platforms/classic/collect-verification-details/hosted-onboarding-page). "
+          },
+          "response": [
+            {
+              "id": "894e1860-7d63-4e54-a17c-be0c2aabcccf",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"collectInformation\": {\n    \"bankDetails\": \"<boolean>\",\n    \"businessDetails\": \"<boolean>\",\n    \"individualDetails\": \"<boolean>\",\n    \"legalArrangementDetails\": \"<boolean>\",\n    \"pciQuestionnaire\": \"<boolean>\",\n    \"shareholderDetails\": \"<boolean>\"\n  },\n  \"editMode\": \"<boolean>\",\n  \"mobileOAuthCallbackUrl\": \"<string>\",\n  \"platformName\": \"<string>\",\n  \"returnUrl\": \"<string>\",\n  \"shopperLocale\": \"<string>\",\n  \"showPages\": {\n    \"bankDetailsSummaryPage\": \"<boolean>\",\n    \"bankVerificationPage\": \"<boolean>\",\n    \"businessDetailsSummaryPage\": \"<boolean>\",\n    \"checksOverviewPage\": \"<boolean>\",\n    \"individualDetailsSummaryPage\": \"<boolean>\",\n    \"legalArrangementsDetailsSummaryPage\": \"<boolean>\",\n    \"manualBankAccountPage\": \"<boolean>\",\n    \"shareholderDetailsSummaryPage\": \"<boolean>\",\n    \"welcomePage\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getOnboardingUrl",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getOnboardingUrl"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"ownerHouseNumberOrName\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"reason\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"pspReference\": \"<string>\",\n  \"redirectUrl\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:12:43.000Z",
+              "updatedAt": "2026-06-05T13:12:43.000Z",
+              "uid": "35240-894e1860-7d63-4e54-a17c-be0c2aabcccf"
+            },
+            {
+              "id": "287fc721-1ba2-473a-9a22-36dc88144096",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"collectInformation\": {\n    \"bankDetails\": \"<boolean>\",\n    \"businessDetails\": \"<boolean>\",\n    \"individualDetails\": \"<boolean>\",\n    \"legalArrangementDetails\": \"<boolean>\",\n    \"pciQuestionnaire\": \"<boolean>\",\n    \"shareholderDetails\": \"<boolean>\"\n  },\n  \"editMode\": \"<boolean>\",\n  \"mobileOAuthCallbackUrl\": \"<string>\",\n  \"platformName\": \"<string>\",\n  \"returnUrl\": \"<string>\",\n  \"shopperLocale\": \"<string>\",\n  \"showPages\": {\n    \"bankDetailsSummaryPage\": \"<boolean>\",\n    \"bankVerificationPage\": \"<boolean>\",\n    \"businessDetailsSummaryPage\": \"<boolean>\",\n    \"checksOverviewPage\": \"<boolean>\",\n    \"individualDetailsSummaryPage\": \"<boolean>\",\n    \"legalArrangementsDetailsSummaryPage\": \"<boolean>\",\n    \"manualBankAccountPage\": \"<boolean>\",\n    \"shareholderDetailsSummaryPage\": \"<boolean>\",\n    \"welcomePage\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getOnboardingUrl",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getOnboardingUrl"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:43.000Z",
+              "updatedAt": "2026-06-05T13:12:43.000Z",
+              "uid": "35240-287fc721-1ba2-473a-9a22-36dc88144096"
+            },
+            {
+              "id": "1a3f3f9d-280f-436c-8975-f58e071a70ff",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"collectInformation\": {\n    \"bankDetails\": \"<boolean>\",\n    \"businessDetails\": \"<boolean>\",\n    \"individualDetails\": \"<boolean>\",\n    \"legalArrangementDetails\": \"<boolean>\",\n    \"pciQuestionnaire\": \"<boolean>\",\n    \"shareholderDetails\": \"<boolean>\"\n  },\n  \"editMode\": \"<boolean>\",\n  \"mobileOAuthCallbackUrl\": \"<string>\",\n  \"platformName\": \"<string>\",\n  \"returnUrl\": \"<string>\",\n  \"shopperLocale\": \"<string>\",\n  \"showPages\": {\n    \"bankDetailsSummaryPage\": \"<boolean>\",\n    \"bankVerificationPage\": \"<boolean>\",\n    \"businessDetailsSummaryPage\": \"<boolean>\",\n    \"checksOverviewPage\": \"<boolean>\",\n    \"individualDetailsSummaryPage\": \"<boolean>\",\n    \"legalArrangementsDetailsSummaryPage\": \"<boolean>\",\n    \"manualBankAccountPage\": \"<boolean>\",\n    \"shareholderDetailsSummaryPage\": \"<boolean>\",\n    \"welcomePage\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getOnboardingUrl",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getOnboardingUrl"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:43.000Z",
+              "updatedAt": "2026-06-05T13:12:43.000Z",
+              "uid": "35240-1a3f3f9d-280f-436c-8975-f58e071a70ff"
+            },
+            {
+              "id": "53af0cc9-4f19-461f-b258-454d8fc496b0",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"collectInformation\": {\n    \"bankDetails\": \"<boolean>\",\n    \"businessDetails\": \"<boolean>\",\n    \"individualDetails\": \"<boolean>\",\n    \"legalArrangementDetails\": \"<boolean>\",\n    \"pciQuestionnaire\": \"<boolean>\",\n    \"shareholderDetails\": \"<boolean>\"\n  },\n  \"editMode\": \"<boolean>\",\n  \"mobileOAuthCallbackUrl\": \"<string>\",\n  \"platformName\": \"<string>\",\n  \"returnUrl\": \"<string>\",\n  \"shopperLocale\": \"<string>\",\n  \"showPages\": {\n    \"bankDetailsSummaryPage\": \"<boolean>\",\n    \"bankVerificationPage\": \"<boolean>\",\n    \"businessDetailsSummaryPage\": \"<boolean>\",\n    \"checksOverviewPage\": \"<boolean>\",\n    \"individualDetailsSummaryPage\": \"<boolean>\",\n    \"legalArrangementsDetailsSummaryPage\": \"<boolean>\",\n    \"manualBankAccountPage\": \"<boolean>\",\n    \"shareholderDetailsSummaryPage\": \"<boolean>\",\n    \"welcomePage\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getOnboardingUrl",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getOnboardingUrl"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:43.000Z",
+              "updatedAt": "2026-06-05T13:12:43.000Z",
+              "uid": "35240-53af0cc9-4f19-461f-b258-454d8fc496b0"
+            },
+            {
+              "id": "25e9d564-cf5d-4ab1-b39f-646399047ef5",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"collectInformation\": {\n    \"bankDetails\": \"<boolean>\",\n    \"businessDetails\": \"<boolean>\",\n    \"individualDetails\": \"<boolean>\",\n    \"legalArrangementDetails\": \"<boolean>\",\n    \"pciQuestionnaire\": \"<boolean>\",\n    \"shareholderDetails\": \"<boolean>\"\n  },\n  \"editMode\": \"<boolean>\",\n  \"mobileOAuthCallbackUrl\": \"<string>\",\n  \"platformName\": \"<string>\",\n  \"returnUrl\": \"<string>\",\n  \"shopperLocale\": \"<string>\",\n  \"showPages\": {\n    \"bankDetailsSummaryPage\": \"<boolean>\",\n    \"bankVerificationPage\": \"<boolean>\",\n    \"businessDetailsSummaryPage\": \"<boolean>\",\n    \"checksOverviewPage\": \"<boolean>\",\n    \"individualDetailsSummaryPage\": \"<boolean>\",\n    \"legalArrangementsDetailsSummaryPage\": \"<boolean>\",\n    \"manualBankAccountPage\": \"<boolean>\",\n    \"shareholderDetailsSummaryPage\": \"<boolean>\",\n    \"welcomePage\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getOnboardingUrl",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getOnboardingUrl"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:43.000Z",
+              "updatedAt": "2026-06-05T13:12:43.000Z",
+              "uid": "35240-25e9d564-cf5d-4ab1-b39f-646399047ef5"
+            },
+            {
+              "id": "974d7153-f382-46e9-9062-a029b1fb6e29",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"collectInformation\": {\n    \"bankDetails\": \"<boolean>\",\n    \"businessDetails\": \"<boolean>\",\n    \"individualDetails\": \"<boolean>\",\n    \"legalArrangementDetails\": \"<boolean>\",\n    \"pciQuestionnaire\": \"<boolean>\",\n    \"shareholderDetails\": \"<boolean>\"\n  },\n  \"editMode\": \"<boolean>\",\n  \"mobileOAuthCallbackUrl\": \"<string>\",\n  \"platformName\": \"<string>\",\n  \"returnUrl\": \"<string>\",\n  \"shopperLocale\": \"<string>\",\n  \"showPages\": {\n    \"bankDetailsSummaryPage\": \"<boolean>\",\n    \"bankVerificationPage\": \"<boolean>\",\n    \"businessDetailsSummaryPage\": \"<boolean>\",\n    \"checksOverviewPage\": \"<boolean>\",\n    \"individualDetailsSummaryPage\": \"<boolean>\",\n    \"legalArrangementsDetailsSummaryPage\": \"<boolean>\",\n    \"manualBankAccountPage\": \"<boolean>\",\n    \"shareholderDetailsSummaryPage\": \"<boolean>\",\n    \"welcomePage\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getOnboardingUrl",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getOnboardingUrl"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:43.000Z",
+              "updatedAt": "2026-06-05T13:12:43.000Z",
+              "uid": "35240-974d7153-f382-46e9-9062-a029b1fb6e29"
+            }
+          ],
+          "createdAt": "2026-06-05T13:12:43.000Z",
+          "updatedAt": "2026-06-05T13:12:43.000Z",
+          "uid": "35240-b555d552-6cdf-4fde-a85e-2e5036711182"
+        }
+      ],
+      "id": "2bf7c4d9-1db6-4c4d-8f0f-9f41b7343708",
+      "createdAt": "2026-06-05T13:12:43.000Z",
+      "updatedAt": "2026-06-05T13:12:43.000Z",
+      "uid": "35240-2bf7c4d9-1db6-4c4d-8f0f-9f41b7343708"
+    },
+    {
+      "name": "getPciQuestionnaireUrl",
+      "item": [
+        {
+          "name": "Adyen Get a Link to a PCI Compliance Questionnaire",
+          "id": "1c851e78-4d91-4247-a135-031038b45c74",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"returnUrl\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/getPciQuestionnaireUrl",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getPciQuestionnaireUrl"
+              ]
+            },
+            "description": "Returns a link to a PCI compliance questionnaire that you can send to your account holder.\n > You should only use this endpoint if you have a [partner platform setup](https://docs.adyen.com/marketplaces-and-platforms/classic/platforms-for-partners)."
+          },
+          "response": [
+            {
+              "id": "a4e29562-bdde-4290-9b62-5528dd15b8d6",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"returnUrl\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getPciQuestionnaireUrl",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getPciQuestionnaireUrl"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"country\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"documentContent\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"pspReference\": \"<string>\",\n  \"redirectUrl\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:12:43.000Z",
+              "updatedAt": "2026-06-05T13:12:43.000Z",
+              "uid": "35240-a4e29562-bdde-4290-9b62-5528dd15b8d6"
+            },
+            {
+              "id": "7ab366ce-3874-402c-9328-2867b543ed4c",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"returnUrl\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getPciQuestionnaireUrl",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getPciQuestionnaireUrl"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:43.000Z",
+              "updatedAt": "2026-06-05T13:12:43.000Z",
+              "uid": "35240-7ab366ce-3874-402c-9328-2867b543ed4c"
+            },
+            {
+              "id": "88ed8cb6-cfee-4d23-b490-3e27be11c733",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"returnUrl\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getPciQuestionnaireUrl",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getPciQuestionnaireUrl"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:43.000Z",
+              "updatedAt": "2026-06-05T13:12:43.000Z",
+              "uid": "35240-88ed8cb6-cfee-4d23-b490-3e27be11c733"
+            },
+            {
+              "id": "799703c6-5294-4413-990a-02e2df7072cb",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"returnUrl\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getPciQuestionnaireUrl",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getPciQuestionnaireUrl"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:43.000Z",
+              "updatedAt": "2026-06-05T13:12:43.000Z",
+              "uid": "35240-799703c6-5294-4413-990a-02e2df7072cb"
+            },
+            {
+              "id": "d553483d-fb86-4024-9623-4543a05ef7a2",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"returnUrl\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getPciQuestionnaireUrl",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getPciQuestionnaireUrl"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:43.000Z",
+              "updatedAt": "2026-06-05T13:12:43.000Z",
+              "uid": "35240-d553483d-fb86-4024-9623-4543a05ef7a2"
+            },
+            {
+              "id": "d0287ddb-fc20-42da-9474-6c82ef6e6101",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"returnUrl\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/getPciQuestionnaireUrl",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "getPciQuestionnaireUrl"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:43.000Z",
+              "updatedAt": "2026-06-05T13:12:43.000Z",
+              "uid": "35240-d0287ddb-fc20-42da-9474-6c82ef6e6101"
+            }
+          ],
+          "createdAt": "2026-06-05T13:12:43.000Z",
+          "updatedAt": "2026-06-05T13:12:43.000Z",
+          "uid": "35240-1c851e78-4d91-4247-a135-031038b45c74"
+        }
+      ],
+      "id": "31f83294-df4b-40fe-9841-bad5daf9733f",
+      "createdAt": "2026-06-05T13:12:43.000Z",
+      "updatedAt": "2026-06-05T13:12:43.000Z",
+      "uid": "35240-31f83294-df4b-40fe-9841-bad5daf9733f"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://cal-test.adyen.com/cal/services/Hop/v6"
+    }
+  ]
+}

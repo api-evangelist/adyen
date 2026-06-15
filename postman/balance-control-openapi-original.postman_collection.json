@@ -1,0 +1,145 @@
+{
+  "info": {
+    "_postman_id": "dba9e369-be3b-4c4e-9d4f-f8d1378f1258",
+    "name": "Adyen Balance Control API",
+    "description": "The Balance Control API lets you transfer funds between merchant accounts that belong to the same legal entity and are under the same company account.\n\nContact Support:\n Name: Adyen Developer Experience team",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T13:11:56.000Z",
+    "updatedAt": "2026-06-05T13:11:56.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-dba9e369-be3b-4c4e-9d4f-f8d1378f1258"
+  },
+  "item": [
+    {
+      "name": "balanceTransfer",
+      "item": [
+        {
+          "name": "Adyen Start a Balance Transfer",
+          "id": "c589ddd4-ae3b-45f5-9cb5-1ed256d375e2",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"fromMerchant\": \"<string>\",\n  \"toMerchant\": \"<string>\",\n  \"type\": \"fee\",\n  \"description\": \"<string>\",\n  \"reference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/balanceTransfer",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "balanceTransfer"
+              ]
+            },
+            "description": "Starts a balance transfer request between merchant accounts. The following conditions must be met before you can successfully transfer balances:\n\n* The source and destination merchant accounts must be under the same company account and legal entity.\n\n* The source merchant account must have sufficient funds.\n\n* The source and destination merchant accounts must have at least one common processing currency.\n\nWhen sending multiple API requests with the same source and destination merchant accounts, send the requests sequentially and *not* in parallel. Some requests may not be processed if the requests are sent in parallel.\n"
+          },
+          "response": [
+            {
+              "id": "692daf17-c139-4d54-9669-90184506946b",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"fromMerchant\": \"<string>\",\n  \"toMerchant\": \"<string>\",\n  \"type\": \"fee\",\n  \"description\": \"<string>\",\n  \"reference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/balanceTransfer",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "balanceTransfer"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"fromMerchant\": \"<string>\",\n  \"toMerchant\": \"<string>\",\n  \"type\": \"terminalSale\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"notEnoughBalance\",\n  \"createdAt\": \"<dateTime>\",\n  \"description\": \"<string>\",\n  \"reference\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:11:56.000Z",
+              "updatedAt": "2026-06-05T13:11:56.000Z",
+              "uid": "35240-692daf17-c139-4d54-9669-90184506946b"
+            }
+          ],
+          "createdAt": "2026-06-05T13:11:56.000Z",
+          "updatedAt": "2026-06-05T13:11:56.000Z",
+          "uid": "35240-c589ddd4-ae3b-45f5-9cb5-1ed256d375e2"
+        }
+      ],
+      "id": "d8f67a68-e04e-4493-ab76-0425a95428d6",
+      "createdAt": "2026-06-05T13:11:56.000Z",
+      "updatedAt": "2026-06-05T13:11:56.000Z",
+      "uid": "35240-d8f67a68-e04e-4493-ab76-0425a95428d6"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://pal-test.adyen.com/pal/servlet/BalanceControl/v1"
+    }
+  ]
+}

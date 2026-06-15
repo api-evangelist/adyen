@@ -1,0 +1,3708 @@
+{
+  "info": {
+    "_postman_id": "608cc8d7-cc50-41fd-b479-1667a38c542e",
+    "name": "Adyen Fund API",
+    "description": "This API is used for the classic integration. If you are just starting your implementation, refer to our new integration guide instead. The Fund API provides endpoints for managing the funds in the accounts on your platform. These management operations include, for example, the transfer of funds from one account to another, the payout of funds to an account holder, and the retrieval of balances in an account.\n\nContact Support:\n Name: Adyen Developer Experience team",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T13:12:40.000Z",
+    "updatedAt": "2026-06-05T13:12:40.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-608cc8d7-cc50-41fd-b479-1667a38c542e"
+  },
+  "item": [
+    {
+      "name": "accountHolderBalance",
+      "item": [
+        {
+          "name": "Adyen Get the Balances of an Account Holder",
+          "id": "efbdae05-ea3e-4ed6-af30-4aea09c2520c",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountHolderCode\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/accountHolderBalance",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "accountHolderBalance"
+              ]
+            },
+            "description": "Returns the account balances of an account holder. An account's balances are organized according by currencies. This mean that an account may have multiple balances: one for each currency."
+          },
+          "response": [
+            {
+              "id": "f31e0e8a-6a4c-4cb5-a824-5e79a950e69a",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/accountHolderBalance",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "accountHolderBalance"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"balancePerAccount\": [\n    {\n      \"accountCode\": \"<string>\",\n      \"detailBalance\": {\n        \"balance\": [\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          }\n        ],\n        \"onHoldBalance\": [\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          }\n        ],\n        \"pendingBalance\": [\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          }\n        ]\n      }\n    },\n    {\n      \"accountCode\": \"<string>\",\n      \"detailBalance\": {\n        \"balance\": [\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          }\n        ],\n        \"onHoldBalance\": [\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          }\n        ],\n        \"pendingBalance\": [\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          }\n        ]\n      }\n    }\n  ],\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"phoneCountryCode\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"shareholder\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\",\n  \"totalBalance\": {\n    \"balance\": [\n      {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      }\n    ],\n    \"onHoldBalance\": [\n      {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      }\n    ],\n    \"pendingBalance\": [\n      {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      }\n    ]\n  }\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-f31e0e8a-6a4c-4cb5-a824-5e79a950e69a"
+            },
+            {
+              "id": "aeb476b5-f726-4572-93b8-e446a9af08ab",
+              "name": "Accepted - the request has been accepted for processing, but the processing has not been completed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/accountHolderBalance",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "accountHolderBalance"
+                  ]
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"balancePerAccount\": [\n    {\n      \"accountCode\": \"<string>\",\n      \"detailBalance\": {\n        \"balance\": [\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          }\n        ],\n        \"onHoldBalance\": [\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          }\n        ],\n        \"pendingBalance\": [\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          }\n        ]\n      }\n    },\n    {\n      \"accountCode\": \"<string>\",\n      \"detailBalance\": {\n        \"balance\": [\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          }\n        ],\n        \"onHoldBalance\": [\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          }\n        ],\n        \"pendingBalance\": [\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          }\n        ]\n      }\n    }\n  ],\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"phoneCountryCode\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"shareholder\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\",\n  \"totalBalance\": {\n    \"balance\": [\n      {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      }\n    ],\n    \"onHoldBalance\": [\n      {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      }\n    ],\n    \"pendingBalance\": [\n      {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      }\n    ]\n  }\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-aeb476b5-f726-4572-93b8-e446a9af08ab"
+            },
+            {
+              "id": "cf41cf8a-c1c1-4a13-a7b0-9f9dfe70713b",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/accountHolderBalance",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "accountHolderBalance"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-cf41cf8a-c1c1-4a13-a7b0-9f9dfe70713b"
+            },
+            {
+              "id": "a37ed805-7479-4ad5-9e64-b61f1ccf6c7f",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/accountHolderBalance",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "accountHolderBalance"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-a37ed805-7479-4ad5-9e64-b61f1ccf6c7f"
+            },
+            {
+              "id": "673d3edd-80b5-4d6b-ac0d-a73740767d93",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/accountHolderBalance",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "accountHolderBalance"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-673d3edd-80b5-4d6b-ac0d-a73740767d93"
+            },
+            {
+              "id": "01ee6b64-b03f-4b78-b1c2-15b99be5009b",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/accountHolderBalance",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "accountHolderBalance"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-01ee6b64-b03f-4b78-b1c2-15b99be5009b"
+            },
+            {
+              "id": "7334e7e8-6144-4e8d-9123-1aee7d24e781",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/accountHolderBalance",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "accountHolderBalance"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-7334e7e8-6144-4e8d-9123-1aee7d24e781"
+            }
+          ],
+          "createdAt": "2026-06-05T13:12:40.000Z",
+          "updatedAt": "2026-06-05T13:12:40.000Z",
+          "uid": "35240-efbdae05-ea3e-4ed6-af30-4aea09c2520c"
+        }
+      ],
+      "id": "68be9755-ce97-4d27-9891-448ac7f44525",
+      "createdAt": "2026-06-05T13:12:40.000Z",
+      "updatedAt": "2026-06-05T13:12:40.000Z",
+      "uid": "35240-68be9755-ce97-4d27-9891-448ac7f44525"
+    },
+    {
+      "name": "accountHolderTransactionList",
+      "item": [
+        {
+          "name": "Adyen Get a List of Transactions",
+          "id": "9caf0045-f6cd-4cb4-ac10-236245fd7e27",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"transactionListsPerAccount\": [\n    {\n      \"accountCode\": \"<string>\",\n      \"page\": \"<integer>\"\n    },\n    {\n      \"accountCode\": \"<string>\",\n      \"page\": \"<integer>\"\n    }\n  ],\n  \"transactionStatuses\": [\n    \"DebitFailed\",\n    \"Chargeback\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/accountHolderTransactionList",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "accountHolderTransactionList"
+              ]
+            },
+            "description": "Returns a list of transactions for an account holder's accounts. You can specify the accounts and transaction statuses to be included on the list. The call returns a maximum of 50 transactions for each account. To retrieve all transactions, you must make another call with the 'page' value incremented. Transactions are listed in chronological order, with the most recent transaction first."
+          },
+          "response": [
+            {
+              "id": "b48d3e11-9b5e-428d-b8c3-a417fe94a536",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"transactionListsPerAccount\": [\n    {\n      \"accountCode\": \"<string>\",\n      \"page\": \"<integer>\"\n    },\n    {\n      \"accountCode\": \"<string>\",\n      \"page\": \"<integer>\"\n    }\n  ],\n  \"transactionStatuses\": [\n    \"DebitFailed\",\n    \"Chargeback\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/accountHolderTransactionList",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "accountHolderTransactionList"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"accountTransactionLists\": [\n    {\n      \"accountCode\": \"<string>\",\n      \"hasNextPage\": \"<boolean>\",\n      \"transactions\": [\n        {\n          \"amount\": {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          \"bankAccountDetail\": {\n            \"accountNumber\": \"<string>\",\n            \"accountType\": \"<string>\",\n            \"bankAccountName\": \"<string>\",\n            \"bankAccountReference\": \"<string>\",\n            \"bankAccountUUID\": \"<string>\",\n            \"bankBicSwift\": \"<string>\",\n            \"bankCity\": \"<string>\",\n            \"bankCode\": \"<string>\",\n            \"bankName\": \"<string>\",\n            \"branchCode\": \"<string>\",\n            \"checkCode\": \"<string>\",\n            \"countryCode\": \"<string>\",\n            \"currencyCode\": \"<string>\",\n            \"iban\": \"<string>\",\n            \"ownerCity\": \"<string>\",\n            \"ownerCountryCode\": \"<string>\",\n            \"ownerDateOfBirth\": \"<string>\",\n            \"ownerHouseNumberOrName\": \"<string>\",\n            \"ownerName\": \"<string>\",\n            \"ownerNationality\": \"<string>\",\n            \"ownerPostalCode\": \"<string>\",\n            \"ownerState\": \"<string>\",\n            \"ownerStreet\": \"<string>\",\n            \"primaryAccount\": \"<boolean>\",\n            \"taxId\": \"<string>\",\n            \"urlForVerification\": \"<string>\"\n          },\n          \"captureMerchantReference\": \"<string>\",\n          \"capturePspReference\": \"<string>\",\n          \"creationDate\": \"<dateTime>\",\n          \"description\": \"<string>\",\n          \"destinationAccountCode\": \"<string>\",\n          \"disputePspReference\": \"<string>\",\n          \"disputeReasonCode\": \"<string>\",\n          \"merchantReference\": \"<string>\",\n          \"paymentPspReference\": \"<string>\",\n          \"payoutPspReference\": \"<string>\",\n          \"pspReference\": \"<string>\",\n          \"sourceAccountCode\": \"<string>\",\n          \"transactionStatus\": \"PendingFundTransfer\",\n          \"transferCode\": \"<string>\"\n        },\n        {\n          \"amount\": {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          \"bankAccountDetail\": {\n            \"accountNumber\": \"<string>\",\n            \"accountType\": \"<string>\",\n            \"bankAccountName\": \"<string>\",\n            \"bankAccountReference\": \"<string>\",\n            \"bankAccountUUID\": \"<string>\",\n            \"bankBicSwift\": \"<string>\",\n            \"bankCity\": \"<string>\",\n            \"bankCode\": \"<string>\",\n            \"bankName\": \"<string>\",\n            \"branchCode\": \"<string>\",\n            \"checkCode\": \"<string>\",\n            \"countryCode\": \"<string>\",\n            \"currencyCode\": \"<string>\",\n            \"iban\": \"<string>\",\n            \"ownerCity\": \"<string>\",\n            \"ownerCountryCode\": \"<string>\",\n            \"ownerDateOfBirth\": \"<string>\",\n            \"ownerHouseNumberOrName\": \"<string>\",\n            \"ownerName\": \"<string>\",\n            \"ownerNationality\": \"<string>\",\n            \"ownerPostalCode\": \"<string>\",\n            \"ownerState\": \"<string>\",\n            \"ownerStreet\": \"<string>\",\n            \"primaryAccount\": \"<boolean>\",\n            \"taxId\": \"<string>\",\n            \"urlForVerification\": \"<string>\"\n          },\n          \"captureMerchantReference\": \"<string>\",\n          \"capturePspReference\": \"<string>\",\n          \"creationDate\": \"<dateTime>\",\n          \"description\": \"<string>\",\n          \"destinationAccountCode\": \"<string>\",\n          \"disputePspReference\": \"<string>\",\n          \"disputeReasonCode\": \"<string>\",\n          \"merchantReference\": \"<string>\",\n          \"paymentPspReference\": \"<string>\",\n          \"payoutPspReference\": \"<string>\",\n          \"pspReference\": \"<string>\",\n          \"sourceAccountCode\": \"<string>\",\n          \"transactionStatus\": \"PendingCredit\",\n          \"transferCode\": \"<string>\"\n        }\n      ]\n    },\n    {\n      \"accountCode\": \"<string>\",\n      \"hasNextPage\": \"<boolean>\",\n      \"transactions\": [\n        {\n          \"amount\": {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          \"bankAccountDetail\": {\n            \"accountNumber\": \"<string>\",\n            \"accountType\": \"<string>\",\n            \"bankAccountName\": \"<string>\",\n            \"bankAccountReference\": \"<string>\",\n            \"bankAccountUUID\": \"<string>\",\n            \"bankBicSwift\": \"<string>\",\n            \"bankCity\": \"<string>\",\n            \"bankCode\": \"<string>\",\n            \"bankName\": \"<string>\",\n            \"branchCode\": \"<string>\",\n            \"checkCode\": \"<string>\",\n            \"countryCode\": \"<string>\",\n            \"currencyCode\": \"<string>\",\n            \"iban\": \"<string>\",\n            \"ownerCity\": \"<string>\",\n            \"ownerCountryCode\": \"<string>\",\n            \"ownerDateOfBirth\": \"<string>\",\n            \"ownerHouseNumberOrName\": \"<string>\",\n            \"ownerName\": \"<string>\",\n            \"ownerNationality\": \"<string>\",\n            \"ownerPostalCode\": \"<string>\",\n            \"ownerState\": \"<string>\",\n            \"ownerStreet\": \"<string>\",\n            \"primaryAccount\": \"<boolean>\",\n            \"taxId\": \"<string>\",\n            \"urlForVerification\": \"<string>\"\n          },\n          \"captureMerchantReference\": \"<string>\",\n          \"capturePspReference\": \"<string>\",\n          \"creationDate\": \"<dateTime>\",\n          \"description\": \"<string>\",\n          \"destinationAccountCode\": \"<string>\",\n          \"disputePspReference\": \"<string>\",\n          \"disputeReasonCode\": \"<string>\",\n          \"merchantReference\": \"<string>\",\n          \"paymentPspReference\": \"<string>\",\n          \"payoutPspReference\": \"<string>\",\n          \"pspReference\": \"<string>\",\n          \"sourceAccountCode\": \"<string>\",\n          \"transactionStatus\": \"CreditFailed\",\n          \"transferCode\": \"<string>\"\n        },\n        {\n          \"amount\": {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          \"bankAccountDetail\": {\n            \"accountNumber\": \"<string>\",\n            \"accountType\": \"<string>\",\n            \"bankAccountName\": \"<string>\",\n            \"bankAccountReference\": \"<string>\",\n            \"bankAccountUUID\": \"<string>\",\n            \"bankBicSwift\": \"<string>\",\n            \"bankCity\": \"<string>\",\n            \"bankCode\": \"<string>\",\n            \"bankName\": \"<string>\",\n            \"branchCode\": \"<string>\",\n            \"checkCode\": \"<string>\",\n            \"countryCode\": \"<string>\",\n            \"currencyCode\": \"<string>\",\n            \"iban\": \"<string>\",\n            \"ownerCity\": \"<string>\",\n            \"ownerCountryCode\": \"<string>\",\n            \"ownerDateOfBirth\": \"<string>\",\n            \"ownerHouseNumberOrName\": \"<string>\",\n            \"ownerName\": \"<string>\",\n            \"ownerNationality\": \"<string>\",\n            \"ownerPostalCode\": \"<string>\",\n            \"ownerState\": \"<string>\",\n            \"ownerStreet\": \"<string>\",\n            \"primaryAccount\": \"<boolean>\",\n            \"taxId\": \"<string>\",\n            \"urlForVerification\": \"<string>\"\n          },\n          \"captureMerchantReference\": \"<string>\",\n          \"capturePspReference\": \"<string>\",\n          \"creationDate\": \"<dateTime>\",\n          \"description\": \"<string>\",\n          \"destinationAccountCode\": \"<string>\",\n          \"disputePspReference\": \"<string>\",\n          \"disputeReasonCode\": \"<string>\",\n          \"merchantReference\": \"<string>\",\n          \"paymentPspReference\": \"<string>\",\n          \"payoutPspReference\": \"<string>\",\n          \"pspReference\": \"<string>\",\n          \"sourceAccountCode\": \"<string>\",\n          \"transactionStatus\": \"DebitReversedReceived\",\n          \"transferCode\": \"<string>\"\n        }\n      ]\n    }\n  ],\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"legalArrangementEntity\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"gender\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-b48d3e11-9b5e-428d-b8c3-a417fe94a536"
+            },
+            {
+              "id": "95da5bec-749f-49c9-a021-0f9c5063dde5",
+              "name": "Accepted - the request has been accepted for processing, but the processing has not been completed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"transactionListsPerAccount\": [\n    {\n      \"accountCode\": \"<string>\",\n      \"page\": \"<integer>\"\n    },\n    {\n      \"accountCode\": \"<string>\",\n      \"page\": \"<integer>\"\n    }\n  ],\n  \"transactionStatuses\": [\n    \"DebitFailed\",\n    \"Chargeback\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/accountHolderTransactionList",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "accountHolderTransactionList"
+                  ]
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"accountTransactionLists\": [\n    {\n      \"accountCode\": \"<string>\",\n      \"hasNextPage\": \"<boolean>\",\n      \"transactions\": [\n        {\n          \"amount\": {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          \"bankAccountDetail\": {\n            \"accountNumber\": \"<string>\",\n            \"accountType\": \"<string>\",\n            \"bankAccountName\": \"<string>\",\n            \"bankAccountReference\": \"<string>\",\n            \"bankAccountUUID\": \"<string>\",\n            \"bankBicSwift\": \"<string>\",\n            \"bankCity\": \"<string>\",\n            \"bankCode\": \"<string>\",\n            \"bankName\": \"<string>\",\n            \"branchCode\": \"<string>\",\n            \"checkCode\": \"<string>\",\n            \"countryCode\": \"<string>\",\n            \"currencyCode\": \"<string>\",\n            \"iban\": \"<string>\",\n            \"ownerCity\": \"<string>\",\n            \"ownerCountryCode\": \"<string>\",\n            \"ownerDateOfBirth\": \"<string>\",\n            \"ownerHouseNumberOrName\": \"<string>\",\n            \"ownerName\": \"<string>\",\n            \"ownerNationality\": \"<string>\",\n            \"ownerPostalCode\": \"<string>\",\n            \"ownerState\": \"<string>\",\n            \"ownerStreet\": \"<string>\",\n            \"primaryAccount\": \"<boolean>\",\n            \"taxId\": \"<string>\",\n            \"urlForVerification\": \"<string>\"\n          },\n          \"captureMerchantReference\": \"<string>\",\n          \"capturePspReference\": \"<string>\",\n          \"creationDate\": \"<dateTime>\",\n          \"description\": \"<string>\",\n          \"destinationAccountCode\": \"<string>\",\n          \"disputePspReference\": \"<string>\",\n          \"disputeReasonCode\": \"<string>\",\n          \"merchantReference\": \"<string>\",\n          \"paymentPspReference\": \"<string>\",\n          \"payoutPspReference\": \"<string>\",\n          \"pspReference\": \"<string>\",\n          \"sourceAccountCode\": \"<string>\",\n          \"transactionStatus\": \"PendingFundTransfer\",\n          \"transferCode\": \"<string>\"\n        },\n        {\n          \"amount\": {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          \"bankAccountDetail\": {\n            \"accountNumber\": \"<string>\",\n            \"accountType\": \"<string>\",\n            \"bankAccountName\": \"<string>\",\n            \"bankAccountReference\": \"<string>\",\n            \"bankAccountUUID\": \"<string>\",\n            \"bankBicSwift\": \"<string>\",\n            \"bankCity\": \"<string>\",\n            \"bankCode\": \"<string>\",\n            \"bankName\": \"<string>\",\n            \"branchCode\": \"<string>\",\n            \"checkCode\": \"<string>\",\n            \"countryCode\": \"<string>\",\n            \"currencyCode\": \"<string>\",\n            \"iban\": \"<string>\",\n            \"ownerCity\": \"<string>\",\n            \"ownerCountryCode\": \"<string>\",\n            \"ownerDateOfBirth\": \"<string>\",\n            \"ownerHouseNumberOrName\": \"<string>\",\n            \"ownerName\": \"<string>\",\n            \"ownerNationality\": \"<string>\",\n            \"ownerPostalCode\": \"<string>\",\n            \"ownerState\": \"<string>\",\n            \"ownerStreet\": \"<string>\",\n            \"primaryAccount\": \"<boolean>\",\n            \"taxId\": \"<string>\",\n            \"urlForVerification\": \"<string>\"\n          },\n          \"captureMerchantReference\": \"<string>\",\n          \"capturePspReference\": \"<string>\",\n          \"creationDate\": \"<dateTime>\",\n          \"description\": \"<string>\",\n          \"destinationAccountCode\": \"<string>\",\n          \"disputePspReference\": \"<string>\",\n          \"disputeReasonCode\": \"<string>\",\n          \"merchantReference\": \"<string>\",\n          \"paymentPspReference\": \"<string>\",\n          \"payoutPspReference\": \"<string>\",\n          \"pspReference\": \"<string>\",\n          \"sourceAccountCode\": \"<string>\",\n          \"transactionStatus\": \"PendingCredit\",\n          \"transferCode\": \"<string>\"\n        }\n      ]\n    },\n    {\n      \"accountCode\": \"<string>\",\n      \"hasNextPage\": \"<boolean>\",\n      \"transactions\": [\n        {\n          \"amount\": {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          \"bankAccountDetail\": {\n            \"accountNumber\": \"<string>\",\n            \"accountType\": \"<string>\",\n            \"bankAccountName\": \"<string>\",\n            \"bankAccountReference\": \"<string>\",\n            \"bankAccountUUID\": \"<string>\",\n            \"bankBicSwift\": \"<string>\",\n            \"bankCity\": \"<string>\",\n            \"bankCode\": \"<string>\",\n            \"bankName\": \"<string>\",\n            \"branchCode\": \"<string>\",\n            \"checkCode\": \"<string>\",\n            \"countryCode\": \"<string>\",\n            \"currencyCode\": \"<string>\",\n            \"iban\": \"<string>\",\n            \"ownerCity\": \"<string>\",\n            \"ownerCountryCode\": \"<string>\",\n            \"ownerDateOfBirth\": \"<string>\",\n            \"ownerHouseNumberOrName\": \"<string>\",\n            \"ownerName\": \"<string>\",\n            \"ownerNationality\": \"<string>\",\n            \"ownerPostalCode\": \"<string>\",\n            \"ownerState\": \"<string>\",\n            \"ownerStreet\": \"<string>\",\n            \"primaryAccount\": \"<boolean>\",\n            \"taxId\": \"<string>\",\n            \"urlForVerification\": \"<string>\"\n          },\n          \"captureMerchantReference\": \"<string>\",\n          \"capturePspReference\": \"<string>\",\n          \"creationDate\": \"<dateTime>\",\n          \"description\": \"<string>\",\n          \"destinationAccountCode\": \"<string>\",\n          \"disputePspReference\": \"<string>\",\n          \"disputeReasonCode\": \"<string>\",\n          \"merchantReference\": \"<string>\",\n          \"paymentPspReference\": \"<string>\",\n          \"payoutPspReference\": \"<string>\",\n          \"pspReference\": \"<string>\",\n          \"sourceAccountCode\": \"<string>\",\n          \"transactionStatus\": \"CreditFailed\",\n          \"transferCode\": \"<string>\"\n        },\n        {\n          \"amount\": {\n            \"value\": \"<long>\",\n            \"currency\": \"<string>\"\n          },\n          \"bankAccountDetail\": {\n            \"accountNumber\": \"<string>\",\n            \"accountType\": \"<string>\",\n            \"bankAccountName\": \"<string>\",\n            \"bankAccountReference\": \"<string>\",\n            \"bankAccountUUID\": \"<string>\",\n            \"bankBicSwift\": \"<string>\",\n            \"bankCity\": \"<string>\",\n            \"bankCode\": \"<string>\",\n            \"bankName\": \"<string>\",\n            \"branchCode\": \"<string>\",\n            \"checkCode\": \"<string>\",\n            \"countryCode\": \"<string>\",\n            \"currencyCode\": \"<string>\",\n            \"iban\": \"<string>\",\n            \"ownerCity\": \"<string>\",\n            \"ownerCountryCode\": \"<string>\",\n            \"ownerDateOfBirth\": \"<string>\",\n            \"ownerHouseNumberOrName\": \"<string>\",\n            \"ownerName\": \"<string>\",\n            \"ownerNationality\": \"<string>\",\n            \"ownerPostalCode\": \"<string>\",\n            \"ownerState\": \"<string>\",\n            \"ownerStreet\": \"<string>\",\n            \"primaryAccount\": \"<boolean>\",\n            \"taxId\": \"<string>\",\n            \"urlForVerification\": \"<string>\"\n          },\n          \"captureMerchantReference\": \"<string>\",\n          \"capturePspReference\": \"<string>\",\n          \"creationDate\": \"<dateTime>\",\n          \"description\": \"<string>\",\n          \"destinationAccountCode\": \"<string>\",\n          \"disputePspReference\": \"<string>\",\n          \"disputeReasonCode\": \"<string>\",\n          \"merchantReference\": \"<string>\",\n          \"paymentPspReference\": \"<string>\",\n          \"payoutPspReference\": \"<string>\",\n          \"pspReference\": \"<string>\",\n          \"sourceAccountCode\": \"<string>\",\n          \"transactionStatus\": \"DebitReversedReceived\",\n          \"transferCode\": \"<string>\"\n        }\n      ]\n    }\n  ],\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"legalArrangementEntity\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"gender\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-95da5bec-749f-49c9-a021-0f9c5063dde5"
+            },
+            {
+              "id": "90f61fa7-5b18-4fc3-b16d-5d0ab48a1549",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"transactionListsPerAccount\": [\n    {\n      \"accountCode\": \"<string>\",\n      \"page\": \"<integer>\"\n    },\n    {\n      \"accountCode\": \"<string>\",\n      \"page\": \"<integer>\"\n    }\n  ],\n  \"transactionStatuses\": [\n    \"DebitFailed\",\n    \"Chargeback\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/accountHolderTransactionList",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "accountHolderTransactionList"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-90f61fa7-5b18-4fc3-b16d-5d0ab48a1549"
+            },
+            {
+              "id": "ed81c66b-f3cc-4551-9496-7983e7d5ceee",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"transactionListsPerAccount\": [\n    {\n      \"accountCode\": \"<string>\",\n      \"page\": \"<integer>\"\n    },\n    {\n      \"accountCode\": \"<string>\",\n      \"page\": \"<integer>\"\n    }\n  ],\n  \"transactionStatuses\": [\n    \"DebitFailed\",\n    \"Chargeback\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/accountHolderTransactionList",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "accountHolderTransactionList"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-ed81c66b-f3cc-4551-9496-7983e7d5ceee"
+            },
+            {
+              "id": "bc3a6893-fc6d-44c0-b3c8-a58f9c8d0912",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"transactionListsPerAccount\": [\n    {\n      \"accountCode\": \"<string>\",\n      \"page\": \"<integer>\"\n    },\n    {\n      \"accountCode\": \"<string>\",\n      \"page\": \"<integer>\"\n    }\n  ],\n  \"transactionStatuses\": [\n    \"DebitFailed\",\n    \"Chargeback\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/accountHolderTransactionList",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "accountHolderTransactionList"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-bc3a6893-fc6d-44c0-b3c8-a58f9c8d0912"
+            },
+            {
+              "id": "f9da4db1-87a5-4975-ad9f-5178ad8026a2",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"transactionListsPerAccount\": [\n    {\n      \"accountCode\": \"<string>\",\n      \"page\": \"<integer>\"\n    },\n    {\n      \"accountCode\": \"<string>\",\n      \"page\": \"<integer>\"\n    }\n  ],\n  \"transactionStatuses\": [\n    \"DebitFailed\",\n    \"Chargeback\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/accountHolderTransactionList",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "accountHolderTransactionList"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-f9da4db1-87a5-4975-ad9f-5178ad8026a2"
+            },
+            {
+              "id": "d31aaf16-b44d-4047-8d59-66a1da8f9ae6",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"transactionListsPerAccount\": [\n    {\n      \"accountCode\": \"<string>\",\n      \"page\": \"<integer>\"\n    },\n    {\n      \"accountCode\": \"<string>\",\n      \"page\": \"<integer>\"\n    }\n  ],\n  \"transactionStatuses\": [\n    \"DebitFailed\",\n    \"Chargeback\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/accountHolderTransactionList",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "accountHolderTransactionList"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-d31aaf16-b44d-4047-8d59-66a1da8f9ae6"
+            }
+          ],
+          "createdAt": "2026-06-05T13:12:40.000Z",
+          "updatedAt": "2026-06-05T13:12:40.000Z",
+          "uid": "35240-9caf0045-f6cd-4cb4-ac10-236245fd7e27"
+        }
+      ],
+      "id": "cab6ba26-244a-4dad-bd24-d8d9e1e88ada",
+      "createdAt": "2026-06-05T13:12:40.000Z",
+      "updatedAt": "2026-06-05T13:12:40.000Z",
+      "uid": "35240-cab6ba26-244a-4dad-bd24-d8d9e1e88ada"
+    },
+    {
+      "name": "debitAccountHolder",
+      "item": [
+        {
+          "name": "Adyen Send a Direct Debit Request",
+          "id": "5c1ee5bb-d9c9-46ba-b771-418d7f726d72",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"bankAccountUUID\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"splits\": [\n    {\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"type\": \"PaymentFeeInterchange\",\n      \"account\": \"<string>\",\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    {\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"type\": \"Default\",\n      \"account\": \"<string>\",\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    }\n  ],\n  \"merchantAccount\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/debitAccountHolder",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "debitAccountHolder"
+              ]
+            },
+            "description": "Sends a direct debit request to an account holder's bank account. If the direct debit is successful, the funds are settled in the accounts specified in the split instructions. Adyen sends the result of the direct debit in a [`DIRECT_DEBIT_INITIATED`](https://docs.adyen.com/api-explorer/#/NotificationService/latest/post/DIRECT_DEBIT_INITIATED) notification webhook.\n\n To learn more about direct debits, see [Top up accounts](https://docs.adyen.com/marketplaces-and-platforms/classic/top-up-accounts)."
+          },
+          "response": [
+            {
+              "id": "8d88aa51-3889-4676-982e-2a28256cd188",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"bankAccountUUID\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"splits\": [\n    {\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"type\": \"PaymentFeeInterchange\",\n      \"account\": \"<string>\",\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    {\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"type\": \"Default\",\n      \"account\": \"<string>\",\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    }\n  ],\n  \"merchantAccount\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/debitAccountHolder",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "debitAccountHolder"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"accountHolderCode\": \"<string>\",\n  \"bankAccountUUID\": \"<string>\",\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"merchantCategoryCode\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"unknown\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"merchantReferences\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-8d88aa51-3889-4676-982e-2a28256cd188"
+            },
+            {
+              "id": "5995281f-940a-473d-b00c-3767fac022cb",
+              "name": "Accepted - the request has been accepted for processing, but the processing has not been completed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"bankAccountUUID\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"splits\": [\n    {\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"type\": \"PaymentFeeInterchange\",\n      \"account\": \"<string>\",\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    {\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"type\": \"Default\",\n      \"account\": \"<string>\",\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    }\n  ],\n  \"merchantAccount\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/debitAccountHolder",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "debitAccountHolder"
+                  ]
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"accountHolderCode\": \"<string>\",\n  \"bankAccountUUID\": \"<string>\",\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"merchantCategoryCode\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"unknown\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"merchantReferences\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-5995281f-940a-473d-b00c-3767fac022cb"
+            },
+            {
+              "id": "0c3fc59f-91e0-47ce-861d-09383b7be44f",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"bankAccountUUID\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"splits\": [\n    {\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"type\": \"PaymentFeeInterchange\",\n      \"account\": \"<string>\",\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    {\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"type\": \"Default\",\n      \"account\": \"<string>\",\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    }\n  ],\n  \"merchantAccount\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/debitAccountHolder",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "debitAccountHolder"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-0c3fc59f-91e0-47ce-861d-09383b7be44f"
+            },
+            {
+              "id": "d5b1919b-3540-4af1-824e-a2a601114230",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"bankAccountUUID\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"splits\": [\n    {\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"type\": \"PaymentFeeInterchange\",\n      \"account\": \"<string>\",\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    {\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"type\": \"Default\",\n      \"account\": \"<string>\",\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    }\n  ],\n  \"merchantAccount\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/debitAccountHolder",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "debitAccountHolder"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-d5b1919b-3540-4af1-824e-a2a601114230"
+            },
+            {
+              "id": "9d36031f-49a2-44fe-a671-756b4b10ea9d",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"bankAccountUUID\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"splits\": [\n    {\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"type\": \"PaymentFeeInterchange\",\n      \"account\": \"<string>\",\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    {\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"type\": \"Default\",\n      \"account\": \"<string>\",\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    }\n  ],\n  \"merchantAccount\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/debitAccountHolder",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "debitAccountHolder"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-9d36031f-49a2-44fe-a671-756b4b10ea9d"
+            },
+            {
+              "id": "ef7b7f7e-962f-4a31-b985-c4f2a6fd2c57",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"bankAccountUUID\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"splits\": [\n    {\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"type\": \"PaymentFeeInterchange\",\n      \"account\": \"<string>\",\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    {\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"type\": \"Default\",\n      \"account\": \"<string>\",\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    }\n  ],\n  \"merchantAccount\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/debitAccountHolder",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "debitAccountHolder"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-ef7b7f7e-962f-4a31-b985-c4f2a6fd2c57"
+            },
+            {
+              "id": "de1d8fd8-d438-49f5-9834-4997d929b1fa",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"bankAccountUUID\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"splits\": [\n    {\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"type\": \"PaymentFeeInterchange\",\n      \"account\": \"<string>\",\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    {\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"type\": \"Default\",\n      \"account\": \"<string>\",\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    }\n  ],\n  \"merchantAccount\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/debitAccountHolder",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "debitAccountHolder"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-de1d8fd8-d438-49f5-9834-4997d929b1fa"
+            }
+          ],
+          "createdAt": "2026-06-05T13:12:40.000Z",
+          "updatedAt": "2026-06-05T13:12:40.000Z",
+          "uid": "35240-5c1ee5bb-d9c9-46ba-b771-418d7f726d72"
+        }
+      ],
+      "id": "eea2b964-0b4d-47f0-bbef-2f3d689beb33",
+      "createdAt": "2026-06-05T13:12:40.000Z",
+      "updatedAt": "2026-06-05T13:12:40.000Z",
+      "uid": "35240-eea2b964-0b4d-47f0-bbef-2f3d689beb33"
+    },
+    {
+      "name": "payoutAccountHolder",
+      "item": [
+        {
+          "name": "Adyen Pay Out from an Account to the Account Holder",
+          "id": "ea06ed11-3a9b-486d-875d-b91ef5c03efa",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"accountCode\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"bankAccountUUID\": \"<string>\",\n  \"description\": \"<string>\",\n  \"merchantReference\": \"<string>\",\n  \"payoutMethodCode\": \"<string>\",\n  \"payoutSpeed\": \"STANDARD\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payoutAccountHolder",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "payoutAccountHolder"
+              ]
+            },
+            "description": "Pays out a specified amount from an account to the bank account of account holder."
+          },
+          "response": [
+            {
+              "id": "58801c72-76c4-4087-9606-bd50f05249bf",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"accountCode\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"bankAccountUUID\": \"<string>\",\n  \"description\": \"<string>\",\n  \"merchantReference\": \"<string>\",\n  \"payoutMethodCode\": \"<string>\",\n  \"payoutSpeed\": \"STANDARD\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/payoutAccountHolder",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "payoutAccountHolder"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"bankAccountUUID\": \"<string>\",\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"passportNumber\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"ultimateParentCompanyCode\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"merchantReference\": \"<string>\",\n  \"payoutSpeed\": \"STANDARD\",\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-58801c72-76c4-4087-9606-bd50f05249bf"
+            },
+            {
+              "id": "767a5175-259a-4e01-abf2-ae1705d3c643",
+              "name": "Accepted - the request has been accepted for processing, but the processing has not been completed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"accountCode\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"bankAccountUUID\": \"<string>\",\n  \"description\": \"<string>\",\n  \"merchantReference\": \"<string>\",\n  \"payoutMethodCode\": \"<string>\",\n  \"payoutSpeed\": \"STANDARD\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/payoutAccountHolder",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "payoutAccountHolder"
+                  ]
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"bankAccountUUID\": \"<string>\",\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"passportNumber\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"ultimateParentCompanyCode\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"merchantReference\": \"<string>\",\n  \"payoutSpeed\": \"STANDARD\",\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-767a5175-259a-4e01-abf2-ae1705d3c643"
+            },
+            {
+              "id": "1a3a0426-1000-48c2-b3e3-64b0f68c9f52",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"accountCode\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"bankAccountUUID\": \"<string>\",\n  \"description\": \"<string>\",\n  \"merchantReference\": \"<string>\",\n  \"payoutMethodCode\": \"<string>\",\n  \"payoutSpeed\": \"STANDARD\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/payoutAccountHolder",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "payoutAccountHolder"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-1a3a0426-1000-48c2-b3e3-64b0f68c9f52"
+            },
+            {
+              "id": "af3cf41b-878f-4663-b431-ffb07f31ed16",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"accountCode\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"bankAccountUUID\": \"<string>\",\n  \"description\": \"<string>\",\n  \"merchantReference\": \"<string>\",\n  \"payoutMethodCode\": \"<string>\",\n  \"payoutSpeed\": \"STANDARD\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/payoutAccountHolder",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "payoutAccountHolder"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-af3cf41b-878f-4663-b431-ffb07f31ed16"
+            },
+            {
+              "id": "f9124a3c-b760-41b9-bbd0-2cfda5589241",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"accountCode\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"bankAccountUUID\": \"<string>\",\n  \"description\": \"<string>\",\n  \"merchantReference\": \"<string>\",\n  \"payoutMethodCode\": \"<string>\",\n  \"payoutSpeed\": \"STANDARD\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/payoutAccountHolder",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "payoutAccountHolder"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-f9124a3c-b760-41b9-bbd0-2cfda5589241"
+            },
+            {
+              "id": "ab7a7108-a7cd-4111-85e9-27fa87ee7add",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"accountCode\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"bankAccountUUID\": \"<string>\",\n  \"description\": \"<string>\",\n  \"merchantReference\": \"<string>\",\n  \"payoutMethodCode\": \"<string>\",\n  \"payoutSpeed\": \"STANDARD\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/payoutAccountHolder",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "payoutAccountHolder"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-ab7a7108-a7cd-4111-85e9-27fa87ee7add"
+            },
+            {
+              "id": "c29dd2bc-5e07-4072-aa85-08122a94cbab",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"accountCode\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"bankAccountUUID\": \"<string>\",\n  \"description\": \"<string>\",\n  \"merchantReference\": \"<string>\",\n  \"payoutMethodCode\": \"<string>\",\n  \"payoutSpeed\": \"STANDARD\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/payoutAccountHolder",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "payoutAccountHolder"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-c29dd2bc-5e07-4072-aa85-08122a94cbab"
+            }
+          ],
+          "createdAt": "2026-06-05T13:12:40.000Z",
+          "updatedAt": "2026-06-05T13:12:40.000Z",
+          "uid": "35240-ea06ed11-3a9b-486d-875d-b91ef5c03efa"
+        }
+      ],
+      "id": "3936e16a-91ba-43e6-8cfb-c8771b69f996",
+      "createdAt": "2026-06-05T13:12:40.000Z",
+      "updatedAt": "2026-06-05T13:12:40.000Z",
+      "uid": "35240-3936e16a-91ba-43e6-8cfb-c8771b69f996"
+    },
+    {
+      "name": "refundFundsTransfer",
+      "item": [
+        {
+          "name": "Adyen Refund a Funds Transfer",
+          "id": "fa7695c0-f11c-4b82-9fa7-16fdf01c7907",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"originalReference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"merchantReference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/refundFundsTransfer",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "refundFundsTransfer"
+              ]
+            },
+            "description": "Refunds funds transferred from one account to another. Both accounts must be in the same platform, but can have different account holders. "
+          },
+          "response": [
+            {
+              "id": "1392b952-c6ce-4ea8-b1da-4c3d4ede3663",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originalReference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/refundFundsTransfer",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "refundFundsTransfer"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"splitValue\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"bankAccountCode\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"merchantReference\": \"<string>\",\n  \"message\": \"<string>\",\n  \"originalReference\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-1392b952-c6ce-4ea8-b1da-4c3d4ede3663"
+            },
+            {
+              "id": "e1570d15-df85-4d58-95d1-1d28ceddf72d",
+              "name": "Accepted - the request has been accepted for processing, but the processing has not been completed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originalReference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/refundFundsTransfer",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "refundFundsTransfer"
+                  ]
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"splitValue\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"bankAccountCode\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"merchantReference\": \"<string>\",\n  \"message\": \"<string>\",\n  \"originalReference\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-e1570d15-df85-4d58-95d1-1d28ceddf72d"
+            },
+            {
+              "id": "eddb237a-1a23-4590-b72c-7ce542e7c850",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originalReference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/refundFundsTransfer",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "refundFundsTransfer"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-eddb237a-1a23-4590-b72c-7ce542e7c850"
+            },
+            {
+              "id": "d9156873-4976-4080-b0cd-08ec0bd8a282",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originalReference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/refundFundsTransfer",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "refundFundsTransfer"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-d9156873-4976-4080-b0cd-08ec0bd8a282"
+            },
+            {
+              "id": "b450479c-7be0-4eb7-a00a-7b867c3db190",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originalReference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/refundFundsTransfer",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "refundFundsTransfer"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-b450479c-7be0-4eb7-a00a-7b867c3db190"
+            },
+            {
+              "id": "581572b4-f555-4335-af14-8852f7a67052",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originalReference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/refundFundsTransfer",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "refundFundsTransfer"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-581572b4-f555-4335-af14-8852f7a67052"
+            },
+            {
+              "id": "fd2954fd-fdc1-4d6c-ad99-c69d81aa6291",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originalReference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/refundFundsTransfer",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "refundFundsTransfer"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-fd2954fd-fdc1-4d6c-ad99-c69d81aa6291"
+            }
+          ],
+          "createdAt": "2026-06-05T13:12:40.000Z",
+          "updatedAt": "2026-06-05T13:12:40.000Z",
+          "uid": "35240-fa7695c0-f11c-4b82-9fa7-16fdf01c7907"
+        }
+      ],
+      "id": "f5733e7e-8e79-48b3-80c0-2b6cb279975b",
+      "createdAt": "2026-06-05T13:12:40.000Z",
+      "updatedAt": "2026-06-05T13:12:40.000Z",
+      "uid": "35240-f5733e7e-8e79-48b3-80c0-2b6cb279975b"
+    },
+    {
+      "name": "refundNotPaidOutTransfers",
+      "item": [
+        {
+          "name": "Adyen Refund All Transactions of an Account Since the Most Recent Payout",
+          "id": "c3a6c400-fa74-4e69-b0b8-63ae0f31a636",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"accountCode\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/refundNotPaidOutTransfers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "refundNotPaidOutTransfers"
+              ]
+            },
+            "description": "Refunds all the transactions of an account that have taken place since the most recent payout. This request is on a account basis (as opposed to a payment basis), so only the portion of the payment that was made to the specified account is refunded. The commissions, fees, and payments to other accounts remain in the accounts to which they were sent as designated by the original payment's split details."
+          },
+          "response": [
+            {
+              "id": "403cb6ba-01b2-4b5f-904b-b7184c3fedd4",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"accountCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/refundNotPaidOutTransfers",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "refundNotPaidOutTransfers"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"payoutMethodCode\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"documentIssuerCountry\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-403cb6ba-01b2-4b5f-904b-b7184c3fedd4"
+            },
+            {
+              "id": "9b1de175-3fa6-466e-9192-81d88c67e1d7",
+              "name": "Accepted - the request has been accepted for processing, but the processing has not been completed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"accountCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/refundNotPaidOutTransfers",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "refundNotPaidOutTransfers"
+                  ]
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"payoutMethodCode\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"documentIssuerCountry\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-9b1de175-3fa6-466e-9192-81d88c67e1d7"
+            },
+            {
+              "id": "e5b63aba-6646-452a-8436-0ae8f689471f",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"accountCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/refundNotPaidOutTransfers",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "refundNotPaidOutTransfers"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-e5b63aba-6646-452a-8436-0ae8f689471f"
+            },
+            {
+              "id": "80235b8c-121b-4e94-b0af-4c6d7b25164e",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"accountCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/refundNotPaidOutTransfers",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "refundNotPaidOutTransfers"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-80235b8c-121b-4e94-b0af-4c6d7b25164e"
+            },
+            {
+              "id": "497459c7-4558-455a-80d5-37753f49d0e1",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"accountCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/refundNotPaidOutTransfers",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "refundNotPaidOutTransfers"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-497459c7-4558-455a-80d5-37753f49d0e1"
+            },
+            {
+              "id": "64862530-0706-4a64-9e84-798f0fa829e1",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"accountCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/refundNotPaidOutTransfers",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "refundNotPaidOutTransfers"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-64862530-0706-4a64-9e84-798f0fa829e1"
+            },
+            {
+              "id": "70cff103-aef4-4318-ab5e-78316470756d",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"accountCode\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/refundNotPaidOutTransfers",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "refundNotPaidOutTransfers"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-70cff103-aef4-4318-ab5e-78316470756d"
+            }
+          ],
+          "createdAt": "2026-06-05T13:12:40.000Z",
+          "updatedAt": "2026-06-05T13:12:40.000Z",
+          "uid": "35240-c3a6c400-fa74-4e69-b0b8-63ae0f31a636"
+        }
+      ],
+      "id": "4460fbe5-2aff-4ad3-a8c0-410d3c9028e2",
+      "createdAt": "2026-06-05T13:12:40.000Z",
+      "updatedAt": "2026-06-05T13:12:40.000Z",
+      "uid": "35240-4460fbe5-2aff-4ad3-a8c0-410d3c9028e2"
+    },
+    {
+      "name": "setupBeneficiary",
+      "item": [
+        {
+          "name": "Adyen Designate a Beneficiary Account and Transfer the Benefactor's Current Balance",
+          "id": "bf26a4bb-9d35-4281-9a38-b55317fa3061",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceAccountCode\": \"<string>\",\n  \"destinationAccountCode\": \"<string>\",\n  \"merchantReference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/setupBeneficiary",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "setupBeneficiary"
+              ]
+            },
+            "description": "Defines a benefactor and a beneficiary relationship between two accounts. At the time of benefactor/beneficiary setup, the funds in the benefactor account are transferred to the beneficiary account, and any further payments to the benefactor account are automatically sent to the beneficiary account. A series of benefactor/beneficiaries may not exceed four beneficiaries and may not have a cycle in it."
+          },
+          "response": [
+            {
+              "id": "b2e61843-9cf1-4d2d-a6d2-432ab8e2087e",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceAccountCode\": \"<string>\",\n  \"destinationAccountCode\": \"<string>\",\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/setupBeneficiary",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "setupBeneficiary"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"payoutMethodCode\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"documentIssuerCountry\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-b2e61843-9cf1-4d2d-a6d2-432ab8e2087e"
+            },
+            {
+              "id": "dfe374fa-785c-486c-9ff8-4356ae8d3206",
+              "name": "Accepted - the request has been accepted for processing, but the processing has not been completed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceAccountCode\": \"<string>\",\n  \"destinationAccountCode\": \"<string>\",\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/setupBeneficiary",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "setupBeneficiary"
+                  ]
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"payoutMethodCode\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"documentIssuerCountry\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-dfe374fa-785c-486c-9ff8-4356ae8d3206"
+            },
+            {
+              "id": "b38f0766-abd8-4552-9d33-1443ef12e0da",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceAccountCode\": \"<string>\",\n  \"destinationAccountCode\": \"<string>\",\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/setupBeneficiary",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "setupBeneficiary"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-b38f0766-abd8-4552-9d33-1443ef12e0da"
+            },
+            {
+              "id": "361c639c-5362-4fc0-b0fe-7febbddac0fd",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceAccountCode\": \"<string>\",\n  \"destinationAccountCode\": \"<string>\",\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/setupBeneficiary",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "setupBeneficiary"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-361c639c-5362-4fc0-b0fe-7febbddac0fd"
+            },
+            {
+              "id": "a9463ad8-12a6-45c0-b14d-29345c5c487a",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceAccountCode\": \"<string>\",\n  \"destinationAccountCode\": \"<string>\",\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/setupBeneficiary",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "setupBeneficiary"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-a9463ad8-12a6-45c0-b14d-29345c5c487a"
+            },
+            {
+              "id": "5647e989-2bf0-491e-8d57-07c41fbefae6",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceAccountCode\": \"<string>\",\n  \"destinationAccountCode\": \"<string>\",\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/setupBeneficiary",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "setupBeneficiary"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-5647e989-2bf0-491e-8d57-07c41fbefae6"
+            },
+            {
+              "id": "f0573b0f-15e2-47d8-8aa6-64602b52352c",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceAccountCode\": \"<string>\",\n  \"destinationAccountCode\": \"<string>\",\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/setupBeneficiary",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "setupBeneficiary"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-f0573b0f-15e2-47d8-8aa6-64602b52352c"
+            }
+          ],
+          "createdAt": "2026-06-05T13:12:40.000Z",
+          "updatedAt": "2026-06-05T13:12:40.000Z",
+          "uid": "35240-bf26a4bb-9d35-4281-9a38-b55317fa3061"
+        }
+      ],
+      "id": "629b7b17-0400-4be8-94d7-33bc04bd6144",
+      "createdAt": "2026-06-05T13:12:40.000Z",
+      "updatedAt": "2026-06-05T13:12:40.000Z",
+      "uid": "35240-629b7b17-0400-4be8-94d7-33bc04bd6144"
+    },
+    {
+      "name": "transferFunds",
+      "item": [
+        {
+          "name": "Adyen Transfer Funds Between Platform Accounts",
+          "id": "91354806-dd28-41a6-ae12-bc85f0883bfa",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceAccountCode\": \"<string>\",\n  \"destinationAccountCode\": \"<string>\",\n  \"transferCode\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"merchantReference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/transferFunds",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "transferFunds"
+              ]
+            },
+            "description": "Transfers funds from one account to another account. Both accounts must be in the same platform, but can have different account holders. The transfer must include a transfer code, which should be determined by the platform, in compliance with local regulations."
+          },
+          "response": [
+            {
+              "id": "f1d856cc-cb02-4d8f-bb68-059294b82aa4",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceAccountCode\": \"<string>\",\n  \"destinationAccountCode\": \"<string>\",\n  \"transferCode\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/transferFunds",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "transferFunds"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"ownerState\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"microDeposit\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"merchantReference\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-f1d856cc-cb02-4d8f-bb68-059294b82aa4"
+            },
+            {
+              "id": "a3b2ee3e-f670-4918-94d5-51184f8a7d9d",
+              "name": "Accepted - the request has been accepted for processing, but the processing has not been completed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceAccountCode\": \"<string>\",\n  \"destinationAccountCode\": \"<string>\",\n  \"transferCode\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/transferFunds",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "transferFunds"
+                  ]
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"invalidFields\": [\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"ownerState\",\n        \"shareholderCode\": \"<string>\"\n      }\n    },\n    {\n      \"errorCode\": \"<integer>\",\n      \"errorDescription\": \"<string>\",\n      \"fieldType\": {\n        \"field\": \"<string>\",\n        \"fieldName\": \"microDeposit\",\n        \"shareholderCode\": \"<string>\"\n      }\n    }\n  ],\n  \"merchantReference\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"resultCode\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-a3b2ee3e-f670-4918-94d5-51184f8a7d9d"
+            },
+            {
+              "id": "bd55fefc-eed7-440e-bde3-3efbc82d5846",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceAccountCode\": \"<string>\",\n  \"destinationAccountCode\": \"<string>\",\n  \"transferCode\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/transferFunds",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "transferFunds"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-bd55fefc-eed7-440e-bde3-3efbc82d5846"
+            },
+            {
+              "id": "4212cea7-8000-44c4-86c4-73e670e1d055",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceAccountCode\": \"<string>\",\n  \"destinationAccountCode\": \"<string>\",\n  \"transferCode\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/transferFunds",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "transferFunds"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-4212cea7-8000-44c4-86c4-73e670e1d055"
+            },
+            {
+              "id": "a84be2b3-3038-4925-9e64-a1a6aba74fb2",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceAccountCode\": \"<string>\",\n  \"destinationAccountCode\": \"<string>\",\n  \"transferCode\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/transferFunds",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "transferFunds"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-a84be2b3-3038-4925-9e64-a1a6aba74fb2"
+            },
+            {
+              "id": "81f9a395-1836-44eb-9ef1-9f9405a20f5e",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceAccountCode\": \"<string>\",\n  \"destinationAccountCode\": \"<string>\",\n  \"transferCode\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/transferFunds",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "transferFunds"
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-81f9a395-1836-44eb-9ef1-9f9405a20f5e"
+            },
+            {
+              "id": "6430f94a-5bcf-4bc1-88b6-57d9acd63362",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: basic",
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceAccountCode\": \"<string>\",\n  \"destinationAccountCode\": \"<string>\",\n  \"transferCode\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"merchantReference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/transferFunds",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "transferFunds"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"errorCode\": \"<string>\",\n  \"errorType\": \"<string>\",\n  \"message\": \"<string>\",\n  \"pspReference\": \"<string>\",\n  \"status\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T13:12:40.000Z",
+              "updatedAt": "2026-06-05T13:12:40.000Z",
+              "uid": "35240-6430f94a-5bcf-4bc1-88b6-57d9acd63362"
+            }
+          ],
+          "createdAt": "2026-06-05T13:12:40.000Z",
+          "updatedAt": "2026-06-05T13:12:40.000Z",
+          "uid": "35240-91354806-dd28-41a6-ae12-bc85f0883bfa"
+        }
+      ],
+      "id": "501dc8dc-38f8-4bf0-9f75-30dc0d162b87",
+      "createdAt": "2026-06-05T13:12:40.000Z",
+      "updatedAt": "2026-06-05T13:12:40.000Z",
+      "uid": "35240-501dc8dc-38f8-4bf0-9f75-30dc0d162b87"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://cal-test.adyen.com/cal/services/Fund/v6"
+    }
+  ]
+}
