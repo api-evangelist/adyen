@@ -1,0 +1,59 @@
+generated: '2026-07-14'
+method: derived
+source: >-
+  Derived from the object relationships in openapi/*.yml (path id parameters and
+  id-reference fields such as merchantAccount, pspReference, balancePlatform,
+  accountHolderId, balanceAccountId, paymentInstrumentId, legalEntityId,
+  transferId) and the Adyen API Explorer object reference. Adyen spans two major
+  domains: the classic/Checkout payments domain (transactions identified by
+  pspReference) and the Balance Platform / Configuration domain (embedded finance
+  and marketplaces, identified by prefixed resource ids).
+docs: https://docs.adyen.com/api-explorer/
+notation: >-
+  relationships use has_one / has_many / belongs_to with the reference field name
+  (via); direction is from the entity that owns the reference. Adyen has no single
+  Stripe-style short id-prefix scheme — transaction identifiers are the opaque
+  pspReference and Balance Platform ids carry domain prefixes (e.g. BA..., AH...,
+  LE..., PI...).
+
+entities:
+  # --- Payments / Checkout (classic) domain ---
+  - {name: Company, id_field: companyAccount, domain: account, description: Top-level Adyen company account.}
+  - {name: MerchantAccount, id_field: merchantAccount, domain: account, description: A merchant account under a company; scopes payments and API credentials.}
+  - {name: Payment, id_field: pspReference, domain: payments, description: An authorisation created via /payments; the root of a transaction.}
+  - {name: PaymentMethod, id_field: paymentMethod, domain: payments, description: A card / wallet / local method (or stored token) used on a payment.}
+  - {name: StoredPaymentMethod, id_field: storedPaymentMethodId, domain: payments, description: A tokenized, saved payment method for recurring/one-click use.}
+  - {name: Modification, id_field: pspReference, domain: payments, description: A capture / refund / cancel / reversal referencing an original pspReference.}
+  - {name: Dispute, id_field: disputePspReference, domain: risk, description: A chargeback/dispute raised against a payment.}
+  - {name: PaymentLink, id_field: id, domain: checkout, description: A Pay by Link object that opens a hosted checkout.}
+  - {name: CheckoutSession, id_field: sessionId, domain: checkout, description: A session backing Drop-in/Components for a single shopper checkout.}
+  # --- Balance Platform / marketplaces domain ---
+  - {name: BalancePlatform, id_field: balancePlatform, domain: balance-platform, description: The root container for embedded-finance/marketplace resources.}
+  - {name: LegalEntity, id_field: legalEntityId, domain: balance-platform, description: The verified legal entity (individual/organization) behind an account holder.}
+  - {name: AccountHolder, id_field: accountHolderId, domain: balance-platform, description: An entity that holds balance accounts on the platform.}
+  - {name: BalanceAccount, id_field: balanceAccountId, domain: balance-platform, description: An account holding a balance in one or more currencies.}
+  - {name: PaymentInstrument, id_field: paymentInstrumentId, domain: balance-platform, description: A card or bank account issued against a balance account.}
+  - {name: Transfer, id_field: transferId, domain: balance-platform, description: A movement of funds (payout, transfer, sweep) against a balance account.}
+  - {name: Sweep, id_field: sweepId, domain: balance-platform, description: An automated push/pull rule that moves funds for a balance account.}
+  - {name: Webhook, id_field: webhookId, domain: management, description: A configured notification subscription (Management API).}
+
+relationships:
+  - {from: MerchantAccount, to: Company, kind: belongs_to, via: companyAccount}
+  - {from: Payment, to: MerchantAccount, kind: belongs_to, via: merchantAccount}
+  - {from: Payment, to: PaymentMethod, kind: belongs_to, via: paymentMethod}
+  - {from: Payment, to: Modification, kind: has_many, via: pspReference}
+  - {from: Payment, to: Dispute, kind: has_one, via: pspReference}
+  - {from: StoredPaymentMethod, to: PaymentMethod, kind: has_one, via: storedPaymentMethodId}
+  - {from: PaymentLink, to: MerchantAccount, kind: belongs_to, via: merchantAccount}
+  - {from: CheckoutSession, to: MerchantAccount, kind: belongs_to, via: merchantAccount}
+  - {from: CheckoutSession, to: Payment, kind: has_many, via: sessionId}
+  - {from: LegalEntity, to: AccountHolder, kind: has_one, via: legalEntityId}
+  - {from: AccountHolder, to: BalancePlatform, kind: belongs_to, via: balancePlatform}
+  - {from: AccountHolder, to: LegalEntity, kind: belongs_to, via: legalEntityId}
+  - {from: BalanceAccount, to: AccountHolder, kind: belongs_to, via: accountHolderId}
+  - {from: PaymentInstrument, to: BalanceAccount, kind: belongs_to, via: balanceAccountId}
+  - {from: Transfer, to: BalanceAccount, kind: belongs_to, via: balanceAccountId}
+  - {from: Sweep, to: BalanceAccount, kind: belongs_to, via: balanceAccountId}
+  - {from: Webhook, to: MerchantAccount, kind: belongs_to, via: merchantAccount}
+
+interchange_hubs: [MerchantAccount, BalanceAccount, AccountHolder]

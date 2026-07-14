@@ -1,0 +1,63 @@
+generated: '2026-07-14'
+method: searched
+source: https://docs.adyen.com/development-resources/refusal-reasons
+description: >-
+  Adyen's payment refusal-reason taxonomy — the issuer/acquirer/risk reasons a
+  payment is refused. Distinct from the API error codes in
+  errors/adyen-problem-types.yml: refusal reasons appear on a payment response
+  whose resultCode is Refused, Error, or Cancelled, carried in the refusalReason
+  (text) and refusalReasonCode (numeric) fields. Adyen advises never exposing the
+  refusal detail to shoppers, to prevent malicious probing — so all reasons are
+  effectively masked to the buyer.
+docs: https://docs.adyen.com/development-resources/refusal-reasons
+envelope_fields:
+  result_code: resultCode           # Refused | Error | Cancelled
+  reason_text: refusalReason
+  reason_code: refusalReasonCode    # numeric identifier
+mask_to_shopper: all   # Adyen: "Do not expose the details of the refusal reason to shoppers."
+note: >-
+  In the test environment a refusal can be triggered by submitting a payment value
+  that maps to a refusalReasonCode. See sandbox/adyen-sandbox.yml.
+decline_codes:
+  - {code: 0, reason: Approved, meaning: Returned with an Authorised resultCode; transaction succeeded, action: No action — ignore.}
+  - {code: 2, reason: Refused, meaning: Generic refusal by the bank/acquirer, action: Retry or use an alternative payment method.}
+  - {code: 3, reason: Referral, meaning: Manual review required, action: Contact acquirer or retry.}
+  - {code: 4, reason: Acquirer Error, meaning: Error on the acquirer side, action: Retry the transaction.}
+  - {code: 5, reason: Blocked Card, meaning: Card is blocked/unusable, action: Use a different card.}
+  - {code: 6, reason: Expired Card, meaning: Card has expired, action: Use a different card.}
+  - {code: 7, reason: Invalid Amount, meaning: Amount mismatch, action: Verify the amount and retry.}
+  - {code: 8, reason: Invalid Card Number, meaning: Incorrect/invalid card number, action: Verify card details.}
+  - {code: 9, reason: Issuer Unavailable, meaning: Cannot contact the shopper's bank, action: Retry or use an alternative method.}
+  - {code: 10, reason: Not supported, meaning: Bank does not support this transaction type, action: Use an alternative payment method.}
+  - {code: 11, reason: 3D Not Authenticated, meaning: 3D Secure failed or not executed, action: Retry with 3D Secure authentication.}
+  - {code: 12, reason: Not enough balance, meaning: Insufficient funds, action: Use a different card or reduce the amount.}
+  - {code: 14, reason: Acquirer Fraud, meaning: Possible fraud detected, action: Investigate; may require verification.}
+  - {code: 15, reason: Cancelled, meaning: Transaction cancelled, action: Retry if needed.}
+  - {code: 16, reason: Shopper Cancelled, meaning: Shopper abandoned the transaction, action: Contact shopper or retry.}
+  - {code: 17, reason: Invalid Pin, meaning: Incorrect/invalid PIN, action: Verify PIN and retry.}
+  - {code: 18, reason: Pin tries exceeded, meaning: Three or more incorrect PINs entered, action: Retry later or use a different card.}
+  - {code: 19, reason: Pin validation not possible, meaning: Cannot validate the PIN, action: Use an alternative payment method.}
+  - {code: 20, reason: FRAUD, meaning: Fraud score of 100+ triggered pre-authorization fraud checks, action: Investigate; may require additional verification.}
+  - {code: 21, reason: Not Submitted, meaning: Transaction not submitted correctly, action: Resubmit the transaction.}
+  - {code: 22, reason: FRAUD-CANCELLED, meaning: Combined pre- and post-authorization risk score of 100+, action: Investigate potential fraud; may require verification.}
+  - {code: 23, reason: Transaction Not Permitted, meaning: Issuer/merchant restrictions apply, action: Use an alternative payment method.}
+  - {code: 24, reason: CVC Declined, meaning: Invalid card security code, action: Verify CVC and retry.}
+  - {code: 25, reason: Restricted Card, meaning: Card restricted in country/region, action: Use a different card.}
+  - {code: 26, reason: Revocation Of Auth, meaning: Shopper requested to stop a subscription, action: Process the cancellation.}
+  - {code: 27, reason: Declined Non Generic, meaning: Specific decline code not mappable to a standard reason, action: Investigate; may indicate a unique restriction.}
+  - {code: 28, reason: Withdrawal amount exceeded, meaning: Amount exceeds the card withdrawal limit, action: Reduce the amount or use a different card.}
+  - {code: 29, reason: Withdrawal count exceeded, meaning: Card withdrawal frequency limit exceeded, action: Retry later or use a different card.}
+  - {code: 31, reason: Issuer Suspected Fraud, meaning: Bank flagged the transaction as suspected fraud, action: Investigate; may require verification.}
+  - {code: 32, reason: AVS Declined, meaning: Address verification failed, action: Verify address details and retry.}
+  - {code: 33, reason: Card requires online pin, meaning: Bank requires PIN entry, action: Retry with PIN authentication.}
+  - {code: 34, reason: No checking account available on Card, meaning: A checking account is required, action: Use a different card/account type.}
+  - {code: 35, reason: No savings account available on Card, meaning: A savings account is required, action: Use a different card/account type.}
+  - {code: 36, reason: Mobile pin required, meaning: Bank requires a mobile PIN, action: Retry with mobile PIN.}
+  - {code: 37, reason: Contactless fallback, meaning: Shopper abandoned after a contactless-prompted fallback, action: Retry with PIN/swipe method.}
+  - {code: 38, reason: Authentication required, meaning: 3D Secure exemption denied, action: Retry with 3D Secure.}
+  - {code: 39, reason: RReq not received from DS, meaning: Scheme/issuer communication failed, action: Retry the transaction.}
+  - {code: 40, reason: Current AID is in Penalty Box, meaning: Network unreachable, action: Retry with a different payment method.}
+  - {code: 41, reason: CVM Required Restart Payment, meaning: PIN/signature required, action: Retry the transaction.}
+  - {code: 42, reason: 3DS Authentication Error, meaning: 3D Secure failure at network/issuer level, action: Retry or use an alternative method.}
+  - {code: 46, reason: Transaction blocked by Adyen to prevent excessive retry fees, meaning: Excessive-retry prevention triggered, action: Cease retries to avoid penalty fees.}
+  - {code: 50, reason: Token Revoked, meaning: Shopper disabled the recurring-payment token, action: Obtain a new authorization.}

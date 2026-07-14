@@ -1,0 +1,122 @@
+generated: '2026-07-14'
+method: searched
+source: >-
+  https://docs.adyen.com/development-resources — the cross-cutting request/response
+  conventions that apply across Adyen's REST APIs (Checkout, Payments, Management,
+  Balance Platform), captured from the developer-resources docs and derived from
+  openapi/*.yml. These are the developer-experience / runtime-semantics conventions
+  that OpenAPI does not fully express.
+description: >-
+  How Adyen's REST APIs behave across operations: authentication style,
+  idempotency, pagination, versioning, request tracing, the error envelope, and
+  rate-limit signaling.
+
+api_style: REST over HTTPS, JSON request and response bodies
+base_urls:
+  note: >-
+    Adyen splits functionality across service-specific hostnames, each with a
+    -test / live variant. The live hosts embed a merchant-specific {PREFIX}.
+  examples:
+    checkout: https://checkout-test.adyen.com/v71
+    classic_payments: https://pal-test.adyen.com/pal/servlet/Payment/v68
+    management: https://management-test.adyen.com/v3
+    balance_platform: https://balanceplatform-api-test.adyen.com/bcl/v2
+
+authentication:
+  schemes: [API key (X-API-Key header), HTTP Basic (web-service user), client key (client-side)]
+  primary: X-API-Key request header
+  client_side: >-
+    Client key authenticates Web/Mobile Drop-in and Components from the browser
+    or app; secret keys are never exposed client-side.
+  oauth2: >-
+    OAuth 2.0 is available for specific flows (partner/third-party access, open
+    banking account-holder consent, and OAuth-secured webhooks) but the core
+    APIs authenticate with an API key.
+  docs: https://docs.adyen.com/development-resources/api-authentication
+  detail: authentication/adyen-authentication.yml
+
+idempotency:
+  supported: true
+  mechanism: Idempotency-Key request header (case-insensitive)
+  applies_to: POST requests. GET, PUT and DELETE are idempotent by definition.
+  key_format: Unique identifier, max 64 characters; a v4 (random) UUID is recommended.
+  scope: Stored at the company-account level; not checked across regional endpoints.
+  retention: Valid for a minimum of 7 days after first submission.
+  conflict_behavior: >-
+    A duplicate in-flight request returns HTTP 409 Conflict (or 422) with error
+    code 704 "request already processed or in progress". A transient, safely
+    retryable error is flagged with the response header transient-error: true.
+  docs: https://docs.adyen.com/development-resources/api-idempotency
+
+pagination:
+  style: offset (page-based); newer APIs also expose cursor pagination
+  request_params:
+    limit: page size
+    offset: number of records to skip
+  example: /balanceAccounts/{balanceAccountId}/sweeps?limit=5&offset=10
+  note: >-
+    The Balance Platform and Management APIs use limit/offset. Some list
+    endpoints return _links with next/prev for cursor-style traversal.
+
+versioning:
+  scheme: uri-path per API (each service versions independently)
+  mechanism: Version number embedded in the request path (e.g. /v71, /pal/servlet/Payment/v68, /v3, /bcl/v2)
+  examples:
+    checkout: v71
+    classic_payments: v68
+    management: v3
+    balance_platform_configuration: v2
+  spec_extensions: [x-addedInVersion, x-deprecatedInVersion]
+  detail: changelog/adyen-changelog.yml
+  docs: https://docs.adyen.com/online-payments/upgrade-your-integration
+
+request_tracing:
+  transaction_reference: pspReference
+  description: >-
+    Adyen returns a globally unique pspReference on payment and modification
+    responses (and in webhooks); it is the identifier used for support, log
+    lookup, and to correlate subsequent modifications (capture, refund, cancel).
+  merchant_reference: >-
+    Clients supply their own merchantReference/reference on requests to
+    correlate with their own systems; echoed back in responses and webhooks.
+
+error_envelope:
+  media_type: application/json
+  rfc9457: false
+  shape: '{ "status", "errorCode", "message", "errorType", "pspReference" }'
+  error_types: [validation, security, configuration, internal]
+  example: '{ "status": 422, "errorCode": "101", "message": "Invalid card number", "errorType": "validation", "pspReference": "F7WCWRG6JPHR8HG2" }'
+  detail: errors/adyen-problem-types.yml
+  decline_codes: errors/adyen-decline-codes.yml
+  docs: https://docs.adyen.com/development-resources/error-codes
+
+rate_limits:
+  signal_status: 429
+  documented_limit: 100 requests per second per merchant account (baseline; contact Adyen to raise)
+  detail: rate-limits/adyen-rate-limits.yml
+  docs: https://docs.adyen.com/development-resources/api-idempotency
+
+payment_result:
+  result_code_field: resultCode
+  description: >-
+    Payment outcomes are signalled with resultCode (Authorised, Refused, Error,
+    Cancelled, RedirectShopper, Pending, Received, ...). A Refused/Error result
+    carries refusalReason + refusalReasonCode.
+  detail: errors/adyen-decline-codes.yml
+
+webhooks:
+  transport: HTTPS webhooks (standard and Terminal API)
+  verification: HMAC-SHA256 signature over the notification using a per-webhook HMAC key
+  oauth_option: Webhooks can additionally be secured with OAuth 2.0 (bearer token to your endpoint)
+  detail: asyncapi/adyen-webhooks-asyncapi.yml
+  docs: https://docs.adyen.com/development-resources/webhooks
+
+other_conventions:
+  - name: Amounts
+    detail: >-
+      Object with value (integer minor units) + currency (ISO 4217); for example
+      value 1000 with currency EUR equals EUR 10.00.
+  - name: Test vs live
+    detail: Separated by dedicated test Customer Area, test credentials, and -test hostnames; see sandbox/adyen-sandbox.yml.
+  - name: Modifications
+    detail: Capture / refund / cancel / reverse reference the original pspReference.

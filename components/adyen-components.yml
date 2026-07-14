@@ -1,0 +1,56 @@
+generated: '2026-07-14'
+method: searched
+source: https://github.com/Adyen/adyen-web
+description: >-
+  Adyen's client-side, embeddable UI components — the drop-in and low-level
+  payment UI layer that renders checkout in the browser and native mobile apps,
+  distinct from the server-side API libraries. On web these are delivered by the
+  @adyen/adyen-web library (Drop-in and per-payment-method Components); native
+  equivalents ship in the iOS, Android, React Native, and Flutter SDKs. Card data
+  is tokenized directly to Adyen, keeping it out of the merchant's PCI scope.
+docs:
+  - https://docs.adyen.com/online-payments/build-your-integration/
+  - https://github.com/Adyen/adyen-web
+libraries:
+  - {name: "@adyen/adyen-web", registry: npm, purpose: Web Drop-in and Components (AdyenCheckout), repo: https://github.com/Adyen/adyen-web}
+  - {name: adyen-ios, purpose: iOS Drop-in and Components, repo: https://github.com/Adyen/adyen-ios}
+  - {name: adyen-android, purpose: Android Drop-in and Components, repo: https://github.com/Adyen/adyen-android}
+  - {name: adyen-react-native, purpose: React Native Drop-in and Components, repo: https://github.com/Adyen/adyen-react-native}
+  - {name: adyen-flutter, purpose: Flutter Drop-in and Components, repo: https://github.com/Adyen/adyen-flutter}
+
+web_loader:
+  install: npm install @adyen/adyen-web --save
+  import: |
+    import { AdyenCheckout } from '@adyen/adyen-web';
+    import '@adyen/adyen-web/styles/adyen.css';
+  script_tag: Also loadable via a <script> tag per the Web Components docs.
+  styling: Themable via CSS variable overrides.
+  localization: Multi-language support built in.
+
+families:
+  drop_in:
+    description: >-
+      All-in-one, prebuilt payment UI — the quickest way to accept payments. Renders
+      every payment method configured for the merchant from a single integration,
+      driven by a /paymentMethods response and a client session.
+    platforms: [web, ios, android, react-native, flutter]
+  components:
+    description: >-
+      Individual per-payment-method UI components you combine with your own
+      payment-form logic for a fully custom layout. Each component tokenizes
+      directly to Adyen.
+    examples:
+      - {name: Card Component, id: card, description: Secure card number / expiry / CVC fields (iframed secure fields).}
+      - {name: Apple Pay Component, description: Native Apple Pay sheet integration.}
+      - {name: Google Pay Component, description: Google Pay button and sheet.}
+      - {name: PayPal Component, description: PayPal express and standard flows.}
+      - {name: iDEAL / SEPA / Klarna / Affirm / BLIK / Bancontact and other APM Components, description: Per-method components for local and BNPL payment methods.}
+  hosted_prebuilt:
+    description: Prebuilt Adyen-hosted surfaces requiring minimal or no client code.
+    components:
+      - {name: Pay by Link, description: Shareable Adyen-hosted payment URL; also a first-class Checkout API object.}
+      - {name: Hosted Checkout / Hosted Payment Page, description: Adyen-hosted redirect checkout page.}
+  in_person:
+    description: In-person / point-of-sale surfaces.
+    components:
+      - {name: Terminal API, description: Local and cloud communication with Adyen payment terminals for card-present UX.}

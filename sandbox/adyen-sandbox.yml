@@ -1,0 +1,122 @@
+generated: '2026-07-14'
+method: searched
+source: https://docs.adyen.com/development-resources/test-cards-and-credentials/test-card-numbers
+description: >-
+  Adyen's sandbox / test-data surface — the credentials, magic values, and
+  simulation triggers a developer needs to exercise the API end-to-end without
+  moving real money. Captured verbatim from Adyen's test-cards-and-credentials
+  docs and the refusal-reasons reference. Adyen separates test and live by a
+  dedicated test Customer Area, test API credentials, and per-service test
+  hostnames (…-test.adyen.com); these test card numbers only work on Adyen's
+  test platform.
+docs:
+  - https://docs.adyen.com/development-resources/test-cards-and-credentials
+  - https://docs.adyen.com/development-resources/test-cards-and-credentials/test-card-numbers
+  - https://docs.adyen.com/development-resources/refusal-reasons
+  - https://docs.adyen.com/development-resources/testing/payments-and-modifications
+
+modes:
+  - name: test
+    hostnames:
+      - checkout-test.adyen.com
+      - pal-test.adyen.com
+      - cal-test.adyen.com
+      - ca-test.adyen.com
+      - kyc-test.adyen.com
+      - management-test.adyen.com
+      - balanceplatform-api-test.adyen.com
+      - terminal-api-test.adyen.com
+    notes: >-
+      Isolated from live data. Reached via the test Customer Area
+      (ca-test.adyen.com) with test API credentials (API key / basic auth) and a
+      test client key. No real cards are ever charged. Card credentials can be
+      prefixed with test_ to force server-side test behavior.
+  - name: live
+    hostnames:
+      - "{PREFIX}-checkout-live.adyenpayments.com"
+      - "{PREFIX}-pal-live.adyenpayments.com"
+    notes: >-
+      Live endpoints embed a merchant-specific {PREFIX} (live URL prefix) issued
+      in the live Customer Area. Separate live API credentials and client key.
+
+credentials:
+  api_key_header: X-API-Key
+  test_customer_area: https://ca-test.adyen.com
+  client_key: >-
+    Public client-side key used by Web/Mobile Drop-in and Components; test and
+    live variants issued in the Customer Area.
+  server_side_test_prefix: >-
+    Prefix test card credentials with test_ to test API calls from your server
+    before the client-side integration is ready.
+
+# Standard values that apply to every test card unless the row overrides them.
+test_card_conventions:
+  expiry: 03/2030
+  cvc: '737'
+  amex_cid: '7373'
+  note: >-
+    Any future expiry / any CVC is generally accepted, but the docs publish
+    03/2030 and 737 (7373 for Amex) as the canonical values. Only valid on
+    Adyen's test platform.
+
+test_cards:
+  success:
+    - {brand: amex, number: '370000000000002', cvc: '7373'}
+    - {brand: amex, number: '370000000100018', cvc: '7373', note: security code optional}
+    - {brand: mastercard, number: '5555555555554444', type: credit}
+    - {brand: mastercard, number: '5555341244441115', note: security code optional}
+    - {brand: mastercard, number: '2222400070000005', type: commercial debit}
+    - {brand: visa, number: '4111111111111111', type: consumer}
+    - {brand: visa, number: '4111111145551142', note: security code optional}
+    - {brand: discover, number: '6011601160116611'}
+    - {brand: diners, number: '36006666333344'}
+    - {brand: jcb, number: '3569990010095841', type: consumer}
+    - {brand: maestro, number: '6771798021000008', note: 3D Secure mandatory}
+    - {brand: maestro, number: '6771798021000016', note: security code optional}
+    - {brand: unionpay, number: '8171999927660000', expiry: 10/2030, sms_otp: {mobile: '123456', desktop: '111111'}}
+    - {brand: bancontact, number: '5127880999999990', type: BCMC/Mastercard debit}
+    - {brand: cartes_bancaires, number: '4360000001000005'}
+    - {brand: elo, number: '5066991111111118'}
+    - {brand: hipercard, number: '6062828888666688'}
+
+# Adyen does not expose "always-decline" PANs the way some processors do; instead
+# you drive a specific refusal by requesting a test amount that maps to a refusal
+# reason, or by using the Test Cards API to mint cards bound to an outcome.
+decline_simulation:
+  mechanism: >-
+    In the test environment, trigger a refusal by submitting a payment whose
+    value maps to a refusalReasonCode, or generate custom test cards bound to an
+    outcome with the Test Cards API. The response carries resultCode +
+    refusalReason + refusalReasonCode.
+  reference: errors/adyen-decline-codes.yml
+  custom_test_cards_api: https://docs.adyen.com/development-resources/test-cards-and-credentials/create-test-cards
+  common_test_amounts:
+    note: >-
+      Test amounts that force a result are documented per payment method; do not
+      assume a fixed table — see the testing-payments-and-modifications page.
+    docs: https://docs.adyen.com/development-resources/testing/payments-and-modifications
+
+three_d_secure:
+  docs: https://docs.adyen.com/online-payments/3d-secure/test-3d-secure
+  note: >-
+    Dedicated 3D Secure 2 test cards and challenge/frictionless flows are
+    published on the 3D Secure testing page; the Maestro test card above requires
+    3D Secure.
+
+test_tooling:
+  browser_extension:
+    name: Adyen Test Cards (Chrome extension)
+    purpose: Autofill test cards into Web Drop-in / Components in the browser.
+  android_app:
+    name: Adyen Test Cards Android app
+    source: https://github.com/Adyen
+    purpose: Access test cards for Android Drop-in / Components on device.
+  test_cards_api:
+    name: Test Cards API
+    baseURL: https://ca-test.adyen.com
+    openapi: openapi/test-cards-openapi-original.yml
+    purpose: Programmatically generate custom test card numbers bound to specific outcomes.
+
+alternative_payment_methods:
+  docs: https://docs.adyen.com/development-resources/test-cards-and-credentials/alternative-payment-method-credentials
+  note: Test credentials for iDEAL, PayPal, Klarna, SEPA, and other APMs are published per method.
