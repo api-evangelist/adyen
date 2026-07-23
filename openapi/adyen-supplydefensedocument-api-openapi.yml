@@ -1,0 +1,232 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute supplyDefenseDocument API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: supplyDefenseDocument
+paths:
+  /supplyDefenseDocument:
+    post:
+      tags:
+      - supplyDefenseDocument
+      summary: Adyen Supply a Defense Document
+      description: Supplies a specific dispute defense document.
+      x-addedInVersion: '1'
+      operationId: post-supplyDefenseDocument
+      x-sortIndex: 1
+      x-methodName: supplyDefenseDocument
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              supply-defense-document:
+                $ref: '#/components/examples/post-supplyDefenseDocument-supply-defense-document'
+            schema:
+              $ref: '#/components/schemas/SupplyDefenseDocumentRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                supply-defense-document:
+                  $ref: '#/components/examples/post-supplyDefenseDocument-supply-defense-document-200'
+              schema:
+                $ref: '#/components/schemas/SupplyDefenseDocumentResponse'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-supplyDefenseDocument400Example:
+                  summary: Default post-supplyDefenseDocument 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-supplyDefenseDocument401Example:
+                  summary: Default post-supplyDefenseDocument 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-supplyDefenseDocument403Example:
+                  summary: Default post-supplyDefenseDocument 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-supplyDefenseDocument422Example:
+                  summary: Default post-supplyDefenseDocument 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-supplyDefenseDocument500Example:
+                  summary: Default post-supplyDefenseDocument 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    SupplyDefenseDocumentRequest:
+      properties:
+        defenseDocuments:
+          description: An array containing a list of the defense documents.
+          items:
+            $ref: '#/components/schemas/DefenseDocument'
+          type: array
+        disputePspReference:
+          description: The PSP reference assigned to the dispute.
+          type: string
+        merchantAccountCode:
+          description: The merchant account identifier, for which you want to process the dispute transaction.
+          type: string
+      required:
+      - merchantAccountCode
+      - disputePspReference
+      - defenseDocuments
+      type: object
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    DisputeServiceResult:
+      properties:
+        errorMessage:
+          description: The general error message.
+          type: string
+        success:
+          description: Indicates whether the request succeeded.
+          type: boolean
+      required:
+      - success
+      type: object
+    SupplyDefenseDocumentResponse:
+      properties:
+        disputeServiceResult:
+          description: The result of the dispute service.
+          $ref: '#/components/schemas/DisputeServiceResult'
+      required:
+      - disputeServiceResult
+      type: object
+    DefenseDocument:
+      properties:
+        content:
+          description: The content of the defense document.
+          format: byte
+          type: string
+        contentType:
+          description: The content type of the defense document.
+          type: string
+        defenseDocumentTypeCode:
+          description: The document type code of the defense document.
+          type: string
+      required:
+      - defenseDocumentTypeCode
+      - contentType
+      - content
+      type: object
+  examples:
+    post-supplyDefenseDocument-supply-defense-document-200:
+      summary: Dispute defense documents supplied
+      value:
+        disputeServiceResult:
+          success: true
+    post-supplyDefenseDocument-supply-defense-document:
+      summary: Supply dispute defense documents
+      value:
+        defenseDocuments:
+        - content: JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBv+f/ub0j6JPRX+E3EmC==
+          contentType: application/pdf
+          defenseDocumentTypeCode: DefenseMaterial
+        disputePspReference: DZ4DPSHB4WD2WN82
+        merchantAccountCode: YOUR_MERCHANT_ACCOUNT
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

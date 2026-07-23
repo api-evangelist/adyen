@@ -1,0 +1,233 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute Diagnosis API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: Diagnosis
+paths:
+  /diagnosis:
+    post:
+      description: It conveys Information related to the target POI for which the diagnosis is requested. Content of the Diagnosis Request message.
+      summary: Adyen Diagnosis Request
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiagnosisRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiagnosisResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
+                    LoggedSaleID:
+                    - '500123'
+                    POIStatus: active
+                    HostStatus:
+                    - active
+          description: It conveys the result of the requested diagnosis and a possible message to display on a logical device. Content of the Diagnosis Response message.
+      tags:
+      - Diagnosis
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    CoinsOrBills:
+      type: object
+      description: Indicates the remaining number of coins or bills of a given value in a cash handling device. When the cash handling machine does not have any more coins or bills of a certain value, the number must be equal to 0. Number of coins or bills of a given value.
+      properties:
+        UnitValue:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+          description: Value of a coin or bill.
+        Number:
+          type: integer
+          description: Number of elements.
+      required:
+      - UnitValue
+      - Number
+    Response:
+      type: object
+      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
+      properties:
+        Result:
+          $ref: '#/components/schemas/Result'
+        ErrorCondition:
+          $ref: '#/components/schemas/ErrorCondition'
+        AdditionalResponse:
+          type: string
+          pattern: ^.+$
+          description: If present, the POI logs it for further examination.
+      required:
+      - Result
+    CashHandlingDevice:
+      type: object
+      description: Indicate the status and the remaining coins and bill in a cash handling device. Status of cash handling device.
+      properties:
+        CashHandlingOKFlag:
+          type: boolean
+          description: Indicates if the cash handling device is working and usable.
+        Currency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+          description: Currency of a monetary amount.
+        CoinsOrBills:
+          type: array
+          items:
+            $ref: '#/components/schemas/CoinsOrBills'
+      required:
+      - CashHandlingOKFlag
+      - Currency
+      - CoinsOrBills
+    Result:
+      type: string
+      enum:
+      - Failure
+      - Partial
+      - Success
+    DiagnosisResponse:
+      type: object
+      description: It conveys the result of the requested diagnosis and a possible message to display on a logical device. Content of the Diagnosis Response message.
+      properties:
+        Response:
+          $ref: '#/components/schemas/Response'
+        LoggedSaleID:
+          type: array
+          items:
+            type: string
+            pattern: ^.+$
+            description: If Sale Terminal logged to this POI Terminal.
+        POIStatus:
+          $ref: '#/components/schemas/POIStatus'
+        HostStatus:
+          type: array
+          items:
+            $ref: '#/components/schemas/HostStatus'
+      required:
+      - Response
+    ErrorCondition:
+      type: string
+      enum:
+      - Aborted
+      - Busy
+      - Cancel
+      - DeviceOut
+      - InProgress
+      - InsertedCard
+      - InvalidCard
+      - LoggedOut
+      - MessageFormat
+      - NotAllowed
+      - NotFound
+      - PaymentRestriction
+      - Refusal
+      - UnavailableDevice
+      - UnavailableService
+      - UnreachableHost
+      - WrongPIN
+    HostStatus:
+      type: object
+      description: Indicate the reachability of the host by the POI Terminal. State of a Host.
+      properties:
+        AcquirerID:
+          type: integer
+          description: Identification of the Acquirer.
+        IsReachableFlag:
+          type: boolean
+          default: true
+          description: Indicate if a Host is reachable.
+      required:
+      - AcquirerID
+    DiagnosisRequest:
+      type: object
+      description: It conveys Information related to the target POI for which the diagnosis is requested. Content of the Diagnosis Request message.
+      properties:
+        POIID:
+          type: string
+          pattern: ^.+$
+          description: MessageHeader.POIID.
+        HostDiagnosisFlag:
+          type: boolean
+          default: false
+          description: Indicates if Host Diagnosis are required.
+        AcquirerID:
+          type: array
+          items:
+            type: integer
+            description: Present if requesting the diagnosis of these hosts only.
+    GlobalStatus:
+      type: string
+      enum:
+      - Busy
+      - Maintenance
+      - OK
+      - Unreachable
+    POIStatus:
+      type: object
+      description: Indicate the availability of the POI Terminal components. The data element is absent if the component is not part of the POI Terminal. State of a POI Terminal.
+      properties:
+        GlobalStatus:
+          $ref: '#/components/schemas/GlobalStatus'
+        SecurityOKFlag:
+          type: boolean
+          description: If security module present.
+        PEDOKFlag:
+          type: boolean
+          description: If PED present.
+        CardReaderOKFlag:
+          type: boolean
+          description: If card reader device present.
+        PrinterStatus:
+          $ref: '#/components/schemas/PrinterStatus'
+        CommunicationOKFlag:
+          type: boolean
+          description: If communication infrastructure present.
+        CashHandlingDevice:
+          type: array
+          items:
+            $ref: '#/components/schemas/CashHandlingDevice'
+        FraudPreventionFlag:
+          type: boolean
+          description: default False.
+      required:
+      - GlobalStatus
+    PrinterStatus:
+      type: string
+      enum:
+      - NoPaper
+      - OK
+      - OutOfOrder
+      - PaperJam
+      - PaperLow
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

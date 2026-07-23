@@ -1,0 +1,1194 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute Sweeps API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: Sweeps
+paths:
+  /balanceAccounts/{balanceAccountId}/sweeps:
+    get:
+      tags:
+      - Sweeps
+      summary: Adyen Get All Sweeps for a Balance Account
+      description: 'Returns a list of the sweeps configured for a balance account.
+
+
+        To fetch multiple pages, use the query parameters. For example, to limit the page to 5 sweeps and to skip the first 10, use `/balanceAccounts/{balanceAccountId}/sweeps?limit=5&offset=10`.'
+      x-addedInVersion: '2'
+      operationId: get-balanceAccounts-balanceAccountId-sweeps
+      x-sortIndex: 7
+      x-methodName: getAllSweepsForBalanceAccount
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: The unique identifier of the balance account.
+        name: balanceAccountId
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The number of items that you want to skip.
+        name: offset
+        in: query
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: The number of items returned per page, maximum 100 items. By default, the response returns 10 items per page.
+        name: limit
+        in: query
+        required: false
+        schema:
+          format: int32
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  $ref: '#/components/examples/get-balanceAccounts-balanceAccountId-sweeps-success-200'
+              schema:
+                $ref: '#/components/schemas/BalanceSweepConfigurationsResponse'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      tags:
+      - Sweeps
+      summary: Adyen Create a Sweep
+      description: 'Creates a sweep that results in moving funds from or to a balance account.
+
+
+        A sweep pulls in or pushes out funds based on a defined schedule, amount, currency, and a source or a destination.'
+      x-addedInVersion: '2'
+      operationId: post-balanceAccounts-balanceAccountId-sweeps
+      x-sortIndex: 5
+      x-methodName: createSweep
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              createSweep-pull:
+                $ref: '#/components/examples/post-balanceAccounts-balanceAccountId-sweeps-createSweep-pull'
+              createSweep-push:
+                $ref: '#/components/examples/post-balanceAccounts-balanceAccountId-sweeps-createSweep-push'
+              createSweep-push-priorities:
+                $ref: '#/components/examples/post-balanceAccounts-balanceAccountId-sweeps-createSweep-push-priorities'
+            schema:
+              $ref: '#/components/schemas/CreateSweepConfigurationV2'
+      parameters:
+      - description: The unique identifier of the balance account.
+        name: balanceAccountId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                createSweep-pull:
+                  $ref: '#/components/examples/post-balanceAccounts-balanceAccountId-sweeps-createSweep-pull-200'
+                createSweep-push:
+                  $ref: '#/components/examples/post-balanceAccounts-balanceAccountId-sweeps-createSweep-push-200'
+                createSweep-push-priorities:
+                  $ref: '#/components/examples/post-balanceAccounts-balanceAccountId-sweeps-createSweep-push-priorities-200'
+              schema:
+                $ref: '#/components/schemas/SweepConfigurationV2'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /balanceAccounts/{balanceAccountId}/sweeps/{sweepId}:
+    delete:
+      tags:
+      - Sweeps
+      summary: Adyen Delete a Sweep
+      description: Deletes a sweep for a balance account.
+      x-addedInVersion: '2'
+      operationId: delete-balanceAccounts-balanceAccountId-sweeps-sweepId
+      x-sortIndex: 9
+      x-methodName: deleteSweep
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: The unique identifier of the balance account.
+        name: balanceAccountId
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The unique identifier of the sweep.
+        name: sweepId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: 'No Content - look at the actual response code for the status of the request. '
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    get:
+      tags:
+      - Sweeps
+      summary: Adyen Get a Sweep
+      description: Returns a sweep.
+      x-addedInVersion: '2'
+      operationId: get-balanceAccounts-balanceAccountId-sweeps-sweepId
+      x-sortIndex: 8
+      x-methodName: getSweep
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: The unique identifier of the balance account.
+        name: balanceAccountId
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The unique identifier of the sweep.
+        name: sweepId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  $ref: '#/components/examples/get-balanceAccounts-balanceAccountId-sweeps-sweepId-success-200'
+              schema:
+                $ref: '#/components/schemas/SweepConfigurationV2'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    patch:
+      tags:
+      - Sweeps
+      summary: Adyen Update a Sweep
+      description: Updates a sweep. When updating a sweep resource, note that if a request parameter is not provided, the parameter is left unchanged.
+      x-addedInVersion: '2'
+      operationId: patch-balanceAccounts-balanceAccountId-sweeps-sweepId
+      x-sortIndex: 6
+      x-methodName: updateSweep
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              updateSweep-status:
+                $ref: '#/components/examples/patch-balanceAccounts-balanceAccountId-sweeps-sweepId-updateSweep-status'
+            schema:
+              $ref: '#/components/schemas/UpdateSweepConfigurationV2'
+      parameters:
+      - description: The unique identifier of the balance account.
+        name: balanceAccountId
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The unique identifier of the sweep.
+        name: sweepId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                updateSweep-status:
+                  $ref: '#/components/examples/patch-balanceAccounts-balanceAccountId-sweeps-sweepId-updateSweep-status-200'
+              schema:
+                $ref: '#/components/schemas/SweepConfigurationV2'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  examples:
+    patch-balanceAccounts-balanceAccountId-sweeps-sweepId-updateSweep-status-200:
+      summary: Sweep status updated
+      description: Example response for updating a sweep
+      value:
+        id: SWPC4227C224555B5FTD2NT2JV4WN5
+        counterparty:
+          merchantAccount: YOUR_MERCHANT_ACCOUNT
+        triggerAmount:
+          currency: EUR
+          value: 50000
+        currency: EUR
+        schedule:
+          type: balance
+        type: pull
+        status: inactive
+    post-balanceAccounts-balanceAccountId-sweeps-createSweep-push-200:
+      summary: Sweep of push type created
+      description: Example response for creating a push sweep
+      value:
+        id: SWPC4227C224555B5FTD2NT2JV4WN5
+        counterparty:
+          balanceAccountId: BA32278887611B5FTD2KR6TJD
+        triggerAmount:
+          currency: EUR
+          value: 50000
+        currency: EUR
+        schedule:
+          type: weekly
+        type: push
+        status: active
+    generic-401:
+      summary: Response code - 401 Unauthorized
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Unauthorized
+        status: 401
+        detail: Not authorized to access this service.
+        errorCode: '00_401'
+    post-balanceAccounts-balanceAccountId-sweeps-createSweep-pull-200:
+      summary: Sweep of pull type created
+      description: Example response for creating a pull sweep
+      value:
+        id: SWPC4227C224555B5FTD2NT2JV4WN5
+        counterparty:
+          merchantAccount: YOUR_MERCHANT_ACCOUNT
+        triggerAmount:
+          currency: EUR
+          value: 50000
+        currency: EUR
+        schedule:
+          type: balance
+        type: pull
+        status: active
+    generic-400:
+      summary: Response code - 400 Bad request
+      value:
+        type: https://docs.adyen.com/errors/general/bad-request
+        title: Bad request
+        status: 400
+        detail: Empty input which would have resulted in a null result.
+        errorCode: '00_400'
+    get-balanceAccounts-balanceAccountId-sweeps-success-200:
+      summary: Sweeps under a balance account retrieved
+      description: Example response when retrieving sweeps under a balance account
+      value:
+        hasNext: false
+        hasPrevious: false
+        sweeps:
+        - id: SWPC4227C224555B5FTD2NT2JV4WN5
+          schedule:
+            type: daily
+          status: active
+          targetAmount:
+            currency: EUR
+            value: 0
+          triggerAmount:
+            currency: EUR
+            value: 0
+          type: push
+          counterparty:
+            balanceAccountId: BA32272223222B5FTD2KR6TJD
+          currency: EUR
+    generic-422:
+      summary: Response code - 422 Unprocessable Entity.
+      value:
+        type: https://docs.adyen.com/errors/general/invalid-field-value
+        title: Invalid Payment Instrument information provided
+        status: 422
+        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
+        requestId: 1W1UI15PLVGC9V8O
+        errorCode: '30_031'
+    patch-balanceAccounts-balanceAccountId-sweeps-sweepId-updateSweep-status:
+      summary: Update the status of a sweep
+      description: Example request for updating a sweep
+      value:
+        status: inactive
+    post-balanceAccounts-balanceAccountId-sweeps-createSweep-push-priorities:
+      summary: Create a sweep to push funds out of a balance account with set priorities
+      description: Example request for creating a push sweep with priorities
+      value:
+        counterparty:
+          transferInstrumentId: SE322JV223222J5HGLCGF2WDV
+        triggerAmount:
+          currency: EUR
+          value: 50000
+        currency: EUR
+        priorities:
+        - fast
+        - instant
+        category: bank
+        schedule:
+          type: weekly
+        type: push
+        status: active
+    post-balanceAccounts-balanceAccountId-sweeps-createSweep-pull:
+      summary: Create a sweep to pull funds in to a balance account
+      description: Example request for creating a pull sweep
+      value:
+        counterparty:
+          merchantAccount: YOUR_MERCHANT_ACCOUNT
+        triggerAmount:
+          currency: EUR
+          value: 50000
+        currency: EUR
+        schedule:
+          type: balance
+        type: pull
+        status: active
+    generic-500:
+      summary: Response code - 500 Internal Server Error
+      value:
+        type: https://docs.adyen.com/errors/general/internal
+        title: An internal error happened
+        status: 500
+        detail: Unrecoverable error while trying to create payment instrument
+        requestId: 1WAF555PLWNTLYOQ
+        errorCode: '00_500'
+    post-balanceAccounts-balanceAccountId-sweeps-createSweep-push-priorities-200:
+      summary: Sweep of push type with priorities created
+      description: Example response for creating a push sweep with priorities
+      value:
+        id: SWPC4227C224555B5FTD2NT2JV4WN9
+        counterparty:
+          transferInstrumentId: SE322JV223222J5HGLCGF2WDV
+        triggerAmount:
+          currency: EUR
+          value: 50000
+        currency: EUR
+        priorities:
+        - fast
+        - instant
+        category: bank
+        schedule:
+          type: weekly
+        type: push
+        status: active
+    get-balanceAccounts-balanceAccountId-sweeps-sweepId-success-200:
+      summary: Sweep retrieved
+      description: Example response when retrieving a sweep
+      value:
+        id: SWPC4227C224555B5FTD2NT2JV4WN5
+        schedule:
+          type: daily
+        status: active
+        targetAmount:
+          currency: EUR
+          value: 0
+        triggerAmount:
+          currency: EUR
+          value: 0
+        type: push
+        counterparty:
+          balanceAccountId: BA32272223222B5FTD2KR6TJD
+        currency: EUR
+    post-balanceAccounts-balanceAccountId-sweeps-createSweep-push:
+      summary: Create a sweep to push funds out of a balance account
+      description: Example request for creating a push sweep
+      value:
+        counterparty:
+          balanceAccountId: BA32278887611B5FTD2KR6TJD
+        triggerAmount:
+          currency: EUR
+          value: 50000
+        currency: EUR
+        schedule:
+          type: weekly
+        type: push
+        status: active
+    generic-403:
+      summary: Response code - 403 Forbidden.
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Forbidden
+        status: 403
+        detail: Not the right permission to access this service.
+        errorCode: '00_403'
+  schemas:
+    SweepCounterparty:
+      properties:
+        balanceAccountId:
+          description: "The unique identifier of the destination or source [balance account](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/post/balanceAccounts__resParam_id).\n\n You can only use this for periodic sweep schedules such as `schedule.type` **daily** or **monthly**."
+          type: string
+        merchantAccount:
+          description: 'The merchant account that will be the source of funds.
+
+
+            You can only use this parameter with sweeps of `type` **pull** and `schedule.type` **balance**, and if you are processing payments with Adyen.'
+          type: string
+        transferInstrumentId:
+          description: 'The unique identifier of the destination or source [transfer instrument](https://docs.adyen.com/api-explorer/legalentity/latest/post/transferInstruments#responses-200-id) depending on the sweep `type`
+
+
+            . To [set up automated top-up sweeps to balance accounts](https://docs.adyen.com/marketplaces-and-platforms/top-up-balance-account/#before-you-begin), use this parameter in combination with a `merchantAccount` and a sweep `type` of **pull**. Top-up sweeps start a direct debit request from the source transfer instrument. Contact Adyen Support to enable this feature.'
+          type: string
+      type: object
+    JSONObject:
+      type: object
+    BalanceSweepConfigurationsResponse:
+      properties:
+        hasNext:
+          description: Indicates whether there are more items on the next page.
+          type: boolean
+        hasPrevious:
+          description: Indicates whether there are more items on the previous page.
+          type: boolean
+        sweeps:
+          description: List of sweeps associated with the balance account.
+          items:
+            $ref: '#/components/schemas/SweepConfigurationV2'
+          type: array
+      required:
+      - sweeps
+      - hasPrevious
+      - hasNext
+      type: object
+    RestServiceError:
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+        errorCode:
+          description: A code that identifies the problem type.
+          type: string
+        instance:
+          description: A unique URI that identifies the specific occurrence of the problem.
+          type: string
+        invalidFields:
+          description: Detailed explanation of each validation error, when applicable.
+          items:
+            $ref: '#/components/schemas/InvalidField'
+          type: array
+        requestId:
+          description: A unique reference for the request, essentially the same as `pspReference`.
+          type: string
+        response:
+          description: JSON response payload.
+          $ref: '#/components/schemas/JSONObject'
+        status:
+          description: The HTTP status code.
+          format: int32
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type.
+          type: string
+        type:
+          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
+          type: string
+      required:
+      - type
+      - errorCode
+      - title
+      - detail
+      - status
+      type: object
+    CreateSweepConfigurationV2:
+      properties:
+        category:
+          x-addedInVersion: '2'
+          description: "The type of transfer that results from the sweep.\n\nPossible values:\n\n - **bank**: Sweep to a [transfer instrument](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/transferInstruments__resParam_id).\n\n- **internal**: Transfer to another [balance account](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/post/balanceAccounts__resParam_id) within your platform.\n\nRequired when setting `priorities`."
+          enum:
+          - bank
+          - internal
+          - platformPayment
+          type: string
+        counterparty:
+          description: 'The destination or the source of the funds, depending on the sweep `type`.
+
+
+            Either a `balanceAccountId`, `transferInstrumentId`, or `merchantAccount` is required.'
+          $ref: '#/components/schemas/SweepCounterparty'
+        currency:
+          description: 'The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes) in uppercase. For example, **EUR**.
+
+
+            The sweep currency must match any of the [balances currencies](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/balanceAccounts/{id}__resParam_balances).'
+          type: string
+        description:
+          description: 'The message that will be used in the sweep transfer''s description body with a maximum length of 140 characters.
+
+
+            If the message is longer after replacing placeholders, the message will be cut off at 140 characters.'
+          type: string
+        priorities:
+          x-addedInVersion: '2'
+          description: 'The list of priorities for the bank transfer. This sets the speed at which the transfer is sent and the fees that you have to pay. You can provide multiple priorities. Adyen will try to pay out using the priority listed first, and if that''s not possible, it moves on to the next option in the order of provided priorities.
+
+
+            Possible values:
+
+
+            * **regular**: For normal, low-value transactions.
+
+
+            * **fast**: Faster way to transfer funds but has higher fees. Recommended for high-priority, low-value transactions.
+
+
+            * **wire**: Fastest way to transfer funds but has the highest fees. Recommended for high-priority, high-value transactions.
+
+
+            * **instant**: Instant way to transfer funds in [SEPA countries](https://www.ecb.europa.eu/paym/integration/retail/sepa/html/index.en.html).
+
+
+            * **crossBorder**: High-value transfer to a recipient in a different country.
+
+
+            * **internal**: Transfer to an Adyen-issued business bank account (by bank account number/IBAN).
+
+
+            Set `category` to **bank**. For more details, see [optional priorities setup](https://docs.adyen.com/marketplaces-and-platforms/payout-to-users/scheduled-payouts#optional-priorities-setup).'
+          items:
+            enum:
+            - crossBorder
+            - fast
+            - instant
+            - internal
+            - regular
+            - wire
+            type: string
+          type: array
+        reason:
+          description: The reason for disabling the sweep.
+          enum:
+          - amountLimitExceeded
+          - approved
+          - balanceAccountTemporarilyBlockedByTransactionRule
+          - counterpartyAccountBlocked
+          - counterpartyAccountClosed
+          - counterpartyAccountNotFound
+          - counterpartyAddressRequired
+          - counterpartyBankTimedOut
+          - counterpartyBankUnavailable
+          - declinedByTransactionRule
+          - error
+          - notEnoughBalance
+          - refusedByCounterpartyBank
+          - routeNotFound
+          - scaFailed
+          - unknown
+          readOnly: true
+          type: string
+        schedule:
+          description: The schedule when the `triggerAmount` is evaluated. If the balance meets the threshold, funds are pushed out of or pulled in to the balance account.
+          $ref: '#/components/schemas/SweepSchedule'
+        status:
+          description: "The status of the sweep. If not provided, by default, this is set to **active**.\n\nPossible values: \n\n * **active**:  the sweep is enabled and funds will be pulled in or pushed out based on the defined configuration. \n\n * **inactive**: the sweep is disabled and cannot be triggered. \n\n"
+          enum:
+          - active
+          - inactive
+          type: string
+        sweepAmount:
+          description: The amount that must be pushed out or pulled in. You can configure either `sweepAmount` or `targetAmount`, not both.
+          $ref: '#/components/schemas/Amount'
+        targetAmount:
+          description: The amount that must be available in the balance account after the sweep. You can configure either `sweepAmount` or `targetAmount`, not both.
+          $ref: '#/components/schemas/Amount'
+        triggerAmount:
+          description: 'The threshold amount that triggers the sweep. If not provided, by default, the amount is set to zero. The `triggerAmount` is evaluated according to the specified `schedule.type`.
+
+
+            * For `type` **pull**, if the balance is less than or equal to the `triggerAmount`, funds are pulled in to the balance account.
+
+
+            * For `type` **push**, if the balance is more than or equal to the `triggerAmount`, funds are pushed out of the balance account.'
+          $ref: '#/components/schemas/Amount'
+        type:
+          default: push
+          description: "The direction of sweep, whether pushing out or pulling in funds to the balance account. If not provided, by default, this is set to **push**.\n\nPossible values:\n\n * **push**: _push out funds_ to a destination balance account or transfer instrument.\n\n * **pull**: _pull in funds_ from a source merchant account, transfer instrument, or balance account."
+          enum:
+          - pull
+          - push
+          type: string
+      required:
+      - schedule
+      - currency
+      - counterparty
+      type: object
+    SweepSchedule:
+      properties:
+        cronExpression:
+          description: "A [cron expression](https://en.wikipedia.org/wiki/Cron#CRON_expression) that is used to set the sweep schedule. The schedule uses the time zone of the balance account. \nFor example, **30 17 * * MON** schedules a sweep every Monday at 17:30.\n\nThe expression must have five values separated by a single space in the following order:\n\n* Minute: **0-59**\n\n* Hour: **0-23**\n\n* Day of the month: **1-31**\n\n* Month: **1-12** or **JAN-DEC**\n\n* Day of the week: **0-7** (0 and 7 are Sunday) or **MON-SUN**.\n\nThe following non-standard characters are supported: **&ast;**, **L**, **#**, **W** and **/**. See [crontab guru](https://crontab.guru/) for more examples.\n\nRequired when `type` is **cron**.\n"
+          type: string
+        type:
+          description: 'The schedule type.
+
+
+            Possible values:
+
+
+            * **cron**: push out funds based on a `cronExpression`.
+
+
+            * **daily**: push out funds daily at 07:00 AM CET.
+
+
+            * **weekly**: push out funds every Monday at 07:00 AM CET.
+
+
+            * **monthly**: push out funds every first of the month at 07:00 AM CET.
+
+
+            * **balance**: pull in funds instantly if the balance is less than or equal to the `triggerAmount`.
+
+            You can only use this for sweeps of `type` **pull** and when the source is a `merchantAccount` or `transferInstrument`.
+
+            If the source is transferInstrument, merchant account identifier is still required, with which you want to process the transaction.
+
+            '
+          enum:
+          - daily
+          - weekly
+          - monthly
+          - balance
+          - cron
+          type: string
+      required:
+      - type
+      type: object
+    SweepConfigurationV2:
+      properties:
+        category:
+          x-addedInVersion: '2'
+          description: "The type of transfer that results from the sweep.\n\nPossible values:\n\n - **bank**: Sweep to a [transfer instrument](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/transferInstruments__resParam_id).\n\n- **internal**: Transfer to another [balance account](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/post/balanceAccounts__resParam_id) within your platform.\n\nRequired when setting `priorities`."
+          enum:
+          - bank
+          - internal
+          - platformPayment
+          type: string
+        counterparty:
+          description: 'The destination or the source of the funds, depending on the sweep `type`.
+
+
+            Either a `balanceAccountId`, `transferInstrumentId`, or `merchantAccount` is required.'
+          $ref: '#/components/schemas/SweepCounterparty'
+        currency:
+          description: 'The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes) in uppercase. For example, **EUR**.
+
+
+            The sweep currency must match any of the [balances currencies](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/balanceAccounts/{id}__resParam_balances).'
+          type: string
+        description:
+          description: 'The message that will be used in the sweep transfer''s description body with a maximum length of 140 characters.
+
+
+            If the message is longer after replacing placeholders, the message will be cut off at 140 characters.'
+          type: string
+        id:
+          description: The unique identifier of the sweep.
+          readOnly: true
+          type: string
+        priorities:
+          x-addedInVersion: '2'
+          description: 'The list of priorities for the bank transfer. This sets the speed at which the transfer is sent and the fees that you have to pay. You can provide multiple priorities. Adyen will try to pay out using the priority listed first, and if that''s not possible, it moves on to the next option in the order of provided priorities.
+
+
+            Possible values:
+
+
+            * **regular**: For normal, low-value transactions.
+
+
+            * **fast**: Faster way to transfer funds but has higher fees. Recommended for high-priority, low-value transactions.
+
+
+            * **wire**: Fastest way to transfer funds but has the highest fees. Recommended for high-priority, high-value transactions.
+
+
+            * **instant**: Instant way to transfer funds in [SEPA countries](https://www.ecb.europa.eu/paym/integration/retail/sepa/html/index.en.html).
+
+
+            * **crossBorder**: High-value transfer to a recipient in a different country.
+
+
+            * **internal**: Transfer to an Adyen-issued business bank account (by bank account number/IBAN).
+
+
+            Set `category` to **bank**. For more details, see [optional priorities setup](https://docs.adyen.com/marketplaces-and-platforms/payout-to-users/scheduled-payouts#optional-priorities-setup).'
+          items:
+            enum:
+            - crossBorder
+            - fast
+            - instant
+            - internal
+            - regular
+            - wire
+            type: string
+          type: array
+        reason:
+          description: The reason for disabling the sweep.
+          enum:
+          - amountLimitExceeded
+          - approved
+          - balanceAccountTemporarilyBlockedByTransactionRule
+          - counterpartyAccountBlocked
+          - counterpartyAccountClosed
+          - counterpartyAccountNotFound
+          - counterpartyAddressRequired
+          - counterpartyBankTimedOut
+          - counterpartyBankUnavailable
+          - declinedByTransactionRule
+          - error
+          - notEnoughBalance
+          - refusedByCounterpartyBank
+          - routeNotFound
+          - scaFailed
+          - unknown
+          readOnly: true
+          type: string
+        schedule:
+          description: The schedule when the `triggerAmount` is evaluated. If the balance meets the threshold, funds are pushed out of or pulled in to the balance account.
+          $ref: '#/components/schemas/SweepSchedule'
+        status:
+          description: "The status of the sweep. If not provided, by default, this is set to **active**.\n\nPossible values: \n\n * **active**:  the sweep is enabled and funds will be pulled in or pushed out based on the defined configuration. \n\n * **inactive**: the sweep is disabled and cannot be triggered. \n\n"
+          enum:
+          - active
+          - inactive
+          type: string
+        sweepAmount:
+          description: The amount that must be pushed out or pulled in. You can configure either `sweepAmount` or `targetAmount`, not both.
+          $ref: '#/components/schemas/Amount'
+        targetAmount:
+          description: The amount that must be available in the balance account after the sweep. You can configure either `sweepAmount` or `targetAmount`, not both.
+          $ref: '#/components/schemas/Amount'
+        triggerAmount:
+          description: 'The threshold amount that triggers the sweep. If not provided, by default, the amount is set to zero. The `triggerAmount` is evaluated according to the specified `schedule.type`.
+
+
+            * For `type` **pull**, if the balance is less than or equal to the `triggerAmount`, funds are pulled in to the balance account.
+
+
+            * For `type` **push**, if the balance is more than or equal to the `triggerAmount`, funds are pushed out of the balance account.'
+          $ref: '#/components/schemas/Amount'
+        type:
+          default: push
+          description: "The direction of sweep, whether pushing out or pulling in funds to the balance account. If not provided, by default, this is set to **push**.\n\nPossible values:\n\n * **push**: _push out funds_ to a destination balance account or transfer instrument.\n\n * **pull**: _pull in funds_ from a source merchant account, transfer instrument, or balance account."
+          enum:
+          - pull
+          - push
+          type: string
+      required:
+      - id
+      - schedule
+      - currency
+      - counterparty
+      type: object
+    UpdateSweepConfigurationV2:
+      properties:
+        category:
+          x-addedInVersion: '2'
+          description: "The type of transfer that results from the sweep.\n\nPossible values:\n\n - **bank**: Sweep to a [transfer instrument](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/transferInstruments__resParam_id).\n\n- **internal**: Transfer to another [balance account](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/post/balanceAccounts__resParam_id) within your platform.\n\nRequired when setting `priorities`."
+          enum:
+          - bank
+          - internal
+          - platformPayment
+          type: string
+        counterparty:
+          description: 'The destination or the source of the funds, depending on the sweep `type`.
+
+
+            Either a `balanceAccountId`, `transferInstrumentId`, or `merchantAccount` is required.'
+          $ref: '#/components/schemas/SweepCounterparty'
+        currency:
+          description: 'The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes) in uppercase. For example, **EUR**.
+
+
+            The sweep currency must match any of the [balances currencies](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/balanceAccounts/{id}__resParam_balances).'
+          type: string
+        description:
+          description: 'The message that will be used in the sweep transfer''s description body with a maximum length of 140 characters.
+
+
+            If the message is longer after replacing placeholders, the message will be cut off at 140 characters.'
+          type: string
+        id:
+          description: The unique identifier of the sweep.
+          readOnly: true
+          type: string
+        priorities:
+          x-addedInVersion: '2'
+          description: 'The list of priorities for the bank transfer. This sets the speed at which the transfer is sent and the fees that you have to pay. You can provide multiple priorities. Adyen will try to pay out using the priority listed first, and if that''s not possible, it moves on to the next option in the order of provided priorities.
+
+
+            Possible values:
+
+
+            * **regular**: For normal, low-value transactions.
+
+
+            * **fast**: Faster way to transfer funds but has higher fees. Recommended for high-priority, low-value transactions.
+
+
+            * **wire**: Fastest way to transfer funds but has the highest fees. Recommended for high-priority, high-value transactions.
+
+
+            * **instant**: Instant way to transfer funds in [SEPA countries](https://www.ecb.europa.eu/paym/integration/retail/sepa/html/index.en.html).
+
+
+            * **crossBorder**: High-value transfer to a recipient in a different country.
+
+
+            * **internal**: Transfer to an Adyen-issued business bank account (by bank account number/IBAN).
+
+
+            Set `category` to **bank**. For more details, see [optional priorities setup](https://docs.adyen.com/marketplaces-and-platforms/payout-to-users/scheduled-payouts#optional-priorities-setup).'
+          items:
+            enum:
+            - crossBorder
+            - fast
+            - instant
+            - internal
+            - regular
+            - wire
+            type: string
+          type: array
+        reason:
+          description: The reason for disabling the sweep.
+          enum:
+          - amountLimitExceeded
+          - approved
+          - balanceAccountTemporarilyBlockedByTransactionRule
+          - counterpartyAccountBlocked
+          - counterpartyAccountClosed
+          - counterpartyAccountNotFound
+          - counterpartyAddressRequired
+          - counterpartyBankTimedOut
+          - counterpartyBankUnavailable
+          - declinedByTransactionRule
+          - error
+          - notEnoughBalance
+          - refusedByCounterpartyBank
+          - routeNotFound
+          - scaFailed
+          - unknown
+          readOnly: true
+          type: string
+        schedule:
+          description: The schedule when the `triggerAmount` is evaluated. If the balance meets the threshold, funds are pushed out of or pulled in to the balance account.
+          $ref: '#/components/schemas/SweepSchedule'
+        status:
+          description: "The status of the sweep. If not provided, by default, this is set to **active**.\n\nPossible values: \n\n * **active**:  the sweep is enabled and funds will be pulled in or pushed out based on the defined configuration. \n\n * **inactive**: the sweep is disabled and cannot be triggered. \n\n"
+          enum:
+          - active
+          - inactive
+          type: string
+        sweepAmount:
+          description: The amount that must be pushed out or pulled in. You can configure either `sweepAmount` or `targetAmount`, not both.
+          $ref: '#/components/schemas/Amount'
+        targetAmount:
+          description: The amount that must be available in the balance account after the sweep. You can configure either `sweepAmount` or `targetAmount`, not both.
+          $ref: '#/components/schemas/Amount'
+        triggerAmount:
+          description: 'The threshold amount that triggers the sweep. If not provided, by default, the amount is set to zero. The `triggerAmount` is evaluated according to the specified `schedule.type`.
+
+
+            * For `type` **pull**, if the balance is less than or equal to the `triggerAmount`, funds are pulled in to the balance account.
+
+
+            * For `type` **push**, if the balance is more than or equal to the `triggerAmount`, funds are pushed out of the balance account.'
+          $ref: '#/components/schemas/Amount'
+        type:
+          default: push
+          description: "The direction of sweep, whether pushing out or pulling in funds to the balance account. If not provided, by default, this is set to **push**.\n\nPossible values:\n\n * **push**: _push out funds_ to a destination balance account or transfer instrument.\n\n * **pull**: _pull in funds_ from a source merchant account, transfer instrument, or balance account."
+          enum:
+          - pull
+          - push
+          type: string
+      type: object
+    Amount:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      - currency
+      type: object
+    InvalidField:
+      properties:
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
+          type: string
+        value:
+          description: The invalid value.
+          type: string
+      required:
+      - name
+      - value
+      - message
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

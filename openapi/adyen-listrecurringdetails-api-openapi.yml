@@ -1,0 +1,533 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute listRecurringDetails API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: listRecurringDetails
+paths:
+  /listRecurringDetails:
+    post:
+      tags:
+      - listRecurringDetails
+      summary: Adyen Get Stored Payment Details
+      description: 'Lists the stored payment details for a shopper, if there are any available. The recurring detail ID can be used with a regular authorisation request to charge the shopper. A summary of the payment detail is returned for presentation to the shopper.
+
+
+        For more information, refer to [Retrieve stored details](https://docs.adyen.com/classic-integration/recurring-payments/retrieve-stored-details/).'
+      operationId: post-listRecurringDetails
+      x-sortIndex: 1
+      x-methodName: listRecurringDetails
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              listAllRecurringDetails:
+                $ref: '#/components/examples/post-listRecurringDetails-listAllRecurringDetails'
+            schema:
+              $ref: '#/components/schemas/RecurringDetailsRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecurringDetailsResult'
+              examples:
+                post-listRecurringDetails200Example:
+                  summary: Default post-listRecurringDetails 200 response
+                  x-microcks-default: true
+                  value:
+                    creationDate: '2025-03-15T14:30:00Z'
+                    details:
+                    - example_value
+                    lastKnownShopperEmail: user@example.com
+                    shopperReference: REF-001
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-listRecurringDetails400Example:
+                  summary: Default post-listRecurringDetails 400 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-listRecurringDetails401Example:
+                  summary: Default post-listRecurringDetails 401 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-listRecurringDetails403Example:
+                  summary: Default post-listRecurringDetails 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-listRecurringDetails422Example:
+                  summary: Default post-listRecurringDetails 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-listRecurringDetails500Example:
+                  summary: Default post-listRecurringDetails 500 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    RecurringDetail:
+      properties:
+        additionalData:
+          x-addedInVersion: '5'
+          additionalProperties:
+            type: string
+          description: 'This field contains additional data, which may be returned in a particular response.
+
+
+            The additionalData object consists of entries, each of which includes the key and value.'
+          type: object
+        alias:
+          x-addedInVersion: '4'
+          description: 'The alias of the credit card number.
+
+
+            Applies only to recurring contracts storing credit card details'
+          type: string
+        aliasType:
+          x-addedInVersion: '4'
+          description: 'The alias type of the credit card number.
+
+
+            Applies only to recurring contracts storing credit card details.'
+          type: string
+        bank:
+          description: A container for bank account data.
+          $ref: '#/components/schemas/BankAccount'
+        billingAddress:
+          x-addedInVersion: '4'
+          description: The billing address.
+          $ref: '#/components/schemas/Address'
+        card:
+          description: A container for card data.
+          $ref: '#/components/schemas/Card'
+        contractTypes:
+          x-addedInVersion: '12'
+          description: Types of recurring contracts.
+          items:
+            type: string
+          type: array
+        creationDate:
+          description: The date when the recurring details were created.
+          format: date-time
+          type: string
+        firstPspReference:
+          x-addedInVersion: '4'
+          description: The `pspReference` of the first recurring payment that created the recurring detail.
+          type: string
+        name:
+          description: An optional descriptive name for this recurring detail.
+          type: string
+        networkTxReference:
+          x-addedInVersion: '68'
+          description: 'Returned in the response if you are not tokenizing with Adyen and are using the Merchant-initiated transactions (MIT) framework from Mastercard or Visa.
+
+
+            This contains either the Mastercard Trace ID or the Visa Transaction ID.'
+          type: string
+        paymentMethodVariant:
+          x-addedInVersion: '2'
+          description: The  type or sub-brand of a payment method used, e.g. Visa Debit, Visa Corporate, etc. For more information, refer to [PaymentMethodVariant](https://docs.adyen.com/development-resources/paymentmethodvariant).
+          type: string
+        recurringDetailReference:
+          description: The reference that uniquely identifies the recurring detail.
+          type: string
+        shopperName:
+          x-addedInVersion: '4'
+          description: The name of the shopper.
+          $ref: '#/components/schemas/Name'
+        socialSecurityNumber:
+          x-addedInVersion: '4'
+          description: A shopper's social security number (only in countries where it is legal to collect).
+          type: string
+        tokenDetails:
+          x-addedInVersion: '2'
+          $ref: '#/components/schemas/TokenDetails'
+        variant:
+          description: The payment method, such as “mc", "visa", "ideal", "paypal".
+          type: string
+      required:
+      - recurringDetailReference
+      - variant
+      type: object
+    RecurringDetailWrapper:
+      properties:
+        RecurringDetail:
+          $ref: '#/components/schemas/RecurringDetail'
+    TokenDetails:
+      properties:
+        tokenData:
+          additionalProperties:
+            type: string
+          type: object
+        tokenDataType:
+          type: string
+      type: object
+    Card:
+      properties:
+        cvc:
+          description: 'The [card verification code](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-security-code-cvc-cvv-cid) (1-20 characters). Depending on the card brand, it is known also as:
+
+            * CVV2/CVC2 – length: 3 digits
+
+            * CID – length: 4 digits
+
+            > If you are using [Client-Side Encryption](https://docs.adyen.com/classic-integration/cse-integration-ecommerce), the CVC code is present in the encrypted data. You must never post the card details to the server.
+
+            > This field must be always present in a [one-click payment request](https://docs.adyen.com/classic-integration/recurring-payments).
+
+            > When this value is returned in a response, it is always empty because it is not stored.'
+          maxLength: 20
+          minLength: 1
+          type: string
+        expiryMonth:
+          description: 'The card expiry month.
+
+            Format: 2 digits, zero-padded for single digits. For example:
+
+            * 03 = March
+
+            * 11 = November'
+          maxLength: 2
+          minLength: 1
+          type: string
+        expiryYear:
+          description: 'The card expiry year.
+
+            Format: 4 digits. For example: 2020'
+          maxLength: 4
+          minLength: 4
+          type: string
+        holderName:
+          description: The name of the cardholder, as printed on the card.
+          maxLength: 50
+          minLength: 1
+          type: string
+        issueNumber:
+          description: The issue number of the card (for some UK debit cards only).
+          maxLength: 2
+          minLength: 1
+          type: string
+        number:
+          description: 'The card number (4-19 characters). Do not use any separators.
+
+            When this value is returned in a response, only the last 4 digits of the card number are returned.'
+          maxLength: 19
+          minLength: 4
+          type: string
+        startMonth:
+          description: The month component of the start date (for some UK debit cards only).
+          maxLength: 2
+          minLength: 1
+          type: string
+        startYear:
+          description: The year component of the start date (for some UK debit cards only).
+          maxLength: 4
+          minLength: 4
+          type: string
+      type: object
+    RecurringDetailsRequest:
+      properties:
+        merchantAccount:
+          description: The merchant account identifier you want to process the (transaction) request with.
+          type: string
+        recurring:
+          description: 'A container for the type of a recurring contract to be retrieved.
+
+
+            The contract value needs to match the contract value submitted in the payment transaction used to create a recurring contract.
+
+            However, if `ONECLICK,RECURRING` is the original contract definition in the initial payment, then `contract` should take either `ONECLICK` or `RECURRING`, depending on whether or not you want the shopper to enter their card''s security code when they finalize their purchase.'
+          $ref: '#/components/schemas/Recurring'
+        shopperReference:
+          description: The reference you use to uniquely identify the shopper (e.g. user ID or account ID).
+          type: string
+      required:
+      - merchantAccount
+      - shopperReference
+      type: object
+    ServiceError:
+      properties:
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    Name:
+      properties:
+        firstName:
+          description: The first name.
+          type: string
+        lastName:
+          description: The last name.
+          type: string
+      required:
+      - firstName
+      - lastName
+      type: object
+    RecurringDetailsResult:
+      properties:
+        creationDate:
+          description: The date when the recurring details were created.
+          format: date-time
+          type: string
+        details:
+          description: Payment details stored for recurring payments.
+          items:
+            $ref: '#/components/schemas/RecurringDetailWrapper'
+          type: array
+        lastKnownShopperEmail:
+          description: The most recent email for this shopper (if available).
+          type: string
+        shopperReference:
+          description: The reference you use to uniquely identify the shopper (e.g. user ID or account ID).
+          type: string
+      type: object
+    BankAccount:
+      properties:
+        bankAccountNumber:
+          description: The bank account number (without separators).
+          type: string
+        bankCity:
+          x-addedInVersion: '18'
+          description: The bank city.
+          type: string
+        bankLocationId:
+          description: The location id of the bank. The field value is `nil` in most cases.
+          type: string
+        bankName:
+          description: The name of the bank.
+          type: string
+        bic:
+          description: The [Business Identifier Code](https://en.wikipedia.org/wiki/ISO_9362) (BIC) is the SWIFT address assigned to a bank. The field value is `nil` in most cases.
+          type: string
+        countryCode:
+          description: 'Country code where the bank is located.
+
+
+            A valid value is an ISO two-character country code (e.g. ''NL'').'
+          type: string
+        iban:
+          description: The [International Bank Account Number](https://en.wikipedia.org/wiki/International_Bank_Account_Number) (IBAN).
+          type: string
+        ownerName:
+          description: 'The name of the bank account holder.
+
+            If you submit a name with non-Latin characters, we automatically replace some of them with corresponding Latin characters to meet the FATF recommendations. For example:
+
+            * χ12 is converted to ch12.
+
+            * üA is converted to euA.
+
+            * Peter Møller is converted to Peter Mller, because banks don''t accept ''ø''.
+
+            After replacement, the ownerName must have at least three alphanumeric characters (A-Z, a-z, 0-9), and at least one of them must be a valid Latin character (A-Z, a-z). For example:
+
+            * John17 - allowed.
+
+            * J17 - allowed.
+
+            * 171 - not allowed.
+
+            * John-7 - allowed.
+
+            > If provided details don''t match the required format, the response returns the error message: 203 ''Invalid bank account holder name''.'
+          type: string
+        taxId:
+          x-addedInVersion: '18'
+          description: The bank account holder's tax ID.
+          type: string
+      type: object
+    Recurring:
+      properties:
+        contract:
+          description: 'The type of recurring contract to be used.
+
+            Possible values:
+
+            * `ONECLICK` – Payment details can be used to initiate a one-click payment, where the shopper enters the [card security code (CVC/CVV)](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-security-code-cvc-cvv-cid).
+
+            * `RECURRING` – Payment details can be used without the card security code to initiate [card-not-present transactions](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-not-present-cnp).
+
+            * `ONECLICK,RECURRING` – Payment details can be used regardless of whether the shopper is on your site or not.
+
+            * `PAYOUT` – Payment details can be used to [make a payout](https://docs.adyen.com/online-payments/online-payouts).'
+          enum:
+          - ONECLICK
+          - RECURRING
+          - PAYOUT
+          type: string
+        recurringDetailName:
+          description: A descriptive name for this detail.
+          type: string
+        recurringExpiry:
+          x-addedInVersion: '40'
+          description: Date after which no further authorisations shall be performed. Only for 3D Secure 2.
+          format: date-time
+          type: string
+        recurringFrequency:
+          x-addedInVersion: '40'
+          description: Minimum number of days between authorisations. Only for 3D Secure 2.
+          type: string
+        tokenService:
+          x-addedInVersion: '25'
+          description: The name of the token service.
+          enum:
+          - VISATOKENSERVICE
+          - MCTOKENSERVICE
+          - AMEXTOKENSERVICE
+          - TOKEN_SHARING
+          type: string
+      type: object
+    Address:
+      properties:
+        city:
+          description: 'The name of the city. Maximum length: 3000 characters.'
+          maxLength: 3000
+          type: string
+        country:
+          description: 'The two-character ISO-3166-1 alpha-2 country code. For example, **US**.
+
+            > If you don''t know the country or are not collecting the country from the shopper, provide `country` as `ZZ`.'
+          type: string
+        houseNumberOrName:
+          description: 'The number or name of the house. Maximum length: 3000 characters.'
+          maxLength: 3000
+          type: string
+        postalCode:
+          description: A maximum of five digits for an address in the US, or a maximum of ten characters for an address in all other countries.
+          type: string
+        stateOrProvince:
+          description: 'The two-character ISO 3166-2 state or province code. For example, **CA** in the US or **ON** in Canada.
+
+            > Required for the US and Canada.'
+          type: string
+        street:
+          description: 'The name of the street. Maximum length: 3000 characters.
+
+            > The house number should not be included in this field; it should be separately provided via `houseNumberOrName`.'
+          maxLength: 3000
+          type: string
+      required:
+      - street
+      - houseNumberOrName
+      - city
+      - postalCode
+      - country
+      type: object
+  examples:
+    post-listRecurringDetails-listAllRecurringDetails:
+      summary: List recurring details of the specified contract value
+      value:
+        recurring:
+          contract: RECURRING
+        shopperReference: YOUR_SHOPPER_REFERENCE
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

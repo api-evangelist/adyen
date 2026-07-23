@@ -1,0 +1,280 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute retrieveApplicableDefenseReasons API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: retrieveApplicableDefenseReasons
+paths:
+  /retrieveApplicableDefenseReasons:
+    post:
+      tags:
+      - retrieveApplicableDefenseReasons
+      summary: Adyen Get Applicable Defense Reasons
+      description: Returns a list of all applicable defense reasons to defend a specific dispute.
+      x-addedInVersion: '1'
+      operationId: post-retrieveApplicableDefenseReasons
+      x-sortIndex: 1
+      x-methodName: retrieveApplicableDefenseReasons
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              retrieve-defense-reasons:
+                $ref: '#/components/examples/post-retrieveApplicableDefenseReasons-retrieve-defense-reasons'
+            schema:
+              $ref: '#/components/schemas/DefenseReasonsRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                retrieve-defense-reasons:
+                  $ref: '#/components/examples/post-retrieveApplicableDefenseReasons-retrieve-defense-reasons-200'
+              schema:
+                $ref: '#/components/schemas/DefenseReasonsResponse'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-retrieveApplicableDefenseReasons400Example:
+                  summary: Default post-retrieveApplicableDefenseReasons 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-retrieveApplicableDefenseReasons401Example:
+                  summary: Default post-retrieveApplicableDefenseReasons 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-retrieveApplicableDefenseReasons403Example:
+                  summary: Default post-retrieveApplicableDefenseReasons 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-retrieveApplicableDefenseReasons422Example:
+                  summary: Default post-retrieveApplicableDefenseReasons 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-retrieveApplicableDefenseReasons500Example:
+                  summary: Default post-retrieveApplicableDefenseReasons 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    DefenseReason:
+      properties:
+        defenseDocumentTypes:
+          description: Array of defense document types for a specific defense reason. Indicates the document types that you can submit to the schemes to defend this dispute, and whether they are required.
+          items:
+            $ref: '#/components/schemas/DefenseDocumentType'
+          type: array
+        defenseReasonCode:
+          description: The defense reason code that was selected to defend this dispute.
+          type: string
+        satisfied:
+          description: Indicates if sufficient defense material has been supplied.
+          type: boolean
+      required:
+      - defenseReasonCode
+      - satisfied
+      type: object
+    DefenseReasonsRequest:
+      properties:
+        disputePspReference:
+          description: The PSP reference assigned to the dispute.
+          type: string
+        merchantAccountCode:
+          description: The merchant account identifier, for which you want to process the dispute transaction.
+          type: string
+      required:
+      - merchantAccountCode
+      - disputePspReference
+      type: object
+    DefenseReasonsResponse:
+      properties:
+        defenseReasons:
+          description: The defense reasons that can be used to defend the dispute.
+          items:
+            $ref: '#/components/schemas/DefenseReason'
+          type: array
+        disputeServiceResult:
+          description: The result of the dispute service.
+          $ref: '#/components/schemas/DisputeServiceResult'
+      required:
+      - disputeServiceResult
+      type: object
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    DisputeServiceResult:
+      properties:
+        errorMessage:
+          description: The general error message.
+          type: string
+        success:
+          description: Indicates whether the request succeeded.
+          type: boolean
+      required:
+      - success
+      type: object
+    DefenseDocumentType:
+      properties:
+        available:
+          description: When **true**, you've successfully uploaded this type of defense document. When **false**, you haven't uploaded this defense document type.
+          type: boolean
+        defenseDocumentTypeCode:
+          description: The document type code of the defense document.
+          type: string
+        requirementLevel:
+          description: "Indicates to what extent the defense document is required in the defense process.\n\nPossible values: \n\n* **Required**: You must supply the document.\n\n * **OneOrMore**: You must supply at least one of the documents with this label.\n\n* **Optional**: You can choose to supply the document.\n\n* **AlternativeRequired**: You must supply a generic defense document. To enable this functionality, contact our Support Team. When enabled, you can supply a generic defense document for all schemes."
+          type: string
+      required:
+      - defenseDocumentTypeCode
+      - requirementLevel
+      - available
+      type: object
+  examples:
+    post-retrieveApplicableDefenseReasons-retrieve-defense-reasons:
+      summary: Retrieve applicable defense reasons
+      value:
+        disputePspReference: DZ4DPSHB4WD2WN82
+        merchantAccountCode: YOUR_MERCHANT_ACCOUNT
+    post-retrieveApplicableDefenseReasons-retrieve-defense-reasons-200:
+      summary: Applicable dispute defense reasons retrieved
+      value:
+        defenseReasons:
+        - defenseDocumentTypes:
+          - available: false
+            defenseDocumentTypeCode: TIDorInvoice
+            requirementLevel: Optional
+          - available: false
+            defenseDocumentTypeCode: GoodsNotReturned
+            requirementLevel: Required
+          defenseReasonCode: GoodsNotReturned
+          satisfied: false
+        - defenseDocumentTypes:
+          - available: false
+            defenseDocumentTypeCode: TIDorInvoice
+            requirementLevel: Optional
+          - available: false
+            defenseDocumentTypeCode: GoodsRepairedOrReplaced
+            requirementLevel: Required
+          defenseReasonCode: GoodsRepairedOrReplaced
+          satisfied: false
+        - defenseDocumentTypes:
+          - available: false
+            defenseDocumentTypeCode: GoodsWereAsDescribed
+            requirementLevel: Required
+          - available: false
+            defenseDocumentTypeCode: TIDorInvoice
+            requirementLevel: Required
+          defenseReasonCode: GoodsWereAsDescribed
+          satisfied: false
+        - defenseDocumentTypes:
+          - available: false
+            defenseDocumentTypeCode: TIDorInvoice
+            requirementLevel: Optional
+          - available: false
+            defenseDocumentTypeCode: DefenseMaterial
+            requirementLevel: Required
+          defenseReasonCode: SupplyDefenseMaterial
+          satisfied: false
+        disputeServiceResult:
+          success: true
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

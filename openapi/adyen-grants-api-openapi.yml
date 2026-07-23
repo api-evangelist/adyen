@@ -1,0 +1,776 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute Grants API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: Grants
+paths:
+  /grants:
+    get:
+      tags:
+      - Grants
+      summary: Adyen Get a Capital Account
+      description: Returns a list of grants with status and outstanding balances.
+      x-addedInVersion: '3'
+      operationId: get-grants
+      x-sortIndex: 2
+      x-methodName: getCapitalAccount
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: The counterparty account holder id.
+        name: counterpartyAccountHolderId
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CapitalGrants'
+              examples:
+                get-grants200Example:
+                  summary: Default get-grants 200 response
+                  x-microcks-default: true
+                  value:
+                    grants:
+                    - example_value
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants400Example:
+                  summary: Default get-grants 400 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants401Example:
+                  summary: Default get-grants 401 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants403Example:
+                  summary: Default get-grants 403 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Forbidden - insufficient permissions to process the request.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants404Example:
+                  summary: Default get-grants 404 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Not Found - the payment was not found
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants422Example:
+                  summary: Default get-grants 422 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants500Example:
+                  summary: Default get-grants 500 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      tags:
+      - Grants
+      summary: Adyen Request a Grant Payout
+      description: Requests the payout of the selected grant offer.
+      x-addedInVersion: '3'
+      operationId: post-grants
+      x-sortIndex: 1
+      x-methodName: requestGrantPayout
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              requestGrant:
+                $ref: '#/components/examples/post-grants-requestGrant'
+            schema:
+              $ref: '#/components/schemas/CapitalGrantInfo'
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                requestGrant:
+                  $ref: '#/components/examples/post-grants-requestGrant-200'
+              schema:
+                $ref: '#/components/schemas/CapitalGrant'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-grants400Example:
+                  summary: Default post-grants 400 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-grants401Example:
+                  summary: Default post-grants 401 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-grants403Example:
+                  summary: Default post-grants 403 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Forbidden - insufficient permissions to process the request.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-grants404Example:
+                  summary: Default post-grants 404 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Not Found - the payment was not found
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-grants422Example:
+                  summary: Default post-grants 422 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-grants500Example:
+                  summary: Default post-grants 500 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /grants/{id}:
+    get:
+      tags:
+      - Grants
+      summary: Adyen Get Grant Reference Details
+      description: Returns the details of a capital account specified in the path.
+      x-addedInVersion: '3'
+      operationId: get-grants-id
+      x-sortIndex: 3
+      x-methodName: getGrantReferenceDetails
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: The unique identifier of the grant.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CapitalGrant'
+              examples:
+                get-grants-id200Example:
+                  summary: Default get-grants-id 200 response
+                  x-microcks-default: true
+                  value:
+                    amount: 1000
+                    balances: example_value
+                    counterparty: example_value
+                    fee: example_value
+                    grantAccountId: '500123'
+                    grantOfferId: '500123'
+                    id: '500123'
+                    repayment: example_value
+                    status: Pending
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants-id400Example:
+                  summary: Default get-grants-id 400 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants-id401Example:
+                  summary: Default get-grants-id 401 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants-id403Example:
+                  summary: Default get-grants-id 403 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Forbidden - insufficient permissions to process the request.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants-id404Example:
+                  summary: Default get-grants-id 404 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Not Found - the payment was not found
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants-id422Example:
+                  summary: Default get-grants-id 422 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-grants-id500Example:
+                  summary: Default get-grants-id 500 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Fee:
+      properties:
+        amount:
+          description: An object containing the fee amount.
+          $ref: '#/components/schemas/Amount'
+      required:
+      - amount
+      type: object
+    Repayment:
+      properties:
+        basisPoints:
+          description: The repayment that is deducted daily from incoming net volume, in [basis points](https://www.investopedia.com/terms/b/basispoint.asp).
+          format: int32
+          type: integer
+        term:
+          description: An object containing the details of the configuration for repayment term.
+          $ref: '#/components/schemas/RepaymentTerm'
+        threshold:
+          description: An object containing the details of the 30-day repayment threshold.
+          $ref: '#/components/schemas/ThresholdRepayment'
+      required:
+      - basisPoints
+      type: object
+    RepaymentTerm:
+      properties:
+        estimatedDays:
+          description: The estimated term for repaying the grant, in days.
+          format: int32
+          type: integer
+        maximumDays:
+          description: The maximum term for repaying the grant, in days. Only applies when `contractType` is **loan**.
+          format: int32
+          type: integer
+      required:
+      - estimatedDays
+      type: object
+    RestServiceError:
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+        errorCode:
+          description: A code that identifies the problem type.
+          type: string
+        instance:
+          description: A unique URI that identifies the specific occurrence of the problem.
+          type: string
+        invalidFields:
+          description: Detailed explanation of each validation error, when applicable.
+          items:
+            $ref: '#/components/schemas/InvalidField'
+          type: array
+        requestId:
+          description: A unique reference for the request, essentially the same as `pspReference`.
+          type: string
+        response:
+          description: JSON response payload.
+          $ref: '#/components/schemas/JSONObject'
+        status:
+          description: The HTTP status code.
+          format: int32
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type.
+          type: string
+        type:
+          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
+          type: string
+      required:
+      - type
+      - errorCode
+      - title
+      - detail
+      - status
+      type: object
+    CapitalBalance:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          type: string
+        fee:
+          description: Fee amount.
+          format: int64
+          type: integer
+        principal:
+          description: Principal amount.
+          format: int64
+          type: integer
+        total:
+          description: Total amount. A sum of principal amount and fee amount.
+          format: int64
+          type: integer
+      required:
+      - principal
+      - fee
+      - total
+      - currency
+      type: object
+    Amount:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      - currency
+      type: object
+    Counterparty:
+      properties:
+        accountHolderId:
+          description: The identifier of the receiving account holder. The payout will default to the primary balance account of this account holder if no `balanceAccountId` is provided.
+          type: string
+        balanceAccountId:
+          description: The identifier of the balance account that belongs to the receiving account holder.
+          type: string
+        transferInstrumentId:
+          description: The identifier of the transfer instrument that belongs to the legal entity of the account holder.
+          type: string
+      type: object
+    CapitalGrant:
+      properties:
+        amount:
+          description: An object containing the amount of the grant, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          $ref: '#/components/schemas/Amount'
+        balances:
+          description: An object containing the details of the existing grant.
+          $ref: '#/components/schemas/CapitalBalance'
+        counterparty:
+          description: An object containing the details of the receiving party of the grant. Setting either an `accountHolderId`, `balanceAccountId`, or both is required.
+          $ref: '#/components/schemas/Counterparty'
+        fee:
+          description: An object containing the fee currency and value, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          $ref: '#/components/schemas/Fee'
+        grantAccountId:
+          description: The identifier of the grant account used for the grant.
+          type: string
+        grantOfferId:
+          description: The identifier of the grant offer that has been selected and from which the grant details will be used.
+          type: string
+        id:
+          description: The identifier of the grant reference.
+          type: string
+        repayment:
+          description: An object containing the details of the 30-day repayment threshold.
+          $ref: '#/components/schemas/Repayment'
+        status:
+          description: 'The current status of the grant. Possible values: **Pending**, **Active**, **Repaid**.'
+          enum:
+          - Pending
+          - Active
+          - Repaid
+          type: string
+      required:
+      - grantAccountId
+      - grantOfferId
+      - id
+      - status
+      - balances
+      type: object
+    ThresholdRepayment:
+      properties:
+        amount:
+          description: The amount to be repaid on a 30-day basis.
+          $ref: '#/components/schemas/Amount'
+      required:
+      - amount
+      type: object
+    JSONObject:
+      type: object
+    CapitalGrantInfo:
+      properties:
+        counterparty:
+          description: An object containing the details of the receiving party of the grant. Setting either an `accountHolderId`, `balanceAccountId`, or both is required.
+          $ref: '#/components/schemas/Counterparty'
+        grantAccountId:
+          description: The identifier of the grant account used for the grant.
+          type: string
+        grantOfferId:
+          description: The identifier of the grant offer that has been selected and from which the grant details will be used.
+          type: string
+      required:
+      - grantAccountId
+      - grantOfferId
+      type: object
+    CapitalGrants:
+      properties:
+        grants:
+          description: The unique identifier of the grant.
+          items:
+            $ref: '#/components/schemas/CapitalGrant'
+          type: array
+      required:
+      - grants
+      type: object
+    InvalidField:
+      properties:
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
+          type: string
+        value:
+          description: The invalid value.
+          type: string
+      required:
+      - name
+      - value
+      - message
+      type: object
+  examples:
+    post-grants-requestGrant-200:
+      summary: Grant payout requested
+      description: Example response for requesting grant payout
+      value:
+        id: GR00000000000000000000001
+        grantAccountId: CG00000000000000000000001
+        grantOfferId: '0000000000000001'
+        counterparty:
+          accountHolderId: AH00000000000000000000001
+          balanceAccountId: BA00000000000000000000001
+        amount:
+          currency: EUR
+          value: 1000000
+        fee:
+          amount:
+            value: 120000
+            currency: EUR
+        balances:
+          currency: EUR
+          fee: 120000
+          principal: 1000000
+          total: 1120000
+        repayment:
+          basisPoints: 1400
+        status: Pending
+    post-grants-requestGrant:
+      summary: Request grant payout to a balance account
+      description: Example request for grant payout
+      value:
+        grantAccountId: CG00000000000000000000001
+        grantOfferId: '0000000000000001'
+        counterparty:
+          accountHolderId: AH00000000000000000000001
+          balanceAccountId: BA00000000000000000000001
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

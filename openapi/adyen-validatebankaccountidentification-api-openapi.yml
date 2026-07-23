@@ -1,0 +1,674 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute validateBankAccountIdentification API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: validateBankAccountIdentification
+paths:
+  /validateBankAccountIdentification:
+    post:
+      tags:
+      - validateBankAccountIdentification
+      summary: Adyen Validate a Bank Account
+      description: Validates bank account identification details. You can use this endpoint to validate bank account details before you [make a transfer](https://docs.adyen.com/api-explorer/transfers/latest/post/transfers) or [create a transfer instrument](https://docs.adyen.com/api-explorer/legalentity/latest/post/transferInstruments).
+      x-addedInVersion: '1'
+      operationId: post-validateBankAccountIdentification
+      x-sortIndex: 1
+      x-methodName: validateBankAccountIdentification
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              validateBankAccountIdentificationIban:
+                $ref: '#/components/examples/post-validateBankAccountIdentification-validateBankAccountIdentificationIban'
+              validateBankAccountIdentificationUs:
+                $ref: '#/components/examples/post-validateBankAccountIdentification-validateBankAccountIdentificationUs'
+            schema:
+              $ref: '#/components/schemas/BankAccountIdentificationValidationRequest'
+      responses:
+        '200':
+          description: 'No Content - look at the actual response code for the status of the request. '
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+                validateBankAccountIdentificationIban:
+                  $ref: '#/components/examples/post-validateBankAccountIdentification-validateBankAccountIdentificationIban-422'
+                validateBankAccountIdentificationUs:
+                  $ref: '#/components/examples/post-validateBankAccountIdentification-validateBankAccountIdentificationUs-422'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    CALocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 5- to 12-digit bank account number, without separators or whitespace.
+          maxLength: 12
+          minLength: 5
+          type: string
+        accountType:
+          default: checking
+          description: 'The bank account type.
+
+
+            Possible values: **checking** or **savings**. Defaults to **checking**.'
+          enum:
+          - checking
+          - savings
+          type: string
+        institutionNumber:
+          description: The 3-digit institution number, without separators or whitespace.
+          maxLength: 3
+          minLength: 3
+          type: string
+        transitNumber:
+          description: The 5-digit transit number, without separators or whitespace.
+          maxLength: 5
+          minLength: 5
+          type: string
+        type:
+          default: caLocal
+          description: '**caLocal**'
+          enum:
+          - caLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - institutionNumber
+      - transitNumber
+      type: object
+    NOLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 11-digit bank account number, without separators or whitespace.
+          maxLength: 11
+          minLength: 11
+          type: string
+        type:
+          default: noLocal
+          description: '**noLocal**'
+          enum:
+          - noLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      type: object
+    BRLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The bank account number, without separators or whitespace.
+          maxLength: 10
+          minLength: 1
+          type: string
+        bankCode:
+          description: The 3-digit bank code, with leading zeros.
+          maxLength: 3
+          minLength: 3
+          type: string
+        branchNumber:
+          description: The bank account branch number, without separators or whitespace.
+          maxLength: 4
+          minLength: 1
+          type: string
+        type:
+          default: brLocal
+          description: '**brLocal**'
+          enum:
+          - brLocal
+          type: string
+      required:
+      - type
+      - branchNumber
+      - accountNumber
+      - bankCode
+      type: object
+    JSONObject:
+      type: object
+    NZLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 15-16 digit bank account number. The first 2 digits are the bank number, the next 4 digits are the branch number, the next 7 digits are the account number, and the final 2-3 digits are the suffix.
+          maxLength: 16
+          minLength: 15
+          type: string
+        type:
+          default: nzLocal
+          description: '**nzLocal**'
+          enum:
+          - nzLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      type: object
+    NumberAndBicAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The bank account number, without separators or whitespace. The length and format depends on the bank or country.
+          maxLength: 34
+          type: string
+        additionalBankIdentification:
+          description: Additional identification codes of the bank. Some banks may require these identifiers for cross-border transfers.
+          $ref: '#/components/schemas/AdditionalBankIdentification'
+        bic:
+          description: The bank's 8- or 11-character BIC or SWIFT code.
+          maxLength: 11
+          minLength: 8
+          type: string
+        type:
+          default: numberAndBic
+          description: '**numberAndBic**'
+          enum:
+          - numberAndBic
+          type: string
+      required:
+      - type
+      - accountNumber
+      - bic
+      type: object
+    AdditionalBankIdentification:
+      properties:
+        code:
+          description: The value of the additional bank identification.
+          type: string
+        type:
+          description: "The type of additional bank identification, depending on the country.\n\nPossible values:\n\n * **gbSortCode**: The 6-digit [UK sort code](https://en.wikipedia.org/wiki/Sort_code), without separators or spaces\n * **usRoutingNumber**: The 9-digit [routing number](https://en.wikipedia.org/wiki/ABA_routing_transit_number), without separators or spaces."
+          enum:
+          - gbSortCode
+          - usRoutingNumber
+          type: string
+      type: object
+    CZLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: 'The 2- to 16-digit bank account number (Číslo účtu) in the following format:
+
+
+            - The optional prefix (předčíslí).
+
+
+            - The required second part (základní část) which must be at least two non-zero digits.
+
+
+            Examples:
+
+
+            - **19-123457** (with prefix)
+
+
+            - **123457** (without prefix)
+
+
+            - **000019-0000123457** (with prefix, normalized)
+
+
+            - **000000-0000123457** (without prefix, normalized)'
+          maxLength: 17
+          minLength: 2
+          type: string
+        bankCode:
+          description: The 4-digit bank code (Kód banky), without separators or whitespace.
+          maxLength: 4
+          minLength: 4
+          type: string
+        type:
+          default: czLocal
+          description: '**czLocal**'
+          enum:
+          - czLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - bankCode
+      type: object
+    RestServiceError:
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+        errorCode:
+          description: A code that identifies the problem type.
+          type: string
+        instance:
+          description: A unique URI that identifies the specific occurrence of the problem.
+          type: string
+        invalidFields:
+          description: Detailed explanation of each validation error, when applicable.
+          items:
+            $ref: '#/components/schemas/InvalidField'
+          type: array
+        requestId:
+          description: A unique reference for the request, essentially the same as `pspReference`.
+          type: string
+        response:
+          description: JSON response payload.
+          $ref: '#/components/schemas/JSONObject'
+        status:
+          description: The HTTP status code.
+          format: int32
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type.
+          type: string
+        type:
+          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
+          type: string
+      required:
+      - type
+      - errorCode
+      - title
+      - detail
+      - status
+      type: object
+    SGLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 4- to 19-digit bank account number, without separators or whitespace.
+          maxLength: 19
+          minLength: 4
+          type: string
+        bic:
+          description: The bank's 8- or 11-character BIC or SWIFT code.
+          maxLength: 11
+          minLength: 8
+          type: string
+        type:
+          default: sgLocal
+          description: '**sgLocal**'
+          enum:
+          - sgLocal
+          type: string
+      required:
+      - accountNumber
+      - bic
+      type: object
+    BankAccountIdentificationValidationRequest:
+      properties:
+        accountIdentification:
+          description: Bank account identification.
+          oneOf:
+          - $ref: '#/components/schemas/AULocalAccountIdentification'
+          - $ref: '#/components/schemas/BRLocalAccountIdentification'
+          - $ref: '#/components/schemas/CALocalAccountIdentification'
+          - $ref: '#/components/schemas/CZLocalAccountIdentification'
+          - $ref: '#/components/schemas/DKLocalAccountIdentification'
+          - $ref: '#/components/schemas/HKLocalAccountIdentification'
+          - $ref: '#/components/schemas/HULocalAccountIdentification'
+          - $ref: '#/components/schemas/IbanAccountIdentification'
+          - $ref: '#/components/schemas/NOLocalAccountIdentification'
+          - $ref: '#/components/schemas/NZLocalAccountIdentification'
+          - $ref: '#/components/schemas/NumberAndBicAccountIdentification'
+          - $ref: '#/components/schemas/PLLocalAccountIdentification'
+          - $ref: '#/components/schemas/SELocalAccountIdentification'
+          - $ref: '#/components/schemas/SGLocalAccountIdentification'
+          - $ref: '#/components/schemas/UKLocalAccountIdentification'
+          - $ref: '#/components/schemas/USLocalAccountIdentification'
+      required:
+      - accountIdentification
+      type: object
+    AULocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The bank account number, without separators or whitespace.
+          maxLength: 9
+          minLength: 5
+          type: string
+        bsbCode:
+          description: The 6-digit [Bank State Branch (BSB) code](https://en.wikipedia.org/wiki/Bank_state_branch), without separators or whitespace.
+          maxLength: 6
+          minLength: 6
+          type: string
+        type:
+          default: auLocal
+          description: '**auLocal**'
+          enum:
+          - auLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - bsbCode
+      type: object
+    IbanAccountIdentification:
+      additionalProperties: false
+      properties:
+        iban:
+          description: The international bank account number as defined in the [ISO-13616](https://www.iso.org/standard/81090.html) standard.
+          type: string
+        type:
+          default: iban
+          description: '**iban**'
+          enum:
+          - iban
+          type: string
+      required:
+      - type
+      - iban
+      type: object
+    PLLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 26-digit bank account number ([Numer rachunku](https://pl.wikipedia.org/wiki/Numer_Rachunku_Bankowego)), without separators or whitespace.
+          maxLength: 26
+          minLength: 26
+          type: string
+        type:
+          default: plLocal
+          description: '**plLocal**'
+          enum:
+          - plLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      type: object
+    DKLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 4-10 digits bank account number (Kontonummer) (without separators or whitespace).
+          maxLength: 10
+          minLength: 4
+          type: string
+        bankCode:
+          description: The 4-digit bank code (Registreringsnummer) (without separators or whitespace).
+          maxLength: 4
+          minLength: 4
+          type: string
+        type:
+          default: dkLocal
+          description: '**dkLocal**'
+          enum:
+          - dkLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - bankCode
+      type: object
+    USLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The bank account number, without separators or whitespace.
+          maxLength: 18
+          minLength: 2
+          type: string
+        accountType:
+          default: checking
+          description: 'The bank account type.
+
+
+            Possible values: **checking** or **savings**. Defaults to **checking**.'
+          enum:
+          - checking
+          - savings
+          type: string
+        routingNumber:
+          description: The 9-digit [routing number](https://en.wikipedia.org/wiki/ABA_routing_transit_number), without separators or whitespace.
+          maxLength: 9
+          minLength: 9
+          type: string
+        type:
+          default: usLocal
+          description: '**usLocal**'
+          enum:
+          - usLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - routingNumber
+      type: object
+    UKLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 8-digit bank account number, without separators or whitespace.
+          maxLength: 8
+          minLength: 8
+          type: string
+        sortCode:
+          description: The 6-digit [sort code](https://en.wikipedia.org/wiki/Sort_code), without separators or whitespace.
+          maxLength: 6
+          minLength: 6
+          type: string
+        type:
+          default: ukLocal
+          description: '**ukLocal**'
+          enum:
+          - ukLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - sortCode
+      type: object
+    SELocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 7- to 10-digit bank account number ([Bankkontonummer](https://sv.wikipedia.org/wiki/Bankkonto)), without the clearing number, separators, or whitespace.
+          maxLength: 10
+          minLength: 7
+          type: string
+        clearingNumber:
+          description: The 4- to 5-digit clearing number ([Clearingnummer](https://sv.wikipedia.org/wiki/Clearingnummer)), without separators or whitespace.
+          maxLength: 5
+          minLength: 4
+          type: string
+        type:
+          default: seLocal
+          description: '**seLocal**'
+          enum:
+          - seLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - clearingNumber
+      type: object
+    HKLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 9- to 15-character bank account number (alphanumeric), without separators or whitespace. Starts with the 3-digit branch code.
+          maxLength: 15
+          minLength: 9
+          type: string
+        clearingCode:
+          description: The 3-digit clearing code, without separators or whitespace.
+          maxLength: 3
+          minLength: 3
+          type: string
+        type:
+          default: hkLocal
+          description: '**hkLocal**'
+          enum:
+          - hkLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - clearingCode
+      type: object
+    HULocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 24-digit bank account number, without separators or whitespace.
+          maxLength: 24
+          minLength: 24
+          type: string
+        type:
+          default: huLocal
+          description: '**huLocal**'
+          enum:
+          - huLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      type: object
+    InvalidField:
+      properties:
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
+          type: string
+        value:
+          description: The invalid value.
+          type: string
+      required:
+      - name
+      - value
+      - message
+      type: object
+  examples:
+    generic-401:
+      summary: Response code - 401 Unauthorized
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Unauthorized
+        status: 401
+        detail: Not authorized to access this service.
+        errorCode: '00_401'
+    generic-403:
+      summary: Response code - 403 Forbidden.
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Forbidden
+        status: 403
+        detail: Not the right permission to access this service.
+        errorCode: '00_403'
+    post-validateBankAccountIdentification-validateBankAccountIdentificationUs:
+      summary: Validate a US bank account
+      value:
+        accountIdentification:
+          type: usLocal
+          accountNumber: 12345JHDhjkf67890
+          accountType: checking
+          routingNumber: '121000567'
+    generic-422:
+      summary: Response code - 422 Unprocessable Entity.
+      value:
+        type: https://docs.adyen.com/errors/general/invalid-field-value
+        title: Invalid Payment Instrument information provided
+        status: 422
+        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
+        requestId: 1W1UI15PLVGC9V8O
+        errorCode: '30_031'
+    generic-500:
+      summary: Response code - 500 Internal Server Error
+      value:
+        type: https://docs.adyen.com/errors/general/internal
+        title: An internal error happened
+        status: 500
+        detail: Unrecoverable error while trying to create payment instrument
+        requestId: 1WAF555PLWNTLYOQ
+        errorCode: '00_500'
+    post-validateBankAccountIdentification-validateBankAccountIdentificationUs-422:
+      summary: Invalid US bank account details
+      value:
+        type: https://docs.adyen.com/errors/validation
+        title: Invalid bank account identification details provided
+        detail: Provided account number and the routing number are incorrect
+        status: 422
+        invalidFields:
+        - name: accountNumber
+          value: 12345JHDhjkf67890
+          message: Invalid account number.
+        - name: routingNumber
+          value: '121000567'
+          message: Invalid routing number.
+    post-validateBankAccountIdentification-validateBankAccountIdentificationIban-422:
+      summary: Invalid IBAN details
+      value:
+        type: https://docs.adyen.com/errors/validation
+        title: Invalid bank account identification details provided
+        detail: Provided IBAN is incorrect
+        status: 422
+        invalidFields:
+        - name: iban
+          value: '1001001234'
+          message: Invalid IBAN.
+        errorCode: '33_01'
+    post-validateBankAccountIdentification-validateBankAccountIdentificationIban:
+      summary: Validate an IBAN
+      value:
+        accountIdentification:
+          type: iban
+          iban: '1001001234'
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

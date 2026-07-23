@@ -1,0 +1,1291 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute paymentLinks API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: paymentLinks
+paths:
+  /paymentLinks:
+    post:
+      tags:
+      - paymentLinks
+      summary: Adyen Create a Payment Link
+      description: 'Creates a payment link to our hosted payment form where shoppers can pay. The list of payment methods presented to the shopper depends on the `currency` and `country` parameters sent in the request.
+
+
+        For more information, refer to [Pay by Link documentation](https://docs.adyen.com/online-payments/pay-by-link#create-payment-links-through-api).'
+      operationId: post-paymentLinks
+      x-sortIndex: 1
+      x-methodName: paymentLinks
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              basic:
+                $ref: '#/components/examples/post-paymentLinks-basic'
+            schema:
+              $ref: '#/components/schemas/PaymentLinkRequest'
+      parameters:
+      - $ref: '#/components/parameters/Idempotency-Key'
+      responses:
+        '201':
+          content:
+            application/json:
+              examples:
+                basic:
+                  $ref: '#/components/examples/post-paymentLinks-basic-201'
+              schema:
+                $ref: '#/components/schemas/PaymentLinkResponse'
+          description: Created - the request has succeeded.
+          headers:
+            Idempotency-Key:
+              $ref: '#/components/headers/Idempotency-Key'
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Unprocessable Entity - a request validation error.
+          headers:
+            Idempotency-Key:
+              $ref: '#/components/headers/Idempotency-Key'
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /paymentLinks/{linkId}:
+    get:
+      tags:
+      - paymentLinks
+      summary: Adyen Get a Payment Link
+      description: Retrieves the payment link details using the payment link `id`.
+      operationId: get-paymentLinks-linkId
+      x-sortIndex: 2
+      x-methodName: getPaymentLink
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: Unique identifier of the payment link.
+        name: linkId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                basic:
+                  $ref: '#/components/examples/get-paymentLinks-linkId-basic-200'
+              schema:
+                $ref: '#/components/schemas/PaymentLinkResponse'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    patch:
+      tags:
+      - paymentLinks
+      summary: Adyen Update the Status of a Payment Link
+      description: Updates the status of a payment link. Use this endpoint to [force the expiry of a payment link](https://docs.adyen.com/online-payments/pay-by-link#update-payment-link-status).
+      operationId: patch-paymentLinks-linkId
+      x-sortIndex: 3
+      x-methodName: updatePaymentLink
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              basic:
+                $ref: '#/components/examples/patch-paymentLinks-linkId-basic'
+            schema:
+              $ref: '#/components/schemas/UpdatePaymentLinkRequest'
+      parameters:
+      - description: Unique identifier of the payment link.
+        name: linkId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                basic:
+                  $ref: '#/components/examples/patch-paymentLinks-linkId-basic-200'
+              schema:
+                $ref: '#/components/schemas/PaymentLinkResponse'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  examples:
+    patch-paymentLinks-linkId-basic-200:
+      summary: Example response for request 'basic'
+      value:
+        amount:
+          currency: EUR
+          value: 8700
+        countryCode: NL
+        expiresAt: '2021-04-08T14:06:39Z'
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        reference: shopper-reference-ekvL83
+        shopperLocale: hu-HU
+        shopperReference: shopper-reference-LZfdWZ
+        status: expired
+        url: https://test.adyen.link/PL61C53A8B97E6915A
+        id: PL61C53A8B97E6915A
+    generic-401:
+      summary: Response code 401. Unauthorized.
+      value:
+        status: 401
+        errorCode: '000'
+        message: HTTP Status Response - Unauthorized
+        errorType: security
+    generic-400:
+      summary: Response code 400. Bad request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: ", expected: }'
+        errorType: validation
+    post-paymentLinks-basic-201:
+      summary: Payment link created
+      value:
+        amount:
+          currency: BRL
+          value: 1250
+        billingAddress:
+          city: São Paulo
+          country: BR
+          houseNumberOrName: '999'
+          postalCode: '59000060'
+          stateOrProvince: SP
+          street: Roque Petroni Jr
+        countryCode: BR
+        deliveryAddress:
+          city: São Paulo
+          country: BR
+          houseNumberOrName: '999'
+          postalCode: '59000060'
+          stateOrProvince: SP
+          street: Roque Petroni Jr
+        expiresAt: '2022-10-28T09:16:22Z'
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        reference: YOUR_ORDER_NUMBER
+        reusable: false
+        shopperEmail: test@email.com
+        shopperLocale: pt-BR
+        shopperReference: YOUR_SHOPPER_REFERENCE
+        id: PLE83C39B0A0DE0C1E
+        status: active
+        url: https://test.adyen.link/PLE83C39B0A0DE0C1E
+    generic-422:
+      summary: Response code 422. Unprocessable entity.
+      value:
+        status: 422
+        errorCode: '14_030'
+        message: Return URL is missing.
+        errorType: validation
+        pspReference: '8816118280275544'
+    generic-500:
+      summary: Response code 500. Internal server error.
+      value:
+        status: 500
+        errorCode: '905'
+        message: Payment details are not supported
+        errorType: configuration
+        pspReference: '8516091485743033'
+    post-paymentLinks-basic:
+      summary: Create a payment link
+      value:
+        reference: YOUR_ORDER_NUMBER
+        amount:
+          value: 1250
+          currency: BRL
+        countryCode: BR
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        shopperReference: YOUR_SHOPPER_REFERENCE
+        shopperEmail: test@email.com
+        shopperLocale: pt-BR
+        billingAddress:
+          street: Roque Petroni Jr
+          postalCode: '59000060'
+          city: São Paulo
+          houseNumberOrName: '999'
+          country: BR
+          stateOrProvince: SP
+        deliveryAddress:
+          street: Roque Petroni Jr
+          postalCode: '59000060'
+          city: São Paulo
+          houseNumberOrName: '999'
+          country: BR
+          stateOrProvince: SP
+    patch-paymentLinks-linkId-basic:
+      summary: Update the status of a payment link
+      value:
+        status: expired
+    get-paymentLinks-linkId-basic-200:
+      summary: Example response for request 'basic'
+      value:
+        amount:
+          currency: EUR
+          value: 8700
+        countryCode: NL
+        expiresAt: '2021-04-08T14:06:39Z'
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        reference: shopper-reference-ekvL83
+        shopperLocale: hu-HU
+        shopperReference: shopper-reference-LZfdWZ
+        status: active
+        url: https://test.adyen.link/PL61C53A8B97E6915A
+        id: PL61C53A8B97E6915A
+    generic-403:
+      summary: Response code 403. Forbidden.
+      value:
+        status: 403
+        errorCode: '901'
+        message: Invalid Merchant Account
+        errorType: security
+        pspReference: 881611827877203B
+  schemas:
+    LineItem:
+      properties:
+        amountExcludingTax:
+          description: Item amount excluding the tax, in minor units.
+          format: int64
+          type: integer
+        amountIncludingTax:
+          description: Item amount including the tax, in minor units.
+          format: int64
+          type: integer
+        brand:
+          x-addedInVersion: '70'
+          description: Brand of the item.
+          type: string
+        color:
+          x-addedInVersion: '70'
+          description: Color of the item.
+          type: string
+        description:
+          description: Description of the line item.
+          type: string
+        id:
+          description: ID of the line item.
+          type: string
+        imageUrl:
+          description: Link to the picture of the purchased item.
+          type: string
+        itemCategory:
+          description: Item category, used by the payment methods PayPal and Ratepay.
+          type: string
+        manufacturer:
+          x-addedInVersion: '70'
+          description: Manufacturer of the item.
+          type: string
+        productUrl:
+          description: Link to the purchased item.
+          type: string
+        quantity:
+          description: Number of items.
+          format: int64
+          type: integer
+        receiverEmail:
+          x-addedInVersion: '70'
+          description: Email associated with the given product in the basket (usually in electronic gift cards).
+          type: string
+        size:
+          x-addedInVersion: '70'
+          description: Size of the item.
+          type: string
+        sku:
+          x-addedInVersion: '70'
+          description: Stock keeping unit.
+          type: string
+        taxAmount:
+          description: Tax amount, in minor units.
+          format: int64
+          type: integer
+        taxPercentage:
+          description: Tax percentage, in minor units.
+          format: int64
+          type: integer
+        upc:
+          x-addedInVersion: '70'
+          description: Universal Product Code.
+          type: string
+      type: object
+    UpdatePaymentLinkRequest:
+      properties:
+        status:
+          description: 'Status of the payment link. Possible values:
+
+            * **expired**'
+          enum:
+          - expired
+          type: string
+      required:
+      - status
+      type: object
+    ApplicationInfo:
+      properties:
+        adyenLibrary:
+          description: Adyen-developed software, such as libraries and plugins, used to interact with the Adyen API. For example, Magento plugin, Java API library, etc.
+          $ref: '#/components/schemas/CommonField'
+        adyenPaymentSource:
+          description: Adyen-developed software to get payment details. For example, Checkout SDK, Secured Fields SDK, etc.
+          $ref: '#/components/schemas/CommonField'
+        externalPlatform:
+          description: Third-party developed platform used to initiate payment requests. For example, Magento, Zuora, etc.
+          $ref: '#/components/schemas/ExternalPlatform'
+        merchantApplication:
+          description: Merchant developed software, such as cashier application, used to interact with the Adyen API.
+          $ref: '#/components/schemas/CommonField'
+        merchantDevice:
+          description: Merchant device information.
+          $ref: '#/components/schemas/MerchantDevice'
+        shopperInteractionDevice:
+          description: Shopper interaction device, such as terminal, mobile device or web browser, to initiate payment requests.
+          $ref: '#/components/schemas/ShopperInteractionDevice'
+      type: object
+    CommonField:
+      properties:
+        name:
+          description: Name of the field. For example, Name of External Platform.
+          type: string
+        version:
+          description: Version of the field. For example, Version of External Platform.
+          type: string
+      type: object
+    MerchantDevice:
+      properties:
+        os:
+          description: Operating system running on the merchant device.
+          type: string
+        osVersion:
+          description: Version of the operating system on the merchant device.
+          type: string
+        reference:
+          description: Merchant device reference.
+          type: string
+      type: object
+    Address:
+      properties:
+        city:
+          description: 'The name of the city. Maximum length: 3000 characters.'
+          maxLength: 3000
+          type: string
+        country:
+          description: 'The two-character ISO-3166-1 alpha-2 country code. For example, **US**.
+
+            > If you don''t know the country or are not collecting the country from the shopper, provide `country` as `ZZ`.'
+          type: string
+        houseNumberOrName:
+          description: 'The number or name of the house. Maximum length: 3000 characters.'
+          maxLength: 3000
+          type: string
+        postalCode:
+          description: A maximum of five digits for an address in the US, or a maximum of ten characters for an address in all other countries.
+          type: string
+        stateOrProvince:
+          description: 'The two-character ISO 3166-2 state or province code. For example, **CA** in the US or **ON** in Canada.
+
+            > Required for the US and Canada.'
+          type: string
+        street:
+          description: 'The name of the street. Maximum length: 3000 characters.
+
+            > The house number should not be included in this field; it should be separately provided via `houseNumberOrName`.'
+          maxLength: 3000
+          type: string
+      required:
+      - street
+      - houseNumberOrName
+      - city
+      - postalCode
+      - country
+      type: object
+    SplitAmount:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes). By default, this is the original payment currency.
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The value of the split amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      type: object
+    ServiceError:
+      properties:
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    InstallmentOption:
+      properties:
+        maxValue:
+          description: The maximum number of installments offered for this payment method.
+          format: int32
+          type: integer
+        plans:
+          x-addedInVersion: '64'
+          description: 'Defines the type of installment plan. If not set, defaults to **regular**.
+
+
+            Possible values:
+
+            * **regular**
+
+            * **revolving**'
+          items:
+            enum:
+            - regular
+            - revolving
+            type: string
+          type: array
+        preselectedValue:
+          x-addedInVersion: '64'
+          description: Preselected number of installments offered for this payment method.
+          format: int32
+          type: integer
+        values:
+          x-addedInVersion: '64'
+          description: An array of the number of installments that the shopper can choose from. For example, **[2,3,5]**. This cannot be specified simultaneously with `maxValue`.
+          items:
+            format: int32
+            type: integer
+          type: array
+      type: object
+    Name:
+      properties:
+        firstName:
+          description: The first name.
+          type: string
+        lastName:
+          description: The last name.
+          type: string
+      required:
+      - firstName
+      - lastName
+      type: object
+    ExternalPlatform:
+      properties:
+        integrator:
+          description: External platform integrator.
+          type: string
+        name:
+          description: Name of the field. For example, Name of External Platform.
+          type: string
+        version:
+          description: Version of the field. For example, Version of External Platform.
+          type: string
+      type: object
+    ShopperInteractionDevice:
+      properties:
+        locale:
+          description: Locale on the shopper interaction device.
+          type: string
+        os:
+          description: Operating system running on the shopper interaction device.
+          type: string
+        osVersion:
+          description: Version of the operating system on the shopper interaction device.
+          type: string
+      type: object
+    RiskData:
+      properties:
+        clientData:
+          description: Contains client-side data, like the device fingerprint, cookies, and specific browser settings.
+          type: string
+        customFields:
+          x-addedInVersion: '65'
+          additionalProperties:
+            type: string
+          description: Any custom fields used as part of the input to configured risk rules.
+          type: object
+        fraudOffset:
+          x-addedInVersion: '65'
+          description: An integer value that is added to the normal fraud score. The value can be either positive or negative.
+          format: int32
+          type: integer
+        profileReference:
+          x-addedInVersion: '65'
+          description: The risk profile to assign to this payment. When left empty, the merchant-level account's default risk profile will be applied.
+          type: string
+      type: object
+    Amount:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      - currency
+      type: object
+    PaymentLinkRequest:
+      properties:
+        allowedPaymentMethods:
+          description: 'List of payment methods to be presented to the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types).
+
+
+            Example: `"allowedPaymentMethods":["ideal","giropay"]`'
+          items:
+            type: string
+          type: array
+        amount:
+          description: The payment amount and currency.
+          $ref: '#/components/schemas/Amount'
+        applicationInfo:
+          description: Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions).
+          $ref: '#/components/schemas/ApplicationInfo'
+        billingAddress:
+          description: The address where to send the invoice.
+          $ref: '#/components/schemas/Address'
+        blockedPaymentMethods:
+          description: 'List of payment methods to be hidden from the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types).
+
+
+            Example: `"blockedPaymentMethods":["ideal","giropay"]`'
+          items:
+            type: string
+          type: array
+        captureDelayHours:
+          x-addedInVersion: '69'
+          description: The delay between the authorisation and scheduled auto-capture, specified in hours.
+          format: int32
+          type: integer
+        countryCode:
+          description: The shopper's two-letter country code.
+          type: string
+        dateOfBirth:
+          x-addedInVersion: '69'
+          description: 'The shopper''s date of birth.
+
+
+            Format [ISO-8601](https://www.w3.org/TR/NOTE-datetime): YYYY-MM-DD'
+          format: date
+          type: string
+        deliverAt:
+          description: 'The date and time when the purchased goods should be delivered.
+
+
+            [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format: YYYY-MM-DDThh:mm:ss+TZD, for example, **2020-12-18T10:15:30+01:00**.'
+          format: date-time
+          type: string
+        deliveryAddress:
+          description: The address where the purchased goods should be delivered.
+          $ref: '#/components/schemas/Address'
+        description:
+          description: 'A short description visible on the payment page.
+
+            Maximum length: 280 characters.'
+          type: string
+        expiresAt:
+          x-addedInVersion: '71'
+          description: 'The date when the payment link expires.
+
+
+            [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format with time zone offset: YYYY-MM-DDThh:mm:ss+TZD, for example, **2020-12-18T10:15:30+01:00**.
+
+
+            The maximum expiry date is 70 days after the payment link is created.
+
+
+            If not provided, the payment link expires 24 hours after it was created.'
+          format: date-time
+          type: string
+        installmentOptions:
+          additionalProperties:
+            $ref: '#/components/schemas/InstallmentOption'
+          description: A set of key-value pairs that specifies the installment options available per payment method. The key must be a payment method name in lowercase. For example, **card** to specify installment options for all cards, or **visa** or **mc**. The value must be an object containing the installment options.
+          type: object
+        lineItems:
+          description: 'Price and product information about the purchased items, to be included on the invoice sent to the shopper.
+
+            This parameter is required for open invoice (_buy now, pay later_) payment methods such Afterpay, Clearpay, Klarna, RatePay, and Zip.'
+          items:
+            $ref: '#/components/schemas/LineItem'
+          type: array
+        manualCapture:
+          description: Indicates if the payment must be [captured manually](https://docs.adyen.com/online-payments/capture).
+          type: boolean
+        mcc:
+          x-addedInVersion: '69'
+          description: The [merchant category code](https://en.wikipedia.org/wiki/Merchant_category_code) (MCC) is a four-digit number, which relates to a particular market segment. This code reflects the predominant activity that is conducted by the merchant.
+          type: string
+        merchantAccount:
+          description: The merchant account identifier for which the payment link is created.
+          type: string
+        merchantOrderReference:
+          description: This reference allows linking multiple transactions to each other for reporting purposes (for example, order auth-rate). The reference should be unique per billing cycle.
+          type: string
+        metadata:
+          additionalProperties:
+            type: string
+          description: 'Metadata consists of entries, each of which includes a key and a value.
+
+            Limitations:
+
+            * Maximum 20 key-value pairs per request. Otherwise, error "177" occurs: "Metadata size exceeds limit"
+
+            * Maximum 20 characters per key. Otherwise, error "178" occurs: "Metadata key size exceeds limit"
+
+            * A key cannot have the name `checkout.linkId`. Any value that you provide with this key is going to be replaced by the real payment link ID.'
+          maxLength: 80
+          type: object
+        recurringProcessingModel:
+          description: 'Defines a recurring payment type. Required when `storePaymentMethodMode` is set to **askForConsent** or **enabled**.
+
+            Possible values:
+
+            * **Subscription** – A transaction for a fixed or variable amount, which follows a fixed schedule.
+
+            * **CardOnFile** – With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction.
+
+            * **UnscheduledCardOnFile** – An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or has variable amounts. For example, automatic top-ups when a cardholder''s balance drops below a certain amount.
+
+            '
+          enum:
+          - CardOnFile
+          - Subscription
+          - UnscheduledCardOnFile
+          type: string
+        reference:
+          description: A reference that is used to uniquely identify the payment in future communications about the payment status.
+          type: string
+        requiredShopperFields:
+          x-addedInVersion: '67'
+          description: 'List of fields that the shopper has to provide on the payment page before completing the payment. For more information, refer to [Provide shopper information](https://docs.adyen.com/unified-commerce/pay-by-link/payment-links/api#shopper-information).
+
+
+            Possible values:
+
+            * **billingAddress** – The address where to send the invoice.
+
+            * **deliveryAddress** – The address where the purchased goods should be delivered.
+
+            * **shopperEmail** – The shopper''s email address.
+
+            * **shopperName** – The shopper''s full name.
+
+            * **telephoneNumber** – The shopper''s phone number.
+
+            '
+          items:
+            enum:
+            - billingAddress
+            - deliveryAddress
+            - shopperEmail
+            - shopperName
+            - telephoneNumber
+            type: string
+          type: array
+        returnUrl:
+          description: 'Website URL used for redirection after payment is completed.
+
+            If provided, a **Continue** button will be shown on the payment page. If shoppers select the button, they are redirected to the specified URL.'
+          type: string
+        reusable:
+          description: Indicates whether the payment link can be reused for multiple payments. If not provided, this defaults to **false** which means the link can be used for one successful payment only.
+          type: boolean
+        riskData:
+          x-addedInVersion: '65'
+          description: Any risk-related settings to apply to the payment.
+          $ref: '#/components/schemas/RiskData'
+        shopperEmail:
+          description: The shopper's email address.
+          type: string
+        shopperLocale:
+          description: 'The language to be used in the payment page, specified by a combination of a language and country code. For example, `en-US`.
+
+
+            For a list of shopper locales that Pay by Link supports, refer to [Language and localization](https://docs.adyen.com/unified-commerce/pay-by-link/payment-links/api#language).'
+          type: string
+        shopperName:
+          description: The shopper's full name. This object is required for some payment methods such as AfterPay, Klarna, or if you're enrolled in the PayPal Seller Protection program.
+          $ref: '#/components/schemas/Name'
+        shopperReference:
+          description: 'Your reference to uniquely identify this shopper, for example user ID or account ID. Minimum length: 3 characters.
+
+            > Your reference must not include personally identifiable information (PII), for example name or email address.'
+          maxLength: 256
+          minLength: 3
+          type: string
+        shopperStatement:
+          x-addedInVersion: '69'
+          description: "The text to be shown on the shopper's bank statement.\n We recommend sending a maximum of 22 characters, otherwise banks might truncate the string.\n Allowed characters: **a-z**, **A-Z**, **0-9**, spaces, and special characters **. , ' _ - ? + * /**."
+          type: string
+        showRemovePaymentMethodButton:
+          default: true
+          description: Set to **false** to hide the button that lets the shopper remove a stored payment method.
+          type: boolean
+        socialSecurityNumber:
+          x-addedInVersion: '69'
+          description: The shopper's social security number.
+          type: string
+        splitCardFundingSources:
+          x-addedInVersion: '69'
+          default: false
+          description: Boolean value indicating whether the card payment method should be split into separate debit and credit options.
+          type: boolean
+        splits:
+          description: An array of objects specifying how to split a payment when using [Adyen for Platforms](https://docs.adyen.com/marketplaces-and-platforms/processing-payments#providing-split-information), [Classic Platforms integration](https://docs.adyen.com/marketplaces-and-platforms/classic/processing-payments#providing-split-information), or [Issuing](https://docs.adyen.com/issuing/manage-funds#split).
+          items:
+            $ref: '#/components/schemas/Split'
+          type: array
+        store:
+          description: The physical store, for which this payment is processed.
+          type: string
+        storePaymentMethodMode:
+          x-addedInVersion: '68'
+          description: "Indicates if the details of the payment method will be stored for the shopper. Possible values:\n* **disabled** – No details will be stored (default).\n* **askForConsent** – If the `shopperReference` is provided, the UI lets the shopper choose if they want their payment details to be stored.\n* **enabled** – If the `shopperReference` is provided, the details will be stored without asking the shopper for consent. \n When set to **askForConsent** or **enabled**, you must also include the `recurringProcessingModel` parameter."
+          enum:
+          - askForConsent
+          - disabled
+          - enabled
+          type: string
+        telephoneNumber:
+          x-addedInVersion: '68'
+          description: The shopper's telephone number.
+          type: string
+        themeId:
+          x-addedInVersion: '67'
+          description: A [theme](https://docs.adyen.com/unified-commerce/pay-by-link/payment-links/api#themes) to customize the appearance of the payment page. If not specified, the payment page is rendered according to the theme set as default in your Customer Area.
+          type: string
+      required:
+      - amount
+      - reference
+      - merchantAccount
+      type: object
+    Split:
+      properties:
+        account:
+          description: 'The unique identifier of the account to which the split amount is booked. Required if `type` is **MarketPlace** or **BalanceAccount**.
+
+
+            * [Classic Platforms integration](https://docs.adyen.com/marketplaces-and-platforms/classic): The [`accountCode`](https://docs.adyen.com/api-explorer/Account/latest/post/updateAccount#request-accountCode) of the account to which the split amount is booked.
+
+            * [Balance Platform](https://docs.adyen.com/marketplaces-and-platforms): The [`balanceAccountId`](https://docs.adyen.com/api-explorer/balanceplatform/latest/get/balanceAccounts/_id_#path-id) of the account to which the split amount is booked.'
+          type: string
+        amount:
+          description: 'The amount of the split item.
+
+
+            * Required for all split types in the [Classic Platforms integration](https://docs.adyen.com/marketplaces-and-platforms/classic).
+
+            * Required if `type` is **BalanceAccount**, **Commission**, **Default**, or **VAT** in your [Balance Platform](https://docs.adyen.com/marketplaces-and-platforms) integration.'
+          $ref: '#/components/schemas/SplitAmount'
+        description:
+          description: Your description for the split item.
+          type: string
+        reference:
+          description: 'Your unique reference for the split item.
+
+
+            This is required if `type` is **MarketPlace** ([Classic Platforms integration](https://docs.adyen.com/marketplaces-and-platforms/classic)) or **BalanceAccount** ([Balance Platform](https://docs.adyen.com/marketplaces-and-platforms)).
+
+
+            For the other types, we also recommend providing a **unique** reference so you can reconcile the split and the associated payment in the transaction overview and in the reports.'
+          type: string
+        type:
+          description: 'The type of the split item.
+
+
+            Possible values:
+
+
+            * [Classic Platforms integration](https://docs.adyen.com/marketplaces-and-platforms/classic): **Commission**, **Default**, **Marketplace**, **PaymentFee**, **VAT**.
+
+            * [Balance Platform](https://docs.adyen.com/marketplaces-and-platforms): **BalanceAccount**, **Commission**, **Default**, **PaymentFee**, **Remainder**, **Surcharge**, **Tip**, **VAT**.'
+          enum:
+          - AcquiringFees
+          - AdyenCommission
+          - AdyenFees
+          - AdyenMarkup
+          - BalanceAccount
+          - Commission
+          - Default
+          - Interchange
+          - MarketPlace
+          - PaymentFee
+          - Remainder
+          - SchemeFee
+          - Surcharge
+          - Tip
+          - VAT
+          type: string
+      required:
+      - type
+      type: object
+    PaymentLinkResponse:
+      properties:
+        allowedPaymentMethods:
+          description: 'List of payment methods to be presented to the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types).
+
+
+            Example: `"allowedPaymentMethods":["ideal","giropay"]`'
+          items:
+            type: string
+          type: array
+        amount:
+          description: The payment amount and currency.
+          $ref: '#/components/schemas/Amount'
+        applicationInfo:
+          description: Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions).
+          $ref: '#/components/schemas/ApplicationInfo'
+        billingAddress:
+          description: The address where to send the invoice.
+          $ref: '#/components/schemas/Address'
+        blockedPaymentMethods:
+          description: 'List of payment methods to be hidden from the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types).
+
+
+            Example: `"blockedPaymentMethods":["ideal","giropay"]`'
+          items:
+            type: string
+          type: array
+        captureDelayHours:
+          x-addedInVersion: '69'
+          description: The delay between the authorisation and scheduled auto-capture, specified in hours.
+          format: int32
+          type: integer
+        countryCode:
+          description: The shopper's two-letter country code.
+          type: string
+        dateOfBirth:
+          x-addedInVersion: '69'
+          description: 'The shopper''s date of birth.
+
+
+            Format [ISO-8601](https://www.w3.org/TR/NOTE-datetime): YYYY-MM-DD'
+          format: date
+          type: string
+        deliverAt:
+          description: 'The date and time when the purchased goods should be delivered.
+
+
+            [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format: YYYY-MM-DDThh:mm:ss+TZD, for example, **2020-12-18T10:15:30+01:00**.'
+          format: date-time
+          type: string
+        deliveryAddress:
+          description: The address where the purchased goods should be delivered.
+          $ref: '#/components/schemas/Address'
+        description:
+          description: 'A short description visible on the payment page.
+
+            Maximum length: 280 characters.'
+          type: string
+        expiresAt:
+          x-addedInVersion: '71'
+          description: 'The date when the payment link expires.
+
+
+            [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format with time zone offset: YYYY-MM-DDThh:mm:ss+TZD, for example, **2020-12-18T10:15:30+01:00**.
+
+
+            The maximum expiry date is 70 days after the payment link is created.
+
+
+            If not provided, the payment link expires 24 hours after it was created.'
+          format: date-time
+          type: string
+        id:
+          x-addedInVersion: '51'
+          description: A unique identifier of the payment link.
+          readOnly: true
+          type: string
+        installmentOptions:
+          additionalProperties:
+            $ref: '#/components/schemas/InstallmentOption'
+          description: A set of key-value pairs that specifies the installment options available per payment method. The key must be a payment method name in lowercase. For example, **card** to specify installment options for all cards, or **visa** or **mc**. The value must be an object containing the installment options.
+          type: object
+        lineItems:
+          description: 'Price and product information about the purchased items, to be included on the invoice sent to the shopper.
+
+            This parameter is required for open invoice (_buy now, pay later_) payment methods such Afterpay, Clearpay, Klarna, RatePay, and Zip.'
+          items:
+            $ref: '#/components/schemas/LineItem'
+          type: array
+        manualCapture:
+          description: Indicates if the payment must be [captured manually](https://docs.adyen.com/online-payments/capture).
+          type: boolean
+        mcc:
+          x-addedInVersion: '69'
+          description: The [merchant category code](https://en.wikipedia.org/wiki/Merchant_category_code) (MCC) is a four-digit number, which relates to a particular market segment. This code reflects the predominant activity that is conducted by the merchant.
+          type: string
+        merchantAccount:
+          description: The merchant account identifier for which the payment link is created.
+          type: string
+        merchantOrderReference:
+          description: This reference allows linking multiple transactions to each other for reporting purposes (for example, order auth-rate). The reference should be unique per billing cycle.
+          type: string
+        metadata:
+          additionalProperties:
+            type: string
+          description: 'Metadata consists of entries, each of which includes a key and a value.
+
+            Limitations:
+
+            * Maximum 20 key-value pairs per request. Otherwise, error "177" occurs: "Metadata size exceeds limit"
+
+            * Maximum 20 characters per key. Otherwise, error "178" occurs: "Metadata key size exceeds limit"
+
+            * A key cannot have the name `checkout.linkId`. Any value that you provide with this key is going to be replaced by the real payment link ID.'
+          maxLength: 80
+          type: object
+        recurringProcessingModel:
+          description: 'Defines a recurring payment type. Required when `storePaymentMethodMode` is set to **askForConsent** or **enabled**.
+
+            Possible values:
+
+            * **Subscription** – A transaction for a fixed or variable amount, which follows a fixed schedule.
+
+            * **CardOnFile** – With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction.
+
+            * **UnscheduledCardOnFile** – An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or has variable amounts. For example, automatic top-ups when a cardholder''s balance drops below a certain amount.
+
+            '
+          enum:
+          - CardOnFile
+          - Subscription
+          - UnscheduledCardOnFile
+          type: string
+        reference:
+          description: A reference that is used to uniquely identify the payment in future communications about the payment status.
+          type: string
+        requiredShopperFields:
+          x-addedInVersion: '67'
+          description: 'List of fields that the shopper has to provide on the payment page before completing the payment. For more information, refer to [Provide shopper information](https://docs.adyen.com/unified-commerce/pay-by-link/payment-links/api#shopper-information).
+
+
+            Possible values:
+
+            * **billingAddress** – The address where to send the invoice.
+
+            * **deliveryAddress** – The address where the purchased goods should be delivered.
+
+            * **shopperEmail** – The shopper''s email address.
+
+            * **shopperName** – The shopper''s full name.
+
+            * **telephoneNumber** – The shopper''s phone number.
+
+            '
+          items:
+            enum:
+            - billingAddress
+            - deliveryAddress
+            - shopperEmail
+            - shopperName
+            - telephoneNumber
+            type: string
+          type: array
+        returnUrl:
+          description: 'Website URL used for redirection after payment is completed.
+
+            If provided, a **Continue** button will be shown on the payment page. If shoppers select the button, they are redirected to the specified URL.'
+          type: string
+        reusable:
+          description: Indicates whether the payment link can be reused for multiple payments. If not provided, this defaults to **false** which means the link can be used for one successful payment only.
+          type: boolean
+        riskData:
+          x-addedInVersion: '65'
+          description: Any risk-related settings to apply to the payment.
+          $ref: '#/components/schemas/RiskData'
+        shopperEmail:
+          description: The shopper's email address.
+          type: string
+        shopperLocale:
+          description: 'The language to be used in the payment page, specified by a combination of a language and country code. For example, `en-US`.
+
+
+            For a list of shopper locales that Pay by Link supports, refer to [Language and localization](https://docs.adyen.com/unified-commerce/pay-by-link/payment-links/api#language).'
+          type: string
+        shopperName:
+          description: The shopper's full name. This object is required for some payment methods such as AfterPay, Klarna, or if you're enrolled in the PayPal Seller Protection program.
+          $ref: '#/components/schemas/Name'
+        shopperReference:
+          description: 'Your reference to uniquely identify this shopper, for example user ID or account ID. Minimum length: 3 characters.
+
+            > Your reference must not include personally identifiable information (PII), for example name or email address.'
+          maxLength: 256
+          minLength: 3
+          type: string
+        shopperStatement:
+          x-addedInVersion: '69'
+          description: "The text to be shown on the shopper's bank statement.\n We recommend sending a maximum of 22 characters, otherwise banks might truncate the string.\n Allowed characters: **a-z**, **A-Z**, **0-9**, spaces, and special characters **. , ' _ - ? + * /**."
+          type: string
+        showRemovePaymentMethodButton:
+          default: true
+          description: Set to **false** to hide the button that lets the shopper remove a stored payment method.
+          type: boolean
+        socialSecurityNumber:
+          x-addedInVersion: '69'
+          description: The shopper's social security number.
+          type: string
+        splitCardFundingSources:
+          x-addedInVersion: '69'
+          default: false
+          description: Boolean value indicating whether the card payment method should be split into separate debit and credit options.
+          type: boolean
+        splits:
+          description: An array of objects specifying how to split a payment when using [Adyen for Platforms](https://docs.adyen.com/marketplaces-and-platforms/processing-payments#providing-split-information), [Classic Platforms integration](https://docs.adyen.com/marketplaces-and-platforms/classic/processing-payments#providing-split-information), or [Issuing](https://docs.adyen.com/issuing/manage-funds#split).
+          items:
+            $ref: '#/components/schemas/Split'
+          type: array
+        status:
+          description: 'Status of the payment link. Possible values:
+
+            * **active**: The link can be used to make payments.
+
+            * **expired**: The expiry date for the payment link has passed. Shoppers can no longer use the link to make payments.
+
+            * **completed**: The shopper completed the payment.
+
+            * **paymentPending**: The shopper is in the process of making the payment. Applies to payment methods with an asynchronous flow.'
+          enum:
+          - active
+          - completed
+          - expired
+          - paid
+          - paymentPending
+          type: string
+        store:
+          description: The physical store, for which this payment is processed.
+          type: string
+        storePaymentMethodMode:
+          x-addedInVersion: '68'
+          description: "Indicates if the details of the payment method will be stored for the shopper. Possible values:\n* **disabled** – No details will be stored (default).\n* **askForConsent** – If the `shopperReference` is provided, the UI lets the shopper choose if they want their payment details to be stored.\n* **enabled** – If the `shopperReference` is provided, the details will be stored without asking the shopper for consent. \n When set to **askForConsent** or **enabled**, you must also include the `recurringProcessingModel` parameter."
+          enum:
+          - askForConsent
+          - disabled
+          - enabled
+          type: string
+        telephoneNumber:
+          x-addedInVersion: '68'
+          description: The shopper's telephone number.
+          type: string
+        themeId:
+          x-addedInVersion: '67'
+          description: A [theme](https://docs.adyen.com/unified-commerce/pay-by-link/payment-links/api#themes) to customize the appearance of the payment page. If not specified, the payment page is rendered according to the theme set as default in your Customer Area.
+          type: string
+        updatedAt:
+          description: 'The date when the payment link status was updated.
+
+
+            [ISO 8601](https://www.w3.org/TR/NOTE-datetime) format: YYYY-MM-DDThh:mm:ss+TZD, for example, **2020-12-18T10:15:30+01:00**.'
+          format: date-time
+          type: string
+        url:
+          description: The URL at which the shopper can complete the payment.
+          readOnly: true
+          type: string
+      required:
+      - amount
+      - reference
+      - merchantAccount
+      - id
+      - url
+      - status
+      type: object
+  parameters:
+    Idempotency-Key:
+      description: A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).
+      example: 37ca9c97-d1d1-4c62-89e8-706891a563ed
+      name: Idempotency-Key
+      in: header
+      schema:
+        type: string
+  headers:
+    Idempotency-Key:
+      description: The idempotency key used for processing the request. Present if the key was provided in the request.
+      schema:
+        type: string
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

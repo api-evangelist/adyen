@@ -1,0 +1,228 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute Origin API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: Origin
+paths:
+  /originKeys:
+    post:
+      tags:
+      - Origin
+      summary: Adyen Create OriginKey Values for Domains
+      description: "This operation takes the origin domains and returns a JSON object containing the corresponding origin keys for the domains. \n> If you're still using origin key for your Web Drop-in or Components integration, we recommend [switching to client key](https://docs.adyen.com/development-resources/client-side-authentication/migrate-from-origin-key-to-client-key). This allows you to use a single key for all origins, add or remove origins without generating a new key, and detect the card type from the number entered in your payment form. "
+      deprecated: true
+      x-deprecatedInVersion: '67'
+      operationId: post-originKeys
+      x-sortIndex: 1
+      x-methodName: originKeys
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              basic:
+                $ref: '#/components/examples/post-originKeys-basic'
+            schema:
+              $ref: '#/components/schemas/UtilityRequest'
+      parameters:
+      - $ref: '#/components/parameters/Idempotency-Key'
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                basic:
+                  $ref: '#/components/examples/post-originKeys-basic-200'
+              schema:
+                $ref: '#/components/schemas/UtilityResponse'
+          description: OK - the request has succeeded.
+          headers:
+            Idempotency-Key:
+              $ref: '#/components/headers/Idempotency-Key'
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Unprocessable Entity - a request validation error.
+          headers:
+            Idempotency-Key:
+              $ref: '#/components/headers/Idempotency-Key'
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  parameters:
+    Idempotency-Key:
+      description: A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).
+      example: 37ca9c97-d1d1-4c62-89e8-706891a563ed
+      name: Idempotency-Key
+      in: header
+      schema:
+        type: string
+  examples:
+    generic-500:
+      summary: Response code 500. Internal server error.
+      value:
+        status: 500
+        errorCode: '905'
+        message: Payment details are not supported
+        errorType: configuration
+        pspReference: '8516091485743033'
+    generic-401:
+      summary: Response code 401. Unauthorized.
+      value:
+        status: 401
+        errorCode: '000'
+        message: HTTP Status Response - Unauthorized
+        errorType: security
+    post-originKeys-basic:
+      summary: Get origin keys
+      value:
+        originDomains:
+        - https://www.your-domain1.com
+        - https://www.your-domain2.com
+        - https://www.your-domain3.com
+    generic-400:
+      summary: Response code 400. Bad request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: ", expected: }'
+        errorType: validation
+    generic-422:
+      summary: Response code 422. Unprocessable entity.
+      value:
+        status: 422
+        errorCode: '14_030'
+        message: Return URL is missing.
+        errorType: validation
+        pspReference: '8816118280275544'
+    generic-403:
+      summary: Response code 403. Forbidden.
+      value:
+        status: 403
+        errorCode: '901'
+        message: Invalid Merchant Account
+        errorType: security
+        pspReference: 881611827877203B
+    post-originKeys-basic-200:
+      summary: Example response for request 'basic'
+      value:
+        originKeys:
+          https://www.your-domain1.com: pub.v2.8116178901076090.aHR0cHM6Ly93d3cueW91ci1kb21haW4xLmNvbQ.pvbYlrXz0ICP4kwMJXDGDLVMqALhwXr1MSRjT-fkhvw
+          https://www.your-domain3.com: pub.v2.8116178901076090.aHR0cHM6Ly93d3cueW91ci1kb21haW4zLmNvbQ.FrTpVz7_RzAywKasM0kXCRoMfoMkKIKaxjFymRGORIc
+          https://www.your-domain2.com: pub.v2.8116178901076090.aHR0cHM6Ly93d3cueW91ci1kb21haW4yLmNvbQ.LdN9kvJ35fYFFiBSJA4idMnwwxJ5_yXpeNS__Ap5wkg
+  headers:
+    Idempotency-Key:
+      description: The idempotency key used for processing the request. Present if the key was provided in the request.
+      schema:
+        type: string
+  schemas:
+    UtilityResponse:
+      properties:
+        originKeys:
+          x-addedInVersion: '1'
+          additionalProperties:
+            type: string
+          description: The list of origin keys for all requested domains. For each list item, the key is the domain and the value is the origin key.
+          type: object
+      type: object
+    ServiceError:
+      properties:
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    UtilityRequest:
+      properties:
+        originDomains:
+          description: The list of origin domains, for which origin keys are requested.
+          items:
+            type: string
+          type: array
+      required:
+      - originDomains
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

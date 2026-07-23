@@ -1,0 +1,304 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute Availability API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: Availability
+paths:
+  /get3dsAvailability:
+    post:
+      tags:
+      - Availability
+      summary: Adyen Check if 3D Secure is Available
+      description: 'Verifies whether 3D Secure is available for the specified BIN or card brand. For 3D Secure 2, this endpoint also returns device fingerprinting keys.
+
+
+        For more information, refer to [3D Secure 2](https://docs.adyen.com/online-payments/3d-secure/native-3ds2).'
+      x-addedInVersion: '1'
+      operationId: post-get3dsAvailability
+      x-sortIndex: 0
+      x-methodName: get3dsAvailability
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              get3dsAvailability:
+                $ref: '#/components/examples/post-get3dsAvailability-get3dsAvailability'
+            schema:
+              $ref: '#/components/schemas/ThreeDSAvailabilityRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                get3dsAvailability:
+                  $ref: '#/components/examples/post-get3dsAvailability-get3dsAvailability-200'
+              schema:
+                $ref: '#/components/schemas/ThreeDSAvailabilityResponse'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-get3dsAvailability401Example:
+                  summary: Default post-get3dsAvailability 401 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-get3dsAvailability403Example:
+                  summary: Default post-get3dsAvailability 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-get3dsAvailability422Example:
+                  summary: Default post-get3dsAvailability 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-get3dsAvailability500Example:
+                  summary: Default post-get3dsAvailability 500 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    ThreeDS2CardRangeDetail:
+      properties:
+        acsInfoInd:
+          x-addedInVersion: '51'
+          description: 'Provides additional information to the 3DS Server.
+
+            Possible values:
+
+            - 01 (Authentication is available at ACS)
+
+            - 02 (Attempts supported by ACS or DS)
+
+            - 03 (Decoupled authentication supported)
+
+            - 04 (Whitelisting supported)'
+          items:
+            type: string
+          type: array
+        brandCode:
+          description: Card brand.
+          type: string
+        endRange:
+          description: BIN end range.
+          type: string
+        startRange:
+          description: BIN start range.
+          type: string
+        threeDS2Versions:
+          x-addedInVersion: '53'
+          description: Supported 3D Secure protocol versions
+          items:
+            type: string
+          type: array
+        threeDSMethodURL:
+          description: In a 3D Secure 2 browser-based flow, this is the URL where you should send the device fingerprint to.
+          type: string
+      type: object
+    DSPublicKeyDetail:
+      properties:
+        brand:
+          description: Card brand.
+          type: string
+        directoryServerId:
+          description: Directory Server (DS) identifier.
+          type: string
+        fromSDKVersion:
+          description: The version of the mobile 3D Secure 2 SDK. For the possible values, refer to the versions in [Adyen 3DS2 Android](https://github.com/Adyen/adyen-3ds2-android/releases) and [Adyen 3DS2 iOS](https://github.com/Adyen/adyen-3ds2-ios/releases).
+          type: string
+        publicKey:
+          description: Public key. The 3D Secure 2 SDK encrypts the device information by using the DS public key.
+          format: byte
+          type: string
+        rootCertificates:
+          description: Directory Server root certificates. The 3D Secure 2 SDK verifies the ACS signed content using the rootCertificates.
+          type: string
+      type: object
+    ServiceError:
+      properties:
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    BinDetail:
+      properties:
+        issuerCountry:
+          description: The country where the card was issued.
+          type: string
+      type: object
+    ThreeDSAvailabilityRequest:
+      properties:
+        additionalData:
+          additionalProperties:
+            type: string
+          description: 'This field contains additional data, which may be required for a particular request.
+
+
+            The `additionalData` object consists of entries, each of which includes the key and value.'
+          type: object
+        brands:
+          description: List of brands.
+          items:
+            type: string
+          type: array
+        cardNumber:
+          description: Card number or BIN.
+          type: string
+        merchantAccount:
+          description: The merchant account identifier.
+          type: string
+        recurringDetailReference:
+          description: A recurring detail reference corresponding to a card.
+          type: string
+        shopperReference:
+          description: The shopper's reference to uniquely identify this shopper (e.g. user ID or account ID).
+          type: string
+      required:
+      - merchantAccount
+      type: object
+    ThreeDSAvailabilityResponse:
+      properties:
+        binDetails:
+          x-addedInVersion: '50'
+          description: Bin Group Details
+          $ref: '#/components/schemas/BinDetail'
+        dsPublicKeys:
+          description: List of Directory Server (DS) public keys.
+          items:
+            $ref: '#/components/schemas/DSPublicKeyDetail'
+          type: array
+        threeDS1Supported:
+          description: Indicator if 3D Secure 1 is supported.
+          type: boolean
+        threeDS2CardRangeDetails:
+          description: List of brand and card range pairs.
+          items:
+            $ref: '#/components/schemas/ThreeDS2CardRangeDetail'
+          type: array
+        threeDS2supported:
+          description: Indicator if 3D Secure 2 is supported.
+          type: boolean
+      type: object
+  examples:
+    post-get3dsAvailability-get3dsAvailability:
+      summary: Get 3D Secure availability
+      description: Example request to check 3D Secure availability
+      value:
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        cardNumber: '4111111111111111'
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
+    post-get3dsAvailability-get3dsAvailability-200:
+      summary: Example response for request 'get3dsAvailability'
+      value:
+        threeDS1Supported: true
+        threeDS2CardRangeDetails: []
+        threeDS2supported: false
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

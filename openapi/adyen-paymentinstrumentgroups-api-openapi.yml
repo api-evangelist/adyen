@@ -1,0 +1,1132 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute paymentInstrumentGroups API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: paymentInstrumentGroups
+paths:
+  /paymentInstrumentGroups:
+    post:
+      tags:
+      - paymentInstrumentGroups
+      summary: Adyen Create a Payment Instrument Group
+      description: Creates a payment instrument group to associate and group payment instrument resources together. You can apply a transaction rule to a payment instrument group.
+      x-addedInVersion: '1'
+      operationId: post-paymentInstrumentGroups
+      x-sortIndex: 1
+      x-methodName: createPaymentInstrumentGroup
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              createPaymentInstrumentGroups:
+                $ref: '#/components/examples/post-paymentInstrumentGroups-createPaymentInstrumentGroups'
+            schema:
+              $ref: '#/components/schemas/PaymentInstrumentGroupInfo'
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                createPaymentInstrumentGroups:
+                  $ref: '#/components/examples/post-paymentInstrumentGroups-createPaymentInstrumentGroups-200'
+              schema:
+                $ref: '#/components/schemas/PaymentInstrumentGroup'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /paymentInstrumentGroups/{id}:
+    get:
+      tags:
+      - paymentInstrumentGroups
+      summary: Adyen Get a Payment Instrument Group
+      description: Returns the details of a payment instrument group.
+      x-addedInVersion: '1'
+      operationId: get-paymentInstrumentGroups-id
+      x-sortIndex: 2
+      x-methodName: getPaymentInstrumentGroup
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: The unique identifier of the payment instrument group.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  $ref: '#/components/examples/get-paymentInstrumentGroups-id-success-200'
+              schema:
+                $ref: '#/components/schemas/PaymentInstrumentGroup'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /paymentInstrumentGroups/{id}/transactionRules:
+    get:
+      tags:
+      - paymentInstrumentGroups
+      summary: Adyen Get All Transaction Rules for a Payment Instrument Group
+      description: Returns a list of all the transaction rules associated with a payment instrument group.
+      x-addedInVersion: '1'
+      operationId: get-paymentInstrumentGroups-id-transactionRules
+      x-sortIndex: 3
+      x-methodName: getAllTransactionRulesForPaymentInstrumentGroup
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: The unique identifier of the payment instrument group.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  $ref: '#/components/examples/get-paymentInstrumentGroups-id-transactionRules-success-200'
+              schema:
+                $ref: '#/components/schemas/TransactionRulesResponse'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    CountriesRestriction:
+      properties:
+        operation:
+          description: Defines how the condition must be evaluated.
+          type: string
+        value:
+          description: List of two-character [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country codes.
+          items:
+            type: string
+          type: array
+      required:
+      - operation
+      type: object
+    JSONObject:
+      type: object
+    Duration:
+      properties:
+        unit:
+          description: 'The unit of time. You can only use **minutes** and **hours** if the `interval.type` is **sliding**.
+
+
+            Possible values: **minutes**, **hours**, **days**, **weeks**, or **months**'
+          enum:
+          - days
+          - hours
+          - minutes
+          - months
+          - weeks
+          type: string
+        value:
+          description: 'The length of time by the unit. For example, 5 days.
+
+
+            The maximum duration is 90 days or an equivalent in other units. For example, 3 months.'
+          format: int32
+          type: integer
+      type: object
+    MerchantNamesRestriction:
+      properties:
+        operation:
+          description: Defines how the condition must be evaluated.
+          type: string
+        value:
+          items:
+            $ref: '#/components/schemas/StringMatch'
+          type: array
+      required:
+      - operation
+      type: object
+    SameCounterpartyRestriction:
+      properties:
+        operation:
+          description: Defines how the condition must be evaluated.
+          type: string
+        value:
+          type: boolean
+      required:
+      - operation
+      type: object
+    SameAmountRestriction:
+      properties:
+        operation:
+          description: Defines how the condition must be evaluated.
+          type: string
+        value:
+          type: boolean
+      required:
+      - operation
+      type: object
+    TransactionRulesResponse:
+      properties:
+        transactionRules:
+          description: List of transaction rules.
+          items:
+            $ref: '#/components/schemas/TransactionRule'
+          type: array
+      type: object
+    RestServiceError:
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+        errorCode:
+          description: A code that identifies the problem type.
+          type: string
+        instance:
+          description: A unique URI that identifies the specific occurrence of the problem.
+          type: string
+        invalidFields:
+          description: Detailed explanation of each validation error, when applicable.
+          items:
+            $ref: '#/components/schemas/InvalidField'
+          type: array
+        requestId:
+          description: A unique reference for the request, essentially the same as `pspReference`.
+          type: string
+        response:
+          description: JSON response payload.
+          $ref: '#/components/schemas/JSONObject'
+        status:
+          description: The HTTP status code.
+          format: int32
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type.
+          type: string
+        type:
+          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
+          type: string
+      required:
+      - type
+      - errorCode
+      - title
+      - detail
+      - status
+      type: object
+    TimeOfDay:
+      properties:
+        endTime:
+          description: 'The end time in a time-only ISO-8601 extended offset format. For example: **08:00:00+02:00**, **22:30:00-03:00**.
+
+
+            '
+          type: string
+        startTime:
+          description: 'The start time in a time-only ISO-8601 extended offset format. For example: **08:00:00+02:00**, **22:30:00-03:00**.
+
+
+            '
+          type: string
+      type: object
+    MerchantsRestriction:
+      properties:
+        operation:
+          description: Defines how the condition must be evaluated.
+          type: string
+        value:
+          description: List of merchant ID and acquirer ID pairs.
+          items:
+            $ref: '#/components/schemas/MerchantAcquirerPair'
+          type: array
+      required:
+      - operation
+      type: object
+    PaymentInstrumentGroupInfo:
+      properties:
+        balancePlatform:
+          description: The unique identifier of the [balance platform](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/balancePlatforms/{id}__queryParam_id) to which the payment instrument group belongs.
+          type: string
+        description:
+          description: Your description for the payment instrument group, maximum 300 characters.
+          maxLength: 300
+          type: string
+        properties:
+          additionalProperties:
+            type: string
+          description: Properties of the payment instrument group.
+          type: object
+        reference:
+          description: Your reference for the payment instrument group, maximum 150 characters.
+          maxLength: 150
+          type: string
+        txVariant:
+          description: The tx variant of the payment instrument group.
+          type: string
+      required:
+      - balancePlatform
+      - txVariant
+      type: object
+    BankIdentification:
+      properties:
+        country:
+          type: string
+        identification:
+          type: string
+        identificationType:
+          enum:
+          - iban
+          - routingNumber
+          type: string
+      type: object
+    CounterpartyBankRestriction:
+      properties:
+        operation:
+          description: Defines how the condition must be evaluated.
+          type: string
+        value:
+          description: List of counterparty Bank Institutions and the operation.
+          items:
+            $ref: '#/components/schemas/BankIdentification'
+          type: array
+      required:
+      - operation
+      type: object
+    StringMatch:
+      properties:
+        operation:
+          description: 'The type of string matching operation. Possible values:  **startsWith**, **endsWith**, **isEqualTo**, **contains**,'
+          enum:
+          - contains
+          - endsWith
+          - isEqualTo
+          - startsWith
+          type: string
+        value:
+          description: The string to be matched.
+          type: string
+      type: object
+    DifferentCurrenciesRestriction:
+      properties:
+        operation:
+          description: Defines how the condition must be evaluated.
+          type: string
+        value:
+          description: 'Checks the currency of the payment against the currency of the payment instrument.
+
+
+            Possible values:
+
+
+            - **true**: The currency of the payment is different from the currency of the payment instrument.
+
+
+            - **false**: The currencies are the same.
+
+
+            '
+          type: boolean
+      required:
+      - operation
+      type: object
+    BrandVariantsRestriction:
+      properties:
+        operation:
+          description: Defines how the condition must be evaluated.
+          type: string
+        value:
+          description: "List of card brand variants.\n\nPossible values: \n\n- **mc**, **mccredit**, **mccommercialcredit_b2b**, **mcdebit**, **mcbusinessdebit**, **mcbusinessworlddebit**, **mcprepaid**, **mcmaestro**\n\n - **visa**, **visacredit**, **visadebit**, **visaprepaid**.\n\nYou can specify a rule for a generic variant. For example, to create a rule for all Mastercard payment instruments, use **mc**. The rule is applied to all payment instruments under **mc**, such as **mcbusinessdebit** and **mcdebit**.\n\n"
+          items:
+            type: string
+          type: array
+      required:
+      - operation
+      type: object
+    ActiveNetworkTokensRestriction:
+      properties:
+        operation:
+          description: Defines how the condition must be evaluated.
+          type: string
+        value:
+          description: The number of tokens.
+          format: int32
+          type: integer
+      required:
+      - operation
+      type: object
+    PaymentInstrumentGroup:
+      properties:
+        balancePlatform:
+          description: The unique identifier of the [balance platform](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/balancePlatforms/{id}__queryParam_id) to which the payment instrument group belongs.
+          type: string
+        description:
+          description: Your description for the payment instrument group, maximum 300 characters.
+          maxLength: 300
+          type: string
+        id:
+          description: The unique identifier of the payment instrument group.
+          type: string
+        properties:
+          additionalProperties:
+            type: string
+          description: Properties of the payment instrument group.
+          type: object
+        reference:
+          description: Your reference for the payment instrument group, maximum 150 characters.
+          maxLength: 150
+          type: string
+        txVariant:
+          description: The tx variant of the payment instrument group.
+          type: string
+      required:
+      - balancePlatform
+      - txVariant
+      type: object
+    DayOfWeekRestriction:
+      properties:
+        operation:
+          description: Defines how the condition must be evaluated.
+          type: string
+        value:
+          description: 'List of days of the week.
+
+
+            Possible values: **monday**, **tuesday**, **wednesday**, **thursday**, **friday**, **saturday**, **sunday**.
+
+
+            '
+          items:
+            enum:
+            - friday
+            - monday
+            - saturday
+            - sunday
+            - thursday
+            - tuesday
+            - wednesday
+            type: string
+          type: array
+      required:
+      - operation
+      type: object
+    ProcessingTypesRestriction:
+      properties:
+        operation:
+          description: Defines how the condition must be evaluated.
+          type: string
+        value:
+          description: 'List of processing types.
+
+
+            Possible values: **atmWithdraw**, **balanceInquiry**, **ecommerce**, **moto**, **pos**, **recurring**, **token**.
+
+
+            '
+          items:
+            enum:
+            - atmWithdraw
+            - balanceInquiry
+            - ecommerce
+            - moto
+            - pos
+            - recurring
+            - token
+            - unknown
+            type: string
+          type: array
+      required:
+      - operation
+      type: object
+    MerchantAcquirerPair:
+      properties:
+        acquirerId:
+          description: The acquirer ID.
+          type: string
+        merchantId:
+          description: The merchant identification number (MID).
+          type: string
+      type: object
+    TransactionRuleEntityKey:
+      properties:
+        entityReference:
+          description: The unique identifier of the resource.
+          type: string
+        entityType:
+          description: 'The type of resource.
+
+
+            Possible values: **balancePlatform**, **paymentInstrumentGroup**, **accountHolder**, **balanceAccount**, or **paymentInstrument**.'
+          type: string
+      type: object
+    TransactionRule:
+      properties:
+        aggregationLevel:
+          x-addedInVersion: '2'
+          description: 'The level at which data must be accumulated, used in rules with `type` **velocity** or **maxUsage**. The level must be the [same or lower in hierarchy](https://docs.adyen.com/issuing/transaction-rules#accumulate-data) than the `entityKey`.
+
+
+            If not provided, by default, the rule will accumulate data at the **paymentInstrument** level.
+
+
+            Possible values: **paymentInstrument**, **paymentInstrumentGroup**, **balanceAccount**, **accountHolder**, **balancePlatform**.'
+          type: string
+        description:
+          description: Your description for the transaction rule, maximum 300 characters.
+          maxLength: 300
+          type: string
+        endDate:
+          description: 'The date when the rule will stop being evaluated, in ISO 8601 extended offset date-time format. For example, **2020-12-18T10:15:30+01:00**.
+
+
+            If not provided, the rule will be evaluated until the rule status is set to **inactive**.'
+          type: string
+        entityKey:
+          x-addedInVersion: '2'
+          description: The type and unique identifier of the resource to which the rule applies.
+          $ref: '#/components/schemas/TransactionRuleEntityKey'
+        id:
+          description: The unique identifier of the transaction rule.
+          type: string
+        interval:
+          description: The [time interval](https://docs.adyen.com/issuing/transaction-rules#time-intervals) when the rule conditions apply.
+          $ref: '#/components/schemas/TransactionRuleInterval'
+        outcomeType:
+          x-addedInVersion: '2'
+          description: "The [outcome](https://docs.adyen.com/issuing/transaction-rules#outcome) that will be applied when a transaction meets the conditions of the rule. If not provided, by default, this is set to **hardBlock**.\n\nPossible values:\n\n * **hardBlock**: the transaction is declined.\n\n* **scoreBased**: the transaction is assigned the `score` you specified. Adyen calculates the total score and if it exceeds 100, the transaction is declined."
+          enum:
+          - enforceSCA
+          - hardBlock
+          - scoreBased
+          type: string
+        reference:
+          description: Your reference for the transaction rule, maximum 150 characters.
+          maxLength: 150
+          type: string
+        requestType:
+          x-addedInVersion: '2'
+          description: 'Indicates the type of request to which the rule applies. If not provided, by default, this is set to **authorization**.
+
+
+            Possible values: **authorization**, **authentication**, **tokenization**, **bankTransfer**.'
+          enum:
+          - authentication
+          - authorization
+          - bankTransfer
+          - tokenization
+          type: string
+        ruleRestrictions:
+          x-addedInVersion: '2'
+          description: 'Contains one or more objects that define the [rule conditions](https://docs.adyen.com/issuing/transaction-rules#conditions). Each object must have a value and an operation which determines how the values must be evaluated.
+
+
+            For example, a `countries` object can have a list of country codes **["US", "CA"]** in the `value` field and **anyMatch** in the `operation` field.'
+          $ref: '#/components/schemas/TransactionRuleRestrictions'
+        score:
+          x-addedInVersion: '2'
+          description: A positive or negative score applied to the transaction if it meets the conditions of the rule. Required when `outcomeType` is **scoreBased**.  The value must be between **-100** and **100**.
+          format: int32
+          type: integer
+        startDate:
+          description: "The date when the rule will start to be evaluated, in ISO 8601 extended offset date-time format. For example, **2020-12-18T10:15:30+01:00**.\n\nIf not provided when creating a transaction rule, the `startDate` is set to the date when the rule status is set to **active**. \n\n"
+          type: string
+        status:
+          description: "The status of the transaction rule. If you provide a `startDate` in the request, the rule is automatically created \nwith an **active** status. \n\nPossible values: **active**, **inactive**."
+          enum:
+          - active
+          - inactive
+          type: string
+        type:
+          description: "The [type of rule](https://docs.adyen.com/issuing/transaction-rules#rule-types), which defines if a rule blocks transactions based on individual characteristics or accumulates data.\n\nPossible values:\n * **blockList**: decline a transaction when the conditions are met.\n * **maxUsage**: add the amount or number of transactions for the lifetime of a payment instrument, and then decline a transaction when the specified limits are met.\n * **velocity**: add the amount or number of transactions based on a specified time interval, and then decline a transaction when the specified limits are met.\n"
+          enum:
+          - allowList
+          - blockList
+          - maxUsage
+          - velocity
+          type: string
+      required:
+      - type
+      - description
+      - reference
+      - entityKey
+      - interval
+      - ruleRestrictions
+      type: object
+    EntryModesRestriction:
+      properties:
+        operation:
+          description: Defines how the condition must be evaluated.
+          type: string
+        value:
+          description: 'List of point-of-sale entry modes.
+
+
+            Possible values: **barcode**, **chip**, **cof**, **contactless**, **magstripe**, **manual**, **ocr**, **server**.
+
+
+            '
+          items:
+            enum:
+            - barcode
+            - chip
+            - cof
+            - contactless
+            - magstripe
+            - manual
+            - ocr
+            - server
+            - unknown
+            type: string
+          type: array
+      required:
+      - operation
+      type: object
+    Amount:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      - currency
+      type: object
+    TransactionRuleInterval:
+      properties:
+        dayOfMonth:
+          x-addedInVersion: '2'
+          description: The day of month, used when the `duration.unit` is **months**. If not provided, by default, this is set to **1**, the first day of the month.
+          format: int32
+          type: integer
+        dayOfWeek:
+          x-addedInVersion: '2'
+          description: 'The day of week, used when the `duration.unit` is **weeks**. If not provided, by default, this is set to **monday**.
+
+
+            Possible values: **sunday**, **monday**, **tuesday**, **wednesday**, **thursday**, **friday**.'
+          enum:
+          - friday
+          - monday
+          - saturday
+          - sunday
+          - thursday
+          - tuesday
+          - wednesday
+          type: string
+        duration:
+          x-addedInVersion: '2'
+          description: The duration, which you can specify in hours, days, weeks, or months. The maximum duration is 90 days or an equivalent in other units. Required when the `type` is **rolling** or **sliding**.
+          $ref: '#/components/schemas/Duration'
+        timeOfDay:
+          x-addedInVersion: '2'
+          description: The time of day, in **hh:mm:ss** format, used when the `duration.unit` is **hours**. If not provided, by default, this is set to **00:00:00**.
+          type: string
+        timeZone:
+          x-addedInVersion: '2'
+          description: The [time zone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For example, **Europe/Amsterdam**. By default, this is set to **UTC**.
+          type: string
+        type:
+          description: "The [type of interval](https://docs.adyen.com/issuing/transaction-rules#time-intervals) during which the rule conditions and limits apply, and how often counters are reset.\n\nPossible values:\n  * **perTransaction**: conditions are evaluated and the counters are reset for every transaction.\n * **daily**: the counters are reset daily at 00:00:00 UTC.\n * **weekly**: the counters are reset every Monday at 00:00:00 UTC. \n * **monthly**: the counters reset every first day of the month at 00:00:00 UTC. \n * **lifetime**: conditions are applied to the lifetime of the payment instrument.\n * **rolling**: conditions are applied and the counters are reset based on a `duration`. If the reset date and time are not provided, Adyen applies the default reset time similar to fixed intervals.\nFor example, if the duration is every two weeks, the counter resets every third Monday at 00:00:00 UTC.\n * **sliding**: conditions are applied and the counters are reset based on the current time and a `duration` that you specify."
+          enum:
+          - daily
+          - lifetime
+          - monthly
+          - perTransaction
+          - rolling
+          - sliding
+          - weekly
+          type: string
+      required:
+      - type
+      type: object
+    InternationalTransactionRestriction:
+      properties:
+        operation:
+          description: Defines how the condition must be evaluated.
+          type: string
+        value:
+          description: 'Boolean indicating whether transaction is an international transaction.
+
+
+            Possible values:
+
+
+            - **true**: The transaction is an international transaction.
+
+
+            - **false**: The transaction is a domestic transaction.
+
+
+            '
+          type: boolean
+      required:
+      - operation
+      type: object
+    TransactionRuleRestrictions:
+      properties:
+        activeNetworkTokens:
+          description: 'The total number of tokens that a card can have across different kinds of digital wallets on the user''s phones, watches, or other wearables.
+
+
+            Supported operations: **equals**, **notEquals**, **greaterThanOrEqualTo**, **greaterThan**, **lessThanOrEqualTo**, **lessThan**.'
+          $ref: '#/components/schemas/ActiveNetworkTokensRestriction'
+        brandVariants:
+          description: 'List of card brand variants and the operation.
+
+
+            Supported operations: **anyMatch**, **noneMatch**.'
+          $ref: '#/components/schemas/BrandVariantsRestriction'
+        counterpartyBank:
+          description: 'List of counterparty Institutions and the operation. Supported operations: **anyMatch**, **noneMatch**.'
+          $ref: '#/components/schemas/CounterpartyBankRestriction'
+        countries:
+          description: 'List of countries and the operation.
+
+
+            Supported operations: **anyMatch**, **noneMatch**.'
+          $ref: '#/components/schemas/CountriesRestriction'
+        dayOfWeek:
+          description: 'List of week days and the operation. Supported operations: **anyMatch**, **noneMatch**.'
+          $ref: '#/components/schemas/DayOfWeekRestriction'
+        differentCurrencies:
+          description: 'Compares the currency of the payment against the currency of the payment instrument, and specifies the operation.
+
+
+            Supported operations: **equals**, **notEquals**.'
+          $ref: '#/components/schemas/DifferentCurrenciesRestriction'
+        entryModes:
+          description: 'List of point-of-sale entry modes and the operation..
+
+
+            Supported operations: **anyMatch**, **noneMatch**.'
+          $ref: '#/components/schemas/EntryModesRestriction'
+        internationalTransaction:
+          description: 'Indicates whether transaction is an international transaction and specifies the operation.
+
+
+            Supported operations: **equals**, **notEquals**.'
+          $ref: '#/components/schemas/InternationalTransactionRestriction'
+        matchingTransactions:
+          description: 'The number of transactions and the operation.
+
+
+            Supported operations: **equals**, **notEquals**, **greaterThanOrEqualTo**, **greaterThan**, **lessThanOrEqualTo**, **lessThan**.'
+          $ref: '#/components/schemas/MatchingTransactionsRestriction'
+        mccs:
+          description: 'List of merchant category codes (MCCs) and the operation.
+
+
+            Supported operations: **anyMatch**, **noneMatch**.'
+          $ref: '#/components/schemas/MccsRestriction'
+        merchantNames:
+          description: 'List of names that will be compared to the merchant name according to the matching type.
+
+
+            Supported operations: **anyMatch**, **noneMatch**.'
+          $ref: '#/components/schemas/MerchantNamesRestriction'
+        merchants:
+          description: 'List of merchant ID and acquirer ID pairs, and the operation.
+
+
+            Supported operations: **anyMatch**, **noneMatch**.'
+          $ref: '#/components/schemas/MerchantsRestriction'
+        processingTypes:
+          description: 'List of processing types and the operation.
+
+
+            Supported operations: **anyMatch**, **noneMatch**.'
+          $ref: '#/components/schemas/ProcessingTypesRestriction'
+        sameAmountRestriction:
+          description: 'Checks if a user has recently sent the same amount of funds in multiple transfers.
+
+
+            To use this restriction, you must:
+
+
+            - Set the rule `type` to **velocity**.
+
+
+            - Specify a time `interval`.
+
+
+            - Specify a number of `matchingTransactions`.
+
+
+            Supported operation: **equals**.'
+          $ref: '#/components/schemas/SameAmountRestriction'
+        sameCounterpartyRestriction:
+          description: 'Checks if a user has recently made multiple transfers to the same counterparty.
+
+
+            To use this restriction, you must:
+
+
+            - Set the rule `type` to **velocity**.
+
+
+            - Specify a time `interval`.
+
+
+            - Specify a number of `matchingTransactions`.
+
+
+            Supported operations: **equals**.'
+          $ref: '#/components/schemas/SameCounterpartyRestriction'
+        timeOfDay:
+          description: 'A start and end time in a time-only ISO-8601 extended offset format. Supported operations: **equals**, **notEquals**.'
+          $ref: '#/components/schemas/TimeOfDayRestriction'
+        totalAmount:
+          description: 'The total amount and the operation.
+
+
+            Supported operations: **equals**, **notEquals**, **greaterThanOrEqualTo**, **greaterThan**, **lessThanOrEqualTo**, **lessThan**.'
+          $ref: '#/components/schemas/TotalAmountRestriction'
+      type: object
+    TimeOfDayRestriction:
+      properties:
+        operation:
+          description: Defines how the condition must be evaluated.
+          type: string
+        value:
+          $ref: '#/components/schemas/TimeOfDay'
+      required:
+      - operation
+      type: object
+    TotalAmountRestriction:
+      properties:
+        operation:
+          description: Defines how the condition must be evaluated.
+          type: string
+        value:
+          description: The amount value and currency.
+          $ref: '#/components/schemas/Amount'
+      required:
+      - operation
+      type: object
+    MatchingTransactionsRestriction:
+      properties:
+        operation:
+          description: Defines how the condition must be evaluated.
+          type: string
+        value:
+          description: The number of transactions.
+          format: int32
+          type: integer
+      required:
+      - operation
+      type: object
+    MccsRestriction:
+      properties:
+        operation:
+          description: Defines how the condition must be evaluated.
+          type: string
+        value:
+          description: List of merchant category codes (MCCs).
+          items:
+            type: string
+          type: array
+      required:
+      - operation
+      type: object
+    InvalidField:
+      properties:
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
+          type: string
+        value:
+          description: The invalid value.
+          type: string
+      required:
+      - name
+      - value
+      - message
+      type: object
+  examples:
+    post-paymentInstrumentGroups-createPaymentInstrumentGroups:
+      summary: Create a payment instrument group
+      description: Example request for creating a payment instrument group
+      value:
+        balancePlatform: YOUR_BALANCE_PLATFORM
+        txVariant: mc
+    generic-401:
+      summary: Response code - 401 Unauthorized
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Unauthorized
+        status: 401
+        detail: Not authorized to access this service.
+        errorCode: '00_401'
+    generic-400:
+      summary: Response code - 400 Bad request
+      value:
+        type: https://docs.adyen.com/errors/general/bad-request
+        title: Bad request
+        status: 400
+        detail: Empty input which would have resulted in a null result.
+        errorCode: '00_400'
+    generic-422:
+      summary: Response code - 422 Unprocessable Entity.
+      value:
+        type: https://docs.adyen.com/errors/general/invalid-field-value
+        title: Invalid Payment Instrument information provided
+        status: 422
+        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
+        requestId: 1W1UI15PLVGC9V8O
+        errorCode: '30_031'
+    generic-500:
+      summary: Response code - 500 Internal Server Error
+      value:
+        type: https://docs.adyen.com/errors/general/internal
+        title: An internal error happened
+        status: 500
+        detail: Unrecoverable error while trying to create payment instrument
+        requestId: 1WAF555PLWNTLYOQ
+        errorCode: '00_500'
+    post-paymentInstrumentGroups-createPaymentInstrumentGroups-200:
+      summary: Create a payment instrument group
+      description: Example request for creating a payment instrument group
+      value:
+        balancePlatform: YOUR_BALANCE_PLATFORM
+        txVariant: mc
+        id: PG32272223222H5J4DCRVC9DH
+    get-paymentInstrumentGroups-id-transactionRules-success-200:
+      summary: Transaction rules for a payment instrument group retrieved
+      description: Example response when retrieving a list of transaction rules applied to a payment instrument group
+      value:
+        transactionRules:
+        - aggregationLevel: paymentInstrument
+          description: Up to 1000 EUR per card for the last 12 hours
+          entityKey:
+            entityReference: PG3227C223222C5GXR3M5592Q
+            entityType: paymentInstrumentGroup
+          interval:
+            duration:
+              unit: hours
+              value: 12
+            timeZone: UTC
+            type: sliding
+          outcomeType: hardBlock
+          reference: YOUR_REFERENCE_2918A
+          requestType: authorization
+          ruleRestrictions:
+            totalAmount:
+              operation: greaterThan
+              value:
+                currency: EUR
+                value: 100000
+          status: inactive
+          type: velocity
+          id: TR3227C223222C5GXR3XP596N
+        - aggregationLevel: paymentInstrument
+          description: NL only
+          entityKey:
+            entityReference: PG3227C223222C5GXR3M5592Q
+            entityType: paymentInstrumentGroup
+          interval:
+            duration:
+              unit: hours
+              value: 12
+            timeZone: UTC
+            type: sliding
+          outcomeType: hardBlock
+          reference: myRule12345
+          requestType: authorization
+          ruleRestrictions:
+            totalAmount:
+              operation: greaterThan
+              value:
+                currency: EUR
+                value: 100000
+          status: inactive
+          type: velocity
+          id: TR3227C223222C5GXR3WC595H
+    generic-403:
+      summary: Response code - 403 Forbidden.
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Forbidden
+        status: 403
+        detail: Not the right permission to access this service.
+        errorCode: '00_403'
+    get-paymentInstrumentGroups-id-success-200:
+      summary: Payment instrument group retrieved
+      description: Example response when retrieving a payment instrument group
+      value:
+        balancePlatform: YOUR_BALANCE_PLATFORM
+        txVariant: mc
+        id: PG3227C223222B5CMD3FJFKGZ
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

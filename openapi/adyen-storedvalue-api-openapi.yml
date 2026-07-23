@@ -1,0 +1,575 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute Storedvalue API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: Storedvalue
+paths:
+  /storedvalue:
+    post:
+      description: It conveys Information related to the Stored Value transaction to process. Content of the Stored Value Request message.
+      summary: Adyen StoredValue Request
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StoredValueRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoredValueResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
+                    SaleData: example_value
+                    POIData: example_value
+                    StoredValueResult:
+                    - example_value
+                    PaymentReceipt:
+                    - example_value
+          description: It conveys Information related to the Stored Value transaction processed by the POI System. Content of the Stored Value Response message.
+      tags:
+      - Storedvalue
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    POIData:
+      type: object
+      description: In the Message Response, identification of the POI transaction. Data related to the POI System.
+      properties:
+        POITransactionID:
+          $ref: '#/components/schemas/TransactionIDType'
+        POIReconciliationID:
+          type: integer
+          description: If Result is Success.
+      required:
+      - POITransactionID
+    ErrorCondition:
+      type: string
+      enum:
+      - Aborted
+      - Busy
+      - Cancel
+      - DeviceOut
+      - InProgress
+      - InsertedCard
+      - InvalidCard
+      - LoggedOut
+      - MessageFormat
+      - NotAllowed
+      - NotFound
+      - PaymentRestriction
+      - Refusal
+      - UnavailableDevice
+      - UnavailableService
+      - UnreachableHost
+      - WrongPIN
+    EntryMode:
+      type: array
+      items:
+        type: string
+        enum:
+        - Contactless
+        - File
+        - ICC
+        - Keyed
+        - MagStripe
+        - Manual
+        - Mobile
+        - RFID
+        - Scanned
+        - SynchronousICC
+        - Tapped
+    Response:
+      type: object
+      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
+      properties:
+        Result:
+          $ref: '#/components/schemas/Result'
+        ErrorCondition:
+          $ref: '#/components/schemas/ErrorCondition'
+        AdditionalResponse:
+          type: string
+          pattern: ^.+$
+          description: If present, the POI logs it for further examination.
+      required:
+      - Result
+    StoredValueAccountID:
+      type: object
+      description: It contains the identifications of the stored value account or the stored value card, and the associated product sold by the Sale System for stored value requests. Identification of the stored value account or the stored value card.
+      properties:
+        StoredValueAccountType:
+          $ref: '#/components/schemas/StoredValueAccountType'
+        StoredValueProvider:
+          type: string
+          pattern: ^.+$
+        OwnerName:
+          type: string
+          pattern: ^.+$
+        ExpiryDate:
+          type: integer
+          minimum: 4
+          maximum: 4
+        EntryMode:
+          $ref: '#/components/schemas/EntryMode'
+        IdentificationType:
+          $ref: '#/components/schemas/IdentificationType'
+        StoredValueID:
+          type: string
+          pattern: ^.+$
+      required:
+      - StoredValueAccountType
+      - EntryMode
+      - IdentificationType
+      - StoredValueID
+    TransactionIDType:
+      type: object
+      description: Identification of a transaction for the Sale System or the POI System.
+      properties:
+        TransactionID:
+          type: string
+          pattern: ^.+$
+        TimeStamp:
+          type: string
+          format: date-time
+      required:
+      - TransactionID
+      - TimeStamp
+    Result:
+      type: string
+      enum:
+      - Failure
+      - Partial
+      - Success
+    StoredValueRequest:
+      type: object
+      description: It conveys Information related to the Stored Value transaction to process. Content of the Stored Value Request message.
+      properties:
+        SaleData:
+          $ref: '#/components/schemas/SaleData'
+        CustomerLanguage:
+          type: string
+          pattern: ^[a-z]{2,2}$
+          description: If the language is selected by the Sale System before the request to the POI.
+        StoredValueData:
+          type: array
+          items:
+            $ref: '#/components/schemas/StoredValueData'
+      required:
+      - SaleData
+      - StoredValueData
+    CharacterWidth:
+      type: string
+      enum:
+      - DoubleWidth
+      - SingleWidth
+    StoredValueTransactionType:
+      type: string
+      enum:
+      - Activate
+      - Duplicate
+      - Load
+      - Reserve
+      - Reverse
+      - Unload
+    OutputContent:
+      type: object
+      description: This is a sequence of elements if they have different formats. Content to display or print.
+      properties:
+        OutputFormat:
+          $ref: '#/components/schemas/OutputFormat'
+        PredefinedContent:
+          $ref: '#/components/schemas/PredefinedContent'
+        OutputText:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputText'
+        OutputXHTML:
+          type: string
+          format: byte
+          pattern: ^.{0,262144}$
+          description: Mandatory, if OutputFormat is XHTML, not allowed otherwise.
+        OutputBarcode:
+          $ref: '#/components/schemas/OutputBarcode'
+      required:
+      - OutputFormat
+    IdentificationType:
+      type: string
+      enum:
+      - AccountNumber
+      - BarCode
+      - ISOTrack2
+      - PAN
+      - PhoneNumber
+    BarcodeType:
+      type: string
+      enum:
+      - Code128
+      - Code25
+      - EAN13
+      - EAN8
+      - PDF417
+      - QRCode
+      - UPCA
+    Color:
+      type: string
+      enum:
+      - Black
+      - Blue
+      - Cyan
+      - Green
+      - Magenta
+      - Red
+      - White
+      - Yellow
+    OutputFormat:
+      type: string
+      enum:
+      - BarCode
+      - MessageRef
+      - Text
+      - XHTML
+    Alignment:
+      type: string
+      enum:
+      - Centred
+      - Justified
+      - Left
+      - Right
+    SaleData:
+      type: object
+      description: Data associated to the Sale System, with a particular value during the processing of the payment by the POI, including the cards acquisition. Data related to the Sale System.
+      properties:
+        OperatorID:
+          type: string
+          pattern: ^.+$
+        OperatorLanguage:
+          type: string
+          pattern: ^[a-z]{2,2}$
+          description: if different from the Login.
+        ShiftNumber:
+          type: string
+          pattern: ^.+$
+          description: if different from the Login and  see Login .SaleData.
+        SaleTransactionID:
+          $ref: '#/components/schemas/TransactionIDType'
+        SaleReferenceID:
+          type: string
+          pattern: ^.+$
+          description: If payment reservation.
+        SaleTerminalData:
+          $ref: '#/components/schemas/SaleTerminalData'
+        TokenRequestedType:
+          $ref: '#/components/schemas/TokenRequestedType'
+        CustomerOrderID:
+          type: string
+          pattern: ^.+$
+          description: Additional and optional identification of a customer order.
+        CustomerOrderReq:
+          $ref: '#/components/schemas/CustomerOrderReq'
+        SaleToPOIData:
+          type: string
+          pattern: ^.+$
+          description: Stored with the transaction.
+        SaleToAcquirerData:
+          type: string
+          pattern: ^.+$
+          description: Send to the Acquirer if present.
+        SaleToIssuerData:
+          $ref: '#/components/schemas/SaleToIssuerData'
+      required:
+      - SaleTransactionID
+    StoredValueResult:
+      type: object
+      description: For each stored value card loaded or reloaded, in the StoredValue response message. Result of loading/reloading a stored value card..
+      properties:
+        StoredValueTransactionType:
+          $ref: '#/components/schemas/StoredValueTransactionType'
+        ProductCode:
+          type: integer
+          minimum: 1
+          maximum: 20
+          description: Copy.
+        EanUpc:
+          type: integer
+          description: Copy.
+        ItemAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+          description: Total amount of the item line.
+        Currency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+          description: Copy.
+        StoredValueAccountStatus:
+          $ref: '#/components/schemas/StoredValueAccountStatus'
+        HostTransactionID:
+          $ref: '#/components/schemas/TransactionIDType'
+      required:
+      - StoredValueTransactionType
+    CharacterStyle:
+      type: string
+      enum:
+      - Bold
+      - Italic
+      - Normal
+      - Underline
+    CharacterHeight:
+      type: string
+      enum:
+      - DoubleHeight
+      - HalfHeight
+      - SingleHeight
+    OutputBarcode:
+      type: object
+      properties:
+        BarcodeType:
+          $ref: '#/components/schemas/BarcodeType'
+        BarcodeValue:
+          type: string
+          pattern: ^.+$
+      required:
+      - BarcodeValue
+    StoredValueData:
+      type: object
+      description: 'It contains: - the identification of the stored value accounts or the stored value cards, if provided by the Sale System, and - the associated products sold by the Sale System.. Data related to the stored value card.'
+      properties:
+        StoredValueProvider:
+          type: string
+          pattern: ^.+$
+          description: If more than one provider to manage on the POI, and StoredValueAccountID absent.
+        StoredValueTransactionType:
+          $ref: '#/components/schemas/StoredValueTransactionType'
+        StoredValueAccountID:
+          $ref: '#/components/schemas/StoredValueAccountID'
+        OriginalPOITransaction:
+          $ref: '#/components/schemas/OriginalPOITransaction'
+        ProductCode:
+          type: integer
+          minimum: 1
+          maximum: 20
+          description: Product code of item purchased with the transaction.
+        EanUpc:
+          type: integer
+          description: Standard product code of item purchased with the transaction.
+        ItemAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+          description: Total amount of the item line.
+        Currency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+          description: Currency of a monetary amount.
+      required:
+      - StoredValueTransactionType
+    OutputText:
+      type: object
+      description: It conveys Information related to the content of the text message and its format. All the data elements related to the format of the text to display or print are parameters valid for the whole Text content. Content of text message to display or print.
+      properties:
+        Text:
+          type: string
+        CharacterSet:
+          type: integer
+        Font:
+          type: string
+          pattern: ^.+$
+        StartRow:
+          type: integer
+          minimum: 1
+          maximum: 500
+        StartColumn:
+          type: integer
+          minimum: 1
+          maximum: 500
+        Color:
+          $ref: '#/components/schemas/Color'
+        CharacterWidth:
+          $ref: '#/components/schemas/CharacterWidth'
+        CharacterHeight:
+          $ref: '#/components/schemas/CharacterHeight'
+        CharacterStyle:
+          $ref: '#/components/schemas/CharacterStyle'
+        Alignment:
+          $ref: '#/components/schemas/Alignment'
+        EndOfLineFlag:
+          type: boolean
+          default: true
+      required:
+      - Text
+    PaymentReceipt:
+      type: object
+      description: If the payment receipts are printed by the Sale system and the POI or the Sale does not implement the Print exchange (Basic profile). Customer or Merchant payment receipt.
+      properties:
+        DocumentQualifier:
+          $ref: '#/components/schemas/DocumentQualifier'
+        IntegratedPrintFlag:
+          type: boolean
+          description: Type of the print integrated to other prints.
+        RequiredSignatureFlag:
+          type: boolean
+          default: false
+          description: Indicate that the cardholder payment receipt requires a physical signature by the Customer.
+        OutputContent:
+          $ref: '#/components/schemas/OutputContent'
+      required:
+      - DocumentQualifier
+      - OutputContent
+    DocumentQualifier:
+      type: string
+      enum:
+      - CashierReceipt
+      - CustomerReceipt
+      - Document
+      - Journal
+      - SaleReceipt
+      - Voucher
+    TokenRequestedType:
+      type: string
+      enum:
+      - Customer
+      - Transaction
+    StoredValueResponse:
+      type: object
+      description: It conveys Information related to the Stored Value transaction processed by the POI System. Content of the Stored Value Response message.
+      properties:
+        Response:
+          $ref: '#/components/schemas/Response'
+        SaleData:
+          $ref: '#/components/schemas/SaleData'
+        POIData:
+          $ref: '#/components/schemas/POIData'
+        StoredValueResult:
+          type: array
+          items:
+            $ref: '#/components/schemas/StoredValueResult'
+        PaymentReceipt:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentReceipt'
+      required:
+      - Response
+      - SaleData
+      - POIData
+    OriginalPOITransaction:
+      type: object
+      description: In the Payment or the Loyalty Request message, it allows using the card of a previous CardAcquisition or Payment/Loyalty request. Identification of a previous POI transaction.
+      properties:
+        SaleID:
+          type: string
+          pattern: ^.+$
+          description: Identification of a Sale System or a Sale Terminal for the Sale to POI protocol.
+        POIID:
+          type: string
+          pattern: ^.+$
+          description: If original transaction is coming from another POI.
+        POITransactionID:
+          $ref: '#/components/schemas/TransactionIDType'
+        ReuseCardDataFlag:
+          type: boolean
+          default: true
+          description: Indicate if the card data has to be got from a previous transaction.
+        ApprovalCode:
+          type: string
+          pattern: ^.+$
+          description: If referral.
+        CustomerLanguage:
+          type: string
+          pattern: ^[a-z]{2,2}$
+          description: If the language is selected by the Sale System before the request to the POI.
+        AcquirerID:
+          type: integer
+          description: Restrict to these Acquirer if present.
+        AmountValue:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        HostTransactionID:
+          $ref: '#/components/schemas/TransactionIDType'
+    StoredValueAccountType:
+      type: string
+      enum:
+      - GiftCard
+      - Other
+      - PhoneCard
+    StoredValueAccountStatus:
+      type: object
+      properties:
+        StoredValueAccountID:
+          $ref: '#/components/schemas/StoredValueAccountID'
+        CurrentBalance:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+      required:
+      - StoredValueAccountID
+    PredefinedContent:
+      type: object
+      description: It conveys Information related to the predefined message. Reference of a predefined message to display or print.
+      properties:
+        ReferenceID:
+          type: string
+          pattern: ^.+$
+          description: Identification of a predefined message to display or print.
+        Language:
+          type: string
+          pattern: ^[a-z]{2,2}$
+          description: Identification of a language.
+      required:
+      - ReferenceID
+    SaleTerminalData:
+      type: object
+      description: In the Login Request, if a Sale Terminal is involved in the login. In other messages, when a logical device is out of order (SaleCapabilites), or when the other data have changed since or were not in the Login. Information related to the software and hardware feature of the Sale Terminal.
+      properties:
+        TotalsGroupID:
+          type: string
+          pattern: ^.{1,16}$
+          description: If present, default value for all transaction.
+    CustomerOrderReq:
+      type: array
+      items:
+        type: string
+        enum:
+        - Both
+        - Closed
+        - Open
+    SaleToIssuerData:
+      type: object
+      description: The POI System receives this information and sends it to the Acquirer for the Issuer without any change. Sale information intended for the Issuer.
+      properties:
+        StatementReference:
+          type: string
+          pattern: ^.+$
+          description: Information to print on the bank statement.
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

@@ -1,0 +1,351 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute networkTokens API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: networkTokens
+paths:
+  /networkTokens/{networkTokenId}:
+    get:
+      tags:
+      - networkTokens
+      summary: Adyen Get a Network Token
+      description: Returns the details of a network token.
+      x-addedInVersion: '1'
+      operationId: get-networkTokens-networkTokenId
+      x-sortIndex: 1
+      x-methodName: getNetworkToken
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: The unique identifier of the network token.
+        name: networkTokenId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetNetworkTokenResponse'
+              examples:
+                get-networkTokens-networkTokenId200Example:
+                  summary: Default get-networkTokens-networkTokenId 200 response
+                  x-microcks-default: true
+                  value:
+                    token: example_value
+          description: OK - the request has succeeded.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    patch:
+      tags:
+      - networkTokens
+      summary: Adyen Update a Network Token
+      description: Updates the status of the network token.
+      x-addedInVersion: '1'
+      operationId: patch-networkTokens-networkTokenId
+      x-sortIndex: 2
+      x-methodName: updateNetworkToken
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateNetworkTokenRequest'
+      parameters:
+      - description: The unique identifier of the network token.
+        name: networkTokenId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '202':
+          description: 'No Content - look at the actual response code for the status of the request. '
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    NetworkToken:
+      properties:
+        brandVariant:
+          description: The card brand variant of the payment instrument associated with the network token. For example, **mc_prepaid_mrw**.
+          type: string
+        creationDate:
+          description: Date and time when the network token was created, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) extended format. For example, **2020-12-18T10:15:30+01:00**..
+          format: date-time
+          type: string
+        device:
+          description: Device details.
+          $ref: '#/components/schemas/DeviceInfo'
+        id:
+          description: The unique identifier of the network token.
+          type: string
+        paymentInstrumentId:
+          description: The unique identifier of the payment instrument to which this network token belongs to.
+          type: string
+        status:
+          description: 'The status of the network token. Possible values: **active**, **inactive**, **suspended**, **closed**.'
+          enum:
+          - active
+          - inactive
+          - suspended
+          - closed
+          type: string
+        tokenLastFour:
+          description: The last four digits of the network token `id`.
+          type: string
+        type:
+          description: The type of wallet the network token is associated with. For example, **applePay**.
+          type: string
+      type: object
+    RestServiceError:
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+        errorCode:
+          description: A code that identifies the problem type.
+          type: string
+        instance:
+          description: A unique URI that identifies the specific occurrence of the problem.
+          type: string
+        invalidFields:
+          description: Detailed explanation of each validation error, when applicable.
+          items:
+            $ref: '#/components/schemas/InvalidField'
+          type: array
+        requestId:
+          description: A unique reference for the request, essentially the same as `pspReference`.
+          type: string
+        response:
+          description: JSON response payload.
+          $ref: '#/components/schemas/JSONObject'
+        status:
+          description: The HTTP status code.
+          format: int32
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type.
+          type: string
+        type:
+          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
+          type: string
+      required:
+      - type
+      - errorCode
+      - title
+      - detail
+      - status
+      type: object
+    InvalidField:
+      properties:
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
+          type: string
+        value:
+          description: The invalid value.
+          type: string
+      required:
+      - name
+      - value
+      - message
+      type: object
+    GetNetworkTokenResponse:
+      properties:
+        token:
+          description: The details of the network token.
+          $ref: '#/components/schemas/NetworkToken'
+      required:
+      - token
+      type: object
+    JSONObject:
+      type: object
+    UpdateNetworkTokenRequest:
+      properties:
+        status:
+          description: 'The new status of the network token. Possible values: **active**, **suspended**, **closed**. The **closed** status is final and cannot be changed.'
+          enum:
+          - active
+          - suspended
+          - closed
+          type: string
+      type: object
+    DeviceInfo:
+      properties:
+        cardCaptureTechnology:
+          description: The technology used to capture the card details.
+          type: string
+        deviceName:
+          description: The name of the device.
+          type: string
+        formFactor:
+          description: The form factor of the device to be provisioned.
+          type: string
+        imei:
+          description: The IMEI number of the device being provisioned.
+          type: string
+        isoDeviceType:
+          description: The 2-digit device type provided on the ISO messages that the token is being provisioned to.
+          type: string
+        msisdn:
+          description: The MSISDN of the device being provisioned.
+          type: string
+        osName:
+          description: The name of the device operating system.
+          type: string
+        osVersion:
+          description: The version of the device operating system.
+          type: string
+        paymentTypes:
+          description: Different types of payments supported for the network token.
+          items:
+            type: string
+          type: array
+        serialNumber:
+          description: The serial number of the device.
+          type: string
+        storageTechnology:
+          description: The architecture or technology used for network token storage.
+          type: string
+      type: object
+  examples:
+    generic-500:
+      summary: Response code - 500 Internal Server Error
+      value:
+        type: https://docs.adyen.com/errors/general/internal
+        title: An internal error happened
+        status: 500
+        detail: Unrecoverable error while trying to create payment instrument
+        requestId: 1WAF555PLWNTLYOQ
+        errorCode: '00_500'
+    generic-401:
+      summary: Response code - 401 Unauthorized
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Unauthorized
+        status: 401
+        detail: Not authorized to access this service.
+        errorCode: '00_401'
+    generic-403:
+      summary: Response code - 403 Forbidden.
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Forbidden
+        status: 403
+        detail: Not the right permission to access this service.
+        errorCode: '00_403'
+    generic-422:
+      summary: Response code - 422 Unprocessable Entity.
+      value:
+        type: https://docs.adyen.com/errors/general/invalid-field-value
+        title: Invalid Payment Instrument information provided
+        status: 422
+        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
+        requestId: 1W1UI15PLVGC9V8O
+        errorCode: '30_031'
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

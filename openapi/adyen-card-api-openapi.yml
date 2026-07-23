@@ -1,0 +1,171 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute Card API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: Card
+paths:
+  /cardDetails:
+    post:
+      tags:
+      - Card
+      summary: Adyen Get the List of Brands on the Card
+      description: 'Send a request with at least the first 6 digits of the card number to get a response with an array of brands on the card. If you include [your supported brands](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/cardDetails__reqParam_supportedBrands) in the request, the response also tells you if you support each [brand that was identified](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/cardDetails__resParam_details).
+
+
+        If you have an API-only integration and collect card data, use this endpoint to find out if the shopper''s card is co-branded. For co-branded cards, you must let the shopper choose the brand to pay with  if you support both brands.
+
+
+        '
+      operationId: post-cardDetails
+      x-sortIndex: 6
+      x-methodName: cardDetails
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              basic:
+                $ref: '#/components/examples/post-cardDetails-basic'
+              supported-brands:
+                $ref: '#/components/examples/post-cardDetails-supported-brands'
+            schema:
+              $ref: '#/components/schemas/CardDetailsRequest'
+      parameters:
+      - $ref: '#/components/parameters/Idempotency-Key'
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                basic:
+                  $ref: '#/components/examples/post-cardDetails-basic-200'
+                supported-brands:
+                  $ref: '#/components/examples/post-cardDetails-supported-brands-200'
+              schema:
+                $ref: '#/components/schemas/CardDetailsResponse'
+          description: OK - the request has succeeded.
+          headers:
+            Idempotency-Key:
+              $ref: '#/components/headers/Idempotency-Key'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  examples:
+    post-cardDetails-basic:
+      summary: Get a list of brands on a card
+      description: Example request for getting a list of brands on a card using the first 6 digits of the card number.
+      value:
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        cardNumber: '411111'
+    post-cardDetails-basic-200:
+      summary: List of brands on the card
+      description: Example response when the card is co-branded.
+      value:
+        brands:
+        - type: visa
+          supported: true
+        - type: cartebancaire
+          supported: true
+    post-cardDetails-supported-brands:
+      summary: Get a list of brands on a card specifying your supported card brands
+      description: Example request for getting a list of brands on a card using the first 6 digits of the card number and including the card brands you support.
+      value:
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        cardNumber: '411111'
+        supportedBrands:
+        - visa
+        - mc
+        - amex
+    post-cardDetails-supported-brands-200:
+      summary: List of brands on the card when you specify your supported card brands
+      description: Example response when the card is co-branded, and you only support Visa.
+      value:
+        brands:
+        - type: visa
+          supported: true
+        - type: cartebancaire
+          supported: false
+  parameters:
+    Idempotency-Key:
+      description: A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).
+      example: 37ca9c97-d1d1-4c62-89e8-706891a563ed
+      name: Idempotency-Key
+      in: header
+      schema:
+        type: string
+  schemas:
+    CardDetailsRequest:
+      properties:
+        cardNumber:
+          description: "A minimum of the first 8 digits of the card number and a maximum of the full card number. 11 digits gives the best result. \n\nYou must be [fully PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide) to collect raw card data."
+          type: string
+        countryCode:
+          description: 'The shopper country.
+
+
+            Format: [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+
+            Example: NL or DE'
+          type: string
+        encryptedCardNumber:
+          description: The encrypted card number.
+          type: string
+        merchantAccount:
+          description: The merchant account identifier, with which you want to process the transaction.
+          type: string
+        supportedBrands:
+          description: "The card brands you support. This is the [`brands`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/paymentMethods__resParam_paymentMethods-brands) array from your [`/paymentMethods`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/paymentMethods) response. \n\nIf not included, our API uses the ones configured for your merchant account and, if provided, the country code."
+          items:
+            type: string
+          type: array
+      required:
+      - cardNumber
+      - merchantAccount
+      type: object
+    CardBrandDetails:
+      properties:
+        supported:
+          description: Indicates if you support the card brand.
+          type: boolean
+        type:
+          description: The name of the card brand.
+          type: string
+      type: object
+    CardDetailsResponse:
+      properties:
+        brands:
+          description: The list of brands identified for the card.
+          items:
+            $ref: '#/components/schemas/CardBrandDetails'
+          type: array
+      type: object
+  headers:
+    Idempotency-Key:
+      description: The idempotency key used for processing the request. Present if the key was provided in the request.
+      schema:
+        type: string
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

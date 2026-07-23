@@ -1,0 +1,395 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute getPciQuestionnaireUrl API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: getPciQuestionnaireUrl
+paths:
+  /getPciQuestionnaireUrl:
+    post:
+      tags:
+      - getPciQuestionnaireUrl
+      summary: Adyen Get a Link to a PCI Compliance Questionnaire
+      description: "Returns a link to a PCI compliance questionnaire that you can send to your account holder.\n > You should only use this endpoint if you have a [partner platform setup](https://docs.adyen.com/marketplaces-and-platforms/classic/platforms-for-partners)."
+      operationId: post-getPciQuestionnaireUrl
+      x-groupName: PCI Compliance Questionnaire Page
+      x-sortIndex: 1
+      x-methodName: getPciQuestionnaireUrl
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              get-pci-questionnaire-url:
+                $ref: '#/components/examples/post-getPciQuestionnaireUrl-get-pci-questionnaire-url'
+            schema:
+              $ref: '#/components/schemas/GetPciUrlRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                get-pci-questionnaire-url:
+                  $ref: '#/components/examples/post-getPciQuestionnaireUrl-get-pci-questionnaire-url-200'
+              schema:
+                $ref: '#/components/schemas/GetPciUrlResponse'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getPciQuestionnaireUrl400Example:
+                  summary: Default post-getPciQuestionnaireUrl 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getPciQuestionnaireUrl401Example:
+                  summary: Default post-getPciQuestionnaireUrl 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getPciQuestionnaireUrl403Example:
+                  summary: Default post-getPciQuestionnaireUrl 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getPciQuestionnaireUrl422Example:
+                  summary: Default post-getPciQuestionnaireUrl 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getPciQuestionnaireUrl500Example:
+                  summary: Default post-getPciQuestionnaireUrl 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    ErrorFieldType:
+      properties:
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
+      type: object
+    GetPciUrlResponse:
+      properties:
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Information about any invalid fields.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        redirectUrl:
+          description: The URL to the PCI compliance questionnaire where you should redirect your account holder. This URL must be used within 30 seconds and can only be used once.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+      type: object
+    FieldType:
+      properties:
+        field:
+          description: The full name of the property.
+          type: string
+        fieldName:
+          description: The type of the field.
+          enum:
+          - accountCode
+          - accountHolderCode
+          - accountHolderDetails
+          - accountNumber
+          - accountStateType
+          - accountStatus
+          - accountType
+          - address
+          - balanceAccount
+          - balanceAccountActive
+          - balanceAccountCode
+          - balanceAccountId
+          - bankAccount
+          - bankAccountCode
+          - bankAccountName
+          - bankAccountUUID
+          - bankBicSwift
+          - bankCity
+          - bankCode
+          - bankName
+          - bankStatement
+          - branchCode
+          - businessContact
+          - cardToken
+          - checkCode
+          - city
+          - companyRegistration
+          - constitutionalDocument
+          - controller
+          - country
+          - countryCode
+          - currency
+          - currencyCode
+          - dateOfBirth
+          - description
+          - destinationAccountCode
+          - document
+          - documentContent
+          - documentExpirationDate
+          - documentIssuerCountry
+          - documentIssuerState
+          - documentName
+          - documentNumber
+          - documentType
+          - doingBusinessAs
+          - drivingLicence
+          - drivingLicenceBack
+          - drivingLicenceFront
+          - drivingLicense
+          - email
+          - firstName
+          - formType
+          - fullPhoneNumber
+          - gender
+          - hopWebserviceUser
+          - houseNumberOrName
+          - iban
+          - idCard
+          - idCardBack
+          - idCardFront
+          - idNumber
+          - identityDocument
+          - individualDetails
+          - infix
+          - jobTitle
+          - lastName
+          - lastReviewDate
+          - legalArrangement
+          - legalArrangementCode
+          - legalArrangementEntity
+          - legalArrangementEntityCode
+          - legalArrangementLegalForm
+          - legalArrangementMember
+          - legalArrangementMembers
+          - legalArrangementName
+          - legalArrangementReference
+          - legalArrangementRegistrationNumber
+          - legalArrangementTaxNumber
+          - legalArrangementType
+          - legalBusinessName
+          - legalEntity
+          - legalEntityType
+          - logo
+          - merchantAccount
+          - merchantCategoryCode
+          - merchantHouseNumber
+          - merchantReference
+          - microDeposit
+          - name
+          - nationality
+          - originalReference
+          - ownerCity
+          - ownerCountryCode
+          - ownerDateOfBirth
+          - ownerHouseNumberOrName
+          - ownerName
+          - ownerPostalCode
+          - ownerState
+          - ownerStreet
+          - passport
+          - passportNumber
+          - payoutMethod
+          - payoutMethodCode
+          - payoutSchedule
+          - pciSelfAssessment
+          - personalData
+          - phoneCountryCode
+          - phoneNumber
+          - postalCode
+          - primaryCurrency
+          - reason
+          - registrationNumber
+          - returnUrl
+          - schedule
+          - shareholder
+          - shareholderCode
+          - shareholderCodeAndSignatoryCode
+          - shareholderCodeOrSignatoryCode
+          - shareholderType
+          - shareholderTypes
+          - shopperInteraction
+          - signatory
+          - signatoryCode
+          - socialSecurityNumber
+          - sourceAccountCode
+          - splitAccount
+          - splitConfigurationUUID
+          - splitCurrency
+          - splitValue
+          - splits
+          - stateOrProvince
+          - status
+          - stockExchange
+          - stockNumber
+          - stockTicker
+          - store
+          - storeDetail
+          - storeName
+          - storeReference
+          - street
+          - taxId
+          - tier
+          - tierNumber
+          - transferCode
+          - ultimateParentCompany
+          - ultimateParentCompanyAddressDetails
+          - ultimateParentCompanyAddressDetailsCountry
+          - ultimateParentCompanyBusinessDetails
+          - ultimateParentCompanyBusinessDetailsLegalBusinessName
+          - ultimateParentCompanyBusinessDetailsRegistrationNumber
+          - ultimateParentCompanyCode
+          - ultimateParentCompanyStockExchange
+          - ultimateParentCompanyStockNumber
+          - ultimateParentCompanyStockNumberOrStockTicker
+          - ultimateParentCompanyStockTicker
+          - unknown
+          - value
+          - verificationType
+          - virtualAccount
+          - visaNumber
+          - webAddress
+          - year
+          type: string
+        shareholderCode:
+          description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
+          type: string
+      type: object
+    GetPciUrlRequest:
+      properties:
+        accountHolderCode:
+          description: The account holder code you provided when you created the account holder.
+          type: string
+        returnUrl:
+          description: The URL where the account holder will be redirected back to after they fill out the questionnaire, or if their session times out. Maximum length of 500 characters.
+          type: string
+      required:
+      - accountHolderCode
+      type: object
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+  examples:
+    post-getPciQuestionnaireUrl-get-pci-questionnaire-url:
+      summary: Get a PCI questionnaire link
+      description: Returns a link to an Adyen-hosted PCI compliance questionnaire that you can send to your account holder.
+      value:
+        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
+        returnUrl: https://your.return-url.com/?submerchant=123
+    post-getPciQuestionnaireUrl-get-pci-questionnaire-url-200:
+      summary: Hosted onboarding page link
+      description: Example response for requesting a hosted onboarding page link
+      value:
+        invalidFields: []
+        pspReference: '8315748692943050'
+        resultCode: Success
+        redirectUrl: https://hop-test.adyen.com/hop/pci/?token=<token>
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

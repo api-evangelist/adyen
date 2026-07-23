@@ -1,0 +1,226 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute declineThirdParty API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: declineThirdParty
+paths:
+  /declineThirdParty:
+    post:
+      tags:
+      - declineThirdParty
+      summary: Adyen Cancel a Payout
+      description: 'Cancels a previously submitted payout.
+
+
+        To confirm and send a payout, use the `/confirmThirdParty` endpoint.'
+      x-addedInVersion: '10'
+      operationId: post-declineThirdParty
+      x-sortIndex: 2
+      x-methodName: declineThirdParty
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              declineThirdParty:
+                $ref: '#/components/examples/post-declineThirdParty-declineThirdParty'
+            schema:
+              $ref: '#/components/schemas/ModifyRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                declineThirdParty:
+                  $ref: '#/components/examples/post-declineThirdParty-declineThirdParty-200'
+              schema:
+                $ref: '#/components/schemas/ModifyResponse'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-declineThirdParty401Example:
+                  summary: Default post-declineThirdParty 401 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-declineThirdParty403Example:
+                  summary: Default post-declineThirdParty 403 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-declineThirdParty422Example:
+                  summary: Default post-declineThirdParty 422 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-declineThirdParty500Example:
+                  summary: Default post-declineThirdParty 500 response
+                  x-microcks-default: true
+                  value:
+                    additionalData: {}
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    ModifyRequest:
+      properties:
+        additionalData:
+          additionalProperties:
+            type: string
+          description: This field contains additional data, which may be required for a particular payout request.
+          type: object
+        merchantAccount:
+          description: The merchant account identifier, with which you want to process the transaction.
+          type: string
+        originalReference:
+          description: The PSP reference received in the `/submitThirdParty` response.
+          type: string
+      required:
+      - merchantAccount
+      - originalReference
+      type: object
+    ServiceError:
+      properties:
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    ModifyResponse:
+      properties:
+        additionalData:
+          additionalProperties:
+            type: string
+          description: This field contains additional data, which may be returned in a particular response.
+          type: object
+        pspReference:
+          description: Adyen's 16-character string reference associated with the transaction. This value is globally unique; quote it when communicating with us about this response.
+          type: string
+        response:
+          description: 'The response:
+
+            * In case of success, it is either `payout-confirm-received` or `payout-decline-received`.
+
+            * In case of an error, an informational message is returned.'
+          type: string
+      required:
+      - pspReference
+      - response
+      type: object
+  examples:
+    post-declineThirdParty-declineThirdParty-200:
+      summary: Example response for request 'declineThirdParty'
+      value:
+        pspReference: 991617894325360J
+        response: '[payout-decline-received]'
+    post-declineThirdParty-declineThirdParty:
+      summary: Cancel a payout
+      description: Cancel a previously submitted payout
+      value:
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        originalReference: '9913140798220028'
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

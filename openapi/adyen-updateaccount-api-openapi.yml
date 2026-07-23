@@ -1,0 +1,560 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute updateAccount API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: updateAccount
+paths:
+  /updateAccount:
+    post:
+      tags:
+      - updateAccount
+      summary: Adyen Update an Account
+      description: Updates the description or payout schedule of an account.
+      operationId: post-updateAccount
+      x-groupName: Accounts
+      x-sortIndex: 2
+      x-methodName: updateAccount
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              basic:
+                $ref: '#/components/examples/post-updateAccount-basic'
+            schema:
+              $ref: '#/components/schemas/UpdateAccountRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAccountResponse'
+              examples:
+                post-updateAccount200Example:
+                  summary: Default post-updateAccount 200 response
+                  x-microcks-default: true
+                  value:
+                    accountCode: CODE123
+                    bankAccountUUID: '500123'
+                    description: A sample description for this resource.
+                    invalidFields:
+                    - example_value
+                    metadata: {}
+                    payoutMethodCode: CODE123
+                    payoutSchedule: example_value
+                    payoutSpeed: INSTANT
+                    pspReference: REF-001
+                    resultCode: CODE123
+          description: OK - the request has succeeded.
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAccountResponse'
+              examples:
+                post-updateAccount202Example:
+                  summary: Default post-updateAccount 202 response
+                  x-microcks-default: true
+                  value:
+                    accountCode: CODE123
+                    bankAccountUUID: '500123'
+                    description: A sample description for this resource.
+                    invalidFields:
+                    - example_value
+                    metadata: {}
+                    payoutMethodCode: CODE123
+                    payoutSchedule: example_value
+                    payoutSpeed: INSTANT
+                    pspReference: REF-001
+                    resultCode: CODE123
+          description: Accepted - the request has been accepted for processing, but the processing has not been completed.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-updateAccount401Example:
+                  summary: Default post-updateAccount 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-updateAccount422Example:
+                  summary: Default post-updateAccount 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-updateAccount500Example:
+                  summary: Default post-updateAccount 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    ErrorFieldType:
+      properties:
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
+      type: object
+    UpdateAccountRequest:
+      properties:
+        accountCode:
+          description: The code of the account to update.
+          type: string
+        bankAccountUUID:
+          x-addedInVersion: '5'
+          description: The bankAccountUUID of the bank account held by the account holder to couple the account with. Scheduled payouts in currencies matching the currency of this bank account will be sent to this bank account. Payouts in different currencies will be sent to a matching bank account of the account holder.
+          type: string
+        description:
+          x-addedInVersion: '4'
+          description: A description of the account, maximum 256 characters.You can use alphanumeric characters (A-Z, a-z, 0-9), white spaces, and underscores `_`.
+          type: string
+        metadata:
+          x-addedInVersion: '5'
+          additionalProperties:
+            type: string
+          description: 'A set of key and value pairs for general use by the merchant.
+
+            The keys do not have specific names and may be used for storing miscellaneous data as desired.
+
+            > Note that during an update of metadata, the omission of existing key-value pairs will result in the deletion of those key-value pairs.'
+          type: object
+        payoutMethodCode:
+          x-addedInVersion: '5'
+          description: The payout method code held by the account holder to couple the account with. Scheduled card payouts will be sent using this payout method code.
+          type: string
+        payoutSchedule:
+          description: The details of the payout schedule, to which the account should be updated.
+          $ref: '#/components/schemas/UpdatePayoutScheduleRequest'
+        payoutSpeed:
+          x-addedInVersion: '5'
+          description: 'Speed with which payouts for this account are processed. Permitted values: `STANDARD`, `SAME_DAY`.'
+          enum:
+          - INSTANT
+          - SAME_DAY
+          - STANDARD
+          type: string
+      required:
+      - accountCode
+      type: object
+    FieldType:
+      properties:
+        field:
+          description: The full name of the property.
+          type: string
+        fieldName:
+          description: The type of the field.
+          enum:
+          - accountCode
+          - accountHolderCode
+          - accountHolderDetails
+          - accountNumber
+          - accountStateType
+          - accountStatus
+          - accountType
+          - address
+          - balanceAccount
+          - balanceAccountActive
+          - balanceAccountCode
+          - balanceAccountId
+          - bankAccount
+          - bankAccountCode
+          - bankAccountName
+          - bankAccountUUID
+          - bankBicSwift
+          - bankCity
+          - bankCode
+          - bankName
+          - bankStatement
+          - branchCode
+          - businessContact
+          - cardToken
+          - checkCode
+          - city
+          - companyRegistration
+          - constitutionalDocument
+          - controller
+          - country
+          - countryCode
+          - currency
+          - currencyCode
+          - dateOfBirth
+          - description
+          - destinationAccountCode
+          - document
+          - documentContent
+          - documentExpirationDate
+          - documentIssuerCountry
+          - documentIssuerState
+          - documentName
+          - documentNumber
+          - documentType
+          - doingBusinessAs
+          - drivingLicence
+          - drivingLicenceBack
+          - drivingLicenceFront
+          - drivingLicense
+          - email
+          - firstName
+          - formType
+          - fullPhoneNumber
+          - gender
+          - hopWebserviceUser
+          - houseNumberOrName
+          - iban
+          - idCard
+          - idCardBack
+          - idCardFront
+          - idNumber
+          - identityDocument
+          - individualDetails
+          - infix
+          - jobTitle
+          - lastName
+          - lastReviewDate
+          - legalArrangement
+          - legalArrangementCode
+          - legalArrangementEntity
+          - legalArrangementEntityCode
+          - legalArrangementLegalForm
+          - legalArrangementMember
+          - legalArrangementMembers
+          - legalArrangementName
+          - legalArrangementReference
+          - legalArrangementRegistrationNumber
+          - legalArrangementTaxNumber
+          - legalArrangementType
+          - legalBusinessName
+          - legalEntity
+          - legalEntityType
+          - logo
+          - merchantAccount
+          - merchantCategoryCode
+          - merchantHouseNumber
+          - merchantReference
+          - microDeposit
+          - name
+          - nationality
+          - originalReference
+          - ownerCity
+          - ownerCountryCode
+          - ownerDateOfBirth
+          - ownerHouseNumberOrName
+          - ownerName
+          - ownerPostalCode
+          - ownerState
+          - ownerStreet
+          - passport
+          - passportNumber
+          - payoutMethod
+          - payoutMethodCode
+          - payoutSchedule
+          - pciSelfAssessment
+          - personalData
+          - phoneCountryCode
+          - phoneNumber
+          - postalCode
+          - primaryCurrency
+          - reason
+          - registrationNumber
+          - returnUrl
+          - schedule
+          - shareholder
+          - shareholderCode
+          - shareholderCodeAndSignatoryCode
+          - shareholderCodeOrSignatoryCode
+          - shareholderType
+          - shareholderTypes
+          - shopperInteraction
+          - signatory
+          - signatoryCode
+          - socialSecurityNumber
+          - sourceAccountCode
+          - splitAccount
+          - splitConfigurationUUID
+          - splitCurrency
+          - splitValue
+          - splits
+          - stateOrProvince
+          - status
+          - stockExchange
+          - stockNumber
+          - stockTicker
+          - store
+          - storeDetail
+          - storeName
+          - storeReference
+          - street
+          - taxId
+          - tier
+          - tierNumber
+          - transferCode
+          - ultimateParentCompany
+          - ultimateParentCompanyAddressDetails
+          - ultimateParentCompanyAddressDetailsCountry
+          - ultimateParentCompanyBusinessDetails
+          - ultimateParentCompanyBusinessDetailsLegalBusinessName
+          - ultimateParentCompanyBusinessDetailsRegistrationNumber
+          - ultimateParentCompanyCode
+          - ultimateParentCompanyStockExchange
+          - ultimateParentCompanyStockNumber
+          - ultimateParentCompanyStockNumberOrStockTicker
+          - ultimateParentCompanyStockTicker
+          - unknown
+          - value
+          - verificationType
+          - virtualAccount
+          - visaNumber
+          - webAddress
+          - year
+          type: string
+        shareholderCode:
+          description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
+          type: string
+      type: object
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    UpdatePayoutScheduleRequest:
+      properties:
+        action:
+          description: 'Direction on how to handle any payouts that have already been scheduled.
+
+            Permitted values:
+
+            * `CLOSE` will close the existing batch of payouts.
+
+            * `UPDATE` will reschedule the existing batch to the new schedule.
+
+            * `NOTHING` (**default**) will allow the payout to proceed.'
+          enum:
+          - CLOSE
+          - NOTHING
+          - UPDATE
+          type: string
+        reason:
+          description: 'The reason for the payout schedule update.
+
+            > This field is required when the `schedule` parameter is set to `HOLD`.'
+          type: string
+        schedule:
+          description: 'The payout schedule to which the account is to be updated.
+
+            Permitted values: `DAILY`, `DAILY_US`, `DAILY_EU`, `DAILY_AU`, `DAILY_SG`, `WEEKLY`, `WEEKLY_ON_TUE_FRI_MIDNIGHT`, `BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT`, `MONTHLY`, `HOLD`.
+
+            `HOLD` will prevent scheduled payouts from happening but will still allow manual payouts to occur.'
+          enum:
+          - BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT
+          - DAILY
+          - DAILY_AU
+          - DAILY_EU
+          - DAILY_SG
+          - DAILY_US
+          - HOLD
+          - MONTHLY
+          - WEEKLY
+          - WEEKLY_MON_TO_FRI_AU
+          - WEEKLY_MON_TO_FRI_EU
+          - WEEKLY_MON_TO_FRI_US
+          - WEEKLY_ON_TUE_FRI_MIDNIGHT
+          - WEEKLY_SUN_TO_THU_AU
+          - WEEKLY_SUN_TO_THU_US
+          type: string
+      required:
+      - schedule
+      type: object
+    PayoutScheduleResponse:
+      properties:
+        nextScheduledPayout:
+          description: The date of the next scheduled payout.
+          format: date-time
+          type: string
+        schedule:
+          description: 'The payout schedule of the account.
+
+            Permitted values: `DEFAULT`, `DAILY`, `DAILY_US`, `DAILY_EU`, `DAILY_AU`, `DAILY_SG`, `WEEKLY`, `WEEKLY_ON_TUE_FRI_MIDNIGHT`, `BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT`, `MONTHLY`, `HOLD`.'
+          enum:
+          - BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT
+          - DAILY
+          - DAILY_AU
+          - DAILY_EU
+          - DAILY_SG
+          - DAILY_US
+          - HOLD
+          - MONTHLY
+          - WEEKLY
+          - WEEKLY_MON_TO_FRI_AU
+          - WEEKLY_MON_TO_FRI_EU
+          - WEEKLY_MON_TO_FRI_US
+          - WEEKLY_ON_TUE_FRI_MIDNIGHT
+          - WEEKLY_SUN_TO_THU_AU
+          - WEEKLY_SUN_TO_THU_US
+          type: string
+      type: object
+    UpdateAccountResponse:
+      properties:
+        accountCode:
+          description: The code of the account.
+          type: string
+        bankAccountUUID:
+          x-addedInVersion: '5'
+          description: The bankAccountUUID of the bank account held by the account holder to couple the account with. Scheduled payouts in currencies matching the currency of this bank account will be sent to this bank account. Payouts in different currencies will be sent to a matching bank account of the account holder.
+          type: string
+        description:
+          x-addedInVersion: '4'
+          description: The description of the account.
+          type: string
+        invalidFields:
+          x-addedInVersion: '5'
+          description: A list of fields that caused the `/updateAccount` request to fail.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        metadata:
+          x-addedInVersion: '5'
+          additionalProperties:
+            type: string
+          description: A set of key and value pairs containing metadata.
+          type: object
+        payoutMethodCode:
+          x-addedInVersion: '5'
+          description: The payout method code held by the account holder to couple the account with. Scheduled card payouts will be sent using this payout method code.
+          type: string
+        payoutSchedule:
+          description: The payout schedule of the account.
+          $ref: '#/components/schemas/PayoutScheduleResponse'
+        payoutSpeed:
+          x-addedInVersion: '5'
+          description: 'Speed with which payouts for this account are processed. Permitted values: `STANDARD`, `SAME_DAY`.'
+          enum:
+          - INSTANT
+          - SAME_DAY
+          - STANDARD
+          type: string
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+      required:
+      - accountCode
+      type: object
+  examples:
+    post-updateAccount-basic:
+      summary: Set a payout schedule
+      value:
+        accountCode: CODE_OF_ACCOUNT
+        payoutSchedule:
+          schedule: WEEKLY
+          action: CLOSE
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
+    generic-403:
+      summary: Response code 401. Forbidden.
+      value:
+        status: 403
+        errorCode: '10_003'
+        message: Failed to authorize user
+        errorType: security
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

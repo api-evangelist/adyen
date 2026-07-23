@@ -1,0 +1,786 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute Balanceinquiry API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: Balanceinquiry
+paths:
+  /balanceinquiry:
+    post:
+      description: It conveys Information related to the account for which a Balance Inquiry is requested. Content of the Balance Inquiry Request message.
+      summary: Adyen BalanceInquiry Request
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BalanceInquiryRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceInquiryResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
+                    PaymentAccountStatus: active
+                    LoyaltyAccountStatus: active
+                    PaymentReceipt:
+                    - example_value
+          description: It conveys the balance and the identification of the associated payment, loyalty or stored value account. Content of the Balance Inquiry Response message.
+      tags:
+      - Balanceinquiry
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    AccountType:
+      type: string
+      enum:
+      - CardTotals
+      - Checking
+      - CreditCard
+      - Default
+      - EpurseCard
+      - Investment
+      - Savings
+      - Universal
+    PaymentInstrumentData:
+      type: object
+      description: Sent in the result of the payment transaction. For a card, it could also be sent in the CardAcquisition response, to be processed by the Sale System. Data related to the instrument of payment for the transaction.
+      properties:
+        PaymentInstrumentType:
+          $ref: '#/components/schemas/PaymentInstrumentType'
+        ProtectedCardData:
+          type: string
+        CardData:
+          $ref: '#/components/schemas/CardData'
+        CheckData:
+          $ref: '#/components/schemas/CheckData'
+        MobileData:
+          $ref: '#/components/schemas/MobileData'
+        StoredValueAccountID:
+          $ref: '#/components/schemas/StoredValueAccountID'
+      required:
+      - PaymentInstrumentType
+    PaymentAcquirerData:
+      type: object
+      description: Data related to the response from the payment Acquirer.
+      properties:
+        AcquirerID:
+          type: integer
+          description: If several Acquirers.
+        MerchantID:
+          type: string
+          pattern: ^.+$
+          description: Identification of the Merchant for the Acquirer.
+        AcquirerPOIID:
+          type: string
+          pattern: ^.+$
+          description: Identification of the POI for the payment Acquirer.
+        AcquirerTransactionID:
+          $ref: '#/components/schemas/TransactionIDType'
+        ApprovalCode:
+          type: string
+          pattern: ^.+$
+          description: If available.
+        HostReconciliationID:
+          type: string
+          pattern: ^.+$
+      required:
+      - MerchantID
+      - AcquirerPOIID
+    LoyaltyAccountID:
+      type: object
+      description: In the Payment or the Loyalty Request message, it allows to identify the loyalty account by the Sale Terminal instead of the POI Terminal (e.g. because the account identification is a bar-code read by the Cashier on a scanner device). Identification of a Loyalty account.
+      properties:
+        EntryMode:
+          $ref: '#/components/schemas/EntryMode'
+        IdentificationType:
+          $ref: '#/components/schemas/IdentificationType'
+        IdentificationSupport:
+          $ref: '#/components/schemas/IdentificationSupport'
+        LoyaltyID:
+          type: string
+      required:
+      - EntryMode
+      - IdentificationType
+      - LoyaltyID
+    ErrorCondition:
+      type: string
+      enum:
+      - Aborted
+      - Busy
+      - Cancel
+      - DeviceOut
+      - InProgress
+      - InsertedCard
+      - InvalidCard
+      - LoggedOut
+      - MessageFormat
+      - NotAllowed
+      - NotFound
+      - PaymentRestriction
+      - Refusal
+      - UnavailableDevice
+      - UnavailableService
+      - UnreachableHost
+      - WrongPIN
+    CardData:
+      type: object
+      description: Allows acquisition of the card data by the Sale System before the Payment, CardAcquisition  or BalanceInquiry request to the POI. It could also be sent in the CardAcquisition response, to be processed by the Sale System. Information related to the payment card used for the transaction.
+      properties:
+        PaymentBrand:
+          type: string
+          pattern: ^.+$
+          description: If card PAN is readable .
+        MaskedPan:
+          type: string
+          pattern: ^.+$
+        PaymentAccountRef:
+          type: string
+          pattern: ^.+$
+        EntryMode:
+          $ref: '#/components/schemas/EntryMode'
+        CardCountryCode:
+          type: integer
+          minimum: 3
+          maximum: 3
+          description: If available in the card.
+        ProtectedCardData:
+          type: string
+          description: SensitiveCardData protected by CMS EnvelopedData.
+        SensitiveCardData:
+          $ref: '#/components/schemas/SensitiveCardData'
+        AllowedProductCode:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+            maximum: 20
+        AllowedProduct:
+          type: array
+          items:
+            $ref: '#/components/schemas/AllowedProduct'
+        PaymentToken:
+          $ref: '#/components/schemas/PaymentToken'
+        CustomerOrder:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerOrder'
+    UTMCoordinates:
+      type: object
+      properties:
+        UTMZone:
+          type: string
+          pattern: ^.+$
+        UTMEastward:
+          type: string
+          pattern: ^.+$
+        UTMNorthward:
+          type: string
+          pattern: ^.+$
+      required:
+      - UTMZone
+      - UTMEastward
+      - UTMNorthward
+    EntryMode:
+      type: array
+      items:
+        type: string
+        enum:
+        - Contactless
+        - File
+        - ICC
+        - Keyed
+        - MagStripe
+        - Manual
+        - Mobile
+        - RFID
+        - Scanned
+        - SynchronousICC
+        - Tapped
+    LoyaltyUnit:
+      type: string
+      enum:
+      - Monetary
+      - Point
+    Response:
+      type: object
+      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
+      properties:
+        Result:
+          $ref: '#/components/schemas/Result'
+        ErrorCondition:
+          $ref: '#/components/schemas/ErrorCondition'
+        AdditionalResponse:
+          type: string
+          pattern: ^.+$
+          description: If present, the POI logs it for further examination.
+      required:
+      - Result
+    StoredValueAccountID:
+      type: object
+      description: It contains the identifications of the stored value account or the stored value card, and the associated product sold by the Sale System for stored value requests. Identification of the stored value account or the stored value card.
+      properties:
+        StoredValueAccountType:
+          $ref: '#/components/schemas/StoredValueAccountType'
+        StoredValueProvider:
+          type: string
+          pattern: ^.+$
+        OwnerName:
+          type: string
+          pattern: ^.+$
+        ExpiryDate:
+          type: integer
+          minimum: 4
+          maximum: 4
+        EntryMode:
+          $ref: '#/components/schemas/EntryMode'
+        IdentificationType:
+          $ref: '#/components/schemas/IdentificationType'
+        StoredValueID:
+          type: string
+          pattern: ^.+$
+      required:
+      - StoredValueAccountType
+      - EntryMode
+      - IdentificationType
+      - StoredValueID
+    TransactionIDType:
+      type: object
+      description: Identification of a transaction for the Sale System or the POI System.
+      properties:
+        TransactionID:
+          type: string
+          pattern: ^.+$
+        TimeStamp:
+          type: string
+          format: date-time
+      required:
+      - TransactionID
+      - TimeStamp
+    Result:
+      type: string
+      enum:
+      - Failure
+      - Partial
+      - Success
+    PaymentAccountReq:
+      type: object
+      properties:
+        AccountType:
+          $ref: '#/components/schemas/AccountType'
+        CardAcquisitionReference:
+          $ref: '#/components/schemas/TransactionIDType'
+        PaymentInstrumentData:
+          $ref: '#/components/schemas/PaymentInstrumentData'
+    CharacterWidth:
+      type: string
+      enum:
+      - DoubleWidth
+      - SingleWidth
+    CheckData:
+      type: object
+      description: Allows the check information to be provided by the Sale System before requesting the payment, or stored by the Sale System after processing of the payment. Information related to the paper check used for the transaction.
+      properties:
+        BankID:
+          type: string
+          pattern: ^.+$
+          description: Mandatory if TrackData absent.
+        AccountNumber:
+          type: string
+          pattern: ^.+$
+          description: Mandatory if TrackData absent.
+        CheckNumber:
+          type: string
+          pattern: ^.+$
+          description: Mandatory if TrackData absent.
+        TrackData:
+          $ref: '#/components/schemas/TrackData'
+        CheckCardNumber:
+          type: string
+          pattern: ^.+$
+          description: If provided by the customer.
+        TypeCode:
+          $ref: '#/components/schemas/TypeCode'
+        Country:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+          description: Absent if country of the Sale system.
+    OutputContent:
+      type: object
+      description: This is a sequence of elements if they have different formats. Content to display or print.
+      properties:
+        OutputFormat:
+          $ref: '#/components/schemas/OutputFormat'
+        PredefinedContent:
+          $ref: '#/components/schemas/PredefinedContent'
+        OutputText:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputText'
+        OutputXHTML:
+          type: string
+          format: byte
+          pattern: ^.{0,262144}$
+          description: Mandatory, if OutputFormat is XHTML, not allowed otherwise.
+        OutputBarcode:
+          $ref: '#/components/schemas/OutputBarcode'
+      required:
+      - OutputFormat
+    GeographicCoordinates:
+      type: object
+      properties:
+        Latitude:
+          type: string
+          pattern: ^.+$
+        Longitude:
+          type: string
+          pattern: ^.+$
+      required:
+      - Latitude
+      - Longitude
+    IdentificationType:
+      type: string
+      enum:
+      - AccountNumber
+      - BarCode
+      - ISOTrack2
+      - PAN
+      - PhoneNumber
+    BarcodeType:
+      type: string
+      enum:
+      - Code128
+      - Code25
+      - EAN13
+      - EAN8
+      - PDF417
+      - QRCode
+      - UPCA
+    Color:
+      type: string
+      enum:
+      - Black
+      - Blue
+      - Cyan
+      - Green
+      - Magenta
+      - Red
+      - White
+      - Yellow
+    Alignment:
+      type: string
+      enum:
+      - Centred
+      - Justified
+      - Left
+      - Right
+    OutputFormat:
+      type: string
+      enum:
+      - BarCode
+      - MessageRef
+      - Text
+      - XHTML
+    CharacterStyle:
+      type: string
+      enum:
+      - Bold
+      - Italic
+      - Normal
+      - Underline
+    Geolocation:
+      type: object
+      properties:
+        GeographicCoordinates:
+          $ref: '#/components/schemas/GeographicCoordinates'
+        UTMCoordinates:
+          $ref: '#/components/schemas/UTMCoordinates'
+    CustomerOrder:
+      type: object
+      description: Customer order attached to a customer, recorded in the POI system.  Allows the management of customer orders by the POI, for instance in a multi-channel or a click and collect sale transaction.
+      properties:
+        CustomerOrderID:
+          type: string
+          pattern: ^.+$
+          description: Additional and optional identification of a customer order.
+        SaleReferenceID:
+          type: string
+          pattern: ^.+$
+        OpenOrderState:
+          type: boolean
+          default: true
+        StartDate:
+          type: string
+          format: date-time
+          description: Date time of the beginning of an operation.
+        EndDate:
+          type: string
+          format: date-time
+          description: Date time of the end of an operation.
+        ForecastedAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        CurrentAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+          description: Total amount of all completed transactions of a customer order.
+        Currency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+          description: Currency of a monetary amount.
+        AccessedBy:
+          type: string
+          pattern: ^.+$
+        AdditionalInformation:
+          type: string
+          pattern: ^.+$
+          description: Unqualified information.
+      required:
+      - SaleReferenceID
+      - StartDate
+      - ForecastedAmount
+      - CurrentAmount
+    PaymentAccountStatus:
+      type: object
+      properties:
+        PaymentInstrumentData:
+          $ref: '#/components/schemas/PaymentInstrumentData'
+        CurrentBalance:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        Currency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+        PaymentAcquirerData:
+          $ref: '#/components/schemas/PaymentAcquirerData'
+    CharacterHeight:
+      type: string
+      enum:
+      - DoubleHeight
+      - HalfHeight
+      - SingleHeight
+    TrackFormat:
+      type: string
+      enum:
+      - AAMVA
+      - ISO
+    TypeCode:
+      type: string
+      enum:
+      - Company
+      - Personal
+    OutputBarcode:
+      type: object
+      properties:
+        BarcodeType:
+          $ref: '#/components/schemas/BarcodeType'
+        BarcodeValue:
+          type: string
+          pattern: ^.+$
+      required:
+      - BarcodeValue
+    OutputText:
+      type: object
+      description: It conveys Information related to the content of the text message and its format. All the data elements related to the format of the text to display or print are parameters valid for the whole Text content. Content of text message to display or print.
+      properties:
+        Text:
+          type: string
+        CharacterSet:
+          type: integer
+        Font:
+          type: string
+          pattern: ^.+$
+        StartRow:
+          type: integer
+          minimum: 1
+          maximum: 500
+        StartColumn:
+          type: integer
+          minimum: 1
+          maximum: 500
+        Color:
+          $ref: '#/components/schemas/Color'
+        CharacterWidth:
+          $ref: '#/components/schemas/CharacterWidth'
+        CharacterHeight:
+          $ref: '#/components/schemas/CharacterHeight'
+        CharacterStyle:
+          $ref: '#/components/schemas/CharacterStyle'
+        Alignment:
+          $ref: '#/components/schemas/Alignment'
+        EndOfLineFlag:
+          type: boolean
+          default: true
+      required:
+      - Text
+    TrackData:
+      type: object
+      description: ISO 7813 - ISO 4909.  Generic data structure for a card track, used when the magstripe card reader is located on the Sale Terminal, or for magstripe Card Reader device request. The data structure is also used to store the line at the bottom of a bank check. Magnetic track or magnetic ink characters line.
+      properties:
+        TrackNumb:
+          type: integer
+          minimum: 1
+          maximum: 3
+          default: 2
+        TrackFormat:
+          $ref: '#/components/schemas/TrackFormat'
+        TrackValue:
+          type: string
+          pattern: ^.{1,104}$
+      required:
+      - TrackValue
+    PaymentInstrumentType:
+      type: string
+      enum:
+      - Card
+      - Cash
+      - Check
+      - Mobile
+      - StoredValue
+    PaymentReceipt:
+      type: object
+      description: If the payment receipts are printed by the Sale system and the POI or the Sale does not implement the Print exchange (Basic profile). Customer or Merchant payment receipt.
+      properties:
+        DocumentQualifier:
+          $ref: '#/components/schemas/DocumentQualifier'
+        IntegratedPrintFlag:
+          type: boolean
+          description: Type of the print integrated to other prints.
+        RequiredSignatureFlag:
+          type: boolean
+          default: false
+          description: Indicate that the cardholder payment receipt requires a physical signature by the Customer.
+        OutputContent:
+          $ref: '#/components/schemas/OutputContent'
+      required:
+      - DocumentQualifier
+      - OutputContent
+    DocumentQualifier:
+      type: string
+      enum:
+      - CashierReceipt
+      - CustomerReceipt
+      - Document
+      - Journal
+      - SaleReceipt
+      - Voucher
+    SensitiveCardData:
+      type: object
+      description: This data structure could be CMS protected (EnvelopedData). In this case the data structure SensitiveCardData is replaced by the data structure ProtectedCardData of type ContentInformationType. When this data is protected, the exact content is unknown by the Sale System, and might include all the information which are required by an external backup POI Server to make a batch payment transaction in case of problem with the POI System. Sensitive information related to the payment card, entered or read by the Sale System.
+      properties:
+        PAN:
+          type: integer
+          minimum: 8
+          maximum: 28
+        CardSeqNumb:
+          type: integer
+          minimum: 2
+          maximum: 3
+          description: if EntryMode is File, Keyed or Manual.
+        ExpiryDate:
+          type: integer
+          minimum: 4
+          maximum: 4
+          description: if EntryMode is File.
+        TrackData:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrackData'
+    PaymentToken:
+      type: object
+      description: Surrogate of the PAN (Primary Account Number) of the payment card to  identify the payment mean of the customer. It allows, for a merchant, to identify   the customer.
+      properties:
+        TokenRequestedType:
+          $ref: '#/components/schemas/TokenRequestedType'
+        TokenValue:
+          type: string
+          pattern: ^.+$
+        ExpiryDateTime:
+          type: string
+          format: date-time
+          description: Expiry date and time. Limits the validity of a payment token.
+      required:
+      - TokenRequestedType
+      - TokenValue
+    TokenRequestedType:
+      type: string
+      enum:
+      - Customer
+      - Transaction
+    MobileData:
+      type: object
+      description: Mobile phone is used as a payment instrument for the transaction. Information related to the mobile for the payment transaction.
+      properties:
+        MobileCountryCode:
+          type: integer
+          minimum: 3
+          maximum: 3
+          description: If data available.
+        MobileNetworkCode:
+          type: integer
+          minimum: 2
+          maximum: 3
+          description: If data available.
+        MaskedMSISDN:
+          type: integer
+          description: If data available.
+        Geolocation:
+          $ref: '#/components/schemas/Geolocation'
+        ProtectedMobileData:
+          type: string
+          description: SensitiveMobileData.
+        SensitiveMobileData:
+          $ref: '#/components/schemas/SensitiveMobileData'
+    StoredValueAccountType:
+      type: string
+      enum:
+      - GiftCard
+      - Other
+      - PhoneCard
+    SensitiveMobileData:
+      type: object
+      properties:
+        MSISDN:
+          type: integer
+        ISMI:
+          type: integer
+        IMEI:
+          type: integer
+      required:
+      - MSISDN
+    PredefinedContent:
+      type: object
+      description: It conveys Information related to the predefined message. Reference of a predefined message to display or print.
+      properties:
+        ReferenceID:
+          type: string
+          pattern: ^.+$
+          description: Identification of a predefined message to display or print.
+        Language:
+          type: string
+          pattern: ^[a-z]{2,2}$
+          description: Identification of a language.
+      required:
+      - ReferenceID
+    LoyaltyAccountReq:
+      type: object
+      properties:
+        CardAcquisitionReference:
+          $ref: '#/components/schemas/TransactionIDType'
+        LoyaltyAccountID:
+          $ref: '#/components/schemas/LoyaltyAccountID'
+    AllowedProduct:
+      type: object
+      description: Product that is payable by the payment card. Product codes that are payable by the payment card.
+      properties:
+        ProductCode:
+          type: integer
+          minimum: 1
+          maximum: 20
+          description: Product code of item purchased with the transaction.
+        EanUpc:
+          type: integer
+          description: Standard product code of item purchased with the transaction.
+        ProductLabel:
+          type: string
+          pattern: ^.+$
+          description: Product name of an item purchased with the transaction.
+        AdditionalProductInfo:
+          type: string
+          pattern: ^.+$
+          description: Additionl information related to the line item.
+      required:
+      - ProductCode
+    BalanceInquiryRequest:
+      type: object
+      description: It conveys Information related to the account for which a Balance Inquiry is requested. Content of the Balance Inquiry Request message.
+      properties:
+        PaymentAccountReq:
+          $ref: '#/components/schemas/PaymentAccountReq'
+        LoyaltyAccountReq:
+          $ref: '#/components/schemas/LoyaltyAccountReq'
+    LoyaltyAccountStatus:
+      type: object
+      properties:
+        LoyaltyAccount:
+          $ref: '#/components/schemas/LoyaltyAccount'
+        CurrentBalance:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        LoyaltyUnit:
+          $ref: '#/components/schemas/LoyaltyUnit'
+        Currency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+      required:
+      - LoyaltyAccount
+    IdentificationSupport:
+      type: string
+      enum:
+      - HybridCard
+      - LinkedCard
+      - LoyaltyCard
+      - NoCard
+    LoyaltyAccount:
+      type: object
+      description: This data structure conveys the identification of the account and the associated loyalty brand. Data related to a loyalty account processed in the transaction.
+      properties:
+        LoyaltyAccountID:
+          $ref: '#/components/schemas/LoyaltyAccountID'
+        LoyaltyBrand:
+          type: string
+          pattern: ^.+$
+          description: If a card is analysed.
+      required:
+      - LoyaltyAccountID
+    BalanceInquiryResponse:
+      type: object
+      description: It conveys the balance and the identification of the associated payment, loyalty or stored value account. Content of the Balance Inquiry Response message.
+      properties:
+        Response:
+          $ref: '#/components/schemas/Response'
+        PaymentAccountStatus:
+          $ref: '#/components/schemas/PaymentAccountStatus'
+        LoyaltyAccountStatus:
+          $ref: '#/components/schemas/LoyaltyAccountStatus'
+        PaymentReceipt:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentReceipt'
+      required:
+      - Response
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

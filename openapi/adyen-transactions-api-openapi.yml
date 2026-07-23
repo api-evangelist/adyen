@@ -1,0 +1,634 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute Transactions API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: Transactions
+paths:
+  /transactions:
+    get:
+      tags:
+      - Transactions
+      summary: Adyen Get All Transactions
+      description: '>Versions 1 and 2 of the Transfers API are deprecated. If you are just starting your implementation, use the latest version.
+
+
+        Returns all the transactions related to a balance account, account holder, or balance platform.
+
+
+        When making this request, you must include at least one of the following:
+
+        - `balanceAccountId`
+
+        - `accountHolderId`
+
+        - `balancePlatform`.
+
+
+        This endpoint supports cursor-based pagination. The response returns the first page of results, and returns links to the next and previous pages when applicable. You can use the links to page through the results.
+
+
+        '
+      x-addedInVersion: '1'
+      operationId: get-transactions
+      x-sortIndex: 1
+      x-methodName: getAllTransactions
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: 'The unique identifier of the [balance platform](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/balancePlatforms/{id}__queryParam_id).
+
+
+          Required if you don''t provide a `balanceAccountId` or `accountHolderId`.'
+        name: balancePlatform
+        in: query
+        required: false
+        schema:
+          type: string
+      - description: 'The unique identifier of the [payment instrument](https://docs.adyen.com/api-explorer/balanceplatform/latest/get/paymentInstruments/_id_).
+
+
+          To use this parameter, you must also provide a `balanceAccountId`, `accountHolderId`, or `balancePlatform`.
+
+
+          The `paymentInstrumentId` must be related to the `balanceAccountId` or `accountHolderId` that you provide.'
+        name: paymentInstrumentId
+        in: query
+        required: false
+        schema:
+          type: string
+      - description: 'The unique identifier of the [account holder](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/accountHolders/{id}__queryParam_id).
+
+
+          Required if you don''t provide a `balanceAccountId` or `balancePlatform`.
+
+
+          If you provide a `balanceAccountId`, the `accountHolderId` must be related to the `balanceAccountId`.'
+        name: accountHolderId
+        in: query
+        required: false
+        schema:
+          type: string
+      - description: 'The unique identifier of the [balance account](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/balanceAccounts/{id}__queryParam_id).
+
+
+          Required if you don''t provide an `accountHolderId` or `balancePlatform`.
+
+
+          If you provide an `accountHolderId`, the `balanceAccountId` must be related to the `accountHolderId`.'
+        name: balanceAccountId
+        in: query
+        required: false
+        schema:
+          type: string
+      - description: The `cursor` returned in the links of the previous response.
+        name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+      - description: Only include transactions that have been created on or after this point in time. The value must be in ISO 8601 format. For example, **2021-05-30T15:07:40Z**.
+        name: createdSince
+        in: query
+        required: true
+        schema:
+          format: date-time
+          type: string
+      - description: Only include transactions that have been created on or before this point in time. The value must be in ISO 8601 format. For example, **2021-05-30T15:07:40Z**.
+        name: createdUntil
+        in: query
+        required: true
+        schema:
+          format: date-time
+          type: string
+      - description: The number of items returned per page, maximum of 100 items. By default, the response returns 10 items per page.
+        name: limit
+        in: query
+        required: false
+        schema:
+          format: int32
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  $ref: '#/components/examples/get-transactions-success-200'
+              schema:
+                $ref: '#/components/schemas/TransactionSearchResponse'
+          description: OK - the request has succeeded.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-transactions401Example:
+                  summary: Default get-transactions 401 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-transactions403Example:
+                  summary: Default get-transactions 403 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-transactions422Example:
+                  summary: Default get-transactions 422 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-transactions500Example:
+                  summary: Default get-transactions 500 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /transactions/{id}:
+    get:
+      tags:
+      - Transactions
+      summary: Adyen Get a Transaction
+      description: '>Versions 1 and 2 of the Transfers API are deprecated. If you are just starting your implementation, use the latest version.
+
+
+        Returns a transaction.'
+      x-addedInVersion: '1'
+      operationId: get-transactions-id
+      x-sortIndex: 2
+      x-methodName: getTransaction
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: The unique identifier of the transaction.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  $ref: '#/components/examples/get-transactions-id-success-200'
+              schema:
+                $ref: '#/components/schemas/Transaction'
+          description: OK - the request has succeeded.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-transactions-id401Example:
+                  summary: Default get-transactions-id 401 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-transactions-id403Example:
+                  summary: Default get-transactions-id 403 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-transactions-id422Example:
+                  summary: Default get-transactions-id 422 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-transactions-id500Example:
+                  summary: Default get-transactions-id 500 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Transaction:
+      properties:
+        accountHolder:
+          x-addedInVersion: '4'
+          description: Contains information about the account holder associated with the `balanceAccount`.
+          $ref: '#/components/schemas/ResourceReference'
+        amount:
+          x-addedInVersion: '1'
+          description: Contains information about the amount of the transaction.
+          $ref: '#/components/schemas/Amount'
+        balanceAccount:
+          x-addedInVersion: '4'
+          description: Contains information about the balance account involved in the transaction.
+          $ref: '#/components/schemas/ResourceReference'
+        balancePlatform:
+          x-addedInVersion: '1'
+          description: The unique identifier of the balance platform.
+          type: string
+        bookingDate:
+          x-addedInVersion: '1'
+          description: The date the transaction was booked into the balance account.
+          format: date-time
+          type: string
+        creationDate:
+          description: The date and time when the event was triggered, in ISO 8601 extended format. For example, **2020-12-18T10:15:30+01:00**.
+          format: date-time
+          type: string
+        id:
+          x-addedInVersion: '1'
+          description: The unique identifier of the transaction.
+          type: string
+        status:
+          x-addedInVersion: '1'
+          description: "The status of the transaction.\n\n Possible values:\n\n* **pending**: The transaction is still pending.\n\n* **booked**: The transaction has been booked to the balance account.\n\n"
+          enum:
+          - booked
+          - pending
+          type: string
+        transfer:
+          x-addedInVersion: '4'
+          description: Contains information about the transfer related to the transaction.
+          $ref: '#/components/schemas/TransferData'
+        valueDate:
+          x-addedInVersion: '1'
+          description: The date the transfer amount becomes available in the balance account.
+          format: date-time
+          type: string
+      required:
+      - id
+      - accountHolder
+      - balanceAccount
+      - amount
+      - status
+      - bookingDate
+      - valueDate
+      - balancePlatform
+      type: object
+    RestServiceError:
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+        errorCode:
+          description: A code that identifies the problem type.
+          type: string
+        instance:
+          description: A unique URI that identifies the specific occurrence of the problem.
+          type: string
+        invalidFields:
+          description: Detailed explanation of each validation error, when applicable.
+          items:
+            $ref: '#/components/schemas/InvalidField'
+          type: array
+        requestId:
+          description: A unique reference for the request, essentially the same as `pspReference`.
+          type: string
+        response:
+          description: JSON response payload.
+          $ref: '#/components/schemas/JSONObject'
+        status:
+          description: The HTTP status code.
+          format: int32
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type.
+          type: string
+        type:
+          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
+          type: string
+      required:
+      - type
+      - errorCode
+      - title
+      - detail
+      - status
+      type: object
+    ResourceReference:
+      properties:
+        description:
+          description: The description of the resource.
+          type: string
+        id:
+          description: The unique identifier of the resource.
+          type: string
+        reference:
+          description: The reference for the resource.
+          type: string
+      type: object
+    Amount:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      - currency
+      type: object
+    JSONObject:
+      type: object
+    TransactionSearchResponse:
+      properties:
+        _links:
+          description: Contains links to the next and previous page whenever applicable.
+          $ref: '#/components/schemas/Links'
+        data:
+          description: Contains the transactions that match the query parameters.
+          items:
+            $ref: '#/components/schemas/Transaction'
+          type: array
+      type: object
+    Links:
+      properties:
+        next:
+          description: Contains a link to the next page.
+          $ref: '#/components/schemas/Link'
+        prev:
+          description: Contains a link to the previous page.
+          $ref: '#/components/schemas/Link'
+      type: object
+    TransferData:
+      properties:
+        id:
+          description: The ID of the resource.
+          type: string
+        reference:
+          x-addedInVersion: '4'
+          description: The [`reference`](https://docs.adyen.com/api-explorer/#/transfers/latest/post/transfers__reqParam_reference) from the `/transfers` request. If you haven't provided any, Adyen generates a unique reference.
+          type: string
+      required:
+      - reference
+      type: object
+    Link:
+      properties:
+        href:
+          type: string
+      type: object
+    InvalidField:
+      properties:
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
+          type: string
+        value:
+          description: The invalid value.
+          type: string
+      required:
+      - name
+      - value
+      - message
+      type: object
+  examples:
+    get-transactions-success-200:
+      summary: Response code - 200 OK
+      description: Example response for a list of transactions
+      value:
+        data:
+        - balancePlatform: YOUR_BALANCE_PLATFORM
+          creationDate: '2023-08-10T14:51:20+02:00'
+          id: EVJN42272224222B5JB8BRC84N686ZEUR
+          accountHolder:
+            description: Your description for the account holder
+            id: AH00000000000000000000001
+          amount:
+            currency: USD
+            value: -1000
+          balanceAccount:
+            description: Your description for the account holder
+            id: BA00000000000000000000001
+          bookingDate: '2023-08-10T14:51:33+02:00'
+          status: booked
+          transfer:
+            id: 3JNC3O5ZVFLLGV4B
+            reference: Your internal reference for the transfer
+          valueDate: '2023-08-10T14:51:20+02:00'
+        - balancePlatform: YOUR_BALANCE_PLATFORM
+          creationDate: '2023-08-10T15:34:31+02:00'
+          id: EVJN4227C224222B5JB8G3Q89N2NB6EUR
+          accountHolder:
+            description: Your description for the account holder
+            id: AH00000000000000000000001
+          amount:
+            currency: USD
+            value: 123
+          balanceAccount:
+            description: Your description for the account holder
+            id: BA00000000000000000000001
+          bookingDate: '2023-08-10T15:34:40+02:00'
+          status: booked
+          transfer:
+            id: 48POO45ZVG11166J
+            reference: Your internal reference for the transfer
+          valueDate: '2023-08-10T15:34:31+02:00'
+        - balancePlatform: YOUR_BALANCE_PLATFORM
+          creationDate: '2023-08-11T13:45:46+02:00'
+          id: EVJN4227C224222B5JBD3XHF8P3L8GUSD
+          accountHolder:
+            description: Your description for the account holder
+            id: AH00000000000000000000001
+          amount:
+            currency: USD
+            value: -10000
+          balanceAccount:
+            description: Your description for the account holder
+            id: BA00000000000000000000001
+          bookingDate: '2023-08-11T13:45:57+02:00'
+          status: booked
+          transfer:
+            id: 48RTTW5ZVT8KU9DV
+            reference: my-reference
+          valueDate: '2023-08-11T13:45:46+02:00'
+        - balancePlatform: YOUR_BALANCE_PLATFORM
+          creationDate: '2023-08-11T13:45:51+02:00'
+          id: EVJN42272224222B5JBD3XJGHF4J26USD
+          accountHolder:
+            description: Your description for the account holder
+            id: AH00000000000000000000001
+          amount:
+            currency: USD
+            value: 1000
+          balanceAccount:
+            description: Your description for the account holder
+            id: BA00000000000000000000001
+          bookingDate: '2023-08-11T13:45:58+02:00'
+          status: booked
+          transfer:
+            id: 48TYZO5ZVT8M1K47
+            reference: my-reference
+          valueDate: '2023-08-11T13:45:51+02:00'
+        _links:
+          next:
+            href: https://balanceplatform-api-test.adyen.com/btl/v4/transactions?balancePlatform=TestBalancePlatform&createdUntil=2023-08-20T13%3A07%3A40Z&createdSince=2023-08-10T10%3A50%3A40Z&cursor=S2B-c0p1N0tdN0l6RGhYK1YpM0lgOTUyMDlLXElyKE9LMCtyaFEuMj1NMHgidCsrJi1ZNnhqXCtqVi5JPGpRK1F2fCFqWzU33JTojSVNJc1J1VXhncS10QDd6JX9FQFl5Zn0uNyUvSXJNQTo
+    get-transactions-id-success-200:
+      summary: Response code - 200 OK
+      description: Example response for a transaction
+      value:
+        id: EVJN4227C224222B5JBDHPTD672M52EUR
+        amount:
+          value: -10000
+          currency: EUR
+        status: booked
+        transfer:
+          id: 48TYZO5ZVURJ2FCW
+          reference: Your internal reference for the transfer
+        valueDate: '2023-08-11T16:19:35+02:00'
+        bookingDate: '2023-08-11T16:19:39+02:00'
+        creationDate: '2023-08-11T16:19:35+02:00'
+        accountHolder:
+          id: AH00000000000000000000001
+          description: Your description of the account holder
+        balanceAccount:
+          id: BA00000000000000000000001
+          description: Your description of the balance account
+        balancePlatform: YOUR_BALANCE_PLATFORM
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

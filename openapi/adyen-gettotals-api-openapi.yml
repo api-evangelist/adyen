@@ -1,0 +1,283 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute Gettotals API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: Gettotals
+paths:
+  /gettotals:
+    post:
+      description: It conveys information from the Sale System related to the scope and the format of the totals to be computed by the POI System. Content of the Get Totals Request message.
+      summary: Adyen GetTotals Request
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetTotalsRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTotalsResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
+                    POIReconciliationID: 500
+                    TransactionTotals:
+                    - example_value
+          description: It conveys Information related to the Reconciliation transaction processed by the POI System. Content of the Reconciliation Response message.
+      tags:
+      - Gettotals
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    GetTotalsRequest:
+      type: object
+      description: It conveys information from the Sale System related to the scope and the format of the totals to be computed by the POI System. Content of the Get Totals Request message.
+      properties:
+        TotalDetails:
+          $ref: '#/components/schemas/TotalDetails'
+        TotalFilter:
+          $ref: '#/components/schemas/TotalFilter'
+    Response:
+      type: object
+      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
+      properties:
+        Result:
+          $ref: '#/components/schemas/Result'
+        ErrorCondition:
+          $ref: '#/components/schemas/ErrorCondition'
+        AdditionalResponse:
+          type: string
+          pattern: ^.+$
+          description: If present, the POI logs it for further examination.
+      required:
+      - Result
+    TotalDetails:
+      type: array
+      items:
+        type: string
+        enum:
+        - OperatorID
+        - POIID
+        - SaleID
+        - ShiftNumber
+        - TotalsGroupID
+    LoyaltyTotals:
+      type: object
+      description: Totals of the loyalty transaction during the reconciliation period.
+      properties:
+        TransactionType:
+          $ref: '#/components/schemas/TransactionType'
+        TransactionCount:
+          type: integer
+          description: Number of processed transaction during the period.
+        TransactionAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+          description: Sum of amount of processed transaction during the period.
+      required:
+      - TransactionType
+      - TransactionCount
+      - TransactionAmount
+    Result:
+      type: string
+      enum:
+      - Failure
+      - Partial
+      - Success
+    TransactionTotals:
+      type: object
+      description: If Result is Success, contains all the totals, classified as required by the Sale in the message request. At least, transaction totals are provided per Acquirer, Acquirer Settlement, and Card Brand. Result of the Sale to POI Reconciliation processing.
+      properties:
+        PaymentInstrumentType:
+          $ref: '#/components/schemas/PaymentInstrumentType'
+        AcquirerID:
+          type: integer
+          description: If available.
+        HostReconciliationID:
+          type: string
+          pattern: ^.+$
+          description: If available.
+        CardBrand:
+          type: string
+          pattern: ^.+$
+          description: If configured to present totals per card brand, and Response.Result is Success.
+        POIID:
+          type: string
+          pattern: ^.+$
+          description: If requested in the message request.
+        SaleID:
+          type: string
+          pattern: ^.+$
+          description: If requested in the message request.
+        OperatorID:
+          type: string
+          pattern: ^.+$
+          description: If requested in the message request.
+        ShiftNumber:
+          type: string
+          pattern: ^.+$
+          description: If requested in the message request.
+        TotalsGroupID:
+          type: string
+          pattern: ^.{1,16}$
+          description: If requested in the message request.
+        PaymentCurrency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+          description: Currency of a monetary amount.
+        PaymentTotals:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentTotals'
+        LoyaltyUnit:
+          $ref: '#/components/schemas/LoyaltyUnit'
+        LoyaltyCurrency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+          description: If LoyaltyUnit is Monetary.
+        LoyaltyTotals:
+          type: array
+          items:
+            $ref: '#/components/schemas/LoyaltyTotals'
+      required:
+      - PaymentInstrumentType
+    ErrorCondition:
+      type: string
+      enum:
+      - Aborted
+      - Busy
+      - Cancel
+      - DeviceOut
+      - InProgress
+      - InsertedCard
+      - InvalidCard
+      - LoggedOut
+      - MessageFormat
+      - NotAllowed
+      - NotFound
+      - PaymentRestriction
+      - Refusal
+      - UnavailableDevice
+      - UnavailableService
+      - UnreachableHost
+      - WrongPIN
+    PaymentTotals:
+      type: object
+      description: Totals of the payment transaction during the reconciliation period.
+      properties:
+        TransactionType:
+          $ref: '#/components/schemas/TransactionType'
+        TransactionCount:
+          type: integer
+          description: Number of processed transaction during the period.
+        TransactionAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+          description: Sum of amount of processed transaction during the period.
+      required:
+      - TransactionType
+      - TransactionCount
+      - TransactionAmount
+    GetTotalsResponse:
+      type: object
+      description: It conveys Information related to the Reconciliation transaction processed by the POI System. Content of the Reconciliation Response message.
+      properties:
+        Response:
+          $ref: '#/components/schemas/Response'
+        POIReconciliationID:
+          type: integer
+          description: Identification of the reconciliation period between Sale and POI.
+        TransactionTotals:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionTotals'
+      required:
+      - Response
+      - POIReconciliationID
+    TransactionType:
+      type: string
+      enum:
+      - Award
+      - CashAdvance
+      - CompletedDeffered
+      - CompletedReservation
+      - Credit
+      - Debit
+      - Declined
+      - Failed
+      - FirstReservation
+      - IssuerInstalment
+      - OneTimeReservation
+      - Rebate
+      - Redemption
+      - ReverseAward
+      - ReverseCredit
+      - ReverseDebit
+      - ReverseRebate
+      - ReverseRedemption
+      - UpdateReservation
+    PaymentInstrumentType:
+      type: string
+      enum:
+      - Card
+      - Cash
+      - Check
+      - Mobile
+      - StoredValue
+    LoyaltyUnit:
+      type: string
+      enum:
+      - Monetary
+      - Point
+    TotalFilter:
+      type: object
+      properties:
+        POIID:
+          type: string
+          pattern: ^.+$
+        SaleID:
+          type: string
+          pattern: ^.+$
+        OperatorID:
+          type: string
+          pattern: ^.+$
+        ShiftNumber:
+          type: string
+          pattern: ^.+$
+        TotalsGroupID:
+          type: string
+          pattern: ^.{1,16}$
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

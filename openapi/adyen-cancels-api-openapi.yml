@@ -1,0 +1,624 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute Cancels API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: Cancels
+paths:
+  /cancels:
+    post:
+      tags:
+      - Cancels
+      summary: Adyen Cancel an Authorised Payment
+      description: 'Cancels the authorisation on a payment that has not yet been [captured](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments/{paymentPspReference}/captures), and returns a unique reference for this request. You get the outcome of the request asynchronously, in a [**TECHNICAL_CANCEL** webhook](https://docs.adyen.com/online-payments/cancel#cancellation-webhook).
+
+
+        If you want to cancel a payment using the [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference), use the [`/payments/{paymentPspReference}/cancels`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments/{paymentPspReference}/cancels) endpoint instead.
+
+
+        If you want to cancel a payment but are not sure whether it has been captured, use the [`/payments/{paymentPspReference}/reversals`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments/{paymentPspReference}/reversals) endpoint instead.
+
+
+        For more information, refer to [Cancel](https://docs.adyen.com/online-payments/cancel).'
+      operationId: post-cancels
+      x-sortIndex: 3
+      x-methodName: cancelAuthorisedPayment
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              cancel-with-own-reference:
+                $ref: '#/components/examples/post-cancels-cancel-with-own-reference'
+            schema:
+              $ref: '#/components/schemas/StandalonePaymentCancelRequest'
+      parameters:
+      - $ref: '#/components/parameters/Idempotency-Key'
+      responses:
+        '201':
+          content:
+            application/json:
+              examples:
+                cancel-with-own-reference:
+                  $ref: '#/components/examples/post-cancels-cancel-with-own-reference-201'
+              schema:
+                $ref: '#/components/schemas/StandalonePaymentCancelResponse'
+          description: Created - the request has been fulfilled and has resulted in one or more new resources being created.
+          headers:
+            Idempotency-Key:
+              $ref: '#/components/headers/Idempotency-Key'
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Unprocessable Entity - a request validation error.
+          headers:
+            Idempotency-Key:
+              $ref: '#/components/headers/Idempotency-Key'
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /orders/cancel:
+    post:
+      tags:
+      - Cancels
+      summary: Adyen Cancel an Order
+      description: Cancels an order. Cancellation of an order results in an automatic rollback of all payments made in the order, either by canceling or refunding the payment, depending on the type of payment method.
+      operationId: post-orders-cancel
+      x-sortIndex: 3
+      x-methodName: cancelOrder
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              basic:
+                $ref: '#/components/examples/post-orders-cancel-basic'
+            schema:
+              $ref: '#/components/schemas/CancelOrderRequest'
+      parameters:
+      - $ref: '#/components/parameters/Idempotency-Key'
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                basic:
+                  $ref: '#/components/examples/post-orders-cancel-basic-200'
+              schema:
+                $ref: '#/components/schemas/CancelOrderResponse'
+          description: OK - the request has succeeded.
+          headers:
+            Idempotency-Key:
+              $ref: '#/components/headers/Idempotency-Key'
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Unprocessable Entity - a request validation error.
+          headers:
+            Idempotency-Key:
+              $ref: '#/components/headers/Idempotency-Key'
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /payments/{paymentPspReference}/cancels:
+    post:
+      tags:
+      - Cancels
+      summary: Adyen Cancel an Authorised Payment
+      description: 'Cancels the authorisation on a payment that has not yet been [captured](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments/paymentPspReference/captures), and returns a unique reference for this request. You get the outcome of the request asynchronously, in a [**CANCELLATION** webhook](https://docs.adyen.com/online-payments/cancel#cancellation-webhook).
+
+
+        If you want to cancel a payment but don''t have the [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference), use the [`/cancels`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/cancels) endpoint instead.
+
+
+        If you want to cancel a payment but are not sure whether it has been captured, use the [`/payments/{paymentPspReference}/reversals`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments/{paymentPspReference}/reversals) endpoint instead.
+
+
+        For more information, refer to [Cancel](https://docs.adyen.com/online-payments/cancel).'
+      operationId: post-payments-paymentPspReference-cancels
+      x-sortIndex: 2
+      x-methodName: cancelAuthorisedPaymentByPspReference
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              cancel-with-psp-reference:
+                $ref: '#/components/examples/post-payments-paymentPspReference-cancels-cancel-with-psp-reference'
+            schema:
+              $ref: '#/components/schemas/PaymentCancelRequest'
+      parameters:
+      - description: 'The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to cancel. '
+        name: paymentPspReference
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/Idempotency-Key'
+      responses:
+        '201':
+          content:
+            application/json:
+              examples:
+                cancel-with-psp-reference:
+                  $ref: '#/components/examples/post-payments-paymentPspReference-cancels-cancel-with-psp-reference-201'
+              schema:
+                $ref: '#/components/schemas/PaymentCancelResponse'
+          description: Created - the request has been fulfilled and has resulted in one or more new resources being created.
+          headers:
+            Idempotency-Key:
+              $ref: '#/components/headers/Idempotency-Key'
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Unprocessable Entity - a request validation error.
+          headers:
+            Idempotency-Key:
+              $ref: '#/components/headers/Idempotency-Key'
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    PaymentCancelResponse:
+      properties:
+        merchantAccount:
+          description: The merchant account that is used to process the payment.
+          type: string
+        paymentPspReference:
+          description: 'The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment to cancel. '
+          type: string
+        pspReference:
+          description: Adyen's 16-character reference associated with the cancel request.
+          type: string
+        reference:
+          description: Your reference for the cancel request.
+          type: string
+        status:
+          description: The status of your request. This will always have the value **received**.
+          enum:
+          - received
+          type: string
+      required:
+      - status
+      - merchantAccount
+      - paymentPspReference
+      - pspReference
+      type: object
+    CancelOrderRequest:
+      properties:
+        merchantAccount:
+          description: The merchant account identifier that orderData belongs to.
+          type: string
+        order:
+          description: The order request object that contains a pspReference that represents the order and the matching encrypted order data.
+          $ref: '#/components/schemas/EncryptedOrderData'
+      required:
+      - order
+      - merchantAccount
+      type: object
+    CancelOrderResponse:
+      properties:
+        pspReference:
+          description: A unique reference of the cancellation request.
+          type: string
+        resultCode:
+          description: 'The result of the cancellation request.
+
+
+            Possible values:
+
+
+            * **Received**  Indicates the cancellation has successfully been received by Adyen, and will be processed.'
+          enum:
+          - Received
+          type: string
+      required:
+      - pspReference
+      - resultCode
+      type: object
+    StandalonePaymentCancelResponse:
+      properties:
+        merchantAccount:
+          description: The merchant account that is used to process the payment.
+          type: string
+        paymentReference:
+          description: The [`reference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__reqParam_reference) of the payment to cancel.
+          type: string
+        pspReference:
+          description: Adyen's 16-character reference associated with the cancel request.
+          type: string
+        reference:
+          description: Your reference for the cancel request.
+          type: string
+        status:
+          description: The status of your request. This will always have the value **received**.
+          enum:
+          - received
+          type: string
+      required:
+      - status
+      - merchantAccount
+      - pspReference
+      - paymentReference
+      type: object
+    ApplicationInfo:
+      properties:
+        adyenLibrary:
+          description: Adyen-developed software, such as libraries and plugins, used to interact with the Adyen API. For example, Magento plugin, Java API library, etc.
+          $ref: '#/components/schemas/CommonField'
+        adyenPaymentSource:
+          description: Adyen-developed software to get payment details. For example, Checkout SDK, Secured Fields SDK, etc.
+          $ref: '#/components/schemas/CommonField'
+        externalPlatform:
+          description: Third-party developed platform used to initiate payment requests. For example, Magento, Zuora, etc.
+          $ref: '#/components/schemas/ExternalPlatform'
+        merchantApplication:
+          description: Merchant developed software, such as cashier application, used to interact with the Adyen API.
+          $ref: '#/components/schemas/CommonField'
+        merchantDevice:
+          description: Merchant device information.
+          $ref: '#/components/schemas/MerchantDevice'
+        shopperInteractionDevice:
+          description: Shopper interaction device, such as terminal, mobile device or web browser, to initiate payment requests.
+          $ref: '#/components/schemas/ShopperInteractionDevice'
+      type: object
+    CommonField:
+      properties:
+        name:
+          description: Name of the field. For example, Name of External Platform.
+          type: string
+        version:
+          description: Version of the field. For example, Version of External Platform.
+          type: string
+      type: object
+    MerchantDevice:
+      properties:
+        os:
+          description: Operating system running on the merchant device.
+          type: string
+        osVersion:
+          description: Version of the operating system on the merchant device.
+          type: string
+        reference:
+          description: Merchant device reference.
+          type: string
+      type: object
+    StandalonePaymentCancelRequest:
+      properties:
+        applicationInfo:
+          description: Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions).
+          $ref: '#/components/schemas/ApplicationInfo'
+        merchantAccount:
+          description: The merchant account that is used to process the payment.
+          type: string
+        paymentReference:
+          description: The [`reference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__reqParam_reference) of the payment that you want to cancel.
+          type: string
+        reference:
+          description: 'Your reference for the cancel request. Maximum length: 80 characters.'
+          type: string
+      required:
+      - merchantAccount
+      - paymentReference
+      type: object
+    EncryptedOrderData:
+      properties:
+        orderData:
+          description: The encrypted order data.
+          type: string
+        pspReference:
+          description: The `pspReference` that belongs to the order.
+          type: string
+      required:
+      - pspReference
+      - orderData
+      type: object
+    ServiceError:
+      properties:
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    ExternalPlatform:
+      properties:
+        integrator:
+          description: External platform integrator.
+          type: string
+        name:
+          description: Name of the field. For example, Name of External Platform.
+          type: string
+        version:
+          description: Version of the field. For example, Version of External Platform.
+          type: string
+      type: object
+    ShopperInteractionDevice:
+      properties:
+        locale:
+          description: Locale on the shopper interaction device.
+          type: string
+        os:
+          description: Operating system running on the shopper interaction device.
+          type: string
+        osVersion:
+          description: Version of the operating system on the shopper interaction device.
+          type: string
+      type: object
+    PaymentCancelRequest:
+      properties:
+        applicationInfo:
+          description: Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions).
+          $ref: '#/components/schemas/ApplicationInfo'
+        merchantAccount:
+          description: The merchant account that is used to process the payment.
+          type: string
+        reference:
+          description: 'Your reference for the cancel request. Maximum length: 80 characters.'
+          type: string
+      required:
+      - merchantAccount
+      type: object
+  examples:
+    generic-401:
+      summary: Response code 401. Unauthorized.
+      value:
+        status: 401
+        errorCode: '000'
+        message: HTTP Status Response - Unauthorized
+        errorType: security
+    post-cancels-cancel-with-own-reference:
+      summary: Cancel a payment using your own reference
+      description: Example cancel request with your own reference
+      value:
+        paymentReference: YOUR_UNIQUE_REFERENCE_FOR_THE_PAYMENT
+        reference: YOUR_UNIQUE_REFERENCE_FOR_THE_CANCELLATION
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+    generic-400:
+      summary: Response code 400. Bad request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: ", expected: }'
+        errorType: validation
+    post-orders-cancel-basic-200:
+      summary: Example response for request 'basic'
+      value:
+        pspReference: '8816178914079738'
+        resultCode: Received
+    generic-422:
+      summary: Response code 422. Unprocessable entity.
+      value:
+        status: 422
+        errorCode: '14_030'
+        message: Return URL is missing.
+        errorType: validation
+        pspReference: '8816118280275544'
+    generic-500:
+      summary: Response code 500. Internal server error.
+      value:
+        status: 500
+        errorCode: '905'
+        message: Payment details are not supported
+        errorType: configuration
+        pspReference: '8516091485743033'
+    post-cancels-cancel-with-own-reference-201:
+      summary: Payment cancellation requested
+      description: Example response when a payment cancellation was requested
+      value:
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        paymentReference: YOUR_UNIQUE_REFERENCE_FOR_THE_PAYMENT
+        reference: YOUR_UNIQUE_REFERENCE_FOR_THE_CANCELLATION
+        pspReference: 993617894906488A
+        status: received
+    post-orders-cancel-basic:
+      summary: Cancel an order
+      value:
+        order:
+          pspReference: '8815517812932012'
+          orderData: 823fh892f8f18f4...148f13f9f3f
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+    post-payments-paymentPspReference-cancels-cancel-with-psp-reference-201:
+      summary: Refund requested
+      description: Example response when a refund was requested
+      value:
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        paymentPspReference: 993617894903480A
+        reference: YOUR_UNIQUE_REFERENCE
+        pspReference: 993617894906488A
+        status: received
+    post-payments-paymentPspReference-cancels-cancel-with-psp-reference:
+      summary: Cancel payment using a PSP reference
+      description: Example cancel request with a PSP reference
+      value:
+        reference: YOUR_UNIQUE_REFERENCE
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+    generic-403:
+      summary: Response code 403. Forbidden.
+      value:
+        status: 403
+        errorCode: '901'
+        message: Invalid Merchant Account
+        errorType: security
+        pspReference: 881611827877203B
+  parameters:
+    Idempotency-Key:
+      description: A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).
+      example: 37ca9c97-d1d1-4c62-89e8-706891a563ed
+      name: Idempotency-Key
+      in: header
+      schema:
+        type: string
+  headers:
+    Idempotency-Key:
+      description: The idempotency key used for processing the request. Present if the key was provided in the request.
+      schema:
+        type: string
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

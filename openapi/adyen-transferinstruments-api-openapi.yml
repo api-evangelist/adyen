@@ -1,0 +1,1410 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute transferInstruments API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: transferInstruments
+paths:
+  /transferInstruments:
+    post:
+      tags:
+      - transferInstruments
+      summary: Adyen Create a Transfer Instrument
+      description: "Creates a transfer instrument. \n\nA transfer instrument is a bank account that a legal entity owns. Adyen performs verification checks on the transfer instrument as required by payment industry regulations. We inform you of the verification results through webhooks or API responses.\n\nWhen the transfer instrument passes the verification checks, you can start sending funds from the balance platform to the transfer instrument (such as payouts)."
+      x-addedInVersion: '1'
+      operationId: post-transferInstruments
+      x-sortIndex: 8
+      x-methodName: createTransferInstrument
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              createTransferInstrumentEUR:
+                $ref: '#/components/examples/post-transferInstruments-createTransferInstrumentEUR'
+              createTransferInstrumentUSD:
+                $ref: '#/components/examples/post-transferInstruments-createTransferInstrumentUSD'
+            schema:
+              $ref: '#/components/schemas/TransferInstrumentInfo'
+      parameters:
+      - description: Use a suberror code as your requested verification code. You can include one code at a time in your request header. Requested verification codes can only be used in your test environment.
+        example: '1_7002'
+        name: x-requested-verification-code
+        in: header
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                createTransferInstrumentEUR:
+                  $ref: '#/components/examples/post-transferInstruments-createTransferInstrumentEUR-200'
+                createTransferInstrumentUSD:
+                  $ref: '#/components/examples/post-transferInstruments-createTransferInstrumentUSD-200'
+              schema:
+                $ref: '#/components/schemas/TransferInstrument'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-transferInstruments400Example:
+                  summary: Default post-transferInstruments 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-transferInstruments401Example:
+                  summary: Default post-transferInstruments 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-transferInstruments403Example:
+                  summary: Default post-transferInstruments 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-transferInstruments422Example:
+                  summary: Default post-transferInstruments 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-transferInstruments500Example:
+                  summary: Default post-transferInstruments 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /transferInstruments/{id}:
+    delete:
+      tags:
+      - transferInstruments
+      summary: Adyen Delete a Transfer Instrument
+      description: Deletes a transfer instrument.
+      x-addedInVersion: '1'
+      operationId: delete-transferInstruments-id
+      x-sortIndex: 11
+      x-methodName: deleteTransferInstrument
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: The unique identifier of the transfer instrument to be deleted.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: 'No Content - look at the actual response code for the status of the request. '
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                delete-transferInstruments-id400Example:
+                  summary: Default delete-transferInstruments-id 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                delete-transferInstruments-id401Example:
+                  summary: Default delete-transferInstruments-id 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                delete-transferInstruments-id403Example:
+                  summary: Default delete-transferInstruments-id 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                delete-transferInstruments-id422Example:
+                  summary: Default delete-transferInstruments-id 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                delete-transferInstruments-id500Example:
+                  summary: Default delete-transferInstruments-id 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    get:
+      tags:
+      - transferInstruments
+      summary: Adyen Get a Transfer Instrument
+      description: Returns the details of a transfer instrument.
+      x-addedInVersion: '1'
+      operationId: get-transferInstruments-id
+      x-sortIndex: 9
+      x-methodName: getTransferInstrument
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: The unique identifier of the transfer instrument.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  $ref: '#/components/examples/get-transferInstruments-id-success-200'
+              schema:
+                $ref: '#/components/schemas/TransferInstrument'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-transferInstruments-id400Example:
+                  summary: Default get-transferInstruments-id 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-transferInstruments-id401Example:
+                  summary: Default get-transferInstruments-id 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-transferInstruments-id403Example:
+                  summary: Default get-transferInstruments-id 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-transferInstruments-id422Example:
+                  summary: Default get-transferInstruments-id 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-transferInstruments-id500Example:
+                  summary: Default get-transferInstruments-id 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    patch:
+      tags:
+      - transferInstruments
+      summary: Adyen Update a Transfer Instrument
+      description: Updates a transfer instrument.
+      x-addedInVersion: '1'
+      operationId: patch-transferInstruments-id
+      x-sortIndex: 10
+      x-methodName: updateTransferInstrument
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              updateTransferInstrument:
+                $ref: '#/components/examples/patch-transferInstruments-id-updateTransferInstrument'
+            schema:
+              $ref: '#/components/schemas/TransferInstrumentInfo'
+      parameters:
+      - description: The unique identifier of the transfer instrument.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: Use the requested verification code 0_0001 to resolve any suberrors associated with the transfer instrument. Requested verification codes can only be used in your test environment.
+        example: '0_0001'
+        name: x-requested-verification-code
+        in: header
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                updateTransferInstrument:
+                  $ref: '#/components/examples/patch-transferInstruments-id-updateTransferInstrument-200'
+              schema:
+                $ref: '#/components/schemas/TransferInstrument'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                patch-transferInstruments-id400Example:
+                  summary: Default patch-transferInstruments-id 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                patch-transferInstruments-id401Example:
+                  summary: Default patch-transferInstruments-id 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                patch-transferInstruments-id403Example:
+                  summary: Default patch-transferInstruments-id 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                patch-transferInstruments-id422Example:
+                  summary: Default patch-transferInstruments-id 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                patch-transferInstruments-id500Example:
+                  summary: Default patch-transferInstruments-id 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    TransferInstrument:
+      properties:
+        bankAccount:
+          description: Contains information about the legal entity's bank account.
+          $ref: '#/components/schemas/BankAccountInfo'
+        capabilities:
+          x-addedInVersion: '3'
+          additionalProperties:
+            $ref: '#/components/schemas/SupportingEntityCapability'
+          description: List of capabilities for this transfer instrument.
+          type: object
+        documentDetails:
+          x-addedInVersion: '2'
+          description: List of documents uploaded for the transfer instrument.
+          items:
+            $ref: '#/components/schemas/DocumentReference'
+          type: array
+        id:
+          description: The unique identifier of the transfer instrument.
+          readOnly: true
+          type: string
+        legalEntityId:
+          description: The unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/legalentity/latest/post/legalEntities#responses-200-id) that owns the transfer instrument.
+          type: string
+        problems:
+          x-addedInVersion: '3'
+          description: The verification errors related to capabilities for this transfer instrument.
+          items:
+            $ref: '#/components/schemas/CapabilityProblem'
+          type: array
+        type:
+          description: 'The type of transfer instrument.
+
+
+            Possible value: **bankAccount**.'
+          enum:
+          - bankAccount
+          - recurringDetail
+          type: string
+      required:
+      - legalEntityId
+      - type
+      - bankAccount
+      - id
+      type: object
+    CALocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 5- to 12-digit bank account number, without separators or whitespace.
+          maxLength: 12
+          minLength: 5
+          type: string
+        accountType:
+          default: checking
+          description: 'The bank account type.
+
+
+            Possible values: **checking** or **savings**. Defaults to **checking**.'
+          enum:
+          - checking
+          - savings
+          type: string
+        institutionNumber:
+          description: The 3-digit institution number, without separators or whitespace.
+          maxLength: 3
+          minLength: 3
+          type: string
+        transitNumber:
+          description: The 5-digit transit number, without separators or whitespace.
+          maxLength: 5
+          minLength: 5
+          type: string
+        type:
+          default: caLocal
+          description: '**caLocal**'
+          enum:
+          - caLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - institutionNumber
+      - transitNumber
+      type: object
+    NOLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 11-digit bank account number, without separators or whitespace.
+          maxLength: 11
+          minLength: 11
+          type: string
+        type:
+          default: noLocal
+          description: '**noLocal**'
+          enum:
+          - noLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      type: object
+    NZLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 15-16 digit bank account number. The first 2 digits are the bank number, the next 4 digits are the branch number, the next 7 digits are the account number, and the final 2-3 digits are the suffix.
+          maxLength: 16
+          minLength: 15
+          type: string
+        type:
+          default: nzLocal
+          description: '**nzLocal**'
+          enum:
+          - nzLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      type: object
+    NumberAndBicAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The bank account number, without separators or whitespace. The length and format depends on the bank or country.
+          maxLength: 34
+          type: string
+        additionalBankIdentification:
+          description: Additional identification codes of the bank. Some banks may require these identifiers for cross-border transfers.
+          $ref: '#/components/schemas/AdditionalBankIdentification'
+        bic:
+          description: The bank's 8- or 11-character BIC or SWIFT code.
+          maxLength: 11
+          minLength: 8
+          type: string
+        type:
+          default: numberAndBic
+          description: '**numberAndBic**'
+          enum:
+          - numberAndBic
+          type: string
+      required:
+      - type
+      - accountNumber
+      - bic
+      type: object
+    AdditionalBankIdentification:
+      properties:
+        code:
+          description: The value of the additional bank identification.
+          type: string
+        type:
+          description: "The type of additional bank identification, depending on the country.\n\nPossible values:\n\n * **gbSortCode**: The 6-digit [UK sort code](https://en.wikipedia.org/wiki/Sort_code), without separators or spaces\n * **usRoutingNumber**: The 9-digit [routing number](https://en.wikipedia.org/wiki/ABA_routing_transit_number), without separators or spaces."
+          enum:
+          - gbSortCode
+          - usRoutingNumber
+          type: string
+      type: object
+    CZLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: 'The 2- to 16-digit bank account number (Číslo účtu) in the following format:
+
+
+            - The optional prefix (předčíslí).
+
+
+            - The required second part (základní část) which must be at least two non-zero digits.
+
+
+            Examples:
+
+
+            - **19-123457** (with prefix)
+
+
+            - **123457** (without prefix)
+
+
+            - **000019-0000123457** (with prefix, normalized)
+
+
+            - **000000-0000123457** (without prefix, normalized)'
+          maxLength: 17
+          minLength: 2
+          type: string
+        bankCode:
+          description: The 4-digit bank code (Kód banky), without separators or whitespace.
+          maxLength: 4
+          minLength: 4
+          type: string
+        type:
+          default: czLocal
+          description: '**czLocal**'
+          enum:
+          - czLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - bankCode
+      type: object
+    CapabilityProblem:
+      properties:
+        entity:
+          $ref: '#/components/schemas/CapabilityProblemEntity'
+        verificationErrors:
+          items:
+            $ref: '#/components/schemas/VerificationError'
+          type: array
+      type: object
+    CapabilityProblemEntity-recursive:
+      properties:
+        documents:
+          description: List of document IDs corresponding to the verification errors from capabilities.
+          items:
+            type: string
+          type: array
+        id:
+          type: string
+        type:
+          enum:
+          - BankAccount
+          - Document
+          - LegalEntity
+          - product
+          type: string
+      required: []
+      type: object
+    BankAccountInfo:
+      properties:
+        accountIdentification:
+          x-addedInVersion: '3'
+          description: Identification of the bank account.
+          oneOf:
+          - $ref: '#/components/schemas/AULocalAccountIdentification'
+          - $ref: '#/components/schemas/CALocalAccountIdentification'
+          - $ref: '#/components/schemas/CZLocalAccountIdentification'
+          - $ref: '#/components/schemas/DKLocalAccountIdentification'
+          - $ref: '#/components/schemas/HKLocalAccountIdentification'
+          - $ref: '#/components/schemas/HULocalAccountIdentification'
+          - $ref: '#/components/schemas/IbanAccountIdentification'
+          - $ref: '#/components/schemas/NOLocalAccountIdentification'
+          - $ref: '#/components/schemas/NZLocalAccountIdentification'
+          - $ref: '#/components/schemas/NumberAndBicAccountIdentification'
+          - $ref: '#/components/schemas/PLLocalAccountIdentification'
+          - $ref: '#/components/schemas/SELocalAccountIdentification'
+          - $ref: '#/components/schemas/SGLocalAccountIdentification'
+          - $ref: '#/components/schemas/UKLocalAccountIdentification'
+          - $ref: '#/components/schemas/USLocalAccountIdentification'
+        accountType:
+          deprecated: true
+          x-deprecatedInVersion: '2'
+          description: The type of bank account.
+          type: string
+        bankName:
+          description: The name of the banking institution where the bank account is held.
+          type: string
+        countryCode:
+          description: The two-character [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code where the bank account is registered. For example, **NL**.
+          type: string
+        trustedSource:
+          description: Identifies if the bank account was created through [instant bank verification](https://docs.adyen.com/release-notes/platforms-and-financial-products#releaseNote=2023-05-08-hosted-onboarding).
+          readOnly: true
+          type: boolean
+      type: object
+    SGLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 4- to 19-digit bank account number, without separators or whitespace.
+          maxLength: 19
+          minLength: 4
+          type: string
+        bic:
+          description: The bank's 8- or 11-character BIC or SWIFT code.
+          maxLength: 11
+          minLength: 8
+          type: string
+        type:
+          default: sgLocal
+          description: '**sgLocal**'
+          enum:
+          - sgLocal
+          type: string
+      required:
+      - accountNumber
+      - bic
+      type: object
+    AULocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The bank account number, without separators or whitespace.
+          maxLength: 9
+          minLength: 5
+          type: string
+        bsbCode:
+          description: The 6-digit [Bank State Branch (BSB) code](https://en.wikipedia.org/wiki/Bank_state_branch), without separators or whitespace.
+          maxLength: 6
+          minLength: 6
+          type: string
+        type:
+          default: auLocal
+          description: '**auLocal**'
+          enum:
+          - auLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - bsbCode
+      type: object
+    DocumentReference:
+      properties:
+        active:
+          description: Identifies whether the document is active and used for checks.
+          type: boolean
+        description:
+          description: Your description for the document.
+          type: string
+        fileName:
+          description: Document name.
+          type: string
+        id:
+          description: The unique identifier of the resource.
+          type: string
+        modificationDate:
+          description: The modification date of the document.
+          format: date-time
+          type: string
+        pages:
+          description: List of document pages
+          items:
+            $ref: '#/components/schemas/DocumentPage'
+          type: array
+        type:
+          description: Type of document, used when providing an ID number or uploading a document.
+          type: string
+      type: object
+    SupportingEntityCapability:
+      properties:
+        allowed:
+          description: 'Indicates whether the capability is allowed for the supporting entity.
+
+
+            If a capability is allowed for a supporting entity but not for the parent legal entity, this means the legal entity has other supporting entities that failed verification.
+
+
+            **You can use the allowed supporting entity** regardless of the verification status of other supporting entities.'
+          readOnly: true
+          type: boolean
+        id:
+          description: 'Supporting entity reference '
+          readOnly: true
+          type: string
+        requested:
+          description: 'Indicates whether the supporting entity capability is requested. '
+          readOnly: true
+          type: boolean
+        verificationStatus:
+          description: 'The status of the verification checks for the capability of the supporting entity.
+
+
+            Possible values:
+
+
+            * **pending**: Adyen is running the verification.
+
+
+            * **invalid**: The verification failed. Check if the `errors` array contains more information.
+
+
+            * **valid**: The verification has been successfully completed.
+
+
+            * **rejected**: Adyen has verified the information, but found reasons to not allow the capability.
+
+            '
+          readOnly: true
+          type: string
+      type: object
+    DocumentPage:
+      properties:
+        pageName:
+          type: string
+        pageNumber:
+          format: int32
+          type: integer
+        type:
+          enum:
+          - BACK
+          - FRONT
+          - UNDEFINED
+          type: string
+      type: object
+    IbanAccountIdentification:
+      additionalProperties: false
+      properties:
+        iban:
+          description: The international bank account number as defined in the [ISO-13616](https://www.iso.org/standard/81090.html) standard.
+          type: string
+        type:
+          default: iban
+          description: '**iban**'
+          enum:
+          - iban
+          type: string
+      required:
+      - type
+      - iban
+      type: object
+    PLLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 26-digit bank account number ([Numer rachunku](https://pl.wikipedia.org/wiki/Numer_Rachunku_Bankowego)), without separators or whitespace.
+          maxLength: 26
+          minLength: 26
+          type: string
+        type:
+          default: plLocal
+          description: '**plLocal**'
+          enum:
+          - plLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      type: object
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    TransferInstrumentInfo:
+      properties:
+        bankAccount:
+          description: Contains information about the legal entity's bank account.
+          $ref: '#/components/schemas/BankAccountInfo'
+        legalEntityId:
+          description: The unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/legalentity/latest/post/legalEntities#responses-200-id) that owns the transfer instrument.
+          type: string
+        type:
+          description: 'The type of transfer instrument.
+
+
+            Possible value: **bankAccount**.'
+          enum:
+          - bankAccount
+          - recurringDetail
+          type: string
+      required:
+      - legalEntityId
+      - type
+      - bankAccount
+      type: object
+    DKLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 4-10 digits bank account number (Kontonummer) (without separators or whitespace).
+          maxLength: 10
+          minLength: 4
+          type: string
+        bankCode:
+          description: The 4-digit bank code (Registreringsnummer) (without separators or whitespace).
+          maxLength: 4
+          minLength: 4
+          type: string
+        type:
+          default: dkLocal
+          description: '**dkLocal**'
+          enum:
+          - dkLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - bankCode
+      type: object
+    VerificationError-recursive:
+      properties:
+        capabilities:
+          description: Contains key-value pairs that specify the actions that the legal entity can do in your platform. The key is a capability required for your integration. For example, **issueCard** for Issuing.The value is an object containing the settings for the capability.
+          items:
+            enum:
+            - acceptExternalFunding
+            - acceptPspFunding
+            - acceptTransactionInRestrictedCountries
+            - acceptTransactionInRestrictedCountriesCommercial
+            - acceptTransactionInRestrictedCountriesConsumer
+            - acceptTransactionInRestrictedIndustries
+            - acceptTransactionInRestrictedIndustriesCommercial
+            - acceptTransactionInRestrictedIndustriesConsumer
+            - acquiring
+            - atmWithdrawal
+            - atmWithdrawalCommercial
+            - atmWithdrawalConsumer
+            - atmWithdrawalInRestrictedCountries
+            - atmWithdrawalInRestrictedCountriesCommercial
+            - atmWithdrawalInRestrictedCountriesConsumer
+            - authorisedPaymentInstrumentUser
+            - getGrantOffers
+            - issueBankAccount
+            - issueCard
+            - issueCardCommercial
+            - issueCardConsumer
+            - localAcceptance
+            - payout
+            - payoutToTransferInstrument
+            - processing
+            - receiveFromBalanceAccount
+            - receiveFromPlatformPayments
+            - receiveFromThirdParty
+            - receiveFromTransferInstrument
+            - receiveGrants
+            - receivePayments
+            - sendToBalanceAccount
+            - sendToThirdParty
+            - sendToTransferInstrument
+            - thirdPartyFunding
+            - useCard
+            - useCardCommercial
+            - useCardConsumer
+            - useCardInRestrictedCountries
+            - useCardInRestrictedCountriesCommercial
+            - useCardInRestrictedCountriesConsumer
+            - useCardInRestrictedIndustries
+            - useCardInRestrictedIndustriesCommercial
+            - useCardInRestrictedIndustriesConsumer
+            - withdrawFromAtm
+            - withdrawFromAtmCommercial
+            - withdrawFromAtmConsumer
+            - withdrawFromAtmInRestrictedCountries
+            - withdrawFromAtmInRestrictedCountriesCommercial
+            - withdrawFromAtmInRestrictedCountriesConsumer
+            type: string
+          type: array
+        code:
+          description: The general error code.
+          type: string
+        message:
+          description: The general error message.
+          type: string
+        type:
+          description: The type of error.
+          enum:
+          - dataMissing
+          - dataReview
+          - invalidInput
+          - pendingStatus
+          - rejected
+          type: string
+        remediatingActions:
+          description: An object containing possible solutions to fix a verification error.
+          items:
+            $ref: '#/components/schemas/RemediatingAction'
+          type: array
+      required: []
+      type: object
+    RemediatingAction:
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      type: object
+    CapabilityProblemEntity:
+      properties:
+        documents:
+          description: List of document IDs corresponding to the verification errors from capabilities.
+          items:
+            type: string
+          type: array
+        id:
+          type: string
+        owner:
+          $ref: '#/components/schemas/CapabilityProblemEntity-recursive'
+        type:
+          enum:
+          - BankAccount
+          - Document
+          - LegalEntity
+          - product
+          type: string
+      type: object
+    USLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The bank account number, without separators or whitespace.
+          maxLength: 18
+          minLength: 2
+          type: string
+        accountType:
+          default: checking
+          description: 'The bank account type.
+
+
+            Possible values: **checking** or **savings**. Defaults to **checking**.'
+          enum:
+          - checking
+          - savings
+          type: string
+        routingNumber:
+          description: The 9-digit [routing number](https://en.wikipedia.org/wiki/ABA_routing_transit_number), without separators or whitespace.
+          maxLength: 9
+          minLength: 9
+          type: string
+        type:
+          default: usLocal
+          description: '**usLocal**'
+          enum:
+          - usLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - routingNumber
+      type: object
+    UKLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 8-digit bank account number, without separators or whitespace.
+          maxLength: 8
+          minLength: 8
+          type: string
+        sortCode:
+          description: The 6-digit [sort code](https://en.wikipedia.org/wiki/Sort_code), without separators or whitespace.
+          maxLength: 6
+          minLength: 6
+          type: string
+        type:
+          default: ukLocal
+          description: '**ukLocal**'
+          enum:
+          - ukLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - sortCode
+      type: object
+    SELocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 7- to 10-digit bank account number ([Bankkontonummer](https://sv.wikipedia.org/wiki/Bankkonto)), without the clearing number, separators, or whitespace.
+          maxLength: 10
+          minLength: 7
+          type: string
+        clearingNumber:
+          description: The 4- to 5-digit clearing number ([Clearingnummer](https://sv.wikipedia.org/wiki/Clearingnummer)), without separators or whitespace.
+          maxLength: 5
+          minLength: 4
+          type: string
+        type:
+          default: seLocal
+          description: '**seLocal**'
+          enum:
+          - seLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - clearingNumber
+      type: object
+    HKLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 9- to 15-character bank account number (alphanumeric), without separators or whitespace. Starts with the 3-digit branch code.
+          maxLength: 15
+          minLength: 9
+          type: string
+        clearingCode:
+          description: The 3-digit clearing code, without separators or whitespace.
+          maxLength: 3
+          minLength: 3
+          type: string
+        type:
+          default: hkLocal
+          description: '**hkLocal**'
+          enum:
+          - hkLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - clearingCode
+      type: object
+    HULocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 24-digit bank account number, without separators or whitespace.
+          maxLength: 24
+          minLength: 24
+          type: string
+        type:
+          default: huLocal
+          description: '**huLocal**'
+          enum:
+          - huLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      type: object
+    VerificationError:
+      properties:
+        capabilities:
+          description: Contains key-value pairs that specify the actions that the legal entity can do in your platform. The key is a capability required for your integration. For example, **issueCard** for Issuing.The value is an object containing the settings for the capability.
+          items:
+            enum:
+            - acceptExternalFunding
+            - acceptPspFunding
+            - acceptTransactionInRestrictedCountries
+            - acceptTransactionInRestrictedCountriesCommercial
+            - acceptTransactionInRestrictedCountriesConsumer
+            - acceptTransactionInRestrictedIndustries
+            - acceptTransactionInRestrictedIndustriesCommercial
+            - acceptTransactionInRestrictedIndustriesConsumer
+            - acquiring
+            - atmWithdrawal
+            - atmWithdrawalCommercial
+            - atmWithdrawalConsumer
+            - atmWithdrawalInRestrictedCountries
+            - atmWithdrawalInRestrictedCountriesCommercial
+            - atmWithdrawalInRestrictedCountriesConsumer
+            - authorisedPaymentInstrumentUser
+            - getGrantOffers
+            - issueBankAccount
+            - issueCard
+            - issueCardCommercial
+            - issueCardConsumer
+            - localAcceptance
+            - payout
+            - payoutToTransferInstrument
+            - processing
+            - receiveFromBalanceAccount
+            - receiveFromPlatformPayments
+            - receiveFromThirdParty
+            - receiveFromTransferInstrument
+            - receiveGrants
+            - receivePayments
+            - sendToBalanceAccount
+            - sendToThirdParty
+            - sendToTransferInstrument
+            - thirdPartyFunding
+            - useCard
+            - useCardCommercial
+            - useCardConsumer
+            - useCardInRestrictedCountries
+            - useCardInRestrictedCountriesCommercial
+            - useCardInRestrictedCountriesConsumer
+            - useCardInRestrictedIndustries
+            - useCardInRestrictedIndustriesCommercial
+            - useCardInRestrictedIndustriesConsumer
+            - withdrawFromAtm
+            - withdrawFromAtmCommercial
+            - withdrawFromAtmConsumer
+            - withdrawFromAtmInRestrictedCountries
+            - withdrawFromAtmInRestrictedCountriesCommercial
+            - withdrawFromAtmInRestrictedCountriesConsumer
+            type: string
+          type: array
+        code:
+          description: The general error code.
+          type: string
+        message:
+          description: The general error message.
+          type: string
+        remediatingActions:
+          description: An object containing possible solutions to fix a verification error.
+          items:
+            $ref: '#/components/schemas/RemediatingAction'
+          type: array
+        subErrors:
+          description: An array containing more granular information about the cause of the verification error.
+          items:
+            $ref: '#/components/schemas/VerificationError-recursive'
+          type: array
+        type:
+          description: The type of error.
+          enum:
+          - dataMissing
+          - dataReview
+          - invalidInput
+          - pendingStatus
+          - rejected
+          type: string
+      type: object
+  examples:
+    post-transferInstruments-createTransferInstrumentUSD-200:
+      summary: Bank account added
+      description: Example response for adding a bank account as a transfer instrument of a legal entity
+      value:
+        bankAccount:
+          accountIdentification:
+            type: usLocal
+            accountNumber: '0000000123'
+            accountType: checking
+            routingNumber: '121202211'
+          countryCode: US
+          trustedSource: false
+        legalEntityId: LE00000000000000000000001
+        type: bankAccount
+        capabilities:
+          sendToTransferInstrument:
+            allowed: false
+            requested: true
+            verificationStatus: pending
+        id: SE322JV223222F5GJVKHH8DTC
+    post-transferInstruments-createTransferInstrumentUSD:
+      summary: Add a USD bank account
+      description: Example request for creating a transfer instrument for USD
+      value:
+        legalEntityId: LE00000000000000000000001
+        type: bankAccount
+        bankAccount:
+          accountIdentification:
+            type: usLocal
+            accountNumber: '0000000123'
+            routingNumber: '121202211'
+    patch-transferInstruments-id-updateTransferInstrument-200:
+      summary: Transfer instrument updated
+      description: Example response for updating a transfer instrument
+      value:
+        bankAccount:
+          accountIdentification:
+            type: iban
+            iban: NL02ABNA0123456789
+          countryCode: NL
+        legalEntityId: LE00000000000000000000001
+        type: bankAccount
+        id: SE322KH223222F5GXZFNM3BGP
+    post-transferInstruments-createTransferInstrumentEUR:
+      summary: Add a EUR bank account
+      description: Example request for creating a transfer instrument for EUR
+      value:
+        legalEntityId: LE00000000000000000000001
+        type: bankAccount
+        bankAccount:
+          accountIdentification:
+            type: iban
+            iban: NL62ABNA0000000123
+    patch-transferInstruments-id-updateTransferInstrument:
+      summary: Update a transfer instrument
+      description: Example request for updating a transfer instrument
+      value:
+        bankAccount:
+          accountIdentification:
+            type: iban
+            iban: NL02ABNA0123456789
+        legalEntityId: LE00000000000000000000001
+        type: bankAccount
+    get-transferInstruments-id-success-200:
+      summary: Details of a transfer instrument
+      description: Example response when getting the details of a new transfer instrument
+      value:
+        bankAccount:
+          accountIdentification:
+            type: iban
+            iban: NL62ABNA0000000123
+          countryCode: NL
+          currencyCode: EUR
+        legalEntityId: LE00000000000000000000001
+        type: bankAccount
+        capabilities:
+          sendToTransferInstrument:
+            allowed: false
+            requested: true
+            verificationStatus: pending
+        id: SE322KH223222F5GXZFNM3BGP
+    post-transferInstruments-createTransferInstrumentEUR-200:
+      summary: Bank account added
+      description: Example response for adding a bank account as a transfer instrument of a legal entity
+      value:
+        bankAccount:
+          accountIdentification:
+            type: iban
+            iban: NL62ABNA0000000123
+          countryCode: NL
+          trustedSource: false
+        legalEntityId: LE00000000000000000000001
+        type: bankAccount
+        capabilities:
+          sendToTransferInstrument:
+            allowed: false
+            requested: true
+            verificationStatus: pending
+        id: SE322KH223222F5GXZFNM3BGP
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

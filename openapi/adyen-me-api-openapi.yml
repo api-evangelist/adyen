@@ -1,0 +1,1080 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute Me API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: Me
+paths:
+  /me:
+    get:
+      tags:
+      - Me
+      summary: Adyen Get API Credential Details
+      description: 'Returns your [API credential](https://docs.adyen.com/development-resources/api-credentials) details based on the API Key you used in the request.
+
+
+        You can make this request with any of the Management API roles.'
+      operationId: get-me
+      x-sortIndex: 0
+      x-methodName: getApiCredentialDetails
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeApiCredential'
+              examples:
+                get-me200Example:
+                  summary: Default get-me 200 response
+                  x-microcks-default: true
+                  value:
+                    _links: https://example.com/resource
+                    active: true
+                    allowedIpAddresses:
+                    - example_value
+                    allowedOrigins:
+                    - example_value
+                    associatedMerchantAccounts:
+                    - example_value
+                    clientKey: example_value
+                    companyName: Example Name
+                    description: A sample description for this resource.
+                    id: '500123'
+                    roles:
+                    - example_value
+                    username: Example Name
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-me400Example:
+                  summary: Default get-me 400 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-me401Example:
+                  summary: Default get-me 401 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-me403Example:
+                  summary: Default get-me 403 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-me422Example:
+                  summary: Default get-me 422 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-me500Example:
+                  summary: Default get-me 500 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /me/allowedOrigins:
+    get:
+      tags:
+      - Me
+      summary: Adyen Get Allowed Origins
+      description: 'Returns the list of [allowed origins](https://docs.adyen.com/development-resources/client-side-authentication#allowed-origins) of your [API credential](https://docs.adyen.com/development-resources/api-credentials) based on the API key you used in the request.
+
+
+        You can make this request with any of the Management API roles.'
+      operationId: get-me-allowedOrigins
+      x-sortIndex: 0
+      x-methodName: getAllowedOrigins
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllowedOriginsResponse'
+              examples:
+                get-me-allowedOrigins200Example:
+                  summary: Default get-me-allowedOrigins 200 response
+                  x-microcks-default: true
+                  value:
+                    data:
+                    - example_value
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-me-allowedOrigins400Example:
+                  summary: Default get-me-allowedOrigins 400 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-me-allowedOrigins401Example:
+                  summary: Default get-me-allowedOrigins 401 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-me-allowedOrigins403Example:
+                  summary: Default get-me-allowedOrigins 403 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-me-allowedOrigins422Example:
+                  summary: Default get-me-allowedOrigins 422 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-me-allowedOrigins500Example:
+                  summary: Default get-me-allowedOrigins 500 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      tags:
+      - Me
+      summary: Adyen Add Allowed Origin
+      description: 'Adds an allowed origin to the list of [allowed origins](https://docs.adyen.com/development-resources/client-side-authentication#allowed-origins) of your API credential.
+
+        The API key from the request is used to identify the [API credential](https://docs.adyen.com/development-resources/api-credentials).
+
+
+        You can make this request with any of the Management API roles.'
+      operationId: post-me-allowedOrigins
+      x-sortIndex: 0
+      x-methodName: addAllowedOrigin
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAllowedOriginRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllowedOrigin'
+              examples:
+                post-me-allowedOrigins200Example:
+                  summary: Default post-me-allowedOrigins 200 response
+                  x-microcks-default: true
+                  value:
+                    _links: https://example.com/resource
+                    domain: https://adyen.com
+                    id: '500123'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-me-allowedOrigins400Example:
+                  summary: Default post-me-allowedOrigins 400 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-me-allowedOrigins401Example:
+                  summary: Default post-me-allowedOrigins 401 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-me-allowedOrigins403Example:
+                  summary: Default post-me-allowedOrigins 403 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-me-allowedOrigins422Example:
+                  summary: Default post-me-allowedOrigins 422 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-me-allowedOrigins500Example:
+                  summary: Default post-me-allowedOrigins 500 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /me/allowedOrigins/{originId}:
+    delete:
+      tags:
+      - Me
+      summary: Adyen Remove Allowed Origin
+      description: 'Removes the [allowed origin](https://docs.adyen.com/development-resources/client-side-authentication#allowed-origins) specified in the path.
+
+        The API key from the request is used to identify the [API credential](https://docs.adyen.com/development-resources/api-credentials).
+
+
+        You can make this request with any of the Management API roles.'
+      operationId: delete-me-allowedOrigins-originId
+      x-sortIndex: 0
+      x-methodName: removeAllowedOrigin
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: Unique identifier of the allowed origin.
+        name: originId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: 'No Content - look at the actual response code for the status of the request. '
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                delete-me-allowedOrigins-originId400Example:
+                  summary: Default delete-me-allowedOrigins-originId 400 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                delete-me-allowedOrigins-originId401Example:
+                  summary: Default delete-me-allowedOrigins-originId 401 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                delete-me-allowedOrigins-originId403Example:
+                  summary: Default delete-me-allowedOrigins-originId 403 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                delete-me-allowedOrigins-originId422Example:
+                  summary: Default delete-me-allowedOrigins-originId 422 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                delete-me-allowedOrigins-originId500Example:
+                  summary: Default delete-me-allowedOrigins-originId 500 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    get:
+      tags:
+      - Me
+      summary: Adyen Get Allowed Origin Details
+      description: 'Returns the details of the [allowed origin](https://docs.adyen.com/development-resources/client-side-authentication#allowed-origins) specified in the path.
+
+        The API key from the request is used to identify the [API credential](https://docs.adyen.com/development-resources/api-credentials).
+
+
+        You can make this request with any of the Management API roles.'
+      operationId: get-me-allowedOrigins-originId
+      x-sortIndex: 0
+      x-methodName: getAllowedOriginDetails
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: Unique identifier of the allowed origin.
+        name: originId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllowedOrigin'
+              examples:
+                get-me-allowedOrigins-originId200Example:
+                  summary: Default get-me-allowedOrigins-originId 200 response
+                  x-microcks-default: true
+                  value:
+                    _links: https://example.com/resource
+                    domain: https://adyen.com
+                    id: '500123'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-me-allowedOrigins-originId400Example:
+                  summary: Default get-me-allowedOrigins-originId 400 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-me-allowedOrigins-originId401Example:
+                  summary: Default get-me-allowedOrigins-originId 401 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-me-allowedOrigins-originId403Example:
+                  summary: Default get-me-allowedOrigins-originId 403 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-me-allowedOrigins-originId422Example:
+                  summary: Default get-me-allowedOrigins-originId 422 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                get-me-allowedOrigins-originId500Example:
+                  summary: Default get-me-allowedOrigins-originId 500 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /me/generateClientKey:
+    post:
+      tags:
+      - Me
+      summary: Adyen Generate a Client Key
+      description: 'Generates a new [client key](https://docs.adyen.com/development-resources/client-side-authentication/) used to authenticate requests from your payment environment.
+
+        You can use the new client key a few minutes after generating it.
+
+        The old client key stops working 24 hours after generating a new one.
+
+
+        To make this request, your API credential must have the following [role](https://docs.adyen.com/development-resources/api-credentials#api-permissions):
+
+        * Management API—API credentials read and write'
+      operationId: post-me-generateClientKey
+      x-sortIndex: 0
+      x-methodName: generateClientKey
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateClientKeyResponse'
+              examples:
+                post-me-generateClientKey200Example:
+                  summary: Default post-me-generateClientKey 200 response
+                  x-microcks-default: true
+                  value:
+                    clientKey: example_value
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-me-generateClientKey400Example:
+                  summary: Default post-me-generateClientKey 400 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-me-generateClientKey401Example:
+                  summary: Default post-me-generateClientKey 401 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-me-generateClientKey403Example:
+                  summary: Default post-me-generateClientKey 403 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-me-generateClientKey422Example:
+                  summary: Default post-me-generateClientKey 422 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+              examples:
+                post-me-generateClientKey500Example:
+                  summary: Default post-me-generateClientKey 500 response
+                  x-microcks-default: true
+                  value:
+                    detail: example_value
+                    errorCode: CODE123
+                    instance: example_value
+                    invalidFields:
+                    - example_value
+                    requestId: '500123'
+                    response: example_value
+                    status: 500
+                    title: example_value
+                    type: standard
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    MeApiCredential:
+      properties:
+        _links:
+          description: References to resources linked to the API credential.
+          $ref: '#/components/schemas/ApiCredentialLinks'
+        active:
+          description: Indicates if the API credential is enabled. Must be set to **true** to use the credential in your integration.
+          type: boolean
+        allowedIpAddresses:
+          description: 'List of IP addresses from which your client can make requests.
+
+
+            If the list is empty, we allow requests from any IP.
+
+            If the list is not empty and we get a request from an IP which is not on the list, you get a security error.'
+          items:
+            type: string
+          type: array
+        allowedOrigins:
+          description: List containing the [allowed origins](https://docs.adyen.com/development-resources/client-side-authentication#allowed-origins) linked to the API credential.
+          items:
+            $ref: '#/components/schemas/AllowedOrigin'
+          type: array
+        associatedMerchantAccounts:
+          description: "List of merchant accounts that the API credential has explicit access to. \n If the credential has access to a company, this implies access to all merchant accounts and no merchants for that company will be included."
+          items:
+            type: string
+          type: array
+        clientKey:
+          description: Public key used for [client-side authentication](https://docs.adyen.com/development-resources/client-side-authentication). The client key is required for Drop-in and Components integrations.
+          type: string
+        companyName:
+          description: Name of the company linked to the API credential.
+          type: string
+        description:
+          description: Description of the API credential.
+          maxLength: 50
+          type: string
+        id:
+          description: Unique identifier of the API credential.
+          type: string
+        roles:
+          description: List of [roles](https://docs.adyen.com/development-resources/api-credentials#roles-1) for the API credential.
+          items:
+            type: string
+          type: array
+        username:
+          description: The name of the [API credential](https://docs.adyen.com/development-resources/api-credentials), for example **ws@Company.TestCompany**.
+          type: string
+      required:
+      - id
+      - username
+      - clientKey
+      - allowedIpAddresses
+      - roles
+      - active
+      type: object
+    GenerateClientKeyResponse:
+      properties:
+        clientKey:
+          description: Generated client key
+          type: string
+      required:
+      - clientKey
+      type: object
+    LinksElement:
+      properties:
+        href:
+          type: string
+      type: object
+    RestServiceError:
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+        errorCode:
+          description: A code that identifies the problem type.
+          type: string
+        instance:
+          description: A unique URI that identifies the specific occurrence of the problem.
+          type: string
+        invalidFields:
+          description: Detailed explanation of each validation error, when applicable.
+          items:
+            $ref: '#/components/schemas/InvalidField'
+          type: array
+        requestId:
+          description: A unique reference for the request, essentially the same as `pspReference`.
+          type: string
+        response:
+          description: JSON response payload.
+          $ref: '#/components/schemas/JSONObject'
+        status:
+          description: The HTTP status code.
+          format: int32
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type.
+          type: string
+        type:
+          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
+          type: string
+      required:
+      - type
+      - errorCode
+      - title
+      - detail
+      - status
+      type: object
+    AllowedOriginsResponse:
+      properties:
+        data:
+          description: List of allowed origins.
+          items:
+            $ref: '#/components/schemas/AllowedOrigin'
+          type: array
+      type: object
+    JSONObject:
+      type: object
+    CreateAllowedOriginRequest:
+      properties:
+        _links:
+          description: References to resources linked to the allowed origin.
+          $ref: '#/components/schemas/Links'
+        domain:
+          description: Domain of the allowed origin.
+          example: https://adyen.com
+          type: string
+        id:
+          description: Unique identifier of the allowed origin.
+          type: string
+      required:
+      - domain
+      type: object
+    Links:
+      properties:
+        self:
+          description: Link to the resource itself.
+          $ref: '#/components/schemas/LinksElement'
+      required:
+      - self
+      type: object
+    AllowedOrigin:
+      properties:
+        _links:
+          description: References to resources linked to the allowed origin.
+          $ref: '#/components/schemas/Links'
+        domain:
+          description: Domain of the allowed origin.
+          example: https://adyen.com
+          type: string
+        id:
+          description: Unique identifier of the allowed origin.
+          type: string
+      required:
+      - domain
+      type: object
+    ApiCredentialLinks:
+      properties:
+        allowedOrigins:
+          description: List of allowed origins.
+          $ref: '#/components/schemas/LinksElement'
+        company:
+          description: Company account that the API credential is linked to. Only present for company-level webhooks.
+          $ref: '#/components/schemas/LinksElement'
+        generateApiKey:
+          description: 'Generates a new API key. When you generate a new one, the existing key remains valid for 24 hours. '
+          $ref: '#/components/schemas/LinksElement'
+        generateClientKey:
+          description: Generates a new client key, used to authenticate client-side requests. When you generate a new one, the existing key remains valid for 24 hours.
+          $ref: '#/components/schemas/LinksElement'
+        merchant:
+          description: The merchant account that the API credential is linked to. Only present for merchant-level API credentials.
+          $ref: '#/components/schemas/LinksElement'
+        self:
+          description: Link to the resource itself.
+          $ref: '#/components/schemas/LinksElement'
+      required:
+      - self
+      type: object
+    InvalidField:
+      properties:
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
+          type: string
+        value:
+          description: The invalid value.
+          type: string
+      required:
+      - name
+      - value
+      - message
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

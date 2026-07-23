@@ -1,0 +1,630 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute Tax API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: Tax
+paths:
+  /getTaxForm:
+    post:
+      tags:
+      - Tax
+      summary: Adyen Get a Tax Form
+      description: Generates a tax form for account holders operating in the US. For more information, refer to [Providing tax forms](https://docs.adyen.com/marketplaces-and-platforms/classic/tax-forms).
+      operationId: post-getTaxForm
+      x-groupName: Account holders
+      x-sortIndex: 8
+      x-methodName: getTaxForm
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              basic:
+                $ref: '#/components/examples/post-getTaxForm-basic'
+            schema:
+              $ref: '#/components/schemas/GetTaxFormRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTaxFormResponse'
+              examples:
+                post-getTaxForm200Example:
+                  summary: Default post-getTaxForm 200 response
+                  x-microcks-default: true
+                  value:
+                    content: example_value
+                    contentType: standard
+                    invalidFields:
+                    - example_value
+                    pspReference: REF-001
+                    resultCode: CODE123
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getTaxForm401Example:
+                  summary: Default post-getTaxForm 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getTaxForm422Example:
+                  summary: Default post-getTaxForm 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-getTaxForm500Example:
+                  summary: Default post-getTaxForm 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /accountHolders/{id}/taxForms:
+    get:
+      tags:
+      - Tax
+      summary: Adyen Get a Tax Form
+      description: Generates a tax form for account holders operating in the US. For more information, refer to [Providing tax forms](https://docs.adyen.com/marketplaces-and-platforms/us-tax-forms/).
+      x-addedInVersion: '2'
+      operationId: get-accountHolders-id-taxForms
+      x-sortIndex: 5
+      x-methodName: getTaxForm
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: The unique identifier of the account holder.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The type of tax form you want to retrieve. Accepted values are **US1099k** and **US1099nec**
+        name: formType
+        in: query
+        required: true
+        schema:
+          x-enum:
+          - value: US1099k
+          - value: US1099nec
+          enum:
+          - US1099k
+          - US1099nec
+          type: string
+      - description: The tax year in YYYY format for the tax form you want to retrieve
+        name: year
+        in: query
+        required: true
+        schema:
+          format: int32
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  $ref: '#/components/examples/get-accountHolders-id-taxForms-success-200'
+              schema:
+                $ref: '#/components/schemas/GetTaxFormResponse_2'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400_2'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403_2'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  examples:
+    generic-400_2:
+      summary: Response code - 400 Bad request
+      value:
+        type: https://docs.adyen.com/errors/general/bad-request
+        title: Bad request
+        status: 400
+        detail: Empty input which would have resulted in a null result.
+        errorCode: '00_400'
+    generic-500:
+      summary: Response code - 500 Internal Server Error
+      value:
+        type: https://docs.adyen.com/errors/general/internal
+        title: An internal error happened
+        status: 500
+        detail: Unrecoverable error while trying to create payment instrument
+        requestId: 1WAF555PLWNTLYOQ
+        errorCode: '00_500'
+    generic-401:
+      summary: Response code - 401 Unauthorized
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Unauthorized
+        status: 401
+        detail: Not authorized to access this service.
+        errorCode: '00_401'
+    generic-422:
+      summary: Response code - 422 Unprocessable Entity.
+      value:
+        type: https://docs.adyen.com/errors/general/invalid-field-value
+        title: Invalid Payment Instrument information provided
+        status: 422
+        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
+        requestId: 1W1UI15PLVGC9V8O
+        errorCode: '30_031'
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
+    get-accountHolders-id-taxForms-success-200:
+      summary: Tax form retrieved for an account holder
+      description: Example response when retrieving a tax form for an account holder
+      value:
+        content: JVBERi0xLjcKJcfsj6IKJSVJbnZvY2F0aW9uOiBwYXRoL2dzd2luNjQuZXhlIC1kRGlzcGxh
+        contentType: application/pdf
+    generic-403:
+      summary: Response code 401. Forbidden.
+      value:
+        status: 403
+        errorCode: '10_003'
+        message: Failed to authorize user
+        errorType: security
+    generic-403_2:
+      summary: Response code - 403 Forbidden.
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Forbidden
+        status: 403
+        detail: Not the right permission to access this service.
+        errorCode: '00_403'
+    post-getTaxForm-basic:
+      summary: Get a tax form
+      value:
+        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
+        formType: 1099-K
+        year: 2020
+  schemas:
+    ErrorFieldType:
+      properties:
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
+      type: object
+    FieldType:
+      properties:
+        field:
+          description: The full name of the property.
+          type: string
+        fieldName:
+          description: The type of the field.
+          enum:
+          - accountCode
+          - accountHolderCode
+          - accountHolderDetails
+          - accountNumber
+          - accountStateType
+          - accountStatus
+          - accountType
+          - address
+          - balanceAccount
+          - balanceAccountActive
+          - balanceAccountCode
+          - balanceAccountId
+          - bankAccount
+          - bankAccountCode
+          - bankAccountName
+          - bankAccountUUID
+          - bankBicSwift
+          - bankCity
+          - bankCode
+          - bankName
+          - bankStatement
+          - branchCode
+          - businessContact
+          - cardToken
+          - checkCode
+          - city
+          - companyRegistration
+          - constitutionalDocument
+          - controller
+          - country
+          - countryCode
+          - currency
+          - currencyCode
+          - dateOfBirth
+          - description
+          - destinationAccountCode
+          - document
+          - documentContent
+          - documentExpirationDate
+          - documentIssuerCountry
+          - documentIssuerState
+          - documentName
+          - documentNumber
+          - documentType
+          - doingBusinessAs
+          - drivingLicence
+          - drivingLicenceBack
+          - drivingLicenceFront
+          - drivingLicense
+          - email
+          - firstName
+          - formType
+          - fullPhoneNumber
+          - gender
+          - hopWebserviceUser
+          - houseNumberOrName
+          - iban
+          - idCard
+          - idCardBack
+          - idCardFront
+          - idNumber
+          - identityDocument
+          - individualDetails
+          - infix
+          - jobTitle
+          - lastName
+          - lastReviewDate
+          - legalArrangement
+          - legalArrangementCode
+          - legalArrangementEntity
+          - legalArrangementEntityCode
+          - legalArrangementLegalForm
+          - legalArrangementMember
+          - legalArrangementMembers
+          - legalArrangementName
+          - legalArrangementReference
+          - legalArrangementRegistrationNumber
+          - legalArrangementTaxNumber
+          - legalArrangementType
+          - legalBusinessName
+          - legalEntity
+          - legalEntityType
+          - logo
+          - merchantAccount
+          - merchantCategoryCode
+          - merchantHouseNumber
+          - merchantReference
+          - microDeposit
+          - name
+          - nationality
+          - originalReference
+          - ownerCity
+          - ownerCountryCode
+          - ownerDateOfBirth
+          - ownerHouseNumberOrName
+          - ownerName
+          - ownerPostalCode
+          - ownerState
+          - ownerStreet
+          - passport
+          - passportNumber
+          - payoutMethod
+          - payoutMethodCode
+          - payoutSchedule
+          - pciSelfAssessment
+          - personalData
+          - phoneCountryCode
+          - phoneNumber
+          - postalCode
+          - primaryCurrency
+          - reason
+          - registrationNumber
+          - returnUrl
+          - schedule
+          - shareholder
+          - shareholderCode
+          - shareholderCodeAndSignatoryCode
+          - shareholderCodeOrSignatoryCode
+          - shareholderType
+          - shareholderTypes
+          - shopperInteraction
+          - signatory
+          - signatoryCode
+          - socialSecurityNumber
+          - sourceAccountCode
+          - splitAccount
+          - splitConfigurationUUID
+          - splitCurrency
+          - splitValue
+          - splits
+          - stateOrProvince
+          - status
+          - stockExchange
+          - stockNumber
+          - stockTicker
+          - store
+          - storeDetail
+          - storeName
+          - storeReference
+          - street
+          - taxId
+          - tier
+          - tierNumber
+          - transferCode
+          - ultimateParentCompany
+          - ultimateParentCompanyAddressDetails
+          - ultimateParentCompanyAddressDetailsCountry
+          - ultimateParentCompanyBusinessDetails
+          - ultimateParentCompanyBusinessDetailsLegalBusinessName
+          - ultimateParentCompanyBusinessDetailsRegistrationNumber
+          - ultimateParentCompanyCode
+          - ultimateParentCompanyStockExchange
+          - ultimateParentCompanyStockNumber
+          - ultimateParentCompanyStockNumberOrStockTicker
+          - ultimateParentCompanyStockTicker
+          - unknown
+          - value
+          - verificationType
+          - virtualAccount
+          - visaNumber
+          - webAddress
+          - year
+          type: string
+        shareholderCode:
+          description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
+          type: string
+      type: object
+    RestServiceError:
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+        errorCode:
+          description: A code that identifies the problem type.
+          type: string
+        instance:
+          description: A unique URI that identifies the specific occurrence of the problem.
+          type: string
+        invalidFields:
+          description: Detailed explanation of each validation error, when applicable.
+          items:
+            $ref: '#/components/schemas/InvalidField'
+          type: array
+        requestId:
+          description: A unique reference for the request, essentially the same as `pspReference`.
+          type: string
+        response:
+          description: JSON response payload.
+          $ref: '#/components/schemas/JSONObject'
+        status:
+          description: The HTTP status code.
+          format: int32
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type.
+          type: string
+        type:
+          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
+          type: string
+      required:
+      - type
+      - errorCode
+      - title
+      - detail
+      - status
+      type: object
+    GetTaxFormResponse_2:
+      properties:
+        content:
+          description: The content of the tax form in Base64 format.
+          format: byte
+          type: string
+        contentType:
+          description: 'The content type of the tax form.
+
+
+            Possible values:
+
+            *  **application/pdf**
+
+
+            '
+          enum:
+          - application/pdf
+          type: string
+      required:
+      - content
+      type: object
+    GetTaxFormResponse:
+      properties:
+        content:
+          description: The content of the tax form in the Base64 binary format.
+          format: byte
+          type: string
+        contentType:
+          description: The content type of the tax form.
+          type: string
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+      type: object
+    GetTaxFormRequest:
+      properties:
+        accountHolderCode:
+          description: The account holder code you provided when you created the account holder.
+          type: string
+        formType:
+          description: Type of the requested tax form. For example, 1099-K.
+          type: string
+        year:
+          description: Applicable tax year in the YYYY format.
+          format: int32
+          type: integer
+      required:
+      - accountHolderCode
+      - formType
+      - year
+      type: object
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    InvalidField:
+      properties:
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
+          type: string
+        value:
+          description: The invalid value.
+          type: string
+      required:
+      - name
+      - value
+      - message
+      type: object
+    JSONObject:
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

@@ -1,0 +1,350 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute Enableservice API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: Enableservice
+paths:
+  /enableservice:
+    post:
+      description: It conveys the services that will be enabled for the  POI Terminal without the request of the Sale System, and a possible invitation for the Customer to start the services. Content of the Enable Service Request message.
+      summary: Adyen EnableService Request
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnableServiceRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnableServiceResponse'
+              examples:
+                operation200Example:
+                  summary: Default operation 200 response
+                  x-microcks-default: true
+                  value:
+                    Response: example_value
+          description: It conveys the result of the Enable Service processing. Content of the Enable Service Response message.
+      tags:
+      - Enableservice
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    DisplayOutput:
+      type: object
+      description: It contains a complete display operation for a Display or an Input Device type. For the Input Devices, Diagnosis and EnableService, ResponseRequiredFlag and MinimumDisplayTime shall be absent. Information to display and the way to process the display.
+      properties:
+        ResponseRequiredFlag:
+          type: boolean
+          default: true
+          description: Request of a message response.
+        MinimumDisplayTime:
+          type: integer
+          minimum: 0
+          maximum: 999
+          default: 0
+          description: Number of seconds the message has to be displayed.
+        Device:
+          $ref: '#/components/schemas/Device'
+        InfoQualify:
+          $ref: '#/components/schemas/InfoQualify'
+        OutputContent:
+          $ref: '#/components/schemas/OutputContent'
+        MenuEntry:
+          type: array
+          items:
+            $ref: '#/components/schemas/MenuEntry'
+        OutputSignature:
+          type: string
+          format: byte
+          pattern: ^.+$
+          description: If protection has to be provided to the vendor on the text to display or print.
+      required:
+      - Device
+      - InfoQualify
+      - OutputContent
+    ErrorCondition:
+      type: string
+      enum:
+      - Aborted
+      - Busy
+      - Cancel
+      - DeviceOut
+      - InProgress
+      - InsertedCard
+      - InvalidCard
+      - LoggedOut
+      - MessageFormat
+      - NotAllowed
+      - NotFound
+      - PaymentRestriction
+      - Refusal
+      - UnavailableDevice
+      - UnavailableService
+      - UnreachableHost
+      - WrongPIN
+    TransactionAction:
+      type: string
+      description: Action to realise on a transaction.
+      enum:
+      - AbortTransaction
+      - StartTransaction
+    InfoQualify:
+      type: string
+      enum:
+      - CustomerAssistance
+      - Display
+      - Document
+      - Error
+      - Input
+      - POIReplication
+      - Receipt
+      - Sound
+      - Status
+      - Voucher
+    Response:
+      type: object
+      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
+      properties:
+        Result:
+          $ref: '#/components/schemas/Result'
+        ErrorCondition:
+          $ref: '#/components/schemas/ErrorCondition'
+        AdditionalResponse:
+          type: string
+          pattern: ^.+$
+          description: If present, the POI logs it for further examination.
+      required:
+      - Result
+    Result:
+      type: string
+      enum:
+      - Failure
+      - Partial
+      - Success
+    ServicesEnabled:
+      type: array
+      items:
+        type: string
+        enum:
+        - CardAcquisition
+        - Loyalty
+        - Payment
+    CharacterWidth:
+      type: string
+      enum:
+      - DoubleWidth
+      - SingleWidth
+    EnableServiceResponse:
+      type: object
+      description: It conveys the result of the Enable Service processing. Content of the Enable Service Response message.
+      properties:
+        Response:
+          $ref: '#/components/schemas/Response'
+      required:
+      - Response
+    OutputContent:
+      type: object
+      description: This is a sequence of elements if they have different formats. Content to display or print.
+      properties:
+        OutputFormat:
+          $ref: '#/components/schemas/OutputFormat'
+        PredefinedContent:
+          $ref: '#/components/schemas/PredefinedContent'
+        OutputText:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputText'
+        OutputXHTML:
+          type: string
+          format: byte
+          pattern: ^.{0,262144}$
+          description: Mandatory, if OutputFormat is XHTML, not allowed otherwise.
+        OutputBarcode:
+          $ref: '#/components/schemas/OutputBarcode'
+      required:
+      - OutputFormat
+    BarcodeType:
+      type: string
+      enum:
+      - Code128
+      - Code25
+      - EAN13
+      - EAN8
+      - PDF417
+      - QRCode
+      - UPCA
+    Color:
+      type: string
+      enum:
+      - Black
+      - Blue
+      - Cyan
+      - Green
+      - Magenta
+      - Red
+      - White
+      - Yellow
+    OutputFormat:
+      type: string
+      enum:
+      - BarCode
+      - MessageRef
+      - Text
+      - XHTML
+    Alignment:
+      type: string
+      enum:
+      - Centred
+      - Justified
+      - Left
+      - Right
+    MenuEntry:
+      type: object
+      description: It conveys message text and parameters of the menu entry. This output data could be only provided for an input command, in order to choose an entryof the menu. An entryof the menu to present to the Cashier.
+      properties:
+        MenuEntryTag:
+          $ref: '#/components/schemas/MenuEntryTag'
+        DefaultSelectedFlag:
+          type: boolean
+          default: false
+        OutputFormat:
+          $ref: '#/components/schemas/OutputFormat'
+        PredefinedContent:
+          $ref: '#/components/schemas/PredefinedContent'
+        OutputText:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputText'
+        OutputXHTML:
+          type: string
+          format: byte
+          pattern: ^.+$
+      required:
+      - OutputFormat
+    CharacterStyle:
+      type: string
+      enum:
+      - Bold
+      - Italic
+      - Normal
+      - Underline
+    CharacterHeight:
+      type: string
+      enum:
+      - DoubleHeight
+      - HalfHeight
+      - SingleHeight
+    OutputBarcode:
+      type: object
+      properties:
+        BarcodeType:
+          $ref: '#/components/schemas/BarcodeType'
+        BarcodeValue:
+          type: string
+          pattern: ^.+$
+      required:
+      - BarcodeValue
+    OutputText:
+      type: object
+      description: It conveys Information related to the content of the text message and its format. All the data elements related to the format of the text to display or print are parameters valid for the whole Text content. Content of text message to display or print.
+      properties:
+        Text:
+          type: string
+        CharacterSet:
+          type: integer
+        Font:
+          type: string
+          pattern: ^.+$
+        StartRow:
+          type: integer
+          minimum: 1
+          maximum: 500
+        StartColumn:
+          type: integer
+          minimum: 1
+          maximum: 500
+        Color:
+          $ref: '#/components/schemas/Color'
+        CharacterWidth:
+          $ref: '#/components/schemas/CharacterWidth'
+        CharacterHeight:
+          $ref: '#/components/schemas/CharacterHeight'
+        CharacterStyle:
+          $ref: '#/components/schemas/CharacterStyle'
+        Alignment:
+          $ref: '#/components/schemas/Alignment'
+        EndOfLineFlag:
+          type: boolean
+          default: true
+      required:
+      - Text
+    MenuEntryTag:
+      type: string
+      description: Characteristics related to the selection of a menu entry.
+      enum:
+      - NonSelectable
+      - NonSelectableSubMenu
+      - Selectable
+      - SubMenu
+    PredefinedContent:
+      type: object
+      description: It conveys Information related to the predefined message. Reference of a predefined message to display or print.
+      properties:
+        ReferenceID:
+          type: string
+          pattern: ^.+$
+          description: Identification of a predefined message to display or print.
+        Language:
+          type: string
+          pattern: ^[a-z]{2,2}$
+          description: Identification of a language.
+      required:
+      - ReferenceID
+    EnableServiceRequest:
+      type: object
+      description: It conveys the services that will be enabled for the  POI Terminal without the request of the Sale System, and a possible invitation for the Customer to start the services. Content of the Enable Service Request message.
+      properties:
+        TransactionAction:
+          $ref: '#/components/schemas/TransactionAction'
+        ServicesEnabled:
+          $ref: '#/components/schemas/ServicesEnabled'
+        DisplayOutput:
+          $ref: '#/components/schemas/DisplayOutput'
+      required:
+      - TransactionAction
+    Device:
+      type: string
+      enum:
+      - CashierDisplay
+      - CashierInput
+      - CustomerDisplay
+      - CustomerInput
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

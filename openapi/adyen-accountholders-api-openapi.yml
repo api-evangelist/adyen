@@ -1,0 +1,1579 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute accountHolders API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: accountHolders
+paths:
+  /accountHolders:
+    post:
+      tags:
+      - accountHolders
+      summary: Adyen Create an Account Holder
+      description: 'Creates an account holder linked to a [legal entity](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/legalEntities).
+
+
+        '
+      x-addedInVersion: '1'
+      operationId: post-accountHolders
+      x-sortIndex: 1
+      x-methodName: createAccountHolder
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              createAccountHolder:
+                $ref: '#/components/examples/post-accountHolders-createAccountHolder'
+            schema:
+              $ref: '#/components/schemas/AccountHolderInfo'
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                createAccountHolder:
+                  $ref: '#/components/examples/post-accountHolders-createAccountHolder-200'
+              schema:
+                $ref: '#/components/schemas/AccountHolder'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /accountHolders/{id}:
+    get:
+      tags:
+      - accountHolders
+      summary: Adyen Get an Account Holder
+      description: Returns an account holder.
+      x-addedInVersion: '1'
+      operationId: get-accountHolders-id
+      x-sortIndex: 3
+      x-methodName: getAccountHolder
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: The unique identifier of the account holder.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  $ref: '#/components/examples/get-accountHolders-id-success-200'
+              schema:
+                $ref: '#/components/schemas/AccountHolder'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    patch:
+      tags:
+      - accountHolders
+      summary: Adyen Update an Account Holder
+      description: Updates an account holder. When updating an account holder resource, if a parameter is not provided in the request, it is left unchanged.
+      x-addedInVersion: '1'
+      operationId: patch-accountHolders-id
+      x-sortIndex: 2
+      x-methodName: updateAccountHolder
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              requestAccountHolderCapability:
+                $ref: '#/components/examples/patch-accountHolders-id-requestAccountHolderCapability'
+              updateAccountHolderStatus:
+                $ref: '#/components/examples/patch-accountHolders-id-updateAccountHolderStatus'
+            schema:
+              $ref: '#/components/schemas/AccountHolderUpdateRequest'
+      parameters:
+      - description: The unique identifier of the account holder.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                requestAccountHolderCapability:
+                  $ref: '#/components/examples/patch-accountHolders-id-requestAccountHolderCapability-200'
+                updateAccountHolderStatus:
+                  $ref: '#/components/examples/patch-accountHolders-id-updateAccountHolderStatus-200'
+              schema:
+                $ref: '#/components/schemas/AccountHolder'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /accountHolders/{id}/balanceAccounts:
+    get:
+      tags:
+      - accountHolders
+      summary: Adyen Get All Balance Accounts of an Account Holder
+      description: "Returns a paginated list of the balance accounts associated with an account holder. To fetch multiple pages, use the query parameters. \n\nFor example, to limit the page to 5 balance accounts and skip the first 10, use `/accountHolders/{id}/balanceAccounts?limit=5&offset=10`."
+      x-addedInVersion: '1'
+      operationId: get-accountHolders-id-balanceAccounts
+      x-sortIndex: 4
+      x-methodName: getAllBalanceAccountsOfAccountHolder
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: The unique identifier of the account holder.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The number of items that you want to skip.
+        name: offset
+        in: query
+        required: false
+        schema:
+          format: int32
+          type: integer
+      - description: The number of items returned per page, maximum 100 items. By default, the response returns 10 items per page.
+        name: limit
+        in: query
+        required: false
+        schema:
+          format: int32
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  $ref: '#/components/examples/get-accountHolders-id-balanceAccounts-success-200'
+              schema:
+                $ref: '#/components/schemas/PaginatedBalanceAccountsResponse'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /accountHolders/{id}/taxForms:
+    get:
+      tags:
+      - accountHolders
+      summary: Adyen Get a Tax Form
+      description: Generates a tax form for account holders operating in the US. For more information, refer to [Providing tax forms](https://docs.adyen.com/marketplaces-and-platforms/us-tax-forms/).
+      x-addedInVersion: '2'
+      operationId: get-accountHolders-id-taxForms
+      x-sortIndex: 5
+      x-methodName: getTaxForm
+      security:
+      - clientKey: []
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: The unique identifier of the account holder.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - description: The type of tax form you want to retrieve. Accepted values are **US1099k** and **US1099nec**
+        name: formType
+        in: query
+        required: true
+        schema:
+          x-enum:
+          - value: US1099k
+          - value: US1099nec
+          enum:
+          - US1099k
+          - US1099nec
+          type: string
+      - description: The tax year in YYYY format for the tax form you want to retrieve
+        name: year
+        in: query
+        required: true
+        schema:
+          format: int32
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  $ref: '#/components/examples/get-accountHolders-id-taxForms-success-200'
+              schema:
+                $ref: '#/components/schemas/GetTaxFormResponse'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-400'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-401'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-403'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-422'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              examples:
+                generic:
+                  $ref: '#/components/examples/generic-500'
+              schema:
+                $ref: '#/components/schemas/RestServiceError'
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    AccountSupportingEntityCapability:
+      properties:
+        allowed:
+          description: Indicates whether the supporting entity capability is allowed. Adyen sets this to **true** if the verification is successful and the account holder is permitted to use the capability.
+          readOnly: true
+          type: boolean
+        allowedLevel:
+          description: 'The capability level that is allowed for the account holder.
+
+
+            Possible values: **notApplicable**, **low**, **medium**, **high**.'
+          enum:
+          - high
+          - low
+          - medium
+          - notApplicable
+          readOnly: true
+          type: string
+        enabled:
+          description: Indicates whether the capability is enabled. If **false**, the capability is temporarily disabled for the account holder.
+          type: boolean
+        id:
+          description: The ID of the supporting entity.
+          readOnly: true
+          type: string
+        requested:
+          description: Indicates whether the capability is requested. To check whether the account holder is permitted to use the capability, refer to the `allowed` field.
+          type: boolean
+        requestedLevel:
+          description: 'The requested level of the capability. Some capabilities, such as those used in [card issuing](https://docs.adyen.com/issuing/add-capabilities#capability-levels), have different levels. Levels increase the capability, but also require additional checks and increased monitoring.
+
+
+            Possible values: **notApplicable**, **low**, **medium**, **high**.'
+          enum:
+          - high
+          - low
+          - medium
+          - notApplicable
+          type: string
+        verificationStatus:
+          description: 'The status of the verification checks for the supporting entity capability.
+
+
+            Possible values:
+
+
+            * **pending**: Adyen is running the verification.
+
+
+            * **invalid**: The verification failed. Check if the `errors` array contains more information.
+
+
+            * **valid**: The verification has been successfully completed.
+
+
+            * **rejected**: Adyen has verified the information, but found reasons to not allow the capability.
+
+            '
+          enum:
+          - invalid
+          - pending
+          - rejected
+          - valid
+          readOnly: true
+          type: string
+      type: object
+    GetTaxFormResponse:
+      properties:
+        content:
+          description: The content of the tax form in Base64 format.
+          format: byte
+          type: string
+        contentType:
+          description: 'The content type of the tax form.
+
+
+            Possible values:
+
+            *  **application/pdf**
+
+
+            '
+          enum:
+          - application/pdf
+          type: string
+      required:
+      - content
+      type: object
+    Phone:
+      properties:
+        number:
+          description: "The full phone number provided as a single string. \nFor example, **\"0031 6 11 22 33 44\"**, **\"+316/1122-3344\"**, \n\n or **\"(0031) 611223344\"**."
+          type: string
+        type:
+          description: "Type of phone number.\nPossible values: \n**Landline**, **Mobile**.\n"
+          enum:
+          - landline
+          - mobile
+          type: string
+      required:
+      - number
+      - type
+      type: object
+    AccountHolder:
+      properties:
+        balancePlatform:
+          description: The unique identifier of the [balance platform](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/balancePlatforms/{id}__queryParam_id) to which the account holder belongs. Required in the request if your API credentials can be used for multiple balance platforms.
+          type: string
+        capabilities:
+          additionalProperties:
+            $ref: '#/components/schemas/AccountHolderCapability'
+          description: Contains key-value pairs that specify the actions that an account holder can do in your platform. The key is a capability required for your integration. For example, **issueCard** for Issuing. The value is an object containing the settings for the capability.
+          type: object
+        contactDetails:
+          deprecated: true
+          description: Contact details of the account holder.
+          $ref: '#/components/schemas/ContactDetails'
+        description:
+          description: Your description for the account holder, maximum 300 characters.
+          maxLength: 300
+          type: string
+        id:
+          description: The unique identifier of the account holder.
+          readOnly: true
+          type: string
+        legalEntityId:
+          description: The unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/legalentity/latest/post/legalEntities#responses-200-id) associated with the account holder. Adyen performs a verification process against the legal entity of the account holder.
+          type: string
+        metadata:
+          additionalProperties:
+            type: string
+          description: 'A set of key and value pairs for general use.
+
+            The keys do not have specific names and may be used for storing miscellaneous data as desired.
+
+            > Note that during an update of metadata, the omission of existing key-value pairs will result in the deletion of those key-value pairs.'
+          type: object
+        migratedAccountHolderCode:
+          description: The unique identifier of the migrated account holder in the classic integration.
+          readOnly: true
+          type: string
+        primaryBalanceAccount:
+          description: The ID of the account holder's primary balance account. By default, this is set to the first balance account that you create for the account holder. To assign a different balance account, send a PATCH request.
+          type: string
+        reference:
+          description: Your reference for the account holder, maximum 150 characters.
+          maxLength: 150
+          type: string
+        status:
+          description: "The status of the account holder.\n\nPossible values: \n\n * **active**: The account holder is active. This is the default status when creating an account holder. \n\n * **inactive (Deprecated)**: The account holder is temporarily inactive due to missing KYC details. You can set the account back to active by providing the missing KYC details. \n\n * **suspended**: The account holder is permanently deactivated by Adyen. This action cannot be undone. \n\n* **closed**: The account holder is permanently deactivated by you. This action cannot be undone."
+          enum:
+          - active
+          - closed
+          - inactive
+          - suspended
+          type: string
+        timeZone:
+          description: 'The time zone of the account holder. For example, **Europe/Amsterdam**.
+
+            Defaults to the time zone of the balance platform if no time zone is set. For possible values, see the [list of time zone codes](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).'
+          type: string
+        verificationDeadlines:
+          description: List of verification deadlines and the capabilities that will be disallowed if verification errors are not resolved.
+          items:
+            $ref: '#/components/schemas/VerificationDeadline'
+          readOnly: true
+          type: array
+      required:
+      - legalEntityId
+      - id
+      type: object
+    VerificationDeadline:
+      properties:
+        capabilities:
+          description: The names of the capabilities to be disallowed.
+          items:
+            enum:
+            - acceptExternalFunding
+            - acceptPspFunding
+            - acceptTransactionInRestrictedCountries
+            - acceptTransactionInRestrictedCountriesCommercial
+            - acceptTransactionInRestrictedCountriesConsumer
+            - acceptTransactionInRestrictedIndustries
+            - acceptTransactionInRestrictedIndustriesCommercial
+            - acceptTransactionInRestrictedIndustriesConsumer
+            - acquiring
+            - atmWithdrawal
+            - atmWithdrawalCommercial
+            - atmWithdrawalConsumer
+            - atmWithdrawalInRestrictedCountries
+            - atmWithdrawalInRestrictedCountriesCommercial
+            - atmWithdrawalInRestrictedCountriesConsumer
+            - authorisedPaymentInstrumentUser
+            - getGrantOffers
+            - issueBankAccount
+            - issueCard
+            - issueCardCommercial
+            - issueCardConsumer
+            - localAcceptance
+            - payout
+            - payoutToTransferInstrument
+            - processing
+            - receiveFromBalanceAccount
+            - receiveFromPlatformPayments
+            - receiveFromThirdParty
+            - receiveFromTransferInstrument
+            - receiveGrants
+            - receivePayments
+            - sendToBalanceAccount
+            - sendToThirdParty
+            - sendToTransferInstrument
+            - thirdPartyFunding
+            - useCard
+            - useCardCommercial
+            - useCardConsumer
+            - useCardInRestrictedCountries
+            - useCardInRestrictedCountriesCommercial
+            - useCardInRestrictedCountriesConsumer
+            - useCardInRestrictedIndustries
+            - useCardInRestrictedIndustriesCommercial
+            - useCardInRestrictedIndustriesConsumer
+            - withdrawFromAtm
+            - withdrawFromAtmCommercial
+            - withdrawFromAtmConsumer
+            - withdrawFromAtmInRestrictedCountries
+            - withdrawFromAtmInRestrictedCountriesCommercial
+            - withdrawFromAtmInRestrictedCountriesConsumer
+            type: string
+          readOnly: true
+          type: array
+        entityIds:
+          description: The unique identifiers of the bank account(s) that the deadline applies to
+          items:
+            type: string
+          readOnly: true
+          type: array
+        expiresAt:
+          description: The date that verification is due by before capabilities are disallowed.
+          format: date-time
+          readOnly: true
+          type: string
+      required:
+      - expiresAt
+      - capabilities
+      type: object
+    JSONObject:
+      type: object
+    PaginatedBalanceAccountsResponse:
+      properties:
+        balanceAccounts:
+          description: List of balance accounts.
+          items:
+            $ref: '#/components/schemas/BalanceAccountBase'
+          type: array
+        hasNext:
+          description: Indicates whether there are more items on the next page.
+          type: boolean
+        hasPrevious:
+          description: Indicates whether there are more items on the previous page.
+          type: boolean
+      required:
+      - balanceAccounts
+      - hasPrevious
+      - hasNext
+      type: object
+    CapabilitySettings:
+      properties:
+        amountPerIndustry:
+          additionalProperties:
+            $ref: '#/components/schemas/Amount'
+          description: ''
+          type: object
+        authorizedCardUsers:
+          description: ''
+          type: boolean
+        fundingSource:
+          description: ''
+          items:
+            enum:
+            - credit
+            - debit
+            - prepaid
+            type: string
+          type: array
+        interval:
+          description: ''
+          enum:
+          - daily
+          - monthly
+          - weekly
+          type: string
+        maxAmount:
+          description: ''
+          $ref: '#/components/schemas/Amount'
+      type: object
+    ContactDetails:
+      properties:
+        address:
+          description: The address of the account holder.
+          $ref: '#/components/schemas/Address'
+        email:
+          description: The email address of the account holder.
+          type: string
+        phone:
+          description: The phone number of the account holder.
+          $ref: '#/components/schemas/Phone'
+        webAddress:
+          description: The URL of the account holder's website.
+          type: string
+      required:
+      - email
+      - phone
+      - address
+      type: object
+    CapabilityProblemEntity-recursive:
+      properties:
+        documents:
+          description: List of document IDs to which the verification errors related to the capabilities correspond to.
+          items:
+            type: string
+          type: array
+        id:
+          description: The ID of the entity.
+          type: string
+        type:
+          description: "Type of entity. \n\nPossible values: **LegalEntity**, **BankAccount**, **Document**."
+          enum:
+          - BankAccount
+          - Document
+          - LegalEntity
+          type: string
+      required: []
+      type: object
+    RestServiceError:
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+        errorCode:
+          description: A code that identifies the problem type.
+          type: string
+        instance:
+          description: A unique URI that identifies the specific occurrence of the problem.
+          type: string
+        invalidFields:
+          description: Detailed explanation of each validation error, when applicable.
+          items:
+            $ref: '#/components/schemas/InvalidField'
+          type: array
+        requestId:
+          description: A unique reference for the request, essentially the same as `pspReference`.
+          type: string
+        response:
+          description: JSON response payload.
+          $ref: '#/components/schemas/JSONObject'
+        status:
+          description: The HTTP status code.
+          format: int32
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type.
+          type: string
+        type:
+          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
+          type: string
+      required:
+      - type
+      - errorCode
+      - title
+      - detail
+      - status
+      type: object
+    AccountHolderInfo:
+      properties:
+        balancePlatform:
+          description: The unique identifier of the [balance platform](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/balancePlatforms/{id}__queryParam_id) to which the account holder belongs. Required in the request if your API credentials can be used for multiple balance platforms.
+          type: string
+        capabilities:
+          additionalProperties:
+            $ref: '#/components/schemas/AccountHolderCapability'
+          description: Contains key-value pairs that specify the actions that an account holder can do in your platform. The key is a capability required for your integration. For example, **issueCard** for Issuing. The value is an object containing the settings for the capability.
+          type: object
+        contactDetails:
+          deprecated: true
+          description: Contact details of the account holder.
+          $ref: '#/components/schemas/ContactDetails'
+        description:
+          description: Your description for the account holder, maximum 300 characters.
+          maxLength: 300
+          type: string
+        legalEntityId:
+          description: The unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/legalentity/latest/post/legalEntities#responses-200-id) associated with the account holder. Adyen performs a verification process against the legal entity of the account holder.
+          type: string
+        metadata:
+          additionalProperties:
+            type: string
+          description: 'A set of key and value pairs for general use.
+
+            The keys do not have specific names and may be used for storing miscellaneous data as desired.
+
+            > Note that during an update of metadata, the omission of existing key-value pairs will result in the deletion of those key-value pairs.'
+          type: object
+        migratedAccountHolderCode:
+          description: The unique identifier of the migrated account holder in the classic integration.
+          readOnly: true
+          type: string
+        reference:
+          description: Your reference for the account holder, maximum 150 characters.
+          maxLength: 150
+          type: string
+        timeZone:
+          description: 'The time zone of the account holder. For example, **Europe/Amsterdam**.
+
+            Defaults to the time zone of the balance platform if no time zone is set. For possible values, see the [list of time zone codes](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).'
+          type: string
+      required:
+      - legalEntityId
+      type: object
+    Address:
+      properties:
+        city:
+          description: 'The name of the city. Maximum length: 3000 characters.'
+          maxLength: 3000
+          type: string
+        country:
+          description: 'The two-character ISO-3166-1 alpha-2 country code. For example, **US**.
+
+            > If you don''t know the country or are not collecting the country from the shopper, provide `country` as `ZZ`.'
+          type: string
+        houseNumberOrName:
+          description: 'The number or name of the house. Maximum length: 3000 characters.'
+          maxLength: 3000
+          type: string
+        postalCode:
+          description: A maximum of five digits for an address in the US, or a maximum of ten characters for an address in all other countries.
+          type: string
+        stateOrProvince:
+          description: 'The two-character ISO 3166-2 state or province code. For example, **CA** in the US or **ON** in Canada.
+
+            > Required for the US and Canada.'
+          type: string
+        street:
+          description: 'The name of the street. Maximum length: 3000 characters.
+
+            > The house number should not be included in this field; it should be separately provided via `houseNumberOrName`.'
+          maxLength: 3000
+          type: string
+      required:
+      - street
+      - houseNumberOrName
+      - city
+      - postalCode
+      - country
+      type: object
+    AccountHolderCapability:
+      properties:
+        allowed:
+          description: Indicates whether the capability is allowed. Adyen sets this to **true** if the verification is successful and the account holder is permitted to use the capability.
+          readOnly: true
+          type: boolean
+        allowedLevel:
+          description: 'The capability level that is allowed for the account holder.
+
+
+            Possible values: **notApplicable**, **low**, **medium**, **high**.'
+          enum:
+          - high
+          - low
+          - medium
+          - notApplicable
+          readOnly: true
+          type: string
+        allowedSettings:
+          description: A JSON object containing the settings that are allowed for the account holder.
+          readOnly: true
+          $ref: '#/components/schemas/CapabilitySettings'
+        enabled:
+          description: Indicates whether the capability is enabled. If **false**, the capability is temporarily disabled for the account holder.
+          type: boolean
+        problems:
+          description: Contains verification errors and the actions that you can take to resolve them.
+          items:
+            $ref: '#/components/schemas/CapabilityProblem'
+          readOnly: true
+          type: array
+        requested:
+          description: Indicates whether the capability is requested. To check whether the account holder is permitted to use the capability, refer to the `allowed` field.
+          type: boolean
+        requestedLevel:
+          description: 'The requested level of the capability. Some capabilities, such as those used in [card issuing](https://docs.adyen.com/issuing/add-capabilities#capability-levels), have different levels. Levels increase the capability, but also require additional checks and increased monitoring.
+
+
+            Possible values: **notApplicable**, **low**, **medium**, **high**.'
+          enum:
+          - high
+          - low
+          - medium
+          - notApplicable
+          type: string
+        requestedSettings:
+          description: A JSON object containing the settings that were requested for the account holder.
+          readOnly: true
+          $ref: '#/components/schemas/CapabilitySettings'
+        transferInstruments:
+          description: 'Contains the status of the transfer instruments associated with this capability. '
+          items:
+            $ref: '#/components/schemas/AccountSupportingEntityCapability'
+          readOnly: true
+          type: array
+        verificationStatus:
+          description: 'The status of the verification checks for the capability.
+
+
+            Possible values:
+
+
+            * **pending**: Adyen is running the verification.
+
+
+            * **invalid**: The verification failed. Check if the `errors` array contains more information.
+
+
+            * **valid**: The verification has been successfully completed.
+
+
+            * **rejected**: Adyen has verified the information, but found reasons to not allow the capability.
+
+            '
+          enum:
+          - invalid
+          - pending
+          - rejected
+          - valid
+          readOnly: true
+          type: string
+      type: object
+    BalanceAccountBase:
+      properties:
+        accountHolderId:
+          description: The unique identifier of the [account holder](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/post/accountHolders__resParam_id) associated with the balance account.
+          type: string
+        defaultCurrencyCode:
+          description: 'The default three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes) of the balance account.
+
+            The default value is **EUR**.
+
+            > After a balance account is created, you cannot change its default currency.'
+          type: string
+        description:
+          description: A human-readable description of the balance account, maximum 300 characters. You can use this parameter to distinguish between multiple balance accounts under an account holder.
+          maxLength: 300
+          type: string
+        id:
+          description: The unique identifier of the balance account.
+          type: string
+        metadata:
+          additionalProperties:
+            type: string
+          description: 'A set of key and value pairs for general use.
+
+            The keys do not have specific names and may be used for storing miscellaneous data as desired.
+
+            > Note that during an update of metadata, the omission of existing key-value pairs will result in the deletion of those key-value pairs.'
+          type: object
+        migratedAccountCode:
+          description: The unique identifier of the account of the migrated account holder in the classic integration.
+          readOnly: true
+          type: string
+        platformPaymentConfiguration:
+          description: Contains key-value pairs to the configure the settlement model in a balance account.
+          $ref: '#/components/schemas/PlatformPaymentConfiguration'
+        reference:
+          description: Your reference for the balance account, maximum 150 characters.
+          maxLength: 150
+          type: string
+        status:
+          description: "The status of the balance account, set to **active** by default. \n"
+          enum:
+          - active
+          - closed
+          - inactive
+          - suspended
+          type: string
+        timeZone:
+          description: 'The time zone of the balance account. For example, **Europe/Amsterdam**.
+
+            Defaults to the time zone of the account holder if no time zone is set. For possible values, see the [list of time zone codes](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).'
+          type: string
+      required:
+      - accountHolderId
+      - id
+      type: object
+    PlatformPaymentConfiguration:
+      properties:
+        salesDayClosingTime:
+          description: 'Specifies at what time a [sales day](https://docs.adyen.com/marketplaces-and-platforms/settle-funds/sales-day-settlement#sales-day) ends.
+
+
+            Possible values: Time in **"HH:MM"** format. **HH** ranges from **00** to **07**. **MM** must be **00**.
+
+
+            Default value: **"00:00"**.'
+          format: time
+          type: string
+        settlementDelayDays:
+          description: 'Specifies after how many business days the funds in a [settlement batch](https://docs.adyen.com/marketplaces-and-platforms/settle-funds/sales-day-settlement#settlement-batch) are made available.
+
+
+            Possible values: **0** to **10**, or **null**.
+
+            * Setting this value to an integer enables [Sales day settlement](https://docs.adyen.com/marketplaces-and-platforms/settle-funds/sales-day-settlement).
+
+            * Setting this value to **null** enables [Pass-through settlement](https://docs.adyen.com/marketplaces-and-platforms/settle-funds/pass-through-settlement).
+
+
+            Default value: **null**.'
+          format: int32
+          type: integer
+      type: object
+    VerificationError-recursive:
+      properties:
+        capabilities:
+          description: Contains the capabilities that the verification error applies to.
+          items:
+            enum:
+            - acceptExternalFunding
+            - acceptPspFunding
+            - acceptTransactionInRestrictedCountries
+            - acceptTransactionInRestrictedCountriesCommercial
+            - acceptTransactionInRestrictedCountriesConsumer
+            - acceptTransactionInRestrictedIndustries
+            - acceptTransactionInRestrictedIndustriesCommercial
+            - acceptTransactionInRestrictedIndustriesConsumer
+            - acquiring
+            - atmWithdrawal
+            - atmWithdrawalCommercial
+            - atmWithdrawalConsumer
+            - atmWithdrawalInRestrictedCountries
+            - atmWithdrawalInRestrictedCountriesCommercial
+            - atmWithdrawalInRestrictedCountriesConsumer
+            - authorisedPaymentInstrumentUser
+            - getGrantOffers
+            - issueBankAccount
+            - issueCard
+            - issueCardCommercial
+            - issueCardConsumer
+            - localAcceptance
+            - payout
+            - payoutToTransferInstrument
+            - processing
+            - receiveFromBalanceAccount
+            - receiveFromPlatformPayments
+            - receiveFromThirdParty
+            - receiveFromTransferInstrument
+            - receiveGrants
+            - receivePayments
+            - sendToBalanceAccount
+            - sendToThirdParty
+            - sendToTransferInstrument
+            - thirdPartyFunding
+            - useCard
+            - useCardCommercial
+            - useCardConsumer
+            - useCardInRestrictedCountries
+            - useCardInRestrictedCountriesCommercial
+            - useCardInRestrictedCountriesConsumer
+            - useCardInRestrictedIndustries
+            - useCardInRestrictedIndustriesCommercial
+            - useCardInRestrictedIndustriesConsumer
+            - withdrawFromAtm
+            - withdrawFromAtmCommercial
+            - withdrawFromAtmConsumer
+            - withdrawFromAtmInRestrictedCountries
+            - withdrawFromAtmInRestrictedCountriesCommercial
+            - withdrawFromAtmInRestrictedCountriesConsumer
+            type: string
+          type: array
+        code:
+          description: The verification error code.
+          type: string
+        message:
+          description: A description of the error.
+          type: string
+        type:
+          description: "The type of error.\n\n Possible values: **invalidInput**, **dataMissing**."
+          enum:
+          - dataMissing
+          - invalidInput
+          - pendingStatus
+          type: string
+        remediatingActions:
+          description: Contains the actions that you can take to resolve the verification error.
+          items:
+            $ref: '#/components/schemas/RemediatingAction'
+          type: array
+      required: []
+      type: object
+    AccountHolderUpdateRequest:
+      properties:
+        balancePlatform:
+          description: The unique identifier of the [balance platform](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/balancePlatforms/{id}__queryParam_id) to which the account holder belongs. Required in the request if your API credentials can be used for multiple balance platforms.
+          type: string
+        capabilities:
+          additionalProperties:
+            $ref: '#/components/schemas/AccountHolderCapability'
+          description: Contains key-value pairs that specify the actions that an account holder can do in your platform. The key is a capability required for your integration. For example, **issueCard** for Issuing. The value is an object containing the settings for the capability.
+          type: object
+        contactDetails:
+          deprecated: true
+          description: Contact details of the account holder.
+          $ref: '#/components/schemas/ContactDetails'
+        description:
+          description: Your description for the account holder, maximum 300 characters.
+          maxLength: 300
+          type: string
+        metadata:
+          additionalProperties:
+            type: string
+          description: 'A set of key and value pairs for general use.
+
+            The keys do not have specific names and may be used for storing miscellaneous data as desired.
+
+            > Note that during an update of metadata, the omission of existing key-value pairs will result in the deletion of those key-value pairs.'
+          type: object
+        migratedAccountHolderCode:
+          description: The unique identifier of the migrated account holder in the classic integration.
+          readOnly: true
+          type: string
+        primaryBalanceAccount:
+          description: The ID of the account holder's primary balance account. By default, this is set to the first balance account that you create for the account holder. To assign a different balance account, send a PATCH request.
+          type: string
+        reference:
+          description: Your reference for the account holder, maximum 150 characters.
+          maxLength: 150
+          type: string
+        status:
+          description: "The status of the account holder.\n\nPossible values: \n\n * **active**: The account holder is active. This is the default status when creating an account holder. \n\n * **inactive (Deprecated)**: The account holder is temporarily inactive due to missing KYC details. You can set the account back to active by providing the missing KYC details. \n\n * **suspended**: The account holder is permanently deactivated by Adyen. This action cannot be undone. \n\n* **closed**: The account holder is permanently deactivated by you. This action cannot be undone."
+          enum:
+          - active
+          - closed
+          - inactive
+          - suspended
+          type: string
+        timeZone:
+          description: 'The time zone of the account holder. For example, **Europe/Amsterdam**.
+
+            Defaults to the time zone of the balance platform if no time zone is set. For possible values, see the [list of time zone codes](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).'
+          type: string
+        verificationDeadlines:
+          description: List of verification deadlines and the capabilities that will be disallowed if verification errors are not resolved.
+          items:
+            $ref: '#/components/schemas/VerificationDeadline'
+          readOnly: true
+          type: array
+      type: object
+    RemediatingAction:
+      properties:
+        code:
+          description: The remediating action code.
+          type: string
+        message:
+          description: A description of how you can resolve the verification error.
+          type: string
+      type: object
+    CapabilityProblemEntity:
+      properties:
+        documents:
+          description: List of document IDs to which the verification errors related to the capabilities correspond to.
+          items:
+            type: string
+          type: array
+        id:
+          description: The ID of the entity.
+          type: string
+        owner:
+          description: Contains details about the owner of the entity that has an error.
+          $ref: '#/components/schemas/CapabilityProblemEntity-recursive'
+        type:
+          description: "Type of entity. \n\nPossible values: **LegalEntity**, **BankAccount**, **Document**."
+          enum:
+          - BankAccount
+          - Document
+          - LegalEntity
+          type: string
+      type: object
+    Amount:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      - currency
+      type: object
+    CapabilityProblem:
+      properties:
+        entity:
+          description: Contains the type of the entity and the corresponding ID.
+          $ref: '#/components/schemas/CapabilityProblemEntity'
+        verificationErrors:
+          description: Contains information about the verification error.
+          items:
+            $ref: '#/components/schemas/VerificationError'
+          type: array
+      type: object
+    InvalidField:
+      properties:
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
+          type: string
+        value:
+          description: The invalid value.
+          type: string
+      required:
+      - name
+      - value
+      - message
+      type: object
+    VerificationError:
+      properties:
+        capabilities:
+          description: Contains the capabilities that the verification error applies to.
+          items:
+            enum:
+            - acceptExternalFunding
+            - acceptPspFunding
+            - acceptTransactionInRestrictedCountries
+            - acceptTransactionInRestrictedCountriesCommercial
+            - acceptTransactionInRestrictedCountriesConsumer
+            - acceptTransactionInRestrictedIndustries
+            - acceptTransactionInRestrictedIndustriesCommercial
+            - acceptTransactionInRestrictedIndustriesConsumer
+            - acquiring
+            - atmWithdrawal
+            - atmWithdrawalCommercial
+            - atmWithdrawalConsumer
+            - atmWithdrawalInRestrictedCountries
+            - atmWithdrawalInRestrictedCountriesCommercial
+            - atmWithdrawalInRestrictedCountriesConsumer
+            - authorisedPaymentInstrumentUser
+            - getGrantOffers
+            - issueBankAccount
+            - issueCard
+            - issueCardCommercial
+            - issueCardConsumer
+            - localAcceptance
+            - payout
+            - payoutToTransferInstrument
+            - processing
+            - receiveFromBalanceAccount
+            - receiveFromPlatformPayments
+            - receiveFromThirdParty
+            - receiveFromTransferInstrument
+            - receiveGrants
+            - receivePayments
+            - sendToBalanceAccount
+            - sendToThirdParty
+            - sendToTransferInstrument
+            - thirdPartyFunding
+            - useCard
+            - useCardCommercial
+            - useCardConsumer
+            - useCardInRestrictedCountries
+            - useCardInRestrictedCountriesCommercial
+            - useCardInRestrictedCountriesConsumer
+            - useCardInRestrictedIndustries
+            - useCardInRestrictedIndustriesCommercial
+            - useCardInRestrictedIndustriesConsumer
+            - withdrawFromAtm
+            - withdrawFromAtmCommercial
+            - withdrawFromAtmConsumer
+            - withdrawFromAtmInRestrictedCountries
+            - withdrawFromAtmInRestrictedCountriesCommercial
+            - withdrawFromAtmInRestrictedCountriesConsumer
+            type: string
+          type: array
+        code:
+          description: The verification error code.
+          type: string
+        message:
+          description: A description of the error.
+          type: string
+        remediatingActions:
+          description: Contains the actions that you can take to resolve the verification error.
+          items:
+            $ref: '#/components/schemas/RemediatingAction'
+          type: array
+        subErrors:
+          description: Contains more granular information about the verification error.
+          items:
+            $ref: '#/components/schemas/VerificationError-recursive'
+          type: array
+        type:
+          description: "The type of error.\n\n Possible values: **invalidInput**, **dataMissing**."
+          enum:
+          - dataMissing
+          - invalidInput
+          - pendingStatus
+          type: string
+      type: object
+  examples:
+    patch-accountHolders-id-requestAccountHolderCapability-200:
+      summary: Account holder capability requested
+      description: Example response for requesting the `receivePayments` capability for an account holder
+      value:
+        balancePlatform: YOUR_BALANCE_PLATFORM
+        description: Liable account holder used for international payments and payouts
+        legalEntityId: LE322JV223222F5GKQZZ9DS99
+        reference: S.Eller-001
+        capabilities:
+          receivePayments:
+            enabled: false
+            requested: true
+            allowed: false
+            verificationStatus: pending
+        id: AH3227C223222C5GKR23686TF
+        status: active
+    generic-401:
+      summary: Response code - 401 Unauthorized
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Unauthorized
+        status: 401
+        detail: Not authorized to access this service.
+        errorCode: '00_401'
+    get-accountHolders-id-balanceAccounts-success-200:
+      summary: List of balance accounts retrieved
+      description: Example response when retrieving a list of balance accounts under an account holder
+      value:
+        balanceAccounts:
+        - accountHolderId: AH32272223222B5CTBMZT6W2V
+          defaultCurrencyCode: EUR
+          description: S. Hopper - Main Account
+          reference: YOUR_REFERENCE-X173L
+          timeZone: Europe/Amsterdam
+          id: BA32272223222B5CTDNB66W2Z
+          status: active
+        - accountHolderId: AH32272223222B5CTBMZT6W2V
+          defaultCurrencyCode: EUR
+          description: S. Hopper - Main Account
+          reference: YOUR_REFERENCE-X173L
+          timeZone: Europe/Amsterdam
+          id: BA32272223222B5CTDQPM6W2H
+          status: active
+        - accountHolderId: AH32272223222B5CTBMZT6W2V
+          defaultCurrencyCode: EUR
+          description: S. Hopper - Main Account
+          reference: YOUR_REFERENCE-X173L
+          timeZone: Europe/Amsterdam
+          id: BA32272223222B5CVF5J63LMW
+          status: active
+        hasNext: true
+        hasPrevious: false
+    get-accountHolders-id-taxForms-success-200:
+      summary: Tax form retrieved for an account holder
+      description: Example response when retrieving a tax form for an account holder
+      value:
+        content: JVBERi0xLjcKJcfsj6IKJSVJbnZvY2F0aW9uOiBwYXRoL2dzd2luNjQuZXhlIC1kRGlzcGxh
+        contentType: application/pdf
+    post-accountHolders-createAccountHolder:
+      summary: Create an account holder
+      description: Example request for creating an account holder
+      value:
+        description: Liable account holder used for international payments and payouts
+        reference: S.Eller-001
+        legalEntityId: LE322JV223222D5GG42KN6869
+    generic-400:
+      summary: Response code - 400 Bad request
+      value:
+        type: https://docs.adyen.com/errors/general/bad-request
+        title: Bad request
+        status: 400
+        detail: Empty input which would have resulted in a null result.
+        errorCode: '00_400'
+    generic-422:
+      summary: Response code - 422 Unprocessable Entity.
+      value:
+        type: https://docs.adyen.com/errors/general/invalid-field-value
+        title: Invalid Payment Instrument information provided
+        status: 422
+        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
+        requestId: 1W1UI15PLVGC9V8O
+        errorCode: '30_031'
+    patch-accountHolders-id-updateAccountHolderStatus-200:
+      summary: Account holder deactivated
+      description: Example response for permanently deactivating an account holder
+      value:
+        balancePlatform: YOUR_BALANCE_PLATFORM
+        description: Liable account holder used for international payments and payouts
+        legalEntityId: LE322JV223222F5GKQZZ9DS99
+        reference: S.Eller-001
+        id: AH3227C223222C5GKR23686TF
+        status: closed
+    generic-500:
+      summary: Response code - 500 Internal Server Error
+      value:
+        type: https://docs.adyen.com/errors/general/internal
+        title: An internal error happened
+        status: 500
+        detail: Unrecoverable error while trying to create payment instrument
+        requestId: 1WAF555PLWNTLYOQ
+        errorCode: '00_500'
+    post-accountHolders-createAccountHolder-200:
+      summary: Response for creating an account holder
+      description: Example response for creating an account holder
+      value:
+        balancePlatform: YOUR_BALANCE_PLATFORM
+        description: Liable account holder used for international payments and payouts
+        legalEntityId: LE322JV223222D5GG42KN6869
+        reference: S.Eller-001
+        capabilities:
+          receiveFromPlatformPayments:
+            enabled: true
+            requested: true
+            allowed: false
+            verificationStatus: pending
+          receiveFromBalanceAccount:
+            enabled: true
+            requested: true
+            allowed: false
+            verificationStatus: pending
+          sendToBalanceAccount:
+            enabled: true
+            requested: true
+            allowed: false
+            verificationStatus: pending
+          sendToTransferInstrument:
+            enabled: true
+            requested: true
+            allowed: false
+            requestedSettings:
+              interval: daily
+              maxAmount:
+                currency: EUR
+                value: 0
+            verificationStatus: pending
+        id: AH3227C223222H5J4DCLW9VBV
+        status: active
+    get-accountHolders-id-success-200:
+      summary: Account holder retrieved
+      description: Example response when retrieving an account holder
+      value:
+        balancePlatform: YOUR_BALANCE_PLATFORM
+        description: Liable account holder used for international payments and payouts
+        legalEntityId: LE322JV223222D5GG42KN6869
+        reference: S.Eller-001
+        capabilities:
+          receiveFromPlatformPayments:
+            enabled: true
+            requested: true
+            allowed: false
+            verificationStatus: pending
+          receiveFromBalanceAccount:
+            enabled: true
+            requested: true
+            allowed: false
+            verificationStatus: pending
+          sendToBalanceAccount:
+            enabled: true
+            requested: true
+            allowed: false
+            verificationStatus: pending
+          sendToTransferInstrument:
+            enabled: true
+            requested: true
+            allowed: false
+            transferInstruments:
+            - enabled: true
+              requested: true
+              allowed: false
+              id: SE322KH223222F5GXZFNM3BGP
+              verificationStatus: pending
+            verificationStatus: pending
+        id: AH3227C223222C5GXQXF658WB
+        status: active
+    patch-accountHolders-id-updateAccountHolderStatus:
+      summary: Deactivate an account holder
+      description: Example request for permanently deactivating an account holder
+      value:
+        status: closed
+    patch-accountHolders-id-requestAccountHolderCapability:
+      summary: Request account holder capability
+      description: Example request for the `receivePayments` capability for an account holder
+      value:
+        description: Liable account holder used for international payments and payouts
+        reference: S.Eller-001
+        capabilities:
+          receivePayments:
+            requested: true
+    generic-403:
+      summary: Response code - 403 Forbidden.
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Forbidden
+        status: 403
+        detail: Not the right permission to access this service.
+        errorCode: '00_403'
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

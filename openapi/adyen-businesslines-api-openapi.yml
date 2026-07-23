@@ -1,0 +1,1058 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute businessLines API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: businessLines
+paths:
+  /businessLines:
+    post:
+      tags:
+      - businessLines
+      summary: Adyen Create a Business Line
+      description: "Creates a business line. \n\nThis resource contains information about your user's line of business, including their industry and their source of funds. Adyen uses this information to verify your users as required by payment industry regulations. Adyen informs you of the verification results through webhooks or API responses.\n\n>If you are using hosted onboarding and just beginning your integration, use v3 for your API requests. Otherwise, use v2.\n\n"
+      x-addedInVersion: '1'
+      operationId: post-businessLines
+      x-sortIndex: 12
+      x-methodName: createBusinessLine
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              createBusinessLines-businessAccounts:
+                $ref: '#/components/examples/post-businessLines-createBusinessLines-businessAccounts'
+              createBusinessLines-receive:
+                $ref: '#/components/examples/post-businessLines-createBusinessLines-receive'
+            schema:
+              $ref: '#/components/schemas/BusinessLineInfo'
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                createBusinessLines-businessAccounts:
+                  $ref: '#/components/examples/post-businessLines-createBusinessLines-businessAccounts-200'
+                createBusinessLines-receive:
+                  $ref: '#/components/examples/post-businessLines-createBusinessLines-receive-200'
+              schema:
+                $ref: '#/components/schemas/BusinessLine'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-businessLines400Example:
+                  summary: Default post-businessLines 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-businessLines401Example:
+                  summary: Default post-businessLines 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-businessLines403Example:
+                  summary: Default post-businessLines 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-businessLines422Example:
+                  summary: Default post-businessLines 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                post-businessLines500Example:
+                  summary: Default post-businessLines 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /businessLines/{id}:
+    delete:
+      tags:
+      - businessLines
+      summary: Adyen Delete a Business Line
+      description: "Deletes a business line.\n\n >If you delete a business line linked to a [payment method](https://docs.adyen.com/development-resources/paymentmethodvariant#management-api), it can affect your merchant account's ability to use the [payment method](https://docs.adyen.com/api-explorer/Management/latest/post/merchants/_merchantId_/paymentMethodSettings). The business line is removed from all linked merchant accounts."
+      x-addedInVersion: '1'
+      operationId: delete-businessLines-id
+      x-sortIndex: 14
+      x-methodName: deleteBusinessLine
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: The unique identifier of the business line to be deleted.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: 'No Content - look at the actual response code for the status of the request. '
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                delete-businessLines-id400Example:
+                  summary: Default delete-businessLines-id 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                delete-businessLines-id401Example:
+                  summary: Default delete-businessLines-id 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                delete-businessLines-id403Example:
+                  summary: Default delete-businessLines-id 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                delete-businessLines-id422Example:
+                  summary: Default delete-businessLines-id 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                delete-businessLines-id500Example:
+                  summary: Default delete-businessLines-id 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    get:
+      tags:
+      - businessLines
+      summary: Adyen Get a Business Line
+      description: Returns the detail of a business line.
+      x-addedInVersion: '1'
+      operationId: get-businessLines-id
+      x-sortIndex: 13
+      x-methodName: getBusinessLine
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: The unique identifier of the business line.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  $ref: '#/components/examples/get-businessLines-id-success-200'
+              schema:
+                $ref: '#/components/schemas/BusinessLine'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-businessLines-id400Example:
+                  summary: Default get-businessLines-id 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-businessLines-id401Example:
+                  summary: Default get-businessLines-id 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-businessLines-id403Example:
+                  summary: Default get-businessLines-id 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-businessLines-id422Example:
+                  summary: Default get-businessLines-id 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-businessLines-id500Example:
+                  summary: Default get-businessLines-id 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    patch:
+      tags:
+      - businessLines
+      summary: Adyen Update a Business Line
+      description: Updates a business line.
+      x-addedInVersion: '2'
+      operationId: patch-businessLines-id
+      x-sortIndex: 15
+      x-methodName: updateBusinessLine
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              updateBusinessLine:
+                $ref: '#/components/examples/patch-businessLines-id-updateBusinessLine'
+            schema:
+              $ref: '#/components/schemas/BusinessLineInfoUpdate'
+      parameters:
+      - description: The unique identifier of the business line.
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                updateBusinessLine:
+                  $ref: '#/components/examples/patch-businessLines-id-updateBusinessLine-200'
+              schema:
+                $ref: '#/components/schemas/BusinessLine'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                patch-businessLines-id400Example:
+                  summary: Default patch-businessLines-id 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                patch-businessLines-id401Example:
+                  summary: Default patch-businessLines-id 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                patch-businessLines-id403Example:
+                  summary: Default patch-businessLines-id 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                patch-businessLines-id422Example:
+                  summary: Default patch-businessLines-id 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                patch-businessLines-id500Example:
+                  summary: Default patch-businessLines-id 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    BusinessLine:
+      properties:
+        capability:
+          deprecated: true
+          x-deprecatedInVersion: '3'
+          x-deprecatedMessage: Use `service` instead.
+          description: 'The capability for which you are creating the business line.
+
+
+            Possible values: **receivePayments**, **receiveFromPlatformPayments**, **issueBankAccount**'
+          enum:
+          - receivePayments
+          - receiveFromPlatformPayments
+          - issueBankAccount
+          type: string
+        id:
+          description: The unique identifier of the business line.
+          readOnly: true
+          type: string
+        industryCode:
+          description: A code that represents the [industry of the legal entity](https://docs.adyen.com/marketplaces-and-platforms/verification-requirements/reference-additional-products/#list-industry-codes). For example, **4431A** for computer software stores.
+          type: string
+        legalEntityId:
+          description: Unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/legalEntities__resParam_id) that owns the business line.
+          type: string
+        problems:
+          x-addedInVersion: '3'
+          description: The verification errors related to capabilities for this supporting entity.
+          items:
+            $ref: '#/components/schemas/CapabilityProblem'
+          type: array
+        salesChannels:
+          description: 'A list of channels where goods or services are sold.
+
+
+            Possible values: **pos**, **posMoto**, **eCommerce**, **ecomMoto**, **payByLink**.
+
+
+            Required only in combination with the `service` **paymentProcessing**.'
+          items:
+            type: string
+          type: array
+        service:
+          x-addedInVersion: '3'
+          description: 'The service for which you are creating the business line.
+
+
+
+
+            Possible values:
+
+            *  **paymentProcessing**
+
+            *  **banking**
+
+
+            '
+          enum:
+          - paymentProcessing
+          - banking
+          type: string
+        sourceOfFunds:
+          description: Contains information about the source of your user's funds. Required only for the `service` **banking**.
+          $ref: '#/components/schemas/SourceOfFunds'
+        webData:
+          description: List of website URLs where your user's goods or services are sold. When this is required for a service but your user does not have an online presence, provide the reason in the `webDataExemption` object.
+          items:
+            $ref: '#/components/schemas/WebData'
+          type: array
+        webDataExemption:
+          description: The reason why the web data is not provided.
+          $ref: '#/components/schemas/WebDataExemption'
+      required:
+      - service
+      - industryCode
+      - legalEntityId
+      - id
+      type: object
+    CapabilityProblemEntity-recursive:
+      properties:
+        documents:
+          description: List of document IDs corresponding to the verification errors from capabilities.
+          items:
+            type: string
+          type: array
+        id:
+          type: string
+        type:
+          enum:
+          - BankAccount
+          - Document
+          - LegalEntity
+          - product
+          type: string
+      required: []
+      type: object
+    BusinessLineInfo:
+      properties:
+        capability:
+          deprecated: true
+          x-deprecatedInVersion: '3'
+          x-deprecatedMessage: Use `service` instead.
+          description: 'The capability for which you are creating the business line.
+
+
+            Possible values: **receivePayments**, **receiveFromPlatformPayments**, **issueBankAccount**'
+          enum:
+          - receivePayments
+          - receiveFromPlatformPayments
+          - issueBankAccount
+          type: string
+        industryCode:
+          description: A code that represents the [industry of the legal entity](https://docs.adyen.com/marketplaces-and-platforms/verification-requirements/reference-additional-products/#list-industry-codes). For example, **4431A** for computer software stores.
+          type: string
+        legalEntityId:
+          description: Unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/legalEntities__resParam_id) that owns the business line.
+          type: string
+        salesChannels:
+          description: 'A list of channels where goods or services are sold.
+
+
+            Possible values: **pos**, **posMoto**, **eCommerce**, **ecomMoto**, **payByLink**.
+
+
+            Required only in combination with the `service` **paymentProcessing**.'
+          items:
+            type: string
+          type: array
+        service:
+          x-addedInVersion: '3'
+          description: 'The service for which you are creating the business line.
+
+
+
+
+            Possible values:
+
+            *  **paymentProcessing**
+
+            *  **banking**
+
+
+            '
+          enum:
+          - paymentProcessing
+          - banking
+          type: string
+        sourceOfFunds:
+          description: Contains information about the source of your user's funds. Required only for the `service` **banking**.
+          $ref: '#/components/schemas/SourceOfFunds'
+        webData:
+          description: List of website URLs where your user's goods or services are sold. When this is required for a service but your user does not have an online presence, provide the reason in the `webDataExemption` object.
+          items:
+            $ref: '#/components/schemas/WebData'
+          type: array
+        webDataExemption:
+          description: The reason why the web data is not provided.
+          $ref: '#/components/schemas/WebDataExemption'
+      required:
+      - service
+      - industryCode
+      - legalEntityId
+      type: object
+    WebData:
+      properties:
+        webAddress:
+          description: The URL of the website or the app store URL.
+          type: string
+        webAddressId:
+          description: The unique identifier of the web address.
+          readOnly: true
+          type: string
+      type: object
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    WebDataExemption:
+      properties:
+        reason:
+          description: 'The reason why the web data was not provided. Possible value: **noOnlinePresence**.'
+          enum:
+          - noOnlinePresence
+          - notCollectedDuringOnboarding
+          type: string
+      type: object
+    BusinessLineInfoUpdate:
+      properties:
+        capability:
+          deprecated: true
+          x-deprecatedInVersion: '3'
+          x-deprecatedMessage: Use `service` instead.
+          description: The capability for which you are creating the business line. For example, **receivePayments**.
+          enum:
+          - receivePayments
+          - receiveFromPlatformPayments
+          - issueBankAccount
+          type: string
+        industryCode:
+          description: A code that represents the industry of your legal entity. For example, **4431A** for computer software stores.
+          type: string
+        legalEntityId:
+          description: Unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/legalEntities__resParam_id) that owns the business line.
+          type: string
+        salesChannels:
+          description: 'A list of channels where goods or services are sold.
+
+
+            Possible values: **pos**, **posMoto**, **eCommerce**, **ecomMoto**, **payByLink**.
+
+
+            Required only in combination with the `service` **paymentProcessing**.'
+          items:
+            type: string
+          type: array
+        service:
+          x-addedInVersion: '3'
+          description: 'The service for which you are creating the business line.
+
+
+
+
+            Possible values:
+
+            *  **paymentProcessing**
+
+            *  **banking**
+
+
+            '
+          enum:
+          - paymentProcessing
+          - banking
+          type: string
+        sourceOfFunds:
+          description: Contains information about the source of your user's funds. Required only for the `service` **banking**.
+          $ref: '#/components/schemas/SourceOfFunds'
+        webData:
+          description: List of website URLs where your user's goods or services are sold. When this is required for a service but your user does not have an online presence, provide the reason in the `webDataExemption` object.
+          items:
+            $ref: '#/components/schemas/WebData'
+          type: array
+        webDataExemption:
+          description: The reason why the web data is not provided.
+          $ref: '#/components/schemas/WebDataExemption'
+      type: object
+    VerificationError-recursive:
+      properties:
+        capabilities:
+          description: Contains key-value pairs that specify the actions that the legal entity can do in your platform. The key is a capability required for your integration. For example, **issueCard** for Issuing.The value is an object containing the settings for the capability.
+          items:
+            enum:
+            - acceptExternalFunding
+            - acceptPspFunding
+            - acceptTransactionInRestrictedCountries
+            - acceptTransactionInRestrictedCountriesCommercial
+            - acceptTransactionInRestrictedCountriesConsumer
+            - acceptTransactionInRestrictedIndustries
+            - acceptTransactionInRestrictedIndustriesCommercial
+            - acceptTransactionInRestrictedIndustriesConsumer
+            - acquiring
+            - atmWithdrawal
+            - atmWithdrawalCommercial
+            - atmWithdrawalConsumer
+            - atmWithdrawalInRestrictedCountries
+            - atmWithdrawalInRestrictedCountriesCommercial
+            - atmWithdrawalInRestrictedCountriesConsumer
+            - authorisedPaymentInstrumentUser
+            - getGrantOffers
+            - issueBankAccount
+            - issueCard
+            - issueCardCommercial
+            - issueCardConsumer
+            - localAcceptance
+            - payout
+            - payoutToTransferInstrument
+            - processing
+            - receiveFromBalanceAccount
+            - receiveFromPlatformPayments
+            - receiveFromThirdParty
+            - receiveFromTransferInstrument
+            - receiveGrants
+            - receivePayments
+            - sendToBalanceAccount
+            - sendToThirdParty
+            - sendToTransferInstrument
+            - thirdPartyFunding
+            - useCard
+            - useCardCommercial
+            - useCardConsumer
+            - useCardInRestrictedCountries
+            - useCardInRestrictedCountriesCommercial
+            - useCardInRestrictedCountriesConsumer
+            - useCardInRestrictedIndustries
+            - useCardInRestrictedIndustriesCommercial
+            - useCardInRestrictedIndustriesConsumer
+            - withdrawFromAtm
+            - withdrawFromAtmCommercial
+            - withdrawFromAtmConsumer
+            - withdrawFromAtmInRestrictedCountries
+            - withdrawFromAtmInRestrictedCountriesCommercial
+            - withdrawFromAtmInRestrictedCountriesConsumer
+            type: string
+          type: array
+        code:
+          description: The general error code.
+          type: string
+        message:
+          description: The general error message.
+          type: string
+        type:
+          description: The type of error.
+          enum:
+          - dataMissing
+          - dataReview
+          - invalidInput
+          - pendingStatus
+          - rejected
+          type: string
+        remediatingActions:
+          description: An object containing possible solutions to fix a verification error.
+          items:
+            $ref: '#/components/schemas/RemediatingAction'
+          type: array
+      required: []
+      type: object
+    VerificationError:
+      properties:
+        capabilities:
+          description: Contains key-value pairs that specify the actions that the legal entity can do in your platform. The key is a capability required for your integration. For example, **issueCard** for Issuing.The value is an object containing the settings for the capability.
+          items:
+            enum:
+            - acceptExternalFunding
+            - acceptPspFunding
+            - acceptTransactionInRestrictedCountries
+            - acceptTransactionInRestrictedCountriesCommercial
+            - acceptTransactionInRestrictedCountriesConsumer
+            - acceptTransactionInRestrictedIndustries
+            - acceptTransactionInRestrictedIndustriesCommercial
+            - acceptTransactionInRestrictedIndustriesConsumer
+            - acquiring
+            - atmWithdrawal
+            - atmWithdrawalCommercial
+            - atmWithdrawalConsumer
+            - atmWithdrawalInRestrictedCountries
+            - atmWithdrawalInRestrictedCountriesCommercial
+            - atmWithdrawalInRestrictedCountriesConsumer
+            - authorisedPaymentInstrumentUser
+            - getGrantOffers
+            - issueBankAccount
+            - issueCard
+            - issueCardCommercial
+            - issueCardConsumer
+            - localAcceptance
+            - payout
+            - payoutToTransferInstrument
+            - processing
+            - receiveFromBalanceAccount
+            - receiveFromPlatformPayments
+            - receiveFromThirdParty
+            - receiveFromTransferInstrument
+            - receiveGrants
+            - receivePayments
+            - sendToBalanceAccount
+            - sendToThirdParty
+            - sendToTransferInstrument
+            - thirdPartyFunding
+            - useCard
+            - useCardCommercial
+            - useCardConsumer
+            - useCardInRestrictedCountries
+            - useCardInRestrictedCountriesCommercial
+            - useCardInRestrictedCountriesConsumer
+            - useCardInRestrictedIndustries
+            - useCardInRestrictedIndustriesCommercial
+            - useCardInRestrictedIndustriesConsumer
+            - withdrawFromAtm
+            - withdrawFromAtmCommercial
+            - withdrawFromAtmConsumer
+            - withdrawFromAtmInRestrictedCountries
+            - withdrawFromAtmInRestrictedCountriesCommercial
+            - withdrawFromAtmInRestrictedCountriesConsumer
+            type: string
+          type: array
+        code:
+          description: The general error code.
+          type: string
+        message:
+          description: The general error message.
+          type: string
+        remediatingActions:
+          description: An object containing possible solutions to fix a verification error.
+          items:
+            $ref: '#/components/schemas/RemediatingAction'
+          type: array
+        subErrors:
+          description: An array containing more granular information about the cause of the verification error.
+          items:
+            $ref: '#/components/schemas/VerificationError-recursive'
+          type: array
+        type:
+          description: The type of error.
+          enum:
+          - dataMissing
+          - dataReview
+          - invalidInput
+          - pendingStatus
+          - rejected
+          type: string
+      type: object
+    RemediatingAction:
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      type: object
+    CapabilityProblemEntity:
+      properties:
+        documents:
+          description: List of document IDs corresponding to the verification errors from capabilities.
+          items:
+            type: string
+          type: array
+        id:
+          type: string
+        owner:
+          $ref: '#/components/schemas/CapabilityProblemEntity-recursive'
+        type:
+          enum:
+          - BankAccount
+          - Document
+          - LegalEntity
+          - product
+          type: string
+      type: object
+    SourceOfFunds:
+      properties:
+        acquiringBusinessLineId:
+          deprecated: true
+          x-deprecatedInVersion: '3'
+          x-deprecatedMessage: This field will be removed in v4.
+          description: The unique identifier of the business line that will be the source of funds.This must be a business line for a **receivePayments** or **receiveFromPlatformPayments** capability.
+          type: string
+        adyenProcessedFunds:
+          description: Indicates whether the funds are coming from transactions processed by Adyen. If **false**, a `description` is required.
+          type: boolean
+        description:
+          description: Text describing the source of funds. For example, for `type` **business**, provide a description of where the business transactions come from, such as payments through bank transfer. Required when `adyenProcessedFunds` is **false**.
+          type: string
+        type:
+          description: 'The type of the source of funds. Possible value: **business**.'
+          enum:
+          - business
+          type: string
+      type: object
+    CapabilityProblem:
+      properties:
+        entity:
+          $ref: '#/components/schemas/CapabilityProblemEntity'
+        verificationErrors:
+          items:
+            $ref: '#/components/schemas/VerificationError'
+          type: array
+      type: object
+  examples:
+    get-businessLines-id-success-200:
+      summary: Details of a business line
+      description: Example response when getting the business line details
+      value:
+        service: banking
+        industryCode: '4531'
+        legalEntityId: LE00000000000000000000001
+        sourceOfFunds:
+          adyenProcessedFunds: false
+          description: Funds from my flower shop business
+          type: business
+        webData:
+        - webAddress: https://www.adyen.com
+          webAddressId: SE322JV223222J5H8V87B3DHN
+        id: SE322KH223222F5GV2SQ924F6
+    patch-businessLines-id-updateBusinessLine:
+      summary: Update a business line
+      description: Example request for updating the industry code of a business line
+      value:
+        industryCode: '55'
+        webData:
+        - webAddress: https://www.example.com
+    post-businessLines-createBusinessLines-businessAccounts-200:
+      summary: Business line created
+      description: Example response for creating a business line for a business account
+      value:
+        industryCode: '4531'
+        legalEntityId: LE00000000000000000000001
+        service: banking
+        sourceOfFunds:
+          adyenProcessedFunds: false
+          description: Funds from my flower shop business
+          type: business
+        webData:
+        - webAddress: https://www.adyen.com
+          webAddressId: SE322JV223222F5H4CQGS77V4
+        id: SE322KT223222D5FJ7TJN2986
+    post-businessLines-createBusinessLines-receive-200:
+      summary: Business line created
+      description: Example response for creating a business line for receiving payments
+      value:
+        service: paymentProcessing
+        industryCode: 339E
+        legalEntityId: LE00000000000000000000001
+        salesChannels:
+        - eCommerce
+        - ecomMoto
+        webData:
+        - webAddress: https://yoururl.com
+          webAddressId: SE654AC923222F5H4CQGS77V4
+        id: SE322KT223222D5FJ7TJN2986
+    post-businessLines-createBusinessLines-receive:
+      summary: Create a business line for receiving payments
+      description: Example request for receiving payments
+      value:
+        service: paymentProcessing
+        industryCode: 339E
+        salesChannels:
+        - eCommerce
+        - ecomMoto
+        legalEntityId: LE00000000000000000000001
+        webData:
+        - webAddress: https://yoururl.com
+    post-businessLines-createBusinessLines-businessAccounts:
+      summary: Create a business line for a business account
+      description: Example request for creating a business line for a business account
+      value:
+        service: banking
+        industryCode: '4531'
+        webData:
+        - webAddress: https://www.adyen.com
+        legalEntityId: LE00000000000000000000001
+        sourceOfFunds:
+          type: business
+          adyenProcessedFunds: false
+          description: Funds from my flower shop business
+    patch-businessLines-id-updateBusinessLine-200:
+      summary: Business line updated
+      description: Example response for updating the industry code of a business line
+      value:
+        service: banking
+        industryCode: '55'
+        legalEntityId: LE00000000000000000000001
+        sourceOfFunds:
+          adyenProcessedFunds: false
+          description: Funds from my flower shop business
+          type: business
+        webData:
+        - webAddress: https://www.example.com
+          webAddressId: SE966LI345672J5H8V87B3FGH
+        id: SE322JV223222F5GVGMLNB83F
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification

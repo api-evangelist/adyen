@@ -1,0 +1,367 @@
+openapi: 3.1.0
+info:
+  version: '6'
+  x-publicVersion: true
+  title: Adyen Account acceptDispute Themes API
+  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
+  x-timestamp: '2023-05-30T15:27:20Z'
+  termsOfService: https://www.adyen.com/legal/terms-and-conditions
+  contact:
+    name: Adyen Developer Experience team
+    url: https://github.com/Adyen/adyen-openapi
+servers:
+- url: https://cal-test.adyen.com/cal/services/Account/v6
+tags:
+- name: Themes
+paths:
+  /themes:
+    get:
+      tags:
+      - Themes
+      summary: Adyen Get a List of Hosted Onboarding Page Themes
+      description: 'Returns a list of hosted onboarding page themes.
+
+
+        >If you are using hosted onboarding and just beginning your integration, use v3 for your API requests. Otherwise, use v2.
+
+
+        '
+      x-addedInVersion: '1'
+      operationId: get-themes
+      x-sortIndex: 2
+      x-methodName: listHostedOnboardingPageThemes
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  $ref: '#/components/examples/get-themes-success-200'
+              schema:
+                $ref: '#/components/schemas/OnboardingThemes'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-themes400Example:
+                  summary: Default get-themes 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-themes401Example:
+                  summary: Default get-themes 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-themes403Example:
+                  summary: Default get-themes 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-themes422Example:
+                  summary: Default get-themes 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-themes500Example:
+                  summary: Default get-themes 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /themes/{id}:
+    get:
+      tags:
+      - Themes
+      summary: Adyen Get an Onboarding Link Theme
+      description: 'Returns the details of the theme identified in the path.>If you are using hosted onboarding and just beginning your integration, use v3 for your API requests. Otherwise, use v2.
+
+
+        '
+      x-addedInVersion: '1'
+      operationId: get-themes-id
+      x-sortIndex: 4
+      x-methodName: getOnboardingLinkTheme
+      security:
+      - BasicAuth: []
+      - ApiKeyAuth: []
+      parameters:
+      - description: The unique identifier of the theme
+        name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  $ref: '#/components/examples/get-themes-id-success-200'
+              schema:
+                $ref: '#/components/schemas/OnboardingTheme'
+          description: OK - the request has succeeded.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-themes-id400Example:
+                  summary: Default get-themes-id 400 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Bad Request - a problem reading or understanding the request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-themes-id401Example:
+                  summary: Default get-themes-id 401 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unauthorized - authentication required.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-themes-id403Example:
+                  summary: Default get-themes-id 403 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Forbidden - insufficient permissions to process the request.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-themes-id422Example:
+                  summary: Default get-themes-id 422 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Unprocessable Entity - a request validation error.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              examples:
+                get-themes-id500Example:
+                  summary: Default get-themes-id 500 response
+                  x-microcks-default: true
+                  value:
+                    errorCode: CODE123
+                    errorType: standard
+                    message: example_value
+                    pspReference: REF-001
+                    status: 500
+          description: Internal Server Error - the server could not process the request.
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  examples:
+    get-themes-success-200:
+      summary: List of hosted onboarding themes for your balance platform
+      description: Example response when getting the list of hosted onboarding themes
+      value:
+        themes:
+        - description: Dark colors theme
+          properties:
+            supportPage: https://www.adyen.com/contact
+            logo: ONBA422JV223222D5G8VG2T8JV39GV
+            pageTitle: Example onboarding dark colors
+            backgroundColor: '#000000'
+            faqPage: https://docs.adyen.com/hosted-onboarding-faqs
+            backgroundImage: ONBA422KH223222D5G8VG2TG9S5ZBH
+            pageLayout: withBackground
+          createdAt: '2022-01-20T00:00:00+01:00'
+          id: ONBT422JV223222D5FGJ77B9C52WNN
+          updatedAt: '2022-08-25T00:00:00+02:00'
+        - description: Light colors theme
+          properties:
+            privacyStatementPage: https://www.adyen.com/legal/terms-and-conditions
+            supportPage: https://www.adyen.com/contact
+            logo: ONBA422JV223222D5FWC4TK25S3DQW
+            pageTitle: Example onboarding light colors
+            backgroundColor: '#FFFFFF'
+            faqPage: https://docs.adyen.com/hosted-onboarding-faqs
+            backgroundImage: ONBA422JV223222D5G82M96F6P2VTV
+            pageLayout: withBackground
+          createdAt: '2022-06-22T00:00:00+02:00'
+          id: ONBT422KH223222D5G82M968PB46HR
+          updatedAt: '2022-08-25T00:00:00+02:00'
+    get-themes-id-success-200:
+      summary: Details of a page theme
+      description: Example response when getting the details of a page theme
+      value:
+        description: Light colors theme
+        properties:
+          privacyStatementPage: https://www.adyen.com/legal/terms-and-conditions
+          supportPage: https://www.adyen.com/contact
+          logo: ONBA422JV223222D5FWC4TK25S3DQW
+          pageTitle: Example onboarding light colors
+          backgroundColor: '#FFFFFF'
+          faqPage: https://docs.adyen.com/hosted-onboarding-faqs
+          backgroundImage: ONBA422JV223222D5G82M96F6P2VTV
+          pageLayout: withBackground
+        createdAt: '2022-06-22T00:00:00+02:00'
+        id: ONBT422KH223222D5G82M968PB46HR
+        updatedAt: '2022-08-25T00:00:00+02:00'
+  schemas:
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    OnboardingThemes:
+      properties:
+        next:
+          description: The next page. Only present if there is a next page.
+          type: string
+        previous:
+          description: The previous page. Only present if there is a previous page.
+          type: string
+        themes:
+          description: List of onboarding themes.
+          items:
+            $ref: '#/components/schemas/OnboardingTheme'
+          type: array
+      required:
+      - themes
+      type: object
+    OnboardingTheme:
+      properties:
+        createdAt:
+          description: The creation date of the theme.
+          format: date-time
+          type: string
+        description:
+          description: The description of the theme.
+          type: string
+        id:
+          description: The unique identifier of the theme.
+          type: string
+        properties:
+          additionalProperties:
+            type: string
+          description: The properties of the theme.
+          type: object
+        updatedAt:
+          description: The date when the theme was last updated.
+          format: date-time
+          type: string
+      required:
+      - properties
+      - id
+      - createdAt
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    BasicAuth:
+      scheme: basic
+      type: http
+x-groups:
+- Account holders
+- Accounts
+- Verification
