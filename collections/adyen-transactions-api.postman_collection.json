@@ -1,0 +1,824 @@
+{
+  "item": [
+    {
+      "id": "f2884dc3-f9dd-4aeb-a135-3a40f9c2c580",
+      "name": "Transactions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6cd27b1b-0b57-40ee-af33-2eb4a98cba47",
+          "name": "Adyen Get All Transactions",
+          "request": {
+            "name": "Adyen Get All Transactions",
+            "description": {
+              "content": ">Versions 1 and 2 of the Transfers API are deprecated. If you are just starting your implementation, use the latest version.\n\nReturns all the transactions related to a balance account, account holder, or balance platform.\n\nWhen making this request, you must include at least one of the following:\n- `balanceAccountId`\n- `accountHolderId`\n- `balancePlatform`.\n\nThis endpoint supports cursor-based pagination. The response returns the first page of results, and returns links to the next and previous pages when applicable. You can use the links to page through the results.\n\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "balancePlatform",
+                  "value": "<string>",
+                  "description": "The unique identifier of the [balance platform](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/balancePlatforms/{id}__queryParam_id).\n\nRequired if you don't provide a `balanceAccountId` or `accountHolderId`."
+                },
+                {
+                  "disabled": false,
+                  "key": "paymentInstrumentId",
+                  "value": "<string>",
+                  "description": "The unique identifier of the [payment instrument](https://docs.adyen.com/api-explorer/balanceplatform/latest/get/paymentInstruments/_id_).\n\nTo use this parameter, you must also provide a `balanceAccountId`, `accountHolderId`, or `balancePlatform`.\n\nThe `paymentInstrumentId` must be related to the `balanceAccountId` or `accountHolderId` that you provide."
+                },
+                {
+                  "disabled": false,
+                  "key": "accountHolderId",
+                  "value": "<string>",
+                  "description": "The unique identifier of the [account holder](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/accountHolders/{id}__queryParam_id).\n\nRequired if you don't provide a `balanceAccountId` or `balancePlatform`.\n\nIf you provide a `balanceAccountId`, the `accountHolderId` must be related to the `balanceAccountId`."
+                },
+                {
+                  "disabled": false,
+                  "key": "balanceAccountId",
+                  "value": "<string>",
+                  "description": "The unique identifier of the [balance account](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/balanceAccounts/{id}__queryParam_id).\n\nRequired if you don't provide an `accountHolderId` or `balancePlatform`.\n\nIf you provide an `accountHolderId`, the `balanceAccountId` must be related to the `accountHolderId`."
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "The `cursor` returned in the links of the previous response."
+                },
+                {
+                  "disabled": false,
+                  "key": "createdSince",
+                  "value": "<dateTime>",
+                  "description": "(Required) Only include transactions that have been created on or after this point in time. The value must be in ISO 8601 format. For example, **2021-05-30T15:07:40Z**."
+                },
+                {
+                  "disabled": false,
+                  "key": "createdUntil",
+                  "value": "<dateTime>",
+                  "description": "(Required) Only include transactions that have been created on or before this point in time. The value must be in ISO 8601 format. For example, **2021-05-30T15:07:40Z**."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The number of items returned per page, maximum of 100 items. By default, the response returns 10 items per page."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "40450cac-58d0-49d9-821d-68018693a4b0",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "balancePlatform",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "paymentInstrumentId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "accountHolderId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "balanceAccountId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdSince",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "createdUntil",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"balancePlatform\": \"YOUR_BALANCE_PLATFORM\",\n      \"creationDate\": \"2023-08-10T14:51:20+02:00\",\n      \"id\": \"EVJN42272224222B5JB8BRC84N686ZEUR\",\n      \"accountHolder\": {\n        \"description\": \"Your description for the account holder\",\n        \"id\": \"AH00000000000000000000001\"\n      },\n      \"amount\": {\n        \"currency\": \"USD\",\n        \"value\": -1000\n      },\n      \"balanceAccount\": {\n        \"description\": \"Your description for the account holder\",\n        \"id\": \"BA00000000000000000000001\"\n      },\n      \"bookingDate\": \"2023-08-10T14:51:33+02:00\",\n      \"status\": \"booked\",\n      \"transfer\": {\n        \"id\": \"3JNC3O5ZVFLLGV4B\",\n        \"reference\": \"Your internal reference for the transfer\"\n      },\n      \"valueDate\": \"2023-08-10T14:51:20+02:00\"\n    },\n    {\n      \"balancePlatform\": \"YOUR_BALANCE_PLATFORM\",\n      \"creationDate\": \"2023-08-10T15:34:31+02:00\",\n      \"id\": \"EVJN4227C224222B5JB8G3Q89N2NB6EUR\",\n      \"accountHolder\": {\n        \"description\": \"Your description for the account holder\",\n        \"id\": \"AH00000000000000000000001\"\n      },\n      \"amount\": {\n        \"currency\": \"USD\",\n        \"value\": 123\n      },\n      \"balanceAccount\": {\n        \"description\": \"Your description for the account holder\",\n        \"id\": \"BA00000000000000000000001\"\n      },\n      \"bookingDate\": \"2023-08-10T15:34:40+02:00\",\n      \"status\": \"booked\",\n      \"transfer\": {\n        \"id\": \"48POO45ZVG11166J\",\n        \"reference\": \"Your internal reference for the transfer\"\n      },\n      \"valueDate\": \"2023-08-10T15:34:31+02:00\"\n    },\n    {\n      \"balancePlatform\": \"YOUR_BALANCE_PLATFORM\",\n      \"creationDate\": \"2023-08-11T13:45:46+02:00\",\n      \"id\": \"EVJN4227C224222B5JBD3XHF8P3L8GUSD\",\n      \"accountHolder\": {\n        \"description\": \"Your description for the account holder\",\n        \"id\": \"AH00000000000000000000001\"\n      },\n      \"amount\": {\n        \"currency\": \"USD\",\n        \"value\": -10000\n      },\n      \"balanceAccount\": {\n        \"description\": \"Your description for the account holder\",\n        \"id\": \"BA00000000000000000000001\"\n      },\n      \"bookingDate\": \"2023-08-11T13:45:57+02:00\",\n      \"status\": \"booked\",\n      \"transfer\": {\n        \"id\": \"48RTTW5ZVT8KU9DV\",\n        \"reference\": \"my-reference\"\n      },\n      \"valueDate\": \"2023-08-11T13:45:46+02:00\"\n    },\n    {\n      \"balancePlatform\": \"YOUR_BALANCE_PLATFORM\",\n      \"creationDate\": \"2023-08-11T13:45:51+02:00\",\n      \"id\": \"EVJN42272224222B5JBD3XJGHF4J26USD\",\n      \"accountHolder\": {\n        \"description\": \"Your description for the account holder\",\n        \"id\": \"AH00000000000000000000001\"\n      },\n      \"amount\": {\n        \"currency\": \"USD\",\n        \"value\": 1000\n      },\n      \"balanceAccount\": {\n        \"description\": \"Your description for the account holder\",\n        \"id\": \"BA00000000000000000000001\"\n      },\n      \"bookingDate\": \"2023-08-11T13:45:58+02:00\",\n      \"status\": \"booked\",\n      \"transfer\": {\n        \"id\": \"48TYZO5ZVT8M1K47\",\n        \"reference\": \"my-reference\"\n      },\n      \"valueDate\": \"2023-08-11T13:45:51+02:00\"\n    }\n  ],\n  \"_links\": {\n    \"next\": {\n      \"href\": \"https://balanceplatform-api-test.adyen.com/btl/v4/transactions?balancePlatform=TestBalancePlatform&createdUntil=2023-08-20T13%3A07%3A40Z&createdSince=2023-08-10T10%3A50%3A40Z&cursor=S2B-c0p1N0tdN0l6RGhYK1YpM0lgOTUyMDlLXElyKE9LMCtyaFEuMj1NMHgidCsrJi1ZNnhqXCtqVi5JPGpRK1F2fCFqWzU33JTojSVNJc1J1VXhncS10QDd6JX9FQFl5Zn0uNyUvSXJNQTo\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "38bc405d-f2d1-4363-820b-1a200b467b85",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "balancePlatform",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "paymentInstrumentId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "accountHolderId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "balanceAccountId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdSince",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "createdUntil",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"example_value\",\n  \"errorCode\": \"CODE123\",\n  \"instance\": \"example_value\",\n  \"invalidFields\": [\n    \"example_value\"\n  ],\n  \"requestId\": \"500123\",\n  \"response\": \"example_value\",\n  \"status\": 500,\n  \"title\": \"example_value\",\n  \"type\": \"standard\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "84c8a28c-bbb9-4dab-a068-9ad36f340a4b",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "balancePlatform",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "paymentInstrumentId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "accountHolderId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "balanceAccountId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdSince",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "createdUntil",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"example_value\",\n  \"errorCode\": \"CODE123\",\n  \"instance\": \"example_value\",\n  \"invalidFields\": [\n    \"example_value\"\n  ],\n  \"requestId\": \"500123\",\n  \"response\": \"example_value\",\n  \"status\": 500,\n  \"title\": \"example_value\",\n  \"type\": \"standard\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1acd3e46-69da-4b7f-bfc6-305c1a0a64ba",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "balancePlatform",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "paymentInstrumentId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "accountHolderId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "balanceAccountId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdSince",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "createdUntil",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"example_value\",\n  \"errorCode\": \"CODE123\",\n  \"instance\": \"example_value\",\n  \"invalidFields\": [\n    \"example_value\"\n  ],\n  \"requestId\": \"500123\",\n  \"response\": \"example_value\",\n  \"status\": 500,\n  \"title\": \"example_value\",\n  \"type\": \"standard\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "647c51d4-55eb-43c4-9354-b6bd036d6756",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "balancePlatform",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "paymentInstrumentId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "accountHolderId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "balanceAccountId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "createdSince",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "createdUntil",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"example_value\",\n  \"errorCode\": \"CODE123\",\n  \"instance\": \"example_value\",\n  \"invalidFields\": [\n    \"example_value\"\n  ],\n  \"requestId\": \"500123\",\n  \"response\": \"example_value\",\n  \"status\": 500,\n  \"title\": \"example_value\",\n  \"type\": \"standard\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "17408f9d-6f45-405a-8828-8038406292eb",
+          "name": "Adyen Get a Transaction",
+          "request": {
+            "name": "Adyen Get a Transaction",
+            "description": {
+              "content": ">Versions 1 and 2 of the Transfers API are deprecated. If you are just starting your implementation, use the latest version.\n\nReturns a transaction.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The unique identifier of the transaction."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "84b4bc70-77d8-4109-bbd5-5623ee120755",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique identifier of the transaction."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"EVJN4227C224222B5JBDHPTD672M52EUR\",\n  \"amount\": {\n    \"value\": -10000,\n    \"currency\": \"EUR\"\n  },\n  \"status\": \"booked\",\n  \"transfer\": {\n    \"id\": \"48TYZO5ZVURJ2FCW\",\n    \"reference\": \"Your internal reference for the transfer\"\n  },\n  \"valueDate\": \"2023-08-11T16:19:35+02:00\",\n  \"bookingDate\": \"2023-08-11T16:19:39+02:00\",\n  \"creationDate\": \"2023-08-11T16:19:35+02:00\",\n  \"accountHolder\": {\n    \"id\": \"AH00000000000000000000001\",\n    \"description\": \"Your description of the account holder\"\n  },\n  \"balanceAccount\": {\n    \"id\": \"BA00000000000000000000001\",\n    \"description\": \"Your description of the balance account\"\n  },\n  \"balancePlatform\": \"YOUR_BALANCE_PLATFORM\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d3d830ee-faa1-4a46-9edb-5e1db1b62659",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique identifier of the transaction."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"example_value\",\n  \"errorCode\": \"CODE123\",\n  \"instance\": \"example_value\",\n  \"invalidFields\": [\n    \"example_value\"\n  ],\n  \"requestId\": \"500123\",\n  \"response\": \"example_value\",\n  \"status\": 500,\n  \"title\": \"example_value\",\n  \"type\": \"standard\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "36d35027-1918-42f8-aedc-b07daa5738a3",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique identifier of the transaction."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"example_value\",\n  \"errorCode\": \"CODE123\",\n  \"instance\": \"example_value\",\n  \"invalidFields\": [\n    \"example_value\"\n  ],\n  \"requestId\": \"500123\",\n  \"response\": \"example_value\",\n  \"status\": 500,\n  \"title\": \"example_value\",\n  \"type\": \"standard\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "370f0814-11d0-459e-b906-639dcb612e0e",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique identifier of the transaction."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"example_value\",\n  \"errorCode\": \"CODE123\",\n  \"instance\": \"example_value\",\n  \"invalidFields\": [\n    \"example_value\"\n  ],\n  \"requestId\": \"500123\",\n  \"response\": \"example_value\",\n  \"status\": 500,\n  \"title\": \"example_value\",\n  \"type\": \"standard\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "91845f8e-5e49-4b6b-b390-c45ee80a1b70",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique identifier of the transaction."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"example_value\",\n  \"errorCode\": \"CODE123\",\n  \"instance\": \"example_value\",\n  \"invalidFields\": [\n    \"example_value\"\n  ],\n  \"requestId\": \"500123\",\n  \"response\": \"example_value\",\n  \"status\": 500,\n  \"title\": \"example_value\",\n  \"type\": \"standard\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cal-test.adyen.com/cal/services/Account/v6",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "a6ac06dc-6a70-4e9b-815e-da90671e4015",
+    "name": "Adyen Account acceptDispute Transactions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```\n\nContact Support:\n Name: Adyen Developer Experience team",
+      "type": "text/plain"
+    }
+  }
+}

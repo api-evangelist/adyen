@@ -1,0 +1,264 @@
+{
+  "item": [
+    {
+      "id": "3605ba76-1dee-4b35-82f2-c3a46ee6bcfc",
+      "name": "storedPaymentMethods",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9337f1d9-4596-4fb1-b957-9d77df7c9ddf",
+          "name": "Adyen Get Tokens for Stored Payment Details",
+          "request": {
+            "name": "Adyen Get Tokens for Stored Payment Details",
+            "description": {
+              "content": "Lists the tokens for stored payment details for the shopper identified in the path, if there are any available. The token ID can be used with payment requests for the shopper's payment. A summary of the stored details is included.\n\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "storedPaymentMethods"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "shopperReference",
+                  "value": "<string>",
+                  "description": "Your reference to uniquely identify this shopper, for example user ID or account ID. Minimum length: 3 characters.\n> Your reference must not include personally identifiable information (PII), for example name or email address."
+                },
+                {
+                  "disabled": false,
+                  "key": "merchantAccount",
+                  "value": "<string>",
+                  "description": "Your merchant account."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "597bf53c-a30d-49ca-9cfe-94e6b1b69309",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "storedPaymentMethods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "shopperReference",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "merchantAccount",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"shopperReference\": \"YOUR_SHOPPER_REFERENCE\",\n  \"storedPaymentMethods\": [\n    {\n      \"brand\": \"visa\",\n      \"expiryMonth\": \"10\",\n      \"expiryYear\": \"30\",\n      \"holderName\": \"John Smith\",\n      \"id\": \"7219687191761347\",\n      \"issuerName\": \"ISSUER_NAME\",\n      \"lastFour\": \"1111\",\n      \"name\": \"VISA\",\n      \"shopperEmail\": \"john.smith@example.com\",\n      \"shopperReference\": \"YOUR_SHOPPER_REFERENCE\",\n      \"supportedRecurringProcessingModels\": [\n        \"CardOnFile\",\n        \"Subscription\",\n        \"UnscheduledCardOnFile\"\n      ],\n      \"type\": \"scheme\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e32b5b96-a9b3-45e4-bf22-5d3d9920fd31",
+          "name": "Adyen Delete a Token for Stored Payment Details",
+          "request": {
+            "name": "Adyen Delete a Token for Stored Payment Details",
+            "description": {
+              "content": "Deletes the token identified in the path. The token can no longer be used with payment requests.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "storedPaymentMethods",
+                ":storedPaymentMethodId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "shopperReference",
+                  "value": "<string>",
+                  "description": "(Required) Your reference to uniquely identify this shopper, for example user ID or account ID. Minimum length: 3 characters.\n> Your reference must not include personally identifiable information (PII), for example name or email address."
+                },
+                {
+                  "disabled": false,
+                  "key": "merchantAccount",
+                  "value": "<string>",
+                  "description": "(Required) Your merchant account."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "storedPaymentMethodId",
+                  "description": "(Required) The unique identifier of the token."
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6e9752f0-5343-4e05-bcb2-a74b7404889b",
+              "name": "No Content - look at the actual response code for the status of the request. ",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "storedPaymentMethods",
+                    ":storedPaymentMethodId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "shopperReference",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "merchantAccount",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "storedPaymentMethodId",
+                      "description": "(Required) The unique identifier of the token."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cal-test.adyen.com/cal/services/Account/v6",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b1b12ef9-959c-4b82-b823-f83459552d98",
+    "name": "Adyen Account acceptDispute storedPaymentMethods API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```\n\nContact Support:\n Name: Adyen Developer Experience team",
+      "type": "text/plain"
+    }
+  }
+}

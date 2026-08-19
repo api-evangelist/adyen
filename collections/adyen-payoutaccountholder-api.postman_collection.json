@@ -1,0 +1,449 @@
+{
+  "item": [
+    {
+      "id": "272727b9-b56b-4156-a80d-90e937c6cb66",
+      "name": "payoutAccountHolder",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0bc565ad-e819-404e-8c1d-e4bb74a6c01e",
+          "name": "Adyen Pay Out from an Account to the Account Holder",
+          "request": {
+            "name": "Adyen Pay Out from an Account to the Account Holder",
+            "description": {
+              "content": "Pays out a specified amount from an account to the bank account of account holder.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payoutAccountHolder"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountHolderCode\": \"<string>\",\n  \"accountCode\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"bankAccountUUID\": \"<string>\",\n  \"description\": \"<string>\",\n  \"merchantReference\": \"<string>\",\n  \"payoutMethodCode\": \"<string>\",\n  \"payoutSpeed\": \"STANDARD\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "09b6a99f-2066-48c6-a56f-b77edad6f176",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payoutAccountHolder"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountCode\": \"118731451\",\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 99792\n  },\n  \"accountHolderCode\": \"CODE_OF_ACCOUNT_HOLDER\",\n  \"description\": \"12345 – Test\",\n  \"bankAccountUUID\": \"000b81aa-ae7e-4492-aa7e-72b2129dce0c\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"bankAccountUUID\": \"500123\",\n  \"invalidFields\": [\n    \"example_value\"\n  ],\n  \"merchantReference\": \"REF-001\",\n  \"payoutSpeed\": \"STANDARD\",\n  \"pspReference\": \"REF-001\",\n  \"resultCode\": \"CODE123\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f2c3e661-c45c-4abf-8bc0-13c5956e9671",
+              "name": "Accepted - the request has been accepted for processing, but the processing has not been completed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payoutAccountHolder"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountCode\": \"118731451\",\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 99792\n  },\n  \"accountHolderCode\": \"CODE_OF_ACCOUNT_HOLDER\",\n  \"description\": \"12345 – Test\",\n  \"bankAccountUUID\": \"000b81aa-ae7e-4492-aa7e-72b2129dce0c\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"bankAccountUUID\": \"500123\",\n  \"invalidFields\": [\n    \"example_value\"\n  ],\n  \"merchantReference\": \"REF-001\",\n  \"payoutSpeed\": \"STANDARD\",\n  \"pspReference\": \"REF-001\",\n  \"resultCode\": \"CODE123\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "198e687e-31bf-4b96-a8f6-25e0064cc9dd",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payoutAccountHolder"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountCode\": \"118731451\",\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 99792\n  },\n  \"accountHolderCode\": \"CODE_OF_ACCOUNT_HOLDER\",\n  \"description\": \"12345 – Test\",\n  \"bankAccountUUID\": \"000b81aa-ae7e-4492-aa7e-72b2129dce0c\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"CODE123\",\n  \"errorType\": \"standard\",\n  \"message\": \"example_value\",\n  \"pspReference\": \"REF-001\",\n  \"status\": 500\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "953a6f79-38ed-4028-bbf0-e01f09dac488",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payoutAccountHolder"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountCode\": \"118731451\",\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 99792\n  },\n  \"accountHolderCode\": \"CODE_OF_ACCOUNT_HOLDER\",\n  \"description\": \"12345 – Test\",\n  \"bankAccountUUID\": \"000b81aa-ae7e-4492-aa7e-72b2129dce0c\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"CODE123\",\n  \"errorType\": \"standard\",\n  \"message\": \"example_value\",\n  \"pspReference\": \"REF-001\",\n  \"status\": 500\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0ddeec57-5353-493c-a8e6-a9800656cc33",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payoutAccountHolder"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountCode\": \"118731451\",\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 99792\n  },\n  \"accountHolderCode\": \"CODE_OF_ACCOUNT_HOLDER\",\n  \"description\": \"12345 – Test\",\n  \"bankAccountUUID\": \"000b81aa-ae7e-4492-aa7e-72b2129dce0c\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"CODE123\",\n  \"errorType\": \"standard\",\n  \"message\": \"example_value\",\n  \"pspReference\": \"REF-001\",\n  \"status\": 500\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "249b0139-1aa1-4063-afde-f1ceeaa8b8f1",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payoutAccountHolder"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountCode\": \"118731451\",\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 99792\n  },\n  \"accountHolderCode\": \"CODE_OF_ACCOUNT_HOLDER\",\n  \"description\": \"12345 – Test\",\n  \"bankAccountUUID\": \"000b81aa-ae7e-4492-aa7e-72b2129dce0c\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"CODE123\",\n  \"errorType\": \"standard\",\n  \"message\": \"example_value\",\n  \"pspReference\": \"REF-001\",\n  \"status\": 500\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f279c1d8-a0a8-4bb1-98e6-beda88a37b0b",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payoutAccountHolder"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountCode\": \"118731451\",\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 99792\n  },\n  \"accountHolderCode\": \"CODE_OF_ACCOUNT_HOLDER\",\n  \"description\": \"12345 – Test\",\n  \"bankAccountUUID\": \"000b81aa-ae7e-4492-aa7e-72b2129dce0c\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"CODE123\",\n  \"errorType\": \"standard\",\n  \"message\": \"example_value\",\n  \"pspReference\": \"REF-001\",\n  \"status\": 500\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cal-test.adyen.com/cal/services/Account/v6",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6be46b7c-a420-4e53-ab64-315aa5956ca2",
+    "name": "Adyen Account acceptDispute payoutAccountHolder API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```\n\nContact Support:\n Name: Adyen Developer Experience team",
+      "type": "text/plain"
+    }
+  }
+}

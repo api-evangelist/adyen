@@ -1,0 +1,2482 @@
+{
+  "item": [
+    {
+      "id": "88a3dbaa-4bc6-47e7-bedf-b6d2fdf6e1ef",
+      "name": "References",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c2bf0d0b-bd5c-4ffc-b99d-621fac686b0a",
+          "name": "Adyen Update an Authorised Amount",
+          "request": {
+            "name": "Adyen Update an Authorised Amount",
+            "description": {
+              "content": "Increases or decreases the authorised payment amount and returns a unique reference for this request. You get the outcome of the request asynchronously, in an [**AUTHORISATION_ADJUSTMENT** webhook](https://docs.adyen.com/development-resources/webhooks/understand-notifications#event-codes).\n\nYou can only update authorised amounts that have not yet been [captured](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments/{paymentPspReference}/captures).\n\nThe amount you specify in the request is the updated amount, which is larger or smaller than the initial authorised amount.\n\nFor more information, refer to [Authorisation adjustment](https://docs.adyen.com/online-payments/adjust-authorisation#use-cases).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payments",
+                ":paymentPspReference",
+                "amountUpdates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "paymentPspReference",
+                  "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                "key": "Idempotency-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"applicationInfo\": {\n    \"adyenLibrary\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"adyenPaymentSource\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"externalPlatform\": {\n      \"integrator\": \"<string>\",\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"merchantApplication\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"merchantDevice\": {\n      \"os\": \"<string>\",\n      \"osVersion\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    \"shopperInteractionDevice\": {\n      \"locale\": \"<string>\",\n      \"os\": \"<string>\",\n      \"osVersion\": \"<string>\"\n    }\n  },\n  \"industryUsage\": \"<string>\",\n  \"lineItems\": [\n    {\n      \"amountExcludingTax\": \"<long>\",\n      \"amountIncludingTax\": \"<long>\",\n      \"brand\": \"<string>\",\n      \"color\": \"<string>\",\n      \"description\": \"<string>\",\n      \"id\": \"<string>\",\n      \"imageUrl\": \"<string>\",\n      \"itemCategory\": \"<string>\",\n      \"manufacturer\": \"<string>\",\n      \"productUrl\": \"<string>\",\n      \"quantity\": \"<long>\",\n      \"receiverEmail\": \"<string>\",\n      \"size\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"taxAmount\": \"<long>\",\n      \"taxPercentage\": \"<long>\",\n      \"upc\": \"<string>\"\n    },\n    {\n      \"amountExcludingTax\": \"<long>\",\n      \"amountIncludingTax\": \"<long>\",\n      \"brand\": \"<string>\",\n      \"color\": \"<string>\",\n      \"description\": \"<string>\",\n      \"id\": \"<string>\",\n      \"imageUrl\": \"<string>\",\n      \"itemCategory\": \"<string>\",\n      \"manufacturer\": \"<string>\",\n      \"productUrl\": \"<string>\",\n      \"quantity\": \"<long>\",\n      \"receiverEmail\": \"<string>\",\n      \"size\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"taxAmount\": \"<long>\",\n      \"taxPercentage\": \"<long>\",\n      \"upc\": \"<string>\"\n    }\n  ],\n  \"reference\": \"<string>\",\n  \"splits\": [\n    {\n      \"type\": \"<string>\",\n      \"account\": \"<string>\",\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"account\": \"<string>\",\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d0341ccc-6b1b-4466-8814-cda871df25c0",
+              "name": "Created - the request has been fulfilled and has resulted in one or more new resources being created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "amountUpdates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 2500\n  },\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The idempotency key used for processing the request. Present if the key was provided in the request.",
+                  "key": "Idempotency-Key",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"paymentPspReference\": \"993617894903480A\",\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"pspReference\": \"993617894906488A\",\n  \"status\": \"received\",\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 2500\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bb8ce317-b3ca-444a-95a6-9666fd14b7bc",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "amountUpdates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 2500\n  },\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"errorCode\": \"702\",\n  \"message\": \"Unexpected input: \\\", expected: }\",\n  \"errorType\": \"validation\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a781e923-be85-4bd4-89b8-1f75bbee9411",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "amountUpdates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 2500\n  },\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"errorCode\": \"000\",\n  \"message\": \"HTTP Status Response - Unauthorized\",\n  \"errorType\": \"security\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7fd3b221-45ad-4871-a4ba-576586a87d74",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "amountUpdates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 2500\n  },\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 403,\n  \"errorCode\": \"901\",\n  \"message\": \"Invalid Merchant Account\",\n  \"errorType\": \"security\",\n  \"pspReference\": \"881611827877203B\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ff696f1a-3648-4f80-bb08-a73cf88e11c5",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "amountUpdates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 2500\n  },\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The idempotency key used for processing the request. Present if the key was provided in the request.",
+                  "key": "Idempotency-Key",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 422,\n  \"errorCode\": \"14_030\",\n  \"message\": \"Return URL is missing.\",\n  \"errorType\": \"validation\",\n  \"pspReference\": \"8816118280275544\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "41cbc1a2-726e-421c-8576-322aecceff32",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "amountUpdates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 2500\n  },\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 500,\n  \"errorCode\": \"905\",\n  \"message\": \"Payment details are not supported\",\n  \"errorType\": \"configuration\",\n  \"pspReference\": \"8516091485743033\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f232dda7-daa6-4a7c-936f-aa1e3bd91cd8",
+          "name": "Adyen Cancel an Authorised Payment",
+          "request": {
+            "name": "Adyen Cancel an Authorised Payment",
+            "description": {
+              "content": "Cancels the authorisation on a payment that has not yet been [captured](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments/paymentPspReference/captures), and returns a unique reference for this request. You get the outcome of the request asynchronously, in a [**CANCELLATION** webhook](https://docs.adyen.com/online-payments/cancel#cancellation-webhook).\n\nIf you want to cancel a payment but don't have the [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference), use the [`/cancels`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/cancels) endpoint instead.\n\nIf you want to cancel a payment but are not sure whether it has been captured, use the [`/payments/{paymentPspReference}/reversals`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments/{paymentPspReference}/reversals) endpoint instead.\n\nFor more information, refer to [Cancel](https://docs.adyen.com/online-payments/cancel).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payments",
+                ":paymentPspReference",
+                "cancels"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "paymentPspReference",
+                  "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to cancel. "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                "key": "Idempotency-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"applicationInfo\": {\n    \"adyenLibrary\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"adyenPaymentSource\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"externalPlatform\": {\n      \"integrator\": \"<string>\",\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"merchantApplication\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"merchantDevice\": {\n      \"os\": \"<string>\",\n      \"osVersion\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    \"shopperInteractionDevice\": {\n      \"locale\": \"<string>\",\n      \"os\": \"<string>\",\n      \"osVersion\": \"<string>\"\n    }\n  },\n  \"reference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a66bdab6-6670-4849-9037-7d2fa8cd218a",
+              "name": "Created - the request has been fulfilled and has resulted in one or more new resources being created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "cancels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to cancel. "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The idempotency key used for processing the request. Present if the key was provided in the request.",
+                  "key": "Idempotency-Key",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"paymentPspReference\": \"993617894903480A\",\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"pspReference\": \"993617894906488A\",\n  \"status\": \"received\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "47d0562d-998d-458d-86fc-5e1342611eeb",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "cancels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to cancel. "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"errorCode\": \"702\",\n  \"message\": \"Unexpected input: \\\", expected: }\",\n  \"errorType\": \"validation\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d6398bde-17a0-4968-82f7-17e7a3ef8b15",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "cancels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to cancel. "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"errorCode\": \"000\",\n  \"message\": \"HTTP Status Response - Unauthorized\",\n  \"errorType\": \"security\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "74f67b5b-c185-4ed1-abe4-c7e3aead7550",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "cancels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to cancel. "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 403,\n  \"errorCode\": \"901\",\n  \"message\": \"Invalid Merchant Account\",\n  \"errorType\": \"security\",\n  \"pspReference\": \"881611827877203B\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7fdfad03-ca45-452e-9a0a-e195bdc6711d",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "cancels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to cancel. "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The idempotency key used for processing the request. Present if the key was provided in the request.",
+                  "key": "Idempotency-Key",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 422,\n  \"errorCode\": \"14_030\",\n  \"message\": \"Return URL is missing.\",\n  \"errorType\": \"validation\",\n  \"pspReference\": \"8816118280275544\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ad4380e-e4c3-44e0-a79f-9866354c0355",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "cancels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to cancel. "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 500,\n  \"errorCode\": \"905\",\n  \"message\": \"Payment details are not supported\",\n  \"errorType\": \"configuration\",\n  \"pspReference\": \"8516091485743033\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "97ac3e5e-1865-4243-9d90-1c30e016a97e",
+          "name": "Adyen Capture an Authorised Payment",
+          "request": {
+            "name": "Adyen Capture an Authorised Payment",
+            "description": {
+              "content": " Captures an authorised payment and returns a unique reference for this request. You get the outcome of the request asynchronously, in a [**CAPTURE** webhook](https://docs.adyen.com/online-payments/capture#capture-notification).\n\nYou can capture either the full authorised amount or a part of the authorised amount. By default, any unclaimed amount after a partial capture gets cancelled. This does not apply if you enabled multiple partial captures on your account and the payment method supports multiple partial captures. \n\n[Automatic capture](https://docs.adyen.com/online-payments/capture#automatic-capture) is the default setting for most payment methods. In these cases, you don't need to make capture requests. However, making capture requests for payments that are captured automatically does not result in double charges.\n\nFor more information, refer to [Capture](https://docs.adyen.com/online-payments/capture).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payments",
+                ":paymentPspReference",
+                "captures"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "paymentPspReference",
+                  "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to capture."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                "key": "Idempotency-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"applicationInfo\": {\n    \"adyenLibrary\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"adyenPaymentSource\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"externalPlatform\": {\n      \"integrator\": \"<string>\",\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"merchantApplication\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"merchantDevice\": {\n      \"os\": \"<string>\",\n      \"osVersion\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    \"shopperInteractionDevice\": {\n      \"locale\": \"<string>\",\n      \"os\": \"<string>\",\n      \"osVersion\": \"<string>\"\n    }\n  },\n  \"lineItems\": [\n    {\n      \"amountExcludingTax\": \"<long>\",\n      \"amountIncludingTax\": \"<long>\",\n      \"brand\": \"<string>\",\n      \"color\": \"<string>\",\n      \"description\": \"<string>\",\n      \"id\": \"<string>\",\n      \"imageUrl\": \"<string>\",\n      \"itemCategory\": \"<string>\",\n      \"manufacturer\": \"<string>\",\n      \"productUrl\": \"<string>\",\n      \"quantity\": \"<long>\",\n      \"receiverEmail\": \"<string>\",\n      \"size\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"taxAmount\": \"<long>\",\n      \"taxPercentage\": \"<long>\",\n      \"upc\": \"<string>\"\n    },\n    {\n      \"amountExcludingTax\": \"<long>\",\n      \"amountIncludingTax\": \"<long>\",\n      \"brand\": \"<string>\",\n      \"color\": \"<string>\",\n      \"description\": \"<string>\",\n      \"id\": \"<string>\",\n      \"imageUrl\": \"<string>\",\n      \"itemCategory\": \"<string>\",\n      \"manufacturer\": \"<string>\",\n      \"productUrl\": \"<string>\",\n      \"quantity\": \"<long>\",\n      \"receiverEmail\": \"<string>\",\n      \"size\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"taxAmount\": \"<long>\",\n      \"taxPercentage\": \"<long>\",\n      \"upc\": \"<string>\"\n    }\n  ],\n  \"platformChargebackLogic\": {\n    \"behavior\": \"<string>\",\n    \"costAllocationAccount\": \"<string>\",\n    \"targetAccount\": \"<string>\"\n  },\n  \"reference\": \"<string>\",\n  \"splits\": [\n    {\n      \"type\": \"<string>\",\n      \"account\": \"<string>\",\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"account\": \"<string>\",\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    }\n  ],\n  \"subMerchants\": [\n    {\n      \"address\": {\n        \"street\": \"<string>\",\n        \"houseNumberOrName\": \"<string>\",\n        \"city\": \"<string>\",\n        \"postalCode\": \"<string>\",\n        \"country\": \"<string>\",\n        \"stateOrProvince\": \"<string>\"\n      },\n      \"id\": \"<string>\",\n      \"mcc\": \"<string>\",\n      \"name\": \"<string>\",\n      \"taxId\": \"<string>\"\n    },\n    {\n      \"address\": {\n        \"street\": \"<string>\",\n        \"houseNumberOrName\": \"<string>\",\n        \"city\": \"<string>\",\n        \"postalCode\": \"<string>\",\n        \"country\": \"<string>\",\n        \"stateOrProvince\": \"<string>\"\n      },\n      \"id\": \"<string>\",\n      \"mcc\": \"<string>\",\n      \"name\": \"<string>\",\n      \"taxId\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5ed66ef8-a5d3-4bf8-a377-cfc8e00e2680",
+              "name": "Created - the request has been fulfilled and has resulted in one or more new resources being created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "captures"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to capture."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"amount\": {\n    \"value\": 2000,\n    \"currency\": \"EUR\"\n  },\n  \"platformChargebackLogic\": {\n    \"behavior\": \"deductFromOneBalanceAccount\",\n    \"targetAccount\": \"BA00000000000000000000001\",\n    \"costAllocationAccount\": \"BA00000000000000000000001\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The idempotency key used for processing the request. Present if the key was provided in the request.",
+                  "key": "Idempotency-Key",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"paymentPspReference\": \"993617894903480A\",\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"pspReference\": \"993617894906488A\",\n  \"status\": \"received\",\n  \"amount\": {\n    \"value\": 2000,\n    \"currency\": \"EUR\"\n  },\n  \"platformChargebackLogic\": {\n    \"behavior\": \"deductFromOneBalanceAccount\",\n    \"targetAccount\": \"BA00000000000000000000001\",\n    \"costAllocationAccount\": \"BA00000000000000000000001\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "90d4dfe6-4cdc-4294-bbb0-a166bb7b33d1",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "captures"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to capture."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"amount\": {\n    \"value\": 2000,\n    \"currency\": \"EUR\"\n  },\n  \"platformChargebackLogic\": {\n    \"behavior\": \"deductFromOneBalanceAccount\",\n    \"targetAccount\": \"BA00000000000000000000001\",\n    \"costAllocationAccount\": \"BA00000000000000000000001\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"errorCode\": \"702\",\n  \"message\": \"Unexpected input: \\\", expected: }\",\n  \"errorType\": \"validation\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "92c114f4-7f20-4fd7-a09b-e715cb44a683",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "captures"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to capture."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"amount\": {\n    \"value\": 2000,\n    \"currency\": \"EUR\"\n  },\n  \"platformChargebackLogic\": {\n    \"behavior\": \"deductFromOneBalanceAccount\",\n    \"targetAccount\": \"BA00000000000000000000001\",\n    \"costAllocationAccount\": \"BA00000000000000000000001\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"errorCode\": \"000\",\n  \"message\": \"HTTP Status Response - Unauthorized\",\n  \"errorType\": \"security\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9c3914d6-9fc0-417b-81b9-6435d138f35d",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "captures"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to capture."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"amount\": {\n    \"value\": 2000,\n    \"currency\": \"EUR\"\n  },\n  \"platformChargebackLogic\": {\n    \"behavior\": \"deductFromOneBalanceAccount\",\n    \"targetAccount\": \"BA00000000000000000000001\",\n    \"costAllocationAccount\": \"BA00000000000000000000001\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 403,\n  \"errorCode\": \"901\",\n  \"message\": \"Invalid Merchant Account\",\n  \"errorType\": \"security\",\n  \"pspReference\": \"881611827877203B\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "229f31b1-d6ab-439f-9cd4-c37135d17a93",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "captures"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to capture."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"amount\": {\n    \"value\": 2000,\n    \"currency\": \"EUR\"\n  },\n  \"platformChargebackLogic\": {\n    \"behavior\": \"deductFromOneBalanceAccount\",\n    \"targetAccount\": \"BA00000000000000000000001\",\n    \"costAllocationAccount\": \"BA00000000000000000000001\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The idempotency key used for processing the request. Present if the key was provided in the request.",
+                  "key": "Idempotency-Key",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 422,\n  \"errorCode\": \"14_030\",\n  \"message\": \"Return URL is missing.\",\n  \"errorType\": \"validation\",\n  \"pspReference\": \"8816118280275544\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "99c727e3-cd38-4202-b25a-c8f496cdcb8f",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "captures"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to capture."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"amount\": {\n    \"value\": 2000,\n    \"currency\": \"EUR\"\n  },\n  \"platformChargebackLogic\": {\n    \"behavior\": \"deductFromOneBalanceAccount\",\n    \"targetAccount\": \"BA00000000000000000000001\",\n    \"costAllocationAccount\": \"BA00000000000000000000001\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 500,\n  \"errorCode\": \"905\",\n  \"message\": \"Payment details are not supported\",\n  \"errorType\": \"configuration\",\n  \"pspReference\": \"8516091485743033\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3637eee3-02dc-4009-8b0f-2c181dcf36eb",
+          "name": "Adyen Refund a Captured Payment",
+          "request": {
+            "name": "Adyen Refund a Captured Payment",
+            "description": {
+              "content": "Refunds a payment that has been [captured](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments/{paymentPspReference}/captures), and returns a unique reference for this request. You get the outcome of the request asynchronously, in a [**REFUND** webhook](https://docs.adyen.com/online-payments/refund#refund-webhook).\n\nYou can refund either the full captured amount or a part of the captured amount. You can also perform multiple partial refunds, as long as their sum doesn't exceed the captured amount.\n\n> Some payment methods do not support partial refunds. To learn if a payment method supports partial refunds, refer to the payment method page such as [cards](https://docs.adyen.com/payment-methods/cards#supported-cards), [iDEAL](https://docs.adyen.com/payment-methods/ideal), or [Klarna](https://docs.adyen.com/payment-methods/klarna). \n\nIf you want to refund a payment but are not sure whether it has been captured, use the [`/payments/{paymentPspReference}/reversals`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments/{paymentPspReference}/reversals) endpoint instead.\n\nFor more information, refer to [Refund](https://docs.adyen.com/online-payments/refund).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payments",
+                ":paymentPspReference",
+                "refunds"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "paymentPspReference",
+                  "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to refund."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                "key": "Idempotency-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"applicationInfo\": {\n    \"adyenLibrary\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"adyenPaymentSource\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"externalPlatform\": {\n      \"integrator\": \"<string>\",\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"merchantApplication\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"merchantDevice\": {\n      \"os\": \"<string>\",\n      \"osVersion\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    \"shopperInteractionDevice\": {\n      \"locale\": \"<string>\",\n      \"os\": \"<string>\",\n      \"osVersion\": \"<string>\"\n    }\n  },\n  \"lineItems\": [\n    {\n      \"amountExcludingTax\": \"<long>\",\n      \"amountIncludingTax\": \"<long>\",\n      \"brand\": \"<string>\",\n      \"color\": \"<string>\",\n      \"description\": \"<string>\",\n      \"id\": \"<string>\",\n      \"imageUrl\": \"<string>\",\n      \"itemCategory\": \"<string>\",\n      \"manufacturer\": \"<string>\",\n      \"productUrl\": \"<string>\",\n      \"quantity\": \"<long>\",\n      \"receiverEmail\": \"<string>\",\n      \"size\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"taxAmount\": \"<long>\",\n      \"taxPercentage\": \"<long>\",\n      \"upc\": \"<string>\"\n    },\n    {\n      \"amountExcludingTax\": \"<long>\",\n      \"amountIncludingTax\": \"<long>\",\n      \"brand\": \"<string>\",\n      \"color\": \"<string>\",\n      \"description\": \"<string>\",\n      \"id\": \"<string>\",\n      \"imageUrl\": \"<string>\",\n      \"itemCategory\": \"<string>\",\n      \"manufacturer\": \"<string>\",\n      \"productUrl\": \"<string>\",\n      \"quantity\": \"<long>\",\n      \"receiverEmail\": \"<string>\",\n      \"size\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"taxAmount\": \"<long>\",\n      \"taxPercentage\": \"<long>\",\n      \"upc\": \"<string>\"\n    }\n  ],\n  \"merchantRefundReason\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"splits\": [\n    {\n      \"type\": \"<string>\",\n      \"account\": \"<string>\",\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"account\": \"<string>\",\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    }\n  ],\n  \"store\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "74f6fcf6-27fc-4cab-934b-6ed8fa4efee8",
+              "name": "Created - the request has been fulfilled and has resulted in one or more new resources being created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "refunds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to refund."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 2500\n  },\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The idempotency key used for processing the request. Present if the key was provided in the request.",
+                  "key": "Idempotency-Key",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"paymentPspReference\": \"993617894903480A\",\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"pspReference\": \"993617894906488A\",\n  \"status\": \"received\",\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 2500\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "772e2efd-b76c-4287-970d-6e43704fd402",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "refunds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to refund."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 2500\n  },\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"errorCode\": \"702\",\n  \"message\": \"Unexpected input: \\\", expected: }\",\n  \"errorType\": \"validation\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "576c8e2b-9386-4a51-aafc-2bec06e70502",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "refunds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to refund."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 2500\n  },\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"errorCode\": \"000\",\n  \"message\": \"HTTP Status Response - Unauthorized\",\n  \"errorType\": \"security\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "54fc8f13-f99d-4649-8c6f-b20404ada8a2",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "refunds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to refund."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 2500\n  },\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 403,\n  \"errorCode\": \"901\",\n  \"message\": \"Invalid Merchant Account\",\n  \"errorType\": \"security\",\n  \"pspReference\": \"881611827877203B\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d8c96abf-2731-43ab-bbc9-c3ed26d11a54",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "refunds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to refund."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 2500\n  },\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The idempotency key used for processing the request. Present if the key was provided in the request.",
+                  "key": "Idempotency-Key",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 422,\n  \"errorCode\": \"14_030\",\n  \"message\": \"Return URL is missing.\",\n  \"errorType\": \"validation\",\n  \"pspReference\": \"8816118280275544\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "55c00a63-303e-41ac-971c-f20cc25b2875",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "refunds"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to refund."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 2500\n  },\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 500,\n  \"errorCode\": \"905\",\n  \"message\": \"Payment details are not supported\",\n  \"errorType\": \"configuration\",\n  \"pspReference\": \"8516091485743033\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4cccfa6e-3526-4d98-89e3-9d36ac896d43",
+          "name": "Adyen Refund or Cancel a Payment",
+          "request": {
+            "name": "Adyen Refund or Cancel a Payment",
+            "description": {
+              "content": "[Refunds](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments/{paymentPspReference}/refunds) a payment if it has already been captured, and [cancels](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments/{paymentPspReference}/cancels) a payment if it has not yet been captured. Returns a unique reference for this request. You get the outcome of the request asynchronously, in a [**CANCEL_OR_REFUND** webhook](https://docs.adyen.com/online-payments/reverse#cancel-or-refund-webhook).\n\nThe reversed amount is always the full payment amount.\n> Do not use this request for payments that involve multiple partial captures.\n\nFor more information, refer to [Reversal](https://docs.adyen.com/online-payments/reversal).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payments",
+                ":paymentPspReference",
+                "reversals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "paymentPspReference",
+                  "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to reverse. "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                "key": "Idempotency-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"applicationInfo\": {\n    \"adyenLibrary\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"adyenPaymentSource\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"externalPlatform\": {\n      \"integrator\": \"<string>\",\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"merchantApplication\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"merchantDevice\": {\n      \"os\": \"<string>\",\n      \"osVersion\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    \"shopperInteractionDevice\": {\n      \"locale\": \"<string>\",\n      \"os\": \"<string>\",\n      \"osVersion\": \"<string>\"\n    }\n  },\n  \"reference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d5dc3ffe-450a-41ac-a797-1989c08dc732",
+              "name": "Created - the request has been fulfilled and has resulted in one or more new resources being created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "reversals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to reverse. "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The idempotency key used for processing the request. Present if the key was provided in the request.",
+                  "key": "Idempotency-Key",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"paymentPspReference\": \"993617894903480A\",\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"pspReference\": \"993617894906488A\",\n  \"status\": \"received\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "88c05430-2185-45b3-b372-6516de6be08f",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "reversals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to reverse. "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"errorCode\": \"702\",\n  \"message\": \"Unexpected input: \\\", expected: }\",\n  \"errorType\": \"validation\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "90aabb38-3c6a-41fc-9f4a-5fb12cfddc56",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "reversals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to reverse. "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"errorCode\": \"000\",\n  \"message\": \"HTTP Status Response - Unauthorized\",\n  \"errorType\": \"security\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6097ff95-bdbb-418e-aaf0-99d48323c329",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "reversals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to reverse. "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 403,\n  \"errorCode\": \"901\",\n  \"message\": \"Invalid Merchant Account\",\n  \"errorType\": \"security\",\n  \"pspReference\": \"881611827877203B\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "43661ca5-39e5-4d92-8f6b-90992fc612a4",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "reversals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to reverse. "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The idempotency key used for processing the request. Present if the key was provided in the request.",
+                  "key": "Idempotency-Key",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 422,\n  \"errorCode\": \"14_030\",\n  \"message\": \"Return URL is missing.\",\n  \"errorType\": \"validation\",\n  \"pspReference\": \"8816118280275544\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "caf21bc0-ba66-4696-af26-20afb0732aa4",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":paymentPspReference",
+                    "reversals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "paymentPspReference",
+                      "description": "(Required) The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to reverse. "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reference\": \"YOUR_UNIQUE_REFERENCE\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 500,\n  \"errorCode\": \"905\",\n  \"message\": \"Payment details are not supported\",\n  \"errorType\": \"configuration\",\n  \"pspReference\": \"8516091485743033\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cal-test.adyen.com/cal/services/Account/v6",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "98a81f48-bb50-4c77-a32e-8132720cf2e0",
+    "name": "Adyen Account acceptDispute References API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```\n\nContact Support:\n Name: Adyen Developer Experience team",
+      "type": "text/plain"
+    }
+  }
+}

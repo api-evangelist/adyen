@@ -1,0 +1,236 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Adyen Account acceptDispute Terminals API",
+    "version": "6"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Terminals",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Adyen Get a List of Terminals",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/terminals",
+            "params": [
+              {
+                "name": "searchQuery",
+                "value": "",
+                "type": "query",
+                "description": "Returns terminals with an ID that contains the specified string. If present, other query parameters are ignored."
+              },
+              {
+                "name": "otpQuery",
+                "value": "",
+                "type": "query",
+                "description": "Returns one or more terminals associated with the one-time passwords specified in the request. If this query parameter is used, other query parameters are ignored."
+              },
+              {
+                "name": "countries",
+                "value": "",
+                "type": "query",
+                "description": "Returns terminals located in the countries specified by their [two-letter country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)."
+              },
+              {
+                "name": "merchantIds",
+                "value": "",
+                "type": "query",
+                "description": "Returns terminals that belong to the merchant accounts specified by their unique merchant account ID."
+              },
+              {
+                "name": "storeIds",
+                "value": "",
+                "type": "query",
+                "description": "Returns terminals that are assigned to the [stores](https://docs.adyen.com/api-explorer/#/ManagementService/latest/get/stores) specified by their unique store ID."
+              },
+              {
+                "name": "brandModels",
+                "value": "",
+                "type": "query",
+                "description": "Returns terminals of the [models](https://docs.adyen.com/api-explorer/#/ManagementService/latest/get/companies/{companyId}/terminalModels) specified in the format *brand.model*."
+              },
+              {
+                "name": "pageNumber",
+                "value": "",
+                "type": "query",
+                "description": "The number of the page to fetch."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of items to have on a page, maximum 100. The default is 20 items on a page."
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns the payment terminals that the API credential has access to and that match the query parameters. \nTo make this request, your API credential must have the following [roles](https://docs.adyen.com/development-resources/api-credentials#api-permissions):\n* Management API — Terminal actions read"
+        },
+        {
+          "info": {
+            "name": "Adyen Create a Terminal Action",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/terminals/scheduleActions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Schedules a [terminal action](https://docs.adyen.com/point-of-sale/automating-terminal-management/terminal-actions-api) by specifying the action and the terminals that the action must be applied to. \n\nThe following restrictions apply:\n* You can schedule only one action at a time. For example, to install a new app version and remove an old app version, you have to make two API requests. \n* The maximum number of terminals in a request is **100**. For example, to apply an action to 250 terminals, y"
+        },
+        {
+          "info": {
+            "name": "Adyen Reassign a Terminal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/terminals/:terminalId/reassign",
+            "params": [
+              {
+                "name": "terminalId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the payment terminal."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Reassigns a payment terminal to a company account, merchant account, merchant account inventory, or a store.\n\nTo make this request, your API credential must have the following [role](https://docs.adyen.com/development-resources/api-credentials#api-permissions):\n* Management API—Assign Terminal"
+        },
+        {
+          "info": {
+            "name": "Adyen Get the Terminal Logo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/terminals/:terminalId/terminalLogos",
+            "params": [
+              {
+                "name": "terminalId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the payment terminal."
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns the logo that is configured for the payment terminal identified in the path.\nThe logo is returned as a Base64-encoded string. You need to Base64-decode the string to get the actual image file.\n\nTo make this request, your API credential must have one of the following [roles](https://docs.adyen.com/development-resources/api-credentials#api-permissions):\n* Management API—Terminal settings read\n* Management API—Terminal settings read and write"
+        },
+        {
+          "info": {
+            "name": "Adyen Update the Logo",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/terminals/:terminalId/terminalLogos",
+            "params": [
+              {
+                "name": "terminalId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the payment terminal."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Updates the logo for the payment terminal identified in the path.\n\n* To change the logo, specify the image file as a Base64-encoded string.\n* To restore the logo inherited from a higher level (store, merchant account, or company account), specify an empty logo value.\n\nTo make this request, your API credential must have the following [role](https://docs.adyen.com/development-resources/api-credentials#api-permissions):\n* Management API—Terminal settings read and write"
+        },
+        {
+          "info": {
+            "name": "Adyen Get Terminal Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/terminals/:terminalId/terminalSettings",
+            "params": [
+              {
+                "name": "terminalId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the payment terminal."
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns the settings that are configured for the payment terminal identified in the path.\n\nTo make this request, your API credential must have one of the following [roles](https://docs.adyen.com/development-resources/api-credentials#api-permissions):\n* Management API—Terminal settings read\n* Management API—Terminal settings read and write\n\nFor [sensitive terminal settings](https://docs.adyen.com/point-of-sale/automating-terminal-management/configure-terminals-api#sensitive-terminal-settings), yo"
+        },
+        {
+          "info": {
+            "name": "Adyen Update Terminal Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/terminals/:terminalId/terminalSettings",
+            "params": [
+              {
+                "name": "terminalId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the payment terminal."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Updates the settings that are configured for the payment terminal identified in the path.\n\n* To change a parameter value, include the full object that contains the parameter, even if you don't want to change all parameters in the object.\n* To restore a parameter value inherited from a higher level, include the full object that contains the parameter, and specify an empty value for the parameter or omit the parameter.\n* Objects that are not included in the request are not updated.\n\nTo make this r"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,398 @@
+{
+  "item": [
+    {
+      "id": "13dabe6c-e0cd-466a-b716-5dff9c840aea",
+      "name": "Estimates",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4b99daf6-22ad-48f8-8c19-93af5626758f",
+          "name": "Adyen Get a Fees Cost Estimate",
+          "request": {
+            "name": "Adyen Get a Fees Cost Estimate",
+            "description": {
+              "content": ">This API is available only for merchants operating in Australia, the EU, and the UK.\n\nUse the Adyen Cost Estimation API to pre-calculate interchange and scheme fee costs. Knowing these costs prior actual payment authorisation gives you an opportunity to charge those costs to the cardholder, if necessary.\n\nTo retrieve this information, make the call to the `/getCostEstimate` endpoint. The response to this call contains the amount of the interchange and scheme fees charged by the network for this transaction, and also which surcharging policy is possible (based on current regulations).\n\n> Since not all information is known in advance (for example, if the cardholder will successfully authenticate via 3D Secure or if you also plan to provide additional Level 2/3 data), the returned amounts are based on a set of assumption criteria you define in the `assumptions` parameter.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "getCostEstimate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"merchantAccount\": \"<string>\",\n  \"assumptions\": {\n    \"assume3DSecureAuthenticated\": \"<boolean>\",\n    \"assumeLevel3Data\": \"<boolean>\",\n    \"installments\": \"<integer>\"\n  },\n  \"cardNumber\": \"<string>\",\n  \"encryptedCardNumber\": \"<string>\",\n  \"merchantDetails\": {\n    \"countryCode\": \"<string>\",\n    \"enrolledIn3DSecure\": \"<boolean>\",\n    \"mcc\": \"<string>\"\n  },\n  \"recurring\": {\n    \"contract\": \"<string>\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"<string>\"\n  },\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"shopperInteraction\": \"<string>\",\n  \"shopperReference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9d5a30ab-a32b-43fb-8f81-f32c2bd4ba7c",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getCostEstimate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": 1234,\n    \"currency\": \"EUR\"\n  },\n  \"assumptions\": {\n    \"assumeLevel3Data\": true,\n    \"assume3DSecureAuthenticated\": true\n  },\n  \"cardNumber\": \"5101180000000007\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"merchantDetails\": {\n    \"countryCode\": \"NL\",\n    \"mcc\": \"7411\",\n    \"enrolledIn3DSecure\": true\n  },\n  \"shopperInteraction\": \"Ecommerce\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"costEstimateAmount\": {\n    \"currency\": \"EUR\",\n    \"value\": 12\n  },\n  \"resultCode\": \"Success\",\n  \"surchargeType\": \"PASSTHROUGH\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b2e4e9f6-6bae-4308-bba5-29df37bc8837",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getCostEstimate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": 1234,\n    \"currency\": \"EUR\"\n  },\n  \"assumptions\": {\n    \"assumeLevel3Data\": true,\n    \"assume3DSecureAuthenticated\": true\n  },\n  \"cardNumber\": \"5101180000000007\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"merchantDetails\": {\n    \"countryCode\": \"NL\",\n    \"mcc\": \"7411\",\n    \"enrolledIn3DSecure\": true\n  },\n  \"shopperInteraction\": \"Ecommerce\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"errorCode\": \"702\",\n  \"message\": \"Unexpected input: I\",\n  \"errorType\": \"validation\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "921492a8-06df-4c9f-8618-acf45d999945",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getCostEstimate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": 1234,\n    \"currency\": \"EUR\"\n  },\n  \"assumptions\": {\n    \"assumeLevel3Data\": true,\n    \"assume3DSecureAuthenticated\": true\n  },\n  \"cardNumber\": \"5101180000000007\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"merchantDetails\": {\n    \"countryCode\": \"NL\",\n    \"mcc\": \"7411\",\n    \"enrolledIn3DSecure\": true\n  },\n  \"shopperInteraction\": \"Ecommerce\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"additionalData\": {},\n  \"errorCode\": \"CODE123\",\n  \"errorType\": \"standard\",\n  \"message\": \"example_value\",\n  \"pspReference\": \"REF-001\",\n  \"status\": 500\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c34ac3aa-b005-461d-977b-4a8e37bb9f2a",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getCostEstimate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": 1234,\n    \"currency\": \"EUR\"\n  },\n  \"assumptions\": {\n    \"assumeLevel3Data\": true,\n    \"assume3DSecureAuthenticated\": true\n  },\n  \"cardNumber\": \"5101180000000007\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"merchantDetails\": {\n    \"countryCode\": \"NL\",\n    \"mcc\": \"7411\",\n    \"enrolledIn3DSecure\": true\n  },\n  \"shopperInteraction\": \"Ecommerce\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"additionalData\": {},\n  \"errorCode\": \"CODE123\",\n  \"errorType\": \"standard\",\n  \"message\": \"example_value\",\n  \"pspReference\": \"REF-001\",\n  \"status\": 500\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cdc93429-8bc1-4a6e-97f9-8516317a10c2",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getCostEstimate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": 1234,\n    \"currency\": \"EUR\"\n  },\n  \"assumptions\": {\n    \"assumeLevel3Data\": true,\n    \"assume3DSecureAuthenticated\": true\n  },\n  \"cardNumber\": \"5101180000000007\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"merchantDetails\": {\n    \"countryCode\": \"NL\",\n    \"mcc\": \"7411\",\n    \"enrolledIn3DSecure\": true\n  },\n  \"shopperInteraction\": \"Ecommerce\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"additionalData\": {},\n  \"errorCode\": \"CODE123\",\n  \"errorType\": \"standard\",\n  \"message\": \"example_value\",\n  \"pspReference\": \"REF-001\",\n  \"status\": 500\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "15aadb2f-becd-429e-81e9-45807731d717",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "getCostEstimate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": 1234,\n    \"currency\": \"EUR\"\n  },\n  \"assumptions\": {\n    \"assumeLevel3Data\": true,\n    \"assume3DSecureAuthenticated\": true\n  },\n  \"cardNumber\": \"5101180000000007\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"merchantDetails\": {\n    \"countryCode\": \"NL\",\n    \"mcc\": \"7411\",\n    \"enrolledIn3DSecure\": true\n  },\n  \"shopperInteraction\": \"Ecommerce\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"additionalData\": {},\n  \"errorCode\": \"CODE123\",\n  \"errorType\": \"standard\",\n  \"message\": \"example_value\",\n  \"pspReference\": \"REF-001\",\n  \"status\": 500\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cal-test.adyen.com/cal/services/Account/v6",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "2a68f267-df47-4e8a-90f9-1ef938e221b2",
+    "name": "Adyen Account acceptDispute Estimates API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```\n\nContact Support:\n Name: Adyen Developer Experience team",
+      "type": "text/plain"
+    }
+  }
+}

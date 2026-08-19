@@ -1,0 +1,398 @@
+{
+  "item": [
+    {
+      "id": "b81791b6-1f81-41b8-8977-91136da4c347",
+      "name": "voidPendingRefund",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c2879de8-1cdb-45a2-a896-e32accf3f577",
+          "name": "Adyen Cancel an In-person Refund",
+          "request": {
+            "name": "Adyen Cancel an In-person Refund",
+            "description": {
+              "content": "This endpoint allows you to cancel an unreferenced refund request before it has been completed.\n\nIn your call, you can refer to the original refund request either by using the `tenderReference`, or the `pspReference`. We recommend implementing based on the `tenderReference`, as this is generated for both offline and online transactions.\n\nFor more information, refer to [Cancel an unreferenced refund](https://docs.adyen.com/point-of-sale/refund-payment/cancel-unreferenced).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "voidPendingRefund"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"additionalData\": {\n    \"key_0\": \"<string>\"\n  },\n  \"modificationAmount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"mpiData\": {\n    \"authenticationResponse\": \"<string>\",\n    \"cavv\": \"<byte>\",\n    \"cavvAlgorithm\": \"<string>\",\n    \"challengeCancel\": \"<string>\",\n    \"directoryResponse\": \"<string>\",\n    \"dsTransID\": \"<string>\",\n    \"eci\": \"<string>\",\n    \"riskScore\": \"<string>\",\n    \"threeDSVersion\": \"<string>\",\n    \"tokenAuthenticationVerificationValue\": \"<byte>\",\n    \"transStatusReason\": \"<string>\",\n    \"xid\": \"<byte>\"\n  },\n  \"originalMerchantReference\": \"<string>\",\n  \"originalReference\": \"<string>\",\n  \"platformChargebackLogic\": {\n    \"behavior\": \"<string>\",\n    \"costAllocationAccount\": \"<string>\",\n    \"targetAccount\": \"<string>\"\n  },\n  \"reference\": \"<string>\",\n  \"splits\": [\n    {\n      \"type\": \"<string>\",\n      \"account\": \"<string>\",\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"account\": \"<string>\",\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    }\n  ],\n  \"tenderReference\": \"<string>\",\n  \"uniqueTerminalId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0e75d2ee-99bd-4ee9-ab1e-bf450c84a5ff",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "voidPendingRefund"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"originalReference\": \"9914748988390044\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pspReference\": \"861617892360062F\",\n  \"response\": \"[voidPendingRefund-received]\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5da931ba-b244-4abf-bd63-89258a83b7eb",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "voidPendingRefund"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"originalReference\": \"9914748988390044\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"errorCode\": \"702\",\n  \"message\": \"Unexpected input: \\\", expected: }\",\n  \"errorType\": \"validation\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ca083395-2a86-4719-8a4c-456ece74b163",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "voidPendingRefund"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"originalReference\": \"9914748988390044\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"errorCode\": \"000\",\n  \"message\": \"HTTP Status Response - Unauthorized\",\n  \"errorType\": \"security\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "68b77909-bbb6-4064-ab86-c3e2fb859e56",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "voidPendingRefund"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"originalReference\": \"9914748988390044\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"additionalData\": {},\n  \"errorCode\": \"CODE123\",\n  \"errorType\": \"standard\",\n  \"message\": \"example_value\",\n  \"pspReference\": \"REF-001\",\n  \"status\": 500\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf92726d-b54c-4054-a771-38d5b26bcee5",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "voidPendingRefund"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"originalReference\": \"9914748988390044\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"additionalData\": {},\n  \"errorCode\": \"CODE123\",\n  \"errorType\": \"standard\",\n  \"message\": \"example_value\",\n  \"pspReference\": \"REF-001\",\n  \"status\": 500\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "950b66fe-0e23-45ac-b2a1-d60550492795",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "voidPendingRefund"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"originalReference\": \"9914748988390044\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 500,\n  \"errorCode\": \"905\",\n  \"message\": \"Payment details are not supported\",\n  \"errorType\": \"configuration\",\n  \"pspReference\": \"8516091485743033\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cal-test.adyen.com/cal/services/Account/v6",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "80e6035b-c71d-44a4-84e5-9d7232d588fd",
+    "name": "Adyen Account acceptDispute voidPendingRefund API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```\n\nContact Support:\n Name: Adyen Developer Experience team",
+      "type": "text/plain"
+    }
+  }
+}

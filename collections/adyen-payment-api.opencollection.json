@@ -1,0 +1,75 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Adyen Account acceptDispute Payment API",
+    "version": "6"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Payment",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Adyen Get Payment Instruments Linked to a Balance Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/balanceAccounts/:id/paymentInstruments",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the balance account."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The number of items that you want to skip."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of items returned per page, maximum 100 items. By default, the response returns 10 items per page."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The status of the payment instruments that you want to get. By default, the response includes payment instruments with any status."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of the payment instruments associated with a balance account. \n\nTo fetch multiple pages, use the query parameters.For example, to limit the page to 3 payment instruments which are in active status and to skip the first 6, use `/balanceAccounts/{id}/paymentInstruments?limit=3&offset=6&status=active`."
+        },
+        {
+          "info": {
+            "name": "Adyen Payment Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/payment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Request sent to terminal to initiate payment.  It conveys Information related to the Payment transaction to process. Content of the Payment Request message."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,398 @@
+{
+  "item": [
+    {
+      "id": "2098e5d9-ed1e-479d-b40b-a2d912b5cd5b",
+      "name": "adjustAuthorisation",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "51988878-3147-4e91-b80e-2f3407ca2590",
+          "name": "Adyen Change the Authorised Amount",
+          "request": {
+            "name": "Adyen Change the Authorised Amount",
+            "description": {
+              "content": "Allows you to increase or decrease the authorised amount after the initial authorisation has taken place. This functionality enables for example tipping, improving the chances your authorisation will be valid, or charging the shopper when they have already left the merchant premises.\n\n> This endpoint is part of our [classic API integration](https://docs.adyen.com/online-payments/classic-integrations/api-integration-ecommerce).\n> If you have a [newer integration](https://docs.adyen.com/online-payments), and are doing:\n> * [Asynchronous adjustments](https://docs.adyen.com/online-payments/adjust-authorisation#asynchronous-or-synchronous-adjustment), use the [`/payments/{paymentPspReference}/amountUpdates`](https://docs.adyen.com/api-explorer/#/CheckoutService/v67/post/payments/{paymentPspReference}/amountUpdates) endpoint on Checkout API.\n> * [Synchronous adjustments](https://docs.adyen.com/online-payments/adjust-authorisation#asynchronous-or-synchronous-adjustment), use this endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "adjustAuthorisation"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"modificationAmount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"originalReference\": \"<string>\",\n  \"additionalData\": {\n    \"key_0\": \"<string>\"\n  },\n  \"mpiData\": {\n    \"authenticationResponse\": \"<string>\",\n    \"cavv\": \"<byte>\",\n    \"cavvAlgorithm\": \"<string>\",\n    \"challengeCancel\": \"<string>\",\n    \"directoryResponse\": \"<string>\",\n    \"dsTransID\": \"<string>\",\n    \"eci\": \"<string>\",\n    \"riskScore\": \"<string>\",\n    \"threeDSVersion\": \"<string>\",\n    \"tokenAuthenticationVerificationValue\": \"<byte>\",\n    \"transStatusReason\": \"<string>\",\n    \"xid\": \"<byte>\"\n  },\n  \"originalMerchantReference\": \"<string>\",\n  \"platformChargebackLogic\": {\n    \"behavior\": \"<string>\",\n    \"costAllocationAccount\": \"<string>\",\n    \"targetAccount\": \"<string>\"\n  },\n  \"reference\": \"<string>\",\n  \"splits\": [\n    {\n      \"type\": \"<string>\",\n      \"account\": \"<string>\",\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"account\": \"<string>\",\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    }\n  ],\n  \"tenderReference\": \"<string>\",\n  \"uniqueTerminalId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1019c6e9-2407-41d8-8da5-0735b5b79a7d",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "adjustAuthorisation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originalReference\": \"COPY_PSP_REFERENCE_FROM_AUTHORISE_RESPONSE\",\n  \"modificationAmount\": {\n    \"currency\": \"USD\",\n    \"value\": 1700\n  },\n  \"reference\": \"YourModificationReference\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pspReference\": \"851617892360718D\",\n  \"response\": \"[adjustAuthorisation-received]\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f2a117a3-dd80-4bb2-ac2b-acb02786ad5f",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "adjustAuthorisation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originalReference\": \"COPY_PSP_REFERENCE_FROM_AUTHORISE_RESPONSE\",\n  \"modificationAmount\": {\n    \"currency\": \"USD\",\n    \"value\": 1700\n  },\n  \"reference\": \"YourModificationReference\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"errorCode\": \"702\",\n  \"message\": \"Unexpected input: \\\", expected: }\",\n  \"errorType\": \"validation\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5a0a85a2-1490-4c24-bfea-842c357da97c",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "adjustAuthorisation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originalReference\": \"COPY_PSP_REFERENCE_FROM_AUTHORISE_RESPONSE\",\n  \"modificationAmount\": {\n    \"currency\": \"USD\",\n    \"value\": 1700\n  },\n  \"reference\": \"YourModificationReference\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"errorCode\": \"000\",\n  \"message\": \"HTTP Status Response - Unauthorized\",\n  \"errorType\": \"security\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2c9d8722-2c00-4b6d-8304-7de63039a069",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "adjustAuthorisation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originalReference\": \"COPY_PSP_REFERENCE_FROM_AUTHORISE_RESPONSE\",\n  \"modificationAmount\": {\n    \"currency\": \"USD\",\n    \"value\": 1700\n  },\n  \"reference\": \"YourModificationReference\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"additionalData\": {},\n  \"errorCode\": \"CODE123\",\n  \"errorType\": \"standard\",\n  \"message\": \"example_value\",\n  \"pspReference\": \"REF-001\",\n  \"status\": 500\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2695fde2-3d8f-4d3f-8bf4-2db9d00fee50",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "adjustAuthorisation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originalReference\": \"COPY_PSP_REFERENCE_FROM_AUTHORISE_RESPONSE\",\n  \"modificationAmount\": {\n    \"currency\": \"USD\",\n    \"value\": 1700\n  },\n  \"reference\": \"YourModificationReference\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"additionalData\": {},\n  \"errorCode\": \"CODE123\",\n  \"errorType\": \"standard\",\n  \"message\": \"example_value\",\n  \"pspReference\": \"REF-001\",\n  \"status\": 500\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e1c55911-c16a-4558-bffe-0d594eee1ce6",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "adjustAuthorisation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originalReference\": \"COPY_PSP_REFERENCE_FROM_AUTHORISE_RESPONSE\",\n  \"modificationAmount\": {\n    \"currency\": \"USD\",\n    \"value\": 1700\n  },\n  \"reference\": \"YourModificationReference\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 500,\n  \"errorCode\": \"905\",\n  \"message\": \"Payment details are not supported\",\n  \"errorType\": \"configuration\",\n  \"pspReference\": \"8516091485743033\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cal-test.adyen.com/cal/services/Account/v6",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "eff53716-1d32-4ca0-bd56-128dc0d65a1c",
+    "name": "Adyen Account acceptDispute adjustAuthorisation API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```\n\nContact Support:\n Name: Adyen Developer Experience team",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Adyen Account acceptDispute paymentLinks API",
+    "version": "6"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "paymentLinks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Adyen Create a Payment Link",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/paymentLinks",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates a payment link to our hosted payment form where shoppers can pay. The list of payment methods presented to the shopper depends on the `currency` and `country` parameters sent in the request.\n\nFor more information, refer to [Pay by Link documentation](https://docs.adyen.com/online-payments/pay-by-link#create-payment-links-through-api)."
+        },
+        {
+          "info": {
+            "name": "Adyen Get a Payment Link",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/paymentLinks/:linkId",
+            "params": [
+              {
+                "name": "linkId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the payment link."
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Retrieves the payment link details using the payment link `id`."
+        },
+        {
+          "info": {
+            "name": "Adyen Update the Status of a Payment Link",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/paymentLinks/:linkId",
+            "params": [
+              {
+                "name": "linkId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the payment link."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Updates the status of a payment link. Use this endpoint to [force the expiry of a payment link](https://docs.adyen.com/online-payments/pay-by-link#update-payment-link-status)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

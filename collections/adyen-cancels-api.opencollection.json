@@ -1,0 +1,104 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Adyen Account acceptDispute Cancels API",
+    "version": "6"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Cancels",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Adyen Cancel an Authorised Payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/cancels",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Cancels the authorisation on a payment that has not yet been [captured](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments/{paymentPspReference}/captures), and returns a unique reference for this request. You get the outcome of the request asynchronously, in a [**TECHNICAL_CANCEL** webhook](https://docs.adyen.com/online-payments/cancel#cancellation-webhook).\n\nIf you want to cancel a payment using the [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/l"
+        },
+        {
+          "info": {
+            "name": "Adyen Cancel an Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/orders/cancel",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Cancels an order. Cancellation of an order results in an automatic rollback of all payments made in the order, either by canceling or refunding the payment, depending on the type of payment method."
+        },
+        {
+          "info": {
+            "name": "Adyen Cancel an Authorised Payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/payments/:paymentPspReference/cancels",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+              }
+            ],
+            "params": [
+              {
+                "name": "paymentPspReference",
+                "value": "",
+                "type": "path",
+                "description": "The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment that you want to cancel. "
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Cancels the authorisation on a payment that has not yet been [captured](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments/paymentPspReference/captures), and returns a unique reference for this request. You get the outcome of the request asynchronously, in a [**CANCELLATION** webhook](https://docs.adyen.com/online-payments/cancel#cancellation-webhook).\n\nIf you want to cancel a payment but don't have the [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutServic"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

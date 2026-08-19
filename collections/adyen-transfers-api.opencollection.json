@@ -1,0 +1,97 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Adyen Account acceptDispute Transfers API",
+    "version": "6"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transfers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Adyen Start a Balance Transfer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/balanceTransfer",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Starts a balance transfer request between merchant accounts. The following conditions must be met before you can successfully transfer balances:\n\n* The source and destination merchant accounts must be under the same company account and legal entity.\n\n* The source merchant account must have sufficient funds.\n\n* The source and destination merchant accounts must have at least one common processing currency.\n\nWhen sending multiple API requests with the same source and destination merchant accounts, "
+        },
+        {
+          "info": {
+            "name": "Adyen Calculate Transfer Routes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/transferRoutes/calculate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns available transfer routes based on a combination of transfer `country`, `currency`, `counterparty`, and `priorities`. Use this endpoint to find optimal transfer priorities and associated requirements before you [make a transfer](https://docs.adyen.com/api-explorer/transfers/latest/post/transfers)."
+        },
+        {
+          "info": {
+            "name": "Adyen Transfer Funds",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/transfers",
+            "headers": [
+              {
+                "name": "WWW-Authenticate",
+                "value": "SCA realm=\"Transfer\" auth-param1=\"eyJjaGFsbGVuZ2UiOiJiVlV6ZW5wek0waFNl...\""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": ">Versions 1 and 2 of the Transfers API are deprecated. If you are just starting your implementation, use the latest version.\n\nStarts a request to transfer funds to [balance accounts](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/post/balanceAccounts), [transfer instruments](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/transferInstruments), or third-party bank accounts. Adyen sends the outcome of the transfer request through webhooks.\n\nTo use this endpoint, you nee"
+        },
+        {
+          "info": {
+            "name": "Adyen Return a Transfer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/transfers/:transferId/returns",
+            "params": [
+              {
+                "name": "transferId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the transfer to be returned."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns previously transferred funds without creating a new `transferId`."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

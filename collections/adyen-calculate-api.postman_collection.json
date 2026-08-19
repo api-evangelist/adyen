@@ -1,0 +1,353 @@
+{
+  "item": [
+    {
+      "id": "553e2c41-8c29-4fd5-872a-76078609fbcb",
+      "name": "Calculate",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0ab306ac-4f16-41ba-8b0d-f45110110b4f",
+          "name": "Adyen Calculate Transfer Routes",
+          "request": {
+            "name": "Adyen Calculate Transfer Routes",
+            "description": {
+              "content": "Returns available transfer routes based on a combination of transfer `country`, `currency`, `counterparty`, and `priorities`. Use this endpoint to find optimal transfer priorities and associated requirements before you [make a transfer](https://docs.adyen.com/api-explorer/transfers/latest/post/transfers).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transferRoutes",
+                "calculate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"balancePlatform\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"category\": \"<string>\",\n  \"balanceAccountId\": \"<string>\",\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountIdentification\": {\n        \"type\": \"auLocal\",\n        \"accountNumber\": \"<string>\",\n        \"bsbCode\": \"<string>\"\n      }\n    },\n    \"transferInstrumentId\": \"<string>\"\n  },\n  \"country\": \"<string>\",\n  \"priorities\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "294d08d2-e289-4952-87c8-a4679d9b05ad",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transferRoutes",
+                    "calculate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"balancePlatform\": \"YOUR_BALANCE_PLATFORM\",\n  \"currency\": \"USD\",\n  \"category\": \"bank\",\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountIdentification\": {\n        \"type\": \"iban\",\n        \"iban\": \"NL91ABNA0417164300\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transferRoutes\": [\n    {\n      \"country\": \"NL\",\n      \"currency\": \"USD\",\n      \"priority\": \"crossBorder\",\n      \"requirements\": [\n        {\n          \"description\": \"Amount of transfer must be at least 100, and no greater than 99999999999\",\n          \"max\": 99999999999,\n          \"min\": 100,\n          \"type\": \"amountMinMaxRequirement\"\n        },\n        {\n          \"description\": \"Country, street and city is required.\",\n          \"requiredAddressFields\": [\n            \"STREET\",\n            \"CITY\"\n          ],\n          \"type\": \"addressRequirement\"\n        },\n        {\n          \"description\": \"Bank account identification type must be iban or numberAndBic\",\n          \"bankAccountIdentificationTypes\": [\n            \"iban\",\n            \"numberAndBic\"\n          ],\n          \"type\": \"bankAccountIdentificationTypeRequirement\"\n        },\n        {\n          \"issuingCountryCode\": \"NL\",\n          \"paymentInstrumentType\": \"BankAccount\",\n          \"type\": \"paymentInstrumentRequirement\"\n        }\n      ]\n    },\n    {\n      \"country\": \"NL\",\n      \"currency\": \"USD\",\n      \"priority\": \"wire\",\n      \"requirements\": [\n        {\n          \"description\": \"Amount of transfer must be at least 100, and no greater than 99999999999\",\n          \"max\": 99999999999,\n          \"min\": 100,\n          \"type\": \"amountMinMaxRequirement\"\n        },\n        {\n          \"description\": \"Country, street and city is required.\",\n          \"requiredAddressFields\": [\n            \"STREET\",\n            \"CITY\"\n          ],\n          \"type\": \"addressRequirement\"\n        },\n        {\n          \"description\": \"Bank account identification type must be iban or numberAndBic\",\n          \"bankAccountIdentificationTypes\": [\n            \"iban\",\n            \"numberAndBic\"\n          ],\n          \"type\": \"bankAccountIdentificationTypeRequirement\"\n        },\n        {\n          \"issuingCountryCode\": \"NL\",\n          \"paymentInstrumentType\": \"BankAccount\",\n          \"type\": \"paymentInstrumentRequirement\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8bc2940b-937f-4ca4-b17b-7d882fd449a0",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transferRoutes",
+                    "calculate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"balancePlatform\": \"YOUR_BALANCE_PLATFORM\",\n  \"currency\": \"USD\",\n  \"category\": \"bank\",\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountIdentification\": {\n        \"type\": \"iban\",\n        \"iban\": \"NL91ABNA0417164300\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://docs.adyen.com/errors/security/unauthorized\",\n  \"title\": \"Unauthorized\",\n  \"status\": 401,\n  \"detail\": \"Not authorized to access this service.\",\n  \"errorCode\": \"00_401\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "adf46e1d-eb21-4a68-8842-b14852c520ba",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transferRoutes",
+                    "calculate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"balancePlatform\": \"YOUR_BALANCE_PLATFORM\",\n  \"currency\": \"USD\",\n  \"category\": \"bank\",\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountIdentification\": {\n        \"type\": \"iban\",\n        \"iban\": \"NL91ABNA0417164300\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://docs.adyen.com/errors/security/unauthorized\",\n  \"title\": \"Forbidden\",\n  \"status\": 403,\n  \"detail\": \"Not the right permission to access this service.\",\n  \"errorCode\": \"00_403\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ffae4102-0c54-42fd-b7e5-c5f2232eba77",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transferRoutes",
+                    "calculate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"balancePlatform\": \"YOUR_BALANCE_PLATFORM\",\n  \"currency\": \"USD\",\n  \"category\": \"bank\",\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountIdentification\": {\n        \"type\": \"iban\",\n        \"iban\": \"NL91ABNA0417164300\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://docs.adyen.com/errors/general/invalid-field-value\",\n  \"title\": \"Invalid Payment Instrument information provided\",\n  \"status\": 422,\n  \"detail\": \"The balanceAccountId can only be changed when the status is Inactive or Requested\",\n  \"requestId\": \"1W1UI15PLVGC9V8O\",\n  \"errorCode\": \"30_031\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "59045737-0309-4a7d-83e7-e1da9f3f528e",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transferRoutes",
+                    "calculate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"balancePlatform\": \"YOUR_BALANCE_PLATFORM\",\n  \"currency\": \"USD\",\n  \"category\": \"bank\",\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountIdentification\": {\n        \"type\": \"iban\",\n        \"iban\": \"NL91ABNA0417164300\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://docs.adyen.com/errors/general/internal\",\n  \"title\": \"An internal error happened\",\n  \"status\": 500,\n  \"detail\": \"Unrecoverable error while trying to create payment instrument\",\n  \"requestId\": \"1WAF555PLWNTLYOQ\",\n  \"errorCode\": \"00_500\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cal-test.adyen.com/cal/services/Account/v6",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6d7f575a-6c11-44b6-9965-c07e03d19f2a",
+    "name": "Adyen Account acceptDispute Calculate API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```\n\nContact Support:\n Name: Adyen Developer Experience team",
+      "type": "text/plain"
+    }
+  }
+}

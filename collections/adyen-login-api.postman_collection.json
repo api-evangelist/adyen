@@ -1,0 +1,143 @@
+{
+  "item": [
+    {
+      "id": "3881f84b-9528-41c8-a9ba-d20db016ae6f",
+      "name": "Login",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7265b7a4-b651-4daa-83eb-0267d8c72b9b",
+          "name": "Adyen Login Request",
+          "request": {
+            "name": "Adyen Login Request",
+            "description": {
+              "content": "It conveys Information related to the session (period between a Login and the following Logout) to process. Content of the Login Request message.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "login"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"DateTime\": \"<dateTime>\",\n  \"SaleSoftware\": {\n    \"ManufacturerID\": \"<string>\",\n    \"ApplicationName\": \"<string>\",\n    \"SoftwareVersion\": \"<string>\",\n    \"CertificationCode\": \"<string>\"\n  },\n  \"OperatorLanguage\": \"<string>\",\n  \"SaleTerminalData\": {\n    \"TotalsGroupID\": \"<string>\"\n  },\n  \"TrainingModeFlag\": false,\n  \"OperatorID\": \"<string>\",\n  \"ShiftNumber\": \"<string>\",\n  \"TokenRequestedType\": \"<string>\",\n  \"CustomerOrderReq\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"POISerialNumber\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3b371877-fbc9-4ebf-b899-a9894f0b91f8",
+              "name": "It conveys Information related to the Login to process. Content of the Login Response message.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "login"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"DateTime\": \"<dateTime>\",\n  \"SaleSoftware\": {\n    \"ManufacturerID\": \"sU%e\",\n    \"ApplicationName\": \"$O\",\n    \"SoftwareVersion\": \"V^bB\\\\\",\n    \"CertificationCode\": \"=.~\"\n  },\n  \"OperatorLanguage\": \"<string>\",\n  \"SaleTerminalData\": {\n    \"TotalsGroupID\": \"_WLo08r&=C\"\n  },\n  \"TrainingModeFlag\": false,\n  \"OperatorID\": \"<string>\",\n  \"ShiftNumber\": \"<string>\",\n  \"TokenRequestedType\": \"Transaction\",\n  \"CustomerOrderReq\": [\n    \"Closed\",\n    \"Both\"\n  ],\n  \"POISerialNumber\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Response\": \"example_value\",\n  \"POISystemData\": \"example_value\",\n  \"TokenRequestStatus\": true,\n  \"CustomerOrderStatus\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cal-test.adyen.com/cal/services/Account/v6",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "aeade162-61be-4240-823e-18708e2d052d",
+    "name": "Adyen Account acceptDispute Login API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```\n\nContact Support:\n Name: Adyen Developer Experience team",
+      "type": "text/plain"
+    }
+  }
+}

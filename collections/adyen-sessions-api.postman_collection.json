@@ -1,0 +1,412 @@
+{
+  "item": [
+    {
+      "id": "405119ed-b957-41fb-ad6f-dfdc3da389b8",
+      "name": "Sessions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "369b49bb-d50e-4ba9-b280-80c5c50c8c92",
+          "name": "Adyen Get an Apple Pay Session",
+          "request": {
+            "name": "Adyen Get an Apple Pay Session",
+            "description": {
+              "content": "You need to use this endpoint if you have an API-only integration with Apple Pay which uses Adyen's Apple Pay certificate.\n\nThe endpoint returns the Apple Pay session data which you need to complete the [Apple Pay session validation](https://docs.adyen.com/payment-methods/apple-pay/api-only?tab=adyen-certificate-validation_1#complete-apple-pay-session-validation).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "applePay",
+                "sessions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                "key": "Idempotency-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"domainName\": \"<string>\",\n  \"merchantIdentifier\": \"<string>\",\n  \"displayName\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "46e63697-31f4-4917-a441-e459724c634d",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "applePay",
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"displayName\": \"YOUR_MERCHANT_NAME\",\n  \"domainName\": \"YOUR_DOMAIN_NAME\",\n  \"merchantIdentifier\": \"YOUR_MERCHANT_ID\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The idempotency key used for processing the request. Present if the key was provided in the request.",
+                  "key": "Idempotency-Key",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": \"eyJ2Z...\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "828dd8fc-2661-4f86-a5cd-040a1837faa6",
+          "name": "Adyen Create a Payment Session",
+          "request": {
+            "name": "Adyen Create a Payment Session",
+            "description": {
+              "content": "Creates a payment session for [Web Drop-in](https://docs.adyen.com/online-payments/web-drop-in) and [Web Components](https://docs.adyen.com/online-payments/web-components) integrations.\n\nThe response contains encrypted payment session data. The front end then uses the session data to make any required server-side calls for the payment flow.\n\nYou get the payment outcome asynchronously, in an [AUTHORISATION](https://docs.adyen.com/api-explorer/#/Webhooks/latest/post/AUTHORISATION) webhook.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                "key": "Idempotency-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"reference\": \"<string>\",\n  \"returnUrl\": \"<string>\",\n  \"merchantAccount\": \"<string>\",\n  \"accountInfo\": {\n    \"accountAgeIndicator\": \"<string>\",\n    \"accountChangeDate\": \"<dateTime>\",\n    \"accountChangeIndicator\": \"<string>\",\n    \"accountCreationDate\": \"<dateTime>\",\n    \"accountType\": \"<string>\",\n    \"addCardAttemptsDay\": \"<integer>\",\n    \"deliveryAddressUsageDate\": \"<dateTime>\",\n    \"deliveryAddressUsageIndicator\": \"<string>\",\n    \"homePhone\": \"<string>\",\n    \"mobilePhone\": \"<string>\",\n    \"passwordChangeDate\": \"<dateTime>\",\n    \"passwordChangeIndicator\": \"<string>\",\n    \"pastTransactionsDay\": \"<integer>\",\n    \"pastTransactionsYear\": \"<integer>\",\n    \"paymentAccountAge\": \"<dateTime>\",\n    \"paymentAccountIndicator\": \"<string>\",\n    \"purchasesLast6Months\": \"<integer>\",\n    \"suspiciousActivity\": \"<boolean>\",\n    \"workPhone\": \"<string>\"\n  },\n  \"additionalAmount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"additionalData\": {\n    \"key_0\": \"<string>\"\n  },\n  \"allowedPaymentMethods\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"applicationInfo\": {\n    \"adyenLibrary\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"adyenPaymentSource\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"externalPlatform\": {\n      \"integrator\": \"<string>\",\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"merchantApplication\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"merchantDevice\": {\n      \"os\": \"<string>\",\n      \"osVersion\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    \"shopperInteractionDevice\": {\n      \"locale\": \"<string>\",\n      \"os\": \"<string>\",\n      \"osVersion\": \"<string>\"\n    }\n  },\n  \"authenticationData\": {\n    \"attemptAuthentication\": \"<string>\",\n    \"authenticationOnly\": false,\n    \"threeDSRequestData\": {\n      \"challengeWindowSize\": \"<string>\",\n      \"dataOnly\": \"<string>\",\n      \"nativeThreeDS\": \"<string>\",\n      \"threeDSVersion\": \"<string>\"\n    }\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"blockedPaymentMethods\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"captureDelayHours\": \"<integer>\",\n  \"channel\": \"<string>\",\n  \"company\": {\n    \"homepage\": \"<string>\",\n    \"name\": \"<string>\",\n    \"registrationNumber\": \"<string>\",\n    \"registryLocation\": \"<string>\",\n    \"taxId\": \"<string>\",\n    \"type\": \"<string>\"\n  },\n  \"countryCode\": \"<string>\",\n  \"dateOfBirth\": \"<date>\",\n  \"deliverAt\": \"<dateTime>\",\n  \"deliveryAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"enableOneClick\": \"<boolean>\",\n  \"enablePayOut\": \"<boolean>\",\n  \"enableRecurring\": \"<boolean>\",\n  \"expiresAt\": \"<dateTime>\",\n  \"fundOrigin\": {\n    \"billingAddress\": {\n      \"street\": \"<string>\",\n      \"houseNumberOrName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"country\": \"<string>\",\n      \"stateOrProvince\": \"<string>\"\n    },\n    \"shopperEmail\": \"<string>\",\n    \"shopperName\": {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\"\n    },\n    \"telephoneNumber\": \"<string>\",\n    \"walletIdentifier\": \"<string>\"\n  },\n  \"fundRecipient\": {\n    \"billingAddress\": {\n      \"street\": \"<string>\",\n      \"houseNumberOrName\": \"<string>\",\n      \"city\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"country\": \"<string>\",\n      \"stateOrProvince\": \"<string>\"\n    },\n    \"paymentMethod\": {\n      \"brand\": \"<string>\",\n      \"checkoutAttemptId\": \"<string>\",\n      \"cupsecureplus.smscode\": \"<string>\",\n      \"cvc\": \"<string>\",\n      \"encryptedCardNumber\": \"<string>\",\n      \"encryptedExpiryMonth\": \"<string>\",\n      \"encryptedExpiryYear\": \"<string>\",\n      \"encryptedSecurityCode\": \"<string>\",\n      \"expiryMonth\": \"<string>\",\n      \"expiryYear\": \"<string>\",\n      \"fundingSource\": \"<string>\",\n      \"holderName\": \"<string>\",\n      \"networkPaymentReference\": \"<string>\",\n      \"number\": \"<string>\",\n      \"recurringDetailReference\": \"<string>\",\n      \"shopperNotificationReference\": \"<string>\",\n      \"storedPaymentMethodId\": \"<string>\",\n      \"threeDS2SdkVersion\": \"<string>\",\n      \"type\": \"scheme\"\n    },\n    \"shopperEmail\": \"<string>\",\n    \"shopperName\": {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\"\n    },\n    \"shopperReference\": \"<string>\",\n    \"storedPaymentMethodId\": \"<string>\",\n    \"subMerchant\": {\n      \"city\": \"<string>\",\n      \"country\": \"<string>\",\n      \"mcc\": \"<string>\",\n      \"name\": \"<string>\",\n      \"taxId\": \"<string>\"\n    },\n    \"telephoneNumber\": \"<string>\",\n    \"walletIdentifier\": \"<string>\",\n    \"walletOwnerTaxId\": \"<string>\"\n  },\n  \"installmentOptions\": {\n    \"key_0\": {\n      \"plans\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"preselectedValue\": \"<integer>\",\n      \"values\": [\n        \"<integer>\",\n        \"<integer>\"\n      ]\n    },\n    \"key_1\": {\n      \"plans\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"preselectedValue\": \"<integer>\",\n      \"values\": [\n        \"<integer>\",\n        \"<integer>\"\n      ]\n    },\n    \"key_2\": {\n      \"plans\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"preselectedValue\": \"<integer>\",\n      \"values\": [\n        \"<integer>\",\n        \"<integer>\"\n      ]\n    }\n  },\n  \"lineItems\": [\n    {\n      \"amountExcludingTax\": \"<long>\",\n      \"amountIncludingTax\": \"<long>\",\n      \"brand\": \"<string>\",\n      \"color\": \"<string>\",\n      \"description\": \"<string>\",\n      \"id\": \"<string>\",\n      \"imageUrl\": \"<string>\",\n      \"itemCategory\": \"<string>\",\n      \"manufacturer\": \"<string>\",\n      \"productUrl\": \"<string>\",\n      \"quantity\": \"<long>\",\n      \"receiverEmail\": \"<string>\",\n      \"size\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"taxAmount\": \"<long>\",\n      \"taxPercentage\": \"<long>\",\n      \"upc\": \"<string>\"\n    },\n    {\n      \"amountExcludingTax\": \"<long>\",\n      \"amountIncludingTax\": \"<long>\",\n      \"brand\": \"<string>\",\n      \"color\": \"<string>\",\n      \"description\": \"<string>\",\n      \"id\": \"<string>\",\n      \"imageUrl\": \"<string>\",\n      \"itemCategory\": \"<string>\",\n      \"manufacturer\": \"<string>\",\n      \"productUrl\": \"<string>\",\n      \"quantity\": \"<long>\",\n      \"receiverEmail\": \"<string>\",\n      \"size\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"taxAmount\": \"<long>\",\n      \"taxPercentage\": \"<long>\",\n      \"upc\": \"<string>\"\n    }\n  ],\n  \"mandate\": {\n    \"frequency\": \"<string>\",\n    \"amount\": \"<string>\",\n    \"endsAt\": \"<string>\",\n    \"amountRule\": \"<string>\",\n    \"billingAttemptsRule\": \"<string>\",\n    \"billingDay\": \"<string>\",\n    \"remarks\": \"<string>\",\n    \"startsAt\": \"<string>\"\n  },\n  \"mcc\": \"<string>\",\n  \"merchantOrderReference\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"<string>\"\n  },\n  \"mode\": \"embedded\",\n  \"mpiData\": {\n    \"authenticationResponse\": \"<string>\",\n    \"cavv\": \"<byte>\",\n    \"cavvAlgorithm\": \"<string>\",\n    \"challengeCancel\": \"<string>\",\n    \"directoryResponse\": \"<string>\",\n    \"dsTransID\": \"<string>\",\n    \"eci\": \"<string>\",\n    \"riskScore\": \"<string>\",\n    \"threeDSVersion\": \"<string>\",\n    \"tokenAuthenticationVerificationValue\": \"<byte>\",\n    \"transStatusReason\": \"<string>\",\n    \"xid\": \"<byte>\"\n  },\n  \"platformChargebackLogic\": {\n    \"behavior\": \"<string>\",\n    \"costAllocationAccount\": \"<string>\",\n    \"targetAccount\": \"<string>\"\n  },\n  \"recurringExpiry\": \"<string>\",\n  \"recurringFrequency\": \"<string>\",\n  \"recurringProcessingModel\": \"<string>\",\n  \"redirectFromIssuerMethod\": \"<string>\",\n  \"redirectToIssuerMethod\": \"<string>\",\n  \"riskData\": {\n    \"clientData\": \"<string>\",\n    \"customFields\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    },\n    \"fraudOffset\": \"<integer>\",\n    \"profileReference\": \"<string>\"\n  },\n  \"shopperEmail\": \"<string>\",\n  \"shopperIP\": \"<string>\",\n  \"shopperInteraction\": \"<string>\",\n  \"shopperLocale\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperReference\": \"<string>\",\n  \"shopperStatement\": \"<string>\",\n  \"showInstallmentAmount\": \"<boolean>\",\n  \"showRemovePaymentMethodButton\": \"<boolean>\",\n  \"socialSecurityNumber\": \"<string>\",\n  \"splitCardFundingSources\": false,\n  \"splits\": [\n    {\n      \"type\": \"<string>\",\n      \"account\": \"<string>\",\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"account\": \"<string>\",\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    }\n  ],\n  \"store\": \"<string>\",\n  \"storePaymentMethod\": \"<boolean>\",\n  \"storePaymentMethodMode\": \"<string>\",\n  \"telephoneNumber\": \"<string>\",\n  \"themeId\": \"<string>\",\n  \"threeDSAuthenticationOnly\": false,\n  \"trustedShopper\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b08b58c0-025e-49c0-a866-f1ad90f8ff84",
+              "name": "Created - the request has been fulfilled and has resulted in one or more new resources being created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"amount\": {\n    \"value\": 100,\n    \"currency\": \"EUR\"\n  },\n  \"returnUrl\": \"https://your-company.com/checkout?shopperOrder=12xy..\",\n  \"reference\": \"YOUR_PAYMENT_REFERENCE\",\n  \"countryCode\": \"NL\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The idempotency key used for processing the request. Present if the key was provided in the request.",
+                  "key": "Idempotency-Key",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 100\n  },\n  \"countryCode\": \"NL\",\n  \"expiresAt\": \"2022-01-11T13:53:18+01:00\",\n  \"id\": \"CS451F2AB1ED897A94\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\",\n  \"reference\": \"YOUR_PAYMENT_REFERENCE\",\n  \"returnUrl\": \"https://your-company.com/checkout?shopperOrder=12xy..\",\n  \"sessionData\": \"Ab02b4c0!BQABAgBfYI29...\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "01bd9928-6a98-4624-8f12-75e0f2ded378",
+          "name": "Adyen Get the Result of a Payment Session",
+          "request": {
+            "name": "Adyen Get the Result of a Payment Session",
+            "description": {
+              "content": "Returns the status of the payment session with the `sessionId` and `sessionResult` specified in the path.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":sessionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sessionResult",
+                  "value": "<string>",
+                  "description": "(Required) The `sessionResult` value from the Drop-in or Component."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sessionId",
+                  "description": "(Required) A unique identifier of the session."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6a500164-acd9-491f-8ff4-93580eb6d346",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":sessionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sessionResult",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sessionId",
+                      "description": "(Required) A unique identifier of the session."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"CS12345678\",\n  \"status\": \"completed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cal-test.adyen.com/cal/services/Account/v6",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "68feec78-ab12-4309-88bf-78ed6c0a3ef2",
+    "name": "Adyen Account acceptDispute Sessions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```\n\nContact Support:\n Name: Adyen Developer Experience team",
+      "type": "text/plain"
+    }
+  }
+}

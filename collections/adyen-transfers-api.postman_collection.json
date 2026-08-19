@@ -1,0 +1,1253 @@
+{
+  "item": [
+    {
+      "id": "67bc344b-c4ca-4ecc-9514-fc12cb0f6d71",
+      "name": "Transfers",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "65e438bc-972f-4a93-8f50-f0129c16850c",
+          "name": "Adyen Start a Balance Transfer",
+          "request": {
+            "name": "Adyen Start a Balance Transfer",
+            "description": {
+              "content": "Starts a balance transfer request between merchant accounts. The following conditions must be met before you can successfully transfer balances:\n\n* The source and destination merchant accounts must be under the same company account and legal entity.\n\n* The source merchant account must have sufficient funds.\n\n* The source and destination merchant accounts must have at least one common processing currency.\n\nWhen sending multiple API requests with the same source and destination merchant accounts, send the requests sequentially and *not* in parallel. Some requests may not be processed if the requests are sent in parallel.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "balanceTransfer"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"fromMerchant\": \"<string>\",\n  \"toMerchant\": \"<string>\",\n  \"type\": \"<string>\",\n  \"description\": \"<string>\",\n  \"reference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "80b2298b-3822-4ae2-9298-1c061fce71ff",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "balanceTransfer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": 50000,\n    \"currency\": \"EUR\"\n  },\n  \"description\": \"Your description for the transfer\",\n  \"fromMerchant\": \"MerchantAccount_NL\",\n  \"toMerchant\": \"MerchantAccount_DE\",\n  \"type\": \"debit\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"amount\": {\n    \"value\": 50000,\n    \"currency\": \"EUR\"\n  },\n  \"createdAt\": \"2022-01-24T14:59:11+01:00\",\n  \"description\": \"Your description for the transfer\",\n  \"fromMerchant\": \"MerchantAccount_NL\",\n  \"toMerchant\": \"MerchantAccount_DE\",\n  \"type\": \"debit\",\n  \"reference\": \"Unique reference for the transfer\",\n  \"pspReference\": \"8816080397613514\",\n  \"status\": \"transferred\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2ac98e0e-32db-4246-907c-8ee61bd12632",
+          "name": "Adyen Calculate Transfer Routes",
+          "request": {
+            "name": "Adyen Calculate Transfer Routes",
+            "description": {
+              "content": "Returns available transfer routes based on a combination of transfer `country`, `currency`, `counterparty`, and `priorities`. Use this endpoint to find optimal transfer priorities and associated requirements before you [make a transfer](https://docs.adyen.com/api-explorer/transfers/latest/post/transfers).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transferRoutes",
+                "calculate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"balancePlatform\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"category\": \"<string>\",\n  \"balanceAccountId\": \"<string>\",\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountIdentification\": {\n        \"type\": \"auLocal\",\n        \"accountNumber\": \"<string>\",\n        \"bsbCode\": \"<string>\"\n      }\n    },\n    \"transferInstrumentId\": \"<string>\"\n  },\n  \"country\": \"<string>\",\n  \"priorities\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "32ac7895-9005-4b98-9e46-287f7b52fb92",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transferRoutes",
+                    "calculate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"balancePlatform\": \"YOUR_BALANCE_PLATFORM\",\n  \"currency\": \"USD\",\n  \"category\": \"bank\",\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountIdentification\": {\n        \"type\": \"iban\",\n        \"iban\": \"NL91ABNA0417164300\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transferRoutes\": [\n    {\n      \"country\": \"NL\",\n      \"currency\": \"USD\",\n      \"priority\": \"crossBorder\",\n      \"requirements\": [\n        {\n          \"description\": \"Amount of transfer must be at least 100, and no greater than 99999999999\",\n          \"max\": 99999999999,\n          \"min\": 100,\n          \"type\": \"amountMinMaxRequirement\"\n        },\n        {\n          \"description\": \"Country, street and city is required.\",\n          \"requiredAddressFields\": [\n            \"STREET\",\n            \"CITY\"\n          ],\n          \"type\": \"addressRequirement\"\n        },\n        {\n          \"description\": \"Bank account identification type must be iban or numberAndBic\",\n          \"bankAccountIdentificationTypes\": [\n            \"iban\",\n            \"numberAndBic\"\n          ],\n          \"type\": \"bankAccountIdentificationTypeRequirement\"\n        },\n        {\n          \"issuingCountryCode\": \"NL\",\n          \"paymentInstrumentType\": \"BankAccount\",\n          \"type\": \"paymentInstrumentRequirement\"\n        }\n      ]\n    },\n    {\n      \"country\": \"NL\",\n      \"currency\": \"USD\",\n      \"priority\": \"wire\",\n      \"requirements\": [\n        {\n          \"description\": \"Amount of transfer must be at least 100, and no greater than 99999999999\",\n          \"max\": 99999999999,\n          \"min\": 100,\n          \"type\": \"amountMinMaxRequirement\"\n        },\n        {\n          \"description\": \"Country, street and city is required.\",\n          \"requiredAddressFields\": [\n            \"STREET\",\n            \"CITY\"\n          ],\n          \"type\": \"addressRequirement\"\n        },\n        {\n          \"description\": \"Bank account identification type must be iban or numberAndBic\",\n          \"bankAccountIdentificationTypes\": [\n            \"iban\",\n            \"numberAndBic\"\n          ],\n          \"type\": \"bankAccountIdentificationTypeRequirement\"\n        },\n        {\n          \"issuingCountryCode\": \"NL\",\n          \"paymentInstrumentType\": \"BankAccount\",\n          \"type\": \"paymentInstrumentRequirement\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a6fea2b3-8b05-4e51-bd22-635e7276c86c",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transferRoutes",
+                    "calculate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"balancePlatform\": \"YOUR_BALANCE_PLATFORM\",\n  \"currency\": \"USD\",\n  \"category\": \"bank\",\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountIdentification\": {\n        \"type\": \"iban\",\n        \"iban\": \"NL91ABNA0417164300\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://docs.adyen.com/errors/security/unauthorized\",\n  \"title\": \"Unauthorized\",\n  \"status\": 401,\n  \"detail\": \"Not authorized to access this service.\",\n  \"errorCode\": \"00_401\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3d53d326-51d9-46f3-a021-f380993a9361",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transferRoutes",
+                    "calculate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"balancePlatform\": \"YOUR_BALANCE_PLATFORM\",\n  \"currency\": \"USD\",\n  \"category\": \"bank\",\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountIdentification\": {\n        \"type\": \"iban\",\n        \"iban\": \"NL91ABNA0417164300\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://docs.adyen.com/errors/security/unauthorized\",\n  \"title\": \"Forbidden\",\n  \"status\": 403,\n  \"detail\": \"Not the right permission to access this service.\",\n  \"errorCode\": \"00_403\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1a581a41-702c-4bbb-aefc-9260a9737970",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transferRoutes",
+                    "calculate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"balancePlatform\": \"YOUR_BALANCE_PLATFORM\",\n  \"currency\": \"USD\",\n  \"category\": \"bank\",\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountIdentification\": {\n        \"type\": \"iban\",\n        \"iban\": \"NL91ABNA0417164300\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://docs.adyen.com/errors/general/invalid-field-value\",\n  \"title\": \"Invalid Payment Instrument information provided\",\n  \"status\": 422,\n  \"detail\": \"The balanceAccountId can only be changed when the status is Inactive or Requested\",\n  \"requestId\": \"1W1UI15PLVGC9V8O\",\n  \"errorCode\": \"30_031\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b24ed54c-7c72-440b-b8cf-42b222ac5267",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transferRoutes",
+                    "calculate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"balancePlatform\": \"YOUR_BALANCE_PLATFORM\",\n  \"currency\": \"USD\",\n  \"category\": \"bank\",\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountIdentification\": {\n        \"type\": \"iban\",\n        \"iban\": \"NL91ABNA0417164300\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"https://docs.adyen.com/errors/general/internal\",\n  \"title\": \"An internal error happened\",\n  \"status\": 500,\n  \"detail\": \"Unrecoverable error while trying to create payment instrument\",\n  \"requestId\": \"1WAF555PLWNTLYOQ\",\n  \"errorCode\": \"00_500\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f23f6c8d-c348-494e-a175-2a41284b3b02",
+          "name": "Adyen Transfer Funds",
+          "request": {
+            "name": "Adyen Transfer Funds",
+            "description": {
+              "content": ">Versions 1 and 2 of the Transfers API are deprecated. If you are just starting your implementation, use the latest version.\n\nStarts a request to transfer funds to [balance accounts](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/post/balanceAccounts), [transfer instruments](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/transferInstruments), or third-party bank accounts. Adyen sends the outcome of the transfer request through webhooks.\n\nTo use this endpoint, you need an additional role for your API credential and transfers must be enabled for the source balance account. Your Adyen contact will set these up for you.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transfers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Header for authenticating through SCA",
+                "key": "WWW-Authenticate",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"category\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"counterparty\": {\n    \"balanceAccountId\": \"<string>\",\n    \"bankAccount\": {\n      \"accountIdentification\": {\n        \"type\": \"auLocal\",\n        \"accountNumber\": \"<string>\",\n        \"bsbCode\": \"<string>\"\n      },\n      \"accountHolder\": {\n        \"fullName\": \"<string>\",\n        \"address\": {\n          \"country\": \"<string>\",\n          \"city\": \"<string>\",\n          \"line1\": \"<string>\",\n          \"line2\": \"<string>\",\n          \"postalCode\": \"<string>\",\n          \"stateOrProvince\": \"<string>\"\n        },\n        \"dateOfBirth\": \"<date>\",\n        \"firstName\": \"<string>\",\n        \"lastName\": \"<string>\",\n        \"reference\": \"<string>\",\n        \"type\": \"unknown\"\n      }\n    },\n    \"transferInstrumentId\": \"<string>\"\n  },\n  \"balanceAccountId\": \"<string>\",\n  \"description\": \"<string>\",\n  \"paymentInstrumentId\": \"<string>\",\n  \"priority\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"referenceForBeneficiary\": \"<string>\",\n  \"ultimateParty\": {\n    \"fullName\": \"<string>\",\n    \"address\": {\n      \"country\": \"<string>\",\n      \"city\": \"<string>\",\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"postalCode\": \"<string>\",\n      \"stateOrProvince\": \"<string>\"\n    },\n    \"dateOfBirth\": \"<date>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"reference\": \"<string>\",\n    \"type\": \"unknown\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "251ade14-a77a-4eec-bc17-474c653ce2bc",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transfers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Header for authenticating through SCA",
+                    "key": "WWW-Authenticate",
+                    "value": "SCA realm=\"Transfer\" auth-param1=\"eyJjaGFsbGVuZ2UiOiJiVlV6ZW5wek0waFNl...\""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": 110000,\n    \"currency\": \"EUR\"\n  },\n  \"balanceAccountId\": \"BAB8B2C3D4E5F6G7H8D9J6GD4\",\n  \"category\": \"bank\",\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountHolder\": {\n        \"fullName\": \"A. Klaassen\",\n        \"address\": {\n          \"city\": \"San Francisco\",\n          \"country\": \"US\",\n          \"postalCode\": \"94678\",\n          \"stateOrProvince\": \"CA\",\n          \"line1\": \"274\",\n          \"line2\": \"Brannan Street\"\n        }\n      },\n      \"accountIdentification\": {\n        \"type\": \"numberAndBic\",\n        \"accountNumber\": \"123456789\",\n        \"bic\": \"BOFAUS3NXXX\"\n      }\n    }\n  },\n  \"priority\": \"crossBorder\",\n  \"referenceForBeneficiary\": \"Your-reference-sent-to-the-beneficiary\",\n  \"reference\": \"Your internal reference for the transfer\",\n  \"description\": \"Your description for the transfer\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"1W1UG35U8A9J5ZLG\",\n  \"accountHolder\": {\n    \"description\": \"Your account holder description\",\n    \"id\": \"AH3227C223222C5GXQXF658WB\",\n    \"reference\": \"Your account holder reference\"\n  },\n  \"amount\": {\n    \"value\": 110000,\n    \"currency\": \"EUR\"\n  },\n  \"balanceAccount\": {\n    \"description\": \"Your balance account description\",\n    \"id\": \"BAB8B2C3D4E5F6G7H8D9J6GD4\",\n    \"reference\": \"Your balance account reference\"\n  },\n  \"category\": \"bank\",\n  \"categoryData\": {\n    \"priority\": \"crossBorder\",\n    \"type\": \"bank\"\n  },\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountHolder\": {\n        \"fullName\": \"A. Klaassen\",\n        \"address\": {\n          \"city\": \"San Francisco\",\n          \"country\": \"US\",\n          \"postalCode\": \"94678\",\n          \"stateOrProvince\": \"CA\",\n          \"line1\": \"274\",\n          \"line2\": \"Brannan Street\"\n        }\n      },\n      \"accountIdentification\": {\n        \"type\": \"numberAndBic\",\n        \"accountNumber\": \"123456789\",\n        \"bic\": \"BOFAUS3NXXX\"\n      }\n    }\n  },\n  \"paymentInstrument\": {\n    \"description\": \"Your payment instrument description\",\n    \"id\": \"PI3222G223222G59347DAA265\",\n    \"reference\": \"Your payment instrument reference\"\n  },\n  \"referenceForBeneficiary\": \"Your-reference-sent-to-the-beneficiary\",\n  \"reference\": \"Your internal reference for the transfer\",\n  \"description\": \"Your description for the transfer\",\n  \"direction\": \"outgoing\",\n  \"reason\": \"approved\",\n  \"status\": \"authorised\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "585f0eaa-a97c-435d-95f6-ce8c5c37c0f9",
+              "name": "Accepted - the request has been accepted for processing, but the processing has not been completed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transfers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Header for authenticating through SCA",
+                    "key": "WWW-Authenticate",
+                    "value": "SCA realm=\"Transfer\" auth-param1=\"eyJjaGFsbGVuZ2UiOiJiVlV6ZW5wek0waFNl...\""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": 110000,\n    \"currency\": \"EUR\"\n  },\n  \"balanceAccountId\": \"BAB8B2C3D4E5F6G7H8D9J6GD4\",\n  \"category\": \"bank\",\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountHolder\": {\n        \"fullName\": \"A. Klaassen\",\n        \"address\": {\n          \"city\": \"San Francisco\",\n          \"country\": \"US\",\n          \"postalCode\": \"94678\",\n          \"stateOrProvince\": \"CA\",\n          \"line1\": \"274\",\n          \"line2\": \"Brannan Street\"\n        }\n      },\n      \"accountIdentification\": {\n        \"type\": \"numberAndBic\",\n        \"accountNumber\": \"123456789\",\n        \"bic\": \"BOFAUS3NXXX\"\n      }\n    }\n  },\n  \"priority\": \"crossBorder\",\n  \"referenceForBeneficiary\": \"Your-reference-sent-to-the-beneficiary\",\n  \"reference\": \"Your internal reference for the transfer\",\n  \"description\": \"Your description for the transfer\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"accountHolder\": \"example_value\",\n  \"amount\": 1000,\n  \"balanceAccount\": \"example_value\",\n  \"category\": \"bank\",\n  \"categoryData\": \"example_value\",\n  \"counterparty\": \"example_value\",\n  \"creationDate\": \"2025-03-15T14:30:00Z\",\n  \"description\": \"A sample description for this resource.\",\n  \"direction\": \"incoming\",\n  \"id\": \"500123\",\n  \"paymentInstrument\": \"example_value\",\n  \"reason\": \"amountLimitExceeded\",\n  \"reference\": \"REF-001\",\n  \"referenceForBeneficiary\": \"REF-001\",\n  \"status\": \"approvalPending\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "88476ab9-9a26-4f89-9ca2-ccc12d558c07",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transfers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Header for authenticating through SCA",
+                    "key": "WWW-Authenticate",
+                    "value": "SCA realm=\"Transfer\" auth-param1=\"eyJjaGFsbGVuZ2UiOiJiVlV6ZW5wek0waFNl...\""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": 110000,\n    \"currency\": \"EUR\"\n  },\n  \"balanceAccountId\": \"BAB8B2C3D4E5F6G7H8D9J6GD4\",\n  \"category\": \"bank\",\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountHolder\": {\n        \"fullName\": \"A. Klaassen\",\n        \"address\": {\n          \"city\": \"San Francisco\",\n          \"country\": \"US\",\n          \"postalCode\": \"94678\",\n          \"stateOrProvince\": \"CA\",\n          \"line1\": \"274\",\n          \"line2\": \"Brannan Street\"\n        }\n      },\n      \"accountIdentification\": {\n        \"type\": \"numberAndBic\",\n        \"accountNumber\": \"123456789\",\n        \"bic\": \"BOFAUS3NXXX\"\n      }\n    }\n  },\n  \"priority\": \"crossBorder\",\n  \"referenceForBeneficiary\": \"Your-reference-sent-to-the-beneficiary\",\n  \"reference\": \"Your internal reference for the transfer\",\n  \"description\": \"Your description for the transfer\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Base64-encoded blob of data. You will need auth-param1 when authenticating your user using the SDK.",
+                  "key": "auth-param1",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"CODE123\",\n  \"errorType\": \"standard\",\n  \"message\": \"example_value\",\n  \"pspReference\": \"REF-001\",\n  \"status\": 500\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1f6321b9-adbe-45da-925a-6d1863ecf1db",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transfers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Header for authenticating through SCA",
+                    "key": "WWW-Authenticate",
+                    "value": "SCA realm=\"Transfer\" auth-param1=\"eyJjaGFsbGVuZ2UiOiJiVlV6ZW5wek0waFNl...\""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": 110000,\n    \"currency\": \"EUR\"\n  },\n  \"balanceAccountId\": \"BAB8B2C3D4E5F6G7H8D9J6GD4\",\n  \"category\": \"bank\",\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountHolder\": {\n        \"fullName\": \"A. Klaassen\",\n        \"address\": {\n          \"city\": \"San Francisco\",\n          \"country\": \"US\",\n          \"postalCode\": \"94678\",\n          \"stateOrProvince\": \"CA\",\n          \"line1\": \"274\",\n          \"line2\": \"Brannan Street\"\n        }\n      },\n      \"accountIdentification\": {\n        \"type\": \"numberAndBic\",\n        \"accountNumber\": \"123456789\",\n        \"bic\": \"BOFAUS3NXXX\"\n      }\n    }\n  },\n  \"priority\": \"crossBorder\",\n  \"referenceForBeneficiary\": \"Your-reference-sent-to-the-beneficiary\",\n  \"reference\": \"Your internal reference for the transfer\",\n  \"description\": \"Your description for the transfer\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"example_value\",\n  \"errorCode\": \"CODE123\",\n  \"instance\": \"example_value\",\n  \"invalidFields\": [\n    \"example_value\"\n  ],\n  \"requestId\": \"500123\",\n  \"response\": \"example_value\",\n  \"status\": 500,\n  \"title\": \"example_value\",\n  \"type\": \"standard\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "62eccf97-6afa-4617-9247-cf000905da34",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transfers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Header for authenticating through SCA",
+                    "key": "WWW-Authenticate",
+                    "value": "SCA realm=\"Transfer\" auth-param1=\"eyJjaGFsbGVuZ2UiOiJiVlV6ZW5wek0waFNl...\""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": 110000,\n    \"currency\": \"EUR\"\n  },\n  \"balanceAccountId\": \"BAB8B2C3D4E5F6G7H8D9J6GD4\",\n  \"category\": \"bank\",\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountHolder\": {\n        \"fullName\": \"A. Klaassen\",\n        \"address\": {\n          \"city\": \"San Francisco\",\n          \"country\": \"US\",\n          \"postalCode\": \"94678\",\n          \"stateOrProvince\": \"CA\",\n          \"line1\": \"274\",\n          \"line2\": \"Brannan Street\"\n        }\n      },\n      \"accountIdentification\": {\n        \"type\": \"numberAndBic\",\n        \"accountNumber\": \"123456789\",\n        \"bic\": \"BOFAUS3NXXX\"\n      }\n    }\n  },\n  \"priority\": \"crossBorder\",\n  \"referenceForBeneficiary\": \"Your-reference-sent-to-the-beneficiary\",\n  \"reference\": \"Your internal reference for the transfer\",\n  \"description\": \"Your description for the transfer\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"example_value\",\n  \"errorCode\": \"CODE123\",\n  \"instance\": \"example_value\",\n  \"invalidFields\": [\n    \"example_value\"\n  ],\n  \"requestId\": \"500123\",\n  \"response\": \"example_value\",\n  \"status\": 500,\n  \"title\": \"example_value\",\n  \"type\": \"standard\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "25f3d9b0-0623-454a-a17d-d0900ffa4c9d",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transfers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Header for authenticating through SCA",
+                    "key": "WWW-Authenticate",
+                    "value": "SCA realm=\"Transfer\" auth-param1=\"eyJjaGFsbGVuZ2UiOiJiVlV6ZW5wek0waFNl...\""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": 110000,\n    \"currency\": \"EUR\"\n  },\n  \"balanceAccountId\": \"BAB8B2C3D4E5F6G7H8D9J6GD4\",\n  \"category\": \"bank\",\n  \"counterparty\": {\n    \"bankAccount\": {\n      \"accountHolder\": {\n        \"fullName\": \"A. Klaassen\",\n        \"address\": {\n          \"city\": \"San Francisco\",\n          \"country\": \"US\",\n          \"postalCode\": \"94678\",\n          \"stateOrProvince\": \"CA\",\n          \"line1\": \"274\",\n          \"line2\": \"Brannan Street\"\n        }\n      },\n      \"accountIdentification\": {\n        \"type\": \"numberAndBic\",\n        \"accountNumber\": \"123456789\",\n        \"bic\": \"BOFAUS3NXXX\"\n      }\n    }\n  },\n  \"priority\": \"crossBorder\",\n  \"referenceForBeneficiary\": \"Your-reference-sent-to-the-beneficiary\",\n  \"reference\": \"Your internal reference for the transfer\",\n  \"description\": \"Your description for the transfer\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"example_value\",\n  \"errorCode\": \"CODE123\",\n  \"instance\": \"example_value\",\n  \"invalidFields\": [\n    \"example_value\"\n  ],\n  \"requestId\": \"500123\",\n  \"response\": \"example_value\",\n  \"status\": 500,\n  \"title\": \"example_value\",\n  \"type\": \"standard\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "73def3fe-a988-441f-9f42-7a13f868dc33",
+          "name": "Adyen Return a Transfer",
+          "request": {
+            "name": "Adyen Return a Transfer",
+            "description": {
+              "content": "Returns previously transferred funds without creating a new `transferId`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transfers",
+                ":transferId",
+                "returns"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "transferId",
+                  "description": "(Required) The unique identifier of the transfer to be returned."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"reference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d041393c-fb4f-45ef-8ab6-29ab107a1246",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transfers",
+                    ":transferId",
+                    "returns"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transferId",
+                      "description": "(Required) The unique identifier of the transfer to be returned."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": 2396,\n    \"currency\": \"str\"\n  },\n  \"reference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"500123\",\n  \"reference\": \"REF-001\",\n  \"status\": \"Authorised\",\n  \"transferId\": \"500123\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "27a65e95-4a5c-4f94-a05a-bc55fed57875",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transfers",
+                    ":transferId",
+                    "returns"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transferId",
+                      "description": "(Required) The unique identifier of the transfer to be returned."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": 2396,\n    \"currency\": \"str\"\n  },\n  \"reference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"example_value\",\n  \"errorCode\": \"CODE123\",\n  \"instance\": \"example_value\",\n  \"invalidFields\": [\n    \"example_value\"\n  ],\n  \"requestId\": \"500123\",\n  \"response\": \"example_value\",\n  \"status\": 500,\n  \"title\": \"example_value\",\n  \"type\": \"standard\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6475b4ec-290a-42ed-9f94-370da4c24308",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transfers",
+                    ":transferId",
+                    "returns"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transferId",
+                      "description": "(Required) The unique identifier of the transfer to be returned."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": 2396,\n    \"currency\": \"str\"\n  },\n  \"reference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"example_value\",\n  \"errorCode\": \"CODE123\",\n  \"instance\": \"example_value\",\n  \"invalidFields\": [\n    \"example_value\"\n  ],\n  \"requestId\": \"500123\",\n  \"response\": \"example_value\",\n  \"status\": 500,\n  \"title\": \"example_value\",\n  \"type\": \"standard\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "96c803ca-f9a5-40b6-905c-6a7fff00ef03",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transfers",
+                    ":transferId",
+                    "returns"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transferId",
+                      "description": "(Required) The unique identifier of the transfer to be returned."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": 2396,\n    \"currency\": \"str\"\n  },\n  \"reference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"example_value\",\n  \"errorCode\": \"CODE123\",\n  \"instance\": \"example_value\",\n  \"invalidFields\": [\n    \"example_value\"\n  ],\n  \"requestId\": \"500123\",\n  \"response\": \"example_value\",\n  \"status\": 500,\n  \"title\": \"example_value\",\n  \"type\": \"standard\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "55c71257-30dc-42ec-b72d-51fa5a89a018",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transfers",
+                    ":transferId",
+                    "returns"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transferId",
+                      "description": "(Required) The unique identifier of the transfer to be returned."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"value\": 2396,\n    \"currency\": \"str\"\n  },\n  \"reference\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"example_value\",\n  \"errorCode\": \"CODE123\",\n  \"instance\": \"example_value\",\n  \"invalidFields\": [\n    \"example_value\"\n  ],\n  \"requestId\": \"500123\",\n  \"response\": \"example_value\",\n  \"status\": 500,\n  \"title\": \"example_value\",\n  \"type\": \"standard\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cal-test.adyen.com/cal/services/Account/v6",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f6f82161-ef9a-4058-a7c7-5382823d58bf",
+    "name": "Adyen Account acceptDispute Transfers API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```\n\nContact Support:\n Name: Adyen Developer Experience team",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,879 @@
+{
+  "item": [
+    {
+      "id": "e18a98a1-3ee3-48aa-8158-1fe8bdda8d9e",
+      "name": "paymentMethods",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e1797c2b-a960-4944-b3a8-9d008063f20b",
+          "name": "Adyen Get a List of Available Payment Methods",
+          "request": {
+            "name": "Adyen Get a List of Available Payment Methods",
+            "description": {
+              "content": "Queries the available payment methods for a transaction based on the transaction context (like amount, country, and currency). Besides giving back a list of the available payment methods, the response also returns which input details you need to collect from the shopper (to be submitted to `/payments`).\n\nAlthough we highly recommend using this endpoint to ensure you are always offering the most up-to-date list of payment methods, its usage is optional. You can, for example, also cache the `/paymentMethods` response and update it once a week.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "paymentMethods"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                "key": "Idempotency-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"additionalData\": {\n    \"key_0\": \"<string>\"\n  },\n  \"allowedPaymentMethods\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"blockedPaymentMethods\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"channel\": \"<string>\",\n  \"countryCode\": \"<string>\",\n  \"order\": {\n    \"pspReference\": \"<string>\",\n    \"orderData\": \"<string>\"\n  },\n  \"shopperLocale\": \"<string>\",\n  \"shopperReference\": \"<string>\",\n  \"splitCardFundingSources\": false,\n  \"store\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "063a9223-b67f-4684-9556-db255496febc",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paymentMethods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The idempotency key used for processing the request. Present if the key was provided in the request.",
+                  "key": "Idempotency-Key",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"paymentMethods\": [\n    {\n      \"name\": \"ACH Direct Debit\",\n      \"type\": \"ach\"\n    },\n    {\n      \"name\": \"Adyen Voucher\",\n      \"type\": \"adyen_test_voucher\"\n    },\n    {\n      \"name\": \"AfterPay Invoice\",\n      \"type\": \"afterpay_default\"\n    },\n    {\n      \"name\": \"AfterPay DirectDebit\",\n      \"type\": \"afterpay_directdebit\"\n    },\n    {\n      \"name\": \"Afterpay\",\n      \"type\": \"afterpaytouch\"\n    },\n    {\n      \"name\": \"Cards\",\n      \"type\": \"scheme\"\n    },\n    {\n      \"name\": \"AliPay\",\n      \"type\": \"alipay\"\n    },\n    {\n      \"name\": \"AliPay HK\",\n      \"type\": \"alipay_hk\"\n    },\n    {\n      \"name\": \"AliPay\",\n      \"type\": \"alipay_wap\"\n    },\n    {\n      \"name\": \"Android Pay\",\n      \"type\": \"androidpay\"\n    },\n    {\n      \"name\": \"Apple Pay\",\n      \"type\": \"applepay\"\n    },\n    {\n      \"name\": \"Credit Card via AsiaPay\",\n      \"type\": \"asiapay\"\n    },\n    {\n      \"name\": \"China UnionPay\",\n      \"type\": \"asiapay_unionpay\"\n    },\n    {\n      \"name\": \"Baby Gift Card\",\n      \"type\": \"babygiftcard\"\n    },\n    {\n      \"name\": \"Baloto\",\n      \"type\": \"baloto\"\n    },\n    {\n      \"name\": \"BancNet\",\n      \"type\": \"bancnet\"\n    },\n    {\n      \"name\": \"Bank Transfer (BG)\",\n      \"type\": \"bankTransfer_BG\"\n    },\n    {\n      \"name\": \"Bank Transfer (CH)\",\n      \"type\": \"bankTransfer_CH\"\n    },\n    {\n      \"name\": \"Bank Transfer (DE)\",\n      \"type\": \"bankTransfer_DE\"\n    },\n    {\n      \"name\": \"Bank Transfer (FI)\",\n      \"type\": \"bankTransfer_FI\"\n    },\n    {\n      \"name\": \"Bank Transfer (GB)\",\n      \"type\": \"bankTransfer_GB\"\n    },\n    {\n      \"name\": \"Bank Transfer (HU)\",\n      \"type\": \"bankTransfer_HU\"\n    },\n    {\n      \"name\": \"SEPA Bank Transfer\",\n      \"type\": \"bankTransfer_IBAN\"\n    },\n    {\n      \"name\": \"Bank Transfer (IE)\",\n      \"type\": \"bankTransfer_IE\"\n    },\n    {\n      \"name\": \"Electronic Bank Transfer (MX)\",\n      \"type\": \"bankTransfer_MX_linked\"\n    },\n    {\n      \"name\": \"Bank Transfer (MX)\",\n      \"type\": \"bankTransfer_MX_offline\"\n    },\n    {\n      \"name\": \"Bank Transfer (NL)\",\n      \"type\": \"bankTransfer_NL\"\n    },\n    {\n      \"name\": \"Bank Transfer (PL)\",\n      \"type\": \"bankTransfer_PL\"\n    },\n    {\n      \"name\": \"Bank Transfer (SE)\",\n      \"type\": \"bankTransfer_SE\"\n    },\n    {\n      \"name\": \"Bank Transfer (US)\",\n      \"type\": \"bankTransfer_US\"\n    },\n    {\n      \"name\": \"Payconiq by Bancontact\",\n      \"type\": \"bcmc_mobile\"\n    },\n    {\n      \"name\": \"Bijenkorf Cadeaucard\",\n      \"type\": \"bijcadeaucard\"\n    },\n    {\n      \"name\": \"99Bill\",\n      \"type\": \"bill99\"\n    },\n    {\n      \"name\": \"Online Banking India\",\n      \"type\": \"billdesk_online\"\n    },\n    {\n      \"name\": \"UPI\",\n      \"type\": \"billdesk_upi\"\n    },\n    {\n      \"name\": \"Wallets India\",\n      \"type\": \"billdesk_wallet\"\n    },\n    {\n      \"name\": \"Blik\",\n      \"type\": \"blik\"\n    },\n    {\n      \"name\": \"Bloemen Giftcard\",\n      \"type\": \"bloemengiftcard\"\n    },\n    {\n      \"name\": \"Boekenbon Giftcard\",\n      \"type\": \"boekenbon\"\n    },\n    {\n      \"name\": \"Boleto\",\n      \"type\": \"boleto\"\n    },\n    {\n      \"name\": \"Boleto Bancario\",\n      \"type\": \"boletobancario_santander\"\n    },\n    {\n      \"name\": \"Bradesco\",\n      \"type\": \"bradesco\"\n    },\n    {\n      \"name\": \"Cash-Ticket\",\n      \"type\": \"cashticket\"\n    },\n    {\n      \"name\": \"CashU\",\n      \"type\": \"cashu\"\n    },\n    {\n      \"name\": \"CCAvenue\",\n      \"type\": \"ccavenue\"\n    },\n    {\n      \"name\": \"Mula Checkout\",\n      \"type\": \"cellulant\"\n    },\n    {\n      \"name\": \"Chasin Giftcard\",\n      \"type\": \"chasingiftcard\"\n    },\n    {\n      \"name\": \"Clearpay\",\n      \"type\": \"clearpay\"\n    },\n    {\n      \"name\": \"ClickandBuy\",\n      \"type\": \"clickandbuy\"\n    },\n    {\n      \"name\": \"Paiement en 3 fois par Cartes Bancaires\",\n      \"type\": \"cofinoga_3xcb\"\n    },\n    {\n      \"name\": \"Costes Giftcard\",\n      \"type\": \"costesgiftcard\"\n    },\n    {\n      \"name\": \"custom_settlement\",\n      \"type\": \"custom_settlement\"\n    },\n    {\n      \"name\": \"DANA\",\n      \"type\": \"dana\"\n    },\n    {\n      \"name\": \"DineroMail\",\n      \"type\": \"dineromail\"\n    },\n    {\n      \"name\": \"Online bank transfer.\",\n      \"type\": \"directEbanking\"\n    },\n    {\n      \"name\": \"Direct Debit Brazil - Banco do Brazil\",\n      \"type\": \"directdebit_BR_bancodobrasil\"\n    },\n    {\n      \"name\": \"Direct Debit Brazil - Bradesco\",\n      \"type\": \"directdebit_BR_bradesco\"\n    },\n    {\n      \"name\": \"Direct Debit Brazil - Caixa Economica Federal\",\n      \"type\": \"directdebit_BR_caixa\"\n    },\n    {\n      \"name\": \"Direct Debit Brazil - HSBC\",\n      \"type\": \"directdebit_BR_hsbc\"\n    },\n    {\n      \"name\": \"Direct Debit Brazil - Itau\",\n      \"type\": \"directdebit_BR_itau\"\n    },\n    {\n      \"name\": \"Direct Debit Brazil - Santander\",\n      \"type\": \"directdebit_BR_santander\"\n    },\n    {\n      \"name\": \"BACS Direct Debit\",\n      \"type\": \"directdebit_GB\"\n    },\n    {\n      \"name\": \"Alfamart\",\n      \"type\": \"doku_alfamart\"\n    },\n    {\n      \"name\": \"BCA Bank Transfer\",\n      \"type\": \"doku_bca_va\"\n    },\n    {\n      \"name\": \"BNI VA\",\n      \"type\": \"doku_bni_va\"\n    },\n    {\n      \"name\": \"BRI VA\",\n      \"type\": \"doku_bri_va\"\n    },\n    {\n      \"name\": \"CIMB VA\",\n      \"type\": \"doku_cimb_va\"\n    },\n    {\n      \"name\": \"Danamon VA\",\n      \"type\": \"doku_danamon_va\"\n    },\n    {\n      \"name\": \"Indomaret\",\n      \"type\": \"doku_indomaret\"\n    },\n    {\n      \"name\": \"Mandiri VA\",\n      \"type\": \"doku_mandiri_va\"\n    },\n    {\n      \"name\": \"OVO\",\n      \"type\": \"doku_ovo\"\n    },\n    {\n      \"name\": \"Bank Transfer\",\n      \"type\": \"doku_permata_lite_atm\"\n    },\n    {\n      \"name\": \"DOKU wallet\",\n      \"type\": \"doku_wallet\"\n    },\n    {\n      \"name\": \"Local Polish Payment Methods\",\n      \"type\": \"dotpay\"\n    },\n    {\n      \"name\": \"Dragonpay Prepaid Credits\",\n      \"type\": \"dragonpay_credits\"\n    },\n    {\n      \"name\": \"Online Banking\",\n      \"type\": \"dragonpay_ebanking\"\n    },\n    {\n      \"name\": \"GCash\",\n      \"type\": \"dragonpay_gcash\"\n    },\n    {\n      \"name\": \"Over The Counter Banks\",\n      \"type\": \"dragonpay_otc_banking\"\n    },\n    {\n      \"name\": \"OTC non-Bank via Dragonpay\",\n      \"type\": \"dragonpay_otc_non_banking\"\n    },\n    {\n      \"name\": \"Convenience Stores\",\n      \"type\": \"dragonpay_otc_philippines\"\n    },\n    {\n      \"name\": \"7/11\",\n      \"type\": \"dragonpay_seveneleven\"\n    },\n    {\n      \"name\": \"eagleeye_voucher\",\n      \"type\": \"eagleeye_voucher\"\n    },\n    {\n      \"name\": \"Finnish E-Banking\",\n      \"type\": \"ebanking_FI\"\n    },\n    {\n      \"name\": \"Pay-easy ATM\",\n      \"type\": \"econtext_atm\"\n    },\n    {\n      \"name\": \"Online Banking\",\n      \"type\": \"econtext_online\"\n    },\n    {\n      \"name\": \"7-Eleven\",\n      \"type\": \"econtext_seven_eleven\"\n    },\n    {\n      \"name\": \"Convenience Stores\",\n      \"type\": \"econtext_stores\"\n    },\n    {\n      \"name\": \"eft_directdebit_CA\",\n      \"type\": \"eft_directdebit_CA\"\n    },\n    {\n      \"name\": \"Lastschrift (ELV)\",\n      \"type\": \"elv\"\n    },\n    {\n      \"name\": \"Bank Payment\",\n      \"type\": \"entercash\"\n    },\n    {\n      \"name\": \"Nationale Entertainment Card\",\n      \"type\": \"entertainmentcard\"\n    },\n    {\n      \"name\": \"EPS\",\n      \"type\": \"eps\"\n    },\n    {\n      \"name\": \"Expert Cadeaukaart\",\n      \"type\": \"expertgiftcard\"\n    },\n    {\n      \"name\": \"3x Oney\",\n      \"type\": \"facilypay_3x\"\n    },\n    {\n      \"name\": \"4x Oney\",\n      \"type\": \"facilypay_4x\"\n    },\n    {\n      \"name\": \"Fashioncheque\",\n      \"type\": \"fashioncheque\"\n    },\n    {\n      \"name\": \"Fawry\",\n      \"type\": \"fawry\"\n    },\n    {\n      \"name\": \"FijnCadeau\",\n      \"type\": \"fijncadeau\"\n    },\n    {\n      \"name\": \"Fleurop Bloemenbon\",\n      \"type\": \"fleuropbloemenbon\"\n    },\n    {\n      \"name\": \"Fonq Giftcard\",\n      \"type\": \"fonqgiftcard\"\n    },\n    {\n      \"name\": \"Gall & Gall\",\n      \"type\": \"gallgall\"\n    },\n    {\n      \"name\": \"GCash\",\n      \"type\": \"gcash\"\n    },\n    {\n      \"name\": \"Generic GiftCard\",\n      \"type\": \"genericgiftcard\"\n    },\n    {\n      \"name\": \"GiftFor2\",\n      \"type\": \"giftfor2card\"\n    },\n    {\n      \"name\": \"Givex\",\n      \"type\": \"givex\"\n    },\n    {\n      \"name\": \"Globe GCash\",\n      \"type\": \"globegcash\"\n    },\n    {\n      \"name\": \"Goldsmiths Card\",\n      \"type\": \"goldsmithscard\"\n    },\n    {\n      \"name\": \"GoPay Wallet\",\n      \"type\": \"gopay_wallet\"\n    },\n    {\n      \"name\": \"OVO\",\n      \"type\": \"grabpay_ID\"\n    },\n    {\n      \"name\": \"GrabPay\",\n      \"type\": \"grabpay_PH\"\n    },\n    {\n      \"name\": \"GrabPay\",\n      \"type\": \"grabpay_SG\"\n    },\n    {\n      \"name\": \"Hallmark Card\",\n      \"type\": \"hallmarkcard\"\n    },\n    {\n      \"name\": \"HDFC\",\n      \"type\": \"hdfc\"\n    },\n    {\n      \"name\": \"Hunkemoller Member Card\",\n      \"type\": \"hmclub\"\n    },\n    {\n      \"name\": \"Hunkemoller Lingerie Card\",\n      \"type\": \"hmlingerie\"\n    },\n    {\n      \"name\": \"iDEAL\",\n      \"type\": \"ideal\"\n    },\n    {\n      \"name\": \"igive\",\n      \"type\": \"igive\"\n    },\n    {\n      \"name\": \"Korean Account Transfer (IniPay)\",\n      \"type\": \"inicisIniPay_accounttransfer\"\n    },\n    {\n      \"name\": \"Korean Credit Cards (IniPay)\",\n      \"type\": \"inicisIniPay_creditcard\"\n    },\n    {\n      \"name\": \"Korean Mobile Phone (IniPay)\",\n      \"type\": \"inicisIniPay_mobilephone\"\n    },\n    {\n      \"name\": \"Korean Virtual Account (IniPay)\",\n      \"type\": \"inicisIniPay_virtualaccount\"\n    },\n    {\n      \"name\": \"Korean Account Transfer (Mobile)\",\n      \"type\": \"inicisMobile_accounttransfer\"\n    },\n    {\n      \"name\": \"Korean Credit Cards (Mobile)\",\n      \"type\": \"inicisMobile_creditcard\"\n    },\n    {\n      \"name\": \"Korean Mobile Phone (Mobile)\",\n      \"type\": \"inicisMobile_mobilephone\"\n    },\n    {\n      \"name\": \"Korean Virtual Account (Mobile)\",\n      \"type\": \"inicisMobile_virtualaccount\"\n    },\n    {\n      \"name\": \"Korean Credit Cards\",\n      \"type\": \"inicis_creditcard\"\n    },\n    {\n      \"name\": \"Interac® Online\",\n      \"type\": \"interac\"\n    },\n    {\n      \"name\": \"Instant EFT\",\n      \"type\": \"ipay\"\n    },\n    {\n      \"name\": \"iPay88\",\n      \"type\": \"ipay88\"\n    },\n    {\n      \"name\": \"isracard\",\n      \"type\": \"isracard\"\n    },\n    {\n      \"name\": \"Phone Payment\",\n      \"type\": \"ivr\"\n    },\n    {\n      \"name\": \"Landline phone\",\n      \"type\": \"ivrLandline\"\n    },\n    {\n      \"name\": \"Mobile phone\",\n      \"type\": \"ivrMobile\"\n    },\n    {\n      \"name\": \"Kado Wereld\",\n      \"type\": \"kadowereld\"\n    },\n    {\n      \"name\": \"KakaoPay\",\n      \"type\": \"kakaopay\"\n    },\n    {\n      \"name\": \"Karen Millen Card\",\n      \"type\": \"karenmillen\"\n    },\n    {\n      \"name\": \"Karen Millen GiftCard\",\n      \"type\": \"karenmillengiftcard\"\n    },\n    {\n      \"name\": \"Bank Transfer\",\n      \"type\": \"kcp_banktransfer\"\n    },\n    {\n      \"name\": \"Korea–issued cards\",\n      \"type\": \"kcp_creditcard\"\n    },\n    {\n      \"name\": \"PayCo\",\n      \"type\": \"kcp_payco\"\n    },\n    {\n      \"name\": \"Naver Pay\",\n      \"type\": \"kcp_naverpay\"\n    },\n    {\n      \"name\": \"Virtual Account via KCP\",\n      \"type\": \"kcp_va\"\n    },\n    {\n      \"name\": \"Pay later with Klarna.\",\n      \"type\": \"klarna\"\n    },\n    {\n      \"name\": \"Pay over time with Klarna.\",\n      \"type\": \"klarna_account\"\n    },\n    {\n      \"name\": \"Buy Now, Pay Later with Billie\",\n      \"type\": \"klarna_b2b\"\n    },\n    {\n      \"name\": \"Pay now with Klarna.\",\n      \"type\": \"klarna_paynow\"\n    },\n    {\n      \"name\": \"Leisure Card\",\n      \"type\": \"leisurecard\"\n    },\n    {\n      \"name\": \"China Credit Card\",\n      \"type\": \"lianlianpay_creditcard\"\n    },\n    {\n      \"name\": \"China Debit Card\",\n      \"type\": \"lianlianpay_debitcard\"\n    },\n    {\n      \"name\": \"China Online Banking - Credit Card\",\n      \"type\": \"lianlianpay_ebanking_credit\"\n    },\n    {\n      \"name\": \"China Online Banking - Debit Card\",\n      \"type\": \"lianlianpay_ebanking_debit\"\n    },\n    {\n      \"name\": \"China Online Banking - Enterprise\",\n      \"type\": \"lianlianpay_ebanking_enterprise\"\n    },\n    {\n      \"name\": \"Loods5 Cadeaukaart\",\n      \"type\": \"loods5giftcard\"\n    },\n    {\n      \"name\": \"Loods5 Tegoedbon\",\n      \"type\": \"loods5prepaidcard\"\n    },\n    {\n      \"name\": \"Love2Shop GiftCard\",\n      \"type\": \"love2shop\"\n    },\n    {\n      \"name\": \"mada\",\n      \"type\": \"mada\"\n    },\n    {\n      \"name\": \"Mappin & Webb Card\",\n      \"type\": \"mappinwebbcard\"\n    },\n    {\n      \"name\": \"MB WAY\",\n      \"type\": \"mbway\"\n    },\n    {\n      \"name\": \"Amazon Pay\",\n      \"type\": \"amazonpay\"\n    },\n    {\n      \"name\": \"Mercado Pago\",\n      \"type\": \"mercadopago\"\n    },\n    {\n      \"name\": \"MobilePay\",\n      \"type\": \"mobilepay\"\n    },\n    {\n      \"name\": \"AliPay via Razer Merchant Services\",\n      \"type\": \"molpay_alipay\"\n    },\n    {\n      \"name\": \"7-Eleven\",\n      \"type\": \"molpay_cash\"\n    },\n    {\n      \"name\": \"CIMB Virtual Account\",\n      \"type\": \"molpay_cimb_va\"\n    },\n    {\n      \"name\": \"Malaysia E-Banking via Razer Merchant Services\",\n      \"type\": \"molpay_ebanking_MY\"\n    },\n    {\n      \"name\": \"Vietnam E-Banking\",\n      \"type\": \"molpay_ebanking_VN\"\n    },\n    {\n      \"name\": \"Malaysia E-Banking\",\n      \"type\": \"molpay_ebanking_fpx_MY\"\n    },\n    {\n      \"name\": \"eNETS Debit\",\n      \"type\": \"molpay_enetsd\"\n    },\n    {\n      \"name\": \"epay\",\n      \"type\": \"molpay_epay\"\n    },\n    {\n      \"name\": \"Esapay\",\n      \"type\": \"molpay_esapay\"\n    },\n    {\n      \"name\": \"MyClear FPX\",\n      \"type\": \"molpay_fpx\"\n    },\n    {\n      \"name\": \"Maybank2u\",\n      \"type\": \"molpay_maybank2u\"\n    },\n    {\n      \"name\": \"Nganluong\",\n      \"type\": \"molpay_nganluong\"\n    },\n    {\n      \"name\": \"Convenience Stores Thailand\",\n      \"type\": \"molpay_paysbuy\"\n    },\n    {\n      \"name\": \"MOLPoints\",\n      \"type\": \"molpay_points\"\n    },\n    {\n      \"name\": \"RHB Now\",\n      \"type\": \"molpay_rhb\"\n    },\n    {\n      \"name\": \"SAM by SingPost\",\n      \"type\": \"molpay_singpost\"\n    },\n    {\n      \"name\": \"MOLWallet\",\n      \"type\": \"molpay_wallet\"\n    },\n    {\n      \"name\": \"MoMo ATM\",\n      \"type\": \"momo_atm\"\n    },\n    {\n      \"name\": \"Momo Wallet\",\n      \"type\": \"momo_wallet\"\n    },\n    {\n      \"name\": \"Moneybookers\",\n      \"type\": \"moneybookers\"\n    },\n    {\n      \"name\": \"Multibanco\",\n      \"type\": \"multibanco\"\n    },\n    {\n      \"name\": \"De Nationale Musicalcard\",\n      \"type\": \"musicalcard\"\n    },\n    {\n      \"name\": \"Nationale Bioscoopbon\",\n      \"type\": \"nationalebioscoopbon\"\n    },\n    {\n      \"name\": \"Nationale Tuinbon\",\n      \"type\": \"nationaletuinbon\"\n    },\n    {\n      \"name\": \"Nationale Verwen Cadeaubon\",\n      \"type\": \"nationaleverwencadeaubon\"\n    },\n    {\n      \"name\": \"BankAxess\",\n      \"type\": \"netaxept_bankaxess\"\n    },\n    {\n      \"name\": \"NETELLER\",\n      \"type\": \"neteller\"\n    },\n    {\n      \"name\": \"Onebip\",\n      \"type\": \"onebip\"\n    },\n    {\n      \"name\": \"One Two Three\",\n      \"type\": \"onetwothree\"\n    },\n    {\n      \"name\": \"Online Banking PL\",\n      \"type\": \"onlineBanking_PL\"\n    },\n    {\n      \"name\": \"Online banking\",\n      \"type\": \"openbanking_UK\"\n    },\n    {\n      \"name\": \"Oxxo\",\n      \"type\": \"oxxo\"\n    },\n    {\n      \"name\": \"Pathe Giftcard\",\n      \"type\": \"pathegiftcard\"\n    },\n    {\n      \"name\": \"PayBright\",\n      \"type\": \"paybright\"\n    },\n    {\n      \"name\": \"Maya Wallet\",\n      \"type\": \"paymaya_wallet\"\n    },\n    {\n      \"name\": \"PayPal\",\n      \"type\": \"paypal\"\n    },\n    {\n      \"name\": \"Paysafecard\",\n      \"type\": \"paysafecard\"\n    },\n    {\n      \"name\": \"Payshop\",\n      \"type\": \"payshop\"\n    },\n    {\n      \"name\": \"PayD AMT via Paythru\",\n      \"type\": \"paythru_amt\"\n    },\n    {\n      \"name\": \"EFT via Paythru\",\n      \"type\": \"paythru_eft\"\n    },\n    {\n      \"name\": \"PayTM\",\n      \"type\": \"paytm\"\n    },\n    {\n      \"name\": \"PayU UPI\",\n      \"type\": \"payu_IN_upi\"\n    },\n    {\n      \"name\": \"EFT Pro via PayU\",\n      \"type\": \"payu_ZA_eftpro\"\n    },\n    {\n      \"name\": \"Google Pay\",\n      \"type\": \"paywithgoogle\"\n    },\n    {\n      \"name\": \"pix\",\n      \"type\": \"pix\"\n    },\n    {\n      \"name\": \"Plastix\",\n      \"type\": \"plastix\"\n    },\n    {\n      \"name\": \"Pluim\",\n      \"type\": \"pluimgiftcard\"\n    },\n    {\n      \"name\": \"Podium Card\",\n      \"type\": \"podiumcard\"\n    },\n    {\n      \"name\": \"POLi\",\n      \"type\": \"poli\"\n    },\n    {\n      \"name\": \"PPS\",\n      \"type\": \"pps\"\n    },\n    {\n      \"name\": \"Primera Cadeaukaart\",\n      \"type\": \"primeracadeaucard\"\n    },\n    {\n      \"name\": \"Illicado Gift Card\",\n      \"type\": \"prosodie_illicado\"\n    },\n    {\n      \"name\": \"PSE\",\n      \"type\": \"pse\"\n    },\n    {\n      \"name\": \"Qiwi Wallet\",\n      \"type\": \"qiwiwallet\"\n    },\n    {\n      \"name\": \"RatePay Invoice\",\n      \"type\": \"ratepay\"\n    },\n    {\n      \"name\": \"RatePay Direct Debit\",\n      \"type\": \"ratepay_directdebit\"\n    },\n    {\n      \"name\": \"Rituals Giftcard\",\n      \"type\": \"rituals\"\n    },\n    {\n      \"name\": \"Rob Peetoom Giftcard\",\n      \"type\": \"robpeetoomgiftcard\"\n    },\n    {\n      \"name\": \"SafetyPay\",\n      \"type\": \"safetypay\"\n    },\n    {\n      \"name\": \"SafetyPay Cash\",\n      \"type\": \"safetypay_cash\"\n    },\n    {\n      \"name\": \"Shoes&Accessories Cadeau\",\n      \"type\": \"sagiftcard\"\n    },\n    {\n      \"name\": \"Score Giftcard\",\n      \"type\": \"scoregiftcard\"\n    },\n    {\n      \"name\": \"SEB Direktbetalning\",\n      \"type\": \"sebdirectpayment\"\n    },\n    {\n      \"name\": \"SEPA Direct Debit\",\n      \"type\": \"sepadirectdebit\"\n    },\n    {\n      \"name\": \"7-Eleven\",\n      \"type\": \"seveneleven\"\n    },\n    {\n      \"name\": \"Premium SMS\",\n      \"type\": \"sms\"\n    },\n    {\n      \"name\": \"SVS\",\n      \"type\": \"svs\"\n    },\n    {\n      \"name\": \"Swish\",\n      \"type\": \"swish\"\n    },\n    {\n      \"name\": \"TCS Test GiftCard\",\n      \"type\": \"tcstestgiftcard\"\n    },\n    {\n      \"name\": \"TenPay\",\n      \"type\": \"tenpay\"\n    },\n    {\n      \"name\": \"The Sting Giftcard\",\n      \"type\": \"thestinggiftcard\"\n    },\n    {\n      \"name\": \"TrueMoney\",\n      \"type\": \"truemoney\"\n    },\n    {\n      \"name\": \"Trustly\",\n      \"type\": \"trustly\"\n    },\n    {\n      \"name\": \"Online Banking by Trustpay\",\n      \"type\": \"trustpay\"\n    },\n    {\n      \"name\": \"TWINT\",\n      \"type\": \"twint\"\n    },\n    {\n      \"name\": \"Ukash\",\n      \"type\": \"ukash\"\n    },\n    {\n      \"name\": \"UnionPay\",\n      \"type\": \"unionpay\"\n    },\n    {\n      \"name\": \"UPI Collect\",\n      \"type\": \"upi_collect\"\n    },\n    {\n      \"name\": \"Valuelink\",\n      \"type\": \"valuelink\"\n    },\n    {\n      \"name\": \"V&D Cadeaukaart\",\n      \"type\": \"vdcadeaucard\"\n    },\n    {\n      \"name\": \"Vipps\",\n      \"type\": \"vipps\"\n    },\n    {\n      \"name\": \"Visa Checkout\",\n      \"type\": \"visacheckout\"\n    },\n    {\n      \"name\": \"VVV Cadeaubon\",\n      \"type\": \"vvvcadeaubon\"\n    },\n    {\n      \"name\": \"VVV Giftcard\",\n      \"type\": \"vvvgiftcard\"\n    },\n    {\n      \"name\": \"Webshop Giftcard\",\n      \"type\": \"webshopgiftcard\"\n    },\n    {\n      \"name\": \"WeChat Pay\",\n      \"type\": \"wechatpayMiniProgram\"\n    },\n    {\n      \"name\": \"WeChat Pay\",\n      \"type\": \"wechatpayQR\"\n    },\n    {\n      \"name\": \"WeChat Pay\",\n      \"type\": \"wechatpayWeb\"\n    },\n    {\n      \"name\": \"WE Fashion Giftcard\",\n      \"type\": \"wefashiongiftcard\"\n    },\n    {\n      \"name\": \"Western Union\",\n      \"type\": \"westernunion\"\n    },\n    {\n      \"name\": \"Winkel Cheque\",\n      \"type\": \"winkelcheque\"\n    },\n    {\n      \"name\": \"WOS Card\",\n      \"type\": \"woscard\"\n    },\n    {\n      \"name\": \"Alfa-Click\",\n      \"type\": \"yandex_alfaclick\"\n    },\n    {\n      \"name\": \"Pay using bank card\",\n      \"type\": \"yandex_bank_card\"\n    },\n    {\n      \"name\": \"Cash terminals\",\n      \"type\": \"yandex_cash\"\n    },\n    {\n      \"name\": \"Pay using installments\",\n      \"type\": \"yandex_installments\"\n    },\n    {\n      \"name\": \"YooMoney\",\n      \"type\": \"yandex_money\"\n    },\n    {\n      \"name\": \"Promsvyazbank\",\n      \"type\": \"yandex_promsvyazbank\"\n    },\n    {\n      \"name\": \"SberPay\",\n      \"type\": \"yandex_sberbank\"\n    },\n    {\n      \"name\": \"WebMoney\",\n      \"type\": \"yandex_webmoney\"\n    },\n    {\n      \"name\": \"Your Gift\",\n      \"type\": \"yourgift\"\n    },\n    {\n      \"name\": \"Zip\",\n      \"type\": \"zip\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a3989761-48b8-4965-bbc2-56084741e2bd",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paymentMethods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"errorCode\": \"702\",\n  \"message\": \"Unexpected input: \\\", expected: }\",\n  \"errorType\": \"validation\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2b3b8a5d-f126-482a-b82b-b99d1a6c9cfa",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paymentMethods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"errorCode\": \"000\",\n  \"message\": \"HTTP Status Response - Unauthorized\",\n  \"errorType\": \"security\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0e1ef0f1-17ea-470b-9a4d-53d8dcb9b5ac",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paymentMethods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 403,\n  \"errorCode\": \"901\",\n  \"message\": \"Invalid Merchant Account\",\n  \"errorType\": \"security\",\n  \"pspReference\": \"881611827877203B\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "950c027b-2db5-4860-83dd-b1742f17660d",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paymentMethods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The idempotency key used for processing the request. Present if the key was provided in the request.",
+                  "key": "Idempotency-Key",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 422,\n  \"errorCode\": \"14_030\",\n  \"message\": \"Return URL is missing.\",\n  \"errorType\": \"validation\",\n  \"pspReference\": \"8816118280275544\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ee87a48d-3f92-4e9c-bef4-b798fd198382",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paymentMethods"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 500,\n  \"errorCode\": \"905\",\n  \"message\": \"Payment details are not supported\",\n  \"errorType\": \"configuration\",\n  \"pspReference\": \"8516091485743033\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3da444f9-b5ff-4b33-9acb-dd6ac0441e94",
+          "name": "Adyen Get the Balance of a Gift Card",
+          "request": {
+            "name": "Adyen Get the Balance of a Gift Card",
+            "description": {
+              "content": "Retrieves the balance remaining on a shopper's gift card. To check a gift card's balance, make a POST `/paymentMethods/balance` call and include the gift card's details inside a `paymentMethod` object.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "paymentMethods",
+                "balance"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                "key": "Idempotency-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"paymentMethod\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"accountInfo\": {\n    \"accountAgeIndicator\": \"<string>\",\n    \"accountChangeDate\": \"<dateTime>\",\n    \"accountChangeIndicator\": \"<string>\",\n    \"accountCreationDate\": \"<dateTime>\",\n    \"accountType\": \"<string>\",\n    \"addCardAttemptsDay\": \"<integer>\",\n    \"deliveryAddressUsageDate\": \"<dateTime>\",\n    \"deliveryAddressUsageIndicator\": \"<string>\",\n    \"homePhone\": \"<string>\",\n    \"mobilePhone\": \"<string>\",\n    \"passwordChangeDate\": \"<dateTime>\",\n    \"passwordChangeIndicator\": \"<string>\",\n    \"pastTransactionsDay\": \"<integer>\",\n    \"pastTransactionsYear\": \"<integer>\",\n    \"paymentAccountAge\": \"<dateTime>\",\n    \"paymentAccountIndicator\": \"<string>\",\n    \"purchasesLast6Months\": \"<integer>\",\n    \"suspiciousActivity\": \"<boolean>\",\n    \"workPhone\": \"<string>\"\n  },\n  \"additionalAmount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"additionalData\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\",\n    \"key_3\": \"<string>\"\n  },\n  \"applicationInfo\": {\n    \"adyenLibrary\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"adyenPaymentSource\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"externalPlatform\": {\n      \"integrator\": \"<string>\",\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"merchantApplication\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"merchantDevice\": {\n      \"os\": \"<string>\",\n      \"osVersion\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    \"shopperInteractionDevice\": {\n      \"locale\": \"<string>\",\n      \"os\": \"<string>\",\n      \"osVersion\": \"<string>\"\n    }\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"browserInfo\": {\n    \"userAgent\": \"<string>\",\n    \"acceptHeader\": \"<string>\",\n    \"javaEnabled\": \"<boolean>\",\n    \"colorDepth\": \"<integer>\",\n    \"screenHeight\": \"<integer>\",\n    \"screenWidth\": \"<integer>\",\n    \"timeZoneOffset\": \"<integer>\",\n    \"language\": \"<string>\",\n    \"javaScriptEnabled\": true\n  },\n  \"captureDelayHours\": \"<integer>\",\n  \"dateOfBirth\": \"<date>\",\n  \"dccQuote\": {\n    \"validTill\": \"<dateTime>\",\n    \"basePoints\": \"<integer>\",\n    \"account\": \"<string>\",\n    \"accountType\": \"<string>\",\n    \"baseAmount\": {\n      \"value\": \"<long>\",\n      \"currency\": \"<string>\"\n    },\n    \"buy\": {\n      \"value\": \"<long>\",\n      \"currency\": \"<string>\"\n    },\n    \"interbank\": {\n      \"value\": \"<long>\",\n      \"currency\": \"<string>\"\n    },\n    \"reference\": \"<string>\",\n    \"sell\": {\n      \"value\": \"<long>\",\n      \"currency\": \"<string>\"\n    },\n    \"signature\": \"<string>\",\n    \"source\": \"<string>\",\n    \"type\": \"<string>\"\n  },\n  \"deliveryAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"deliveryDate\": \"<dateTime>\",\n  \"deviceFingerprint\": \"<string>\",\n  \"fraudOffset\": \"<integer>\",\n  \"installments\": {\n    \"value\": \"<integer>\",\n    \"plan\": \"<string>\"\n  },\n  \"localizedShopperStatement\": {\n    \"key_0\": \"<string>\"\n  },\n  \"mcc\": \"<string>\",\n  \"merchantOrderReference\": \"<string>\",\n  \"merchantRiskIndicator\": {\n    \"addressMatch\": \"<boolean>\",\n    \"deliveryAddressIndicator\": \"<string>\",\n    \"deliveryEmail\": \"<string>\",\n    \"deliveryEmailAddress\": \"<string>\",\n    \"deliveryTimeframe\": \"<string>\",\n    \"giftCardAmount\": {\n      \"value\": \"<long>\",\n      \"currency\": \"<string>\"\n    },\n    \"giftCardCount\": \"<integer>\",\n    \"giftCardCurr\": \"<string>\",\n    \"preOrderDate\": \"<dateTime>\",\n    \"preOrderPurchase\": \"<boolean>\",\n    \"preOrderPurchaseInd\": \"<string>\",\n    \"reorderItems\": \"<boolean>\",\n    \"reorderItemsInd\": \"<string>\",\n    \"shipIndicator\": \"<string>\"\n  },\n  \"metadata\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"orderReference\": \"<string>\",\n  \"recurring\": {\n    \"contract\": \"<string>\",\n    \"recurringDetailName\": \"<string>\",\n    \"recurringExpiry\": \"<dateTime>\",\n    \"recurringFrequency\": \"<string>\",\n    \"tokenService\": \"<string>\"\n  },\n  \"recurringProcessingModel\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"selectedBrand\": \"<string>\",\n  \"selectedRecurringDetailReference\": \"<string>\",\n  \"sessionId\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperIP\": \"<string>\",\n  \"shopperInteraction\": \"<string>\",\n  \"shopperLocale\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperReference\": \"<string>\",\n  \"shopperStatement\": \"<string>\",\n  \"socialSecurityNumber\": \"<string>\",\n  \"splits\": [\n    {\n      \"type\": \"<string>\",\n      \"account\": \"<string>\",\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"account\": \"<string>\",\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    }\n  ],\n  \"store\": \"<string>\",\n  \"telephoneNumber\": \"<string>\",\n  \"threeDS2RequestData\": {\n    \"deviceChannel\": \"<string>\",\n    \"acctInfo\": {\n      \"chAccAgeInd\": \"<string>\",\n      \"chAccChange\": \"<string>\",\n      \"chAccChangeInd\": \"<string>\",\n      \"chAccPwChange\": \"<string>\",\n      \"chAccPwChangeInd\": \"<string>\",\n      \"chAccString\": \"<string>\",\n      \"nbPurchaseAccount\": \"<string>\",\n      \"paymentAccAge\": \"<string>\",\n      \"paymentAccInd\": \"<string>\",\n      \"provisionAttemptsDay\": \"<string>\",\n      \"shipAddressUsage\": \"<string>\",\n      \"shipAddressUsageInd\": \"<string>\",\n      \"shipNameIndicator\": \"<string>\",\n      \"suspiciousAccActivity\": \"<string>\",\n      \"txnActivityDay\": \"<string>\",\n      \"txnActivityYear\": \"<string>\"\n    },\n    \"acctType\": \"<string>\",\n    \"acquirerBIN\": \"<string>\",\n    \"acquirerMerchantID\": \"<string>\",\n    \"addrMatch\": \"<string>\",\n    \"authenticationOnly\": false,\n    \"challengeIndicator\": \"<string>\",\n    \"deviceRenderOptions\": {\n      \"sdkInterface\": \"both\",\n      \"sdkUiType\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"homePhone\": {\n      \"cc\": \"<string>\",\n      \"subscriber\": \"<string>\"\n    },\n    \"mcc\": \"<string>\",\n    \"merchantName\": \"<string>\",\n    \"messageVersion\": \"<string>\",\n    \"mobilePhone\": {\n      \"cc\": \"<string>\",\n      \"subscriber\": \"<string>\"\n    },\n    \"notificationURL\": \"<string>\",\n    \"payTokenInd\": \"<boolean>\",\n    \"paymentAuthenticationUseCase\": \"<string>\",\n    \"platform\": \"<string>\",\n    \"purchaseInstalData\": \"<string>\",\n    \"recurringExpiry\": \"<string>\",\n    \"recurringFrequency\": \"<string>\",\n    \"sdkAppID\": \"<string>\",\n    \"sdkEncData\": \"<string>\",\n    \"sdkEphemPubKey\": {\n      \"crv\": \"<string>\",\n      \"kty\": \"<string>\",\n      \"x\": \"<string>\",\n      \"y\": \"<string>\"\n    },\n    \"sdkMaxTimeout\": 60,\n    \"sdkReferenceNumber\": \"<string>\",\n    \"sdkTransID\": \"<string>\",\n    \"sdkVersion\": \"<string>\",\n    \"threeDSCompInd\": \"<string>\",\n    \"threeDSRequestorAuthenticationInd\": \"<string>\",\n    \"threeDSRequestorAuthenticationInfo\": {\n      \"threeDSReqAuthData\": \"<string>\",\n      \"threeDSReqAuthMethod\": \"<string>\",\n      \"threeDSReqAuthTimestamp\": \"<string>\"\n    },\n    \"threeDSRequestorChallengeInd\": \"<string>\",\n    \"threeDSRequestorID\": \"<string>\",\n    \"threeDSRequestorName\": \"<string>\",\n    \"threeDSRequestorPriorAuthenticationInfo\": {\n      \"threeDSReqPriorAuthData\": \"<string>\",\n      \"threeDSReqPriorAuthMethod\": \"<string>\",\n      \"threeDSReqPriorAuthTimestamp\": \"<string>\",\n      \"threeDSReqPriorRef\": \"<string>\"\n    },\n    \"threeDSRequestorURL\": \"<string>\",\n    \"transType\": \"<string>\",\n    \"transactionType\": \"<string>\",\n    \"whiteListStatus\": \"<string>\",\n    \"workPhone\": {\n      \"cc\": \"<string>\",\n      \"subscriber\": \"<string>\"\n    }\n  },\n  \"threeDSAuthenticationOnly\": false,\n  \"totalsGroup\": \"<string>\",\n  \"trustedShopper\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e291ed9a-caa5-4b80-a344-4a0e5b1e26bd",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paymentMethods",
+                    "balance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentMethod\": {\n    \"type\": \"givex\",\n    \"number\": \"4126491073027401\",\n    \"cvc\": \"737\"\n  },\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 1000\n  },\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The idempotency key used for processing the request. Present if the key was provided in the request.",
+                  "key": "Idempotency-Key",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pspReference\": \"KHQC5N7G84BLNK43\",\n  \"resultCode\": \"Success\",\n  \"balance\": {\n    \"currency\": \"EUR\",\n    \"value\": 5000\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3f2c3641-4476-4af5-a453-eecb9414c313",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paymentMethods",
+                    "balance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentMethod\": {\n    \"type\": \"givex\",\n    \"number\": \"4126491073027401\",\n    \"cvc\": \"737\"\n  },\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 1000\n  },\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"errorCode\": \"702\",\n  \"message\": \"Unexpected input: \\\", expected: }\",\n  \"errorType\": \"validation\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3f99f18b-30aa-4a2c-9407-185e98e44bdc",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paymentMethods",
+                    "balance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentMethod\": {\n    \"type\": \"givex\",\n    \"number\": \"4126491073027401\",\n    \"cvc\": \"737\"\n  },\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 1000\n  },\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"errorCode\": \"000\",\n  \"message\": \"HTTP Status Response - Unauthorized\",\n  \"errorType\": \"security\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6e5d3fc6-5569-4932-99cf-c7c82bec8d33",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paymentMethods",
+                    "balance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentMethod\": {\n    \"type\": \"givex\",\n    \"number\": \"4126491073027401\",\n    \"cvc\": \"737\"\n  },\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 1000\n  },\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 403,\n  \"errorCode\": \"901\",\n  \"message\": \"Invalid Merchant Account\",\n  \"errorType\": \"security\",\n  \"pspReference\": \"881611827877203B\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4edecf13-455e-4f16-a013-bf6661761714",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paymentMethods",
+                    "balance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentMethod\": {\n    \"type\": \"givex\",\n    \"number\": \"4126491073027401\",\n    \"cvc\": \"737\"\n  },\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 1000\n  },\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The idempotency key used for processing the request. Present if the key was provided in the request.",
+                  "key": "Idempotency-Key",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 422,\n  \"errorCode\": \"14_030\",\n  \"message\": \"Return URL is missing.\",\n  \"errorType\": \"validation\",\n  \"pspReference\": \"8816118280275544\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eca9e356-1094-47c6-8e3c-d459984f95f7",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paymentMethods",
+                    "balance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentMethod\": {\n    \"type\": \"givex\",\n    \"number\": \"4126491073027401\",\n    \"cvc\": \"737\"\n  },\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 1000\n  },\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 500,\n  \"errorCode\": \"905\",\n  \"message\": \"Payment details are not supported\",\n  \"errorType\": \"configuration\",\n  \"pspReference\": \"8516091485743033\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cal-test.adyen.com/cal/services/Account/v6",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "0cd86aa7-7424-4c1e-8379-2740dbd7b4af",
+    "name": "Adyen Account acceptDispute paymentMethods API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```\n\nContact Support:\n Name: Adyen Developer Experience team",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,572 @@
+{
+  "item": [
+    {
+      "id": "9e3af6c8-c8c2-439c-9843-ba21522616b6",
+      "name": "Session",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "dd0ab530-7830-4ba1-b125-7cb5585d1d69",
+          "name": "Adyen Create a Payment Session",
+          "request": {
+            "name": "Adyen Create a Payment Session",
+            "description": {
+              "content": "Provides the data object that can be used to start the Checkout SDK. To set up the payment, pass its amount, currency, and other required parameters. We use this to optimise the payment flow and perform better risk assessment of the transaction.\n\nFor more information, refer to [How it works](https://docs.adyen.com/online-payments#howitworks).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "paymentSession"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                "key": "Idempotency-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchantAccount\": \"<string>\",\n  \"reference\": \"<string>\",\n  \"amount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"returnUrl\": \"<string>\",\n  \"countryCode\": \"<string>\",\n  \"additionalAmount\": {\n    \"value\": \"<long>\",\n    \"currency\": \"<string>\"\n  },\n  \"additionalData\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"allowedPaymentMethods\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"applicationInfo\": {\n    \"adyenLibrary\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"adyenPaymentSource\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"externalPlatform\": {\n      \"integrator\": \"<string>\",\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"merchantApplication\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    \"merchantDevice\": {\n      \"os\": \"<string>\",\n      \"osVersion\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    \"shopperInteractionDevice\": {\n      \"locale\": \"<string>\",\n      \"os\": \"<string>\",\n      \"osVersion\": \"<string>\"\n    }\n  },\n  \"billingAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"blockedPaymentMethods\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"captureDelayHours\": \"<integer>\",\n  \"channel\": \"<string>\",\n  \"checkoutAttemptId\": \"<string>\",\n  \"company\": {\n    \"homepage\": \"<string>\",\n    \"name\": \"<string>\",\n    \"registrationNumber\": \"<string>\",\n    \"registryLocation\": \"<string>\",\n    \"taxId\": \"<string>\",\n    \"type\": \"<string>\"\n  },\n  \"configuration\": {\n    \"avs\": {\n      \"addressEditable\": \"<boolean>\",\n      \"enabled\": \"<string>\"\n    },\n    \"cardHolderName\": \"<string>\",\n    \"installments\": {\n      \"maxNumberOfInstallments\": \"<integer>\"\n    },\n    \"shopperInput\": {\n      \"billingAddress\": \"<string>\",\n      \"deliveryAddress\": \"<string>\",\n      \"personalDetails\": \"<string>\"\n    }\n  },\n  \"conversionId\": \"<string>\",\n  \"dateOfBirth\": \"<date>\",\n  \"dccQuote\": {\n    \"validTill\": \"<dateTime>\",\n    \"basePoints\": \"<integer>\",\n    \"account\": \"<string>\",\n    \"accountType\": \"<string>\",\n    \"baseAmount\": {\n      \"value\": \"<long>\",\n      \"currency\": \"<string>\"\n    },\n    \"buy\": {\n      \"value\": \"<long>\",\n      \"currency\": \"<string>\"\n    },\n    \"interbank\": {\n      \"value\": \"<long>\",\n      \"currency\": \"<string>\"\n    },\n    \"reference\": \"<string>\",\n    \"sell\": {\n      \"value\": \"<long>\",\n      \"currency\": \"<string>\"\n    },\n    \"signature\": \"<string>\",\n    \"source\": \"<string>\",\n    \"type\": \"<string>\"\n  },\n  \"deliveryAddress\": {\n    \"street\": \"<string>\",\n    \"houseNumberOrName\": \"<string>\",\n    \"city\": \"<string>\",\n    \"postalCode\": \"<string>\",\n    \"country\": \"<string>\",\n    \"stateOrProvince\": \"<string>\"\n  },\n  \"deliveryDate\": \"<dateTime>\",\n  \"enableOneClick\": \"<boolean>\",\n  \"enablePayOut\": \"<boolean>\",\n  \"enableRecurring\": \"<boolean>\",\n  \"entityType\": \"<string>\",\n  \"fraudOffset\": \"<integer>\",\n  \"installments\": {\n    \"value\": \"<integer>\",\n    \"plan\": \"<string>\"\n  },\n  \"lineItems\": [\n    {\n      \"amountExcludingTax\": \"<long>\",\n      \"amountIncludingTax\": \"<long>\",\n      \"brand\": \"<string>\",\n      \"color\": \"<string>\",\n      \"description\": \"<string>\",\n      \"id\": \"<string>\",\n      \"imageUrl\": \"<string>\",\n      \"itemCategory\": \"<string>\",\n      \"manufacturer\": \"<string>\",\n      \"productUrl\": \"<string>\",\n      \"quantity\": \"<long>\",\n      \"receiverEmail\": \"<string>\",\n      \"size\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"taxAmount\": \"<long>\",\n      \"taxPercentage\": \"<long>\",\n      \"upc\": \"<string>\"\n    },\n    {\n      \"amountExcludingTax\": \"<long>\",\n      \"amountIncludingTax\": \"<long>\",\n      \"brand\": \"<string>\",\n      \"color\": \"<string>\",\n      \"description\": \"<string>\",\n      \"id\": \"<string>\",\n      \"imageUrl\": \"<string>\",\n      \"itemCategory\": \"<string>\",\n      \"manufacturer\": \"<string>\",\n      \"productUrl\": \"<string>\",\n      \"quantity\": \"<long>\",\n      \"receiverEmail\": \"<string>\",\n      \"size\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"taxAmount\": \"<long>\",\n      \"taxPercentage\": \"<long>\",\n      \"upc\": \"<string>\"\n    }\n  ],\n  \"localizedShopperStatement\": {\n    \"key_0\": \"<string>\"\n  },\n  \"mandate\": {\n    \"frequency\": \"<string>\",\n    \"amount\": \"<string>\",\n    \"endsAt\": \"<string>\",\n    \"amountRule\": \"<string>\",\n    \"billingAttemptsRule\": \"<string>\",\n    \"billingDay\": \"<string>\",\n    \"remarks\": \"<string>\",\n    \"startsAt\": \"<string>\"\n  },\n  \"mcc\": \"<string>\",\n  \"merchantOrderReference\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"orderReference\": \"<string>\",\n  \"origin\": \"<string>\",\n  \"platformChargebackLogic\": {\n    \"behavior\": \"<string>\",\n    \"costAllocationAccount\": \"<string>\",\n    \"targetAccount\": \"<string>\"\n  },\n  \"recurringExpiry\": \"<string>\",\n  \"recurringFrequency\": \"<string>\",\n  \"riskData\": {\n    \"clientData\": \"<string>\",\n    \"customFields\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\",\n      \"key_2\": \"<string>\",\n      \"key_3\": \"<string>\"\n    },\n    \"fraudOffset\": \"<integer>\",\n    \"profileReference\": \"<string>\"\n  },\n  \"sdkVersion\": \"<string>\",\n  \"sessionValidity\": \"<string>\",\n  \"shopperEmail\": \"<string>\",\n  \"shopperIP\": \"<string>\",\n  \"shopperInteraction\": \"<string>\",\n  \"shopperLocale\": \"<string>\",\n  \"shopperName\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\"\n  },\n  \"shopperReference\": \"<string>\",\n  \"shopperStatement\": \"<string>\",\n  \"socialSecurityNumber\": \"<string>\",\n  \"splits\": [\n    {\n      \"type\": \"<string>\",\n      \"account\": \"<string>\",\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"account\": \"<string>\",\n      \"amount\": {\n        \"value\": \"<long>\",\n        \"currency\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"reference\": \"<string>\"\n    }\n  ],\n  \"store\": \"<string>\",\n  \"storePaymentMethod\": \"<boolean>\",\n  \"telephoneNumber\": \"<string>\",\n  \"threeDSAuthenticationOnly\": false,\n  \"token\": \"<string>\",\n  \"trustedShopper\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e26c0735-63cb-4007-9c14-709e23882fd8",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paymentSession"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 17408\n  },\n  \"reference\": \"Your order number\",\n  \"shopperReference\": \"YOUR_SHOPPER_REFERENCE\",\n  \"channel\": \"Android\",\n  \"token\": \"TOKEN_YOU_GET_FROM_CHECKOUT_SDK\",\n  \"returnUrl\": \"app://\",\n  \"countryCode\": \"NL\",\n  \"shopperLocale\": \"nl_NL\",\n  \"sessionValidity\": \"2017-04-06T13:09:13Z\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The idempotency key used for processing the request. Present if the key was provided in the request.",
+                  "key": "Idempotency-Key",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"paymentSession\": \"eyJjaGVja291dHNob3BwZXJCYXN...\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ae1492ec-1027-4af9-876f-0c30c2d088d1",
+              "name": "Bad Request - a problem reading or understanding the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paymentSession"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 17408\n  },\n  \"reference\": \"Your order number\",\n  \"shopperReference\": \"YOUR_SHOPPER_REFERENCE\",\n  \"channel\": \"Android\",\n  \"token\": \"TOKEN_YOU_GET_FROM_CHECKOUT_SDK\",\n  \"returnUrl\": \"app://\",\n  \"countryCode\": \"NL\",\n  \"shopperLocale\": \"nl_NL\",\n  \"sessionValidity\": \"2017-04-06T13:09:13Z\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"errorCode\": \"702\",\n  \"message\": \"Unexpected input: \\\", expected: }\",\n  \"errorType\": \"validation\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e10312a7-5b08-4aba-bf80-835c306932d1",
+              "name": "Unauthorized - authentication required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paymentSession"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 17408\n  },\n  \"reference\": \"Your order number\",\n  \"shopperReference\": \"YOUR_SHOPPER_REFERENCE\",\n  \"channel\": \"Android\",\n  \"token\": \"TOKEN_YOU_GET_FROM_CHECKOUT_SDK\",\n  \"returnUrl\": \"app://\",\n  \"countryCode\": \"NL\",\n  \"shopperLocale\": \"nl_NL\",\n  \"sessionValidity\": \"2017-04-06T13:09:13Z\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"errorCode\": \"000\",\n  \"message\": \"HTTP Status Response - Unauthorized\",\n  \"errorType\": \"security\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6b89959e-fb03-418b-8f1f-30a21cc76aa2",
+              "name": "Forbidden - insufficient permissions to process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paymentSession"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 17408\n  },\n  \"reference\": \"Your order number\",\n  \"shopperReference\": \"YOUR_SHOPPER_REFERENCE\",\n  \"channel\": \"Android\",\n  \"token\": \"TOKEN_YOU_GET_FROM_CHECKOUT_SDK\",\n  \"returnUrl\": \"app://\",\n  \"countryCode\": \"NL\",\n  \"shopperLocale\": \"nl_NL\",\n  \"sessionValidity\": \"2017-04-06T13:09:13Z\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 403,\n  \"errorCode\": \"901\",\n  \"message\": \"Invalid Merchant Account\",\n  \"errorType\": \"security\",\n  \"pspReference\": \"881611827877203B\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f18c3302-b931-45ff-a842-78e4103ebe42",
+              "name": "Unprocessable Entity - a request validation error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paymentSession"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 17408\n  },\n  \"reference\": \"Your order number\",\n  \"shopperReference\": \"YOUR_SHOPPER_REFERENCE\",\n  \"channel\": \"Android\",\n  \"token\": \"TOKEN_YOU_GET_FROM_CHECKOUT_SDK\",\n  \"returnUrl\": \"app://\",\n  \"countryCode\": \"NL\",\n  \"shopperLocale\": \"nl_NL\",\n  \"sessionValidity\": \"2017-04-06T13:09:13Z\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The idempotency key used for processing the request. Present if the key was provided in the request.",
+                  "key": "Idempotency-Key",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 422,\n  \"errorCode\": \"14_030\",\n  \"message\": \"Return URL is missing.\",\n  \"errorType\": \"validation\",\n  \"pspReference\": \"8816118280275544\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f6e38f40-04bf-45f1-a82d-1e946051439a",
+              "name": "Internal Server Error - the server could not process the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paymentSession"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).",
+                    "key": "Idempotency-Key",
+                    "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": {\n    \"currency\": \"EUR\",\n    \"value\": 17408\n  },\n  \"reference\": \"Your order number\",\n  \"shopperReference\": \"YOUR_SHOPPER_REFERENCE\",\n  \"channel\": \"Android\",\n  \"token\": \"TOKEN_YOU_GET_FROM_CHECKOUT_SDK\",\n  \"returnUrl\": \"app://\",\n  \"countryCode\": \"NL\",\n  \"shopperLocale\": \"nl_NL\",\n  \"sessionValidity\": \"2017-04-06T13:09:13Z\",\n  \"merchantAccount\": \"YOUR_MERCHANT_ACCOUNT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 500,\n  \"errorCode\": \"905\",\n  \"message\": \"Payment details are not supported\",\n  \"errorType\": \"configuration\",\n  \"pspReference\": \"8516091485743033\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a477c9bb-32ee-4613-a072-dbfaaec82887",
+          "name": "Adyen Get the Result of a Payment Session",
+          "request": {
+            "name": "Adyen Get the Result of a Payment Session",
+            "description": {
+              "content": "Returns the status of the payment session with the `sessionId` and `sessionResult` specified in the path.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions",
+                ":sessionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sessionResult",
+                  "value": "<string>",
+                  "description": "(Required) The `sessionResult` value from the Drop-in or Component."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sessionId",
+                  "description": "(Required) A unique identifier of the session."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "3218169a-b458-4687-b9e4-c602367a1a45",
+              "name": "OK - the request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions",
+                    ":sessionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sessionResult",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sessionId",
+                      "description": "(Required) A unique identifier of the session."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"CS12345678\",\n  \"status\": \"completed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cal-test.adyen.com/cal/services/Account/v6",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3a87c154-4d23-4335-bf57-36e81f3f04e4",
+    "name": "Adyen Account acceptDispute Session API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```\n\nContact Support:\n Name: Adyen Developer Experience team",
+      "type": "text/plain"
+    }
+  }
+}

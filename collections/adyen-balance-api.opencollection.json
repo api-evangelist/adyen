@@ -1,0 +1,372 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Adyen Account acceptDispute Balance API",
+    "version": "6"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Balance",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Adyen Start a Balance Transfer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/balanceTransfer",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Starts a balance transfer request between merchant accounts. The following conditions must be met before you can successfully transfer balances:\n\n* The source and destination merchant accounts must be under the same company account and legal entity.\n\n* The source merchant account must have sufficient funds.\n\n* The source and destination merchant accounts must have at least one common processing currency.\n\nWhen sending multiple API requests with the same source and destination merchant accounts, "
+        },
+        {
+          "info": {
+            "name": "Adyen Get the Balance of a Gift Card",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/paymentMethods/balance",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": "37ca9c97-d1d1-4c62-89e8-706891a563ed"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Retrieves the balance remaining on a shopper's gift card. To check a gift card's balance, make a POST `/paymentMethods/balance` call and include the gift card's details inside a `paymentMethod` object."
+        },
+        {
+          "info": {
+            "name": "Adyen Get All Balance Accounts of an Account Holder",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/accountHolders/:id/balanceAccounts",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the account holder."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The number of items that you want to skip."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of items returned per page, maximum 100 items. By default, the response returns 10 items per page."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of the balance accounts associated with an account holder. To fetch multiple pages, use the query parameters. \n\nFor example, to limit the page to 5 balance accounts and skip the first 10, use `/accountHolders/{id}/balanceAccounts?limit=5&offset=10`."
+        },
+        {
+          "info": {
+            "name": "Adyen Create a Balance Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/balanceAccounts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a balance account that holds the funds of the associated account holder."
+        },
+        {
+          "info": {
+            "name": "Adyen Get All Sweeps for a Balance Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/balanceAccounts/:balanceAccountId/sweeps",
+            "params": [
+              {
+                "name": "balanceAccountId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the balance account."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The number of items that you want to skip."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of items returned per page, maximum 100 items. By default, the response returns 10 items per page."
+              }
+            ]
+          },
+          "docs": "Returns a list of the sweeps configured for a balance account.\n\nTo fetch multiple pages, use the query parameters. For example, to limit the page to 5 sweeps and to skip the first 10, use `/balanceAccounts/{balanceAccountId}/sweeps?limit=5&offset=10`."
+        },
+        {
+          "info": {
+            "name": "Adyen Create a Sweep",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/balanceAccounts/:balanceAccountId/sweeps",
+            "params": [
+              {
+                "name": "balanceAccountId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the balance account."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a sweep that results in moving funds from or to a balance account.\n\nA sweep pulls in or pushes out funds based on a defined schedule, amount, currency, and a source or a destination."
+        },
+        {
+          "info": {
+            "name": "Adyen Get a Sweep",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/balanceAccounts/:balanceAccountId/sweeps/:sweepId",
+            "params": [
+              {
+                "name": "balanceAccountId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the balance account."
+              },
+              {
+                "name": "sweepId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the sweep."
+              }
+            ]
+          },
+          "docs": "Returns a sweep."
+        },
+        {
+          "info": {
+            "name": "Adyen Update a Sweep",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/balanceAccounts/:balanceAccountId/sweeps/:sweepId",
+            "params": [
+              {
+                "name": "balanceAccountId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the balance account."
+              },
+              {
+                "name": "sweepId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the sweep."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a sweep. When updating a sweep resource, note that if a request parameter is not provided, the parameter is left unchanged."
+        },
+        {
+          "info": {
+            "name": "Adyen Delete a Sweep",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/balanceAccounts/:balanceAccountId/sweeps/:sweepId",
+            "params": [
+              {
+                "name": "balanceAccountId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the balance account."
+              },
+              {
+                "name": "sweepId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the sweep."
+              }
+            ]
+          },
+          "docs": "Deletes a sweep for a balance account."
+        },
+        {
+          "info": {
+            "name": "Adyen Get a Balance Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/balanceAccounts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the balance account."
+              }
+            ]
+          },
+          "docs": "Returns a balance account and its balances for the default currency and other currencies with a non-zero balance."
+        },
+        {
+          "info": {
+            "name": "Adyen Update a Balance Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/balanceAccounts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the balance account."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a balance account."
+        },
+        {
+          "info": {
+            "name": "Adyen Get Payment Instruments Linked to a Balance Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/balanceAccounts/:id/paymentInstruments",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the balance account."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The number of items that you want to skip."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of items returned per page, maximum 100 items. By default, the response returns 10 items per page."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The status of the payment instruments that you want to get. By default, the response includes payment instruments with any status."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of the payment instruments associated with a balance account. \n\nTo fetch multiple pages, use the query parameters.For example, to limit the page to 3 payment instruments which are in active status and to skip the first 6, use `/balanceAccounts/{id}/paymentInstruments?limit=3&offset=6&status=active`."
+        },
+        {
+          "info": {
+            "name": "Adyen Get a Balance Platform",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/balancePlatforms/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the balance platform."
+              }
+            ]
+          },
+          "docs": "Returns a balance platform."
+        },
+        {
+          "info": {
+            "name": "Adyen Get All Account Holders Under a Balance Platform",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/balancePlatforms/:id/accountHolders",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the balance platform."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The number of items that you want to skip."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of items returned per page, maximum 100 items. By default, the response returns 10 items per page."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of all the account holders that belong to the balance platform. To fetch multiple pages, use the query parameters. \n\nFor example, to limit the page to 5 account holders and to skip the first 20, use `/balancePlatforms/{id}/accountHolders?limit=5&offset=20`."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

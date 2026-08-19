@@ -1,0 +1,422 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Adyen Account acceptDispute legalEntities API",
+    "version": "6"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "legalEntities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Adyen Create a Legal Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/legalEntities",
+            "headers": [
+              {
+                "name": "x-requested-verification-code",
+                "value": "1_3004"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Creates a legal entity. \n\nThis resource contains information about the user that will be onboarded in your platform. Adyen uses this information to perform verification checks as required by payment industry regulations. Adyen informs you of the verification results through webhooks or API responses. \n\n>If you are using hosted onboarding and just beginning your integration, use v3 for your API requests. Otherwise, use v2.\n\n"
+        },
+        {
+          "info": {
+            "name": "Adyen Get a Legal Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/legalEntities/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the legal entity."
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns a legal entity."
+        },
+        {
+          "info": {
+            "name": "Adyen Update a Legal Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/legalEntities/:id",
+            "headers": [
+              {
+                "name": "x-requested-verification-code",
+                "value": "0_0001"
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the legal entity."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Updates a legal entity.\n\n >To change the legal entity type, include only the new `type` in your request. To update the `entityAssociations` array, you need to replace the entire array. For example, if the array has 3 entries and you want to remove 1 entry, you need to PATCH the resource with the remaining 2 entries."
+        },
+        {
+          "info": {
+            "name": "Adyen Get All Business Lines Under a Legal Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/legalEntities/:id/businessLines",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the legal entity."
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns the business lines owned by a legal entity."
+        },
+        {
+          "info": {
+            "name": "Adyen Check a Legal Entity's Verification Errors",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/legalEntities/:id/checkVerificationErrors",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the legal entity."
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns the verification errors for a legal entity and its supporting entities."
+        },
+        {
+          "info": {
+            "name": "Adyen Confirm Data Review",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/legalEntities/:id/confirmDataReview",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the legal entity."
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Confirms that your user has reviewed the data for the legal entity specified in the path. Call this endpoint to inform Adyen that your user reviewed and verified that the data is up-to-date. The endpoint returns the timestamp of when Adyen received the request."
+        },
+        {
+          "info": {
+            "name": "Adyen Get a Link to an Adyen-hosted Onboarding Page",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/legalEntities/:id/onboardingLinks",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the legal entity"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns a link to an Adyen-hosted onboarding page where you need to redirect your user.\n\n>If you are using hosted onboarding and just beginning your integration, use v3 for your API requests. Otherwise, use v2.\n\n"
+        },
+        {
+          "info": {
+            "name": "Adyen Get PCI Questionnaire Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/legalEntities/:id/pciQuestionnaires",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the legal entity to get PCI questionnaire information."
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Get a list of signed PCI questionnaires."
+        },
+        {
+          "info": {
+            "name": "Adyen Generate PCI Questionnaire",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/legalEntities/:id/pciQuestionnaires/generatePciTemplates",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the legal entity to get PCI questionnaire information."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Generates the required PCI questionnaires based on the user's [salesChannel](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/businessLines__reqParam_salesChannels)."
+        },
+        {
+          "info": {
+            "name": "Adyen Sign PCI Questionnaire",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/legalEntities/:id/pciQuestionnaires/signPciTemplates",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The legal entity ID of the user that has a contractual relationship with your platform."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Signs the required PCI questionnaire."
+        },
+        {
+          "info": {
+            "name": "Adyen Get PCI Questionnaire",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/legalEntities/:id/pciQuestionnaires/:pciid",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The legal entity ID of the individual who signed the PCI questionnaire."
+              },
+              {
+                "name": "pciid",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the signed PCI questionnaire."
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns the signed PCI questionnaire."
+        },
+        {
+          "info": {
+            "name": "Adyen Get Terms of Service Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/legalEntities/:id/termsOfService",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the legal entity. For sole proprietorships, this is the individual legal entity ID of the owner."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns the Terms of Service document for a legal entity."
+        },
+        {
+          "info": {
+            "name": "Adyen Accept Terms of Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/legalEntities/:id/termsOfService/:termsofservicedocumentid",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the legal entity. For sole proprietorships, this is the individual legal entity ID of the owner."
+              },
+              {
+                "name": "termsofservicedocumentid",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Terms of Service document."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Accepts Terms of Service."
+        },
+        {
+          "info": {
+            "name": "Adyen Get Terms of Service Information for a Legal Entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/legalEntities/:id/termsOfServiceAcceptanceInfos",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the legal entity. For sole proprietorships, this is the individual legal entity ID of the owner."
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns Terms of Service information for a legal entity."
+        },
+        {
+          "info": {
+            "name": "Adyen Get Terms of Service Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cal-test.adyen.com/cal/services/Account/v6/legalEntities/:id/termsOfServiceStatus",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the legal entity. For sole proprietorships, this is the individual legal entity ID of the owner."
+              }
+            ],
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Returns the required types of Terms of Service that need to be accepted by a legal entity."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
