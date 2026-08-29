@@ -3,7 +3,7 @@ provider: Adyen
 generated_by: planning/capability-mapping/scripts/classify_capabilities.py
 model: claude-opus-5
 frame:
-- Software & Technology
+- Banking & Capital Markets
 min_confidence: 0.7
 capability_model:
   source: https://github.com/vincentmakes/turbo-ea-capabilities
@@ -11,67 +11,540 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 6
+edge_count: 55
 edges:
 - tag: Erasure
   spec_file: adyen-erasure-api-openapi.yml
   capability_id: BC-130.50
   capability_id_l1: BC-130
   capability_name: Privacy & Data Protection Management
-  confidence: 0.88
-  evidence: '''Submit a Subject Erasure Request.''; ''Adyen Data Protection API provides a way for you
-    to process Subject Erasure Requests as mandated in GDPR'''
-  reason: Explicit GDPR Article 17 data-subject erasure processing, which is precisely Privacy & Data
-    Protection Management (data subject rights).
-- tag: createNotificationConfiguration
-  spec_file: adyen-createnotificationconfiguration-api-openapi.yml
-  capability_id: BC-4270.80
-  capability_id_l1: BC-4270
-  capability_name: Webhook & Event Subscription Management
+  confidence: 0.9
+  evidence: '"provides a way for you to process Subject Erasure Requests as mandated in GDPR"; POST /requestSubjectErasure
+    "Submit a Subject Erasure Request"'
+  reason: Explicitly a GDPR data-subject erasure (right to be forgotten) request channel, which is privacy
+    and data protection compliance.
+- tag: Cancel
+  spec_file: adyen-cancel-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.85
+  evidence: POST /cancel — "Adyen Cancel an Authorisation", schema CancelRequest, ModificationResult
+  reason: Cancelling a card authorisation is card transaction processing (authorisation lifecycle modification)
+    on a payment acquiring platform.
+- tag: Capture
+  spec_file: adyen-capture-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.85
+  evidence: POST /capture — "Adyen Capture an Authorisation", schema CaptureRequest, ModificationResult
+  reason: Capturing an authorisation is core card transaction processing (auth/capture flow).
+- tag: Captures
+  spec_file: adyen-captures-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.85
+  evidence: POST /payments/{paymentPspReference}/captures — "Capture an Authorised Payment", schema PaymentCaptureRequest
+  reason: Capture of authorised card payments is card transaction processing.
+- tag: Card Orders
+  spec_file: adyen-card-orders-api-openapi.yml
+  capability_id: BC-1340.60
+  capability_id_l1: BC-1340
+  capability_name: Card Issuance Management
+  confidence: 0.85
+  evidence: GET /cardorders "Get a List of Card Orders"; GET /cardorders/{id}/items; schema CardOrderItemDeliveryStatus
+  reason: Card orders with delivery status are physical card production and dispatch — card issuance management.
+- tag: Links
+  spec_file: adyen-links-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.85
+  evidence: POST /paymentLinks "Create a Payment Link"; PATCH /paymentLinks/{linkId} "Update the Status
+    of a Payment Link"; schemas PaymentLinkRequest, Amount, LineItem
+  reason: Operations create and manage payment links that capture and authorise a payment instruction
+    from a shopper — payment initiation within Payments & Card Management.
+- tag: Cancels
+  spec_file: adyen-cancels-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.82
+  evidence: POST /cancels "Cancel an Authorised Payment"; POST /orders/cancel "Cancel an Order"; schemas
+    PaymentCancelRequest, StandalonePaymentCancelResponse
+  reason: Operations cancel authorised payments/orders — authorisation lifecycle handling within card/payment
+    transaction processing.
+- tag: Sessions
+  spec_file: adyen-sessions-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.82
+  evidence: POST /sessions — "Adyen Create a Payment Session"; schemas Amount, BillingAddress, ThreeDSRequestData,
+    RiskData
+  reason: Checkout session creation is the capture/initiation step of a payment instruction, with amount,
+    shopper and 3DS request data — payment initiation within Payments & Card Management.
+- tag: storeDetailAndSubmitThirdParty
+  spec_file: adyen-storedetailandsubmitthirdparty-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.82
+  evidence: POST /storeDetailAndSubmitThirdParty — "Store Details and Submit a Payout"; schemas StoreDetailAndSubmitRequest,
+    BankAccount, Amount
+  reason: Stores payout details and submits the payout instruction — payment instruction capture, validation
+    and submission.
+- tag: submitThirdParty
+  spec_file: adyen-submitthirdparty-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.82
+  evidence: POST /submitThirdParty — "Submit a Payout"; schemas SubmitRequest, SubmitResponse, Amount
+  reason: Submits a payout instruction for processing — payment initiation within payments management.
+- tag: Amount
+  spec_file: adyen-amount-api-openapi.yml
+  capability_id: BC-1340
+  capability_id_l1: BC-1340
+  capability_name: Payments & Card Management
   confidence: 0.8
-  evidence: POST /createNotificationConfiguration — 'Adyen Subscribe to Notifications'; 'setting up and
-    testing notifications that inform you of events on your platform'; schema NotificationEventConfiguration
-  reason: The operations create and configure outbound event notification subscriptions (event types,
-    endpoint config), which is exactly webhook/event subscription lifecycle management on a developer-facing
-    platform.
-- tag: deleteNotificationConfigurations
-  spec_file: adyen-deletenotificationconfigurations-api-openapi.yml
-  capability_id: BC-4270.80
-  capability_id_l1: BC-4270
-  capability_name: Webhook & Event Subscription Management
+  evidence: POST /payments/{paymentPspReference}/amountUpdates "Adyen Update an Authorised Amount"; schemas
+    PaymentAmountUpdateRequest, SplitAmount
+  reason: Modifies the authorised amount on an existing payment — clearly within payment/card processing.
+    Not clear whether this belongs to initiation/authorisation or card transaction processing, so L2 left
+    null.
+- tag: Instruments
+  spec_file: adyen-instruments-api-openapi.yml
+  capability_id: BC-1340.60
+  capability_id_l1: BC-1340
+  capability_name: Card Issuance Management
   confidence: 0.8
-  evidence: POST /deleteNotificationConfigurations — 'Adyen Delete a Notification Subscription Configuration'
-  reason: Deletion of an outbound event notification subscription, part of the lifecycle of webhook/event
-    subscriptions on the developer platform.
-- tag: getNotificationConfiguration
-  spec_file: adyen-getnotificationconfiguration-api-openapi.yml
-  capability_id: BC-4270.80
-  capability_id_l1: BC-4270
-  capability_name: Webhook & Event Subscription Management
+  evidence: POST /paymentInstruments "Create a Payment Instrument"; GET /paymentInstruments/{id}/reveal
+    "Get the PAN of a Payment Instrument"; schemas CardConfiguration, Expiry, DeliveryContact, DeliveryAddress
+  reason: Creating and configuring card payment instruments with card configuration, expiry, PAN reveal
+    and physical delivery details is card issuance and personalisation/dispatch.
+- tag: Issue
+  spec_file: adyen-issue-api-openapi.yml
+  capability_id: BC-1340.60
+  capability_id_l1: BC-1340
+  capability_name: Card Issuance Management
   confidence: 0.8
-  evidence: POST /getNotificationConfiguration 'Adyen Get a Notification Subscription Configuration';
-    schemas NotificationConfigurationDetails, NotificationEventConfiguration
-  reason: The tag exposes retrieval of outbound event/webhook subscription configuration ('notifications
-    that inform you of events on your platform'), which is precisely Webhook & Event Subscription Management
-    on the developer platform.
-- tag: getNotificationConfigurationList
-  spec_file: adyen-getnotificationconfigurationlist-api-openapi.yml
-  capability_id: BC-4270.80
-  capability_id_l1: BC-4270
-  capability_name: Webhook & Event Subscription Management
+  evidence: '"A set of API endpoints to manage stored value products"; POST /issue "Adyen Issues a New
+    Card."'
+  reason: Issuing a new stored-value card is card issuance/activation within payments and card management.
+- tag: legalEntities
+  spec_file: adyen-legalentities-api-openapi.yml
+  capability_id: BC-1300
+  capability_id_l1: BC-1300
+  capability_name: Banking Customer Management
   confidence: 0.8
-  evidence: POST /getNotificationConfigurationList 'Adyen Get a List of Notification Subscription Configurations'
-  reason: Listing outbound notification (webhook) subscriptions and their event configurations is Webhook
-    & Event Subscription Management; the schemas NotificationEventConfiguration confirm event-subscription
-    semantics rather than any customer-facing messaging capability.
+  evidence: '"manage legal entities that contain information required for verification"; "Check a Legal
+    Entity''s Verification Errors"; "Get a Link to an Adyen-hosted Onboarding Page"'
+  reason: Creates and maintains legal-entity records (Organization, SoleProprietorship, UnincorporatedPartnership),
+    checks verification errors, issues onboarding links and terms-of-service acceptance — customer/entity
+    onboarding and due diligence. Split between onboarding (.10) and KYC/CDD (.20), so L1 only.
+- tag: retrieveApplicableDefenseReasons
+  spec_file: adyen-retrieveapplicabledefensereasons-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.8
+  evidence: '"respond to disputes and chargebacks as soon as they are initiated ... retrieve defense reasons,
+    supply and delete defense documents"'
+  reason: Chargeback/dispute defence handling for card transactions, explicitly within card transaction
+    processing (chargebacks).
+- tag: acceptDispute
+  spec_file: adyen-acceptdispute-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.78
+  evidence: '"respond to disputes and chargebacks as soon as they are initiated"; POST /acceptDispute
+    "Accept a Dispute"'
+  reason: Card dispute/chargeback handling is explicitly part of card transaction processing (chargebacks)
+    in Payments & Card Management.
+- tag: adjustAuthorisation
+  spec_file: adyen-adjustauthorisation-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.78
+  evidence: POST /adjustAuthorisation "Change the Authorised Amount"; schemas AdditionalData3DSecure,
+    ModificationResult
+  reason: Modifying a card authorisation amount is core card transaction authorisation processing on the
+    acquiring platform.
+- tag: defendDispute
+  spec_file: adyen-defenddispute-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.78
+  evidence: '"automate the dispute handling process so that you can respond to disputes and chargebacks
+    as soon as they are initiated"; POST /defendDispute "Defend a Dispute"'
+  reason: Dispute/chargeback handling on card transactions maps to card transaction processing, which
+    explicitly covers chargebacks.
+- tag: supplyDefenseDocument
+  spec_file: adyen-supplydefensedocument-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.78
+  evidence: '"Disputes API ... respond to disputes and chargebacks as soon as they are initiated ... supply
+    and delete defense documents"; POST /supplyDefenseDocument "Supply a Defense Document"'
+  reason: Chargeback/dispute defence handling for card transactions, which sits in card transaction processing
+    (chargebacks).
+- tag: technicalCancel
+  spec_file: adyen-technicalcancel-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.78
+  evidence: POST /technicalCancel — "Cancel an Authorisation Using Your Reference"; schemas TechnicalCancelRequest,
+    ModificationResult, ThreeDSecureData
+  reason: Cancels a card payment authorisation — authorisation lifecycle handling within card transaction
+    processing.
+- tag: Cardacquisition
+  spec_file: adyen-cardacquisition-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.75
+  evidence: POST /cardacquisition — "CardAcquisition Request"; schemas TrackData, PaymentToken, PaymentInstrumentType
+  reason: Terminal card acquisition reads the card and initiates the payment/tokenisation flow at point
+    of sale — card transaction acceptance/processing.
+- tag: Documents
+  spec_file: adyen-documents-api-openapi.yml
+  capability_id: BC-1300.20
+  capability_id_l1: BC-1300
+  capability_name: KYC & Customer Due Diligence Management
+  confidence: 0.75
+  evidence: '"The Legal Entity Management API enables you to manage legal entities that contain information
+    required for verification"; POST /documents "Upload a Document for Verification Checks"'
+  reason: Uploading and maintaining verification documents against legal entities is the document-collection
+    leg of KYC/CDD onboarding due diligence for platform users.
+- tag: Grants
+  spec_file: adyen-grants-api-openapi.yml
+  capability_id: BC-1320
+  capability_id_l1: BC-1320
+  capability_name: Credit & Lending Management
+  confidence: 0.75
+  evidence: POST /grants "Request a Grant Payout"; GET /grants "Get a Capital Account"; schemas CapitalGrant,
+    Repayment, RepaymentTerm, ThresholdRepayment, CapitalBalance
+  reason: 'Adyen Capital financing: requesting a funding advance and tracking outstanding balances and
+    repayment terms is credit/lending, spanning both origination and servicing so no single L2 is asserted.'
 - tag: Loyalty
   spec_file: adyen-loyalty-api-openapi.yml
   capability_id: BC-420.40
   capability_id_l1: BC-420
   capability_name: Loyalty & Retention Management
+  confidence: 0.75
+  evidence: POST /loyalty "Loyalty Request"; schemas LoyaltyAccountID, LoyaltyData, LoyaltyHandling, SaleItemRebate,
+    Rebates
+  reason: Operation processes loyalty account identification, loyalty data and item rebates at the point
+    of sale, which realises loyalty programme handling rather than payment processing itself.
+- tag: Payments
+  spec_file: adyen-payments-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.75
+  evidence: POST /payments 'Adyen Start a Transaction'; POST /payments/{paymentPspReference}/refunds 'Adyen
+    Refund a Captured Payment'
+  reason: Core payment initiation and modification surface (start transaction, submit details, verify
+    result, refund/reverse), which is plainly Payments & Card Management; exact sub-capability spans initiation
+    and processing.
+- tag: Refund
+  spec_file: adyen-refund-api-openapi.yml
+  capability_id: BC-1340
+  capability_id_l1: BC-1340
+  capability_name: Payments & Card Management
+  confidence: 0.75
+  evidence: POST /refund 'Adyen Refund a Captured Payment'; schemas RefundRequest, ModificationResult,
+    PlatformChargebackLogic
+  reason: Refund of a captured card payment is a payment modification within Payments & Card Management;
+    the evidence does not clearly single out initiation vs processing vs card transaction processing,
+    so only the L1 is asserted.
+- tag: deleteDisputeDefenseDocument
+  spec_file: adyen-deletedisputedefensedocument-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.75
+  evidence: POST /deleteDisputeDefenseDocument "Delete a Defense Document"; "respond to disputes and chargebacks"
+  reason: Managing defence documentation within the chargeback/dispute process is part of card transaction
+    dispute handling.
+- tag: Transfers
+  spec_file: adyen-transfers-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.72
+  evidence: POST /transfers "Adyen Transfer Funds"; schemas IbanAccountIdentification, USLocalAccountIdentification,
+    ReturnTransferRequest
+  reason: Initiating fund transfers/payouts to bank accounts with account identification and return handling
+    — payment instruction capture and authorisation.
+- tag: uploadDocument
+  spec_file: adyen-uploaddocument-api-openapi.yml
+  capability_id: BC-1300.20
+  capability_id_l1: BC-1300
+  capability_name: KYC & Customer Due Diligence Management
+  confidence: 0.72
+  evidence: POST /uploadDocument — "Upload a Document"; schemas UploadDocumentRequest, PersonalDocumentData,
+    KYCCheckResult, KYCVerificationResult, KYCSignatoryCheckResult
+  reason: The Account API description names "verification-related documents", and the schema set is dominated
+    by KYC check/verification results — the operation supplies identity/ownership evidence for customer
+    due diligence.
+- tag: Authorise
+  spec_file: adyen-authorise-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
   confidence: 0.7
-  evidence: POST /loyalty 'Loyalty Request'; schemas LoyaltyAccountID, LoyaltyData, LoyaltyHandling, Rebates,
-    SaleItemRebate
-  reason: The operation handles loyalty account identification, loyalty data and rebates at the point
-    of sale, which realises Loyalty & Retention Management. Moderate confidence as the surface is a single
-    terminal request rather than full programme administration.
+  evidence: 'POST /authorise "Adyen Create an Authorisation"; description: "accept card payments (including
+    One-Click and 3D Secure)"; schemas ResponseAdditionalDataCard, AdditionalData3DSecure'
+  reason: Creates a card payment authorisation on the acquiring platform — card transaction authorisation
+    processing. Some ambiguity with payment initiation, hence 0.7.
+- tag: Authorise3d
+  spec_file: adyen-authorise3d-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.7
+  evidence: POST /authorise3d "Adyen Complete a 3DS Authorisation"; schemas AdditionalData3DSecure, ResponseAdditionalDataCard
+  reason: Completes a 3-D Secure card authorisation, i.e. card transaction authorisation and authentication
+    processing.
+- tag: Authorise3ds2
+  spec_file: adyen-authorise3ds2-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.7
+  evidence: POST /authorise3ds2 "Adyen Complete a 3DS2 Authorisation"; schemas PaymentRequest3ds2, AdditionalData3DSecure
+  reason: Completes a 3DS2 card authorisation — card transaction authorisation/authentication processing.
+- tag: Calculate
+  spec_file: adyen-calculate-api-openapi.yml
+  capability_id: BC-1340.20
+  capability_id_l1: BC-1340
+  capability_name: Payment Processing Management
+  confidence: 0.7
+  evidence: POST /transferRoutes/calculate "Adyen Calculate Transfer Routes"; schemas TransferRoute, IbanAccountIdentification,
+    BankAccountIdentificationTypeRequirement
+  reason: Determines available routes and account-identification requirements for making a transfer, which
+    is payment routing/processing logic.
+- tag: Card
+  spec_file: adyen-card-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.7
+  evidence: POST /cardDetails — "Get the List of Brands on the Card"; schemas CardDetailsRequest, CardBrandDetails
+  reason: Card brand identification supports routing/authorisation of card transactions; it is a card-processing
+    utility rather than card issuance.
+- tag: Changes
+  spec_file: adyen-changes-api-openapi.yml
+  capability_id: BC-1340.60
+  capability_id_l1: BC-1340
+  capability_name: Card Issuance Management
+  confidence: 0.7
+  evidence: POST /pins/change — "Adyen Change Pin"; schemas PinChangeRequest, PinChangeResponse
+  reason: PIN change for issued cards is part of card issuance/servicing on the issuing platform.
+- tag: Donate
+  spec_file: adyen-donate-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.7
+  evidence: POST /donate "Adyen Create a Donation"; schemas DonationRequest, ModificationResult, Amount
+  reason: Initiating a donation payment instruction on the Adyen payments platform is payment instruction
+    capture/authorisation; donation is just the payment purpose.
+- tag: Donations
+  spec_file: adyen-donations-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.7
+  evidence: POST /donations "Adyen Start a Transaction for Donations"; schemas PaymentResponse, BrowserInfo,
+    ThreeDS2Result
+  reason: Checkout endpoint that starts a payment transaction (with 3DS authentication data) for a donation
+    — payment initiation, not charitable programme management.
+- tag: Methods
+  spec_file: adyen-methods-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.7
+  evidence: POST /paymentMethods "Get a List of Available Payment Methods"; GET /storedPaymentMethods
+    "Get Tokens for Stored Payment Details"; schemas PaymentMethod, StoredPaymentMethod
+  reason: Retrieves the payment methods and stored payment tokens presented to a shopper to capture a
+    payment instruction — part of payment initiation.
+- tag: Offer
+  spec_file: adyen-offer-api-openapi.yml
+  capability_id: BC-1320.10
+  capability_id_l1: BC-1320
+  capability_name: Credit Origination Management
+  confidence: 0.7
+  evidence: GET /grantOffers/{grantOfferId} "Get a Grant Offer"; schemas GrantOffer, Fee, Repayment, RepaymentTerm,
+    ThresholdRepayment
+  reason: A grant offer with fees and repayment terms is a business-financing credit offer presented to
+    a user, which sits in credit origination within Credit & Lending Management.
+- tag: Orders
+  spec_file: adyen-orders-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.7
+  evidence: POST /orders 'Adyen Create an Order'; schemas CreateOrderRequest, CreateOrderResponse, Amount,
+    FraudResult
+  reason: In Adyen Checkout an order is the container used to capture and authorise (partial) payment
+    instructions, so this is payment instruction capture/initiation rather than any commerce order-fulfilment
+    capability.
+- tag: Payment
+  spec_file: adyen-payment-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.7
+  evidence: POST /payment 'Adyen Payment Request'; 'The Adyen Terminal API lets you make payments, issue
+    refunds ... using a payment terminal'
+  reason: Terminal payment request captures and authorises a card-present payment instruction — payment
+    initiation/acceptance. Ambiguity only between initiation and card transaction processing sub-capabilities.
+- tag: Payout
+  spec_file: adyen-payout-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.7
+  evidence: 'POST /payout ''Adyen Make an Instant Card Payout''; description: ''allow you to store payout
+    details, confirm, or decline a payout'''
+  reason: Storing payout details and confirming/declining payouts is capture, validation and authorisation
+    of outbound payment instructions — payment initiation within Payments & Card Management.
+- tag: Reversal
+  spec_file: adyen-reversal-api-openapi.yml
+  capability_id: BC-1340
+  capability_id_l1: BC-1340
+  capability_name: Payments & Card Management
+  confidence: 0.7
+  evidence: POST /reversal 'Adyen Reversal Request'; schemas ReversalRequest, OriginalPOITransaction,
+    PaymentReceipt
+  reason: Reversal/cancellation of an original terminal payment transaction is payment modification within
+    Payments & Card Management; L2 left null as the surface spans initiation and card authorisation reversal.
+- tag: cancelOrRefund
+  spec_file: adyen-cancelorrefund-api-openapi.yml
+  capability_id: BC-1340.20
+  capability_id_l1: BC-1340
+  capability_name: Payment Processing Management
+  confidence: 0.7
+  evidence: POST /cancelOrRefund "Cancel or Refund a Payment"; "allow you to initiate, settle, and modify
+    payments"
+  reason: Post-authorisation modification of a payment (cancel/refund) is payment processing on the acquiring
+    platform; ambiguity remains between processing and card transaction processing sub-capabilities.
+- tag: checkAccountHolder
+  spec_file: adyen-checkaccountholder-api-openapi.yml
+  capability_id: BC-1300.20
+  capability_id_l1: BC-1300
+  capability_name: KYC & Customer Due Diligence Management
+  confidence: 0.7
+  evidence: POST /checkAccountHolder "Trigger Verification"; schema "PerformVerificationRequest"; "verification-related
+    documents"
+  reason: Triggering verification checks on an account holder is customer due-diligence/KYC processing
+    for platform customers, not generic plumbing.
+- tag: confirmThirdParty
+  spec_file: adyen-confirmthirdparty-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.7
+  evidence: '"allow you to store payout details, confirm, or decline a payout"; POST /confirmThirdParty
+    "Confirm a Payout"'
+  reason: Confirming (authorising) a payout instruction before execution is payment instruction authorisation,
+    i.e. payment initiation management.
+- tag: createAccountHolder
+  spec_file: adyen-createaccountholder-api-openapi.yml
+  capability_id: BC-1300.10
+  capability_id_l1: BC-1300
+  capability_name: Customer Onboarding Management
+  confidence: 0.7
+  evidence: POST /createAccountHolder "Create an Account Holder"; schemas "KYCCheckResult", "PersonalDocumentData",
+    "BusinessDetails"
+  reason: Creating an account holder with identity documents and KYC check results is customer onboarding
+    with identity verification; some ambiguity between onboarding (.10) and KYC/CDD (.20).
+- tag: debitAccountHolder
+  spec_file: adyen-debitaccountholder-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.7
+  evidence: POST /debitAccountHolder "Send a Direct Debit Request"; "the transfer of funds from one account
+    to another"
+  reason: The operation initiates a direct debit collection instruction against an account holder — payment
+    instruction capture and authorisation.
+- tag: declineThirdParty
+  spec_file: adyen-declinethirdparty-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.7
+  evidence: POST /declineThirdParty "Cancel a Payout"; "a set of API endpoints that allow you to store
+    payout details, confirm, or decline a payout"
+  reason: Declining/cancelling a submitted payout is authorisation control over a payment instruction,
+    i.e. payment initiation management.
+- tag: getAccountHolder
+  spec_file: adyen-getaccountholder-api-openapi.yml
+  capability_id: BC-1300.20
+  capability_id_l1: BC-1300
+  capability_name: KYC & Customer Due Diligence Management
+  confidence: 0.7
+  evidence: schemas "KYCCheckResult", "KYCVerificationResult", "KYCSignatoryCheckResult", "KYCCheckSummary"
+    returned by "Get an Account Holder"
+  reason: Retrieval of an account holder record carrying KYC check and verification results is customer
+    due-diligence data access; some ambiguity versus general customer information management.
+- tag: getAuthenticationResult
+  spec_file: adyen-getauthenticationresult-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.7
+  evidence: '"Get the 3DS Authentication Result" with schemas "ThreeDS2Result", "ThreeDS1Result"'
+  reason: 3D Secure authentication results are part of card transaction authorisation/fraud screening
+    in the acquiring flow; could alternatively be read as payment initiation authorisation, hence 0.7.
+- tag: getOnboardingUrl
+  spec_file: adyen-getonboardingurl-api-openapi.yml
+  capability_id: BC-1300.10
+  capability_id_l1: BC-1300
+  capability_name: Customer Onboarding Management
+  confidence: 0.7
+  evidence: '"Get a Link to a Adyen-hosted Onboarding Page" — "You can provide these links to your account
+    holders so that they can complete their onboarding"'
+  reason: Generating hosted onboarding links directly serves account-holder onboarding/activation, which
+    maps to customer onboarding management.
+- tag: payoutAccountHolder
+  spec_file: adyen-payoutaccountholder-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.7
+  evidence: POST /payoutAccountHolder "Pay Out from an Account to the Account Holder"; "the payout of
+    funds to an account holder"
+  reason: Initiates an outbound funds transfer (payout) from a platform account to its account holder
+    — payment instruction capture and authorisation.
+- tag: retrieve3ds2Result
+  spec_file: adyen-retrieve3ds2result-api-openapi.yml
+  capability_id: BC-1340.70
+  capability_id_l1: BC-1340
+  capability_name: Card Transaction Processing Management
+  confidence: 0.7
+  evidence: POST /retrieve3ds2Result "Get the 3DS2 Authentication Result"; schemas ThreeDS2Result, ThreeDS2ResultResponse
+  reason: Retrieves the 3D Secure 2 cardholder authentication outcome used in card authorisation and fraud
+    screening, which is card transaction processing.
+- tag: storeDetail
+  spec_file: adyen-storedetail-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.7
+  evidence: POST /storeDetail — "Store Payout Details"; schemas BankAccount, Card, Name, Address; "allow
+    you to store payout details, confirm, or decline a payout"
+  reason: Captures and stores the beneficiary bank account/card details used to initiate payouts — payment
+    instruction capture and validation within payments management.
