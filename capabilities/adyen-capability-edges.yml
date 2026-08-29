@@ -1,0 +1,77 @@
+slug: adyen
+provider: Adyen
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 6
+edges:
+- tag: Erasure
+  spec_file: adyen-erasure-api-openapi.yml
+  capability_id: BC-130.50
+  capability_id_l1: BC-130
+  capability_name: Privacy & Data Protection Management
+  confidence: 0.88
+  evidence: '''Submit a Subject Erasure Request.''; ''Adyen Data Protection API provides a way for you
+    to process Subject Erasure Requests as mandated in GDPR'''
+  reason: Explicit GDPR Article 17 data-subject erasure processing, which is precisely Privacy & Data
+    Protection Management (data subject rights).
+- tag: createNotificationConfiguration
+  spec_file: adyen-createnotificationconfiguration-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.8
+  evidence: POST /createNotificationConfiguration — 'Adyen Subscribe to Notifications'; 'setting up and
+    testing notifications that inform you of events on your platform'; schema NotificationEventConfiguration
+  reason: The operations create and configure outbound event notification subscriptions (event types,
+    endpoint config), which is exactly webhook/event subscription lifecycle management on a developer-facing
+    platform.
+- tag: deleteNotificationConfigurations
+  spec_file: adyen-deletenotificationconfigurations-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.8
+  evidence: POST /deleteNotificationConfigurations — 'Adyen Delete a Notification Subscription Configuration'
+  reason: Deletion of an outbound event notification subscription, part of the lifecycle of webhook/event
+    subscriptions on the developer platform.
+- tag: getNotificationConfiguration
+  spec_file: adyen-getnotificationconfiguration-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.8
+  evidence: POST /getNotificationConfiguration 'Adyen Get a Notification Subscription Configuration';
+    schemas NotificationConfigurationDetails, NotificationEventConfiguration
+  reason: The tag exposes retrieval of outbound event/webhook subscription configuration ('notifications
+    that inform you of events on your platform'), which is precisely Webhook & Event Subscription Management
+    on the developer platform.
+- tag: getNotificationConfigurationList
+  spec_file: adyen-getnotificationconfigurationlist-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.8
+  evidence: POST /getNotificationConfigurationList 'Adyen Get a List of Notification Subscription Configurations'
+  reason: Listing outbound notification (webhook) subscriptions and their event configurations is Webhook
+    & Event Subscription Management; the schemas NotificationEventConfiguration confirm event-subscription
+    semantics rather than any customer-facing messaging capability.
+- tag: Loyalty
+  spec_file: adyen-loyalty-api-openapi.yml
+  capability_id: BC-420.40
+  capability_id_l1: BC-420
+  capability_name: Loyalty & Retention Management
+  confidence: 0.7
+  evidence: POST /loyalty 'Loyalty Request'; schemas LoyaltyAccountID, LoyaltyData, LoyaltyHandling, Rebates,
+    SaleItemRebate
+  reason: The operation handles loyalty account identification, loyalty data and rebates at the point
+    of sale, which realises Loyalty & Retention Management. Moderate confidence as the surface is a single
+    terminal request rather than full programme administration.
