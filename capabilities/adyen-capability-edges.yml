@@ -11,7 +11,7 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 55
+edge_count: 59
 edges:
 - tag: Erasure
   spec_file: adyen-erasure-api-openapi.yml
@@ -134,6 +134,51 @@ edges:
   evidence: '"A set of API endpoints to manage stored value products"; POST /issue "Adyen Issues a New
     Card."'
   reason: Issuing a new stored-value card is card issuance/activation within payments and card management.
+- tag: createNotificationConfiguration
+  spec_file: adyen-createnotificationconfiguration-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.8
+  evidence: POST /createNotificationConfiguration — 'Adyen Subscribe to Notifications'; 'setting up and
+    testing notifications that inform you of events on your platform'; schema NotificationEventConfiguration
+  reason: The operations create and configure outbound event notification subscriptions (event types,
+    endpoint config), which is exactly webhook/event subscription lifecycle management on a developer-facing
+    platform.
+  recovered_from: sweep-20260828T235257Z-edges.json
+- tag: deleteNotificationConfigurations
+  spec_file: adyen-deletenotificationconfigurations-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.8
+  evidence: POST /deleteNotificationConfigurations — 'Adyen Delete a Notification Subscription Configuration'
+  reason: Deletion of an outbound event notification subscription, part of the lifecycle of webhook/event
+    subscriptions on the developer platform.
+  recovered_from: sweep-20260828T235257Z-edges.json
+- tag: getNotificationConfiguration
+  spec_file: adyen-getnotificationconfiguration-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.8
+  evidence: POST /getNotificationConfiguration 'Adyen Get a Notification Subscription Configuration';
+    schemas NotificationConfigurationDetails, NotificationEventConfiguration
+  reason: The tag exposes retrieval of outbound event/webhook subscription configuration ('notifications
+    that inform you of events on your platform'), which is precisely Webhook & Event Subscription Management
+    on the developer platform.
+  recovered_from: sweep-20260828T235257Z-edges.json
+- tag: getNotificationConfigurationList
+  spec_file: adyen-getnotificationconfigurationlist-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.8
+  evidence: POST /getNotificationConfigurationList 'Adyen Get a List of Notification Subscription Configurations'
+  reason: Listing outbound notification (webhook) subscriptions and their event configurations is Webhook
+    & Event Subscription Management; the schemas NotificationEventConfiguration confirm event-subscription
+    semantics rather than any customer-facing messaging capability.
+  recovered_from: sweep-20260828T235257Z-edges.json
 - tag: legalEntities
   spec_file: adyen-legal-entities-api-openapi.yml
   reanchored_from: adyen-legalentities-api-openapi.yml
