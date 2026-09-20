@@ -1,98 +1,45 @@
-specification: API Commons Plans
-specificationVersion: '0.1'
-schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
-provider: Adyen
-providerId: adyen
-created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-reconciled: true
-tags:
-  - Payments
-  - Acquiring
-description: 'Adyen Interchange++ pricing: $0.13 fixed processing fee + payment-method markup. No setup
-  or monthly fees.'
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-09-20'
+method: searched
+source: https://www.adyen.com/pricing
 sources:
-  - https://www.adyen.com/pricing
+- https://www.adyen.com/pricing
+provenance:
+  tool: planning/api-economics/harvest_pricing.py
+  run: 20260920T124425
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: ad-valorem
+published: true
+note: 'Per-transaction fee schedule: fixed $0.13 processing fee plus a payment-method-specific fee, listed
+  by country/region for dozens of methods. Page states ''No setup fee'' and no monthly fees, but notes
+  a minimum invoice depending on industry and that fees are indicative with custom pricing available on
+  request. Only a representative subset of the very long fee list is captured here.'
+plan_count: 5
+currency: USD
 plans:
-  - id: adyen-standard
-    name: Standard Payment Processing
-    type: usage-based
-    description: $0.13 fixed processing fee per transaction + payment method fee.
-    entries:
-      - label: Per transaction (fixed)
-        name: tx_fixed
-        type: metered
-        metric: transaction
-        limit: -1
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: '0.13'
-        userMultiplied: false
-      - label: Visa/Mastercard markup
-        name: tx_visa_mc
-        type: metered
-        metric: transaction
-        limit: -1
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: Interchange++ + 0.60%
-        userMultiplied: false
-      - label: PayPal
-        name: tx_paypal
-        type: metered
-        metric: transaction
-        limit: -1
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: 0.13 + direct contract + management fee
-        userMultiplied: false
-      - label: Klarna
-        name: tx_klarna
-        type: metered
-        metric: transaction
-        limit: -1
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: 0.13 + 0.99%-4.99%
-        userMultiplied: false
-      - label: Affirm
-        name: tx_affirm
-        type: metered
-        metric: transaction
-        limit: -1
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: 0.13 + 4.19%-5.19% + $0.30
-        userMultiplied: false
-    elements:
-      - name: No setup or monthly fees
-      - name: Single integration for all methods
-      - name: Flexible payout
-      - name: IC++ pricing for transparency
-  - id: adyen-custom
-    name: Custom (Enterprise)
-    type: enterprise
-    description: Custom pricing on request.
-    entries:
-      - label: Custom contract
-        name: contract
-        type: subscription
-        metric: year
-        limit: -1
-        timeFrame: year
-        geo: global
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Custom rate negotiation
-      - name: Volume discounts
-      - name: Account manager
+- name: Cards (Interchange++)
+  price_text: $0.13 + Interchange+ + 0.60%
+  currency: USD
+  period: per-use
+  unit: per transaction
+- name: American Express
+  price_text: $0.13 + 0.80% + 3.95%
+  currency: USD
+  period: per-use
+  unit: per transaction
+- name: SEPA Direct Debit
+  price_text: $0.13 + 0.80% + € 0.25
+  currency: USD
+  period: per-use
+  unit: per transaction
+- name: Klarna-style BNPL (United States)
+  price_text: $0.13 + 4.29% + $0.30
+  currency: USD
+  period: per-use
+  unit: per transaction
+- name: Zip Pay United States
+  price_text: $0.13 + 3.50% + USD $0.30
+  currency: USD
+  period: per-use
+  unit: per transaction
