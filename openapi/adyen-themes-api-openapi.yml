@@ -1,16 +1,15 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  version: '6'
+  version: '3'
   x-publicVersion: true
-  title: Adyen Account acceptDispute Themes API
-  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
-  x-timestamp: '2023-05-30T15:27:20Z'
+  title: Adyen Legal Entity Management Themes API
+  description: The Legal Entity Management API enables you to manage legal entities that contain information required for verification.
   termsOfService: https://www.adyen.com/legal/terms-and-conditions
   contact:
     name: Adyen Developer Experience team
     url: https://github.com/Adyen/adyen-openapi
 servers:
-- url: https://cal-test.adyen.com/cal/services/Account/v6
+- url: https://kyc-test.adyen.com/lem/v3
 tags:
 - name: Themes
 paths:
@@ -22,10 +21,7 @@ paths:
       description: 'Returns a list of hosted onboarding page themes.
 
 
-        >If you are using hosted onboarding and just beginning your integration, use v3 for your API requests. Otherwise, use v2.
-
-
-        '
+        >If you are using hosted onboarding and just beginning your integration, use v3 for your API requests. Otherwise, use v2.'
       x-addedInVersion: '1'
       operationId: get-themes
       x-sortIndex: 2
@@ -131,10 +127,7 @@ paths:
       tags:
       - Themes
       summary: Adyen Get an Onboarding Link Theme
-      description: 'Returns the details of the theme identified in the path.>If you are using hosted onboarding and just beginning your integration, use v3 for your API requests. Otherwise, use v2.
-
-
-        '
+      description: Returns the details of the theme identified in the path.>If you are using hosted onboarding and just beginning your integration, use v3 for your API requests. Otherwise, use v2.
       x-addedInVersion: '1'
       operationId: get-themes-id
       x-sortIndex: 4
@@ -243,54 +236,6 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  examples:
-    get-themes-success-200:
-      summary: List of hosted onboarding themes for your balance platform
-      description: Example response when getting the list of hosted onboarding themes
-      value:
-        themes:
-        - description: Dark colors theme
-          properties:
-            supportPage: https://www.adyen.com/contact
-            logo: ONBA422JV223222D5G8VG2T8JV39GV
-            pageTitle: Example onboarding dark colors
-            backgroundColor: '#000000'
-            faqPage: https://docs.adyen.com/hosted-onboarding-faqs
-            backgroundImage: ONBA422KH223222D5G8VG2TG9S5ZBH
-            pageLayout: withBackground
-          createdAt: '2022-01-20T00:00:00+01:00'
-          id: ONBT422JV223222D5FGJ77B9C52WNN
-          updatedAt: '2022-08-25T00:00:00+02:00'
-        - description: Light colors theme
-          properties:
-            privacyStatementPage: https://www.adyen.com/legal/terms-and-conditions
-            supportPage: https://www.adyen.com/contact
-            logo: ONBA422JV223222D5FWC4TK25S3DQW
-            pageTitle: Example onboarding light colors
-            backgroundColor: '#FFFFFF'
-            faqPage: https://docs.adyen.com/hosted-onboarding-faqs
-            backgroundImage: ONBA422JV223222D5G82M96F6P2VTV
-            pageLayout: withBackground
-          createdAt: '2022-06-22T00:00:00+02:00'
-          id: ONBT422KH223222D5G82M968PB46HR
-          updatedAt: '2022-08-25T00:00:00+02:00'
-    get-themes-id-success-200:
-      summary: Details of a page theme
-      description: Example response when getting the details of a page theme
-      value:
-        description: Light colors theme
-        properties:
-          privacyStatementPage: https://www.adyen.com/legal/terms-and-conditions
-          supportPage: https://www.adyen.com/contact
-          logo: ONBA422JV223222D5FWC4TK25S3DQW
-          pageTitle: Example onboarding light colors
-          backgroundColor: '#FFFFFF'
-          faqPage: https://docs.adyen.com/hosted-onboarding-faqs
-          backgroundImage: ONBA422JV223222D5G82M96F6P2VTV
-          pageLayout: withBackground
-        createdAt: '2022-06-22T00:00:00+02:00'
-        id: ONBT422KH223222D5G82M968PB46HR
-        updatedAt: '2022-08-25T00:00:00+02:00'
   schemas:
     ServiceError:
       properties:
@@ -353,6 +298,54 @@ components:
       - id
       - createdAt
       type: object
+  examples:
+    get-themes-id-success-200:
+      summary: Details of a page theme
+      description: Example response when getting the details of a page theme
+      value:
+        description: Light colors theme
+        properties:
+          privacyStatementPage: https://www.adyen.com/legal/terms-and-conditions
+          supportPage: https://www.adyen.com/contact
+          logo: ONBA422JV223222D5FWC4TK25S3DQW
+          pageTitle: Example onboarding light colors
+          backgroundColor: '#FFFFFF'
+          faqPage: https://docs.adyen.com/hosted-onboarding-faqs
+          backgroundImage: ONBA422JV223222D5G82M96F6P2VTV
+          pageLayout: withBackground
+        createdAt: '2022-06-22T00:00:00+02:00'
+        id: ONBT422KH223222D5G82M968PB46HR
+        updatedAt: '2022-08-25T00:00:00+02:00'
+    get-themes-success-200:
+      summary: List of hosted onboarding themes for your balance platform
+      description: Example response when getting the list of hosted onboarding themes
+      value:
+        themes:
+        - description: Dark colors theme
+          properties:
+            supportPage: https://www.adyen.com/contact
+            logo: ONBA422JV223222D5G8VG2T8JV39GV
+            pageTitle: Example onboarding dark colors
+            backgroundColor: '#000000'
+            faqPage: https://docs.adyen.com/hosted-onboarding-faqs
+            backgroundImage: ONBA422KH223222D5G8VG2TG9S5ZBH
+            pageLayout: withBackground
+          createdAt: '2022-01-20T00:00:00+01:00'
+          id: ONBT422JV223222D5FGJ77B9C52WNN
+          updatedAt: '2022-08-25T00:00:00+02:00'
+        - description: Light colors theme
+          properties:
+            privacyStatementPage: https://www.adyen.com/legal/terms-and-conditions
+            supportPage: https://www.adyen.com/contact
+            logo: ONBA422JV223222D5FWC4TK25S3DQW
+            pageTitle: Example onboarding light colors
+            backgroundColor: '#FFFFFF'
+            faqPage: https://docs.adyen.com/hosted-onboarding-faqs
+            backgroundImage: ONBA422JV223222D5G82M96F6P2VTV
+            pageLayout: withBackground
+          createdAt: '2022-06-22T00:00:00+02:00'
+          id: ONBT422KH223222D5G82M968PB46HR
+          updatedAt: '2022-08-25T00:00:00+02:00'
   securitySchemes:
     ApiKeyAuth:
       in: header
@@ -361,7 +354,3 @@ components:
     BasicAuth:
       scheme: basic
       type: http
-x-groups:
-- Account holders
-- Accounts
-- Verification

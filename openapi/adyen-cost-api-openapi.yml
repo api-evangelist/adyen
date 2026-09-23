@@ -1,16 +1,15 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  version: '6'
+  version: '54'
   x-publicVersion: true
-  title: Adyen Account acceptDispute Cost API
-  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
-  x-timestamp: '2023-05-30T15:27:20Z'
+  title: Adyen BinLookup Cost API
+  description: The BIN Lookup API provides endpoints for retrieving information, such as cost estimates, and 3D Secure supported version based on a given BIN.
   termsOfService: https://www.adyen.com/legal/terms-and-conditions
   contact:
     name: Adyen Developer Experience team
     url: https://github.com/Adyen/adyen-openapi
 servers:
-- url: https://cal-test.adyen.com/cal/services/Account/v6
+- url: https://pal-test.adyen.com/pal/servlet/BinLookup/v54
 tags:
 - name: Cost
 paths:
@@ -148,31 +147,218 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  schemas:
-    CostEstimateResponse:
-      properties:
-        cardBin:
-          description: Card BIN details.
-          $ref: '#/components/schemas/CardBin'
+  examples:
+    post-getCostEstimate-getCostEstimateEncryptedCard:
+      summary: Estimate the transaction cost using an encrypted card number
+      description: Example request to get the estimated cost of a transaction
+      value:
+        amount:
+          value: 1234
+          currency: EUR
+        assumptions:
+          assumeLevel3Data: true
+          assume3DSecureAuthenticated: true
+        encryptedCardNumber: test_5101180000000007
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        merchantDetails:
+          countryCode: NL
+          mcc: '7411'
+          enrolledIn3DSecure: true
+        shopperInteraction: Ecommerce
+    post-getCostEstimate-getCostEstimateMinimal3DS-200:
+      summary: Example response for request 'getCostEstimateMinimal3DS'
+      value:
         costEstimateAmount:
-          description: The estimated cost (scheme fee + interchange) in the settlement currency. If the settlement currency cannot be determined, the fee in EUR is returned.
-          $ref: '#/components/schemas/Amount'
-        costEstimateReference:
-          x-addedInVersion: '52'
-          description: Adyen's 16-character reference associated with the request.
+          currency: EUR
+          value: 12
+        resultCode: Success
+        surchargeType: PASSTHROUGH
+    post-getCostEstimate-getCostEstimateMinimal3DS:
+      summary: Estimate the transaction cost (minimal with 3DSecure)
+      description: Example request to get the estimated cost of a 3D Secure transaction with minimum details
+      value:
+        amount:
+          value: 1234
+          currency: EUR
+        assumptions:
+          assumeLevel3Data: true
+          assume3DSecureAuthenticated: true
+        cardNumber: '5101180000000007'
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+    post-getCostEstimate-getCostEstimateRecurringContract:
+      summary: Estimate the transaction cost (recurring contract)
+      description: Example request to get the estimated cost of a recurring transaction
+      value:
+        amount:
+          value: 1234
+          currency: EUR
+        assumptions:
+          assumeLevel3Data: true
+          assume3DSecureAuthenticated: true
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        merchantDetails:
+          countryCode: NL
+          mcc: '7411'
+          enrolledIn3DSecure: true
+        selectedRecurringDetailReference: '1234567890123456'
+        shopperInteraction: Ecommerce
+    post-getCostEstimate-getCostEstimate-200:
+      summary: Example response for request 'getCostEstimate'
+      value:
+        costEstimateAmount:
+          currency: EUR
+          value: 12
+        resultCode: Success
+        surchargeType: PASSTHROUGH
+    post-getCostEstimate-getCostEstimateEncryptedCard-200:
+      summary: Example response for request 'getCostEstimateEncryptedCard'
+      value:
+        costEstimateAmount:
+          currency: EUR
+          value: 12
+        resultCode: Success
+        surchargeType: PASSTHROUGH
+    post-getCostEstimate-getCostEstimateMinimal:
+      summary: Estimate the transaction cost (minimal)
+      description: Example request to get the estimated cost of a transaction with minimum details
+      value:
+        amount:
+          value: 1234
+          currency: EUR
+        cardNumber: '5101180000000007'
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
+    post-getCostEstimate-getCostEstimateMinimal-200:
+      summary: Example response for request 'getCostEstimateMinimal'
+      value:
+        costEstimateAmount:
+          currency: EUR
+          value: 12
+        resultCode: Success
+        surchargeType: PASSTHROUGH
+    post-getCostEstimate-getCostEstimate:
+      summary: Estimate the transaction cost
+      description: Example request to get the estimated cost of a transaction
+      value:
+        amount:
+          value: 1234
+          currency: EUR
+        assumptions:
+          assumeLevel3Data: true
+          assume3DSecureAuthenticated: true
+        cardNumber: '5101180000000007'
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        merchantDetails:
+          countryCode: NL
+          mcc: '7411'
+          enrolledIn3DSecure: true
+        shopperInteraction: Ecommerce
+  schemas:
+    ServiceError:
+      properties:
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
           type: string
-        resultCode:
-          description: The result of the cost estimation.
+        errorType:
+          description: The category of the error.
           type: string
-        surchargeType:
-          description: 'Indicates the way the charges can be passed on to the cardholder. The following values are possible:
-
-            * `ZERO` - the charges are not allowed to pass on
-
-            * `PASSTHROUGH` - the charges can be passed on
-
-            * `UNLIMITED` - there is no limit on how much surcharge is passed on'
+        message:
+          description: A short explanation of the issue.
           type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    MerchantDetails:
+      properties:
+        countryCode:
+          description: '2-letter ISO 3166 country code of the card acceptor location.
+
+            > This parameter is required for the merchants who don''t use Adyen as the payment authorisation gateway.'
+          maxLength: 2
+          minLength: 2
+          type: string
+        enrolledIn3DSecure:
+          description: If true, indicates that the merchant is enrolled in 3D Secure for the card network.
+          type: boolean
+        mcc:
+          description: 'The merchant category code (MCC) is a four-digit number which relates to a particular market segment. This code reflects the predominant activity that is conducted by the merchant.
+
+
+            The list of MCCs can be found [here](https://en.wikipedia.org/wiki/Merchant_category_code).'
+          type: string
+      type: object
+    Recurring:
+      properties:
+        contract:
+          description: 'The type of recurring contract to be used.
+
+            Possible values:
+
+            * `ONECLICK`  Payment details can be used to initiate a one-click payment, where the shopper enters the [card security code (CVC/CVV)](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-security-code-cvc-cvv-cid).
+
+            * `RECURRING`  Payment details can be used without the card security code to initiate [card-not-present transactions](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-not-present-cnp).
+
+            * `ONECLICK,RECURRING`  Payment details can be used regardless of whether the shopper is on your site or not.
+
+            * `PAYOUT`  Payment details can be used to [make a payout](https://docs.adyen.com/online-payments/online-payouts).'
+          enum:
+          - ONECLICK
+          - RECURRING
+          - PAYOUT
+          type: string
+        recurringDetailName:
+          description: A descriptive name for this detail.
+          type: string
+        recurringExpiry:
+          x-addedInVersion: '40'
+          description: Date after which no further authorisations shall be performed. Only for 3D Secure 2.
+          format: date-time
+          type: string
+        recurringFrequency:
+          x-addedInVersion: '40'
+          description: Minimum number of days between authorisations. Only for 3D Secure 2.
+          type: string
+        tokenService:
+          x-addedInVersion: '25'
+          description: The name of the token service.
+          enum:
+          - VISATOKENSERVICE
+          - MCTOKENSERVICE
+          - AMEXTOKENSERVICE
+          - TOKEN_SHARING
+          type: string
+      type: object
+    Amount:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      - currency
       type: object
     CardBin:
       properties:
@@ -263,78 +449,6 @@ components:
           description: The last four digits of the card number.
           type: string
       type: object
-    MerchantDetails:
-      properties:
-        countryCode:
-          description: '2-letter ISO 3166 country code of the card acceptor location.
-
-            > This parameter is required for the merchants who don''t use Adyen as the payment authorisation gateway.'
-          maxLength: 2
-          minLength: 2
-          type: string
-        enrolledIn3DSecure:
-          description: If true, indicates that the merchant is enrolled in 3D Secure for the card network.
-          type: boolean
-        mcc:
-          description: 'The merchant category code (MCC) is a four-digit number which relates to a particular market segment. This code reflects the predominant activity that is conducted by the merchant.
-
-
-            The list of MCCs can be found [here](https://en.wikipedia.org/wiki/Merchant_category_code).'
-          type: string
-      type: object
-    CostEstimateAssumptions:
-      properties:
-        assume3DSecureAuthenticated:
-          description: If true, the cardholder is expected to successfully authorise via 3D Secure.
-          type: boolean
-        assumeLevel3Data:
-          description: If true, the transaction is expected to have valid Level 3 data.
-          type: boolean
-        installments:
-          description: If not zero, the number of installments.
-          format: int32
-          type: integer
-      type: object
-    Amount:
-      properties:
-        currency:
-          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
-          maxLength: 3
-          minLength: 3
-          type: string
-        value:
-          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int64
-          type: integer
-      required:
-      - value
-      - currency
-      type: object
-    ServiceError:
-      properties:
-        additionalData:
-          x-addedInVersion: '46'
-          additionalProperties:
-            type: string
-          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
-          type: object
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
-      type: object
     CostEstimateRequest:
       properties:
         amount:
@@ -397,159 +511,44 @@ components:
       - amount
       - merchantAccount
       type: object
-    Recurring:
+    CostEstimateResponse:
       properties:
-        contract:
-          description: 'The type of recurring contract to be used.
-
-            Possible values:
-
-            * `ONECLICK`  Payment details can be used to initiate a one-click payment, where the shopper enters the [card security code (CVC/CVV)](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-security-code-cvc-cvv-cid).
-
-            * `RECURRING`  Payment details can be used without the card security code to initiate [card-not-present transactions](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-not-present-cnp).
-
-            * `ONECLICK,RECURRING`  Payment details can be used regardless of whether the shopper is on your site or not.
-
-            * `PAYOUT`  Payment details can be used to [make a payout](https://docs.adyen.com/online-payments/online-payouts).'
-          enum:
-          - ONECLICK
-          - RECURRING
-          - PAYOUT
+        cardBin:
+          description: Card BIN details.
+          $ref: '#/components/schemas/CardBin'
+        costEstimateAmount:
+          description: The estimated cost (scheme fee + interchange) in the settlement currency. If the settlement currency cannot be determined, the fee in EUR is returned.
+          $ref: '#/components/schemas/Amount'
+        costEstimateReference:
+          x-addedInVersion: '52'
+          description: Adyen's 16-character reference associated with the request.
           type: string
-        recurringDetailName:
-          description: A descriptive name for this detail.
+        resultCode:
+          description: The result of the cost estimation.
           type: string
-        recurringExpiry:
-          x-addedInVersion: '40'
-          description: Date after which no further authorisations shall be performed. Only for 3D Secure 2.
-          format: date-time
-          type: string
-        recurringFrequency:
-          x-addedInVersion: '40'
-          description: Minimum number of days between authorisations. Only for 3D Secure 2.
-          type: string
-        tokenService:
-          x-addedInVersion: '25'
-          description: The name of the token service.
-          enum:
-          - VISATOKENSERVICE
-          - MCTOKENSERVICE
-          - AMEXTOKENSERVICE
-          - TOKEN_SHARING
+        surchargeType:
+          description: 'Indicates the way the charges can be passed on to the cardholder. The following values are possible:
+
+            * `ZERO` - the charges are not allowed to pass on
+
+            * `PASSTHROUGH` - the charges can be passed on
+
+            * `UNLIMITED` - there is no limit on how much surcharge is passed on'
           type: string
       type: object
-  examples:
-    post-getCostEstimate-getCostEstimateMinimal3DS-200:
-      summary: Example response for request 'getCostEstimateMinimal3DS'
-      value:
-        costEstimateAmount:
-          currency: EUR
-          value: 12
-        resultCode: Success
-        surchargeType: PASSTHROUGH
-    post-getCostEstimate-getCostEstimateRecurringContract:
-      summary: Estimate the transaction cost (recurring contract)
-      description: Example request to get the estimated cost of a recurring transaction
-      value:
-        amount:
-          value: 1234
-          currency: EUR
-        assumptions:
-          assumeLevel3Data: true
-          assume3DSecureAuthenticated: true
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-        merchantDetails:
-          countryCode: NL
-          mcc: '7411'
-          enrolledIn3DSecure: true
-        selectedRecurringDetailReference: '1234567890123456'
-        shopperInteraction: Ecommerce
-    post-getCostEstimate-getCostEstimateMinimal3DS:
-      summary: Estimate the transaction cost (minimal with 3DSecure)
-      description: Example request to get the estimated cost of a 3D Secure transaction with minimum details
-      value:
-        amount:
-          value: 1234
-          currency: EUR
-        assumptions:
-          assumeLevel3Data: true
-          assume3DSecureAuthenticated: true
-        cardNumber: '5101180000000007'
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-    post-getCostEstimate-getCostEstimateMinimal-200:
-      summary: Example response for request 'getCostEstimateMinimal'
-      value:
-        costEstimateAmount:
-          currency: EUR
-          value: 12
-        resultCode: Success
-        surchargeType: PASSTHROUGH
-    post-getCostEstimate-getCostEstimate-200:
-      summary: Example response for request 'getCostEstimate'
-      value:
-        costEstimateAmount:
-          currency: EUR
-          value: 12
-        resultCode: Success
-        surchargeType: PASSTHROUGH
-    post-getCostEstimate-getCostEstimateMinimal:
-      summary: Estimate the transaction cost (minimal)
-      description: Example request to get the estimated cost of a transaction with minimum details
-      value:
-        amount:
-          value: 1234
-          currency: EUR
-        cardNumber: '5101180000000007'
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-    post-getCostEstimate-getCostEstimate:
-      summary: Estimate the transaction cost
-      description: Example request to get the estimated cost of a transaction
-      value:
-        amount:
-          value: 1234
-          currency: EUR
-        assumptions:
-          assumeLevel3Data: true
-          assume3DSecureAuthenticated: true
-        cardNumber: '5101180000000007'
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-        merchantDetails:
-          countryCode: NL
-          mcc: '7411'
-          enrolledIn3DSecure: true
-        shopperInteraction: Ecommerce
-    generic-400:
-      summary: Response code 400. Bad Request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: I'
-        errorType: validation
-    post-getCostEstimate-getCostEstimateEncryptedCard-200:
-      summary: Example response for request 'getCostEstimateEncryptedCard'
-      value:
-        costEstimateAmount:
-          currency: EUR
-          value: 12
-        resultCode: Success
-        surchargeType: PASSTHROUGH
-    post-getCostEstimate-getCostEstimateEncryptedCard:
-      summary: Estimate the transaction cost using an encrypted card number
-      description: Example request to get the estimated cost of a transaction
-      value:
-        amount:
-          value: 1234
-          currency: EUR
-        assumptions:
-          assumeLevel3Data: true
-          assume3DSecureAuthenticated: true
-        encryptedCardNumber: test_5101180000000007
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-        merchantDetails:
-          countryCode: NL
-          mcc: '7411'
-          enrolledIn3DSecure: true
-        shopperInteraction: Ecommerce
+    CostEstimateAssumptions:
+      properties:
+        assume3DSecureAuthenticated:
+          description: If true, the cardholder is expected to successfully authorise via 3D Secure.
+          type: boolean
+        assumeLevel3Data:
+          description: If true, the transaction is expected to have valid Level 3 data.
+          type: boolean
+        installments:
+          description: If not zero, the number of installments.
+          format: int32
+          type: integer
+      type: object
   securitySchemes:
     ApiKeyAuth:
       in: header
@@ -558,7 +557,3 @@ components:
     BasicAuth:
       scheme: basic
       type: http
-x-groups:
-- Account holders
-- Accounts
-- Verification

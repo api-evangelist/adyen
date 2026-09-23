@@ -1,16 +1,15 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  version: '6'
-  x-publicVersion: true
-  title: Adyen Account acceptDispute Login API
-  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
-  x-timestamp: '2023-05-30T15:27:20Z'
-  termsOfService: https://www.adyen.com/legal/terms-and-conditions
-  contact:
-    name: Adyen Developer Experience team
-    url: https://github.com/Adyen/adyen-openapi
+  version: '1'
+  title: Adyen Terminal Login API
+  description: The Adyen Terminal API lets you make payments, issue refunds, collect shopper information, and perform other shopper-terminal interactions using a payment terminal supplied by Adyen.
 servers:
-- url: https://cal-test.adyen.com/cal/services/Account/v6
+- description: with cloud integration
+  url: https://terminal-api-test.adyen.com/sync
+- description: with cloud integration
+  url: https://terminal-api-test.adyen.com/async
+- description: with local-hosting
+  url: <local-terminal-IP-address>
 tags:
 - name: Login
 paths:
@@ -47,28 +46,74 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
+      operationId: postLogin
+      x-operation-id-source: derived
 components:
   schemas:
-    POISoftware:
+    POITerminalData:
       type: object
       properties:
-        ManufacturerID:
-          type: string
-          pattern: ^.+$
-        ApplicationName:
-          type: string
-          pattern: ^.+$
-        SoftwareVersion:
-          type: string
-          pattern: ^.+$
-        CertificationCode:
+        TerminalEnvironment:
+          $ref: '#/components/schemas/TerminalEnvironment'
+        POICapabilities:
+          $ref: '#/components/schemas/POICapabilities'
+        POIProfile:
+          $ref: '#/components/schemas/POIProfile'
+        POISerialNumber:
           type: string
           pattern: ^.+$
       required:
-      - ManufacturerID
-      - ApplicationName
-      - SoftwareVersion
-      - CertificationCode
+      - TerminalEnvironment
+      - POICapabilities
+      - POISerialNumber
+    POIProfile:
+      type: object
+      properties:
+        GenericProfile:
+          $ref: '#/components/schemas/GenericProfile'
+        ServiceProfiles:
+          $ref: '#/components/schemas/ServiceProfiles'
+    CustomerOrderReq:
+      type: array
+      items:
+        type: string
+        enum:
+        - Both
+        - Closed
+        - Open
+    GenericProfile:
+      type: string
+      enum:
+      - Basic
+      - Extended
+      - Standard
+    TerminalEnvironment:
+      type: string
+      enum:
+      - Attended
+      - SemiAttended
+      - Unattended
+    CoinsOrBills:
+      type: object
+      description: Indicates the remaining number of coins or bills of a given value in a cash handling device. When the cash handling machine does not have any more coins or bills of a certain value, the number must be equal to 0. Number of coins or bills of a given value.
+      properties:
+        UnitValue:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+          description: Value of a coin or bill.
+        Number:
+          type: integer
+          description: Number of elements.
+      required:
+      - UnitValue
+      - Number
+    Result:
+      type: string
+      enum:
+      - Failure
+      - Partial
+      - Success
     CashHandlingDevice:
       type: object
       description: Indicate the status and the remaining coins and bill in a cash handling device. Status of cash handling device.
@@ -88,102 +133,61 @@ components:
       - CashHandlingOKFlag
       - Currency
       - CoinsOrBills
-    ErrorCondition:
+    GlobalStatus:
       type: string
       enum:
-      - Aborted
       - Busy
-      - Cancel
-      - DeviceOut
-      - InProgress
-      - InsertedCard
-      - InvalidCard
-      - LoggedOut
-      - MessageFormat
-      - NotAllowed
-      - NotFound
-      - PaymentRestriction
-      - Refusal
-      - UnavailableDevice
-      - UnavailableService
-      - UnreachableHost
-      - WrongPIN
-    POISystemData:
+      - Maintenance
+      - OK
+      - Unreachable
+    SaleTerminalData:
       type: object
+      description: In the Login Request, if a Sale Terminal is involved in the login. In other messages, when a logical device is out of order (SaleCapabilites), or when the other data have changed since or were not in the Login. Information related to the software and hardware feature of the Sale Terminal.
       properties:
-        DateTime:
+        TotalsGroupID:
           type: string
-          format: date-time
-        POISoftware:
-          $ref: '#/components/schemas/POISoftware'
-        POITerminalData:
-          $ref: '#/components/schemas/POITerminalData'
-        POIStatus:
-          $ref: '#/components/schemas/POIStatus'
-      required:
-      - DateTime
-      - POISoftware
-    ServiceProfiles:
-      type: array
-      items:
-        type: string
-        enum:
-        - Batch
-        - CardReader
-        - Communication
-        - Loyalty
-        - OneTimeRes
-        - PIN
-        - Reservation
-        - Sound
-        - StoredValue
-        - Synchro
-    PrinterStatus:
+          pattern: ^.{1,16}$
+          description: If present, default value for all transaction.
+    TokenRequestedType:
       type: string
       enum:
-      - NoPaper
-      - OK
-      - OutOfOrder
-      - PaperJam
-      - PaperLow
-    Response:
+      - Customer
+      - Transaction
+    SaleSoftware:
       type: object
-      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
+      description: Information related to the software of the Sale System which manages the NEXO Sale to POI protocol.
       properties:
-        Result:
-          $ref: '#/components/schemas/Result'
-        ErrorCondition:
-          $ref: '#/components/schemas/ErrorCondition'
-        AdditionalResponse:
+        ManufacturerID:
           type: string
           pattern: ^.+$
-          description: If present, the POI logs it for further examination.
+        ApplicationName:
+          type: string
+          pattern: ^.+$
+        SoftwareVersion:
+          type: string
+          pattern: ^.+$
+        CertificationCode:
+          type: string
+          pattern: ^.+$
       required:
-      - Result
-    POICapabilities:
-      type: array
-      items:
-        type: string
-        enum:
-        - CashHandling
-        - CashierDisplay
-        - CashierError
-        - CashierInput
-        - CustomerDisplay
-        - CustomerError
-        - CustomerInput
-        - EMVContactless
-        - ICC
-        - MagStripe
-        - PrinterDocument
-        - PrinterReceipt
-        - PrinterVoucher
-    Result:
-      type: string
-      enum:
-      - Failure
-      - Partial
-      - Success
+      - ManufacturerID
+      - ApplicationName
+      - SoftwareVersion
+      - CertificationCode
+    LoginResponse:
+      type: object
+      description: It conveys Information related to the Login to process. Content of the Login Response message.
+      properties:
+        Response:
+          $ref: '#/components/schemas/Response'
+        POISystemData:
+          $ref: '#/components/schemas/POISystemData'
+        TokenRequestStatus:
+          type: boolean
+        CustomerOrderStatus:
+          type: boolean
+      required:
+      - Response
     LoginRequest:
       type: object
       description: It conveys Information related to the session (period between a Login and the following Logout) to process. Content of the Login Request message.
@@ -224,13 +228,40 @@ components:
       - DateTime
       - SaleSoftware
       - OperatorLanguage
-    POIProfile:
+    ErrorCondition:
+      type: string
+      enum:
+      - Aborted
+      - Busy
+      - Cancel
+      - DeviceOut
+      - InProgress
+      - InsertedCard
+      - InvalidCard
+      - LoggedOut
+      - MessageFormat
+      - NotAllowed
+      - NotFound
+      - PaymentRestriction
+      - Refusal
+      - UnavailableDevice
+      - UnavailableService
+      - UnreachableHost
+      - WrongPIN
+    Response:
       type: object
+      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
       properties:
-        GenericProfile:
-          $ref: '#/components/schemas/GenericProfile'
-        ServiceProfiles:
-          $ref: '#/components/schemas/ServiceProfiles'
+        Result:
+          $ref: '#/components/schemas/Result'
+        ErrorCondition:
+          $ref: '#/components/schemas/ErrorCondition'
+        AdditionalResponse:
+          type: string
+          pattern: ^.+$
+          description: If present, the POI logs it for further examination.
+      required:
+      - Result
     POIStatus:
       type: object
       description: Indicate the availability of the POI Terminal components. The data element is absent if the component is not part of the POI Terminal. State of a POI Terminal.
@@ -260,9 +291,49 @@ components:
           description: default False.
       required:
       - GlobalStatus
-    SaleSoftware:
+    PrinterStatus:
+      type: string
+      enum:
+      - NoPaper
+      - OK
+      - OutOfOrder
+      - PaperJam
+      - PaperLow
+    POICapabilities:
+      type: array
+      items:
+        type: string
+        enum:
+        - CashHandling
+        - CashierDisplay
+        - CashierError
+        - CashierInput
+        - CustomerDisplay
+        - CustomerError
+        - CustomerInput
+        - EMVContactless
+        - ICC
+        - MagStripe
+        - PrinterDocument
+        - PrinterReceipt
+        - PrinterVoucher
+    POISystemData:
       type: object
-      description: Information related to the software of the Sale System which manages the NEXO Sale to POI protocol.
+      properties:
+        DateTime:
+          type: string
+          format: date-time
+        POISoftware:
+          $ref: '#/components/schemas/POISoftware'
+        POITerminalData:
+          $ref: '#/components/schemas/POITerminalData'
+        POIStatus:
+          $ref: '#/components/schemas/POIStatus'
+      required:
+      - DateTime
+      - POISoftware
+    POISoftware:
+      type: object
       properties:
         ManufacturerID:
           type: string
@@ -281,91 +352,21 @@ components:
       - ApplicationName
       - SoftwareVersion
       - CertificationCode
-    CoinsOrBills:
-      type: object
-      description: Indicates the remaining number of coins or bills of a given value in a cash handling device. When the cash handling machine does not have any more coins or bills of a certain value, the number must be equal to 0. Number of coins or bills of a given value.
-      properties:
-        UnitValue:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-          description: Value of a coin or bill.
-        Number:
-          type: integer
-          description: Number of elements.
-      required:
-      - UnitValue
-      - Number
-    GenericProfile:
-      type: string
-      enum:
-      - Basic
-      - Extended
-      - Standard
-    GlobalStatus:
-      type: string
-      enum:
-      - Busy
-      - Maintenance
-      - OK
-      - Unreachable
-    TerminalEnvironment:
-      type: string
-      enum:
-      - Attended
-      - SemiAttended
-      - Unattended
-    TokenRequestedType:
-      type: string
-      enum:
-      - Customer
-      - Transaction
-    POITerminalData:
-      type: object
-      properties:
-        TerminalEnvironment:
-          $ref: '#/components/schemas/TerminalEnvironment'
-        POICapabilities:
-          $ref: '#/components/schemas/POICapabilities'
-        POIProfile:
-          $ref: '#/components/schemas/POIProfile'
-        POISerialNumber:
-          type: string
-          pattern: ^.+$
-      required:
-      - TerminalEnvironment
-      - POICapabilities
-      - POISerialNumber
-    SaleTerminalData:
-      type: object
-      description: In the Login Request, if a Sale Terminal is involved in the login. In other messages, when a logical device is out of order (SaleCapabilites), or when the other data have changed since or were not in the Login. Information related to the software and hardware feature of the Sale Terminal.
-      properties:
-        TotalsGroupID:
-          type: string
-          pattern: ^.{1,16}$
-          description: If present, default value for all transaction.
-    CustomerOrderReq:
+    ServiceProfiles:
       type: array
       items:
         type: string
         enum:
-        - Both
-        - Closed
-        - Open
-    LoginResponse:
-      type: object
-      description: It conveys Information related to the Login to process. Content of the Login Response message.
-      properties:
-        Response:
-          $ref: '#/components/schemas/Response'
-        POISystemData:
-          $ref: '#/components/schemas/POISystemData'
-        TokenRequestStatus:
-          type: boolean
-        CustomerOrderStatus:
-          type: boolean
-      required:
-      - Response
+        - Batch
+        - CardReader
+        - Communication
+        - Loyalty
+        - OneTimeRes
+        - PIN
+        - Reservation
+        - Sound
+        - StoredValue
+        - Synchro
   securitySchemes:
     ApiKeyAuth:
       in: header
@@ -374,7 +375,3 @@ components:
     BasicAuth:
       scheme: basic
       type: http
-x-groups:
-- Account holders
-- Accounts
-- Verification

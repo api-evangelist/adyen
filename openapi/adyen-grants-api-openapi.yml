@@ -1,16 +1,15 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  version: '6'
+  version: '4'
   x-publicVersion: true
-  title: Adyen Account acceptDispute Grants API
-  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
-  x-timestamp: '2023-05-30T15:27:20Z'
+  title: Adyen Transfers Grants API
+  description: '>Versions 1 and 2 of the Transfers API are deprecated.'
   termsOfService: https://www.adyen.com/legal/terms-and-conditions
   contact:
     name: Adyen Developer Experience team
     url: https://github.com/Adyen/adyen-openapi
 servers:
-- url: https://cal-test.adyen.com/cal/services/Account/v6
+- url: https://balanceplatform-api-test.adyen.com/btl/v4
 tags:
 - name: Grants
 paths:
@@ -511,80 +510,17 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Fee:
+    CapitalGrants:
       properties:
-        amount:
-          description: An object containing the fee amount.
-          $ref: '#/components/schemas/Amount'
-      required:
-      - amount
-      type: object
-    Repayment:
-      properties:
-        basisPoints:
-          description: The repayment that is deducted daily from incoming net volume, in [basis points](https://www.investopedia.com/terms/b/basispoint.asp).
-          format: int32
-          type: integer
-        term:
-          description: An object containing the details of the configuration for repayment term.
-          $ref: '#/components/schemas/RepaymentTerm'
-        threshold:
-          description: An object containing the details of the 30-day repayment threshold.
-          $ref: '#/components/schemas/ThresholdRepayment'
-      required:
-      - basisPoints
-      type: object
-    RepaymentTerm:
-      properties:
-        estimatedDays:
-          description: The estimated term for repaying the grant, in days.
-          format: int32
-          type: integer
-        maximumDays:
-          description: The maximum term for repaying the grant, in days. Only applies when `contractType` is **loan**.
-          format: int32
-          type: integer
-      required:
-      - estimatedDays
-      type: object
-    RestServiceError:
-      properties:
-        detail:
-          description: A human-readable explanation specific to this occurrence of the problem.
-          type: string
-        errorCode:
-          description: A code that identifies the problem type.
-          type: string
-        instance:
-          description: A unique URI that identifies the specific occurrence of the problem.
-          type: string
-        invalidFields:
-          description: Detailed explanation of each validation error, when applicable.
+        grants:
+          description: The unique identifier of the grant.
           items:
-            $ref: '#/components/schemas/InvalidField'
+            $ref: '#/components/schemas/CapitalGrant'
           type: array
-        requestId:
-          description: A unique reference for the request, essentially the same as `pspReference`.
-          type: string
-        response:
-          description: JSON response payload.
-          $ref: '#/components/schemas/JSONObject'
-        status:
-          description: The HTTP status code.
-          format: int32
-          type: integer
-        title:
-          description: A short, human-readable summary of the problem type.
-          type: string
-        type:
-          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
-          type: string
       required:
-      - type
-      - errorCode
-      - title
-      - detail
-      - status
+      - grants
+      type: object
+    JSONObject:
       type: object
     CapitalBalance:
       properties:
@@ -609,20 +545,13 @@ components:
       - total
       - currency
       type: object
-    Amount:
+    ThresholdRepayment:
       properties:
-        currency:
-          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
-          maxLength: 3
-          minLength: 3
-          type: string
-        value:
-          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int64
-          type: integer
+        amount:
+          description: The amount to be repaid on a 30-day basis.
+          $ref: '#/components/schemas/Amount'
       required:
-      - value
-      - currency
+      - amount
       type: object
     Counterparty:
       properties:
@@ -635,6 +564,14 @@ components:
         transferInstrumentId:
           description: The identifier of the transfer instrument that belongs to the legal entity of the account holder.
           type: string
+      type: object
+    Fee:
+      properties:
+        amount:
+          description: An object containing the fee amount.
+          $ref: '#/components/schemas/Amount'
+      required:
+      - amount
       type: object
     CapitalGrant:
       properties:
@@ -676,41 +613,6 @@ components:
       - status
       - balances
       type: object
-    ThresholdRepayment:
-      properties:
-        amount:
-          description: The amount to be repaid on a 30-day basis.
-          $ref: '#/components/schemas/Amount'
-      required:
-      - amount
-      type: object
-    JSONObject:
-      type: object
-    CapitalGrantInfo:
-      properties:
-        counterparty:
-          description: An object containing the details of the receiving party of the grant. Setting either an `accountHolderId`, `balanceAccountId`, or both is required.
-          $ref: '#/components/schemas/Counterparty'
-        grantAccountId:
-          description: The identifier of the grant account used for the grant.
-          type: string
-        grantOfferId:
-          description: The identifier of the grant offer that has been selected and from which the grant details will be used.
-          type: string
-      required:
-      - grantAccountId
-      - grantOfferId
-      type: object
-    CapitalGrants:
-      properties:
-        grants:
-          description: The unique identifier of the grant.
-          items:
-            $ref: '#/components/schemas/CapitalGrant'
-          type: array
-      required:
-      - grants
-      type: object
     InvalidField:
       properties:
         message:
@@ -726,6 +628,103 @@ components:
       - name
       - value
       - message
+      type: object
+    RestServiceError:
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+        errorCode:
+          description: A code that identifies the problem type.
+          type: string
+        instance:
+          description: A unique URI that identifies the specific occurrence of the problem.
+          type: string
+        invalidFields:
+          description: Detailed explanation of each validation error, when applicable.
+          items:
+            $ref: '#/components/schemas/InvalidField'
+          type: array
+        requestId:
+          description: A unique reference for the request, essentially the same as `pspReference`.
+          type: string
+        response:
+          description: JSON response payload.
+          $ref: '#/components/schemas/JSONObject'
+        status:
+          description: The HTTP status code.
+          format: int32
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type.
+          type: string
+        type:
+          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
+          type: string
+      required:
+      - type
+      - errorCode
+      - title
+      - detail
+      - status
+      type: object
+    RepaymentTerm:
+      properties:
+        estimatedDays:
+          description: The estimated term for repaying the grant, in days.
+          format: int32
+          type: integer
+        maximumDays:
+          description: The maximum term for repaying the grant, in days. Only applies when `contractType` is **loan**.
+          format: int32
+          type: integer
+      required:
+      - estimatedDays
+      type: object
+    Amount:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      - currency
+      type: object
+    Repayment:
+      properties:
+        basisPoints:
+          description: The repayment that is deducted daily from incoming net volume, in [basis points](https://www.investopedia.com/terms/b/basispoint.asp).
+          format: int32
+          type: integer
+        term:
+          description: An object containing the details of the configuration for repayment term.
+          $ref: '#/components/schemas/RepaymentTerm'
+        threshold:
+          description: An object containing the details of the 30-day repayment threshold.
+          $ref: '#/components/schemas/ThresholdRepayment'
+      required:
+      - basisPoints
+      type: object
+    CapitalGrantInfo:
+      properties:
+        counterparty:
+          description: An object containing the details of the receiving party of the grant. Setting either an `accountHolderId`, `balanceAccountId`, or both is required.
+          $ref: '#/components/schemas/Counterparty'
+        grantAccountId:
+          description: The identifier of the grant account used for the grant.
+          type: string
+        grantOfferId:
+          description: The identifier of the grant offer that has been selected and from which the grant details will be used.
+          type: string
+      required:
+      - grantAccountId
+      - grantOfferId
       type: object
   examples:
     post-grants-requestGrant-200:
@@ -770,7 +769,7 @@ components:
     BasicAuth:
       scheme: basic
       type: http
-x-groups:
-- Account holders
-- Accounts
-- Verification
+    clientKey:
+      in: query
+      name: clientKey
+      type: apiKey

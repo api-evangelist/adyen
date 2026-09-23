@@ -1,16 +1,15 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  version: '6'
+  version: '2'
   x-publicVersion: true
-  title: Adyen Account acceptDispute Card Orders API
-  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
-  x-timestamp: '2023-05-30T15:27:20Z'
+  title: Adyen Configuration Card Orders API
+  description: The Configuration API enables you to create a platform where you can onboard your users as account holders and create balance accounts, cards, and business accounts.
   termsOfService: https://www.adyen.com/legal/terms-and-conditions
   contact:
     name: Adyen Developer Experience team
     url: https://github.com/Adyen/adyen-openapi
 servers:
-- url: https://cal-test.adyen.com/cal/services/Account/v6
+- url: https://balanceplatform-api-test.adyen.com/bcl/v2
 tags:
 - name: Card Orders
 paths:
@@ -245,45 +244,25 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    CardOrder:
+    JSONObject:
+      type: object
+    PaginatedGetCardOrderItemResponse:
       properties:
-        beginDate:
-          description: The date when the card order is created.
-          format: date-time
-          type: string
-        cardManufacturingProfileId:
-          description: The unique identifier of the card manufacturer profile.
-          type: string
-        closedDate:
-          description: The date when the card order processing ends.
-          format: date-time
-          type: string
-        endDate:
-          description: 'The date when you manually closed the card order.
-
-
-            Card orders are automatically closed by the end of the day it was created. If you manually closed it beforehand, the closing date is shown as the `endDate`.'
-          format: date-time
-          type: string
-        id:
-          description: The unique identifier of the card order.
-          type: string
-        lockDate:
-          description: The date when the card order processing begins.
-          format: date-time
-          type: string
-        serviceCenter:
-          description: The service center.
-          type: string
-        status:
-          description: 'The status of the card order.
-
-
-            Possible values: **Open**, **Closed**.'
-          enum:
-          - closed
-          - open
-          type: string
+        data:
+          description: List of card order items in the card order batch.
+          items:
+            $ref: '#/components/schemas/CardOrderItem'
+          type: array
+        hasNext:
+          description: Indicates whether there are more items on the next page.
+          type: boolean
+        hasPrevious:
+          description: Indicates whether there are more items on the previous page.
+          type: boolean
+      required:
+      - data
+      - hasPrevious
+      - hasNext
       type: object
     PaginatedGetCardOrderResponse:
       properties:
@@ -301,6 +280,54 @@ components:
       required:
       - hasPrevious
       - hasNext
+      type: object
+    InvalidField:
+      properties:
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
+          type: string
+        value:
+          description: The invalid value.
+          type: string
+      required:
+      - name
+      - value
+      - message
+      type: object
+    CardOrderItem:
+      properties:
+        balancePlatform:
+          description: The unique identifier of the balance platform.
+          type: string
+        card:
+          description: 'The status of the card delivery.
+
+
+            Possible values: **created**, **rejected**, **processing**, **produced**, **shipped**, **delivered**, **notApplicable**, **unknown**. '
+          $ref: '#/components/schemas/CardOrderItemDeliveryStatus'
+        cardOrderItemId:
+          description: The unique identifier of the card order item.
+          type: string
+        creationDate:
+          description: The date and time when the event was triggered, in ISO 8601 extended format. For example, **2020-12-18T10:15:30+01:00**.
+          format: date-time
+          type: string
+        id:
+          description: The ID of the resource.
+          readOnly: true
+          type: string
+        paymentInstrumentId:
+          description: The unique identifier of the payment instrument related to the card order item.
+          type: string
+        pin:
+          description: Contains information about the status of the PIN delivery.
+          $ref: '#/components/schemas/CardOrderItemDeliveryStatus'
+        shippingMethod:
+          description: The shipping method used to deliver the card or the PIN.
+          type: string
       type: object
     RestServiceError:
       properties:
@@ -341,74 +368,6 @@ components:
       - detail
       - status
       type: object
-    CardOrderItem:
-      properties:
-        balancePlatform:
-          description: The unique identifier of the balance platform.
-          type: string
-        card:
-          description: 'The status of the card delivery.
-
-
-            Possible values: **created**, **rejected**, **processing**, **produced**, **shipped**, **delivered**, **notApplicable**, **unknown**. '
-          $ref: '#/components/schemas/CardOrderItemDeliveryStatus'
-        cardOrderItemId:
-          description: The unique identifier of the card order item.
-          type: string
-        creationDate:
-          description: The date and time when the event was triggered, in ISO 8601 extended format. For example, **2020-12-18T10:15:30+01:00**.
-          format: date-time
-          type: string
-        id:
-          description: The ID of the resource.
-          readOnly: true
-          type: string
-        paymentInstrumentId:
-          description: The unique identifier of the payment instrument related to the card order item.
-          type: string
-        pin:
-          description: Contains information about the status of the PIN delivery.
-          $ref: '#/components/schemas/CardOrderItemDeliveryStatus'
-        shippingMethod:
-          description: The shipping method used to deliver the card or the PIN.
-          type: string
-      type: object
-    InvalidField:
-      properties:
-        message:
-          description: Description of the validation error.
-          type: string
-        name:
-          description: The field that has an invalid value.
-          type: string
-        value:
-          description: The invalid value.
-          type: string
-      required:
-      - name
-      - value
-      - message
-      type: object
-    PaginatedGetCardOrderItemResponse:
-      properties:
-        data:
-          description: List of card order items in the card order batch.
-          items:
-            $ref: '#/components/schemas/CardOrderItem'
-          type: array
-        hasNext:
-          description: Indicates whether there are more items on the next page.
-          type: boolean
-        hasPrevious:
-          description: Indicates whether there are more items on the previous page.
-          type: boolean
-      required:
-      - data
-      - hasPrevious
-      - hasNext
-      type: object
-    JSONObject:
-      type: object
     CardOrderItemDeliveryStatus:
       properties:
         errorMessage:
@@ -430,16 +389,55 @@ components:
           description: The tracking number of the PIN delivery.
           type: string
       type: object
+    CardOrder:
+      properties:
+        beginDate:
+          description: The date when the card order is created.
+          format: date-time
+          type: string
+        cardManufacturingProfileId:
+          description: The unique identifier of the card manufacturer profile.
+          type: string
+        closedDate:
+          description: The date when the card order processing ends.
+          format: date-time
+          type: string
+        endDate:
+          description: 'The date when you manually closed the card order.
+
+
+            Card orders are automatically closed by the end of the day it was created. If you manually closed it beforehand, the closing date is shown as the `endDate`.'
+          format: date-time
+          type: string
+        id:
+          description: The unique identifier of the card order.
+          type: string
+        lockDate:
+          description: The date when the card order processing begins.
+          format: date-time
+          type: string
+        serviceCenter:
+          description: The service center.
+          type: string
+        status:
+          description: 'The status of the card order.
+
+
+            Possible values: **Open**, **Closed**.'
+          enum:
+          - closed
+          - open
+          type: string
+      type: object
   examples:
-    generic-500:
-      summary: Response code - 500 Internal Server Error
+    generic-403:
+      summary: Response code - 403 Forbidden.
       value:
-        type: https://docs.adyen.com/errors/general/internal
-        title: An internal error happened
-        status: 500
-        detail: Unrecoverable error while trying to create payment instrument
-        requestId: 1WAF555PLWNTLYOQ
-        errorCode: '00_500'
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Forbidden
+        status: 403
+        detail: Not the right permission to access this service.
+        errorCode: '00_403'
     get-cardorders-id-items-success-200:
       summary: Item list of a specific card order retrieved
       description: Example response for retrieving the item list of a specific card order
@@ -454,14 +452,6 @@ components:
           shippingMethod: Cardholder Post Basic National
         hasNext: false
         hasPrevious: false
-    generic-401:
-      summary: Response code - 401 Unauthorized
-      value:
-        type: https://docs.adyen.com/errors/security/unauthorized
-        title: Unauthorized
-        status: 401
-        detail: Not authorized to access this service.
-        errorCode: '00_401'
     get-cardorders-success-200:
       summary: List of card orders retrieved
       description: Example response for retrieving a paginated list of card orders
@@ -476,14 +466,6 @@ components:
           status: closed
         hasNext: true
         hasPrevious: false
-    generic-403:
-      summary: Response code - 403 Forbidden.
-      value:
-        type: https://docs.adyen.com/errors/security/unauthorized
-        title: Forbidden
-        status: 403
-        detail: Not the right permission to access this service.
-        errorCode: '00_403'
     generic-422:
       summary: Response code - 422 Unprocessable Entity.
       value:
@@ -493,6 +475,23 @@ components:
         detail: The balanceAccountId can only be changed when the status is Inactive or Requested
         requestId: 1W1UI15PLVGC9V8O
         errorCode: '30_031'
+    generic-500:
+      summary: Response code - 500 Internal Server Error
+      value:
+        type: https://docs.adyen.com/errors/general/internal
+        title: An internal error happened
+        status: 500
+        detail: Unrecoverable error while trying to create payment instrument
+        requestId: 1WAF555PLWNTLYOQ
+        errorCode: '00_500'
+    generic-401:
+      summary: Response code - 401 Unauthorized
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Unauthorized
+        status: 401
+        detail: Not authorized to access this service.
+        errorCode: '00_401'
   securitySchemes:
     ApiKeyAuth:
       in: header
@@ -501,7 +500,7 @@ components:
     BasicAuth:
       scheme: basic
       type: http
-x-groups:
-- Account holders
-- Accounts
-- Verification
+    clientKey:
+      in: query
+      name: clientKey
+      type: apiKey

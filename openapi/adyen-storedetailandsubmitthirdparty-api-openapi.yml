@@ -1,16 +1,15 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  version: '6'
+  version: '68'
   x-publicVersion: true
-  title: Adyen Account acceptDispute storeDetailAndSubmitThirdParty API
-  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
-  x-timestamp: '2023-05-30T15:27:20Z'
+  title: Adyen Payout Store Detail And Submit Third Party API
+  description: A set of API endpoints that allow you to store payout details, confirm, or decline a payout.
   termsOfService: https://www.adyen.com/legal/terms-and-conditions
   contact:
     name: Adyen Developer Experience team
     url: https://github.com/Adyen/adyen-openapi
 servers:
-- url: https://cal-test.adyen.com/cal/services/Account/v6
+- url: https://pal-test.adyen.com/pal/servlet/Payout/v68
 tags:
 - name: storeDetailAndSubmitThirdParty
 paths:
@@ -143,162 +142,43 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  examples:
-    post-storeDetailAndSubmitThirdParty-storeDetailAndSubmitThirdParty-Skrill:
-      summary: Submit a payout to Skrill
-      description: Submit a payout to Skrill and stores its details for subsequent payouts
-      value:
-        amount:
-          currency: EUR
-          value: 100
-        selectedBrand: moneybookers
-        additionalData:
-          tokenDataType: MoneyBookers
-          email: name@adyen.com
-        shopperName:
-          firstName: Test
-          gender: FEMALE
-          lastName: Test2
-        dateOfBirth: '1982-07-17'
-        entityType: NaturalPerson
-        nationality: NL
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-        recurring:
-          contract: PAYOUT
-        reference: Test Payout
-        shopperEmail: test@company.com
-        shopperReference: YOUR_UNIQUE_SHOPPER_ID
-    post-storeDetailAndSubmitThirdParty-storeDetailAndSubmitThirdParty-Neteller:
-      summary: Submit a payout to Neteller
-      description: Submit a payout to Neteller and stores its details for subsequent payouts
-      value:
-        amount:
-          currency: EUR
-          value: 100
-        selectedBrand: neteller
-        additionalData:
-          tokenDataType: Neteller
-          account: myNetellerAccount
-        shopperName:
-          firstName: Test
-          gender: FEMALE
-          lastName: Test2
-        dateOfBirth: '1982-07-17'
-        entityType: NaturalPerson
-        nationality: NL
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-        recurring:
-          contract: PAYOUT
-        reference: Test Payout
-        shopperEmail: test@company.com
-        shopperReference: YOUR_SHOPPER_REFERENCE
-    post-storeDetailAndSubmitThirdParty-storeDetailAndSubmitThirdParty:
-      summary: Submit a payout and stores details
-      description: Submit a payout and stores its details for subsequent payouts
-      value:
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-        recurring:
-          contract: PAYOUT
-        amount:
-          value: 2000
-          currency: EUR
-        bank:
-          bankName: Commerzbank
-          iban: DE87123456781234567890
-          countryCode: DE
-          ownerName: Simon Hopper
-        reference: Your Reference Here
-        shopperEmail: s.hopper@test.com
-        shopperIP: 61.294.12.12
-        shopperReference: YOUR_SHOPPER_REFERENCE
-        shopperName:
-          firstName: Adyen
-          gender: MALE
-          lastName: Test
-        dateOfBirth: '1990-01-01'
-        entityType: Company
-        nationality: NL
-    post-storeDetailAndSubmitThirdParty-storeDetailAndSubmitThirdParty-Paysafecard:
-      summary: Submit a payout to Paysafecard
-      description: Submit a payout to Paysafecard and stores its details for subsequent payouts
-      value:
-        amount:
-          currency: EUR
-          value: 1000
-        selectedBrand: paysafecard
-        additionalData:
-          emailId: EmailUsedForPaysafecardAccount@example.com
-        shopperName:
-          firstName: Test
-          gender: MALE
-          lastName: Test2
-        dateOfBirth: '1982-07-17'
-        entityType: NaturalPerson
-        nationality: NL
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-        recurring:
-          contract: PAYOUT
-        reference: Test Payout
-        shopperEmail: test@company.com
-        shopperReference: YOUR_UNIQUE_SHOPPER_ID
-        shopperIP: 61.294.12.12
-    generic-400:
-      summary: Response code 400. Bad Request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: I'
-        errorType: validation
-    post-storeDetailAndSubmitThirdParty-storeDetailAndSubmitThirdParty-PayPal:
-      summary: Submit a payout to PayPal
-      description: Submit a payout to PayPal and stores its details for subsequent payouts
-      value:
-        amount:
-          currency: EUR
-          value: 1750
-        selectedBrand: paypal
-        additionalData:
-          tokenDataType: PayPal
-          emailId: EmailUsedForPayPalAccount@example.com
-          paypal.payerId: AK5HCWWRUV2KL
-        shopperName:
-          firstName: Test
-          gender: FEMALE
-          lastName: Test2
-        dateOfBirth: '1982-07-17'
-        entityType: NaturalPerson
-        nationality: NL
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-        recurring:
-          contract: PAYOUT
-        reference: Test Payout
-        shopperEmail: test@company.com
-        shopperReference: YOUR_UNIQUE_SHOPPER_ID
   schemas:
-    StoreDetailAndSubmitResponse:
+    Name:
       properties:
-        additionalData:
-          additionalProperties:
-            type: string
-          description: This field contains additional data, which may be returned in a particular response.
-          type: object
-        pspReference:
-          description: A new reference to uniquely identify this request.
+        firstName:
+          description: The first name.
           type: string
-        refusalReason:
-          description: In case of refusal, an informational message for the reason.
-          type: string
-        resultCode:
-          description: 'The response:
-
-
-            * In case of success is payout-submit-received.
-
-            * In case of an error, an informational message is returned.'
+        lastName:
+          description: The last name.
           type: string
       required:
-      - pspReference
-      - resultCode
+      - firstName
+      - lastName
+      type: object
+    ServiceError:
+      properties:
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
       type: object
     Card:
       properties:
@@ -361,6 +241,163 @@ components:
           description: The year component of the start date (for some UK debit cards only).
           maxLength: 4
           minLength: 4
+          type: string
+      type: object
+    Address:
+      properties:
+        city:
+          description: 'The name of the city. Maximum length: 3000 characters.'
+          maxLength: 3000
+          type: string
+        country:
+          description: 'The two-character ISO-3166-1 alpha-2 country code. For example, **US**.
+
+            > If you don''t know the country or are not collecting the country from the shopper, provide `country` as `ZZ`.'
+          type: string
+        houseNumberOrName:
+          description: 'The number or name of the house. Maximum length: 3000 characters.'
+          maxLength: 3000
+          type: string
+        postalCode:
+          description: A maximum of five digits for an address in the US, or a maximum of ten characters for an address in all other countries.
+          type: string
+        stateOrProvince:
+          description: 'The two-character ISO 3166-2 state or province code. For example, **CA** in the US or **ON** in Canada.
+
+            > Required for the US and Canada.'
+          type: string
+        street:
+          description: 'The name of the street. Maximum length: 3000 characters.
+
+            > The house number should not be included in this field; it should be separately provided via `houseNumberOrName`.'
+          maxLength: 3000
+          type: string
+      required:
+      - street
+      - houseNumberOrName
+      - city
+      - postalCode
+      - country
+      type: object
+    StoreDetailAndSubmitResponse:
+      properties:
+        additionalData:
+          additionalProperties:
+            type: string
+          description: This field contains additional data, which may be returned in a particular response.
+          type: object
+        pspReference:
+          description: A new reference to uniquely identify this request.
+          type: string
+        refusalReason:
+          description: In case of refusal, an informational message for the reason.
+          type: string
+        resultCode:
+          description: 'The response:
+
+
+            * In case of success is payout-submit-received.
+
+            * In case of an error, an informational message is returned.'
+          type: string
+      required:
+      - pspReference
+      - resultCode
+      type: object
+    Recurring:
+      properties:
+        contract:
+          description: 'The type of recurring contract to be used.
+
+            Possible values:
+
+            * `ONECLICK` – Payment details can be used to initiate a one-click payment, where the shopper enters the [card security code (CVC/CVV)](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-security-code-cvc-cvv-cid).
+
+            * `RECURRING` – Payment details can be used without the card security code to initiate [card-not-present transactions](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-not-present-cnp).
+
+            * `ONECLICK,RECURRING` – Payment details can be used regardless of whether the shopper is on your site or not.
+
+            * `PAYOUT` – Payment details can be used to [make a payout](https://docs.adyen.com/online-payments/online-payouts).'
+          enum:
+          - ONECLICK
+          - RECURRING
+          - PAYOUT
+          type: string
+        recurringDetailName:
+          description: A descriptive name for this detail.
+          type: string
+        recurringExpiry:
+          x-addedInVersion: '40'
+          description: Date after which no further authorisations shall be performed. Only for 3D Secure 2.
+          format: date-time
+          type: string
+        recurringFrequency:
+          x-addedInVersion: '40'
+          description: Minimum number of days between authorisations. Only for 3D Secure 2.
+          type: string
+        tokenService:
+          x-addedInVersion: '25'
+          description: The name of the token service.
+          enum:
+          - VISATOKENSERVICE
+          - MCTOKENSERVICE
+          - AMEXTOKENSERVICE
+          - TOKEN_SHARING
+          type: string
+      type: object
+    BankAccount:
+      properties:
+        bankAccountNumber:
+          description: The bank account number (without separators).
+          type: string
+        bankCity:
+          x-addedInVersion: '18'
+          description: The bank city.
+          type: string
+        bankLocationId:
+          description: The location id of the bank. The field value is `nil` in most cases.
+          type: string
+        bankName:
+          description: The name of the bank.
+          type: string
+        bic:
+          description: The [Business Identifier Code](https://en.wikipedia.org/wiki/ISO_9362) (BIC) is the SWIFT address assigned to a bank. The field value is `nil` in most cases.
+          type: string
+        countryCode:
+          description: 'Country code where the bank is located.
+
+
+            A valid value is an ISO two-character country code (e.g. ''NL'').'
+          type: string
+        iban:
+          description: The [International Bank Account Number](https://en.wikipedia.org/wiki/International_Bank_Account_Number) (IBAN).
+          type: string
+        ownerName:
+          description: 'The name of the bank account holder.
+
+            If you submit a name with non-Latin characters, we automatically replace some of them with corresponding Latin characters to meet the FATF recommendations. For example:
+
+            * χ12 is converted to ch12.
+
+            * üA is converted to euA.
+
+            * Peter Møller is converted to Peter Mller, because banks don''t accept ''ø''.
+
+            After replacement, the ownerName must have at least three alphanumeric characters (A-Z, a-z, 0-9), and at least one of them must be a valid Latin character (A-Z, a-z). For example:
+
+            * John17 - allowed.
+
+            * J17 - allowed.
+
+            * 171 - not allowed.
+
+            * John-7 - allowed.
+
+            > If provided details don''t match the required format, the response returns the error message: 203 ''Invalid bank account holder name''.'
+          type: string
+        taxId:
+          x-addedInVersion: '18'
+          description: The bank account holder's tax ID.
           type: string
       type: object
     Amount:
@@ -490,175 +527,137 @@ components:
       - reference
       - amount
       type: object
-    ServiceError:
-      properties:
+  examples:
+    post-storeDetailAndSubmitThirdParty-storeDetailAndSubmitThirdParty-PayPal:
+      summary: Submit a payout to PayPal
+      description: Submit a payout to PayPal and stores its details for subsequent payouts
+      value:
+        amount:
+          currency: EUR
+          value: 1750
+        selectedBrand: paypal
         additionalData:
-          x-addedInVersion: '46'
-          additionalProperties:
-            type: string
-          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
-          type: object
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
-      type: object
-    Name:
-      properties:
-        firstName:
-          description: The first name.
-          type: string
-        lastName:
-          description: The last name.
-          type: string
-      required:
-      - firstName
-      - lastName
-      type: object
-    BankAccount:
-      properties:
-        bankAccountNumber:
-          description: The bank account number (without separators).
-          type: string
-        bankCity:
-          x-addedInVersion: '18'
-          description: The bank city.
-          type: string
-        bankLocationId:
-          description: The location id of the bank. The field value is `nil` in most cases.
-          type: string
-        bankName:
-          description: The name of the bank.
-          type: string
-        bic:
-          description: The [Business Identifier Code](https://en.wikipedia.org/wiki/ISO_9362) (BIC) is the SWIFT address assigned to a bank. The field value is `nil` in most cases.
-          type: string
-        countryCode:
-          description: 'Country code where the bank is located.
-
-
-            A valid value is an ISO two-character country code (e.g. ''NL'').'
-          type: string
-        iban:
-          description: The [International Bank Account Number](https://en.wikipedia.org/wiki/International_Bank_Account_Number) (IBAN).
-          type: string
-        ownerName:
-          description: 'The name of the bank account holder.
-
-            If you submit a name with non-Latin characters, we automatically replace some of them with corresponding Latin characters to meet the FATF recommendations. For example:
-
-            * χ12 is converted to ch12.
-
-            * üA is converted to euA.
-
-            * Peter Møller is converted to Peter Mller, because banks don''t accept ''ø''.
-
-            After replacement, the ownerName must have at least three alphanumeric characters (A-Z, a-z, 0-9), and at least one of them must be a valid Latin character (A-Z, a-z). For example:
-
-            * John17 - allowed.
-
-            * J17 - allowed.
-
-            * 171 - not allowed.
-
-            * John-7 - allowed.
-
-            > If provided details don''t match the required format, the response returns the error message: 203 ''Invalid bank account holder name''.'
-          type: string
-        taxId:
-          x-addedInVersion: '18'
-          description: The bank account holder's tax ID.
-          type: string
-      type: object
-    Recurring:
-      properties:
-        contract:
-          description: 'The type of recurring contract to be used.
-
-            Possible values:
-
-            * `ONECLICK` – Payment details can be used to initiate a one-click payment, where the shopper enters the [card security code (CVC/CVV)](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-security-code-cvc-cvv-cid).
-
-            * `RECURRING` – Payment details can be used without the card security code to initiate [card-not-present transactions](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-not-present-cnp).
-
-            * `ONECLICK,RECURRING` – Payment details can be used regardless of whether the shopper is on your site or not.
-
-            * `PAYOUT` – Payment details can be used to [make a payout](https://docs.adyen.com/online-payments/online-payouts).'
-          enum:
-          - ONECLICK
-          - RECURRING
-          - PAYOUT
-          type: string
-        recurringDetailName:
-          description: A descriptive name for this detail.
-          type: string
-        recurringExpiry:
-          x-addedInVersion: '40'
-          description: Date after which no further authorisations shall be performed. Only for 3D Secure 2.
-          format: date-time
-          type: string
-        recurringFrequency:
-          x-addedInVersion: '40'
-          description: Minimum number of days between authorisations. Only for 3D Secure 2.
-          type: string
-        tokenService:
-          x-addedInVersion: '25'
-          description: The name of the token service.
-          enum:
-          - VISATOKENSERVICE
-          - MCTOKENSERVICE
-          - AMEXTOKENSERVICE
-          - TOKEN_SHARING
-          type: string
-      type: object
-    Address:
-      properties:
-        city:
-          description: 'The name of the city. Maximum length: 3000 characters.'
-          maxLength: 3000
-          type: string
-        country:
-          description: 'The two-character ISO-3166-1 alpha-2 country code. For example, **US**.
-
-            > If you don''t know the country or are not collecting the country from the shopper, provide `country` as `ZZ`.'
-          type: string
-        houseNumberOrName:
-          description: 'The number or name of the house. Maximum length: 3000 characters.'
-          maxLength: 3000
-          type: string
-        postalCode:
-          description: A maximum of five digits for an address in the US, or a maximum of ten characters for an address in all other countries.
-          type: string
-        stateOrProvince:
-          description: 'The two-character ISO 3166-2 state or province code. For example, **CA** in the US or **ON** in Canada.
-
-            > Required for the US and Canada.'
-          type: string
-        street:
-          description: 'The name of the street. Maximum length: 3000 characters.
-
-            > The house number should not be included in this field; it should be separately provided via `houseNumberOrName`.'
-          maxLength: 3000
-          type: string
-      required:
-      - street
-      - houseNumberOrName
-      - city
-      - postalCode
-      - country
-      type: object
+          tokenDataType: PayPal
+          emailId: EmailUsedForPayPalAccount@example.com
+          paypal.payerId: AK5HCWWRUV2KL
+        shopperName:
+          firstName: Test
+          gender: FEMALE
+          lastName: Test2
+        dateOfBirth: '1982-07-17'
+        entityType: NaturalPerson
+        nationality: NL
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        recurring:
+          contract: PAYOUT
+        reference: Test Payout
+        shopperEmail: test@company.com
+        shopperReference: YOUR_UNIQUE_SHOPPER_ID
+    post-storeDetailAndSubmitThirdParty-storeDetailAndSubmitThirdParty:
+      summary: Submit a payout and stores details
+      description: Submit a payout and stores its details for subsequent payouts
+      value:
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        recurring:
+          contract: PAYOUT
+        amount:
+          value: 2000
+          currency: EUR
+        bank:
+          bankName: Commerzbank
+          iban: DE87123456781234567890
+          countryCode: DE
+          ownerName: Simon Hopper
+        reference: Your Reference Here
+        shopperEmail: s.hopper@test.com
+        shopperIP: 61.294.12.12
+        shopperReference: YOUR_SHOPPER_REFERENCE
+        shopperName:
+          firstName: Adyen
+          gender: MALE
+          lastName: Test
+        dateOfBirth: '1990-01-01'
+        entityType: Company
+        nationality: NL
+    post-storeDetailAndSubmitThirdParty-storeDetailAndSubmitThirdParty-Paysafecard:
+      summary: Submit a payout to Paysafecard
+      description: Submit a payout to Paysafecard and stores its details for subsequent payouts
+      value:
+        amount:
+          currency: EUR
+          value: 1000
+        selectedBrand: paysafecard
+        additionalData:
+          emailId: EmailUsedForPaysafecardAccount@example.com
+        shopperName:
+          firstName: Test
+          gender: MALE
+          lastName: Test2
+        dateOfBirth: '1982-07-17'
+        entityType: NaturalPerson
+        nationality: NL
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        recurring:
+          contract: PAYOUT
+        reference: Test Payout
+        shopperEmail: test@company.com
+        shopperReference: YOUR_UNIQUE_SHOPPER_ID
+        shopperIP: 61.294.12.12
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
+    post-storeDetailAndSubmitThirdParty-storeDetailAndSubmitThirdParty-Skrill:
+      summary: Submit a payout to Skrill
+      description: Submit a payout to Skrill and stores its details for subsequent payouts
+      value:
+        amount:
+          currency: EUR
+          value: 100
+        selectedBrand: moneybookers
+        additionalData:
+          tokenDataType: MoneyBookers
+          email: name@adyen.com
+        shopperName:
+          firstName: Test
+          gender: FEMALE
+          lastName: Test2
+        dateOfBirth: '1982-07-17'
+        entityType: NaturalPerson
+        nationality: NL
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        recurring:
+          contract: PAYOUT
+        reference: Test Payout
+        shopperEmail: test@company.com
+        shopperReference: YOUR_UNIQUE_SHOPPER_ID
+    post-storeDetailAndSubmitThirdParty-storeDetailAndSubmitThirdParty-Neteller:
+      summary: Submit a payout to Neteller
+      description: Submit a payout to Neteller and stores its details for subsequent payouts
+      value:
+        amount:
+          currency: EUR
+          value: 100
+        selectedBrand: neteller
+        additionalData:
+          tokenDataType: Neteller
+          account: myNetellerAccount
+        shopperName:
+          firstName: Test
+          gender: FEMALE
+          lastName: Test2
+        dateOfBirth: '1982-07-17'
+        entityType: NaturalPerson
+        nationality: NL
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        recurring:
+          contract: PAYOUT
+        reference: Test Payout
+        shopperEmail: test@company.com
+        shopperReference: YOUR_SHOPPER_REFERENCE
   securitySchemes:
     ApiKeyAuth:
       in: header
@@ -667,7 +666,3 @@ components:
     BasicAuth:
       scheme: basic
       type: http
-x-groups:
-- Account holders
-- Accounts
-- Verification

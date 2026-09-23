@@ -1,25 +1,30 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  version: '6'
+  version: '3'
   x-publicVersion: true
-  title: Adyen Account acceptDispute legalEntities API
-  description: "This API is used for the classic integration. If you are just starting your implementation, refer to our [new integration guide](https://docs.adyen.com/marketplaces-and-platforms) instead.\n\nThe Account API provides endpoints for managing account-related entities on your platform. These related entities include account holders, accounts, bank accounts, shareholders, and verification-related documents. The management operations include actions such as creation, retrieval, updating, and deletion of them.\n\nFor more information, refer to our [documentation](https://docs.adyen.com/marketplaces-and-platforms/classic).\n## Authentication\nYour Adyen contact will provide your API credential and an API key. To connect to the API, add an `X-API-Key` header with the API key as the value, for example:\n\n ```\ncurl\n-H \"Content-Type: application/json\" \\\n-H \"X-API-Key: YOUR_API_KEY\" \\\n...\n```\n\nAlternatively, you can use the username and password to connect to the API using basic authentication. For example:\n\n```\ncurl\n-U \"ws@MarketPlace.YOUR_PLATFORM_ACCOUNT\":\"YOUR_WS_PASSWORD\" \\\n-H \"Content-Type: application/json\" \\\n...\n```\nWhen going live, you need to generate new web service user credentials to access the [live endpoints](https://docs.adyen.com/development-resources/live-endpoints).\n\n## Versioning\nThe Account API supports [versioning](https://docs.adyen.com/development-resources/versioning) using a version suffix in the endpoint URL. This suffix has the following format: \"vXX\", where XX is the version number.\n\nFor example:\n```\nhttps://cal-test.adyen.com/cal/services/Account/v6/createAccountHolder\n```"
-  x-timestamp: '2023-05-30T15:27:20Z'
+  title: Adyen Legal Entity Management Legal Entities API
+  description: The Legal Entity Management API enables you to manage legal entities that contain information required for verification.
   termsOfService: https://www.adyen.com/legal/terms-and-conditions
   contact:
     name: Adyen Developer Experience team
     url: https://github.com/Adyen/adyen-openapi
 servers:
-- url: https://cal-test.adyen.com/cal/services/Account/v6
+- url: https://kyc-test.adyen.com/lem/v3
 tags:
-- name: legalEntities
+- name: Legal Entities
 paths:
   /legalEntities:
     post:
       tags:
-      - legalEntities
+      - Legal Entities
       summary: Adyen Create a Legal Entity
-      description: "Creates a legal entity. \n\nThis resource contains information about the user that will be onboarded in your platform. Adyen uses this information to perform verification checks as required by payment industry regulations. Adyen informs you of the verification results through webhooks or API responses. \n\n>If you are using hosted onboarding and just beginning your integration, use v3 for your API requests. Otherwise, use v2.\n\n"
+      description: 'Creates a legal entity.
+
+
+        This resource contains information about the user that will be onboarded in your platform. Adyen uses this information to perform verification checks as required by payment industry regulations. Adyen informs you of the verification results through webhooks or API responses.
+
+
+        >If you are using hosted onboarding and just beginning your integration, use v3 for your API requests. Otherwise, use v2.'
       x-addedInVersion: '1'
       operationId: post-legalEntities
       x-sortIndex: 1
@@ -162,7 +167,7 @@ paths:
   /legalEntities/{id}:
     get:
       tags:
-      - legalEntities
+      - Legal Entities
       summary: Adyen Get a Legal Entity
       description: Returns a legal entity.
       x-addedInVersion: '1'
@@ -274,9 +279,12 @@ paths:
         dispatcher: FALLBACK
     patch:
       tags:
-      - legalEntities
+      - Legal Entities
       summary: Adyen Update a Legal Entity
-      description: "Updates a legal entity.\n\n >To change the legal entity type, include only the new `type` in your request. To update the `entityAssociations` array, you need to replace the entire array. For example, if the array has 3 entries and you want to remove 1 entry, you need to PATCH the resource with the remaining 2 entries."
+      description: 'Updates a legal entity.
+
+
+        >To change the legal entity type, include only the new `type` in your request. To update the `entityAssociations` array, you need to replace the entire array. For example, if the array has 3 entries and you want to remove 1 entry, you need to PATCH the resource with the remaining 2 entries.'
       x-addedInVersion: '1'
       operationId: patch-legalEntities-id
       x-sortIndex: 3
@@ -417,7 +425,7 @@ paths:
   /legalEntities/{id}/businessLines:
     get:
       tags:
-      - legalEntities
+      - Legal Entities
       summary: Adyen Get All Business Lines Under a Legal Entity
       description: Returns the business lines owned by a legal entity.
       x-addedInVersion: '1'
@@ -530,7 +538,7 @@ paths:
   /legalEntities/{id}/checkVerificationErrors:
     post:
       tags:
-      - legalEntities
+      - Legal Entities
       summary: Adyen Check a Legal Entity's Verification Errors
       description: Returns the verification errors for a legal entity and its supporting entities.
       x-addedInVersion: '3'
@@ -643,7 +651,7 @@ paths:
   /legalEntities/{id}/confirmDataReview:
     post:
       tags:
-      - legalEntities
+      - Legal Entities
       summary: Adyen Confirm Data Review
       description: Confirms that your user has reviewed the data for the legal entity specified in the path. Call this endpoint to inform Adyen that your user reviewed and verified that the data is up-to-date. The endpoint returns the timestamp of when Adyen received the request.
       x-addedInVersion: '3'
@@ -756,15 +764,12 @@ paths:
   /legalEntities/{id}/onboardingLinks:
     post:
       tags:
-      - legalEntities
+      - Legal Entities
       summary: Adyen Get a Link to an Adyen-hosted Onboarding Page
       description: 'Returns a link to an Adyen-hosted onboarding page where you need to redirect your user.
 
 
-        >If you are using hosted onboarding and just beginning your integration, use v3 for your API requests. Otherwise, use v2.
-
-
-        '
+        >If you are using hosted onboarding and just beginning your integration, use v3 for your API requests. Otherwise, use v2.'
       x-addedInVersion: '1'
       operationId: post-legalEntities-id-onboardingLinks
       x-sortIndex: 1
@@ -883,7 +888,7 @@ paths:
   /legalEntities/{id}/pciQuestionnaires:
     get:
       tags:
-      - legalEntities
+      - Legal Entities
       summary: Adyen Get PCI Questionnaire Details
       description: Get a list of signed PCI questionnaires.
       x-addedInVersion: '1'
@@ -996,9 +1001,9 @@ paths:
   /legalEntities/{id}/pciQuestionnaires/generatePciTemplates:
     post:
       tags:
-      - legalEntities
+      - Legal Entities
       summary: Adyen Generate PCI Questionnaire
-      description: Generates the required PCI questionnaires based on the user's [salesChannel](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/businessLines__reqParam_salesChannels).
+      description: Generates the required PCI questionnaires based on the user's salesChannel.
       x-addedInVersion: '1'
       operationId: post-legalEntities-id-pciQuestionnaires-generatePciTemplates
       x-sortIndex: 1
@@ -1117,7 +1122,7 @@ paths:
   /legalEntities/{id}/pciQuestionnaires/signPciTemplates:
     post:
       tags:
-      - legalEntities
+      - Legal Entities
       summary: Adyen Sign PCI Questionnaire
       description: Signs the required PCI questionnaire.
       x-addedInVersion: '1'
@@ -1238,7 +1243,7 @@ paths:
   /legalEntities/{id}/pciQuestionnaires/{pciid}:
     get:
       tags:
-      - legalEntities
+      - Legal Entities
       summary: Adyen Get PCI Questionnaire
       description: Returns the signed PCI questionnaire.
       x-addedInVersion: '1'
@@ -1357,7 +1362,7 @@ paths:
   /legalEntities/{id}/termsOfService:
     post:
       tags:
-      - legalEntities
+      - Legal Entities
       summary: Adyen Get Terms of Service Document
       description: Returns the Terms of Service document for a legal entity.
       x-addedInVersion: '1'
@@ -1478,7 +1483,7 @@ paths:
   /legalEntities/{id}/termsOfService/{termsofservicedocumentid}:
     patch:
       tags:
-      - legalEntities
+      - Legal Entities
       summary: Adyen Accept Terms of Service
       description: Accepts Terms of Service.
       x-addedInVersion: '1'
@@ -1605,7 +1610,7 @@ paths:
   /legalEntities/{id}/termsOfServiceAcceptanceInfos:
     get:
       tags:
-      - legalEntities
+      - Legal Entities
       summary: Adyen Get Terms of Service Information for a Legal Entity
       description: Returns Terms of Service information for a legal entity.
       x-addedInVersion: '1'
@@ -1718,7 +1723,7 @@ paths:
   /legalEntities/{id}/termsOfServiceStatus:
     get:
       tags:
-      - legalEntities
+      - Legal Entities
       summary: Adyen Get Terms of Service Status
       description: Returns the required types of Terms of Service that need to be accepted by a legal entity.
       x-addedInVersion: '1'
@@ -1830,6 +1835,29 @@ paths:
         dispatcher: FALLBACK
 components:
   examples:
+    post-legalEntities-createLegalEntityIndividualUS-200:
+      summary: Individual legal entity created
+      description: Example response for creating a legal entity for an individual residing in the US
+      value:
+        individual:
+          email: s.eller@example.com
+          phone:
+            number: '+14153671502'
+            type: mobile
+          birthData:
+            dateOfBirth: '1990-06-21'
+          name:
+            firstName: Shelly
+            lastName: Eller
+          residentialAddress:
+            city: New York
+            country: US
+            postalCode: '10003'
+            stateOrProvince: NY
+            street: 71 5th Avenue
+            street2: 11th floor
+        type: individual
+        id: LE00000000000000000000001
     post-legalEntities-id-onboardingLinks-createOnboardingLink:
       summary: Create a hosted onboarding link
       description: Example request for creating a hosted onboarding link
@@ -1837,6 +1865,23 @@ components:
         themeId: YOUR_THEME_ID
         redirectUrl: https://your.redirect-url.com/
         locale: nl-NL
+    post-legalEntities-id-pciQuestionnaires-signPciTemplates-signPciQuestionnaire-200:
+      summary: PCI questionnaires signed
+      description: Example response for signing PCI questionnaires
+      value:
+        pciQuestionnaireIds:
+        - PCID422GZ22322565HHMH48CW63CPH
+        - PCID422GZ22322565HHMH49CW75Z9H
+    patch-legalEntities-id-termsOfService-termsofservicedocumentid-updateTermsofService:
+      summary: Accept the Terms of Service document
+      description: Example request for accepting the Terms of Service document
+      value:
+        acceptedBy: LE00000000000000000000002
+    post-legalEntities-id-confirmDataReview-confirmDataReview-200:
+      summary: Data review for a legal entity
+      description: Example response when reviewing the data for a legal entity
+      value:
+        dataReviewedAt: '2023-11-13T15:19:02Z'
     post-legalEntities-id-checkVerificationErrors-checkVerificationErrors-200:
       summary: Verification errors for a legal entity
       description: Example response when checking the verification errors of a legal entity
@@ -1944,6 +1989,15 @@ components:
             - code: '2_117'
               message: Add 'organization.registrationNumber' to legal entity
             type: dataMissing
+    post-legalEntities-id-pciQuestionnaires-generatePciTemplates-createPciQuestionnaire-200:
+      summary: PCI questionnaires returned
+      description: Example response for getting PCI questionnaires
+      value:
+        content: JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBv+f/ub0j6JPRX+E3EmC==
+        language: fr
+        pciTemplateReferences:
+        - PCIT-T7KC6VGL
+        - PCIT-PKB6DKS4
     get-legalEntities-id-businessLines-success-200:
       summary: List of business lines for a legal entity
       description: Example response when getting the list of business lines for a legal entity
@@ -1970,6 +2024,21 @@ components:
           - webAddress: https://yoururl.com
             webAddressId: SE908HJ723222F5GVGPNR55YH
           id: SE322JV223222F5GVGPNRB9GJ
+    post-legalEntities-createLegalEntitySolePropUS:
+      summary: Create a legal entity for a sole proprietor in the US
+      description: Example request for creating a legal entity for a sole proprietor operating in the US
+      value:
+        type: soleProprietorship
+        soleProprietorship:
+          name: Shelly Eller Sole Trader
+          countryOfGoverningLaw: US
+          registeredAddress:
+            city: New York
+            country: US
+            postalCode: '10003'
+            stateOrProvince: NY
+            street: 71 5th Avenue
+            street2: 11th floor
     post-legalEntities-id-termsOfService-createTermsofService-200:
       summary: Terms of Service document returned
       description: Example response for getting a Terms of Service document
@@ -1979,104 +2048,41 @@ components:
         language: en
         document: JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBv+f/ub0j6JPRX+E3EmC==
         termsOfServiceDocumentId: abc123
-    post-legalEntities-createTrustAU:
-      summary: Create a legal entity for a trust in Australia
-      description: Example request for creating a legal entity for a trust in Australia
+    get-legalEntities-id-pciQuestionnaires-success-200:
+      summary: Details of PCI questionnaires signed by a user
+      description: Example response when getting the list of PCI questionnaires
       value:
-        type: trust
-        trust:
-          name: Example Trust
-          type: fixedUnitTrust
-          doingBusinessAs: West's Store
-          countryOfGoverningLaw: AU
-          taxInformation:
-          - country: AU
-            type: ABN
-            number: '12345678123'
+        data:
+        - createdAt: '2023-03-02T17:54:19.538365Z'
+          id: PCID422GZ22322565HHMH48CW63CPH
+          validUntil: '2024-03-01T17:54:19.538365Z'
+        - createdAt: '2023-03-02T17:54:19.538365Z'
+          id: PCID422GZ22322565HHMH49CW75Z9H
+          validUntil: '2024-03-01T17:54:19.538365Z'
+    post-legalEntities-createLegalEntitySolePropNL:
+      summary: Create a legal entity for a Dutch sole proprietor
+      description: Example request for creating a legal entity for a sole proprietor operating in the Netherlands
+      value:
+        type: soleProprietorship
+        soleProprietorship:
+          name: Shelly Seller Sole Trader
+          countryOfGoverningLaw: NL
           registeredAddress:
-            street: Winfield Avenue
-            city: Sydney
-            postalCode: '1197'
-            stateOrProvince: NSW
-            country: AU
-          undefinedBeneficiaryInfo:
-          - description: My future children
-    patch-legalEntities-id-termsOfService-termsofservicedocumentid-updateTermsofService-200:
-      summary: Terms of Service document accepted
-      description: Example response when accepting a Terms of Service document
-      value:
-        acceptedBy: LE00000000000000000000002
-        id: TOSA000AB00000000B2AAAB2BA0AA0
-        language: en
-        termsOfServiceDocumentId: abc123
-        type: adyenIssuing
-    post-legalEntities-id-pciQuestionnaires-signPciTemplates-signPciQuestionnaire-200:
-      summary: PCI questionnaires signed
-      description: Example response for signing PCI questionnaires
-      value:
-        pciQuestionnaireIds:
-        - PCID422GZ22322565HHMH48CW63CPH
-        - PCID422GZ22322565HHMH49CW75Z9H
-    post-legalEntities-createLegalEntityIndividualUS-200:
-      summary: Individual legal entity created
-      description: Example response for creating a legal entity for an individual residing in the US
-      value:
-        individual:
-          email: s.eller@example.com
-          phone:
-            number: '+14153671502'
-            type: mobile
-          birthData:
-            dateOfBirth: '1990-06-21'
-          name:
-            firstName: Shelly
-            lastName: Eller
-          residentialAddress:
-            city: New York
-            country: US
-            postalCode: '10003'
-            stateOrProvince: NY
-            street: 71 5th Avenue
-            street2: 11th floor
-        type: individual
-        id: LE00000000000000000000001
-    post-legalEntities-createLegalEntityOrganizationUS:
-      summary: Create a legal entity for an organization in the US
-      description: Example request for creating a legal entity for an organization operating in the US
-      value:
-        type: organization
-        organization:
-          legalName: Explorer Company based in US
-          registrationNumber: '101002749'
-          type: privateCompany
-          registeredAddress:
-            city: New York
-            country: US
-            postalCode: '10003'
-            stateOrProvince: NY
-            street: 71 5th Avenue
-            street2: 11th floor
-    patch-legalEntities-id-termsOfService-termsofservicedocumentid-updateTermsofService:
-      summary: Accept the Terms of Service document
-      description: Example request for accepting the Terms of Service document
-      value:
-        acceptedBy: LE00000000000000000000002
-    patch-legalEntities-id-updateTrustMember:
-      summary: Associate a trust member with a trust
-      description: Example request associating a trust member with a trust
+            city: Amsterdam
+            country: NL
+            postalCode: 1011DJ
+            street: Simon Carmiggeltstraat 6 - 50
+    patch-legalEntities-id-updateTrustMemberExempt:
+      summary: Associate an exempt settlor with a trust
+      description: Example request associating an exempt settlor with a trust
       value:
         entityAssociations:
         - legalEntityId: LE00000000000000000000002
-          type: protector
-    post-legalEntities-id-pciQuestionnaires-generatePciTemplates-createPciQuestionnaire-200:
-      summary: PCI questionnaires returned
-      description: Example response for getting PCI questionnaires
-      value:
-        content: JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBv+f/ub0j6JPRX+E3EmC==
-        language: fr
-        pciTemplateReferences:
-        - PCIT-T7KC6VGL
-        - PCIT-PKB6DKS4
+          type: settlor
+          entityType: individual
+          settlorExemptionReason:
+          - deceased
+          - professionalServiceProvider
     post-legalEntities-createLegalEntityOrganizationUS-200:
       summary: Organization legal entity created
       description: Example response for creating a legal entity for an organization operating in the US
@@ -2094,279 +2100,50 @@ components:
           type: privateCompany
         type: organization
         id: LE00000000000000000000001
-    post-legalEntities-id-onboardingLinks-createOnboardingLink-200:
-      summary: Hosted onboarding link created
-      description: Example response for a hosted onboarding link
-      value:
-        url: https://balanceplatform-test.adyen.com/balanceplatform/uo/form/xtl-...?signature=..&cd=..&redirectUrl=https%3A%2F%2Fyour.redirect-url.com%2F&expiry=1667226404807&locale=nl-NL
-    patch-legalEntities-id-changeLegalEntityType:
-      summary: Change a legal entity from an organization to an individual
-      description: Example request when changing the legal entity type
+    post-legalEntities-createLegalEntityIndividualUS:
+      summary: Create a legal entity for an individual residing in the US
+      description: Example request for creating a legal entity for an individual residing in the US
       value:
         type: individual
-    get-legalEntities-id-termsOfServiceAcceptanceInfos-success-200:
-      summary: Terms of Service information for a legal entity
-      description: Example response when getting Terms of Service information for a legal entity
-      value:
-        data:
-        - acceptedBy: LE00000000000000000000002
-          acceptedFor: LE00000000000000000000001
-          createdAt: '2022-12-05T13:36:58.212253Z'
-          id: TOSA000AB00000000B2AAAB2BA0AA0
-          type: adyenIssuing
-    post-legalEntities-createLegalEntitySolePropNL:
-      summary: Create a legal entity for a Dutch sole proprietor
-      description: Example request for creating a legal entity for a sole proprietor operating in the Netherlands
-      value:
-        type: soleProprietorship
-        soleProprietorship:
-          name: Shelly Seller Sole Trader
-          countryOfGoverningLaw: NL
-          registeredAddress:
-            city: Amsterdam
-            country: NL
-            postalCode: 1011DJ
-            street: Simon Carmiggeltstraat 6 - 50
-    post-legalEntities-id-termsOfService-createTermsofService:
-      summary: Get the Terms of Service document
-      description: Example request for getting the Terms of Service document
-      value:
-        type: adyenIssuing
-        language: en
-    post-legalEntities-createLegalEntityIndividualNL-200:
-      summary: Individual legal entity created
-      description: Example response for creating a legal entity for an individual residing in the Netherlands
-      value:
         individual:
-          email: s.eller@example.com
-          birthData:
-            dateOfBirth: '1990-06-21'
-          name:
-            firstName: Shelly
-            lastName: Eller
           residentialAddress:
-            city: Amsterdam
-            country: NL
-            postalCode: 1011DJ
-            street: Simon Carmiggeltstraat 6 - 50
-        type: individual
-        id: LE00000000000000000000001
-    get-legalEntities-id-termsOfServiceStatus-success-200:
-      summary: Terms of Service status for a legal entity
-      description: Example response when getting the type of Terms of Service
-      value:
-        termsOfServiceTypes:
-        - adyenIssuing
-    patch-legalEntities-id-updateLegalEntitySoleProp-200:
-      summary: Entity association added to a sole proprietorship
-      description: Example response for adding an entity association to a sole proprietorship
-      value:
-        entityAssociations:
-        - associatorId: LE00000000000000000000001
-          entityType: soleProprietorship
-          legalEntityId: LE00000000000000000000002
-          type: soleProprietorship
-        individual:
-          email: s.eller@example.com
-          birthData:
-            dateOfBirth: '1990-06-21'
-          name:
-            firstName: Shelly
-            lastName: Eller
-          residentialAddress:
-            city: Amsterdam
-            country: NL
-            postalCode: 1011DJ
-            street: Simon Carmiggeltstraat 6 - 50
-        type: individual
-        id: LE00000000000000000000001
-    get-legalEntities-id-pciQuestionnaires-pciid-success-200:
-      summary: Details of a PCI questionnaire
-      description: Example response when getting the details of a PCI questionnaire
-      value:
-        content: JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBv+f/ub0j6JPRX+E3EmC==
-        createdAt: '2023-03-02T17:54:19.538365Z'
-        id: PCID422GZ22322565HHMH48CW63CPH
-        validUntil: '2024-03-01T17:54:19.538365Z'
-    patch-legalEntities-id-updateTrustMemberExempt-200:
-      summary: Exempt settlor associated
-      description: Example response for associating an exempt settlor with a trust
-      value:
-        entityAssociations:
-        - associatorId: LE00000000000000000000001
-          legalEntityId: LE00000000000000000000002
-          type: settlor
-          entityType: individual
-          settlorExemptionReason:
-          - deceased
-          - professionalServiceProvider
-        trust:
-          name: Example Trust
-          type: fixedUnitTrust
-          doingBusinessAs: West's Store
-          countryOfGoverningLaw: AU
-          taxInformation:
-          - country: AU
-            type: ABN
-            number: '12345678901'
-          registeredAddress:
-            street: Winfield Avenue
-            city: Sydney
-            postalCode: '1197'
-            stateOrProvince: NSW
-            country: AU
-          undefinedBeneficiaryInfo:
-          - description: My future children
-        type: trust
-        id: LE00000000000000000000001
-    post-legalEntities-createLegalEntitySolePropNL-200:
-      summary: Sole proprietor legal enity created
-      description: Example response for creating a legal entity for a sole proprietor operating in the Netherlands
-      value:
-        type: soleProprietorship
-        soleProprietorship:
-          name: Shelly Seller Sole Trader
-          countryOfGoverningLaw: NL
-          registeredAddress:
-            city: Amsterdam
-            country: NL
-            postalCode: 1011DJ
-            street: Simon Carmiggeltstraat 6 - 50
-        id: LE00000000000000000000001
-    patch-legalEntities-id-updateLegalEntitySoleProp:
-      summary: Add entity associations to a sole proprietorship
-      description: Example request adding an entity association to a sole proprietorship
-      value:
-        entityAssociations:
-        - legalEntityId: LE00000000000000000000002
-          type: soleProprietorship
-    patch-legalEntities-id-updateLegalEntityOrganization-200:
-      summary: Entity associations added
-      description: Example response for adding an entity association to an organization
-      value:
-        entityAssociations:
-        - associatorId: LE00000000000000000000001
-          entityType: individual
-          jobTitle: CEO
-          legalEntityId: LE00000000000000000000002
-          name: Simone Hopper
-          type: uboThroughControl
-        organization:
-          email: john.doe@adyen.com
-          phone:
-            countryCode: NL
-            number: '646467363'
-            type: mobile
-          description: FinTech
-          doingBusinessAs: Adyen BV
-          legalName: Adyen BV
-          registeredAddress:
-            city: AMS
-            country: NL
-            postalCode: 1234EE
-            stateOrProvince: NH
-            street: Simon Carmiggeltstraat 6 - 50
-          registrationNumber: ''
-          stockData:
-            marketIdentifier: ADYN
-            stockNumber: NL012345ABC4
-            tickerSymbol: ADYN.M
-          type: listedPublicCompany
-        type: organization
-        id: LE00000000000000000000001
-    post-legalEntities-createLegalEntityOrganizationNL:
-      summary: Create a legal entity for a Dutch organization
-      description: Example request for creating a legal entity for an organization operating in the Netherlands
-      value:
-        type: organization
-        organization:
-          legalName: Explorer Company based in NL
-          doingBusinessAs: API Company Trading
-          type: privateCompany
-          registeredAddress:
-            city: Amsterdam
-            country: NL
-            postalCode: 1011DJ
-            street: Simon Carmiggeltstraat 6 - 50
-          registrationNumber: '34179503'
-          email: organization@example.com
-        entityAssociations:
-        - jobTitle: CEO
-          legalEntityId: LE00000000000000000000001
-          type: signatory
-    post-legalEntities-createLegalEntitySolePropUS:
-      summary: Create a legal entity for a sole proprietor in the US
-      description: Example request for creating a legal entity for a sole proprietor operating in the US
-      value:
-        type: soleProprietorship
-        soleProprietorship:
-          name: Shelly Eller Sole Trader
-          countryOfGoverningLaw: US
-          registeredAddress:
             city: New York
             country: US
             postalCode: '10003'
             stateOrProvince: NY
             street: 71 5th Avenue
             street2: 11th floor
-    patch-legalEntities-id-changeLegalEntityType-200:
-      summary: Legal entity type changed
-      description: Example response when changing the legal entity type
-      value:
-        individual:
+          phone:
+            number: '+14153671502'
+            type: mobile
           name:
-            firstName: Explorer
-            lastName: Company based in US
-          residentialAddress:
-            country: US
-        type: individual
-        id: LE00000000000000000000001
-    post-legalEntities-id-pciQuestionnaires-generatePciTemplates-createPciQuestionnaire:
-      summary: Generate PCI questionnaires
-      description: Example request for generating PCI questionnaires in French
+            firstName: Shelly
+            lastName: Eller
+          birthData:
+            dateOfBirth: '1990-06-21'
+          email: s.eller@example.com
+    post-legalEntities-id-termsOfService-createTermsofService:
+      summary: Get the Terms of Service document
+      description: Example request for getting the Terms of Service document
       value:
-        language: fr
-    post-legalEntities-id-pciQuestionnaires-signPciTemplates-signPciQuestionnaire:
-      summary: Sign PCI questionnaires
-      description: Example request for signing PCI questionnaires
-      value:
-        signedBy: LE00000000000000000000002
-        pciTemplateReferences:
-        - PCIT-T7KC6VGL
-        - PCIT-PKB6DKS4
-    post-legalEntities-id-confirmDataReview-confirmDataReview-200:
-      summary: Data review for a legal entity
-      description: Example response when reviewing the data for a legal entity
-      value:
-        dataReviewedAt: '2023-11-13T15:19:02Z'
-    patch-legalEntities-id-updateTrustMember-200:
-      summary: Trust member associated
-      description: Example response for associating a trust member with a trust
+        type: adyenIssuing
+        language: en
+    patch-legalEntities-id-updateTrustMember:
+      summary: Associate a trust member with a trust
+      description: Example request associating a trust member with a trust
       value:
         entityAssociations:
-        - associatorId: LE00000000000000000000001
-          legalEntityId: LE00000000000000000000002
-          name: Simone Hopper
+        - legalEntityId: LE00000000000000000000002
           type: protector
-        trust:
-          name: Example Trust
-          type: fixedUnitTrust
-          doingBusinessAs: West's Store
-          countryOfGoverningLaw: AU
-          taxInformation:
-          - country: AU
-            type: ABN
-            number: '12345678901'
-          registeredAddress:
-            street: Winfield Avenue
-            city: Sydney
-            postalCode: '1197'
-            stateOrProvince: NSW
-            country: AU
-          undefinedBeneficiaryInfo:
-          - description: My future children
-        type: trust
-        id: LE00000000000000000000001
+    patch-legalEntities-id-termsOfService-termsofservicedocumentid-updateTermsofService-200:
+      summary: Terms of Service document accepted
+      description: Example response when accepting a Terms of Service document
+      value:
+        acceptedBy: LE00000000000000000000002
+        id: TOSA000AB00000000B2AAAB2BA0AA0
+        language: en
+        termsOfServiceDocumentId: abc123
+        type: adyenIssuing
     post-legalEntities-createLegalEntitySolePropUS-200:
       summary: Sole proprietor legal enity created
       description: Example response for creating a legal entity for a sole proprietor operating in the US
@@ -2440,6 +2217,64 @@ components:
         - id: SE322KH223222F5GXZFNM3BGP
           accountIdentifier: NL**ABNA******0123
           trustedSource: false
+    patch-legalEntities-id-changeLegalEntityType-200:
+      summary: Legal entity type changed
+      description: Example response when changing the legal entity type
+      value:
+        individual:
+          name:
+            firstName: Explorer
+            lastName: Company based in US
+          residentialAddress:
+            country: US
+        type: individual
+        id: LE00000000000000000000001
+    patch-legalEntities-id-updateTrustMember-200:
+      summary: Trust member associated
+      description: Example response for associating a trust member with a trust
+      value:
+        entityAssociations:
+        - associatorId: LE00000000000000000000001
+          legalEntityId: LE00000000000000000000002
+          name: Simone Hopper
+          type: protector
+        trust:
+          name: Example Trust
+          type: fixedUnitTrust
+          doingBusinessAs: West's Store
+          countryOfGoverningLaw: AU
+          taxInformation:
+          - country: AU
+            type: ABN
+            number: '12345678901'
+          registeredAddress:
+            street: Winfield Avenue
+            city: Sydney
+            postalCode: '1197'
+            stateOrProvince: NSW
+            country: AU
+          undefinedBeneficiaryInfo:
+          - description: My future children
+        type: trust
+        id: LE00000000000000000000001
+    get-legalEntities-id-pciQuestionnaires-pciid-success-200:
+      summary: Details of a PCI questionnaire
+      description: Example response when getting the details of a PCI questionnaire
+      value:
+        content: JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBv+f/ub0j6JPRX+E3EmC==
+        createdAt: '2023-03-02T17:54:19.538365Z'
+        id: PCID422GZ22322565HHMH48CW63CPH
+        validUntil: '2024-03-01T17:54:19.538365Z'
+    get-legalEntities-id-termsOfServiceAcceptanceInfos-success-200:
+      summary: Terms of Service information for a legal entity
+      description: Example response when getting Terms of Service information for a legal entity
+      value:
+        data:
+        - acceptedBy: LE00000000000000000000002
+          acceptedFor: LE00000000000000000000001
+          createdAt: '2022-12-05T13:36:58.212253Z'
+          id: TOSA000AB00000000B2AAAB2BA0AA0
+          type: adyenIssuing
     post-legalEntities-createTrustAU-200:
       summary: Trust legal entity created
       description: Example response for creating a legal entity for a trust in Australia
@@ -2464,17 +2299,69 @@ components:
             reference: SE322KH223222J5HJ6JRB75HQ
         type: trust
         id: LE322KH223222J5HJ6JRB75C5
-    get-legalEntities-id-pciQuestionnaires-success-200:
-      summary: Details of PCI questionnaires signed by a user
-      description: Example response when getting the list of PCI questionnaires
+    post-legalEntities-createTrustAU:
+      summary: Create a legal entity for a trust in Australia
+      description: Example request for creating a legal entity for a trust in Australia
       value:
-        data:
-        - createdAt: '2023-03-02T17:54:19.538365Z'
-          id: PCID422GZ22322565HHMH48CW63CPH
-          validUntil: '2024-03-01T17:54:19.538365Z'
-        - createdAt: '2023-03-02T17:54:19.538365Z'
-          id: PCID422GZ22322565HHMH49CW75Z9H
-          validUntil: '2024-03-01T17:54:19.538365Z'
+        type: trust
+        trust:
+          name: Example Trust
+          type: fixedUnitTrust
+          doingBusinessAs: West's Store
+          countryOfGoverningLaw: AU
+          taxInformation:
+          - country: AU
+            type: ABN
+            number: '12345678123'
+          registeredAddress:
+            street: Winfield Avenue
+            city: Sydney
+            postalCode: '1197'
+            stateOrProvince: NSW
+            country: AU
+          undefinedBeneficiaryInfo:
+          - description: My future children
+    patch-legalEntities-id-updateLegalEntitySoleProp-200:
+      summary: Entity association added to a sole proprietorship
+      description: Example response for adding an entity association to a sole proprietorship
+      value:
+        entityAssociations:
+        - associatorId: LE00000000000000000000001
+          entityType: soleProprietorship
+          legalEntityId: LE00000000000000000000002
+          type: soleProprietorship
+        individual:
+          email: s.eller@example.com
+          birthData:
+            dateOfBirth: '1990-06-21'
+          name:
+            firstName: Shelly
+            lastName: Eller
+          residentialAddress:
+            city: Amsterdam
+            country: NL
+            postalCode: 1011DJ
+            street: Simon Carmiggeltstraat 6 - 50
+        type: individual
+        id: LE00000000000000000000001
+    post-legalEntities-createLegalEntityIndividualNL-200:
+      summary: Individual legal entity created
+      description: Example response for creating a legal entity for an individual residing in the Netherlands
+      value:
+        individual:
+          email: s.eller@example.com
+          birthData:
+            dateOfBirth: '1990-06-21'
+          name:
+            firstName: Shelly
+            lastName: Eller
+          residentialAddress:
+            city: Amsterdam
+            country: NL
+            postalCode: 1011DJ
+            street: Simon Carmiggeltstraat 6 - 50
+        type: individual
+        id: LE00000000000000000000001
     post-legalEntities-createLegalEntityIndividualNL:
       summary: Create a legal entity for an individual residing in the Netherlands
       description: Example request for creating a legal entity for an individual residing in the Netherlands
@@ -2492,17 +2379,70 @@ components:
           birthData:
             dateOfBirth: '1990-06-21'
           email: s.eller@example.com
-    patch-legalEntities-id-updateTrustMemberExempt:
-      summary: Associate an exempt settlor with a trust
-      description: Example request associating an exempt settlor with a trust
+    post-legalEntities-createLegalEntityOrganizationNL:
+      summary: Create a legal entity for a Dutch organization
+      description: Example request for creating a legal entity for an organization operating in the Netherlands
+      value:
+        type: organization
+        organization:
+          legalName: Explorer Company based in NL
+          doingBusinessAs: API Company Trading
+          type: privateCompany
+          registeredAddress:
+            city: Amsterdam
+            country: NL
+            postalCode: 1011DJ
+            street: Simon Carmiggeltstraat 6 - 50
+          registrationNumber: '34179503'
+          email: organization@example.com
+        entityAssociations:
+        - jobTitle: CEO
+          legalEntityId: LE00000000000000000000001
+          type: signatory
+    patch-legalEntities-id-updateLegalEntityOrganization-200:
+      summary: Entity associations added
+      description: Example response for adding an entity association to an organization
       value:
         entityAssociations:
-        - legalEntityId: LE00000000000000000000002
-          type: settlor
+        - associatorId: LE00000000000000000000001
           entityType: individual
-          settlorExemptionReason:
-          - deceased
-          - professionalServiceProvider
+          jobTitle: CEO
+          legalEntityId: LE00000000000000000000002
+          name: Simone Hopper
+          type: uboThroughControl
+        organization:
+          email: john.doe@adyen.com
+          phone:
+            countryCode: NL
+            number: '646467363'
+            type: mobile
+          description: FinTech
+          doingBusinessAs: Adyen BV
+          legalName: Adyen BV
+          registeredAddress:
+            city: AMS
+            country: NL
+            postalCode: 1234EE
+            stateOrProvince: NH
+            street: Simon Carmiggeltstraat 6 - 50
+          registrationNumber: ''
+          stockData:
+            marketIdentifier: ADYN
+            stockNumber: NL012345ABC4
+            tickerSymbol: ADYN.M
+          type: listedPublicCompany
+        type: organization
+        id: LE00000000000000000000001
+    patch-legalEntities-id-changeLegalEntityType:
+      summary: Change a legal entity from an organization to an individual
+      description: Example request when changing the legal entity type
+      value:
+        type: individual
+    post-legalEntities-id-onboardingLinks-createOnboardingLink-200:
+      summary: Hosted onboarding link created
+      description: Example response for a hosted onboarding link
+      value:
+        url: https://balanceplatform-test.adyen.com/balanceplatform/uo/form/xtl-...?signature=..&cd=..&redirectUrl=https%3A%2F%2Fyour.redirect-url.com%2F&expiry=1667226404807&locale=nl-NL
     post-legalEntities-createLegalEntityOrganizationNL-200:
       summary: Organization legal entity created
       description: Example response for creating a legal entity for an organization operating in the Netherlands
@@ -2527,72 +2467,95 @@ components:
           type: privateCompany
         type: organization
         id: LE00000000000000000000002
-    post-legalEntities-createLegalEntityIndividualUS:
-      summary: Create a legal entity for an individual residing in the US
-      description: Example request for creating a legal entity for an individual residing in the US
+    post-legalEntities-id-pciQuestionnaires-generatePciTemplates-createPciQuestionnaire:
+      summary: Generate PCI questionnaires
+      description: Example request for generating PCI questionnaires in French
       value:
-        type: individual
-        individual:
-          residentialAddress:
+        language: fr
+    post-legalEntities-createLegalEntityOrganizationUS:
+      summary: Create a legal entity for an organization in the US
+      description: Example request for creating a legal entity for an organization operating in the US
+      value:
+        type: organization
+        organization:
+          legalName: Explorer Company based in US
+          registrationNumber: '101002749'
+          type: privateCompany
+          registeredAddress:
             city: New York
             country: US
             postalCode: '10003'
             stateOrProvince: NY
             street: 71 5th Avenue
             street2: 11th floor
-          phone:
-            number: '+14153671502'
-            type: mobile
-          name:
-            firstName: Shelly
-            lastName: Eller
-          birthData:
-            dateOfBirth: '1990-06-21'
-          email: s.eller@example.com
+    get-legalEntities-id-termsOfServiceStatus-success-200:
+      summary: Terms of Service status for a legal entity
+      description: Example response when getting the type of Terms of Service
+      value:
+        termsOfServiceTypes:
+        - adyenIssuing
+    patch-legalEntities-id-updateTrustMemberExempt-200:
+      summary: Exempt settlor associated
+      description: Example response for associating an exempt settlor with a trust
+      value:
+        entityAssociations:
+        - associatorId: LE00000000000000000000001
+          legalEntityId: LE00000000000000000000002
+          type: settlor
+          entityType: individual
+          settlorExemptionReason:
+          - deceased
+          - professionalServiceProvider
+        trust:
+          name: Example Trust
+          type: fixedUnitTrust
+          doingBusinessAs: West's Store
+          countryOfGoverningLaw: AU
+          taxInformation:
+          - country: AU
+            type: ABN
+            number: '12345678901'
+          registeredAddress:
+            street: Winfield Avenue
+            city: Sydney
+            postalCode: '1197'
+            stateOrProvince: NSW
+            country: AU
+          undefinedBeneficiaryInfo:
+          - description: My future children
+        type: trust
+        id: LE00000000000000000000001
+    patch-legalEntities-id-updateLegalEntitySoleProp:
+      summary: Add entity associations to a sole proprietorship
+      description: Example request adding an entity association to a sole proprietorship
+      value:
+        entityAssociations:
+        - legalEntityId: LE00000000000000000000002
+          type: soleProprietorship
+    post-legalEntities-createLegalEntitySolePropNL-200:
+      summary: Sole proprietor legal enity created
+      description: Example response for creating a legal entity for a sole proprietor operating in the Netherlands
+      value:
+        type: soleProprietorship
+        soleProprietorship:
+          name: Shelly Seller Sole Trader
+          countryOfGoverningLaw: NL
+          registeredAddress:
+            city: Amsterdam
+            country: NL
+            postalCode: 1011DJ
+            street: Simon Carmiggeltstraat 6 - 50
+        id: LE00000000000000000000001
+    post-legalEntities-id-pciQuestionnaires-signPciTemplates-signPciQuestionnaire:
+      summary: Sign PCI questionnaires
+      description: Example request for signing PCI questionnaires
+      value:
+        signedBy: LE00000000000000000000002
+        pciTemplateReferences:
+        - PCIT-T7KC6VGL
+        - PCIT-PKB6DKS4
   schemas:
-    StockData:
-      properties:
-        marketIdentifier:
-          description: The four-digit [Market Identifier Code](https://en.wikipedia.org/wiki/Market_Identifier_Code) of the stock market where the organization's stocks are traded.
-          type: string
-        stockNumber:
-          description: The 12-digit International Securities Identification Number (ISIN) of the company, without dashes (-).
-          type: string
-        tickerSymbol:
-          description: The stock ticker symbol.
-          type: string
-      type: object
-    PciDocumentInfo:
-      properties:
-        createdAt:
-          description: The date the questionnaire was created, in ISO 8601 extended format. For example, 2022-12-18T10:15:30+01:00
-          format: date-time
-          type: string
-        id:
-          description: The unique identifier of the signed questionnaire.
-          type: string
-        validUntil:
-          description: The expiration date of the questionnaire, in ISO 8601 extended format. For example, 2022-12-18T10:15:30+01:00
-          format: date-time
-          type: string
-      type: object
-    BusinessLines:
-      properties:
-        businessLines:
-          description: List of business lines.
-          items:
-            $ref: '#/components/schemas/BusinessLine'
-          type: array
-      required:
-      - businessLines
-      type: object
-    DataReviewConfirmationResponse:
-      properties:
-        dataReviewedAt:
-          description: Date when data review was confirmed.
-          type: string
-      type: object
-    LegalEntityInfo:
+    LegalEntityInfoRequiredType:
       properties:
         capabilities:
           additionalProperties:
@@ -2625,10 +2588,7 @@ components:
           description: Information about the trust. Required if `type` is **trust**.
           $ref: '#/components/schemas/Trust'
         type:
-          description: 'The type of legal entity.
-
-
-            Possible values: **individual**, **organization**, **soleProprietorship**, or **trust**.'
+          description: "The type of legal entity.\n\n Possible values: **individual**, **organization**, **soleProprietorship**, or **trust**."
           enum:
           - individual
           - organization
@@ -2642,152 +2602,109 @@ components:
         verificationPlan:
           description: A key-value pair that specifies the [verification process](https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details/) for a legal entity. Set to **upfront** for [upfront verification](https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details#upfront).
           type: string
-      type: object
-    GetTermsOfServiceDocumentRequest:
-      properties:
-        language:
-          description: 'The language to be used for the Terms of Service document, specified by the two-letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) language code. Possible value: **en** for English.'
-          type: string
-        type:
-          description: 'The type of Terms of Service.
-
-
-            Possible values:
-
-            *  **adyenForPlatformsManage**
-
-            *  **adyenIssuing**
-
-            *  **adyenForPlatformsAdvanced**
-
-            *  **adyenCapital**
-
-            *  **adyenAccount**
-
-            *  **adyenCard**
-
-            *  **adyenFranchisee**
-
-
-            '
-          enum:
-          - adyenAccount
-          - adyenCapital
-          - adyenCard
-          - adyenForPlatformsAdvanced
-          - adyenForPlatformsManage
-          - adyenFranchisee
-          - adyenIssuing
-          type: string
       required:
       - type
-      - language
       type: object
-    GeneratePciDescriptionRequest:
+    DocumentReference:
       properties:
-        additionalSalesChannels:
-          description: 'An array of additional sales channels to generate PCI questionnaires. Include the relevant sales channels if you need your user to sign PCI questionnaires. Not required if you [create stores](https://docs.adyen.com/marketplaces-and-platforms/additional-for-platform-setup/create-stores/) and [add payment methods](https://docs.adyen.com/marketplaces-and-platforms/payment-methods/) before you generate the questionnaires.
-
-
-            Possible values:
-
-            *  **eCommerce**
-
-            *  **pos**
-
-            *  **ecomMoto**
-
-            *  **posMoto**
-
-
-            '
-          items:
-            enum:
-            - eCommerce
-            - ecomMoto
-            - pos
-            - posMoto
-            type: string
-          type: array
-        language:
-          description: Sets the language of the PCI questionnaire. Its value is a two-character [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code, for example, **en**.
+        active:
+          description: Identifies whether the document is active and used for checks.
+          type: boolean
+        description:
+          description: Your description for the document.
           type: string
-      type: object
-    BirthData:
-      properties:
-        dateOfBirth:
-          description: The individual's date of birth, in YYYY-MM-DD format.
-          type: string
-      type: object
-    GetTermsOfServiceAcceptanceInfosResponse:
-      properties:
-        data:
-          description: The Terms of Service acceptance information.
-          items:
-            $ref: '#/components/schemas/TermsOfServiceAcceptanceInfo'
-          type: array
-      type: object
-    PciSigningRequest:
-      properties:
-        pciTemplateReferences:
-          description: The array of Adyen-generated unique identifiers for the questionnaires.
-          items:
-            type: string
-          type: array
-        signedBy:
-          description: The [legal entity ID](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/legalEntities__resParam_id) of the individual who signs the PCI questionnaire.
-          type: string
-      required:
-      - signedBy
-      - pciTemplateReferences
-      type: object
-    Address:
-      properties:
-        city:
-          description: 'The name of the city. Required if `stateOrProvince` is provided.
-
-
-            If you specify the city, you must also send `postalCode` and `street`.'
-          type: string
-        country:
-          description: The two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code.
-          type: string
-        postalCode:
-          description: Postal code. Required if `stateOrProvince` and/or `city` is provided.
-          type: string
-        stateOrProvince:
-          description: 'The two-letter ISO 3166-2 state or province code. For example, **CA** in the US.
-
-
-            If you specify the state or province, you must also send `city`, `postalCode`, and `street`.'
-          type: string
-        street:
-          description: The name of the street, and the house or building number. Required if `stateOrProvince` and/or `city` is provided.
-          type: string
-        street2:
-          description: The apartment, unit, or suite number.
-          type: string
-      required:
-      - country
-      type: object
-    TransferInstrumentReference:
-      properties:
-        accountIdentifier:
-          description: The masked IBAN or bank account number.
+        fileName:
+          description: Document name.
           type: string
         id:
           description: The unique identifier of the resource.
           type: string
-        realLastFour:
-          description: Four last digits of the bank account number. If the transfer instrument is created using [instant bank account verification](https://docs.adyen.com/release-notes/platforms-and-financial-products#releaseNote=2023-05-08-hosted-onboarding), and it is a virtual bank account, these digits may be different from the last four digits of the masked account number.
+        modificationDate:
+          description: The modification date of the document.
+          format: date-time
           type: string
-        trustedSource:
-          description: Identifies if the bank account was created through [instant bank verification](https://docs.adyen.com/release-notes/platforms-and-financial-products#releaseNote=2023-05-08-hosted-onboarding).
+        pages:
+          description: List of document pages
+          items:
+            $ref: '#/components/schemas/DocumentPage'
+          type: array
+        type:
+          description: Type of document, used when providing an ID number or uploading a document.
+          type: string
+      type: object
+    VerificationDeadline:
+      properties:
+        capabilities:
+          description: The list of capabilities that will be disallowed if information is not reviewed by the time of the deadline
+          items:
+            enum:
+            - acceptExternalFunding
+            - acceptPspFunding
+            - acceptTransactionInRestrictedCountries
+            - acceptTransactionInRestrictedCountriesCommercial
+            - acceptTransactionInRestrictedCountriesConsumer
+            - acceptTransactionInRestrictedIndustries
+            - acceptTransactionInRestrictedIndustriesCommercial
+            - acceptTransactionInRestrictedIndustriesConsumer
+            - acquiring
+            - atmWithdrawal
+            - atmWithdrawalCommercial
+            - atmWithdrawalConsumer
+            - atmWithdrawalInRestrictedCountries
+            - atmWithdrawalInRestrictedCountriesCommercial
+            - atmWithdrawalInRestrictedCountriesConsumer
+            - authorisedPaymentInstrumentUser
+            - getGrantOffers
+            - issueBankAccount
+            - issueCard
+            - issueCardCommercial
+            - issueCardConsumer
+            - localAcceptance
+            - payout
+            - payoutToTransferInstrument
+            - processing
+            - receiveFromBalanceAccount
+            - receiveFromPlatformPayments
+            - receiveFromThirdParty
+            - receiveFromTransferInstrument
+            - receiveGrants
+            - receivePayments
+            - sendToBalanceAccount
+            - sendToThirdParty
+            - sendToTransferInstrument
+            - thirdPartyFunding
+            - useCard
+            - useCardCommercial
+            - useCardConsumer
+            - useCardInRestrictedCountries
+            - useCardInRestrictedCountriesCommercial
+            - useCardInRestrictedCountriesConsumer
+            - useCardInRestrictedIndustries
+            - useCardInRestrictedIndustriesCommercial
+            - useCardInRestrictedIndustriesConsumer
+            - withdrawFromAtm
+            - withdrawFromAtmCommercial
+            - withdrawFromAtmConsumer
+            - withdrawFromAtmInRestrictedCountries
+            - withdrawFromAtmInRestrictedCountriesCommercial
+            - withdrawFromAtmInRestrictedCountriesConsumer
+            type: string
           readOnly: true
-          type: boolean
+          type: array
+        entityIds:
+          description: The unique identifiers of the bank account(s) that the deadline applies to
+          items:
+            type: string
+          readOnly: true
+          type: array
+        expiresAt:
+          description: The date that verification is due by before capabilities are disallowed.
+          format: date-time
+          readOnly: true
+          type: string
       required:
-      - id
-      - accountIdentifier
+      - expiresAt
+      - capabilities
       type: object
     Trust:
       properties:
@@ -2869,6 +2786,131 @@ components:
       - registeredAddress
       - type
       type: object
+    GeneratePciDescriptionRequest:
+      properties:
+        additionalSalesChannels:
+          description: 'An array of additional sales channels to generate PCI questionnaires. Include the relevant sales channels if you need your user to sign PCI questionnaires. Not required if you [create stores](https://docs.adyen.com/marketplaces-and-platforms/additional-for-platform-setup/create-stores/) and [add payment methods](https://docs.adyen.com/marketplaces-and-platforms/payment-methods/) before you generate the questionnaires.
+
+
+            Possible values:
+
+            *  **eCommerce**
+
+            *  **pos**
+
+            *  **ecomMoto**
+
+            *  **posMoto**
+
+
+            '
+          items:
+            enum:
+            - eCommerce
+            - ecomMoto
+            - pos
+            - posMoto
+            type: string
+          type: array
+        language:
+          description: Sets the language of the PCI questionnaire. Its value is a two-character [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code, for example, **en**.
+          type: string
+      type: object
+    OnboardingLinkInfo:
+      properties:
+        locale:
+          description: "The language that will be used for the page, specified by a combination of two letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) language and [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country codes. See [possible values](https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details/hosted#supported-languages). \n\nIf not specified in the request or if the language is not supported, the page uses the browser language. If the browser language is not supported, the page uses **en-US** by default."
+          type: string
+        redirectUrl:
+          description: The URL where the user is redirected after they complete hosted onboarding.
+          type: string
+        settings:
+          additionalProperties:
+            type: boolean
+          description: 'Boolean key-value pairs indicating the settings for the hosted onboarding page. The keys are the settings.
+
+
+            Possible keys:
+
+
+            By default, these values are set to **true**. Set to **false** to not allow the action.
+
+
+            - **changeLegalEntityType**: The user can change their legal entity type.
+
+
+            - **editPrefilledCountry**: The user can change the country of their legal entity''s address, for example the registered address of an organization.
+
+
+            By default, these values are set to **false**. Set to **true** to allow the action.
+
+
+            - **allowBankAccountFormatSelection**: The user can select the format for their payout account if applicable.
+
+
+            - **allowIntraRegionCrossBorderPayout**: The user can select a payout account in a different EU/EEA country than the country of their legal entity.
+
+
+            By default, these value are set to **false**. Set the following values to **true** to require the user to sign PCI questionnaires based on their sales channels. The user must sign PCI questionnaires for all relevant sales channels.
+
+
+            - **requirePciSignEcommerce**
+
+
+            - **requirePciSignPos**
+
+
+            - **requirePciSignEcomMoto**
+
+
+            - **requirePciSignPosMoto**
+
+
+            '
+          type: object
+        themeId:
+          description: The unique identifier of the hosted onboarding theme.
+          type: string
+      type: object
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    PciSigningRequest:
+      properties:
+        pciTemplateReferences:
+          description: The array of Adyen-generated unique identifiers for the questionnaires.
+          items:
+            type: string
+          type: array
+        signedBy:
+          description: The [legal entity ID](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/legalEntities__resParam_id) of the individual who signs the PCI questionnaire.
+          type: string
+      required:
+      - signedBy
+      - pciTemplateReferences
+      type: object
+    DataReviewConfirmationResponse:
+      properties:
+        dataReviewedAt:
+          description: Date when data review was confirmed.
+          type: string
+      type: object
     LegalEntityAssociation:
       properties:
         associatorId:
@@ -2942,113 +2984,99 @@ components:
       - legalEntityId
       - type
       type: object
-    OnboardingLink:
+    GetPciQuestionnaireInfosResponse:
       properties:
-        url:
-          description: 'The URL of the hosted onboarding page where you need to redirect your user. This URL expires after 4 minutes and can only be used once.
-
-
-            If the link expires, you need to create a new link.'
-          type: string
-      type: object
-    SourceOfFunds:
-      properties:
-        acquiringBusinessLineId:
-          deprecated: true
-          x-deprecatedInVersion: '3'
-          x-deprecatedMessage: This field will be removed in v4.
-          description: The unique identifier of the business line that will be the source of funds.This must be a business line for a **receivePayments** or **receiveFromPlatformPayments** capability.
-          type: string
-        adyenProcessedFunds:
-          description: Indicates whether the funds are coming from transactions processed by Adyen. If **false**, a `description` is required.
-          type: boolean
-        description:
-          description: Text describing the source of funds. For example, for `type` **business**, provide a description of where the business transactions come from, such as payments through bank transfer. Required when `adyenProcessedFunds` is **false**.
-          type: string
-        type:
-          description: 'The type of the source of funds. Possible value: **business**.'
-          enum:
-          - business
-          type: string
-      type: object
-    Organization:
-      properties:
-        dateOfIncorporation:
-          x-addedInVersion: '2'
-          description: The date when the organization was incorporated in YYYY-MM-DD format.
-          type: string
-        description:
-          description: Your description for the organization.
-          type: string
-        doingBusinessAs:
-          description: The organization's trading name, if different from the registered legal name.
-          type: string
-        email:
-          description: The email address of the legal entity.
-          type: string
-        legalName:
-          description: The organization's legal name.
-          type: string
-        phone:
-          description: The phone number of the legal entity.
-          $ref: '#/components/schemas/PhoneNumber'
-        principalPlaceOfBusiness:
-          description: The address where the organization operates from. Provide this if the principal place of business is different from the `registeredAddress`.
-          $ref: '#/components/schemas/Address'
-        registeredAddress:
-          description: The address of the organization registered at their registrar (such as the Chamber of Commerce).
-          $ref: '#/components/schemas/Address'
-        registrationNumber:
-          description: The organization's registration number.
-          type: string
-        stockData:
-          description: Information about the organization's publicly traded stock. Provide this object only if `type` is **listedPublicCompany**.
-          $ref: '#/components/schemas/StockData'
-        taxInformation:
-          x-addedInVersion: '2'
-          description: The tax information of the organization.
+        data:
+          description: Information about the signed PCI questionnaires.
           items:
-            $ref: '#/components/schemas/TaxInformation'
+            $ref: '#/components/schemas/PciDocumentInfo'
           type: array
-        taxReportingClassification:
-          x-addedInVersion: '2'
-          description: The tax reporting classification (FATCA/CRS self-certification) of the organization.
-          $ref: '#/components/schemas/TaxReportingClassification'
+      type: object
+    CapabilitySettings:
+      properties:
+        amountPerIndustry:
+          additionalProperties:
+            $ref: '#/components/schemas/Amount'
+          description: The maximum amount a card holder can spend per industry.
+          type: object
+        authorizedCardUsers:
+          description: The number of card holders who can use the card.
+          type: boolean
+        fundingSource:
+          description: The funding source of the card, for example **debit**.
+          items:
+            enum:
+            - credit
+            - debit
+            - prepaid
+            type: string
+          type: array
+        interval:
+          description: The period when the rule conditions apply.
+          enum:
+          - daily
+          - monthly
+          - weekly
+          type: string
+        maxAmount:
+          description: The maximum amount a card holder can withdraw per day.
+          $ref: '#/components/schemas/Amount'
+      type: object
+    GetTermsOfServiceDocumentRequest:
+      properties:
+        language:
+          description: 'The language to be used for the Terms of Service document, specified by the two-letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) language code. Possible value: **en** for English.'
+          type: string
         type:
-          description: 'Type of organization.
+          description: 'The type of Terms of Service.
 
 
-            Possible values: **associationIncorporated**, **governmentalOrganization**, **listedPublicCompany**, **nonProfit**, **partnershipIncorporated**, **privateCompany**.'
+            Possible values:
+
+            *  **adyenForPlatformsManage**
+
+            *  **adyenIssuing**
+
+            *  **adyenForPlatformsAdvanced**
+
+            *  **adyenCapital**
+
+            *  **adyenAccount**
+
+            *  **adyenCard**
+
+            *  **adyenFranchisee**
+
+
+            '
           enum:
-          - associationIncorporated
-          - governmentalOrganization
-          - listedPublicCompany
-          - nonProfit
-          - partnershipIncorporated
-          - privateCompany
+          - adyenAccount
+          - adyenCapital
+          - adyenCard
+          - adyenForPlatformsAdvanced
+          - adyenForPlatformsManage
+          - adyenFranchisee
+          - adyenIssuing
           type: string
-        vatAbsenceReason:
-          x-addedInVersion: '2'
-          description: 'The reason the organization has not provided a VAT number.
-
-
-            Possible values: **industryExemption**, **belowTaxThreshold**.'
-          enum:
-          - industryExemption
-          - belowTaxThreshold
-          type: string
-        vatNumber:
-          x-addedInVersion: '2'
-          description: The organization's VAT number.
-          type: string
-        webData:
-          deprecated: true
-          x-deprecatedInVersion: '1'
-          description: The website and app URL of the legal entity.
-          $ref: '#/components/schemas/WebData'
       required:
-      - legalName
-      - registeredAddress
+      - type
+      - language
+      type: object
+    RemediatingAction:
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      type: object
+    WebDataExemption:
+      properties:
+        reason:
+          description: 'The reason why the web data was not provided. Possible value: **noOnlinePresence**.'
+          enum:
+          - noOnlinePresence
+          - notCollectedDuringOnboarding
+          type: string
       type: object
     VerificationError:
       properties:
@@ -3134,247 +3162,13 @@ components:
           - rejected
           type: string
       type: object
-    CapabilitySettings:
+    OnboardingLink:
       properties:
-        amountPerIndustry:
-          additionalProperties:
-            $ref: '#/components/schemas/Amount'
-          description: The maximum amount a card holder can spend per industry.
-          type: object
-        authorizedCardUsers:
-          description: The number of card holders who can use the card.
-          type: boolean
-        fundingSource:
-          description: The funding source of the card, for example **debit**.
-          items:
-            enum:
-            - credit
-            - debit
-            - prepaid
-            type: string
-          type: array
-        interval:
-          description: The period when the rule conditions apply.
-          enum:
-          - daily
-          - monthly
-          - weekly
-          type: string
-        maxAmount:
-          description: The maximum amount a card holder can withdraw per day.
-          $ref: '#/components/schemas/Amount'
-      type: object
-    TaxInformation:
-      properties:
-        country:
-          description: The two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code.
-          maxLength: 2
-          minLength: 2
-          type: string
-        number:
-          description: The tax ID number (TIN) of the organization or individual.
-          type: string
-        type:
-          description: The TIN type depending on the country where it was issued. Provide only for countries that have multiple tax IDs, such as Sweden, the UK, or the US. For example, provide **SSN**, **EIN**, or **ITIN** for the US.
-          type: string
-      type: object
-    GetTermsOfServiceDocumentResponse:
-      properties:
-        document:
-          description: The Terms of Service document in Base64-encoded format.
-          format: byte
-          type: string
-        id:
-          description: The unique identifier of the legal entity.
-          type: string
-        language:
-          description: 'The language used for the Terms of Service document, specified by the two-letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) language code. Possible value: **en** for English.'
-          type: string
-        termsOfServiceDocumentId:
-          description: The unique identifier of the Terms of Service document.
-          type: string
-        type:
-          description: 'The type of Terms of Service.
+        url:
+          description: 'The URL of the hosted onboarding page where you need to redirect your user. This URL expires after 4 minutes and can only be used once.
 
 
-            Possible values:
-
-            *  **adyenForPlatformsManage**
-
-            *  **adyenIssuing**
-
-            *  **adyenForPlatformsAdvanced**
-
-            *  **adyenCapital**
-
-            *  **adyenAccount**
-
-            *  **adyenCard**
-
-            *  **adyenFranchisee**
-
-
-            '
-          enum:
-          - adyenAccount
-          - adyenCapital
-          - adyenCard
-          - adyenForPlatformsAdvanced
-          - adyenForPlatformsManage
-          - adyenFranchisee
-          - adyenIssuing
-          type: string
-      type: object
-    EntityReference:
-      properties:
-        id:
-          description: The unique identifier of the resource.
-          type: string
-      type: object
-    Individual:
-      properties:
-        birthData:
-          description: The individual's birth information.
-          $ref: '#/components/schemas/BirthData'
-        email:
-          description: The email address of the legal entity.
-          type: string
-        identificationData:
-          description: Information about the individual's identification document.
-          $ref: '#/components/schemas/IdentificationData'
-        name:
-          description: The individual's name.
-          $ref: '#/components/schemas/Name'
-        nationality:
-          description: The individual's nationality.
-          type: string
-        phone:
-          description: The phone number of the legal entity.
-          $ref: '#/components/schemas/PhoneNumber'
-        residentialAddress:
-          description: The residential address of the individual.
-          $ref: '#/components/schemas/Address'
-        taxInformation:
-          x-addedInVersion: '2'
-          description: The tax information of the individual.
-          items:
-            $ref: '#/components/schemas/TaxInformation'
-          type: array
-        webData:
-          deprecated: true
-          x-deprecatedInVersion: '1'
-          description: The website and app URL of the legal entity.
-          $ref: '#/components/schemas/WebData'
-      required:
-      - name
-      - residentialAddress
-      type: object
-    DocumentReference:
-      properties:
-        active:
-          description: Identifies whether the document is active and used for checks.
-          type: boolean
-        description:
-          description: Your description for the document.
-          type: string
-        fileName:
-          description: Document name.
-          type: string
-        id:
-          description: The unique identifier of the resource.
-          type: string
-        modificationDate:
-          description: The modification date of the document.
-          format: date-time
-          type: string
-        pages:
-          description: List of document pages
-          items:
-            $ref: '#/components/schemas/DocumentPage'
-          type: array
-        type:
-          description: Type of document, used when providing an ID number or uploading a document.
-          type: string
-      type: object
-    SupportingEntityCapability:
-      properties:
-        allowed:
-          description: 'Indicates whether the capability is allowed for the supporting entity.
-
-
-            If a capability is allowed for a supporting entity but not for the parent legal entity, this means the legal entity has other supporting entities that failed verification.
-
-
-            **You can use the allowed supporting entity** regardless of the verification status of other supporting entities.'
-          readOnly: true
-          type: boolean
-        id:
-          description: 'Supporting entity reference '
-          readOnly: true
-          type: string
-        requested:
-          description: 'Indicates whether the supporting entity capability is requested. '
-          readOnly: true
-          type: boolean
-        verificationStatus:
-          description: 'The status of the verification checks for the capability of the supporting entity.
-
-
-            Possible values:
-
-
-            * **pending**: Adyen is running the verification.
-
-
-            * **invalid**: The verification failed. Check if the `errors` array contains more information.
-
-
-            * **valid**: The verification has been successfully completed.
-
-
-            * **rejected**: Adyen has verified the information, but found reasons to not allow the capability.
-
-            '
-          readOnly: true
-          type: string
-      type: object
-    DocumentPage:
-      properties:
-        pageName:
-          type: string
-        pageNumber:
-          format: int32
-          type: integer
-        type:
-          enum:
-          - BACK
-          - FRONT
-          - UNDEFINED
-          type: string
-      type: object
-    CalculateTermsOfServiceStatusResponse:
-      properties:
-        termsOfServiceTypes:
-          description: The type of Terms of Service that the legal entity needs to accept. If empty, no Terms of Service needs to be accepted.
-          items:
-            enum:
-            - adyenAccount
-            - adyenCapital
-            - adyenCard
-            - adyenForPlatformsAdvanced
-            - adyenForPlatformsManage
-            - adyenFranchisee
-            - adyenIssuing
-            type: string
-          type: array
-      type: object
-    WebDataExemption:
-      properties:
-        reason:
-          description: 'The reason why the web data was not provided. Possible value: **noOnlinePresence**.'
-          enum:
-          - noOnlinePresence
-          - notCollectedDuringOnboarding
+            If the link expires, you need to create a new link.'
           type: string
       type: object
     UndefinedBeneficiary:
@@ -3385,17 +3179,6 @@ components:
         reference:
           description: The reference of the undefined beneficiary.
           type: string
-      type: object
-    PhoneNumber:
-      properties:
-        number:
-          description: The full phone number, including the country code. For example, **+3112345678**.
-          type: string
-        type:
-          description: "The type of phone number.\n Possible values: **mobile**, **landline**, **sip**, **fax.** "
-          type: string
-      required:
-      - number
       type: object
     VerificationError-recursive:
       properties:
@@ -3477,31 +3260,95 @@ components:
           type: array
       required: []
       type: object
-    RemediatingAction:
+    StockData:
       properties:
-        code:
+        marketIdentifier:
+          description: The four-digit [Market Identifier Code](https://en.wikipedia.org/wiki/Market_Identifier_Code) of the stock market where the organization's stocks are traded.
           type: string
-        message:
+        stockNumber:
+          description: The 12-digit International Securities Identification Number (ISIN) of the company, without dashes (-).
+          type: string
+        tickerSymbol:
+          description: The stock ticker symbol.
           type: string
       type: object
-    CapabilityProblemEntity:
+    BusinessLine:
       properties:
-        documents:
-          description: List of document IDs corresponding to the verification errors from capabilities.
+        capability:
+          deprecated: true
+          x-deprecatedInVersion: '3'
+          x-deprecatedMessage: Use `service` instead.
+          description: 'The capability for which you are creating the business line.
+
+
+            Possible values: **receivePayments**, **receiveFromPlatformPayments**, **issueBankAccount**'
+          enum:
+          - receivePayments
+          - receiveFromPlatformPayments
+          - issueBankAccount
+          type: string
+        id:
+          description: The unique identifier of the business line.
+          readOnly: true
+          type: string
+        industryCode:
+          description: A code that represents the [industry of the legal entity](https://docs.adyen.com/marketplaces-and-platforms/verification-requirements/reference-additional-products/#list-industry-codes). For example, **4431A** for computer software stores.
+          type: string
+        legalEntityId:
+          description: Unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/legalEntities__resParam_id) that owns the business line.
+          type: string
+        problems:
+          x-addedInVersion: '3'
+          description: The verification errors related to capabilities for this supporting entity.
+          items:
+            $ref: '#/components/schemas/CapabilityProblem'
+          type: array
+        salesChannels:
+          description: 'A list of channels where goods or services are sold.
+
+
+            Possible values: **pos**, **posMoto**, **eCommerce**, **ecomMoto**, **payByLink**.
+
+
+            Required only in combination with the `service` **paymentProcessing**.'
           items:
             type: string
           type: array
-        id:
-          type: string
-        owner:
-          $ref: '#/components/schemas/CapabilityProblemEntity-recursive'
-        type:
+        service:
+          x-addedInVersion: '3'
+          description: 'The service for which you are creating the business line.
+
+
+
+
+            Possible values:
+
+            *  **paymentProcessing**
+
+            *  **banking**
+
+
+            '
           enum:
-          - BankAccount
-          - Document
-          - LegalEntity
-          - product
+          - paymentProcessing
+          - banking
           type: string
+        sourceOfFunds:
+          description: Contains information about the source of your user's funds. Required only for the `service` **banking**.
+          $ref: '#/components/schemas/SourceOfFunds'
+        webData:
+          description: List of website URLs where your user's goods or services are sold. When this is required for a service but your user does not have an online presence, provide the reason in the `webDataExemption` object.
+          items:
+            $ref: '#/components/schemas/WebData'
+          type: array
+        webDataExemption:
+          description: The reason why the web data is not provided.
+          $ref: '#/components/schemas/WebDataExemption'
+      required:
+      - service
+      - industryCode
+      - legalEntityId
+      - id
       type: object
     SoleProprietorship:
       properties:
@@ -3553,6 +3400,674 @@ components:
       - name
       - countryOfGoverningLaw
       - registeredAddress
+      type: object
+    AcceptTermsOfServiceRequest:
+      properties:
+        acceptedBy:
+          description: 'The legal entity ID of the user accepting the Terms of Service.
+
+
+            For organizations, this must be the individual legal entity ID of an authorized signatory for the organization.
+
+
+            For sole proprietorships, this must be the individual legal entity ID of the owner.'
+          type: string
+        ipAddress:
+          description: The IP address of the user accepting the Terms of Service.
+          type: string
+      required:
+      - acceptedBy
+      type: object
+    AcceptTermsOfServiceResponse:
+      properties:
+        acceptedBy:
+          description: The unique identifier of the user that accepted the Terms of Service.
+          type: string
+        id:
+          description: The unique identifier of the Terms of Service acceptance.
+          type: string
+        ipAddress:
+          description: The IP address of the user that accepted the Terms of Service.
+          type: string
+        language:
+          description: 'The language used for the Terms of Service document, specified by the two-letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) language code. Possible value: **en** for English.'
+          type: string
+        termsOfServiceDocumentId:
+          description: The unique identifier of the Terms of Service document.
+          type: string
+        type:
+          description: 'The type of Terms of Service.
+
+
+            Possible values:
+
+            *  **adyenForPlatformsManage**
+
+            *  **adyenIssuing**
+
+            *  **adyenForPlatformsAdvanced**
+
+            *  **adyenCapital**
+
+            *  **adyenAccount**
+
+            *  **adyenCard**
+
+            *  **adyenFranchisee**
+
+
+            '
+          enum:
+          - adyenAccount
+          - adyenCapital
+          - adyenCard
+          - adyenForPlatformsAdvanced
+          - adyenForPlatformsManage
+          - adyenFranchisee
+          - adyenIssuing
+          type: string
+      type: object
+    VerificationErrors:
+      properties:
+        problems:
+          x-addedInVersion: '2'
+          description: List of the verification errors.
+          items:
+            $ref: '#/components/schemas/CapabilityProblem'
+          type: array
+      type: object
+    SupportingEntityCapability:
+      properties:
+        allowed:
+          description: 'Indicates whether the capability is allowed for the supporting entity.
+
+
+            If a capability is allowed for a supporting entity but not for the parent legal entity, this means the legal entity has other supporting entities that failed verification.
+
+
+            **You can use the allowed supporting entity** regardless of the verification status of other supporting entities.'
+          readOnly: true
+          type: boolean
+        id:
+          description: 'Supporting entity reference '
+          readOnly: true
+          type: string
+        requested:
+          description: 'Indicates whether the supporting entity capability is requested. '
+          readOnly: true
+          type: boolean
+        verificationStatus:
+          description: 'The status of the verification checks for the capability of the supporting entity.
+
+
+            Possible values:
+
+
+            * **pending**: Adyen is running the verification.
+
+
+            * **invalid**: The verification failed. Check if the `errors` array contains more information.
+
+
+            * **valid**: The verification has been successfully completed.
+
+
+            * **rejected**: Adyen has verified the information, but found reasons to not allow the capability.
+
+            '
+          readOnly: true
+          type: string
+      type: object
+    BusinessLines:
+      properties:
+        businessLines:
+          description: List of business lines.
+          items:
+            $ref: '#/components/schemas/BusinessLine'
+          type: array
+      required:
+      - businessLines
+      type: object
+    Name:
+      properties:
+        firstName:
+          description: The individual's first name.
+          type: string
+        infix:
+          description: The infix in the individual's name, if any.
+          type: string
+        lastName:
+          description: The individual's last name.
+          type: string
+      required:
+      - firstName
+      - lastName
+      type: object
+    BirthData:
+      properties:
+        dateOfBirth:
+          description: The individual's date of birth, in YYYY-MM-DD format.
+          type: string
+      type: object
+    Individual:
+      properties:
+        birthData:
+          description: The individual's birth information.
+          $ref: '#/components/schemas/BirthData'
+        email:
+          description: The email address of the legal entity.
+          type: string
+        identificationData:
+          description: Information about the individual's identification document.
+          $ref: '#/components/schemas/IdentificationData'
+        name:
+          description: The individual's name.
+          $ref: '#/components/schemas/Name'
+        nationality:
+          description: The individual's nationality.
+          type: string
+        phone:
+          description: The phone number of the legal entity.
+          $ref: '#/components/schemas/PhoneNumber'
+        residentialAddress:
+          description: The residential address of the individual.
+          $ref: '#/components/schemas/Address'
+        taxInformation:
+          x-addedInVersion: '2'
+          description: The tax information of the individual.
+          items:
+            $ref: '#/components/schemas/TaxInformation'
+          type: array
+        webData:
+          deprecated: true
+          x-deprecatedInVersion: '1'
+          description: The website and app URL of the legal entity.
+          $ref: '#/components/schemas/WebData'
+      required:
+      - name
+      - residentialAddress
+      type: object
+    CalculateTermsOfServiceStatusResponse:
+      properties:
+        termsOfServiceTypes:
+          description: The type of Terms of Service that the legal entity needs to accept. If empty, no Terms of Service needs to be accepted.
+          items:
+            enum:
+            - adyenAccount
+            - adyenCapital
+            - adyenCard
+            - adyenForPlatformsAdvanced
+            - adyenForPlatformsManage
+            - adyenFranchisee
+            - adyenIssuing
+            type: string
+          type: array
+      type: object
+    LegalEntityInfo:
+      properties:
+        capabilities:
+          additionalProperties:
+            $ref: '#/components/schemas/LegalEntityCapability'
+          description: Contains key-value pairs that specify the actions that the legal entity can do in your platform.The key is a capability required for your integration. For example, **issueCard** for Issuing.The value is an object containing the settings for the capability.
+          readOnly: true
+          type: object
+        entityAssociations:
+          description: 'List of legal entities associated with the current legal entity.
+
+            For example, ultimate beneficial owners associated with an organization through ownership or control, or as signatories.'
+          items:
+            $ref: '#/components/schemas/LegalEntityAssociation'
+          type: array
+        individual:
+          description: Information about the individual. Required if `type` is **individual**.
+          $ref: '#/components/schemas/Individual'
+        organization:
+          description: Information about the organization. Required if `type` is **organization**.
+          $ref: '#/components/schemas/Organization'
+        reference:
+          description: Your reference for the legal entity, maximum 150 characters.
+          maxLength: 150
+          type: string
+        soleProprietorship:
+          x-addedInVersion: '2'
+          description: Information about the sole proprietorship. Required if `type` is **soleProprietorship**.
+          $ref: '#/components/schemas/SoleProprietorship'
+        trust:
+          description: Information about the trust. Required if `type` is **trust**.
+          $ref: '#/components/schemas/Trust'
+        type:
+          description: 'The type of legal entity.
+
+
+            Possible values: **individual**, **organization**, **soleProprietorship**, or **trust**.'
+          enum:
+          - individual
+          - organization
+          - soleProprietorship
+          - trust
+          - unincorporatedPartnership
+          type: string
+        unincorporatedPartnership:
+          description: Information about the unincorporated partnership. Required if `type` is **unincorporatedPartnership**.
+          $ref: '#/components/schemas/UnincorporatedPartnership'
+        verificationPlan:
+          description: A key-value pair that specifies the [verification process](https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details/) for a legal entity. Set to **upfront** for [upfront verification](https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details#upfront).
+          type: string
+      type: object
+    PciDocumentInfo:
+      properties:
+        createdAt:
+          description: The date the questionnaire was created, in ISO 8601 extended format. For example, 2022-12-18T10:15:30+01:00
+          format: date-time
+          type: string
+        id:
+          description: The unique identifier of the signed questionnaire.
+          type: string
+        validUntil:
+          description: The expiration date of the questionnaire, in ISO 8601 extended format. For example, 2022-12-18T10:15:30+01:00
+          format: date-time
+          type: string
+      type: object
+    GetPciQuestionnaireResponse:
+      properties:
+        content:
+          description: The generated questionnaire in a base64 encoded format.
+          format: byte
+          type: string
+        createdAt:
+          description: The date the questionnaire was created, in ISO 8601 extended format. For example, 2022-12-18T10:15:30+01:00
+          format: date-time
+          type: string
+        id:
+          description: The unique identifier of the signed questionnaire.
+          type: string
+        validUntil:
+          description: The expiration date of the questionnaire, in ISO 8601 extended format. For example, 2022-12-18T10:15:30+01:00
+          format: date-time
+          type: string
+      type: object
+    CapabilityProblemEntity-recursive:
+      properties:
+        documents:
+          description: List of document IDs corresponding to the verification errors from capabilities.
+          items:
+            type: string
+          type: array
+        id:
+          type: string
+        type:
+          enum:
+          - BankAccount
+          - Document
+          - LegalEntity
+          - product
+          type: string
+      required: []
+      type: object
+    WebData:
+      properties:
+        webAddress:
+          description: The URL of the website or the app store URL.
+          type: string
+        webAddressId:
+          description: The unique identifier of the web address.
+          readOnly: true
+          type: string
+      type: object
+    DocumentPage:
+      properties:
+        pageName:
+          type: string
+        pageNumber:
+          format: int32
+          type: integer
+        type:
+          enum:
+          - BACK
+          - FRONT
+          - UNDEFINED
+          type: string
+      type: object
+    GeneratePciDescriptionResponse:
+      properties:
+        content:
+          description: The generated questionnaires in a base64 encoded format.
+          format: byte
+          type: string
+        language:
+          description: The two-letter [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) language code for the questionnaire. For example, **en**.
+          type: string
+        pciTemplateReferences:
+          description: The array of Adyen-generated unique identifiers for the questionnaires.
+          items:
+            type: string
+          type: array
+      type: object
+    GetTermsOfServiceAcceptanceInfosResponse:
+      properties:
+        data:
+          description: The Terms of Service acceptance information.
+          items:
+            $ref: '#/components/schemas/TermsOfServiceAcceptanceInfo'
+          type: array
+      type: object
+    IdentificationData:
+      properties:
+        cardNumber:
+          description: The card number of the document that was issued (AU only).
+          type: string
+        expiryDate:
+          description: The expiry date of the document, in YYYY-MM-DD format.
+          type: string
+        issuerCountry:
+          deprecated: true
+          x-deprecatedInVersion: '1'
+          description: The two-character [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code where the document was issued. For example, **US**.
+          type: string
+        issuerState:
+          description: The state or province where the document was issued (AU only).
+          type: string
+        nationalIdExempt:
+          description: Applies only to individuals in the US. Set to **true** if the individual does not have an SSN. To verify their identity, Adyen will require them to upload an ID document.
+          type: boolean
+        number:
+          description: The number in the document.
+          type: string
+        type:
+          description: Type of identity data. For **individual**, the `type` value is **nationalIdNumber**.
+          enum:
+          - nationalIdNumber
+          type: string
+      required:
+      - type
+      type: object
+    TermsOfServiceAcceptanceInfo:
+      properties:
+        acceptedBy:
+          description: The unique identifier of the user that accepted the Terms of Service.
+          type: string
+        acceptedFor:
+          description: The unique identifier of the legal entity for which the Terms of Service are accepted.
+          type: string
+        createdAt:
+          description: The date when the Terms of Service were accepted.
+          format: date-time
+          type: string
+        id:
+          description: An Adyen-generated reference for the accepted Terms of Service.
+          type: string
+        type:
+          description: 'The type of Terms of Service.
+
+
+            Possible values:
+
+            *  **adyenForPlatformsManage**
+
+            *  **adyenIssuing**
+
+            *  **adyenForPlatformsAdvanced**
+
+            *  **adyenCapital**
+
+            *  **adyenAccount**
+
+            *  **adyenCard**
+
+            *  **adyenFranchisee**
+
+
+            '
+          enum:
+          - adyenAccount
+          - adyenCapital
+          - adyenCard
+          - adyenForPlatformsAdvanced
+          - adyenForPlatformsManage
+          - adyenFranchisee
+          - adyenIssuing
+          type: string
+      type: object
+    GetTermsOfServiceDocumentResponse:
+      properties:
+        document:
+          description: The Terms of Service document in Base64-encoded format.
+          format: byte
+          type: string
+        id:
+          description: The unique identifier of the legal entity.
+          type: string
+        language:
+          description: 'The language used for the Terms of Service document, specified by the two-letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) language code. Possible value: **en** for English.'
+          type: string
+        termsOfServiceDocumentId:
+          description: The unique identifier of the Terms of Service document.
+          type: string
+        type:
+          description: 'The type of Terms of Service.
+
+
+            Possible values:
+
+            *  **adyenForPlatformsManage**
+
+            *  **adyenIssuing**
+
+            *  **adyenForPlatformsAdvanced**
+
+            *  **adyenCapital**
+
+            *  **adyenAccount**
+
+            *  **adyenCard**
+
+            *  **adyenFranchisee**
+
+
+            '
+          enum:
+          - adyenAccount
+          - adyenCapital
+          - adyenCard
+          - adyenForPlatformsAdvanced
+          - adyenForPlatformsManage
+          - adyenFranchisee
+          - adyenIssuing
+          type: string
+      type: object
+    Amount:
+      properties:
+        currency:
+          description: The type of currency. Must be EUR (or EUR equivalent)
+          type: string
+        value:
+          description: Total value of amount. Must be >= 0
+          format: int64
+          type: integer
+      type: object
+    LegalEntity:
+      properties:
+        capabilities:
+          additionalProperties:
+            $ref: '#/components/schemas/LegalEntityCapability'
+          description: Contains key-value pairs that specify the actions that the legal entity can do in your platform.The key is a capability required for your integration. For example, **issueCard** for Issuing.The value is an object containing the settings for the capability.
+          readOnly: true
+          type: object
+        documentDetails:
+          x-addedInVersion: '2'
+          description: List of documents uploaded for the legal entity.
+          items:
+            $ref: '#/components/schemas/DocumentReference'
+          type: array
+        documents:
+          deprecated: true
+          x-deprecatedInVersion: '1'
+          x-deprecatedMessage: Use the `documentDetails` array instead.
+          description: List of documents uploaded for the legal entity.
+          items:
+            $ref: '#/components/schemas/EntityReference'
+          type: array
+        entityAssociations:
+          description: 'List of legal entities associated with the current legal entity.
+
+            For example, ultimate beneficial owners associated with an organization through ownership or control, or as signatories.'
+          items:
+            $ref: '#/components/schemas/LegalEntityAssociation'
+          type: array
+        id:
+          description: The unique identifier of the legal entity.
+          readOnly: true
+          type: string
+        individual:
+          description: Information about the individual. Required if `type` is **individual**.
+          $ref: '#/components/schemas/Individual'
+        organization:
+          description: Information about the organization. Required if `type` is **organization**.
+          $ref: '#/components/schemas/Organization'
+        problems:
+          x-addedInVersion: '3'
+          description: List of verification errors related to capabilities for the legal entity.
+          items:
+            $ref: '#/components/schemas/CapabilityProblem'
+          type: array
+        reference:
+          description: Your reference for the legal entity, maximum 150 characters.
+          maxLength: 150
+          type: string
+        soleProprietorship:
+          x-addedInVersion: '2'
+          description: Information about the sole proprietorship. Required if `type` is **soleProprietorship**.
+          $ref: '#/components/schemas/SoleProprietorship'
+        transferInstruments:
+          description: List of transfer instruments that the legal entity owns.
+          items:
+            $ref: '#/components/schemas/TransferInstrumentReference'
+          readOnly: true
+          type: array
+        trust:
+          description: Information about the trust. Required if `type` is **trust**.
+          $ref: '#/components/schemas/Trust'
+        type:
+          description: 'The type of legal entity.
+
+
+            Possible values: **individual**, **organization**, **soleProprietorship**, or **trust**.'
+          enum:
+          - individual
+          - organization
+          - soleProprietorship
+          - trust
+          - unincorporatedPartnership
+          type: string
+        unincorporatedPartnership:
+          description: Information about the unincorporated partnership. Required if `type` is **unincorporatedPartnership**.
+          $ref: '#/components/schemas/UnincorporatedPartnership'
+        verificationDeadlines:
+          x-addedInVersion: '3'
+          description: List of verification deadlines and the capabilities that will be disallowed if verification errors are not resolved.
+          items:
+            $ref: '#/components/schemas/VerificationDeadline'
+          readOnly: true
+          type: array
+        verificationPlan:
+          description: A key-value pair that specifies the [verification process](https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details/) for a legal entity. Set to **upfront** for [upfront verification](https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details#upfront).
+          type: string
+      required:
+      - id
+      type: object
+    Organization:
+      properties:
+        dateOfIncorporation:
+          x-addedInVersion: '2'
+          description: The date when the organization was incorporated in YYYY-MM-DD format.
+          type: string
+        description:
+          description: Your description for the organization.
+          type: string
+        doingBusinessAs:
+          description: The organization's trading name, if different from the registered legal name.
+          type: string
+        email:
+          description: The email address of the legal entity.
+          type: string
+        legalName:
+          description: The organization's legal name.
+          type: string
+        phone:
+          description: The phone number of the legal entity.
+          $ref: '#/components/schemas/PhoneNumber'
+        principalPlaceOfBusiness:
+          description: The address where the organization operates from. Provide this if the principal place of business is different from the `registeredAddress`.
+          $ref: '#/components/schemas/Address'
+        registeredAddress:
+          description: The address of the organization registered at their registrar (such as the Chamber of Commerce).
+          $ref: '#/components/schemas/Address'
+        registrationNumber:
+          description: The organization's registration number.
+          type: string
+        stockData:
+          description: Information about the organization's publicly traded stock. Provide this object only if `type` is **listedPublicCompany**.
+          $ref: '#/components/schemas/StockData'
+        taxInformation:
+          x-addedInVersion: '2'
+          description: The tax information of the organization.
+          items:
+            $ref: '#/components/schemas/TaxInformation'
+          type: array
+        taxReportingClassification:
+          x-addedInVersion: '2'
+          description: The tax reporting classification (FATCA/CRS self-certification) of the organization.
+          $ref: '#/components/schemas/TaxReportingClassification'
+        type:
+          description: 'Type of organization.
+
+
+            Possible values: **associationIncorporated**, **governmentalOrganization**, **listedPublicCompany**, **nonProfit**, **partnershipIncorporated**, **privateCompany**.'
+          enum:
+          - associationIncorporated
+          - governmentalOrganization
+          - listedPublicCompany
+          - nonProfit
+          - partnershipIncorporated
+          - privateCompany
+          type: string
+        vatAbsenceReason:
+          x-addedInVersion: '2'
+          description: 'The reason the organization has not provided a VAT number.
+
+
+            Possible values: **industryExemption**, **belowTaxThreshold**.'
+          enum:
+          - industryExemption
+          - belowTaxThreshold
+          type: string
+        vatNumber:
+          x-addedInVersion: '2'
+          description: The organization's VAT number.
+          type: string
+        webData:
+          deprecated: true
+          x-deprecatedInVersion: '1'
+          description: The website and app URL of the legal entity.
+          $ref: '#/components/schemas/WebData'
+      required:
+      - legalName
+      - registeredAddress
+      type: object
+    CapabilityProblem:
+      properties:
+        entity:
+          $ref: '#/components/schemas/CapabilityProblemEntity'
+        verificationErrors:
+          items:
+            $ref: '#/components/schemas/VerificationError'
+          type: array
+      type: object
+    EntityReference:
+      properties:
+        id:
+          description: The unique identifier of the resource.
+          type: string
       type: object
     UnincorporatedPartnership:
       properties:
@@ -3661,171 +4176,7 @@ components:
       - registeredAddress
       - type
       type: object
-    LegalEntity:
-      properties:
-        capabilities:
-          additionalProperties:
-            $ref: '#/components/schemas/LegalEntityCapability'
-          description: Contains key-value pairs that specify the actions that the legal entity can do in your platform.The key is a capability required for your integration. For example, **issueCard** for Issuing.The value is an object containing the settings for the capability.
-          readOnly: true
-          type: object
-        documentDetails:
-          x-addedInVersion: '2'
-          description: List of documents uploaded for the legal entity.
-          items:
-            $ref: '#/components/schemas/DocumentReference'
-          type: array
-        documents:
-          deprecated: true
-          x-deprecatedInVersion: '1'
-          x-deprecatedMessage: Use the `documentDetails` array instead.
-          description: List of documents uploaded for the legal entity.
-          items:
-            $ref: '#/components/schemas/EntityReference'
-          type: array
-        entityAssociations:
-          description: 'List of legal entities associated with the current legal entity.
-
-            For example, ultimate beneficial owners associated with an organization through ownership or control, or as signatories.'
-          items:
-            $ref: '#/components/schemas/LegalEntityAssociation'
-          type: array
-        id:
-          description: The unique identifier of the legal entity.
-          readOnly: true
-          type: string
-        individual:
-          description: Information about the individual. Required if `type` is **individual**.
-          $ref: '#/components/schemas/Individual'
-        organization:
-          description: Information about the organization. Required if `type` is **organization**.
-          $ref: '#/components/schemas/Organization'
-        problems:
-          x-addedInVersion: '3'
-          description: List of verification errors related to capabilities for the legal entity.
-          items:
-            $ref: '#/components/schemas/CapabilityProblem'
-          type: array
-        reference:
-          description: Your reference for the legal entity, maximum 150 characters.
-          maxLength: 150
-          type: string
-        soleProprietorship:
-          x-addedInVersion: '2'
-          description: Information about the sole proprietorship. Required if `type` is **soleProprietorship**.
-          $ref: '#/components/schemas/SoleProprietorship'
-        transferInstruments:
-          description: List of transfer instruments that the legal entity owns.
-          items:
-            $ref: '#/components/schemas/TransferInstrumentReference'
-          readOnly: true
-          type: array
-        trust:
-          description: Information about the trust. Required if `type` is **trust**.
-          $ref: '#/components/schemas/Trust'
-        type:
-          description: 'The type of legal entity.
-
-
-            Possible values: **individual**, **organization**, **soleProprietorship**, or **trust**.'
-          enum:
-          - individual
-          - organization
-          - soleProprietorship
-          - trust
-          - unincorporatedPartnership
-          type: string
-        unincorporatedPartnership:
-          description: Information about the unincorporated partnership. Required if `type` is **unincorporatedPartnership**.
-          $ref: '#/components/schemas/UnincorporatedPartnership'
-        verificationDeadlines:
-          x-addedInVersion: '3'
-          description: List of verification deadlines and the capabilities that will be disallowed if verification errors are not resolved.
-          items:
-            $ref: '#/components/schemas/VerificationDeadline'
-          readOnly: true
-          type: array
-        verificationPlan:
-          description: A key-value pair that specifies the [verification process](https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details/) for a legal entity. Set to **upfront** for [upfront verification](https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details#upfront).
-          type: string
-      required:
-      - id
-      type: object
-    VerificationDeadline:
-      properties:
-        capabilities:
-          description: The list of capabilities that will be disallowed if information is not reviewed by the time of the deadline
-          items:
-            enum:
-            - acceptExternalFunding
-            - acceptPspFunding
-            - acceptTransactionInRestrictedCountries
-            - acceptTransactionInRestrictedCountriesCommercial
-            - acceptTransactionInRestrictedCountriesConsumer
-            - acceptTransactionInRestrictedIndustries
-            - acceptTransactionInRestrictedIndustriesCommercial
-            - acceptTransactionInRestrictedIndustriesConsumer
-            - acquiring
-            - atmWithdrawal
-            - atmWithdrawalCommercial
-            - atmWithdrawalConsumer
-            - atmWithdrawalInRestrictedCountries
-            - atmWithdrawalInRestrictedCountriesCommercial
-            - atmWithdrawalInRestrictedCountriesConsumer
-            - authorisedPaymentInstrumentUser
-            - getGrantOffers
-            - issueBankAccount
-            - issueCard
-            - issueCardCommercial
-            - issueCardConsumer
-            - localAcceptance
-            - payout
-            - payoutToTransferInstrument
-            - processing
-            - receiveFromBalanceAccount
-            - receiveFromPlatformPayments
-            - receiveFromThirdParty
-            - receiveFromTransferInstrument
-            - receiveGrants
-            - receivePayments
-            - sendToBalanceAccount
-            - sendToThirdParty
-            - sendToTransferInstrument
-            - thirdPartyFunding
-            - useCard
-            - useCardCommercial
-            - useCardConsumer
-            - useCardInRestrictedCountries
-            - useCardInRestrictedCountriesCommercial
-            - useCardInRestrictedCountriesConsumer
-            - useCardInRestrictedIndustries
-            - useCardInRestrictedIndustriesCommercial
-            - useCardInRestrictedIndustriesConsumer
-            - withdrawFromAtm
-            - withdrawFromAtmCommercial
-            - withdrawFromAtmConsumer
-            - withdrawFromAtmInRestrictedCountries
-            - withdrawFromAtmInRestrictedCountriesCommercial
-            - withdrawFromAtmInRestrictedCountriesConsumer
-            type: string
-          readOnly: true
-          type: array
-        entityIds:
-          description: The unique identifiers of the bank account(s) that the deadline applies to
-          items:
-            type: string
-          readOnly: true
-          type: array
-        expiresAt:
-          description: The date that verification is due by before capabilities are disallowed.
-          format: date-time
-          readOnly: true
-          type: string
-      required:
-      - expiresAt
-      - capabilities
-      type: object
-    CapabilityProblemEntity-recursive:
+    CapabilityProblemEntity:
       properties:
         documents:
           description: List of document IDs corresponding to the verification errors from capabilities.
@@ -3834,6 +4185,8 @@ components:
           type: array
         id:
           type: string
+        owner:
+          $ref: '#/components/schemas/CapabilityProblemEntity-recursive'
         type:
           enum:
           - BankAccount
@@ -3841,7 +4194,141 @@ components:
           - LegalEntity
           - product
           type: string
-      required: []
+      type: object
+    Address:
+      properties:
+        city:
+          description: 'The name of the city. Required if `stateOrProvince` is provided.
+
+
+            If you specify the city, you must also send `postalCode` and `street`.'
+          type: string
+        country:
+          description: The two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code.
+          type: string
+        postalCode:
+          description: Postal code. Required if `stateOrProvince` and/or `city` is provided.
+          type: string
+        stateOrProvince:
+          description: 'The two-letter ISO 3166-2 state or province code. For example, **CA** in the US.
+
+
+            If you specify the state or province, you must also send `city`, `postalCode`, and `street`.'
+          type: string
+        street:
+          description: The name of the street, and the house or building number. Required if `stateOrProvince` and/or `city` is provided.
+          type: string
+        street2:
+          description: The apartment, unit, or suite number.
+          type: string
+      required:
+      - country
+      type: object
+    TaxInformation:
+      properties:
+        country:
+          description: The two-letter [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code.
+          maxLength: 2
+          minLength: 2
+          type: string
+        number:
+          description: The tax ID number (TIN) of the organization or individual.
+          type: string
+        type:
+          description: The TIN type depending on the country where it was issued. Provide only for countries that have multiple tax IDs, such as Sweden, the UK, or the US. For example, provide **SSN**, **EIN**, or **ITIN** for the US.
+          type: string
+      type: object
+    PciSigningResponse:
+      properties:
+        pciQuestionnaireIds:
+          description: The unique identifiers of the signed PCI documents.
+          items:
+            type: string
+          type: array
+        signedBy:
+          description: The [legal entity ID](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/legalEntities__resParam_id) of the individual who signed the PCI questionnaire.
+          type: string
+      type: object
+    TaxReportingClassification:
+      properties:
+        businessType:
+          description: 'The organization''s business type.
+
+
+            Possible values: **other**, **listedPublicCompany**, **subsidiaryOfListedPublicCompany**, **governmentalOrganization**, **internationalOrganization**, **financialInstitution**.'
+          enum:
+          - other
+          - listedPublicCompany
+          - subsidiaryOfListedPublicCompany
+          - governmentalOrganization
+          - internationalOrganization
+          - financialInstitution.
+          type: string
+        financialInstitutionNumber:
+          description: The Global Intermediary Identification Number (GIIN) required for FATCA. Only required if the organization is a US financial institution and the `businessType` is **financialInstitution**.
+          type: string
+        mainSourceOfIncome:
+          description: 'The organization''s main source of income.
+
+
+            Possible values: **businessOperation**, **realEstateSales**, **investmentInterestOrRoyalty**, **propertyRental**, **other**.'
+          enum:
+          - businessOperation
+          - realEstateSales
+          - investmentInterestOrRoyalty
+          - propertyRental
+          - other
+          type: string
+        type:
+          description: 'The tax reporting classification type.
+
+
+            Possible values: **nonFinancialNonReportable**, **financialNonReportable**, **nonFinancialActive**, **nonFinancialPassive**.'
+          enum:
+          - nonFinancialNonReportable
+          - financialNonReportable
+          - nonFinancialActive
+          - nonFinancialPassive
+          type: string
+      type: object
+    SourceOfFunds:
+      properties:
+        acquiringBusinessLineId:
+          deprecated: true
+          x-deprecatedInVersion: '3'
+          x-deprecatedMessage: This field will be removed in v4.
+          description: The unique identifier of the business line that will be the source of funds.This must be a business line for a **receivePayments** or **receiveFromPlatformPayments** capability.
+          type: string
+        adyenProcessedFunds:
+          description: Indicates whether the funds are coming from transactions processed by Adyen. If **false**, a `description` is required.
+          type: boolean
+        description:
+          description: Text describing the source of funds. For example, for `type` **business**, provide a description of where the business transactions come from, such as payments through bank transfer. Required when `adyenProcessedFunds` is **false**.
+          type: string
+        type:
+          description: 'The type of the source of funds. Possible value: **business**.'
+          enum:
+          - business
+          type: string
+      type: object
+    TransferInstrumentReference:
+      properties:
+        accountIdentifier:
+          description: The masked IBAN or bank account number.
+          type: string
+        id:
+          description: The unique identifier of the resource.
+          type: string
+        realLastFour:
+          description: Four last digits of the bank account number. If the transfer instrument is created using [instant bank account verification](https://docs.adyen.com/release-notes/platforms-and-financial-products#releaseNote=2023-05-08-hosted-onboarding), and it is a virtual bank account, these digits may be different from the last four digits of the masked account number.
+          type: string
+        trustedSource:
+          description: Identifies if the bank account was created through [instant bank verification](https://docs.adyen.com/release-notes/platforms-and-financial-products#releaseNote=2023-05-08-hosted-onboarding).
+          readOnly: true
+          type: boolean
+      required:
+      - id
+      - accountIdentifier
       type: object
     LegalEntityCapability:
       properties:
@@ -3914,498 +4401,16 @@ components:
           readOnly: true
           type: string
       type: object
-    AcceptTermsOfServiceRequest:
+    PhoneNumber:
       properties:
-        acceptedBy:
-          description: 'The legal entity ID of the user accepting the Terms of Service.
-
-
-            For organizations, this must be the individual legal entity ID of an authorized signatory for the organization.
-
-
-            For sole proprietorships, this must be the individual legal entity ID of the owner.'
-          type: string
-        ipAddress:
-          description: The IP address of the user accepting the Terms of Service.
-          type: string
-      required:
-      - acceptedBy
-      type: object
-    WebData:
-      properties:
-        webAddress:
-          description: The URL of the website or the app store URL.
-          type: string
-        webAddressId:
-          description: The unique identifier of the web address.
-          readOnly: true
-          type: string
-      type: object
-    ServiceError:
-      properties:
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
-      type: object
-    Name:
-      properties:
-        firstName:
-          description: The individual's first name.
-          type: string
-        infix:
-          description: The infix in the individual's name, if any.
-          type: string
-        lastName:
-          description: The individual's last name.
-          type: string
-      required:
-      - firstName
-      - lastName
-      type: object
-    IdentificationData:
-      properties:
-        cardNumber:
-          description: The card number of the document that was issued (AU only).
-          type: string
-        expiryDate:
-          description: The expiry date of the document, in YYYY-MM-DD format.
-          type: string
-        issuerCountry:
-          deprecated: true
-          x-deprecatedInVersion: '1'
-          description: The two-character [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code where the document was issued. For example, **US**.
-          type: string
-        issuerState:
-          description: The state or province where the document was issued (AU only).
-          type: string
-        nationalIdExempt:
-          description: Applies only to individuals in the US. Set to **true** if the individual does not have an SSN. To verify their identity, Adyen will require them to upload an ID document.
-          type: boolean
         number:
-          description: The number in the document.
+          description: The full phone number, including the country code. For example, **+3112345678**.
           type: string
         type:
-          description: Type of identity data. For **individual**, the `type` value is **nationalIdNumber**.
-          enum:
-          - nationalIdNumber
+          description: "The type of phone number.\n Possible values: **mobile**, **landline**, **sip**, **fax.** "
           type: string
       required:
-      - type
-      type: object
-    LegalEntityInfoRequiredType:
-      properties:
-        capabilities:
-          additionalProperties:
-            $ref: '#/components/schemas/LegalEntityCapability'
-          description: Contains key-value pairs that specify the actions that the legal entity can do in your platform.The key is a capability required for your integration. For example, **issueCard** for Issuing.The value is an object containing the settings for the capability.
-          readOnly: true
-          type: object
-        entityAssociations:
-          description: 'List of legal entities associated with the current legal entity.
-
-            For example, ultimate beneficial owners associated with an organization through ownership or control, or as signatories.'
-          items:
-            $ref: '#/components/schemas/LegalEntityAssociation'
-          type: array
-        individual:
-          description: Information about the individual. Required if `type` is **individual**.
-          $ref: '#/components/schemas/Individual'
-        organization:
-          description: Information about the organization. Required if `type` is **organization**.
-          $ref: '#/components/schemas/Organization'
-        reference:
-          description: Your reference for the legal entity, maximum 150 characters.
-          maxLength: 150
-          type: string
-        soleProprietorship:
-          x-addedInVersion: '2'
-          description: Information about the sole proprietorship. Required if `type` is **soleProprietorship**.
-          $ref: '#/components/schemas/SoleProprietorship'
-        trust:
-          description: Information about the trust. Required if `type` is **trust**.
-          $ref: '#/components/schemas/Trust'
-        type:
-          description: "The type of legal entity.\n\n Possible values: **individual**, **organization**, **soleProprietorship**, or **trust**."
-          enum:
-          - individual
-          - organization
-          - soleProprietorship
-          - trust
-          - unincorporatedPartnership
-          type: string
-        unincorporatedPartnership:
-          description: Information about the unincorporated partnership. Required if `type` is **unincorporatedPartnership**.
-          $ref: '#/components/schemas/UnincorporatedPartnership'
-        verificationPlan:
-          description: A key-value pair that specifies the [verification process](https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details/) for a legal entity. Set to **upfront** for [upfront verification](https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details#upfront).
-          type: string
-      required:
-      - type
-      type: object
-    Amount:
-      properties:
-        currency:
-          description: The type of currency. Must be EUR (or EUR equivalent)
-          type: string
-        value:
-          description: Total value of amount. Must be >= 0
-          format: int64
-          type: integer
-      type: object
-    CapabilityProblem:
-      properties:
-        entity:
-          $ref: '#/components/schemas/CapabilityProblemEntity'
-        verificationErrors:
-          items:
-            $ref: '#/components/schemas/VerificationError'
-          type: array
-      type: object
-    VerificationErrors:
-      properties:
-        problems:
-          x-addedInVersion: '2'
-          description: List of the verification errors.
-          items:
-            $ref: '#/components/schemas/CapabilityProblem'
-          type: array
-      type: object
-    BusinessLine:
-      properties:
-        capability:
-          deprecated: true
-          x-deprecatedInVersion: '3'
-          x-deprecatedMessage: Use `service` instead.
-          description: 'The capability for which you are creating the business line.
-
-
-            Possible values: **receivePayments**, **receiveFromPlatformPayments**, **issueBankAccount**'
-          enum:
-          - receivePayments
-          - receiveFromPlatformPayments
-          - issueBankAccount
-          type: string
-        id:
-          description: The unique identifier of the business line.
-          readOnly: true
-          type: string
-        industryCode:
-          description: A code that represents the [industry of the legal entity](https://docs.adyen.com/marketplaces-and-platforms/verification-requirements/reference-additional-products/#list-industry-codes). For example, **4431A** for computer software stores.
-          type: string
-        legalEntityId:
-          description: Unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/legalEntities__resParam_id) that owns the business line.
-          type: string
-        problems:
-          x-addedInVersion: '3'
-          description: The verification errors related to capabilities for this supporting entity.
-          items:
-            $ref: '#/components/schemas/CapabilityProblem'
-          type: array
-        salesChannels:
-          description: 'A list of channels where goods or services are sold.
-
-
-            Possible values: **pos**, **posMoto**, **eCommerce**, **ecomMoto**, **payByLink**.
-
-
-            Required only in combination with the `service` **paymentProcessing**.'
-          items:
-            type: string
-          type: array
-        service:
-          x-addedInVersion: '3'
-          description: 'The service for which you are creating the business line.
-
-
-
-
-            Possible values:
-
-            *  **paymentProcessing**
-
-            *  **banking**
-
-
-            '
-          enum:
-          - paymentProcessing
-          - banking
-          type: string
-        sourceOfFunds:
-          description: Contains information about the source of your user's funds. Required only for the `service` **banking**.
-          $ref: '#/components/schemas/SourceOfFunds'
-        webData:
-          description: List of website URLs where your user's goods or services are sold. When this is required for a service but your user does not have an online presence, provide the reason in the `webDataExemption` object.
-          items:
-            $ref: '#/components/schemas/WebData'
-          type: array
-        webDataExemption:
-          description: The reason why the web data is not provided.
-          $ref: '#/components/schemas/WebDataExemption'
-      required:
-      - service
-      - industryCode
-      - legalEntityId
-      - id
-      type: object
-    AcceptTermsOfServiceResponse:
-      properties:
-        acceptedBy:
-          description: The unique identifier of the user that accepted the Terms of Service.
-          type: string
-        id:
-          description: The unique identifier of the Terms of Service acceptance.
-          type: string
-        ipAddress:
-          description: The IP address of the user that accepted the Terms of Service.
-          type: string
-        language:
-          description: 'The language used for the Terms of Service document, specified by the two-letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) language code. Possible value: **en** for English.'
-          type: string
-        termsOfServiceDocumentId:
-          description: The unique identifier of the Terms of Service document.
-          type: string
-        type:
-          description: 'The type of Terms of Service.
-
-
-            Possible values:
-
-            *  **adyenForPlatformsManage**
-
-            *  **adyenIssuing**
-
-            *  **adyenForPlatformsAdvanced**
-
-            *  **adyenCapital**
-
-            *  **adyenAccount**
-
-            *  **adyenCard**
-
-            *  **adyenFranchisee**
-
-
-            '
-          enum:
-          - adyenAccount
-          - adyenCapital
-          - adyenCard
-          - adyenForPlatformsAdvanced
-          - adyenForPlatformsManage
-          - adyenFranchisee
-          - adyenIssuing
-          type: string
-      type: object
-    PciSigningResponse:
-      properties:
-        pciQuestionnaireIds:
-          description: The unique identifiers of the signed PCI documents.
-          items:
-            type: string
-          type: array
-        signedBy:
-          description: The [legal entity ID](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/legalEntities__resParam_id) of the individual who signed the PCI questionnaire.
-          type: string
-      type: object
-    GetPciQuestionnaireInfosResponse:
-      properties:
-        data:
-          description: Information about the signed PCI questionnaires.
-          items:
-            $ref: '#/components/schemas/PciDocumentInfo'
-          type: array
-      type: object
-    OnboardingLinkInfo:
-      properties:
-        locale:
-          description: "The language that will be used for the page, specified by a combination of two letter [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) language and [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country codes. See [possible values](https://docs.adyen.com/marketplaces-and-platforms/collect-verification-details/hosted#supported-languages). \n\nIf not specified in the request or if the language is not supported, the page uses the browser language. If the browser language is not supported, the page uses **en-US** by default."
-          type: string
-        redirectUrl:
-          description: The URL where the user is redirected after they complete hosted onboarding.
-          type: string
-        settings:
-          additionalProperties:
-            type: boolean
-          description: 'Boolean key-value pairs indicating the settings for the hosted onboarding page. The keys are the settings.
-
-
-            Possible keys:
-
-
-            By default, these values are set to **true**. Set to **false** to not allow the action.
-
-
-            - **changeLegalEntityType**: The user can change their legal entity type.
-
-
-            - **editPrefilledCountry**: The user can change the country of their legal entity''s address, for example the registered address of an organization.
-
-
-            By default, these values are set to **false**. Set to **true** to allow the action.
-
-
-            - **allowBankAccountFormatSelection**: The user can select the format for their payout account if applicable.
-
-
-            - **allowIntraRegionCrossBorderPayout**: The user can select a payout account in a different EU/EEA country than the country of their legal entity.
-
-
-            By default, these value are set to **false**. Set the following values to **true** to require the user to sign PCI questionnaires based on their sales channels. The user must sign PCI questionnaires for all relevant sales channels.
-
-
-            - **requirePciSignEcommerce**
-
-
-            - **requirePciSignPos**
-
-
-            - **requirePciSignEcomMoto**
-
-
-            - **requirePciSignPosMoto**
-
-
-            '
-          type: object
-        themeId:
-          description: The unique identifier of the hosted onboarding theme.
-          type: string
-      type: object
-    TermsOfServiceAcceptanceInfo:
-      properties:
-        acceptedBy:
-          description: The unique identifier of the user that accepted the Terms of Service.
-          type: string
-        acceptedFor:
-          description: The unique identifier of the legal entity for which the Terms of Service are accepted.
-          type: string
-        createdAt:
-          description: The date when the Terms of Service were accepted.
-          format: date-time
-          type: string
-        id:
-          description: An Adyen-generated reference for the accepted Terms of Service.
-          type: string
-        type:
-          description: 'The type of Terms of Service.
-
-
-            Possible values:
-
-            *  **adyenForPlatformsManage**
-
-            *  **adyenIssuing**
-
-            *  **adyenForPlatformsAdvanced**
-
-            *  **adyenCapital**
-
-            *  **adyenAccount**
-
-            *  **adyenCard**
-
-            *  **adyenFranchisee**
-
-
-            '
-          enum:
-          - adyenAccount
-          - adyenCapital
-          - adyenCard
-          - adyenForPlatformsAdvanced
-          - adyenForPlatformsManage
-          - adyenFranchisee
-          - adyenIssuing
-          type: string
-      type: object
-    GetPciQuestionnaireResponse:
-      properties:
-        content:
-          description: The generated questionnaire in a base64 encoded format.
-          format: byte
-          type: string
-        createdAt:
-          description: The date the questionnaire was created, in ISO 8601 extended format. For example, 2022-12-18T10:15:30+01:00
-          format: date-time
-          type: string
-        id:
-          description: The unique identifier of the signed questionnaire.
-          type: string
-        validUntil:
-          description: The expiration date of the questionnaire, in ISO 8601 extended format. For example, 2022-12-18T10:15:30+01:00
-          format: date-time
-          type: string
-      type: object
-    GeneratePciDescriptionResponse:
-      properties:
-        content:
-          description: The generated questionnaires in a base64 encoded format.
-          format: byte
-          type: string
-        language:
-          description: The two-letter [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) language code for the questionnaire. For example, **en**.
-          type: string
-        pciTemplateReferences:
-          description: The array of Adyen-generated unique identifiers for the questionnaires.
-          items:
-            type: string
-          type: array
-      type: object
-    TaxReportingClassification:
-      properties:
-        businessType:
-          description: 'The organization''s business type.
-
-
-            Possible values: **other**, **listedPublicCompany**, **subsidiaryOfListedPublicCompany**, **governmentalOrganization**, **internationalOrganization**, **financialInstitution**.'
-          enum:
-          - other
-          - listedPublicCompany
-          - subsidiaryOfListedPublicCompany
-          - governmentalOrganization
-          - internationalOrganization
-          - financialInstitution.
-          type: string
-        financialInstitutionNumber:
-          description: The Global Intermediary Identification Number (GIIN) required for FATCA. Only required if the organization is a US financial institution and the `businessType` is **financialInstitution**.
-          type: string
-        mainSourceOfIncome:
-          description: 'The organization''s main source of income.
-
-
-            Possible values: **businessOperation**, **realEstateSales**, **investmentInterestOrRoyalty**, **propertyRental**, **other**.'
-          enum:
-          - businessOperation
-          - realEstateSales
-          - investmentInterestOrRoyalty
-          - propertyRental
-          - other
-          type: string
-        type:
-          description: 'The tax reporting classification type.
-
-
-            Possible values: **nonFinancialNonReportable**, **financialNonReportable**, **nonFinancialActive**, **nonFinancialPassive**.'
-          enum:
-          - nonFinancialNonReportable
-          - financialNonReportable
-          - nonFinancialActive
-          - nonFinancialPassive
-          type: string
+      - number
       type: object
   securitySchemes:
     ApiKeyAuth:
@@ -4415,7 +4420,3 @@ components:
     BasicAuth:
       scheme: basic
       type: http
-x-groups:
-- Account holders
-- Accounts
-- Verification

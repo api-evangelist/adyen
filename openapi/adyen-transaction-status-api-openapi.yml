@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   version: '1'
-  title: Adyen Terminal Payment API
+  title: Adyen Terminal Transactionstatus API
   description: The Adyen Terminal API lets you make payments, issue refunds, collect shopper information, and perform other shopper-terminal interactions using a payment terminal supplied by Adyen.
 servers:
 - description: with cloud integration
@@ -11,12 +11,12 @@ servers:
 - description: with local-hosting
   url: <local-terminal-IP-address>
 tags:
-- name: Payment
+- name: Transaction Status
 paths:
-  /payment:
+  /transactionstatus:
     post:
-      description: Request sent to terminal to initiate payment. It conveys Information related to the Payment transaction to process. Content of the Payment Request message.
-      summary: Adyen Payment Request
+      description: It conveys Information requested for status of the last or current Payment, Loyalty or Reversal transaction. Content of the TransactionStatus Request message.
+      summary: Adyen TransactionStatus Request
       security:
       - BasicAuth: []
       - ApiKeyAuth: []
@@ -24,38 +24,67 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PaymentRequest'
+              $ref: '#/components/schemas/TransactionStatusRequest'
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaymentResponse'
+                $ref: '#/components/schemas/TransactionStatusResponse'
               examples:
                 operation200Example:
                   summary: Default operation 200 response
                   x-microcks-default: true
                   value:
                     Response: example_value
-                    SaleData: example_value
-                    POIData: example_value
-                    PaymentResult: example_value
-                    LoyaltyResult:
-                    - example_value
-                    PaymentReceipt:
-                    - example_value
-                    CustomerOrder:
-                    - example_value
-          description: It conveys Information related to the Payment transaction processed by the POI System. Content of the Payment Response message.
+                    MessageReference: REF-001
+                    RepeatedMessageResponse: example_value
+          description: It conveys Information related to the status of the last or current Payment, Loyalty or Reversal transaction. Content of the TransactionStatus Response message.
       tags:
-      - Payment
+      - Transaction Status
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
-      operationId: postPayment
+      operationId: postTransactionstatus
       x-operation-id-source: derived
 components:
   schemas:
+    MessageHeader:
+      type: object
+      description: It conveys Information related to the Sale to POI protocol management. Message header of the Sale to POI protocol message.
+      properties:
+        ProtocolVersion:
+          type: string
+          pattern: ^.+$
+          description: If MessageCategory is Login or Diagnosis.
+        MessageClass:
+          $ref: '#/components/schemas/MessageClass'
+        MessageCategory:
+          $ref: '#/components/schemas/MessageCategory'
+        MessageType:
+          $ref: '#/components/schemas/MessageType'
+        ServiceID:
+          type: string
+          pattern: ^.{1,10}$
+          description: Required if Service or Event MessageClass message or if Device MessageClass and request from POI or response from Sale.
+        DeviceID:
+          type: string
+          pattern: ^.{1,10}$
+          description: If Device MessageClass.
+        SaleID:
+          type: string
+          pattern: ^.+$
+          description: Identification of a Sale System or a Sale Terminal for the Sale to POI protocol.
+        POIID:
+          type: string
+          pattern: ^.+$
+          description: Identification of a POI System or a POI Terminal for the Sale to POI protocol.
+      required:
+      - MessageClass
+      - MessageCategory
+      - MessageType
+      - SaleID
+      - POIID
     PredefinedContent:
       type: object
       description: It conveys Information related to the predefined message. Reference of a predefined message to display or print.
@@ -201,6 +230,28 @@ components:
           type: number
           maximum: 99999999.999999
           minimum: 0
+    LoyaltyResponse:
+      type: object
+      description: It conveys Information related to the Loyalty transaction processed by the POI System. Content of the Loyalty Response message.
+      properties:
+        Response:
+          $ref: '#/components/schemas/Response'
+        SaleData:
+          $ref: '#/components/schemas/SaleData'
+        POIData:
+          $ref: '#/components/schemas/POIData'
+        LoyaltyResult:
+          type: array
+          items:
+            $ref: '#/components/schemas/LoyaltyResult'
+        PaymentReceipt:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentReceipt'
+      required:
+      - Response
+      - SaleData
+      - POIData
     AuthenticationMethod:
       type: array
       items:
@@ -224,21 +275,6 @@ components:
       - LinkedCard
       - LoyaltyCard
       - NoCard
-    PaymentTransaction:
-      type: object
-      properties:
-        AmountsReq:
-          $ref: '#/components/schemas/AmountsReq'
-        OriginalPOITransaction:
-          $ref: '#/components/schemas/OriginalPOITransaction'
-        TransactionConditions:
-          $ref: '#/components/schemas/TransactionConditions'
-        SaleItem:
-          type: array
-          items:
-            $ref: '#/components/schemas/SaleItem'
-      required:
-      - AmountsReq
     TrackData:
       type: object
       description: ISO 7813 - ISO 4909.  Generic data structure for a card track, used when the magstripe card reader is located on the Sale Terminal, or for magstripe Card Reader device request. The data structure is also used to store the line at the bottom of a bank check. Magnetic track or magnetic ink characters line.
@@ -255,44 +291,6 @@ components:
           pattern: ^.{1,104}$
       required:
       - TrackValue
-    AmountsReq:
-      type: object
-      description: Amounts of a payment
-      properties:
-        Currency:
-          type: string
-          pattern: ^[A-Z]{3,3}$
-        RequestedAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        CashBackAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        TipAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        PaidAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        MinimumAmountToDeliver:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        MaximumCashBackAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        MinimumSplitAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-      required:
-      - Currency
-      - RequestedAmount
     Alignment:
       type: string
       enum:
@@ -363,6 +361,15 @@ components:
       required:
       - TransactionID
       - TimeStamp
+    StoredValueTransactionType:
+      type: string
+      enum:
+      - Activate
+      - Duplicate
+      - Load
+      - Reserve
+      - Reverse
+      - Unload
     PaymentResult:
       type: object
       properties:
@@ -398,6 +405,28 @@ components:
           format: date
         PaymentAcquirerData:
           $ref: '#/components/schemas/PaymentAcquirerData'
+    MessageReference:
+      type: object
+      description: To abort a transaction in progress or to request the status of a transaction from which no response has been received.  It identifies the message header of the message request to abort or request the status. Identification of a previous POI transaction.
+      properties:
+        MessageCategory:
+          $ref: '#/components/schemas/MessageCategory'
+        ServiceID:
+          type: string
+          pattern: ^.{1,10}$
+          description: Identification of a message pair, which processes a transaction.
+        DeviceID:
+          type: string
+          pattern: ^.{1,10}$
+          description: Identification of a device message pair.
+        SaleID:
+          type: string
+          pattern: ^.+$
+          description: default MessageHeader.SaleID.
+        POIID:
+          type: string
+          pattern: ^.+$
+          description: default MessageHeader.POIID.
     CurrencyConversion:
       type: object
       description: A currency conversion occurred in the payment, and the merchant needs to know information related to this conversion (e.g. to print on the sale receipt). Information related to a currency conversion.
@@ -425,6 +454,12 @@ components:
           description: If a declaration has to be presented to the customer.
       required:
       - ConvertedAmount
+    MessageClass:
+      type: string
+      enum:
+      - Device
+      - Event
+      - Service
     OutputContent:
       type: object
       description: This is a sequence of elements if they have different formats. Content to display or print.
@@ -458,53 +493,6 @@ components:
       required:
       - Latitude
       - Longitude
-    SaleItem:
-      type: object
-      description: In loyalty or value added payment card transaction, the items of the sale are entering in the processing of the transaction. Sale items of a transaction.
-      properties:
-        ItemID:
-          type: integer
-          description: Item identification inside a transaction (0 to n).
-        ProductCode:
-          type: integer
-          minimum: 1
-          maximum: 20
-          description: Product code of item purchased with the transaction.
-        EanUpc:
-          type: integer
-          description: If data sent, POI has to store it and send it if the host protocol allows it.
-        UnitOfMeasure:
-          $ref: '#/components/schemas/UnitOfMeasure'
-        Quantity:
-          type: string
-          description: If data sent, POI has to store it and send it if the host protocol allows it.
-        UnitPrice:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-          description: if Quantity present.
-        ItemAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-          description: Total amount of the item line.
-        TaxCode:
-          type: integer
-          description: If data sent, POI has to store it and send it if the host protocol allows it.
-        SaleChannel:
-          type: integer
-          description: If data sent, POI has to store it and send it if the host protocol allows it.
-        ProductLabel:
-          type: string
-          pattern: ^.+$
-        AdditionalProductInfo:
-          type: string
-          pattern: ^.+$
-          description: If data sent, POI has to store it and send it if the host protocol allows it.
-      required:
-      - ItemID
-      - ProductCode
-      - ItemAmount
     LoyaltyAmount:
       type: object
       description: An awarded amount or an amount to redeem to the loyalty account might be sent in the Payment request message. Amount of a loyalty account.
@@ -520,37 +508,88 @@ components:
           minimum: 0
       required:
       - AmountValue
+    StoredValueResult:
+      type: object
+      description: For each stored value card loaded or reloaded, in the StoredValue response message. Result of loading/reloading a stored value card..
+      properties:
+        StoredValueTransactionType:
+          $ref: '#/components/schemas/StoredValueTransactionType'
+        ProductCode:
+          type: integer
+          minimum: 1
+          maximum: 20
+          description: Copy.
+        EanUpc:
+          type: integer
+          description: Copy.
+        ItemAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+          description: Total amount of the item line.
+        Currency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+          description: Copy.
+        StoredValueAccountStatus:
+          $ref: '#/components/schemas/StoredValueAccountStatus'
+        HostTransactionID:
+          $ref: '#/components/schemas/TransactionIDType'
+      required:
+      - StoredValueTransactionType
+    CardAcquisitionResponse:
+      type: object
+      description: It conveys Information related to the payment and loyalty cards read and processed by the POI System and entered by the Customer. Content of the Card Acquisition Response message.
+      properties:
+        Response:
+          $ref: '#/components/schemas/Response'
+        SaleData:
+          $ref: '#/components/schemas/SaleData'
+        POIData:
+          $ref: '#/components/schemas/POIData'
+        CustomerLanguage:
+          type: string
+          pattern: ^[a-z]{2,2}$
+          description: Data related to the POI System.
+        PaymentBrand:
+          type: array
+          items:
+            type: string
+            pattern: ^.+$
+            description: Brands available for payment by the card and not chosen by the Customer.
+        PaymentInstrumentData:
+          $ref: '#/components/schemas/PaymentInstrumentData'
+        LoyaltyAccount:
+          type: array
+          items:
+            $ref: '#/components/schemas/LoyaltyAccount'
+      required:
+      - Response
+      - SaleData
+      - POIData
     StoredValueAccountType:
       type: string
       enum:
       - GiftCard
       - Other
       - PhoneCard
-    PaymentData:
-      type: object
-      properties:
-        PaymentType:
-          $ref: '#/components/schemas/PaymentType'
-        SplitPaymentFlag:
-          type: boolean
-          default: false
-        RequestedValidityDate:
-          type: string
-          format: date
-        CardAcquisitionReference:
-          $ref: '#/components/schemas/TransactionIDType'
-        Instalment:
-          $ref: '#/components/schemas/Instalment'
-        CustomerOrder:
-          $ref: '#/components/schemas/CustomerOrder'
-        PaymentInstrumentData:
-          $ref: '#/components/schemas/PaymentInstrumentData'
     Result:
       type: string
       enum:
       - Failure
       - Partial
       - Success
+    StoredValueAccountStatus:
+      type: object
+      properties:
+        StoredValueAccountID:
+          $ref: '#/components/schemas/StoredValueAccountID'
+        CurrentBalance:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+      required:
+      - StoredValueAccountID
     CustomerOrder:
       type: object
       description: Customer order attached to a customer, recorded in the POI system.  Allows the management of customer orders by the POI, for instance in a multi-channel or a click and collect sale transaction.
@@ -641,46 +680,6 @@ components:
           $ref: '#/components/schemas/SaleToIssuerData'
       required:
       - SaleTransactionID
-    TransactionConditions:
-      type: object
-      description: Conditions on which the transaction must be processed.
-      properties:
-        AllowedPaymentBrand:
-          type: array
-          items:
-            type: string
-            pattern: ^.+$
-            description: Restrict brand if data sent.
-        AcquirerID:
-          type: array
-          items:
-            type: integer
-            description: Restrict to these Acquirer if present.
-        DebitPreferredFlag:
-          type: boolean
-          description: The preferred type of payment is a debit transaction rather a credit transaction.
-        AllowedLoyaltyBrand:
-          type: array
-          items:
-            type: string
-            pattern: ^.+$
-            description: Restrict brand if data sent.
-        LoyaltyHandling:
-          $ref: '#/components/schemas/LoyaltyHandling'
-        CustomerLanguage:
-          type: string
-          pattern: ^[a-z]{2,2}$
-          description: If the language is selected by the Sale System before the request to the POI.
-        ForceOnlineFlag:
-          type: boolean
-          default: false
-          description: Go online if data sent.
-        ForceEntryMode:
-          $ref: '#/components/schemas/ForceEntryMode'
-        MerchantCategoryCode:
-          type: string
-          pattern: ^.{3,4}$
-          description: The payment implies a specific MCC.
     AmountsResp:
       type: object
       properties:
@@ -728,14 +727,6 @@ components:
       - Red
       - White
       - Yellow
-    LoyaltyHandling:
-      type: string
-      enum:
-      - Allowed
-      - Forbidden
-      - Processed
-      - Proposed
-      - Required
     UnitOfMeasure:
       type: string
       enum:
@@ -758,6 +749,16 @@ components:
       - UKGallon
       - USGallon
       - Yard
+    RepeatedMessageResponse:
+      type: object
+      properties:
+        MessageHeader:
+          $ref: '#/components/schemas/MessageHeader'
+        RepeatedResponseMessageBody:
+          $ref: '#/components/schemas/RepeatedResponseMessageBody'
+      required:
+      - MessageHeader
+      - RepeatedResponseMessageBody
     Response:
       type: object
       description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
@@ -825,6 +826,18 @@ components:
         - Both
         - Closed
         - Open
+    TransactionStatusResponse:
+      type: object
+      description: It conveys Information related to the status of the last or current Payment, Loyalty or Reversal transaction. Content of the TransactionStatus Response message.
+      properties:
+        Response:
+          $ref: '#/components/schemas/Response'
+        MessageReference:
+          $ref: '#/components/schemas/MessageReference'
+        RepeatedMessageResponse:
+          $ref: '#/components/schemas/RepeatedMessageResponse'
+      required:
+      - Response
     PaymentAcquirerData:
       type: object
       description: Data related to the response from the payment Acquirer.
@@ -852,22 +865,6 @@ components:
       required:
       - MerchantID
       - AcquirerPOIID
-    ForceEntryMode:
-      type: array
-      items:
-        type: string
-        enum:
-        - CheckReader
-        - Contactless
-        - File
-        - ICC
-        - Keyed
-        - MagStripe
-        - Manual
-        - RFID
-        - Scanned
-        - SynchronousICC
-        - Tapped
     CheckData:
       type: object
       description: Allows the check information to be provided by the Sale System before requesting the payment, or stored by the Sale System after processing of the payment. Information related to the paper check used for the transaction.
@@ -896,6 +893,35 @@ components:
           type: string
           pattern: ^[A-Z]{3,3}$
           description: Absent if country of the Sale system.
+    TransactionStatusRequest:
+      type: object
+      description: It conveys Information requested for status of the last or current Payment, Loyalty or Reversal transaction. Content of the TransactionStatus Request message.
+      properties:
+        MessageReference:
+          $ref: '#/components/schemas/MessageReference'
+        ReceiptReprintFlag:
+          type: boolean
+          default: false
+          description: Request to reprint the POI receipt(s).
+        DocumentQualifier:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentQualifier'
+    RepeatedResponseMessageBody:
+      type: object
+      properties:
+        LoyaltyResponse:
+          $ref: '#/components/schemas/LoyaltyResponse'
+        PaymentResponse:
+          $ref: '#/components/schemas/PaymentResponse'
+        ReversalResponse:
+          $ref: '#/components/schemas/ReversalResponse'
+        StoredValueResponse:
+          $ref: '#/components/schemas/StoredValueResponse'
+        CardAcquisitionResponse:
+          $ref: '#/components/schemas/CardAcquisitionResponse'
+        CardReaderAPDUResponse:
+          $ref: '#/components/schemas/CardReaderAPDUResponse'
     AllowedProduct:
       type: object
       description: Product that is payable by the payment card. Product codes that are payable by the payment card.
@@ -977,6 +1003,12 @@ components:
         - Scanned
         - SynchronousICC
         - Tapped
+    MessageType:
+      type: string
+      enum:
+      - Notification
+      - Request
+      - Response
     OutputFormat:
       type: string
       enum:
@@ -1130,16 +1162,6 @@ components:
       required:
       - AmountValue
       - Currency
-    LoyaltyData:
-      type: object
-      description: In the Payment, Loyalty or Balance Inquiry Request message, it allows the Sale Terminal to send the identification of the loyalty account or an awarded amount or an amount to redeem to the loyalty account. Data related to a Loyalty program or account.
-      properties:
-        CardAcquisitionReference:
-          $ref: '#/components/schemas/TransactionIDType'
-        LoyaltyAccountID:
-          $ref: '#/components/schemas/LoyaltyAccountID'
-        LoyaltyAmount:
-          $ref: '#/components/schemas/LoyaltyAmount'
     LoyaltyAccountID:
       type: object
       description: In the Payment or the Loyalty Request message, it allows to identify the loyalty account by the Sale Terminal instead of the POI Terminal (e.g. because the account identification is a bar-code read by the Cashier on a scanner device). Identification of a Loyalty account.
@@ -1179,6 +1201,30 @@ components:
       required:
       - DocumentQualifier
       - OutputContent
+    MessageCategory:
+      type: string
+      enum:
+      - Abort
+      - Admin
+      - BalanceInquiry
+      - CardAcquisition
+      - CardReaderAPDU
+      - Diagnosis
+      - Display
+      - EnableService
+      - Event
+      - GetTotals
+      - Input
+      - InputUpdate
+      - Login
+      - Logout
+      - Loyalty
+      - Payment
+      - Print
+      - Reconciliation
+      - Reversal
+      - StoredValue
+      - TransactionStatus
     LoyaltyResult:
       type: object
       description: In the Message Response, the result of each loyalty brand transaction. Data related to the result of a processed loyalty transaction.
@@ -1209,23 +1255,6 @@ components:
           description: If Result is Success.
       required:
       - POITransactionID
-    PaymentRequest:
-      type: object
-      description: Request sent to terminal to initiate payment.  It conveys Information related to the Payment transaction to process. Content of the Payment Request message.
-      properties:
-        SaleData:
-          $ref: '#/components/schemas/SaleData'
-        PaymentTransaction:
-          $ref: '#/components/schemas/PaymentTransaction'
-        PaymentData:
-          $ref: '#/components/schemas/PaymentData'
-        LoyaltyData:
-          type: array
-          items:
-            $ref: '#/components/schemas/LoyaltyData'
-      required:
-      - SaleData
-      - PaymentTransaction
     CardData:
       type: object
       description: Allows acquisition of the card data by the Sale System before the Payment, CardAcquisition  or BalanceInquiry request to the POI. It could also be sent in the CardAcquisition response, to be processed by the Sale System. Information related to the payment card used for the transaction.
@@ -1273,6 +1302,28 @@ components:
       enum:
       - Customer
       - Transaction
+    StoredValueResponse:
+      type: object
+      description: It conveys Information related to the Stored Value transaction processed by the POI System. Content of the Stored Value Response message.
+      properties:
+        Response:
+          $ref: '#/components/schemas/Response'
+        SaleData:
+          $ref: '#/components/schemas/SaleData'
+        POIData:
+          $ref: '#/components/schemas/POIData'
+        StoredValueResult:
+          type: array
+          items:
+            $ref: '#/components/schemas/StoredValueResult'
+        PaymentReceipt:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentReceipt'
+      required:
+      - Response
+      - SaleData
+      - POIData
     MobileData:
       type: object
       description: Mobile phone is used as a payment instrument for the transaction. Information related to the mobile for the payment transaction.
@@ -1343,6 +1394,25 @@ components:
           $ref: '#/components/schemas/GeographicCoordinates'
         UTMCoordinates:
           $ref: '#/components/schemas/UTMCoordinates'
+    CardReaderAPDUResponse:
+      type: object
+      description: It contains the result of the requested service, APDU response sent by the chip of the card in response to the APDU request. Content of the Card Reader APDU Response message.
+      properties:
+        Response:
+          $ref: '#/components/schemas/Response'
+        APDUData:
+          type: string
+          format: byte
+          pattern: ^.+$
+          description: Data field of the APDU command (Lc + Data).
+        CardStatusWords:
+          type: string
+          format: byte
+          pattern: ^.{2,2}$
+          description: Status of a smartcard response to a command (SW1-SW2).
+      required:
+      - Response
+      - CardStatusWords
     PaymentInstrumentType:
       type: string
       enum:
@@ -1351,6 +1421,31 @@ components:
       - Check
       - Mobile
       - StoredValue
+    ReversalResponse:
+      type: object
+      description: It conveys Information related to the reversal processed by the POI System. Content of the Reversal Response message.
+      properties:
+        Response:
+          $ref: '#/components/schemas/Response'
+        POIData:
+          $ref: '#/components/schemas/POIData'
+        OriginalPOITransaction:
+          $ref: '#/components/schemas/OriginalPOITransaction'
+        ReversedAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+          description: Copy.
+        CustomerOrder:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerOrder'
+        PaymentReceipt:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentReceipt'
+      required:
+      - Response
     BarcodeType:
       type: string
       enum:
