@@ -237,6 +237,22 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    OnboardingThemes:
+      properties:
+        next:
+          description: The next page. Only present if there is a next page.
+          type: string
+        previous:
+          description: The previous page. Only present if there is a previous page.
+          type: string
+        themes:
+          description: List of onboarding themes.
+          items:
+            $ref: '#/components/schemas/OnboardingTheme'
+          type: array
+      required:
+      - themes
+      type: object
     ServiceError:
       properties:
         errorCode:
@@ -255,22 +271,6 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
-      type: object
-    OnboardingThemes:
-      properties:
-        next:
-          description: The next page. Only present if there is a next page.
-          type: string
-        previous:
-          description: The previous page. Only present if there is a previous page.
-          type: string
-        themes:
-          description: List of onboarding themes.
-          items:
-            $ref: '#/components/schemas/OnboardingTheme'
-          type: array
-      required:
-      - themes
       type: object
     OnboardingTheme:
       properties:

@@ -128,6 +128,26 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  examples:
+    post-get3dsAvailability-get3dsAvailability-200:
+      summary: Example response for request 'get3dsAvailability'
+      value:
+        threeDS1Supported: true
+        threeDS2CardRangeDetails: []
+        threeDS2supported: false
+    post-get3dsAvailability-get3dsAvailability:
+      summary: Get 3D Secure availability
+      description: Example request to check 3D Secure availability
+      value:
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        cardNumber: '4111111111111111'
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
   schemas:
     ServiceError:
       properties:
@@ -154,30 +174,35 @@ components:
           format: int32
           type: integer
       type: object
-    BinDetail:
+    ThreeDSAvailabilityRequest:
       properties:
-        issuerCountry:
-          description: The country where the card was issued.
+        additionalData:
+          additionalProperties:
+            type: string
+          description: 'This field contains additional data, which may be required for a particular request.
+
+
+            The `additionalData` object consists of entries, each of which includes the key and value.'
+          type: object
+        brands:
+          description: List of brands.
+          items:
+            type: string
+          type: array
+        cardNumber:
+          description: Card number or BIN.
           type: string
-      type: object
-    DSPublicKeyDetail:
-      properties:
-        brand:
-          description: Card brand.
+        merchantAccount:
+          description: The merchant account identifier.
           type: string
-        directoryServerId:
-          description: Directory Server (DS) identifier.
+        recurringDetailReference:
+          description: A recurring detail reference corresponding to a card.
           type: string
-        fromSDKVersion:
-          description: The version of the mobile 3D Secure 2 SDK. For the possible values, refer to the versions in [Adyen 3DS2 Android](https://github.com/Adyen/adyen-3ds2-android/releases) and [Adyen 3DS2 iOS](https://github.com/Adyen/adyen-3ds2-ios/releases).
+        shopperReference:
+          description: The shopper's reference to uniquely identify this shopper (e.g. user ID or account ID).
           type: string
-        publicKey:
-          description: Public key. The 3D Secure 2 SDK encrypts the device information by using the DS public key.
-          format: byte
-          type: string
-        rootCertificates:
-          description: Directory Server root certificates. The 3D Secure 2 SDK verifies the ACS signed content using the rootCertificates.
-          type: string
+      required:
+      - merchantAccount
       type: object
     ThreeDS2CardRangeDetail:
       properties:
@@ -216,35 +241,11 @@ components:
           description: In a 3D Secure 2 browser-based flow, this is the URL where you should send the device fingerprint to.
           type: string
       type: object
-    ThreeDSAvailabilityRequest:
+    BinDetail:
       properties:
-        additionalData:
-          additionalProperties:
-            type: string
-          description: 'This field contains additional data, which may be required for a particular request.
-
-
-            The `additionalData` object consists of entries, each of which includes the key and value.'
-          type: object
-        brands:
-          description: List of brands.
-          items:
-            type: string
-          type: array
-        cardNumber:
-          description: Card number or BIN.
+        issuerCountry:
+          description: The country where the card was issued.
           type: string
-        merchantAccount:
-          description: The merchant account identifier.
-          type: string
-        recurringDetailReference:
-          description: A recurring detail reference corresponding to a card.
-          type: string
-        shopperReference:
-          description: The shopper's reference to uniquely identify this shopper (e.g. user ID or account ID).
-          type: string
-      required:
-      - merchantAccount
       type: object
     ThreeDSAvailabilityResponse:
       properties:
@@ -269,26 +270,25 @@ components:
           description: Indicator if 3D Secure 2 is supported.
           type: boolean
       type: object
-  examples:
-    post-get3dsAvailability-get3dsAvailability-200:
-      summary: Example response for request 'get3dsAvailability'
-      value:
-        threeDS1Supported: true
-        threeDS2CardRangeDetails: []
-        threeDS2supported: false
-    post-get3dsAvailability-get3dsAvailability:
-      summary: Get 3D Secure availability
-      description: Example request to check 3D Secure availability
-      value:
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-        cardNumber: '4111111111111111'
-    generic-400:
-      summary: Response code 400. Bad Request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: I'
-        errorType: validation
+    DSPublicKeyDetail:
+      properties:
+        brand:
+          description: Card brand.
+          type: string
+        directoryServerId:
+          description: Directory Server (DS) identifier.
+          type: string
+        fromSDKVersion:
+          description: The version of the mobile 3D Secure 2 SDK. For the possible values, refer to the versions in [Adyen 3DS2 Android](https://github.com/Adyen/adyen-3ds2-android/releases) and [Adyen 3DS2 iOS](https://github.com/Adyen/adyen-3ds2-ios/releases).
+          type: string
+        publicKey:
+          description: Public key. The 3D Secure 2 SDK encrypts the device information by using the DS public key.
+          format: byte
+          type: string
+        rootCertificates:
+          description: Directory Server root certificates. The 3D Secure 2 SDK verifies the ACS signed content using the rootCertificates.
+          type: string
+      type: object
   securitySchemes:
     ApiKeyAuth:
       in: header

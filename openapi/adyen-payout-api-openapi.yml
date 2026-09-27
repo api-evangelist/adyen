@@ -141,153 +141,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    ResponseAdditionalDataNetworkTokens:
-      properties:
-        networkToken.available:
-          description: Indicates whether a network token is available for the specified card.
-          type: string
-        networkToken.bin:
-          description: The Bank Identification Number of a tokenized card, which is the first six digits of a card number.
-          type: string
-        networkToken.tokenSummary:
-          description: The last four digits of a network token.
-          type: string
-      type: object
-    ResponseAdditionalData3DSecure:
-      properties:
-        cardHolderInfo:
-          description: 'Information provided by the issuer to the cardholder. If this field is present, you need to display this information to the cardholder. '
-          type: string
-        cavv:
-          description: The Cardholder Authentication Verification Value (CAVV) for the 3D Secure authentication session, as a Base64-encoded 20-byte array.
-          type: string
-        cavvAlgorithm:
-          description: The CAVV algorithm used.
-          type: string
-        scaExemptionRequested:
-          description: "Shows the [exemption type](https://docs.adyen.com/payments-fundamentals/psd2-sca-compliance-and-implementation-guide#specifypreferenceinyourapirequest) that Adyen requested for the payment.\n\n Possible values:\n* **lowValue** \n* **secureCorporate** \n* **trustedBeneficiary** \n* **transactionRiskAnalysis** "
-          type: string
-        threeds2.cardEnrolled:
-          description: Indicates whether a card is enrolled for 3D Secure 2.
-          type: boolean
-      type: object
-    PayoutRequest:
-      properties:
-        amount:
-          description: The amount information for the transaction (in [minor units](https://docs.adyen.com/development-resources/currency-codes)). For [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) requests, set amount to 0 (zero).
-          $ref: '#/components/schemas/Amount'
-        billingAddress:
-          x-addedInVersion: '4'
-          description: 'The address where to send the invoice.
-
-            > The `billingAddress` object is required in the following scenarios. Include all of the fields within this object.
-
-            >* For 3D Secure 2 transactions in all browser-based and mobile implementations.
-
-            >* For cross-border payouts to and from Canada.'
-          $ref: '#/components/schemas/Address'
-        card:
-          description: 'A container for card data.
-
-            > Either `bankAccount` or `card` field must be provided in a payment request.'
-          $ref: '#/components/schemas/Card'
-        fraudOffset:
-          description: An integer value that is added to the normal fraud score. The value can be either positive or negative.
-          format: int32
-          type: integer
-        fundSource:
-          x-addedInVersion: '64'
-          description: The person or entity funding the money.
-          $ref: '#/components/schemas/FundSource'
-        merchantAccount:
-          description: The merchant account identifier, with which you want to process the transaction.
-          type: string
-        recurring:
-          description: The recurring settings for the payment. Use this property when you want to enable [recurring payments](https://docs.adyen.com/classic-integration/recurring-payments).
-          $ref: '#/components/schemas/Recurring'
-        reference:
-          description: 'The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. We recommend using a unique value per payment; however, it is not a requirement.
-
-            If you need to provide multiple references for a transaction, separate them with hyphens ("-").
-
-            Maximum length: 80 characters.'
-          type: string
-        selectedRecurringDetailReference:
-          description: The `recurringDetailReference` you want to use for this payment. The value `LATEST` can be used to select the most recently stored recurring detail.
-          type: string
-        shopperEmail:
-          description: 'The shopper''s email address. We recommend that you provide this data, as it is used in velocity fraud checks.
-
-            > For 3D Secure 2 transactions, schemes require `shopperEmail` for all browser-based and mobile implementations.'
-          type: string
-        shopperInteraction:
-          description: 'Specifies the sales channel, through which the shopper gives their card details, and whether the shopper is a returning customer.
-
-            For the web service API, Adyen assumes Ecommerce shopper interaction by default.
-
-
-            This field has the following possible values:
-
-            * `Ecommerce` - Online transactions where the cardholder is present (online). For better authorisation rates, we recommend sending the card security code (CSC) along with the request.
-
-            * `ContAuth` - Card on file and/or subscription transactions, where the cardholder is known to the merchant (returning customer). If the shopper is present (online), you can supply also the CSC to improve authorisation (one-click payment).
-
-            * `Moto` - Mail-order and telephone-order transactions where the shopper is in contact with the merchant via email or telephone.
-
-            * `POS` - Point-of-sale transactions where the shopper is physically present to make a payment using a secure payment terminal.'
-          enum:
-          - Ecommerce
-          - ContAuth
-          - Moto
-          - POS
-          type: string
-        shopperName:
-          x-addedInVersion: '7'
-          description: The shopper's full name.
-          $ref: '#/components/schemas/Name'
-        shopperReference:
-          description: "Required for recurring payments. \nYour reference to uniquely identify this shopper, for example user ID or account ID. Minimum length: 3 characters.\n> Your reference must not include personally identifiable information (PII), for example name or email address."
-          type: string
-        telephoneNumber:
-          x-addedInVersion: '7'
-          description: The shopper's telephone number.
-          type: string
-      required:
-      - merchantAccount
-      - reference
-      - amount
-      type: object
-    ResponseAdditionalDataSepa:
-      properties:
-        sepadirectdebit.dateOfSignature:
-          description: 'The transaction signature date.
-
-
-            Format: yyyy-MM-dd'
-          type: string
-        sepadirectdebit.mandateId:
-          description: Its value corresponds to the pspReference value of the transaction.
-          type: string
-        sepadirectdebit.sequenceType:
-          description: 'This field can take one of the following values:
-
-            * OneOff: (OOFF) Direct debit instruction to initiate exactly one direct debit transaction.
-
-
-            * First: (FRST) Initial/first collection in a series of direct debit instructions.
-
-            * Recurring: (RCUR) Direct debit instruction to carry out regular direct debit transactions initiated by the creditor.
-
-            * Final: (FNAL) Last/final collection in a series of direct debit instructions.
-
-
-            Example: OOFF'
-          type: string
-      type: object
-    FraudCheckResultWrapper:
-      properties:
-        FraudCheckResult:
-          $ref: '#/components/schemas/FraudCheckResult'
     ResponseAdditionalDataBillingAddress:
       properties:
         billingAddress.city:
@@ -317,167 +170,6 @@ components:
         billingAddress.street:
           description: The billing address street passed in the payment request.
           type: string
-      type: object
-    ServiceError:
-      properties:
-        additionalData:
-          x-addedInVersion: '46'
-          additionalProperties:
-            type: string
-          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
-          type: object
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
-      type: object
-    FraudCheckResult:
-      properties:
-        accountScore:
-          description: The fraud score generated by the risk check.
-          format: int32
-          type: integer
-        checkId:
-          description: The ID of the risk check.
-          format: int32
-          type: integer
-        name:
-          description: The name of the risk check.
-          type: string
-      required:
-      - checkId
-      - name
-      - accountScore
-      type: object
-    ResponseAdditionalDataOpi:
-      properties:
-        opi.transToken:
-          description: 'Returned in the response if you included `opi.includeTransToken: true` in an ecommerce payment request. This contains an Oracle Payment Interface token that you can store in your Oracle Opera database to identify tokenized ecommerce transactions. For more information and required settings, see [Oracle Opera](https://docs.adyen.com/plugins/oracle-opera#opi-token-ecommerce).'
-          type: string
-      type: object
-    ResponseAdditionalDataDomesticError:
-      properties:
-        domesticRefusalReasonRaw:
-          description: "The reason the transaction was declined, given by the local issuer. \nCurrently available for merchants in Japan."
-          type: string
-        domesticShopperAdvice:
-          description: "The action the shopper should take, in a local language. \nCurrently available in Japanese, for merchants in Japan."
-          type: string
-      type: object
-    Name:
-      properties:
-        firstName:
-          description: The first name.
-          type: string
-        lastName:
-          description: The last name.
-          type: string
-      required:
-      - firstName
-      - lastName
-      type: object
-    Address:
-      properties:
-        city:
-          description: 'The name of the city. Maximum length: 3000 characters.'
-          maxLength: 3000
-          type: string
-        country:
-          description: 'The two-character ISO-3166-1 alpha-2 country code. For example, **US**.
-
-            > If you don''t know the country or are not collecting the country from the shopper, provide `country` as `ZZ`.'
-          type: string
-        houseNumberOrName:
-          description: 'The number or name of the house. Maximum length: 3000 characters.'
-          maxLength: 3000
-          type: string
-        postalCode:
-          description: A maximum of five digits for an address in the US, or a maximum of ten characters for an address in all other countries.
-          type: string
-        stateOrProvince:
-          description: 'The two-character ISO 3166-2 state or province code. For example, **CA** in the US or **ON** in Canada.
-
-            > Required for the US and Canada.'
-          type: string
-        street:
-          description: 'The name of the street. Maximum length: 3000 characters.
-
-            > The house number should not be included in this field; it should be separately provided via `houseNumberOrName`.'
-          maxLength: 3000
-          type: string
-      required:
-      - street
-      - houseNumberOrName
-      - city
-      - postalCode
-      - country
-      type: object
-    Recurring:
-      properties:
-        contract:
-          description: 'The type of recurring contract to be used.
-
-            Possible values:
-
-            * `ONECLICK` – Payment details can be used to initiate a one-click payment, where the shopper enters the [card security code (CVC/CVV)](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-security-code-cvc-cvv-cid).
-
-            * `RECURRING` – Payment details can be used without the card security code to initiate [card-not-present transactions](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-not-present-cnp).
-
-            * `ONECLICK,RECURRING` – Payment details can be used regardless of whether the shopper is on your site or not.
-
-            * `PAYOUT` – Payment details can be used to [make a payout](https://docs.adyen.com/online-payments/online-payouts).'
-          enum:
-          - ONECLICK
-          - RECURRING
-          - PAYOUT
-          type: string
-        recurringDetailName:
-          description: A descriptive name for this detail.
-          type: string
-        recurringExpiry:
-          x-addedInVersion: '40'
-          description: Date after which no further authorisations shall be performed. Only for 3D Secure 2.
-          format: date-time
-          type: string
-        recurringFrequency:
-          x-addedInVersion: '40'
-          description: Minimum number of days between authorisations. Only for 3D Secure 2.
-          type: string
-        tokenService:
-          x-addedInVersion: '25'
-          description: The name of the token service.
-          enum:
-          - VISATOKENSERVICE
-          - MCTOKENSERVICE
-          - AMEXTOKENSERVICE
-          - TOKEN_SHARING
-          type: string
-      type: object
-    FraudResult:
-      properties:
-        accountScore:
-          description: The total fraud score generated by the risk checks.
-          format: int32
-          type: integer
-        results:
-          description: The result of the individual risk checks.
-          items:
-            $ref: '#/components/schemas/FraudCheckResultWrapper'
-          type: array
-      required:
-      - accountScore
       type: object
     ResponseAdditionalDataCommon:
       properties:
@@ -875,6 +567,21 @@ components:
             Example: ODgxNDc2MDg2MDExODk5MAAAAAA='
           type: string
       type: object
+    ResponseAdditionalDataOpi:
+      properties:
+        opi.transToken:
+          description: 'Returned in the response if you included `opi.includeTransToken: true` in an ecommerce payment request. This contains an Oracle Payment Interface token that you can store in your Oracle Opera database to identify tokenized ecommerce transactions. For more information and required settings, see [Oracle Opera](https://docs.adyen.com/plugins/oracle-opera#opi-token-ecommerce).'
+          type: string
+      type: object
+    ResponseAdditionalDataDomesticError:
+      properties:
+        domesticRefusalReasonRaw:
+          description: "The reason the transaction was declined, given by the local issuer. \nCurrently available for merchants in Japan."
+          type: string
+        domesticShopperAdvice:
+          description: "The action the shopper should take, in a local language. \nCurrently available in Japanese, for merchants in Japan."
+          type: string
+      type: object
     PayoutResponse:
       properties:
         additionalData:
@@ -987,30 +694,34 @@ components:
           - Success
           type: string
       type: object
-    FundSource:
+    FraudCheckResult:
       properties:
-        additionalData:
-          additionalProperties:
-            type: string
-          description: A map of name-value pairs for passing additional or industry-specific data.
-          type: object
-        billingAddress:
-          description: The address where to send the invoice.
-          $ref: '#/components/schemas/Address'
-        card:
-          description: 'Credit card data.
-
-
-            Optional if `shopperReference` and `selectedRecurringDetailReference` are provided.'
-          $ref: '#/components/schemas/Card'
-        shopperEmail:
-          description: Email address of the person.
+        accountScore:
+          description: The fraud score generated by the risk check.
+          format: int32
+          type: integer
+        checkId:
+          description: The ID of the risk check.
+          format: int32
+          type: integer
+        name:
+          description: The name of the risk check.
           type: string
-        shopperName:
-          description: Name of the person.
-          $ref: '#/components/schemas/Name'
-        telephoneNumber:
-          description: Phone number of the person
+      required:
+      - checkId
+      - name
+      - accountScore
+      type: object
+    ResponseAdditionalDataNetworkTokens:
+      properties:
+        networkToken.available:
+          description: Indicates whether a network token is available for the specified card.
+          type: string
+        networkToken.bin:
+          description: The Bank Identification Number of a tokenized card, which is the first six digits of a card number.
+          type: string
+        networkToken.tokenSummary:
+          description: The last four digits of a network token.
           type: string
       type: object
     Card:
@@ -1076,6 +787,96 @@ components:
           minLength: 4
           type: string
       type: object
+    Name:
+      properties:
+        firstName:
+          description: The first name.
+          type: string
+        lastName:
+          description: The last name.
+          type: string
+      required:
+      - firstName
+      - lastName
+      type: object
+    FundSource:
+      properties:
+        additionalData:
+          additionalProperties:
+            type: string
+          description: A map of name-value pairs for passing additional or industry-specific data.
+          type: object
+        billingAddress:
+          description: The address where to send the invoice.
+          $ref: '#/components/schemas/Address'
+        card:
+          description: 'Credit card data.
+
+
+            Optional if `shopperReference` and `selectedRecurringDetailReference` are provided.'
+          $ref: '#/components/schemas/Card'
+        shopperEmail:
+          description: Email address of the person.
+          type: string
+        shopperName:
+          description: Name of the person.
+          $ref: '#/components/schemas/Name'
+        telephoneNumber:
+          description: Phone number of the person
+          type: string
+      type: object
+    ResponseAdditionalDataSepa:
+      properties:
+        sepadirectdebit.dateOfSignature:
+          description: 'The transaction signature date.
+
+
+            Format: yyyy-MM-dd'
+          type: string
+        sepadirectdebit.mandateId:
+          description: Its value corresponds to the pspReference value of the transaction.
+          type: string
+        sepadirectdebit.sequenceType:
+          description: 'This field can take one of the following values:
+
+            * OneOff: (OOFF) Direct debit instruction to initiate exactly one direct debit transaction.
+
+
+            * First: (FRST) Initial/first collection in a series of direct debit instructions.
+
+            * Recurring: (RCUR) Direct debit instruction to carry out regular direct debit transactions initiated by the creditor.
+
+            * Final: (FNAL) Last/final collection in a series of direct debit instructions.
+
+
+            Example: OOFF'
+          type: string
+      type: object
+    ServiceError:
+      properties:
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
     ResponseAdditionalDataCard:
       properties:
         cardBin:
@@ -1124,6 +925,51 @@ components:
             Example: 52123423'
           type: string
       type: object
+    Recurring:
+      properties:
+        contract:
+          description: 'The type of recurring contract to be used.
+
+            Possible values:
+
+            * `ONECLICK` – Payment details can be used to initiate a one-click payment, where the shopper enters the [card security code (CVC/CVV)](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-security-code-cvc-cvv-cid).
+
+            * `RECURRING` – Payment details can be used without the card security code to initiate [card-not-present transactions](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-not-present-cnp).
+
+            * `ONECLICK,RECURRING` – Payment details can be used regardless of whether the shopper is on your site or not.
+
+            * `PAYOUT` – Payment details can be used to [make a payout](https://docs.adyen.com/online-payments/online-payouts).'
+          enum:
+          - ONECLICK
+          - RECURRING
+          - PAYOUT
+          type: string
+        recurringDetailName:
+          description: A descriptive name for this detail.
+          type: string
+        recurringExpiry:
+          x-addedInVersion: '40'
+          description: Date after which no further authorisations shall be performed. Only for 3D Secure 2.
+          format: date-time
+          type: string
+        recurringFrequency:
+          x-addedInVersion: '40'
+          description: Minimum number of days between authorisations. Only for 3D Secure 2.
+          type: string
+        tokenService:
+          x-addedInVersion: '25'
+          description: The name of the token service.
+          enum:
+          - VISATOKENSERVICE
+          - MCTOKENSERVICE
+          - AMEXTOKENSERVICE
+          - TOKEN_SHARING
+          type: string
+      type: object
+    FraudCheckResultWrapper:
+      properties:
+        FraudCheckResult:
+          $ref: '#/components/schemas/FraudCheckResult'
     Amount:
       properties:
         currency:
@@ -1138,6 +984,124 @@ components:
       required:
       - value
       - currency
+      type: object
+    FraudResult:
+      properties:
+        accountScore:
+          description: The total fraud score generated by the risk checks.
+          format: int32
+          type: integer
+        results:
+          description: The result of the individual risk checks.
+          items:
+            $ref: '#/components/schemas/FraudCheckResultWrapper'
+          type: array
+      required:
+      - accountScore
+      type: object
+    PayoutRequest:
+      properties:
+        amount:
+          description: The amount information for the transaction (in [minor units](https://docs.adyen.com/development-resources/currency-codes)). For [BIN or card verification](https://docs.adyen.com/payment-methods/cards/bin-data-and-card-verification) requests, set amount to 0 (zero).
+          $ref: '#/components/schemas/Amount'
+        billingAddress:
+          x-addedInVersion: '4'
+          description: 'The address where to send the invoice.
+
+            > The `billingAddress` object is required in the following scenarios. Include all of the fields within this object.
+
+            >* For 3D Secure 2 transactions in all browser-based and mobile implementations.
+
+            >* For cross-border payouts to and from Canada.'
+          $ref: '#/components/schemas/Address'
+        card:
+          description: 'A container for card data.
+
+            > Either `bankAccount` or `card` field must be provided in a payment request.'
+          $ref: '#/components/schemas/Card'
+        fraudOffset:
+          description: An integer value that is added to the normal fraud score. The value can be either positive or negative.
+          format: int32
+          type: integer
+        fundSource:
+          x-addedInVersion: '64'
+          description: The person or entity funding the money.
+          $ref: '#/components/schemas/FundSource'
+        merchantAccount:
+          description: The merchant account identifier, with which you want to process the transaction.
+          type: string
+        recurring:
+          description: The recurring settings for the payment. Use this property when you want to enable [recurring payments](https://docs.adyen.com/classic-integration/recurring-payments).
+          $ref: '#/components/schemas/Recurring'
+        reference:
+          description: 'The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. We recommend using a unique value per payment; however, it is not a requirement.
+
+            If you need to provide multiple references for a transaction, separate them with hyphens ("-").
+
+            Maximum length: 80 characters.'
+          type: string
+        selectedRecurringDetailReference:
+          description: The `recurringDetailReference` you want to use for this payment. The value `LATEST` can be used to select the most recently stored recurring detail.
+          type: string
+        shopperEmail:
+          description: 'The shopper''s email address. We recommend that you provide this data, as it is used in velocity fraud checks.
+
+            > For 3D Secure 2 transactions, schemes require `shopperEmail` for all browser-based and mobile implementations.'
+          type: string
+        shopperInteraction:
+          description: 'Specifies the sales channel, through which the shopper gives their card details, and whether the shopper is a returning customer.
+
+            For the web service API, Adyen assumes Ecommerce shopper interaction by default.
+
+
+            This field has the following possible values:
+
+            * `Ecommerce` - Online transactions where the cardholder is present (online). For better authorisation rates, we recommend sending the card security code (CSC) along with the request.
+
+            * `ContAuth` - Card on file and/or subscription transactions, where the cardholder is known to the merchant (returning customer). If the shopper is present (online), you can supply also the CSC to improve authorisation (one-click payment).
+
+            * `Moto` - Mail-order and telephone-order transactions where the shopper is in contact with the merchant via email or telephone.
+
+            * `POS` - Point-of-sale transactions where the shopper is physically present to make a payment using a secure payment terminal.'
+          enum:
+          - Ecommerce
+          - ContAuth
+          - Moto
+          - POS
+          type: string
+        shopperName:
+          x-addedInVersion: '7'
+          description: The shopper's full name.
+          $ref: '#/components/schemas/Name'
+        shopperReference:
+          description: "Required for recurring payments. \nYour reference to uniquely identify this shopper, for example user ID or account ID. Minimum length: 3 characters.\n> Your reference must not include personally identifiable information (PII), for example name or email address."
+          type: string
+        telephoneNumber:
+          x-addedInVersion: '7'
+          description: The shopper's telephone number.
+          type: string
+      required:
+      - merchantAccount
+      - reference
+      - amount
+      type: object
+    ResponseAdditionalData3DSecure:
+      properties:
+        cardHolderInfo:
+          description: 'Information provided by the issuer to the cardholder. If this field is present, you need to display this information to the cardholder. '
+          type: string
+        cavv:
+          description: The Cardholder Authentication Verification Value (CAVV) for the 3D Secure authentication session, as a Base64-encoded 20-byte array.
+          type: string
+        cavvAlgorithm:
+          description: The CAVV algorithm used.
+          type: string
+        scaExemptionRequested:
+          description: "Shows the [exemption type](https://docs.adyen.com/payments-fundamentals/psd2-sca-compliance-and-implementation-guide#specifypreferenceinyourapirequest) that Adyen requested for the payment.\n\n Possible values:\n* **lowValue** \n* **secureCorporate** \n* **trustedBeneficiary** \n* **transactionRiskAnalysis** "
+          type: string
+        threeds2.cardEnrolled:
+          description: Indicates whether a card is enrolled for 3D Secure 2.
+          type: boolean
       type: object
     ResponseAdditionalDataInstallments:
       properties:
@@ -1189,40 +1153,43 @@ components:
             > Only relevant for card payments in countries that support installments.'
           type: string
       type: object
+    Address:
+      properties:
+        city:
+          description: 'The name of the city. Maximum length: 3000 characters.'
+          maxLength: 3000
+          type: string
+        country:
+          description: 'The two-character ISO-3166-1 alpha-2 country code. For example, **US**.
+
+            > If you don''t know the country or are not collecting the country from the shopper, provide `country` as `ZZ`.'
+          type: string
+        houseNumberOrName:
+          description: 'The number or name of the house. Maximum length: 3000 characters.'
+          maxLength: 3000
+          type: string
+        postalCode:
+          description: A maximum of five digits for an address in the US, or a maximum of ten characters for an address in all other countries.
+          type: string
+        stateOrProvince:
+          description: 'The two-character ISO 3166-2 state or province code. For example, **CA** in the US or **ON** in Canada.
+
+            > Required for the US and Canada.'
+          type: string
+        street:
+          description: 'The name of the street. Maximum length: 3000 characters.
+
+            > The house number should not be included in this field; it should be separately provided via `houseNumberOrName`.'
+          maxLength: 3000
+          type: string
+      required:
+      - street
+      - houseNumberOrName
+      - city
+      - postalCode
+      - country
+      type: object
   examples:
-    post-payout-payout-b2c:
-      summary: Instant card payout (B2C)
-      description: Pay out to your sellers, customers, freelancers, etc
-      value:
-        amount:
-          value: 2500
-          currency: USD
-        card:
-          number: '4111111111111111'
-          expiryMonth: '03'
-          expiryYear: '2030'
-          holderName: John Smith
-        billingAddress:
-          houseNumberOrName: '121'
-          street: Brannan Street
-          city: Beverly Hills
-          postalCode: '90210'
-          stateOrProvince: CA
-          country: US
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-        reference: P9999999999999999
-        shopperName:
-          firstName: John
-          lastName: Smith
-        dateOfBirth: '1990-01-01'
-        nationality: NL
-    generic-400:
-      summary: Response code 400. Bad Request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: I'
-        errorType: validation
     post-payout-payout-p2p:
       summary: Instant card payout (P2P)
       description: Facilitate the transfer of money between two individuals
@@ -1268,6 +1235,39 @@ components:
         shopperStatement: Payer Name
         dateOfBirth: '1990-01-01'
         nationality: NL
+    post-payout-payout-b2c:
+      summary: Instant card payout (B2C)
+      description: Pay out to your sellers, customers, freelancers, etc
+      value:
+        amount:
+          value: 2500
+          currency: USD
+        card:
+          number: '4111111111111111'
+          expiryMonth: '03'
+          expiryYear: '2030'
+          holderName: John Smith
+        billingAddress:
+          houseNumberOrName: '121'
+          street: Brannan Street
+          city: Beverly Hills
+          postalCode: '90210'
+          stateOrProvince: CA
+          country: US
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        reference: P9999999999999999
+        shopperName:
+          firstName: John
+          lastName: Smith
+        dateOfBirth: '1990-01-01'
+        nationality: NL
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
   securitySchemes:
     ApiKeyAuth:
       in: header

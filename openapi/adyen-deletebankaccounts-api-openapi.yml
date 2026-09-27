@@ -137,6 +137,35 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    GenericResponse:
+      properties:
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+      type: object
+    DeleteBankAccountRequest:
+      properties:
+        accountHolderCode:
+          description: The code of the Account Holder from which to delete the Bank Account(s).
+          type: string
+        bankAccountUUIDs:
+          description: The code(s) of the Bank Accounts to be deleted.
+          items:
+            type: string
+          type: array
+      required:
+      - accountHolderCode
+      - bankAccountUUIDs
+      type: object
     ServiceError:
       properties:
         errorCode:
@@ -155,21 +184,6 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
-      type: object
-    GenericResponse:
-      properties:
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        resultCode:
-          description: The result code.
-          type: string
       type: object
     FieldType:
       properties:
@@ -346,20 +360,6 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    DeleteBankAccountRequest:
-      properties:
-        accountHolderCode:
-          description: The code of the Account Holder from which to delete the Bank Account(s).
-          type: string
-        bankAccountUUIDs:
-          description: The code(s) of the Bank Accounts to be deleted.
-          items:
-            type: string
-          type: array
-      required:
-      - accountHolderCode
-      - bankAccountUUIDs
-      type: object
     ErrorFieldType:
       properties:
         errorCode:
@@ -374,13 +374,12 @@ components:
           $ref: '#/components/schemas/FieldType'
       type: object
   examples:
-    generic-403:
-      summary: Response code 401. Forbidden.
+    post-deleteBankAccounts-basic:
+      summary: Delete bank accounts
       value:
-        status: 403
-        errorCode: '10_003'
-        message: Failed to authorize user
-        errorType: security
+        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
+        bankAccountUUIDs:
+        - eeb6ed22-3bae-483c-83b9-bc2097a75d40
     generic-400:
       summary: Response code 400. Bad Request.
       value:
@@ -388,12 +387,13 @@ components:
         errorCode: '702'
         message: 'Unexpected input: I'
         errorType: validation
-    post-deleteBankAccounts-basic:
-      summary: Delete bank accounts
+    generic-403:
+      summary: Response code 401. Forbidden.
       value:
-        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
-        bankAccountUUIDs:
-        - eeb6ed22-3bae-483c-83b9-bc2097a75d40
+        status: 403
+        errorCode: '10_003'
+        message: Failed to authorize user
+        errorType: security
   securitySchemes:
     ApiKeyAuth:
       in: header

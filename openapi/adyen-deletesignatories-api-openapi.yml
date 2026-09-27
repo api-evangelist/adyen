@@ -134,6 +134,21 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    GenericResponse:
+      properties:
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+      type: object
     DeleteSignatoriesRequest:
       properties:
         accountHolderCode:
@@ -166,21 +181,6 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
-      type: object
-    GenericResponse:
-      properties:
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        resultCode:
-          description: The result code.
-          type: string
       type: object
     FieldType:
       properties:

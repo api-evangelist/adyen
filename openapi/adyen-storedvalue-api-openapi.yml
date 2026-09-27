@@ -82,87 +82,98 @@ components:
           $ref: '#/components/schemas/TransactionIDType'
       required:
       - StoredValueTransactionType
-    CustomerOrderReq:
+    ErrorCondition:
+      type: string
+      enum:
+      - Aborted
+      - Busy
+      - Cancel
+      - DeviceOut
+      - InProgress
+      - InsertedCard
+      - InvalidCard
+      - LoggedOut
+      - MessageFormat
+      - NotAllowed
+      - NotFound
+      - PaymentRestriction
+      - Refusal
+      - UnavailableDevice
+      - UnavailableService
+      - UnreachableHost
+      - WrongPIN
+    EntryMode:
       type: array
       items:
         type: string
         enum:
-        - Both
-        - Closed
-        - Open
-    StoredValueAccountType:
-      type: string
-      enum:
-      - GiftCard
-      - Other
-      - PhoneCard
-    PredefinedContent:
+        - Contactless
+        - File
+        - ICC
+        - Keyed
+        - MagStripe
+        - Manual
+        - Mobile
+        - RFID
+        - Scanned
+        - SynchronousICC
+        - Tapped
+    StoredValueResponse:
       type: object
-      description: It conveys Information related to the predefined message. Reference of a predefined message to display or print.
+      description: It conveys Information related to the Stored Value transaction processed by the POI System. Content of the Stored Value Response message.
       properties:
-        ReferenceID:
+        Response:
+          $ref: '#/components/schemas/Response'
+        SaleData:
+          $ref: '#/components/schemas/SaleData'
+        POIData:
+          $ref: '#/components/schemas/POIData'
+        StoredValueResult:
+          type: array
+          items:
+            $ref: '#/components/schemas/StoredValueResult'
+        PaymentReceipt:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentReceipt'
+      required:
+      - Response
+      - SaleData
+      - POIData
+    OutputText:
+      type: object
+      description: It conveys Information related to the content of the text message and its format. All the data elements related to the format of the text to display or print are parameters valid for the whole Text content. Content of text message to display or print.
+      properties:
+        Text:
+          type: string
+        CharacterSet:
+          type: integer
+        Font:
           type: string
           pattern: ^.+$
-          description: Identification of a predefined message to display or print.
-        Language:
-          type: string
-          pattern: ^[a-z]{2,2}$
-          description: Identification of a language.
-      required:
-      - ReferenceID
-    Result:
-      type: string
-      enum:
-      - Failure
-      - Partial
-      - Success
-    StoredValueAccountStatus:
-      type: object
-      properties:
-        StoredValueAccountID:
-          $ref: '#/components/schemas/StoredValueAccountID'
-        CurrentBalance:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-      required:
-      - StoredValueAccountID
-    SaleToIssuerData:
-      type: object
-      description: The POI System receives this information and sends it to the Acquirer for the Issuer without any change. Sale information intended for the Issuer.
-      properties:
-        StatementReference:
-          type: string
-          pattern: ^.+$
-          description: Information to print on the bank statement.
-    OutputBarcode:
-      type: object
-      properties:
-        BarcodeType:
-          $ref: '#/components/schemas/BarcodeType'
-        BarcodeValue:
-          type: string
-          pattern: ^.+$
-      required:
-      - BarcodeValue
-    PaymentReceipt:
-      type: object
-      description: If the payment receipts are printed by the Sale system and the POI or the Sale does not implement the Print exchange (Basic profile). Customer or Merchant payment receipt.
-      properties:
-        DocumentQualifier:
-          $ref: '#/components/schemas/DocumentQualifier'
-        IntegratedPrintFlag:
+        StartRow:
+          type: integer
+          minimum: 1
+          maximum: 500
+        StartColumn:
+          type: integer
+          minimum: 1
+          maximum: 500
+        Color:
+          $ref: '#/components/schemas/Color'
+        CharacterWidth:
+          $ref: '#/components/schemas/CharacterWidth'
+        CharacterHeight:
+          $ref: '#/components/schemas/CharacterHeight'
+        CharacterStyle:
+          $ref: '#/components/schemas/CharacterStyle'
+        Alignment:
+          $ref: '#/components/schemas/Alignment'
+        EndOfLineFlag:
           type: boolean
-          description: Type of the print integrated to other prints.
-        RequiredSignatureFlag:
-          type: boolean
-          default: false
-          description: Indicate that the cardholder payment receipt requires a physical signature by the Customer.
-        OutputContent:
-          $ref: '#/components/schemas/OutputContent'
+          default: true
       required:
-      - DocumentQualifier
-      - OutputContent
+      - Text
     SaleData:
       type: object
       description: Data associated to the Sale System, with a particular value during the processing of the payment by the POI, including the cards acquisition. Data related to the Sale System.
@@ -206,121 +217,37 @@ components:
           $ref: '#/components/schemas/SaleToIssuerData'
       required:
       - SaleTransactionID
-    POIData:
+    PaymentReceipt:
       type: object
-      description: In the Message Response, identification of the POI transaction. Data related to the POI System.
+      description: If the payment receipts are printed by the Sale system and the POI or the Sale does not implement the Print exchange (Basic profile). Customer or Merchant payment receipt.
       properties:
-        POITransactionID:
-          $ref: '#/components/schemas/TransactionIDType'
-        POIReconciliationID:
-          type: integer
-          description: If Result is Success.
+        DocumentQualifier:
+          $ref: '#/components/schemas/DocumentQualifier'
+        IntegratedPrintFlag:
+          type: boolean
+          description: Type of the print integrated to other prints.
+        RequiredSignatureFlag:
+          type: boolean
+          default: false
+          description: Indicate that the cardholder payment receipt requires a physical signature by the Customer.
+        OutputContent:
+          $ref: '#/components/schemas/OutputContent'
       required:
-      - POITransactionID
-    EntryMode:
-      type: array
-      items:
-        type: string
-        enum:
-        - Contactless
-        - File
-        - ICC
-        - Keyed
-        - MagStripe
-        - Manual
-        - Mobile
-        - RFID
-        - Scanned
-        - SynchronousICC
-        - Tapped
-    SaleTerminalData:
+      - DocumentQualifier
+      - OutputContent
+    TransactionIDType:
       type: object
-      description: In the Login Request, if a Sale Terminal is involved in the login. In other messages, when a logical device is out of order (SaleCapabilites), or when the other data have changed since or were not in the Login. Information related to the software and hardware feature of the Sale Terminal.
+      description: Identification of a transaction for the Sale System or the POI System.
       properties:
-        TotalsGroupID:
+        TransactionID:
           type: string
-          pattern: ^.{1,16}$
-          description: If present, default value for all transaction.
-    TokenRequestedType:
-      type: string
-      enum:
-      - Customer
-      - Transaction
-    Color:
-      type: string
-      enum:
-      - Black
-      - Blue
-      - Cyan
-      - Green
-      - Magenta
-      - Red
-      - White
-      - Yellow
-    StoredValueResponse:
-      type: object
-      description: It conveys Information related to the Stored Value transaction processed by the POI System. Content of the Stored Value Response message.
-      properties:
-        Response:
-          $ref: '#/components/schemas/Response'
-        SaleData:
-          $ref: '#/components/schemas/SaleData'
-        POIData:
-          $ref: '#/components/schemas/POIData'
-        StoredValueResult:
-          type: array
-          items:
-            $ref: '#/components/schemas/StoredValueResult'
-        PaymentReceipt:
-          type: array
-          items:
-            $ref: '#/components/schemas/PaymentReceipt'
+          pattern: ^.+$
+        TimeStamp:
+          type: string
+          format: date-time
       required:
-      - Response
-      - SaleData
-      - POIData
-    IdentificationType:
-      type: string
-      enum:
-      - AccountNumber
-      - BarCode
-      - ISOTrack2
-      - PAN
-      - PhoneNumber
-    ErrorCondition:
-      type: string
-      enum:
-      - Aborted
-      - Busy
-      - Cancel
-      - DeviceOut
-      - InProgress
-      - InsertedCard
-      - InvalidCard
-      - LoggedOut
-      - MessageFormat
-      - NotAllowed
-      - NotFound
-      - PaymentRestriction
-      - Refusal
-      - UnavailableDevice
-      - UnavailableService
-      - UnreachableHost
-      - WrongPIN
-    OutputFormat:
-      type: string
-      enum:
-      - BarCode
-      - MessageRef
-      - Text
-      - XHTML
-    Alignment:
-      type: string
-      enum:
-      - Centred
-      - Justified
-      - Left
-      - Right
+      - TransactionID
+      - TimeStamp
     Response:
       type: object
       description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
@@ -335,92 +262,15 @@ components:
           description: If present, the POI logs it for further examination.
       required:
       - Result
-    CharacterStyle:
+    DocumentQualifier:
       type: string
       enum:
-      - Bold
-      - Italic
-      - Normal
-      - Underline
-    StoredValueRequest:
-      type: object
-      description: It conveys Information related to the Stored Value transaction to process. Content of the Stored Value Request message.
-      properties:
-        SaleData:
-          $ref: '#/components/schemas/SaleData'
-        CustomerLanguage:
-          type: string
-          pattern: ^[a-z]{2,2}$
-          description: If the language is selected by the Sale System before the request to the POI.
-        StoredValueData:
-          type: array
-          items:
-            $ref: '#/components/schemas/StoredValueData'
-      required:
-      - SaleData
-      - StoredValueData
-    OutputText:
-      type: object
-      description: It conveys Information related to the content of the text message and its format. All the data elements related to the format of the text to display or print are parameters valid for the whole Text content. Content of text message to display or print.
-      properties:
-        Text:
-          type: string
-        CharacterSet:
-          type: integer
-        Font:
-          type: string
-          pattern: ^.+$
-        StartRow:
-          type: integer
-          minimum: 1
-          maximum: 500
-        StartColumn:
-          type: integer
-          minimum: 1
-          maximum: 500
-        Color:
-          $ref: '#/components/schemas/Color'
-        CharacterWidth:
-          $ref: '#/components/schemas/CharacterWidth'
-        CharacterHeight:
-          $ref: '#/components/schemas/CharacterHeight'
-        CharacterStyle:
-          $ref: '#/components/schemas/CharacterStyle'
-        Alignment:
-          $ref: '#/components/schemas/Alignment'
-        EndOfLineFlag:
-          type: boolean
-          default: true
-      required:
-      - Text
-    TransactionIDType:
-      type: object
-      description: Identification of a transaction for the Sale System or the POI System.
-      properties:
-        TransactionID:
-          type: string
-          pattern: ^.+$
-        TimeStamp:
-          type: string
-          format: date-time
-      required:
-      - TransactionID
-      - TimeStamp
-    StoredValueTransactionType:
-      type: string
-      enum:
-      - Activate
-      - Duplicate
-      - Load
-      - Reserve
-      - Reverse
-      - Unload
-    CharacterHeight:
-      type: string
-      enum:
-      - DoubleHeight
-      - HalfHeight
-      - SingleHeight
+      - CashierReceipt
+      - CustomerReceipt
+      - Document
+      - Journal
+      - SaleReceipt
+      - Voucher
     StoredValueData:
       type: object
       description: 'It contains: - the identification of the stored value accounts or the stored value cards, if provided by the Sale System, and - the associated products sold by the Sale System.. Data related to the stored value card.'
@@ -454,6 +304,25 @@ components:
           description: Currency of a monetary amount.
       required:
       - StoredValueTransactionType
+    SaleTerminalData:
+      type: object
+      description: In the Login Request, if a Sale Terminal is involved in the login. In other messages, when a logical device is out of order (SaleCapabilites), or when the other data have changed since or were not in the Login. Information related to the software and hardware feature of the Sale Terminal.
+      properties:
+        TotalsGroupID:
+          type: string
+          pattern: ^.{1,16}$
+          description: If present, default value for all transaction.
+    StoredValueAccountStatus:
+      type: object
+      properties:
+        StoredValueAccountID:
+          $ref: '#/components/schemas/StoredValueAccountID'
+        CurrentBalance:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+      required:
+      - StoredValueAccountID
     BarcodeType:
       type: string
       enum:
@@ -464,34 +333,70 @@ components:
       - PDF417
       - QRCode
       - UPCA
-    StoredValueAccountID:
+    OutputBarcode:
       type: object
-      description: It contains the identifications of the stored value account or the stored value card, and the associated product sold by the Sale System for stored value requests. Identification of the stored value account or the stored value card.
       properties:
-        StoredValueAccountType:
-          $ref: '#/components/schemas/StoredValueAccountType'
-        StoredValueProvider:
-          type: string
-          pattern: ^.+$
-        OwnerName:
-          type: string
-          pattern: ^.+$
-        ExpiryDate:
-          type: integer
-          minimum: 4
-          maximum: 4
-        EntryMode:
-          $ref: '#/components/schemas/EntryMode'
-        IdentificationType:
-          $ref: '#/components/schemas/IdentificationType'
-        StoredValueID:
+        BarcodeType:
+          $ref: '#/components/schemas/BarcodeType'
+        BarcodeValue:
           type: string
           pattern: ^.+$
       required:
-      - StoredValueAccountType
-      - EntryMode
-      - IdentificationType
-      - StoredValueID
+      - BarcodeValue
+    CustomerOrderReq:
+      type: array
+      items:
+        type: string
+        enum:
+        - Both
+        - Closed
+        - Open
+    StoredValueRequest:
+      type: object
+      description: It conveys Information related to the Stored Value transaction to process. Content of the Stored Value Request message.
+      properties:
+        SaleData:
+          $ref: '#/components/schemas/SaleData'
+        CustomerLanguage:
+          type: string
+          pattern: ^[a-z]{2,2}$
+          description: If the language is selected by the Sale System before the request to the POI.
+        StoredValueData:
+          type: array
+          items:
+            $ref: '#/components/schemas/StoredValueData'
+      required:
+      - SaleData
+      - StoredValueData
+    OutputFormat:
+      type: string
+      enum:
+      - BarCode
+      - MessageRef
+      - Text
+      - XHTML
+    SaleToIssuerData:
+      type: object
+      description: The POI System receives this information and sends it to the Acquirer for the Issuer without any change. Sale information intended for the Issuer.
+      properties:
+        StatementReference:
+          type: string
+          pattern: ^.+$
+          description: Information to print on the bank statement.
+    PredefinedContent:
+      type: object
+      description: It conveys Information related to the predefined message. Reference of a predefined message to display or print.
+      properties:
+        ReferenceID:
+          type: string
+          pattern: ^.+$
+          description: Identification of a predefined message to display or print.
+        Language:
+          type: string
+          pattern: ^[a-z]{2,2}$
+          description: Identification of a language.
+      required:
+      - ReferenceID
     OriginalPOITransaction:
       type: object
       description: In the Payment or the Loyalty Request message, it allows using the card of a previous CardAcquisition or Payment/Loyalty request. Identification of a previous POI transaction.
@@ -527,6 +432,115 @@ components:
           minimum: 0
         HostTransactionID:
           $ref: '#/components/schemas/TransactionIDType'
+    CharacterWidth:
+      type: string
+      enum:
+      - DoubleWidth
+      - SingleWidth
+    StoredValueAccountType:
+      type: string
+      enum:
+      - GiftCard
+      - Other
+      - PhoneCard
+    StoredValueAccountID:
+      type: object
+      description: It contains the identifications of the stored value account or the stored value card, and the associated product sold by the Sale System for stored value requests. Identification of the stored value account or the stored value card.
+      properties:
+        StoredValueAccountType:
+          $ref: '#/components/schemas/StoredValueAccountType'
+        StoredValueProvider:
+          type: string
+          pattern: ^.+$
+        OwnerName:
+          type: string
+          pattern: ^.+$
+        ExpiryDate:
+          type: integer
+          minimum: 4
+          maximum: 4
+        EntryMode:
+          $ref: '#/components/schemas/EntryMode'
+        IdentificationType:
+          $ref: '#/components/schemas/IdentificationType'
+        StoredValueID:
+          type: string
+          pattern: ^.+$
+      required:
+      - StoredValueAccountType
+      - EntryMode
+      - IdentificationType
+      - StoredValueID
+    IdentificationType:
+      type: string
+      enum:
+      - AccountNumber
+      - BarCode
+      - ISOTrack2
+      - PAN
+      - PhoneNumber
+    CharacterStyle:
+      type: string
+      enum:
+      - Bold
+      - Italic
+      - Normal
+      - Underline
+    POIData:
+      type: object
+      description: In the Message Response, identification of the POI transaction. Data related to the POI System.
+      properties:
+        POITransactionID:
+          $ref: '#/components/schemas/TransactionIDType'
+        POIReconciliationID:
+          type: integer
+          description: If Result is Success.
+      required:
+      - POITransactionID
+    CharacterHeight:
+      type: string
+      enum:
+      - DoubleHeight
+      - HalfHeight
+      - SingleHeight
+    Alignment:
+      type: string
+      enum:
+      - Centred
+      - Justified
+      - Left
+      - Right
+    Result:
+      type: string
+      enum:
+      - Failure
+      - Partial
+      - Success
+    TokenRequestedType:
+      type: string
+      enum:
+      - Customer
+      - Transaction
+    Color:
+      type: string
+      enum:
+      - Black
+      - Blue
+      - Cyan
+      - Green
+      - Magenta
+      - Red
+      - White
+      - Yellow
+    StoredValueTransactionType:
+      type: string
+      enum:
+      - Activate
+      - Duplicate
+      - Load
+      - Reserve
+      - Reverse
+      - Unload
     OutputContent:
       type: object
       description: This is a sequence of elements if they have different formats. Content to display or print.
@@ -548,20 +562,6 @@ components:
           $ref: '#/components/schemas/OutputBarcode'
       required:
       - OutputFormat
-    DocumentQualifier:
-      type: string
-      enum:
-      - CashierReceipt
-      - CustomerReceipt
-      - Document
-      - Journal
-      - SaleReceipt
-      - Voucher
-    CharacterWidth:
-      type: string
-      enum:
-      - DoubleWidth
-      - SingleWidth
   securitySchemes:
     ApiKeyAuth:
       in: header

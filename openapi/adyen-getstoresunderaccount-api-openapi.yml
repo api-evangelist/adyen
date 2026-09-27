@@ -104,12 +104,11 @@ paths:
         dispatcher: FALLBACK
 components:
   examples:
-    post-getStoresUnderAccount-getStoresMerchant:
-      summary: Get all the stores under a merchant account
-      description: Returns a list of all stores associated with the specified merchant account.
+    post-getStoresUnderAccount-getStoresCompany:
+      summary: Get all the stores under a company
+      description: Returns a list of all stores associated with the specified company account.
       value:
         companyAccount: YOUR_COMPANY_ACCOUNT
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
     post-getStoresUnderAccount-getStoresMerchant-200:
       summary: Example response for request 'getStoresMerchant'
       value:
@@ -123,18 +122,6 @@ components:
             streetAddress: The Street
           status: Active
           merchantAccountCode: YOUR_MERCHANT_ACCOUNT
-    post-getStoresUnderAccount-getStoresCompany:
-      summary: Get all the stores under a company
-      description: Returns a list of all stores associated with the specified company account.
-      value:
-        companyAccount: YOUR_COMPANY_ACCOUNT
-    generic-500:
-      summary: Response code 500. Internal server error.
-      value:
-        status: 500
-        errorCode: '000'
-        message: The server could not process the request.
-        errorType: internal
     generic-403:
       summary: Response code 403. Forbidden.
       value:
@@ -142,6 +129,19 @@ components:
         errorCode: '010'
         message: Insufficient permissions to process the request.
         errorType: security
+    generic-400:
+      summary: Response code 400. Bad request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: Problem reading or understanding the request.
+        errorType: validation
+    post-getStoresUnderAccount-getStoresMerchant:
+      summary: Get all the stores under a merchant account
+      description: Returns a list of all stores associated with the specified merchant account.
+      value:
+        companyAccount: YOUR_COMPANY_ACCOUNT
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
     post-getStoresUnderAccount-getStoresCompany-200:
       summary: Example response for request 'getStoresCompany'
       value:
@@ -155,13 +155,13 @@ components:
             streetAddress: The Street
           status: Active
           merchantAccountCode: YOUR_MERCHANT_ACCOUNT
-    generic-400:
-      summary: Response code 400. Bad request.
+    generic-500:
+      summary: Response code 500. Internal server error.
       value:
-        status: 400
-        errorCode: '702'
-        message: Problem reading or understanding the request.
-        errorType: validation
+        status: 500
+        errorCode: '000'
+        message: The server could not process the request.
+        errorType: internal
     generic-422:
       summary: Response code 422. Unprocessable entity.
       value:
@@ -188,32 +188,6 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
-      type: object
-    Address:
-      properties:
-        city:
-          type: string
-        countryCode:
-          type: string
-        postalCode:
-          type: string
-        stateOrProvince:
-          type: string
-        streetAddress:
-          type: string
-        streetAddress2:
-          type: string
-      type: object
-    GetStoresUnderAccountRequest:
-      properties:
-        companyAccount:
-          description: The company account. If you only specify this parameter, the response includes the stores of all merchant accounts that are associated with the company account.
-          type: string
-        merchantAccount:
-          description: The merchant account. With this parameter, the response only includes the stores of the specified merchant account.
-          type: string
-      required:
-      - companyAccount
       type: object
     GetStoresUnderAccountResponse:
       properties:
@@ -247,6 +221,32 @@ components:
           type: string
       required:
       - store
+      type: object
+    Address:
+      properties:
+        city:
+          type: string
+        countryCode:
+          type: string
+        postalCode:
+          type: string
+        stateOrProvince:
+          type: string
+        streetAddress:
+          type: string
+        streetAddress2:
+          type: string
+      type: object
+    GetStoresUnderAccountRequest:
+      properties:
+        companyAccount:
+          description: The company account. If you only specify this parameter, the response includes the stores of all merchant accounts that are associated with the company account.
+          type: string
+        merchantAccount:
+          description: The merchant account. With this parameter, the response only includes the stores of the specified merchant account.
+          type: string
+      required:
+      - companyAccount
       type: object
   securitySchemes:
     ApiKeyAuth:

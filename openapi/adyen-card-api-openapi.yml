@@ -60,14 +60,13 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    CardBrandDetails:
+    CardDetailsResponse:
       properties:
-        supported:
-          description: Indicates if you support the card brand.
-          type: boolean
-        type:
-          description: The name of the card brand.
-          type: string
+        brands:
+          description: The list of brands identified for the card.
+          items:
+            $ref: '#/components/schemas/CardBrandDetails'
+          type: array
       type: object
     CardDetailsRequest:
       properties:
@@ -97,38 +96,16 @@ components:
       - cardNumber
       - merchantAccount
       type: object
-    CardDetailsResponse:
+    CardBrandDetails:
       properties:
-        brands:
-          description: The list of brands identified for the card.
-          items:
-            $ref: '#/components/schemas/CardBrandDetails'
-          type: array
+        supported:
+          description: Indicates if you support the card brand.
+          type: boolean
+        type:
+          description: The name of the card brand.
+          type: string
       type: object
-  headers:
-    Idempotency-Key:
-      description: The idempotency key used for processing the request. Present if the key was provided in the request.
-      schema:
-        type: string
   examples:
-    post-cardDetails-basic-200:
-      summary: List of brands on the card
-      description: Example response when the card is co-branded.
-      value:
-        brands:
-        - type: visa
-          supported: true
-        - type: cartebancaire
-          supported: true
-    post-cardDetails-supported-brands-200:
-      summary: List of brands on the card when you specify your supported card brands
-      description: Example response when the card is co-branded, and you only support Visa.
-      value:
-        brands:
-        - type: visa
-          supported: true
-        - type: cartebancaire
-          supported: false
     post-cardDetails-supported-brands:
       summary: Get a list of brands on a card specifying your supported card brands
       description: Example request for getting a list of brands on a card using the first 6 digits of the card number and including the card brands you support.
@@ -139,12 +116,35 @@ components:
         - visa
         - mc
         - amex
+    post-cardDetails-supported-brands-200:
+      summary: List of brands on the card when you specify your supported card brands
+      description: Example response when the card is co-branded, and you only support Visa.
+      value:
+        brands:
+        - type: visa
+          supported: true
+        - type: cartebancaire
+          supported: false
+    post-cardDetails-basic-200:
+      summary: List of brands on the card
+      description: Example response when the card is co-branded.
+      value:
+        brands:
+        - type: visa
+          supported: true
+        - type: cartebancaire
+          supported: true
     post-cardDetails-basic:
       summary: Get a list of brands on a card
       description: Example request for getting a list of brands on a card using the first 6 digits of the card number.
       value:
         merchantAccount: YOUR_MERCHANT_ACCOUNT
         cardNumber: '411111'
+  headers:
+    Idempotency-Key:
+      description: The idempotency key used for processing the request. Present if the key was provided in the request.
+      schema:
+        type: string
   parameters:
     Idempotency-Key:
       description: A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).

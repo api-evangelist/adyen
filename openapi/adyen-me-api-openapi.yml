@@ -869,130 +869,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    JSONObject:
-      type: object
-    ApiCredentialLinks:
-      properties:
-        allowedOrigins:
-          description: List of allowed origins.
-          $ref: '#/components/schemas/LinksElement'
-        company:
-          description: Company account that the API credential is linked to. Only present for company-level webhooks.
-          $ref: '#/components/schemas/LinksElement'
-        generateApiKey:
-          description: 'Generates a new API key. When you generate a new one, the existing key remains valid for 24 hours. '
-          $ref: '#/components/schemas/LinksElement'
-        generateClientKey:
-          description: Generates a new client key, used to authenticate client-side requests. When you generate a new one, the existing key remains valid for 24 hours.
-          $ref: '#/components/schemas/LinksElement'
-        merchant:
-          description: The merchant account that the API credential is linked to. Only present for merchant-level API credentials.
-          $ref: '#/components/schemas/LinksElement'
-        self:
-          description: Link to the resource itself.
-          $ref: '#/components/schemas/LinksElement'
-      required:
-      - self
-      type: object
-    AllowedOrigin:
-      properties:
-        _links:
-          description: References to resources linked to the allowed origin.
-          $ref: '#/components/schemas/Links'
-        domain:
-          description: Domain of the allowed origin.
-          example: https://adyen.com
-          type: string
-        id:
-          description: Unique identifier of the allowed origin.
-          type: string
-      required:
-      - domain
-      type: object
-    Links:
-      properties:
-        self:
-          description: Link to the resource itself.
-          $ref: '#/components/schemas/LinksElement'
-      required:
-      - self
-      type: object
-    InvalidField:
-      properties:
-        message:
-          description: Description of the validation error.
-          type: string
-        name:
-          description: The field that has an invalid value.
-          type: string
-        value:
-          description: The invalid value.
-          type: string
-      required:
-      - name
-      - value
-      - message
-      type: object
-    GenerateClientKeyResponse:
-      properties:
-        clientKey:
-          description: Generated client key
-          type: string
-      required:
-      - clientKey
-      type: object
-    AllowedOriginsResponse:
-      properties:
-        data:
-          description: List of allowed origins.
-          items:
-            $ref: '#/components/schemas/AllowedOrigin'
-          type: array
-      type: object
-    RestServiceError:
-      properties:
-        detail:
-          description: A human-readable explanation specific to this occurrence of the problem.
-          type: string
-        errorCode:
-          description: A code that identifies the problem type.
-          type: string
-        instance:
-          description: A unique URI that identifies the specific occurrence of the problem.
-          type: string
-        invalidFields:
-          description: Detailed explanation of each validation error, when applicable.
-          items:
-            $ref: '#/components/schemas/InvalidField'
-          type: array
-        requestId:
-          description: A unique reference for the request, essentially the same as `pspReference`.
-          type: string
-        response:
-          description: JSON response payload.
-          $ref: '#/components/schemas/JSONObject'
-        status:
-          description: The HTTP status code.
-          format: int32
-          type: integer
-        title:
-          description: A short, human-readable summary of the problem type.
-          type: string
-        type:
-          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
-          type: string
-      required:
-      - type
-      - errorCode
-      - title
-      - detail
-      - status
-      type: object
-    LinksElement:
-      properties:
-        href:
-          type: string
-      type: object
     MeApiCredential:
       properties:
         _links:
@@ -1050,6 +926,52 @@ components:
       - roles
       - active
       type: object
+    ApiCredentialLinks:
+      properties:
+        allowedOrigins:
+          description: List of allowed origins.
+          $ref: '#/components/schemas/LinksElement'
+        company:
+          description: Company account that the API credential is linked to. Only present for company-level webhooks.
+          $ref: '#/components/schemas/LinksElement'
+        generateApiKey:
+          description: 'Generates a new API key. When you generate a new one, the existing key remains valid for 24 hours. '
+          $ref: '#/components/schemas/LinksElement'
+        generateClientKey:
+          description: Generates a new client key, used to authenticate client-side requests. When you generate a new one, the existing key remains valid for 24 hours.
+          $ref: '#/components/schemas/LinksElement'
+        merchant:
+          description: The merchant account that the API credential is linked to. Only present for merchant-level API credentials.
+          $ref: '#/components/schemas/LinksElement'
+        self:
+          description: Link to the resource itself.
+          $ref: '#/components/schemas/LinksElement'
+      required:
+      - self
+      type: object
+    AllowedOrigin:
+      properties:
+        _links:
+          description: References to resources linked to the allowed origin.
+          $ref: '#/components/schemas/Links'
+        domain:
+          description: Domain of the allowed origin.
+          example: https://adyen.com
+          type: string
+        id:
+          description: Unique identifier of the allowed origin.
+          type: string
+      required:
+      - domain
+      type: object
+    AllowedOriginsResponse:
+      properties:
+        data:
+          description: List of allowed origins.
+          items:
+            $ref: '#/components/schemas/AllowedOrigin'
+          type: array
+      type: object
     CreateAllowedOriginRequest:
       properties:
         _links:
@@ -1064,6 +986,84 @@ components:
           type: string
       required:
       - domain
+      type: object
+    InvalidField:
+      properties:
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
+          type: string
+        value:
+          description: The invalid value.
+          type: string
+      required:
+      - name
+      - value
+      - message
+      type: object
+    RestServiceError:
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+        errorCode:
+          description: A code that identifies the problem type.
+          type: string
+        instance:
+          description: A unique URI that identifies the specific occurrence of the problem.
+          type: string
+        invalidFields:
+          description: Detailed explanation of each validation error, when applicable.
+          items:
+            $ref: '#/components/schemas/InvalidField'
+          type: array
+        requestId:
+          description: A unique reference for the request, essentially the same as `pspReference`.
+          type: string
+        response:
+          description: JSON response payload.
+          $ref: '#/components/schemas/JSONObject'
+        status:
+          description: The HTTP status code.
+          format: int32
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type.
+          type: string
+        type:
+          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
+          type: string
+      required:
+      - type
+      - errorCode
+      - title
+      - detail
+      - status
+      type: object
+    JSONObject:
+      type: object
+    LinksElement:
+      properties:
+        href:
+          type: string
+      type: object
+    GenerateClientKeyResponse:
+      properties:
+        clientKey:
+          description: Generated client key
+          type: string
+      required:
+      - clientKey
+      type: object
+    Links:
+      properties:
+        self:
+          description: Link to the resource itself.
+          $ref: '#/components/schemas/LinksElement'
+      required:
+      - self
       type: object
   securitySchemes:
     ApiKeyAuth:

@@ -143,42 +143,46 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Name:
+    Recurring:
       properties:
-        firstName:
-          description: The first name.
+        contract:
+          description: 'The type of recurring contract to be used.
+
+            Possible values:
+
+            * `ONECLICK` – Payment details can be used to initiate a one-click payment, where the shopper enters the [card security code (CVC/CVV)](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-security-code-cvc-cvv-cid).
+
+            * `RECURRING` – Payment details can be used without the card security code to initiate [card-not-present transactions](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-not-present-cnp).
+
+            * `ONECLICK,RECURRING` – Payment details can be used regardless of whether the shopper is on your site or not.
+
+            * `PAYOUT` – Payment details can be used to [make a payout](https://docs.adyen.com/online-payments/online-payouts).'
+          enum:
+          - ONECLICK
+          - RECURRING
+          - PAYOUT
           type: string
-        lastName:
-          description: The last name.
+        recurringDetailName:
+          description: A descriptive name for this detail.
           type: string
-      required:
-      - firstName
-      - lastName
-      type: object
-    ServiceError:
-      properties:
-        additionalData:
-          x-addedInVersion: '46'
-          additionalProperties:
-            type: string
-          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
-          type: object
-        errorCode:
-          description: The error code mapped to the error message.
+        recurringExpiry:
+          x-addedInVersion: '40'
+          description: Date after which no further authorisations shall be performed. Only for 3D Secure 2.
+          format: date-time
           type: string
-        errorType:
-          description: The category of the error.
+        recurringFrequency:
+          x-addedInVersion: '40'
+          description: Minimum number of days between authorisations. Only for 3D Secure 2.
           type: string
-        message:
-          description: A short explanation of the issue.
+        tokenService:
+          x-addedInVersion: '25'
+          description: The name of the token service.
+          enum:
+          - VISATOKENSERVICE
+          - MCTOKENSERVICE
+          - AMEXTOKENSERVICE
+          - TOKEN_SHARING
           type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
       type: object
     Card:
       properties:
@@ -243,108 +247,6 @@ components:
           minLength: 4
           type: string
       type: object
-    Address:
-      properties:
-        city:
-          description: 'The name of the city. Maximum length: 3000 characters.'
-          maxLength: 3000
-          type: string
-        country:
-          description: 'The two-character ISO-3166-1 alpha-2 country code. For example, **US**.
-
-            > If you don''t know the country or are not collecting the country from the shopper, provide `country` as `ZZ`.'
-          type: string
-        houseNumberOrName:
-          description: 'The number or name of the house. Maximum length: 3000 characters.'
-          maxLength: 3000
-          type: string
-        postalCode:
-          description: A maximum of five digits for an address in the US, or a maximum of ten characters for an address in all other countries.
-          type: string
-        stateOrProvince:
-          description: 'The two-character ISO 3166-2 state or province code. For example, **CA** in the US or **ON** in Canada.
-
-            > Required for the US and Canada.'
-          type: string
-        street:
-          description: 'The name of the street. Maximum length: 3000 characters.
-
-            > The house number should not be included in this field; it should be separately provided via `houseNumberOrName`.'
-          maxLength: 3000
-          type: string
-      required:
-      - street
-      - houseNumberOrName
-      - city
-      - postalCode
-      - country
-      type: object
-    StoreDetailAndSubmitResponse:
-      properties:
-        additionalData:
-          additionalProperties:
-            type: string
-          description: This field contains additional data, which may be returned in a particular response.
-          type: object
-        pspReference:
-          description: A new reference to uniquely identify this request.
-          type: string
-        refusalReason:
-          description: In case of refusal, an informational message for the reason.
-          type: string
-        resultCode:
-          description: 'The response:
-
-
-            * In case of success is payout-submit-received.
-
-            * In case of an error, an informational message is returned.'
-          type: string
-      required:
-      - pspReference
-      - resultCode
-      type: object
-    Recurring:
-      properties:
-        contract:
-          description: 'The type of recurring contract to be used.
-
-            Possible values:
-
-            * `ONECLICK` – Payment details can be used to initiate a one-click payment, where the shopper enters the [card security code (CVC/CVV)](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-security-code-cvc-cvv-cid).
-
-            * `RECURRING` – Payment details can be used without the card security code to initiate [card-not-present transactions](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-not-present-cnp).
-
-            * `ONECLICK,RECURRING` – Payment details can be used regardless of whether the shopper is on your site or not.
-
-            * `PAYOUT` – Payment details can be used to [make a payout](https://docs.adyen.com/online-payments/online-payouts).'
-          enum:
-          - ONECLICK
-          - RECURRING
-          - PAYOUT
-          type: string
-        recurringDetailName:
-          description: A descriptive name for this detail.
-          type: string
-        recurringExpiry:
-          x-addedInVersion: '40'
-          description: Date after which no further authorisations shall be performed. Only for 3D Secure 2.
-          format: date-time
-          type: string
-        recurringFrequency:
-          x-addedInVersion: '40'
-          description: Minimum number of days between authorisations. Only for 3D Secure 2.
-          type: string
-        tokenService:
-          x-addedInVersion: '25'
-          description: The name of the token service.
-          enum:
-          - VISATOKENSERVICE
-          - MCTOKENSERVICE
-          - AMEXTOKENSERVICE
-          - TOKEN_SHARING
-          type: string
-      type: object
     BankAccount:
       properties:
         bankAccountNumber:
@@ -399,21 +301,6 @@ components:
           x-addedInVersion: '18'
           description: The bank account holder's tax ID.
           type: string
-      type: object
-    Amount:
-      properties:
-        currency:
-          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
-          maxLength: 3
-          minLength: 3
-          type: string
-        value:
-          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int64
-          type: integer
-      required:
-      - value
-      - currency
       type: object
     StoreDetailAndSubmitRequest:
       properties:
@@ -527,19 +414,131 @@ components:
       - reference
       - amount
       type: object
+    Name:
+      properties:
+        firstName:
+          description: The first name.
+          type: string
+        lastName:
+          description: The last name.
+          type: string
+      required:
+      - firstName
+      - lastName
+      type: object
+    ServiceError:
+      properties:
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    Amount:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      - currency
+      type: object
+    StoreDetailAndSubmitResponse:
+      properties:
+        additionalData:
+          additionalProperties:
+            type: string
+          description: This field contains additional data, which may be returned in a particular response.
+          type: object
+        pspReference:
+          description: A new reference to uniquely identify this request.
+          type: string
+        refusalReason:
+          description: In case of refusal, an informational message for the reason.
+          type: string
+        resultCode:
+          description: 'The response:
+
+
+            * In case of success is payout-submit-received.
+
+            * In case of an error, an informational message is returned.'
+          type: string
+      required:
+      - pspReference
+      - resultCode
+      type: object
+    Address:
+      properties:
+        city:
+          description: 'The name of the city. Maximum length: 3000 characters.'
+          maxLength: 3000
+          type: string
+        country:
+          description: 'The two-character ISO-3166-1 alpha-2 country code. For example, **US**.
+
+            > If you don''t know the country or are not collecting the country from the shopper, provide `country` as `ZZ`.'
+          type: string
+        houseNumberOrName:
+          description: 'The number or name of the house. Maximum length: 3000 characters.'
+          maxLength: 3000
+          type: string
+        postalCode:
+          description: A maximum of five digits for an address in the US, or a maximum of ten characters for an address in all other countries.
+          type: string
+        stateOrProvince:
+          description: 'The two-character ISO 3166-2 state or province code. For example, **CA** in the US or **ON** in Canada.
+
+            > Required for the US and Canada.'
+          type: string
+        street:
+          description: 'The name of the street. Maximum length: 3000 characters.
+
+            > The house number should not be included in this field; it should be separately provided via `houseNumberOrName`.'
+          maxLength: 3000
+          type: string
+      required:
+      - street
+      - houseNumberOrName
+      - city
+      - postalCode
+      - country
+      type: object
   examples:
-    post-storeDetailAndSubmitThirdParty-storeDetailAndSubmitThirdParty-PayPal:
-      summary: Submit a payout to PayPal
-      description: Submit a payout to PayPal and stores its details for subsequent payouts
+    post-storeDetailAndSubmitThirdParty-storeDetailAndSubmitThirdParty-Skrill:
+      summary: Submit a payout to Skrill
+      description: Submit a payout to Skrill and stores its details for subsequent payouts
       value:
         amount:
           currency: EUR
-          value: 1750
-        selectedBrand: paypal
+          value: 100
+        selectedBrand: moneybookers
         additionalData:
-          tokenDataType: PayPal
-          emailId: EmailUsedForPayPalAccount@example.com
-          paypal.payerId: AK5HCWWRUV2KL
+          tokenDataType: MoneyBookers
+          email: name@adyen.com
         shopperName:
           firstName: Test
           gender: FEMALE
@@ -579,6 +578,38 @@ components:
         dateOfBirth: '1990-01-01'
         entityType: Company
         nationality: NL
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
+    post-storeDetailAndSubmitThirdParty-storeDetailAndSubmitThirdParty-PayPal:
+      summary: Submit a payout to PayPal
+      description: Submit a payout to PayPal and stores its details for subsequent payouts
+      value:
+        amount:
+          currency: EUR
+          value: 1750
+        selectedBrand: paypal
+        additionalData:
+          tokenDataType: PayPal
+          emailId: EmailUsedForPayPalAccount@example.com
+          paypal.payerId: AK5HCWWRUV2KL
+        shopperName:
+          firstName: Test
+          gender: FEMALE
+          lastName: Test2
+        dateOfBirth: '1982-07-17'
+        entityType: NaturalPerson
+        nationality: NL
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        recurring:
+          contract: PAYOUT
+        reference: Test Payout
+        shopperEmail: test@company.com
+        shopperReference: YOUR_UNIQUE_SHOPPER_ID
     post-storeDetailAndSubmitThirdParty-storeDetailAndSubmitThirdParty-Paysafecard:
       summary: Submit a payout to Paysafecard
       description: Submit a payout to Paysafecard and stores its details for subsequent payouts
@@ -603,37 +634,6 @@ components:
         shopperEmail: test@company.com
         shopperReference: YOUR_UNIQUE_SHOPPER_ID
         shopperIP: 61.294.12.12
-    generic-400:
-      summary: Response code 400. Bad Request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: I'
-        errorType: validation
-    post-storeDetailAndSubmitThirdParty-storeDetailAndSubmitThirdParty-Skrill:
-      summary: Submit a payout to Skrill
-      description: Submit a payout to Skrill and stores its details for subsequent payouts
-      value:
-        amount:
-          currency: EUR
-          value: 100
-        selectedBrand: moneybookers
-        additionalData:
-          tokenDataType: MoneyBookers
-          email: name@adyen.com
-        shopperName:
-          firstName: Test
-          gender: FEMALE
-          lastName: Test2
-        dateOfBirth: '1982-07-17'
-        entityType: NaturalPerson
-        nationality: NL
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-        recurring:
-          contract: PAYOUT
-        reference: Test Payout
-        shopperEmail: test@company.com
-        shopperReference: YOUR_UNIQUE_SHOPPER_ID
     post-storeDetailAndSubmitThirdParty-storeDetailAndSubmitThirdParty-Neteller:
       summary: Submit a payout to Neteller
       description: Submit a payout to Neteller and stores its details for subsequent payouts

@@ -151,6 +151,33 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    RefundNotPaidOutTransfersResponse:
+      properties:
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+      type: object
+    RefundNotPaidOutTransfersRequest:
+      properties:
+        accountCode:
+          description: The code of the account from which to perform the refund(s).
+          type: string
+        accountHolderCode:
+          description: The code of the Account Holder which owns the account from which to perform the refund(s).
+          type: string
+      required:
+      - accountHolderCode
+      - accountCode
+      type: object
     ServiceError:
       properties:
         errorCode:
@@ -169,21 +196,6 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
-      type: object
-    RefundNotPaidOutTransfersResponse:
-      properties:
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        resultCode:
-          description: The result code.
-          type: string
       type: object
     FieldType:
       properties:
@@ -372,18 +384,6 @@ components:
         fieldType:
           description: The type of error field.
           $ref: '#/components/schemas/FieldType'
-      type: object
-    RefundNotPaidOutTransfersRequest:
-      properties:
-        accountCode:
-          description: The code of the account from which to perform the refund(s).
-          type: string
-        accountHolderCode:
-          description: The code of the Account Holder which owns the account from which to perform the refund(s).
-          type: string
-      required:
-      - accountHolderCode
-      - accountCode
       type: object
   examples:
     post-refundNotPaidOutTransfers-basic:

@@ -128,6 +128,17 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  examples:
+    post-acceptDispute-accept-dispute:
+      summary: Accept a dispute
+      value:
+        disputePspReference: DZ4DPSHB4WD2WN82
+        merchantAccountCode: YOUR_MERCHANT_ACCOUNT
+    post-acceptDispute-accept-dispute-200:
+      summary: Dispute accepted
+      value:
+        disputeServiceResult:
+          success: true
   schemas:
     ServiceError:
       properties:
@@ -148,6 +159,18 @@ components:
           format: int32
           type: integer
       type: object
+    AcceptDisputeRequest:
+      properties:
+        disputePspReference:
+          description: The PSP reference assigned to the dispute.
+          type: string
+        merchantAccountCode:
+          description: The merchant account identifier, for which you want to process the dispute transaction.
+          type: string
+      required:
+      - merchantAccountCode
+      - disputePspReference
+      type: object
     DisputeServiceResult:
       properties:
         errorMessage:
@@ -167,29 +190,6 @@ components:
       required:
       - disputeServiceResult
       type: object
-    AcceptDisputeRequest:
-      properties:
-        disputePspReference:
-          description: The PSP reference assigned to the dispute.
-          type: string
-        merchantAccountCode:
-          description: The merchant account identifier, for which you want to process the dispute transaction.
-          type: string
-      required:
-      - merchantAccountCode
-      - disputePspReference
-      type: object
-  examples:
-    post-acceptDispute-accept-dispute:
-      summary: Accept a dispute
-      value:
-        disputePspReference: DZ4DPSHB4WD2WN82
-        merchantAccountCode: YOUR_MERCHANT_ACCOUNT
-    post-acceptDispute-accept-dispute-200:
-      summary: Dispute accepted
-      value:
-        disputeServiceResult:
-          success: true
   securitySchemes:
     ApiKeyAuth:
       in: header

@@ -137,6 +137,35 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    DeleteShareholderRequest:
+      properties:
+        accountHolderCode:
+          description: The code of the Account Holder from which to delete the Shareholders.
+          type: string
+        shareholderCodes:
+          description: The code(s) of the Shareholders to be deleted.
+          items:
+            type: string
+          type: array
+      required:
+      - accountHolderCode
+      - shareholderCodes
+      type: object
+    GenericResponse:
+      properties:
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+      type: object
     ServiceError:
       properties:
         errorCode:
@@ -155,35 +184,6 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
-      type: object
-    GenericResponse:
-      properties:
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        resultCode:
-          description: The result code.
-          type: string
-      type: object
-    DeleteShareholderRequest:
-      properties:
-        accountHolderCode:
-          description: The code of the Account Holder from which to delete the Shareholders.
-          type: string
-        shareholderCodes:
-          description: The code(s) of the Shareholders to be deleted.
-          items:
-            type: string
-          type: array
-      required:
-      - accountHolderCode
-      - shareholderCodes
       type: object
     FieldType:
       properties:
@@ -374,13 +374,6 @@ components:
           $ref: '#/components/schemas/FieldType'
       type: object
   examples:
-    generic-403:
-      summary: Response code 401. Forbidden.
-      value:
-        status: 403
-        errorCode: '10_003'
-        message: Failed to authorize user
-        errorType: security
     generic-400:
       summary: Response code 400. Bad Request.
       value:
@@ -388,6 +381,13 @@ components:
         errorCode: '702'
         message: 'Unexpected input: I'
         errorType: validation
+    generic-403:
+      summary: Response code 401. Forbidden.
+      value:
+        status: 403
+        errorCode: '10_003'
+        message: Failed to authorize user
+        errorType: security
     post-deleteShareholders-basic:
       summary: Delete shareholders
       value:

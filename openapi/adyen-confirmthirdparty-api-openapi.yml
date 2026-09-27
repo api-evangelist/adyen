@@ -128,26 +128,24 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  examples:
-    post-confirmThirdParty-confirmThirdParty-200:
-      summary: Example response for request 'confirmThirdParty'
-      value:
-        pspReference: 991617894325358C
-        response: '[payout-confirm-received]'
-    post-confirmThirdParty-confirmThirdParty:
-      summary: Confirm a payout
-      description: Confirm a previously submitted payout
-      value:
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-        originalReference: '9913140798220028'
-    generic-400:
-      summary: Response code 400. Bad Request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: I'
-        errorType: validation
   schemas:
+    ModifyRequest:
+      properties:
+        additionalData:
+          additionalProperties:
+            type: string
+          description: This field contains additional data, which may be required for a particular payout request.
+          type: object
+        merchantAccount:
+          description: The merchant account identifier, with which you want to process the transaction.
+          type: string
+        originalReference:
+          description: The PSP reference received in the `/submitThirdParty` response.
+          type: string
+      required:
+      - merchantAccount
+      - originalReference
+      type: object
     ServiceError:
       properties:
         additionalData:
@@ -173,23 +171,6 @@ components:
           format: int32
           type: integer
       type: object
-    ModifyRequest:
-      properties:
-        additionalData:
-          additionalProperties:
-            type: string
-          description: This field contains additional data, which may be required for a particular payout request.
-          type: object
-        merchantAccount:
-          description: The merchant account identifier, with which you want to process the transaction.
-          type: string
-        originalReference:
-          description: The PSP reference received in the `/submitThirdParty` response.
-          type: string
-      required:
-      - merchantAccount
-      - originalReference
-      type: object
     ModifyResponse:
       properties:
         additionalData:
@@ -211,6 +192,25 @@ components:
       - pspReference
       - response
       type: object
+  examples:
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
+    post-confirmThirdParty-confirmThirdParty:
+      summary: Confirm a payout
+      description: Confirm a previously submitted payout
+      value:
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        originalReference: '9913140798220028'
+    post-confirmThirdParty-confirmThirdParty-200:
+      summary: Example response for request 'confirmThirdParty'
+      value:
+        pspReference: 991617894325358C
+        response: '[payout-confirm-received]'
   securitySchemes:
     ApiKeyAuth:
       in: header

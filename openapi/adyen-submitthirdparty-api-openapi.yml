@@ -135,43 +135,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Name:
-      properties:
-        firstName:
-          description: The first name.
-          type: string
-        lastName:
-          description: The last name.
-          type: string
-      required:
-      - firstName
-      - lastName
-      type: object
-    ServiceError:
-      properties:
-        additionalData:
-          x-addedInVersion: '46'
-          additionalProperties:
-            type: string
-          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
-          type: object
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
-      type: object
     Recurring:
       properties:
         contract:
@@ -212,6 +175,67 @@ components:
           - AMEXTOKENSERVICE
           - TOKEN_SHARING
           type: string
+      type: object
+    SubmitResponse:
+      properties:
+        additionalData:
+          additionalProperties:
+            type: string
+          description: This field contains additional data, which may be returned in a particular response.
+          type: object
+        pspReference:
+          description: A new reference to uniquely identify this request.
+          type: string
+        refusalReason:
+          description: In case of refusal, an informational message for the reason.
+          type: string
+        resultCode:
+          description: 'The response:
+
+            * In case of success, it is `payout-submit-received`.
+
+            * In case of an error, an informational message is returned.'
+          type: string
+      required:
+      - pspReference
+      - resultCode
+      type: object
+    Name:
+      properties:
+        firstName:
+          description: The first name.
+          type: string
+        lastName:
+          description: The last name.
+          type: string
+      required:
+      - firstName
+      - lastName
+      type: object
+    ServiceError:
+      properties:
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
       type: object
     Amount:
       properties:
@@ -324,31 +348,14 @@ components:
       - recurring
       - selectedRecurringDetailReference
       type: object
-    SubmitResponse:
-      properties:
-        additionalData:
-          additionalProperties:
-            type: string
-          description: This field contains additional data, which may be returned in a particular response.
-          type: object
-        pspReference:
-          description: A new reference to uniquely identify this request.
-          type: string
-        refusalReason:
-          description: In case of refusal, an informational message for the reason.
-          type: string
-        resultCode:
-          description: 'The response:
-
-            * In case of success, it is `payout-submit-received`.
-
-            * In case of an error, an informational message is returned.'
-          type: string
-      required:
-      - pspReference
-      - resultCode
-      type: object
   examples:
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
     post-submitThirdParty-submitThirdParty:
       summary: Submit a payout
       description: Submit a payout using the previously stored payment details
@@ -370,13 +377,6 @@ components:
         entityType: Company
         nationality: NL
         selectedRecurringDetailReference: LATEST
-    generic-400:
-      summary: Response code 400. Bad Request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: I'
-        errorType: validation
   securitySchemes:
     ApiKeyAuth:
       in: header

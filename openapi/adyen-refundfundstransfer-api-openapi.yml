@@ -157,6 +157,21 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    RefundFundsTransferRequest:
+      properties:
+        amount:
+          description: The amount to be transferred.
+          $ref: '#/components/schemas/Amount'
+        merchantReference:
+          description: A value that can be supplied at the discretion of the executing user in order to link multiple transactions to one another.
+          type: string
+        originalReference:
+          description: A PSP reference of the original fund transfer.
+          type: string
+      required:
+      - originalReference
+      - amount
+      type: object
     ServiceError:
       properties:
         errorCode:
@@ -176,29 +191,20 @@ components:
           format: int32
           type: integer
       type: object
-    RefundFundsTransferResponse:
+    Amount:
       properties:
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        merchantReference:
-          description: The value supplied by the executing user when initiating the transfer refund; may be used to link multiple transactions.
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
           type: string
-        message:
-          description: The message of the response.
-          type: string
-        originalReference:
-          description: A PSP reference of the original fund transfer.
-          type: string
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        resultCode:
-          description: The result code.
-          type: string
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      - currency
       type: object
     FieldType:
       properties:
@@ -375,36 +381,6 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    Amount:
-      properties:
-        currency:
-          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
-          maxLength: 3
-          minLength: 3
-          type: string
-        value:
-          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int64
-          type: integer
-      required:
-      - value
-      - currency
-      type: object
-    RefundFundsTransferRequest:
-      properties:
-        amount:
-          description: The amount to be transferred.
-          $ref: '#/components/schemas/Amount'
-        merchantReference:
-          description: A value that can be supplied at the discretion of the executing user in order to link multiple transactions to one another.
-          type: string
-        originalReference:
-          description: A PSP reference of the original fund transfer.
-          type: string
-      required:
-      - originalReference
-      - amount
-      type: object
     ErrorFieldType:
       properties:
         errorCode:
@@ -417,6 +393,30 @@ components:
         fieldType:
           description: The type of error field.
           $ref: '#/components/schemas/FieldType'
+      type: object
+    RefundFundsTransferResponse:
+      properties:
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        merchantReference:
+          description: The value supplied by the executing user when initiating the transfer refund; may be used to link multiple transactions.
+          type: string
+        message:
+          description: The message of the response.
+          type: string
+        originalReference:
+          description: A PSP reference of the original fund transfer.
+          type: string
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
       type: object
   examples:
     post-refundFundsTransfer-basic:

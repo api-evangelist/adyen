@@ -49,25 +49,40 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CardReaderAPDUResponse:
+    ErrorCondition:
+      type: string
+      enum:
+      - Aborted
+      - Busy
+      - Cancel
+      - DeviceOut
+      - InProgress
+      - InsertedCard
+      - InvalidCard
+      - LoggedOut
+      - MessageFormat
+      - NotAllowed
+      - NotFound
+      - PaymentRestriction
+      - Refusal
+      - UnavailableDevice
+      - UnavailableService
+      - UnreachableHost
+      - WrongPIN
+    Response:
       type: object
-      description: It contains the result of the requested service, APDU response sent by the chip of the card in response to the APDU request. Content of the Card Reader APDU Response message.
+      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
       properties:
-        Response:
-          $ref: '#/components/schemas/Response'
-        APDUData:
+        Result:
+          $ref: '#/components/schemas/Result'
+        ErrorCondition:
+          $ref: '#/components/schemas/ErrorCondition'
+        AdditionalResponse:
           type: string
-          format: byte
           pattern: ^.+$
-          description: Data field of the APDU command (Lc + Data).
-        CardStatusWords:
-          type: string
-          format: byte
-          pattern: ^.{2,2}$
-          description: Status of a smartcard response to a command (SW1-SW2).
+          description: If present, the POI logs it for further examination.
       required:
-      - Response
-      - CardStatusWords
+      - Result
     CardReaderAPDURequest:
       type: object
       description: It contains the APDU request to send to the chip of the card, and a possible invitation message to display on the CashierInterface or the CustomerInterface. Content of the Card Reader APDU Request message.
@@ -107,46 +122,31 @@ components:
       - APDUInstruction
       - APDUPar1
       - APDUPar2
-    ErrorCondition:
-      type: string
-      enum:
-      - Aborted
-      - Busy
-      - Cancel
-      - DeviceOut
-      - InProgress
-      - InsertedCard
-      - InvalidCard
-      - LoggedOut
-      - MessageFormat
-      - NotAllowed
-      - NotFound
-      - PaymentRestriction
-      - Refusal
-      - UnavailableDevice
-      - UnavailableService
-      - UnreachableHost
-      - WrongPIN
     Result:
       type: string
       enum:
       - Failure
       - Partial
       - Success
-    Response:
+    CardReaderAPDUResponse:
       type: object
-      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
+      description: It contains the result of the requested service, APDU response sent by the chip of the card in response to the APDU request. Content of the Card Reader APDU Response message.
       properties:
-        Result:
-          $ref: '#/components/schemas/Result'
-        ErrorCondition:
-          $ref: '#/components/schemas/ErrorCondition'
-        AdditionalResponse:
+        Response:
+          $ref: '#/components/schemas/Response'
+        APDUData:
           type: string
+          format: byte
           pattern: ^.+$
-          description: If present, the POI logs it for further examination.
+          description: Data field of the APDU command (Lc + Data).
+        CardStatusWords:
+          type: string
+          format: byte
+          pattern: ^.{2,2}$
+          description: Status of a smartcard response to a command (SW1-SW2).
       required:
-      - Result
+      - Response
+      - CardStatusWords
   securitySchemes:
     ApiKeyAuth:
       in: header

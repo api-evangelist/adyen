@@ -55,31 +55,7 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  examples:
-    post-applePay-sessions-basic-200:
-      summary: Payment session data for Apple Pay
-      value:
-        data: eyJ2Z...
-    post-applePay-sessions-basic:
-      summary: Get payment session for Apple Pay
-      value:
-        displayName: YOUR_MERCHANT_NAME
-        domainName: YOUR_DOMAIN_NAME
-        merchantIdentifier: YOUR_MERCHANT_ID
-  headers:
-    Idempotency-Key:
-      description: The idempotency key used for processing the request. Present if the key was provided in the request.
-      schema:
-        type: string
   schemas:
-    ApplePaySessionResponse:
-      properties:
-        data:
-          description: Base64 encoded data you need to [complete the Apple Pay merchant validation](https://docs.adyen.com/payment-methods/apple-pay/api-only?tab=adyen-certificate-validation_1#complete-apple-pay-session-validation).
-          type: string
-      required:
-      - data
-      type: object
     ApplePaySessionRequest:
       properties:
         displayName:
@@ -105,6 +81,30 @@ components:
       - merchantIdentifier
       - displayName
       type: object
+    ApplePaySessionResponse:
+      properties:
+        data:
+          description: Base64 encoded data you need to [complete the Apple Pay merchant validation](https://docs.adyen.com/payment-methods/apple-pay/api-only?tab=adyen-certificate-validation_1#complete-apple-pay-session-validation).
+          type: string
+      required:
+      - data
+      type: object
+  examples:
+    post-applePay-sessions-basic-200:
+      summary: Payment session data for Apple Pay
+      value:
+        data: eyJ2Z...
+    post-applePay-sessions-basic:
+      summary: Get payment session for Apple Pay
+      value:
+        displayName: YOUR_MERCHANT_NAME
+        domainName: YOUR_DOMAIN_NAME
+        merchantIdentifier: YOUR_MERCHANT_ID
+  headers:
+    Idempotency-Key:
+      description: The idempotency key used for processing the request. Present if the key was provided in the request.
+      schema:
+        type: string
   parameters:
     Idempotency-Key:
       description: A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).

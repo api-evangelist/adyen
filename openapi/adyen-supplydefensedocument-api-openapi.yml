@@ -129,6 +129,31 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    DefenseDocument:
+      properties:
+        content:
+          description: The content of the defense document.
+          format: byte
+          type: string
+        contentType:
+          description: The content type of the defense document.
+          type: string
+        defenseDocumentTypeCode:
+          description: The document type code of the defense document.
+          type: string
+      required:
+      - defenseDocumentTypeCode
+      - contentType
+      - content
+      type: object
+    SupplyDefenseDocumentResponse:
+      properties:
+        disputeServiceResult:
+          description: The result of the dispute service.
+          $ref: '#/components/schemas/DisputeServiceResult'
+      required:
+      - disputeServiceResult
+      type: object
     ServiceError:
       properties:
         errorCode:
@@ -148,6 +173,17 @@ components:
           format: int32
           type: integer
       type: object
+    DisputeServiceResult:
+      properties:
+        errorMessage:
+          description: The general error message.
+          type: string
+        success:
+          description: Indicates whether the request succeeded.
+          type: boolean
+      required:
+      - success
+      type: object
     SupplyDefenseDocumentRequest:
       properties:
         defenseDocuments:
@@ -166,43 +202,12 @@ components:
       - disputePspReference
       - defenseDocuments
       type: object
-    DisputeServiceResult:
-      properties:
-        errorMessage:
-          description: The general error message.
-          type: string
-        success:
-          description: Indicates whether the request succeeded.
-          type: boolean
-      required:
-      - success
-      type: object
-    SupplyDefenseDocumentResponse:
-      properties:
-        disputeServiceResult:
-          description: The result of the dispute service.
-          $ref: '#/components/schemas/DisputeServiceResult'
-      required:
-      - disputeServiceResult
-      type: object
-    DefenseDocument:
-      properties:
-        content:
-          description: The content of the defense document.
-          format: byte
-          type: string
-        contentType:
-          description: The content type of the defense document.
-          type: string
-        defenseDocumentTypeCode:
-          description: The document type code of the defense document.
-          type: string
-      required:
-      - defenseDocumentTypeCode
-      - contentType
-      - content
-      type: object
   examples:
+    post-supplyDefenseDocument-supply-defense-document-200:
+      summary: Dispute defense documents supplied
+      value:
+        disputeServiceResult:
+          success: true
     post-supplyDefenseDocument-supply-defense-document:
       summary: Supply dispute defense documents
       value:
@@ -212,11 +217,6 @@ components:
           defenseDocumentTypeCode: DefenseMaterial
         disputePspReference: DZ4DPSHB4WD2WN82
         merchantAccountCode: YOUR_MERCHANT_ACCOUNT
-    post-supplyDefenseDocument-supply-defense-document-200:
-      summary: Dispute defense documents supplied
-      value:
-        disputeServiceResult:
-          success: true
   securitySchemes:
     ApiKeyAuth:
       in: header

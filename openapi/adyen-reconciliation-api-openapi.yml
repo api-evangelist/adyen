@@ -69,9 +69,58 @@ components:
       required:
       - Response
       - ReconciliationType
-    LoyaltyTotals:
+    ReconciliationType:
+      type: string
+      enum:
+      - AcquirerReconciliation
+      - AcquirerSynchronisation
+      - PreviousReconciliation
+      - SaleReconciliation
+    ErrorCondition:
+      type: string
+      enum:
+      - Aborted
+      - Busy
+      - Cancel
+      - DeviceOut
+      - InProgress
+      - InsertedCard
+      - InvalidCard
+      - LoggedOut
+      - MessageFormat
+      - NotAllowed
+      - NotFound
+      - PaymentRestriction
+      - Refusal
+      - UnavailableDevice
+      - UnavailableService
+      - UnreachableHost
+      - WrongPIN
+    Response:
       type: object
-      description: Totals of the loyalty transaction during the reconciliation period.
+      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
+      properties:
+        Result:
+          $ref: '#/components/schemas/Result'
+        ErrorCondition:
+          $ref: '#/components/schemas/ErrorCondition'
+        AdditionalResponse:
+          type: string
+          pattern: ^.+$
+          description: If present, the POI logs it for further examination.
+      required:
+      - Result
+    PaymentInstrumentType:
+      type: string
+      enum:
+      - Card
+      - Cash
+      - Check
+      - Mobile
+      - StoredValue
+    PaymentTotals:
+      type: object
+      description: Totals of the payment transaction during the reconciliation period.
       properties:
         TransactionType:
           $ref: '#/components/schemas/TransactionType'
@@ -144,6 +193,12 @@ components:
             $ref: '#/components/schemas/LoyaltyTotals'
       required:
       - PaymentInstrumentType
+    Result:
+      type: string
+      enum:
+      - Failure
+      - Partial
+      - Success
     ReconciliationRequest:
       type: object
       description: It conveys Information related to the Reconciliation requested by the Sale System. Content of the Reconciliation Request message.
@@ -160,6 +215,29 @@ components:
           description: Absent if ReconciliationType is not PreviousReconciliation.
       required:
       - ReconciliationType
+    LoyaltyUnit:
+      type: string
+      enum:
+      - Monetary
+      - Point
+    LoyaltyTotals:
+      type: object
+      description: Totals of the loyalty transaction during the reconciliation period.
+      properties:
+        TransactionType:
+          $ref: '#/components/schemas/TransactionType'
+        TransactionCount:
+          type: integer
+          description: Number of processed transaction during the period.
+        TransactionAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+          description: Sum of amount of processed transaction during the period.
+      required:
+      - TransactionType
+      - TransactionCount
+      - TransactionAmount
     TransactionType:
       type: string
       enum:
@@ -182,84 +260,6 @@ components:
       - ReverseRebate
       - ReverseRedemption
       - UpdateReservation
-    PaymentInstrumentType:
-      type: string
-      enum:
-      - Card
-      - Cash
-      - Check
-      - Mobile
-      - StoredValue
-    PaymentTotals:
-      type: object
-      description: Totals of the payment transaction during the reconciliation period.
-      properties:
-        TransactionType:
-          $ref: '#/components/schemas/TransactionType'
-        TransactionCount:
-          type: integer
-          description: Number of processed transaction during the period.
-        TransactionAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-          description: Sum of amount of processed transaction during the period.
-      required:
-      - TransactionType
-      - TransactionCount
-      - TransactionAmount
-    LoyaltyUnit:
-      type: string
-      enum:
-      - Monetary
-      - Point
-    ReconciliationType:
-      type: string
-      enum:
-      - AcquirerReconciliation
-      - AcquirerSynchronisation
-      - PreviousReconciliation
-      - SaleReconciliation
-    ErrorCondition:
-      type: string
-      enum:
-      - Aborted
-      - Busy
-      - Cancel
-      - DeviceOut
-      - InProgress
-      - InsertedCard
-      - InvalidCard
-      - LoggedOut
-      - MessageFormat
-      - NotAllowed
-      - NotFound
-      - PaymentRestriction
-      - Refusal
-      - UnavailableDevice
-      - UnavailableService
-      - UnreachableHost
-      - WrongPIN
-    Result:
-      type: string
-      enum:
-      - Failure
-      - Partial
-      - Success
-    Response:
-      type: object
-      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
-      properties:
-        Result:
-          $ref: '#/components/schemas/Result'
-        ErrorCondition:
-          $ref: '#/components/schemas/ErrorCondition'
-        AdditionalResponse:
-          type: string
-          pattern: ^.+$
-          description: If present, the POI logs it for further examination.
-      required:
-      - Result
   securitySchemes:
     ApiKeyAuth:
       in: header

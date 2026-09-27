@@ -491,58 +491,64 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  examples:
+    post-documents-uploadDocument:
+      summary: Upload a document
+      description: Example request for uploading a document
+      value:
+        type: registrationDocument
+        attachments:
+        - content: JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBv+f/ub0j6JPRX+E3EmC==
+        description: Registration doc for Example Company
+        owner:
+          id: LE00000000000000000000001
+          type: legalEntity
+    post-documents-uploadDocument-200:
+      summary: Document uploaded
+      description: Example response when a document is uploaded
+      value:
+        type: registrationDocument
+        attachments:
+        - content: JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBv+f/ub0j6JPRX+E3EmC==
+        description: Registration doc for Example Company
+        fileName: Registration doc for Example Company
+        owner:
+          id: LE00000000000000000000001
+          type: legalEntity
+        id: SE322JV223222F5GV2N9L8GDK
+    patch-documents-id-updateDocument-200:
+      summary: Document updated
+      description: Example response when a document is updated
+      value:
+        type: proofOfIndustry
+        attachments:
+        - content: JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBv+f/ub0j6JPRX+E3EmC==
+        description: Proof of industry for Example Company
+        fileName: Proof of industry for Example Company
+        owner:
+          id: LE00000000000000000000001
+          type: legalEntity
+        id: SE322JV223222F5GV2N9L8GDK
+    get-documents-id-success-200:
+      summary: Details of a document
+      description: Example response when getting document details
+      value:
+        type: registrationDocument
+        attachments:
+        - content: JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBv+f/ub0j6JPRX+E3EmC==
+        description: Registration doc for Example Company
+        fileName: Registration doc for Example Company
+        owner:
+          id: LE00000000000000000000001
+          type: legalEntity
+        id: SE322JV223222F5GV2N9L8GDK
+    patch-documents-id-updateDocument:
+      summary: Update a document
+      description: Example request for updating a document
+      value:
+        type: proofOfIndustry
+        description: Proof of industry doc for Example Company
   schemas:
-    Attachment:
-      properties:
-        content:
-          description: The document in Base64-encoded string format.
-          format: byte
-          type: string
-        contentType:
-          deprecated: true
-          x-deprecatedInVersion: '1'
-          description: "The file format.\n\n Possible values: **application/pdf**, **image/jpg**, **image/jpeg**, **image/png**. "
-          type: string
-        filename:
-          deprecated: true
-          x-deprecatedInVersion: '1'
-          description: The name of the file including the file extension.
-          type: string
-        pageName:
-          x-addedInVersion: '2'
-          description: The name of the file including the file extension.
-          type: string
-        pageType:
-          description: 'Specifies which side of the ID card is uploaded.
-
-
-            * When `type` is **driversLicense** or **identityCard**, set this to **front** or **back**.
-
-
-            * When omitted, we infer the page number based on the order of attachments.'
-          type: string
-      required:
-      - content
-      type: object
-    ServiceError:
-      properties:
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
-      type: object
     Document:
       properties:
         attachment:
@@ -631,6 +637,25 @@ components:
       - description
       - type
       type: object
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
     OwnerEntity:
       properties:
         id:
@@ -646,63 +671,38 @@ components:
       - id
       - type
       type: object
-  examples:
-    patch-documents-id-updateDocument:
-      summary: Update a document
-      description: Example request for updating a document
-      value:
-        type: proofOfIndustry
-        description: Proof of industry doc for Example Company
-    patch-documents-id-updateDocument-200:
-      summary: Document updated
-      description: Example response when a document is updated
-      value:
-        type: proofOfIndustry
-        attachments:
-        - content: JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBv+f/ub0j6JPRX+E3EmC==
-        description: Proof of industry for Example Company
-        fileName: Proof of industry for Example Company
-        owner:
-          id: LE00000000000000000000001
-          type: legalEntity
-        id: SE322JV223222F5GV2N9L8GDK
-    get-documents-id-success-200:
-      summary: Details of a document
-      description: Example response when getting document details
-      value:
-        type: registrationDocument
-        attachments:
-        - content: JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBv+f/ub0j6JPRX+E3EmC==
-        description: Registration doc for Example Company
-        fileName: Registration doc for Example Company
-        owner:
-          id: LE00000000000000000000001
-          type: legalEntity
-        id: SE322JV223222F5GV2N9L8GDK
-    post-documents-uploadDocument:
-      summary: Upload a document
-      description: Example request for uploading a document
-      value:
-        type: registrationDocument
-        attachments:
-        - content: JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBv+f/ub0j6JPRX+E3EmC==
-        description: Registration doc for Example Company
-        owner:
-          id: LE00000000000000000000001
-          type: legalEntity
-    post-documents-uploadDocument-200:
-      summary: Document uploaded
-      description: Example response when a document is uploaded
-      value:
-        type: registrationDocument
-        attachments:
-        - content: JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBv+f/ub0j6JPRX+E3EmC==
-        description: Registration doc for Example Company
-        fileName: Registration doc for Example Company
-        owner:
-          id: LE00000000000000000000001
-          type: legalEntity
-        id: SE322JV223222F5GV2N9L8GDK
+    Attachment:
+      properties:
+        content:
+          description: The document in Base64-encoded string format.
+          format: byte
+          type: string
+        contentType:
+          deprecated: true
+          x-deprecatedInVersion: '1'
+          description: "The file format.\n\n Possible values: **application/pdf**, **image/jpg**, **image/jpeg**, **image/png**. "
+          type: string
+        filename:
+          deprecated: true
+          x-deprecatedInVersion: '1'
+          description: The name of the file including the file extension.
+          type: string
+        pageName:
+          x-addedInVersion: '2'
+          description: The name of the file including the file extension.
+          type: string
+        pageType:
+          description: 'Specifies which side of the ID card is uploaded.
+
+
+            * When `type` is **driversLicense** or **identityCard**, set this to **front** or **back**.
+
+
+            * When omitted, we infer the page number based on the order of attachments.'
+          type: string
+      required:
+      - content
+      type: object
   securitySchemes:
     ApiKeyAuth:
       in: header

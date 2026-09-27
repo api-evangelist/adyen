@@ -85,9 +85,42 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  examples:
+    generic-401:
+      summary: Response code - 401 Unauthorized
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Unauthorized
+        status: 401
+        detail: Not authorized to access this service.
+        errorCode: '00_401'
+    generic-403:
+      summary: Response code - 403 Forbidden.
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Forbidden
+        status: 403
+        detail: Not the right permission to access this service.
+        errorCode: '00_403'
+    generic-500:
+      summary: Response code - 500 Internal Server Error
+      value:
+        type: https://docs.adyen.com/errors/general/internal
+        title: An internal error happened
+        status: 500
+        detail: Unrecoverable error while trying to create payment instrument
+        requestId: 1WAF555PLWNTLYOQ
+        errorCode: '00_500'
+    generic-422:
+      summary: Response code - 422 Unprocessable Entity.
+      value:
+        type: https://docs.adyen.com/errors/general/invalid-field-value
+        title: Invalid Payment Instrument information provided
+        status: 422
+        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
+        requestId: 1W1UI15PLVGC9V8O
+        errorCode: '30_031'
   schemas:
-    JSONObject:
-      type: object
     InvalidField:
       properties:
         message:
@@ -103,38 +136,6 @@ components:
       - name
       - value
       - message
-      type: object
-    PinChangeRequest:
-      properties:
-        encryptedKey:
-          description: Symmetric session key encrypted under the public key.
-          type: string
-        encryptedPinBlock:
-          description: The encrypted PIN block
-          type: string
-        paymentInstrumentId:
-          description: The unique identifier of the payment instrument.
-          type: string
-        token:
-          description: The token which is used to construct the pinblock.
-          type: string
-      required:
-      - paymentInstrumentId
-      - encryptedKey
-      - token
-      - encryptedPinBlock
-      type: object
-    PinChangeResponse:
-      properties:
-        status:
-          description: The pin change status.
-          enum:
-          - completed
-          - pending
-          - unavailable
-          type: string
-      required:
-      - status
       type: object
     RestServiceError:
       properties:
@@ -175,41 +176,40 @@ components:
       - detail
       - status
       type: object
-  examples:
-    generic-403:
-      summary: Response code - 403 Forbidden.
-      value:
-        type: https://docs.adyen.com/errors/security/unauthorized
-        title: Forbidden
-        status: 403
-        detail: Not the right permission to access this service.
-        errorCode: '00_403'
-    generic-422:
-      summary: Response code - 422 Unprocessable Entity.
-      value:
-        type: https://docs.adyen.com/errors/general/invalid-field-value
-        title: Invalid Payment Instrument information provided
-        status: 422
-        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
-        requestId: 1W1UI15PLVGC9V8O
-        errorCode: '30_031'
-    generic-500:
-      summary: Response code - 500 Internal Server Error
-      value:
-        type: https://docs.adyen.com/errors/general/internal
-        title: An internal error happened
-        status: 500
-        detail: Unrecoverable error while trying to create payment instrument
-        requestId: 1WAF555PLWNTLYOQ
-        errorCode: '00_500'
-    generic-401:
-      summary: Response code - 401 Unauthorized
-      value:
-        type: https://docs.adyen.com/errors/security/unauthorized
-        title: Unauthorized
-        status: 401
-        detail: Not authorized to access this service.
-        errorCode: '00_401'
+    PinChangeResponse:
+      properties:
+        status:
+          description: The pin change status.
+          enum:
+          - completed
+          - pending
+          - unavailable
+          type: string
+      required:
+      - status
+      type: object
+    JSONObject:
+      type: object
+    PinChangeRequest:
+      properties:
+        encryptedKey:
+          description: Symmetric session key encrypted under the public key.
+          type: string
+        encryptedPinBlock:
+          description: The encrypted PIN block
+          type: string
+        paymentInstrumentId:
+          description: The unique identifier of the payment instrument.
+          type: string
+        token:
+          description: The token which is used to construct the pinblock.
+          type: string
+      required:
+      - paymentInstrumentId
+      - encryptedKey
+      - token
+      - encryptedPinBlock
+      type: object
   securitySchemes:
     ApiKeyAuth:
       in: header

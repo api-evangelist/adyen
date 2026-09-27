@@ -156,7 +156,148 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  examples:
+    post-accountHolderTransactionList-basic:
+      summary: Retrieve transactions page by page
+      value:
+        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
+        transactionListsPerAccount:
+        - accountCode: '195752115'
+          page: 1
+    post-accountHolderTransactionList-specific:
+      summary: Retrieve transactions with specific statuses.
+      value:
+        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
+        transactionStatuses:
+        - PendingCredit
+        - Credited
+        - Debited
+        transactionListsPerAccount:
+        - accountCode: 2e64b396-1200-4474-b848-0cb06b52b3c7
+          page: 2
   schemas:
+    AccountHolderTransactionListResponse:
+      properties:
+        accountTransactionLists:
+          description: A list of the transactions.
+          items:
+            $ref: '#/components/schemas/AccountTransactionList'
+          type: array
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+      type: object
+    Transaction:
+      properties:
+        amount:
+          description: The amount of the transaction.
+          $ref: '#/components/schemas/Amount'
+        bankAccountDetail:
+          description: The details of the bank account to where a payout was made.
+          $ref: '#/components/schemas/BankAccountDetail'
+        captureMerchantReference:
+          description: The merchant reference of a related capture.
+          type: string
+        capturePspReference:
+          description: The psp reference of a related capture.
+          type: string
+        creationDate:
+          description: The date on which the transaction was performed.
+          format: date-time
+          type: string
+        description:
+          description: A description of the transaction.
+          type: string
+        destinationAccountCode:
+          description: The code of the account to which funds were credited during an outgoing fund transfer.
+          type: string
+        disputePspReference:
+          description: The psp reference of the related dispute.
+          type: string
+        disputeReasonCode:
+          description: The reason code of a dispute.
+          type: string
+        merchantReference:
+          description: The merchant reference of a transaction.
+          type: string
+        paymentPspReference:
+          x-addedInVersion: '3'
+          description: The psp reference of the related authorisation or transfer.
+          type: string
+        payoutPspReference:
+          x-addedInVersion: '3'
+          description: The psp reference of the related payout.
+          type: string
+        pspReference:
+          description: The psp reference of a transaction.
+          type: string
+        sourceAccountCode:
+          description: The code of the account from which funds were debited during an incoming fund transfer.
+          type: string
+        transactionStatus:
+          description: 'The status of the transaction.
+
+            >Permitted values: `PendingCredit`, `CreditFailed`, `CreditClosed`, `CreditSuspended`, `Credited`, `Converted`, `PendingDebit`, `DebitFailed`, `Debited`, `DebitReversedReceived`, `DebitedReversed`, `ChargebackReceived`, `Chargeback`, `ChargebackReversedReceived`, `ChargebackReversed`, `Payout`, `PayoutReversed`, `FundTransfer`, `PendingFundTransfer`, `ManualCorrected`.'
+          enum:
+          - BalanceNotPaidOutTransfer
+          - BalancePlatformSweep
+          - BalancePlatformSweepReturned
+          - Chargeback
+          - ChargebackCorrection
+          - ChargebackCorrectionReceived
+          - ChargebackReceived
+          - ChargebackReversed
+          - ChargebackReversedCorrection
+          - ChargebackReversedCorrectionReceived
+          - ChargebackReversedReceived
+          - Converted
+          - CreditClosed
+          - CreditFailed
+          - CreditReversed
+          - CreditReversedReceived
+          - CreditSuspended
+          - Credited
+          - DebitFailed
+          - DebitReversedReceived
+          - Debited
+          - DebitedReversed
+          - DepositCorrectionCredited
+          - DepositCorrectionDebited
+          - Fee
+          - FundTransfer
+          - FundTransferReversed
+          - InvoiceDeductionCredited
+          - InvoiceDeductionDebited
+          - ManualCorrected
+          - ManualCorrectionCredited
+          - ManualCorrectionDebited
+          - MerchantPayin
+          - MerchantPayinReversed
+          - Payout
+          - PayoutReversed
+          - PendingCredit
+          - PendingDebit
+          - PendingFundTransfer
+          - ReCredited
+          - ReCreditedReceived
+          - SecondChargeback
+          - SecondChargebackCorrection
+          - SecondChargebackCorrectionReceived
+          - SecondChargebackReceived
+          type: string
+        transferCode:
+          description: The transfer code of the transaction.
+          type: string
+      type: object
     TransactionListForAccount:
       properties:
         accountCode:
@@ -364,131 +505,34 @@ components:
             >Refer to [Required information](https://docs.adyen.com/marketplaces-and-platforms/classic/verification-process/required-information) for details on field requirements.'
           type: string
       type: object
-    AccountHolderTransactionListResponse:
+    Amount:
       properties:
-        accountTransactionLists:
-          description: A list of the transactions.
-          items:
-            $ref: '#/components/schemas/AccountTransactionList'
-          type: array
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
           type: string
-        resultCode:
-          description: The result code.
-          type: string
-      type: object
-    AccountHolderTransactionListRequest:
-      properties:
-        accountHolderCode:
-          description: The code of the account holder that owns the account(s) of which retrieve the transaction list.
-          type: string
-        transactionListsPerAccount:
-          description: A list of accounts to include in the transaction list. If left blank, the last fifty (50) transactions for all accounts of the account holder will be included.
-          items:
-            $ref: '#/components/schemas/TransactionListForAccount'
-          type: array
-        transactionStatuses:
-          description: 'A list of statuses to include in the transaction list. If left blank, all transactions will be included.
-
-            >Permitted values:
-
-            >* `PendingCredit` - a pending balance credit.
-
-            >* `CreditFailed` - a pending credit failure; the balance will not be credited.
-
-            >* `Credited` - a credited balance.
-
-            >* `PendingDebit` - a pending balance debit (e.g., a refund).
-
-            >* `CreditClosed` - a pending credit closed; the balance will not be credited.
-
-            >* `CreditSuspended` - a pending credit closed; the balance will not be credited.
-
-            >* `DebitFailed` - a pending debit failure; the balance will not be debited.
-
-            >* `Debited` - a debited balance (e.g., a refund).
-
-            >* `DebitReversedReceived` - a pending refund reversal.
-
-            >* `DebitedReversed` - a reversed refund.
-
-            >* `ChargebackReceived` - a received chargeback request.
-
-            >* `Chargeback` - a processed chargeback.
-
-            >* `ChargebackReversedReceived` - a pending chargeback reversal.
-
-            >* `ChargebackReversed` - a reversed chargeback.
-
-            >* `Converted` - converted.
-
-            >* `ManualCorrected` - manual booking/adjustment by Adyen.
-
-            >* `Payout` - a payout.
-
-            >* `PayoutReversed` - a reversed payout.
-
-            >* `PendingFundTransfer` - a pending transfer of funds from one account to another.
-
-            >* `FundTransfer` - a transfer of funds from one account to another.'
-          items:
-            enum:
-            - BalanceNotPaidOutTransfer
-            - BalancePlatformSweep
-            - BalancePlatformSweepReturned
-            - Chargeback
-            - ChargebackCorrection
-            - ChargebackCorrectionReceived
-            - ChargebackReceived
-            - ChargebackReversed
-            - ChargebackReversedCorrection
-            - ChargebackReversedCorrectionReceived
-            - ChargebackReversedReceived
-            - Converted
-            - CreditClosed
-            - CreditFailed
-            - CreditReversed
-            - CreditReversedReceived
-            - CreditSuspended
-            - Credited
-            - DebitFailed
-            - DebitReversedReceived
-            - Debited
-            - DebitedReversed
-            - DepositCorrectionCredited
-            - DepositCorrectionDebited
-            - Fee
-            - FundTransfer
-            - FundTransferReversed
-            - InvoiceDeductionCredited
-            - InvoiceDeductionDebited
-            - ManualCorrected
-            - ManualCorrectionCredited
-            - ManualCorrectionDebited
-            - MerchantPayin
-            - MerchantPayinReversed
-            - Payout
-            - PayoutReversed
-            - PendingCredit
-            - PendingDebit
-            - PendingFundTransfer
-            - ReCredited
-            - ReCreditedReceived
-            - SecondChargeback
-            - SecondChargebackCorrection
-            - SecondChargebackCorrectionReceived
-            - SecondChargebackReceived
-            type: string
-          type: array
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
       required:
-      - accountHolderCode
+      - value
+      - currency
+      type: object
+    AccountTransactionList:
+      properties:
+        accountCode:
+          description: The code of the account.
+          type: string
+        hasNextPage:
+          description: Indicates whether there is a next page of transactions available.
+          type: boolean
+        transactions:
+          description: The list of transactions.
+          items:
+            $ref: '#/components/schemas/Transaction'
+          type: array
       type: object
     FieldType:
       properties:
@@ -665,122 +709,111 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    Transaction:
+    AccountHolderTransactionListRequest:
       properties:
-        amount:
-          description: The amount of the transaction.
-          $ref: '#/components/schemas/Amount'
-        bankAccountDetail:
-          description: The details of the bank account to where a payout was made.
-          $ref: '#/components/schemas/BankAccountDetail'
-        captureMerchantReference:
-          description: The merchant reference of a related capture.
+        accountHolderCode:
+          description: The code of the account holder that owns the account(s) of which retrieve the transaction list.
           type: string
-        capturePspReference:
-          description: The psp reference of a related capture.
-          type: string
-        creationDate:
-          description: The date on which the transaction was performed.
-          format: date-time
-          type: string
-        description:
-          description: A description of the transaction.
-          type: string
-        destinationAccountCode:
-          description: The code of the account to which funds were credited during an outgoing fund transfer.
-          type: string
-        disputePspReference:
-          description: The psp reference of the related dispute.
-          type: string
-        disputeReasonCode:
-          description: The reason code of a dispute.
-          type: string
-        merchantReference:
-          description: The merchant reference of a transaction.
-          type: string
-        paymentPspReference:
-          x-addedInVersion: '3'
-          description: The psp reference of the related authorisation or transfer.
-          type: string
-        payoutPspReference:
-          x-addedInVersion: '3'
-          description: The psp reference of the related payout.
-          type: string
-        pspReference:
-          description: The psp reference of a transaction.
-          type: string
-        sourceAccountCode:
-          description: The code of the account from which funds were debited during an incoming fund transfer.
-          type: string
-        transactionStatus:
-          description: 'The status of the transaction.
+        transactionListsPerAccount:
+          description: A list of accounts to include in the transaction list. If left blank, the last fifty (50) transactions for all accounts of the account holder will be included.
+          items:
+            $ref: '#/components/schemas/TransactionListForAccount'
+          type: array
+        transactionStatuses:
+          description: 'A list of statuses to include in the transaction list. If left blank, all transactions will be included.
 
-            >Permitted values: `PendingCredit`, `CreditFailed`, `CreditClosed`, `CreditSuspended`, `Credited`, `Converted`, `PendingDebit`, `DebitFailed`, `Debited`, `DebitReversedReceived`, `DebitedReversed`, `ChargebackReceived`, `Chargeback`, `ChargebackReversedReceived`, `ChargebackReversed`, `Payout`, `PayoutReversed`, `FundTransfer`, `PendingFundTransfer`, `ManualCorrected`.'
-          enum:
-          - BalanceNotPaidOutTransfer
-          - BalancePlatformSweep
-          - BalancePlatformSweepReturned
-          - Chargeback
-          - ChargebackCorrection
-          - ChargebackCorrectionReceived
-          - ChargebackReceived
-          - ChargebackReversed
-          - ChargebackReversedCorrection
-          - ChargebackReversedCorrectionReceived
-          - ChargebackReversedReceived
-          - Converted
-          - CreditClosed
-          - CreditFailed
-          - CreditReversed
-          - CreditReversedReceived
-          - CreditSuspended
-          - Credited
-          - DebitFailed
-          - DebitReversedReceived
-          - Debited
-          - DebitedReversed
-          - DepositCorrectionCredited
-          - DepositCorrectionDebited
-          - Fee
-          - FundTransfer
-          - FundTransferReversed
-          - InvoiceDeductionCredited
-          - InvoiceDeductionDebited
-          - ManualCorrected
-          - ManualCorrectionCredited
-          - ManualCorrectionDebited
-          - MerchantPayin
-          - MerchantPayinReversed
-          - Payout
-          - PayoutReversed
-          - PendingCredit
-          - PendingDebit
-          - PendingFundTransfer
-          - ReCredited
-          - ReCreditedReceived
-          - SecondChargeback
-          - SecondChargebackCorrection
-          - SecondChargebackCorrectionReceived
-          - SecondChargebackReceived
-          type: string
-        transferCode:
-          description: The transfer code of the transaction.
-          type: string
-      type: object
-    Amount:
-      properties:
-        currency:
-          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
-          maxLength: 3
-          minLength: 3
-          type: string
-        value:
-          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int64
-          type: integer
+            >Permitted values:
+
+            >* `PendingCredit` - a pending balance credit.
+
+            >* `CreditFailed` - a pending credit failure; the balance will not be credited.
+
+            >* `Credited` - a credited balance.
+
+            >* `PendingDebit` - a pending balance debit (e.g., a refund).
+
+            >* `CreditClosed` - a pending credit closed; the balance will not be credited.
+
+            >* `CreditSuspended` - a pending credit closed; the balance will not be credited.
+
+            >* `DebitFailed` - a pending debit failure; the balance will not be debited.
+
+            >* `Debited` - a debited balance (e.g., a refund).
+
+            >* `DebitReversedReceived` - a pending refund reversal.
+
+            >* `DebitedReversed` - a reversed refund.
+
+            >* `ChargebackReceived` - a received chargeback request.
+
+            >* `Chargeback` - a processed chargeback.
+
+            >* `ChargebackReversedReceived` - a pending chargeback reversal.
+
+            >* `ChargebackReversed` - a reversed chargeback.
+
+            >* `Converted` - converted.
+
+            >* `ManualCorrected` - manual booking/adjustment by Adyen.
+
+            >* `Payout` - a payout.
+
+            >* `PayoutReversed` - a reversed payout.
+
+            >* `PendingFundTransfer` - a pending transfer of funds from one account to another.
+
+            >* `FundTransfer` - a transfer of funds from one account to another.'
+          items:
+            enum:
+            - BalanceNotPaidOutTransfer
+            - BalancePlatformSweep
+            - BalancePlatformSweepReturned
+            - Chargeback
+            - ChargebackCorrection
+            - ChargebackCorrectionReceived
+            - ChargebackReceived
+            - ChargebackReversed
+            - ChargebackReversedCorrection
+            - ChargebackReversedCorrectionReceived
+            - ChargebackReversedReceived
+            - Converted
+            - CreditClosed
+            - CreditFailed
+            - CreditReversed
+            - CreditReversedReceived
+            - CreditSuspended
+            - Credited
+            - DebitFailed
+            - DebitReversedReceived
+            - Debited
+            - DebitedReversed
+            - DepositCorrectionCredited
+            - DepositCorrectionDebited
+            - Fee
+            - FundTransfer
+            - FundTransferReversed
+            - InvoiceDeductionCredited
+            - InvoiceDeductionDebited
+            - ManualCorrected
+            - ManualCorrectionCredited
+            - ManualCorrectionDebited
+            - MerchantPayin
+            - MerchantPayinReversed
+            - Payout
+            - PayoutReversed
+            - PendingCredit
+            - PendingDebit
+            - PendingFundTransfer
+            - ReCredited
+            - ReCreditedReceived
+            - SecondChargeback
+            - SecondChargebackCorrection
+            - SecondChargebackCorrectionReceived
+            - SecondChargebackReceived
+            type: string
+          type: array
       required:
-      - value
-      - currency
+      - accountHolderCode
       type: object
     ErrorFieldType:
       properties:
@@ -795,39 +828,6 @@ components:
           description: The type of error field.
           $ref: '#/components/schemas/FieldType'
       type: object
-    AccountTransactionList:
-      properties:
-        accountCode:
-          description: The code of the account.
-          type: string
-        hasNextPage:
-          description: Indicates whether there is a next page of transactions available.
-          type: boolean
-        transactions:
-          description: The list of transactions.
-          items:
-            $ref: '#/components/schemas/Transaction'
-          type: array
-      type: object
-  examples:
-    post-accountHolderTransactionList-specific:
-      summary: Retrieve transactions with specific statuses.
-      value:
-        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
-        transactionStatuses:
-        - PendingCredit
-        - Credited
-        - Debited
-        transactionListsPerAccount:
-        - accountCode: 2e64b396-1200-4474-b848-0cb06b52b3c7
-          page: 2
-    post-accountHolderTransactionList-basic:
-      summary: Retrieve transactions page by page
-      value:
-        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
-        transactionListsPerAccount:
-        - accountCode: '195752115'
-          page: 1
   securitySchemes:
     ApiKeyAuth:
       in: header

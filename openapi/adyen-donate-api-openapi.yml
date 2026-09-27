@@ -117,6 +117,39 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  examples:
+    post-donate-donate:
+      summary: Create a payment for the specified donation
+      value:
+        originalReference: COPY_PSP_REFERENCE_FROM_AUTHORISE_RESPONSE
+        modificationAmount:
+          value: 500
+          currency: EUR
+        reference: YOUR_DONATION_REFERENCE
+        donationAccount: AdyenGivingDemo
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+    generic-401:
+      summary: Response code 401. Unauthorized.
+      value:
+        status: 401
+        errorCode: '000'
+        message: HTTP Status Response - Unauthorized
+        errorType: security
+    generic-400:
+      summary: Response code 400. Bad request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: ", expected: }'
+        errorType: validation
+    generic-500:
+      summary: Response code 500. Internal server error.
+      value:
+        status: 500
+        errorCode: '905'
+        message: Payment details are not supported
+        errorType: configuration
+        pspReference: '8516091485743033'
   schemas:
     PlatformChargebackLogic:
       properties:
@@ -142,31 +175,6 @@ components:
 
             Required if `behavior` is **deductFromOneBalanceAccount**.'
           type: string
-      type: object
-    ServiceError:
-      properties:
-        additionalData:
-          x-addedInVersion: '46'
-          additionalProperties:
-            type: string
-          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
-          type: object
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
       type: object
     DonationRequest:
       properties:
@@ -205,20 +213,30 @@ components:
       - donationAccount
       - modificationAmount
       type: object
-    Amount:
+    ServiceError:
       properties:
-        currency:
-          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
-          maxLength: 3
-          minLength: 3
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
           type: string
-        value:
-          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int64
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
           type: integer
-      required:
-      - value
-      - currency
       type: object
     ModificationResult:
       properties:
@@ -246,39 +264,21 @@ components:
       - response
       - pspReference
       type: object
-  examples:
-    post-donate-donate:
-      summary: Create a payment for the specified donation
-      value:
-        originalReference: COPY_PSP_REFERENCE_FROM_AUTHORISE_RESPONSE
-        modificationAmount:
-          value: 500
-          currency: EUR
-        reference: YOUR_DONATION_REFERENCE
-        donationAccount: AdyenGivingDemo
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-    generic-400:
-      summary: Response code 400. Bad request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: ", expected: }'
-        errorType: validation
-    generic-500:
-      summary: Response code 500. Internal server error.
-      value:
-        status: 500
-        errorCode: '905'
-        message: Payment details are not supported
-        errorType: configuration
-        pspReference: '8516091485743033'
-    generic-401:
-      summary: Response code 401. Unauthorized.
-      value:
-        status: 401
-        errorCode: '000'
-        message: HTTP Status Response - Unauthorized
-        errorType: security
+    Amount:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      - currency
+      type: object
   securitySchemes:
     ApiKeyAuth:
       in: header

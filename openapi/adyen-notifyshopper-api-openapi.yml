@@ -133,70 +133,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    ServiceError:
-      properties:
-        additionalData:
-          x-addedInVersion: '46'
-          additionalProperties:
-            type: string
-          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
-          type: object
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
-      type: object
-    NotifyShopperResult:
-      properties:
-        displayedReference:
-          description: Reference of Pre-debit notification that is displayed to the shopper
-          type: string
-        message:
-          description: A simple description of the `resultCode`.
-          type: string
-        pspReference:
-          description: The unique reference that is associated with the request.
-          type: string
-        reference:
-          description: Reference of Pre-debit notification sent in my the merchant
-          type: string
-        resultCode:
-          description: The code indicating the status of notification.
-          type: string
-        shopperNotificationReference:
-          description: The unique reference for the request sent downstream.
-          type: string
-        storedPaymentMethodId:
-          description: This is the recurringDetailReference returned in the response when token was created
-          type: string
-      type: object
-    Amount:
-      properties:
-        currency:
-          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
-          maxLength: 3
-          minLength: 3
-          type: string
-        value:
-          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int64
-          type: integer
-      required:
-      - value
-      - currency
-      type: object
     NotifyShopperRequest:
       properties:
         amount:
@@ -235,17 +171,71 @@ components:
       - amount
       - reference
       type: object
+    NotifyShopperResult:
+      properties:
+        displayedReference:
+          description: Reference of Pre-debit notification that is displayed to the shopper
+          type: string
+        message:
+          description: A simple description of the `resultCode`.
+          type: string
+        pspReference:
+          description: The unique reference that is associated with the request.
+          type: string
+        reference:
+          description: Reference of Pre-debit notification sent in my the merchant
+          type: string
+        resultCode:
+          description: The code indicating the status of notification.
+          type: string
+        shopperNotificationReference:
+          description: The unique reference for the request sent downstream.
+          type: string
+        storedPaymentMethodId:
+          description: This is the recurringDetailReference returned in the response when token was created
+          type: string
+      type: object
+    ServiceError:
+      properties:
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    Amount:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      - currency
+      type: object
   examples:
-    post-notifyShopper-notifyShopperOfUpcomingRecurringPayment-200:
-      summary: Example response for request 'notifyShopper'
-      value:
-        message: Request Processed Successfully
-        resultCode: Success
-        shopperNotificationReference: '9915003646742627'
-        storedPaymentMethodId: '8415995487234100'
-        pspReference: M5N7TQ4TG5PFWR50
-        reference: Example reference
-        displayedReference: exampleDisplayedReference
     post-notifyShopper-notifyShopperOfUpcomingRecurringPayment:
       summary: Request issuer to notify shopper of upcoming recurring payment
       value:
@@ -256,6 +246,16 @@ components:
           currency: INR
           value: 1000
         billingDate: '2021-03-16'
+        reference: Example reference
+        displayedReference: exampleDisplayedReference
+    post-notifyShopper-notifyShopperOfUpcomingRecurringPayment-200:
+      summary: Example response for request 'notifyShopper'
+      value:
+        message: Request Processed Successfully
+        resultCode: Success
+        shopperNotificationReference: '9915003646742627'
+        storedPaymentMethodId: '8415995487234100'
+        pspReference: M5N7TQ4TG5PFWR50
         reference: Example reference
         displayedReference: exampleDisplayedReference
   securitySchemes:

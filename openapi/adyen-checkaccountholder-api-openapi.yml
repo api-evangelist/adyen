@@ -138,6 +138,21 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    GenericResponse:
+      properties:
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+      type: object
     ServiceError:
       properties:
         errorCode:
@@ -182,21 +197,6 @@ components:
       - accountHolderCode
       - accountStateType
       - tier
-      type: object
-    GenericResponse:
-      properties:
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        resultCode:
-          description: The result code.
-          type: string
       type: object
     FieldType:
       properties:
@@ -387,6 +387,13 @@ components:
           $ref: '#/components/schemas/FieldType'
       type: object
   examples:
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
     generic-403:
       summary: Response code 401. Forbidden.
       value:
@@ -400,13 +407,6 @@ components:
         accountHolderCode: CODE_OF_ACCOUNT_HOLDER
         accountStateType: Processing
         tier: '2'
-    generic-400:
-      summary: Response code 400. Bad Request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: I'
-        errorType: validation
   securitySchemes:
     ApiKeyAuth:
       in: header

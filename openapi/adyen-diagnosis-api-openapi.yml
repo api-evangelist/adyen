@@ -52,13 +52,34 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    GlobalStatus:
-      type: string
-      enum:
-      - Busy
-      - Maintenance
-      - OK
-      - Unreachable
+    HostStatus:
+      type: object
+      description: Indicate the reachability of the host by the POI Terminal. State of a Host.
+      properties:
+        AcquirerID:
+          type: integer
+          description: Identification of the Acquirer.
+        IsReachableFlag:
+          type: boolean
+          default: true
+          description: Indicate if a Host is reachable.
+      required:
+      - AcquirerID
+    CoinsOrBills:
+      type: object
+      description: Indicates the remaining number of coins or bills of a given value in a cash handling device. When the cash handling machine does not have any more coins or bills of a certain value, the number must be equal to 0. Number of coins or bills of a given value.
+      properties:
+        UnitValue:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+          description: Value of a coin or bill.
+        Number:
+          type: integer
+          description: Number of elements.
+      required:
+      - UnitValue
+      - Number
     DiagnosisRequest:
       type: object
       description: It conveys Information related to the target POI for which the diagnosis is requested. Content of the Diagnosis Request message.
@@ -76,6 +97,46 @@ components:
           items:
             type: integer
             description: Present if requesting the diagnosis of these hosts only.
+    ErrorCondition:
+      type: string
+      enum:
+      - Aborted
+      - Busy
+      - Cancel
+      - DeviceOut
+      - InProgress
+      - InsertedCard
+      - InvalidCard
+      - LoggedOut
+      - MessageFormat
+      - NotAllowed
+      - NotFound
+      - PaymentRestriction
+      - Refusal
+      - UnavailableDevice
+      - UnavailableService
+      - UnreachableHost
+      - WrongPIN
+    Response:
+      type: object
+      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
+      properties:
+        Result:
+          $ref: '#/components/schemas/Result'
+        ErrorCondition:
+          $ref: '#/components/schemas/ErrorCondition'
+        AdditionalResponse:
+          type: string
+          pattern: ^.+$
+          description: If present, the POI logs it for further examination.
+      required:
+      - Result
+    Result:
+      type: string
+      enum:
+      - Failure
+      - Partial
+      - Success
     POIStatus:
       type: object
       description: Indicate the availability of the POI Terminal components. The data element is absent if the component is not part of the POI Terminal. State of a POI Terminal.
@@ -105,6 +166,40 @@ components:
           description: default False.
       required:
       - GlobalStatus
+    CashHandlingDevice:
+      type: object
+      description: Indicate the status and the remaining coins and bill in a cash handling device. Status of cash handling device.
+      properties:
+        CashHandlingOKFlag:
+          type: boolean
+          description: Indicates if the cash handling device is working and usable.
+        Currency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+          description: Currency of a monetary amount.
+        CoinsOrBills:
+          type: array
+          items:
+            $ref: '#/components/schemas/CoinsOrBills'
+      required:
+      - CashHandlingOKFlag
+      - Currency
+      - CoinsOrBills
+    PrinterStatus:
+      type: string
+      enum:
+      - NoPaper
+      - OK
+      - OutOfOrder
+      - PaperJam
+      - PaperLow
+    GlobalStatus:
+      type: string
+      enum:
+      - Busy
+      - Maintenance
+      - OK
+      - Unreachable
     DiagnosisResponse:
       type: object
       description: It conveys the result of the requested diagnosis and a possible message to display on a logical device. Content of the Diagnosis Response message.
@@ -125,101 +220,6 @@ components:
             $ref: '#/components/schemas/HostStatus'
       required:
       - Response
-    PrinterStatus:
-      type: string
-      enum:
-      - NoPaper
-      - OK
-      - OutOfOrder
-      - PaperJam
-      - PaperLow
-    HostStatus:
-      type: object
-      description: Indicate the reachability of the host by the POI Terminal. State of a Host.
-      properties:
-        AcquirerID:
-          type: integer
-          description: Identification of the Acquirer.
-        IsReachableFlag:
-          type: boolean
-          default: true
-          description: Indicate if a Host is reachable.
-      required:
-      - AcquirerID
-    CoinsOrBills:
-      type: object
-      description: Indicates the remaining number of coins or bills of a given value in a cash handling device. When the cash handling machine does not have any more coins or bills of a certain value, the number must be equal to 0. Number of coins or bills of a given value.
-      properties:
-        UnitValue:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-          description: Value of a coin or bill.
-        Number:
-          type: integer
-          description: Number of elements.
-      required:
-      - UnitValue
-      - Number
-    ErrorCondition:
-      type: string
-      enum:
-      - Aborted
-      - Busy
-      - Cancel
-      - DeviceOut
-      - InProgress
-      - InsertedCard
-      - InvalidCard
-      - LoggedOut
-      - MessageFormat
-      - NotAllowed
-      - NotFound
-      - PaymentRestriction
-      - Refusal
-      - UnavailableDevice
-      - UnavailableService
-      - UnreachableHost
-      - WrongPIN
-    Result:
-      type: string
-      enum:
-      - Failure
-      - Partial
-      - Success
-    Response:
-      type: object
-      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
-      properties:
-        Result:
-          $ref: '#/components/schemas/Result'
-        ErrorCondition:
-          $ref: '#/components/schemas/ErrorCondition'
-        AdditionalResponse:
-          type: string
-          pattern: ^.+$
-          description: If present, the POI logs it for further examination.
-      required:
-      - Result
-    CashHandlingDevice:
-      type: object
-      description: Indicate the status and the remaining coins and bill in a cash handling device. Status of cash handling device.
-      properties:
-        CashHandlingOKFlag:
-          type: boolean
-          description: Indicates if the cash handling device is working and usable.
-        Currency:
-          type: string
-          pattern: ^[A-Z]{3,3}$
-          description: Currency of a monetary amount.
-        CoinsOrBills:
-          type: array
-          items:
-            $ref: '#/components/schemas/CoinsOrBills'
-      required:
-      - CashHandlingOKFlag
-      - Currency
-      - CoinsOrBills
   securitySchemes:
     ApiKeyAuth:
       in: header

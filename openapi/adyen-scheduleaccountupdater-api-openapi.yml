@@ -144,31 +144,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    ServiceError:
-      properties:
-        additionalData:
-          x-addedInVersion: '46'
-          additionalProperties:
-            type: string
-          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
-          type: object
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
-      type: object
     Card:
       properties:
         cvc:
@@ -232,17 +207,30 @@ components:
           minLength: 4
           type: string
       type: object
-    ScheduleAccountUpdaterResult:
+    ServiceError:
       properties:
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
         pspReference:
-          description: Adyen's 16-character unique reference associated with the transaction. This value is globally unique; quote it when communicating with us about this request.
+          description: The PSP reference of the payment.
           type: string
-        result:
-          description: The result of scheduling an Account Updater. If scheduling was successful, this field returns **Success**; otherwise it contains the error message.
-          type: string
-      required:
-      - pspReference
-      - result
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
       type: object
     ScheduleAccountUpdaterRequest:
       properties:
@@ -278,6 +266,18 @@ components:
       required:
       - merchantAccount
       - reference
+      type: object
+    ScheduleAccountUpdaterResult:
+      properties:
+        pspReference:
+          description: Adyen's 16-character unique reference associated with the transaction. This value is globally unique; quote it when communicating with us about this request.
+          type: string
+        result:
+          description: The result of scheduling an Account Updater. If scheduling was successful, this field returns **Success**; otherwise it contains the error message.
+          type: string
+      required:
+      - pspReference
+      - result
       type: object
   examples:
     post-scheduleAccountUpdater-scheduleAccountUpdaterWithCardData:

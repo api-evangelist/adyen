@@ -335,41 +335,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    JSONObject:
-      type: object
-    TransferData:
-      properties:
-        id:
-          description: The ID of the resource.
-          type: string
-        reference:
-          x-addedInVersion: '4'
-          description: The [`reference`](https://docs.adyen.com/api-explorer/#/transfers/latest/post/transfers__reqParam_reference) from the `/transfers` request. If you haven't provided any, Adyen generates a unique reference.
-          type: string
-      required:
-      - reference
-      type: object
-    ResourceReference:
-      properties:
-        description:
-          description: The description of the resource.
-          type: string
-        id:
-          description: The unique identifier of the resource.
-          type: string
-        reference:
-          description: The reference for the resource.
-          type: string
-      type: object
-    Links:
-      properties:
-        next:
-          description: Contains a link to the next page.
-          $ref: '#/components/schemas/Link'
-        prev:
-          description: Contains a link to the previous page.
-          $ref: '#/components/schemas/Link'
-      type: object
     InvalidField:
       properties:
         message:
@@ -385,45 +350,6 @@ components:
       - name
       - value
       - message
-      type: object
-    RestServiceError:
-      properties:
-        detail:
-          description: A human-readable explanation specific to this occurrence of the problem.
-          type: string
-        errorCode:
-          description: A code that identifies the problem type.
-          type: string
-        instance:
-          description: A unique URI that identifies the specific occurrence of the problem.
-          type: string
-        invalidFields:
-          description: Detailed explanation of each validation error, when applicable.
-          items:
-            $ref: '#/components/schemas/InvalidField'
-          type: array
-        requestId:
-          description: A unique reference for the request, essentially the same as `pspReference`.
-          type: string
-        response:
-          description: JSON response payload.
-          $ref: '#/components/schemas/JSONObject'
-        status:
-          description: The HTTP status code.
-          format: int32
-          type: integer
-        title:
-          description: A short, human-readable summary of the problem type.
-          type: string
-        type:
-          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
-          type: string
-      required:
-      - type
-      - errorCode
-      - title
-      - detail
-      - status
       type: object
     Transaction:
       properties:
@@ -482,6 +408,70 @@ components:
       - valueDate
       - balancePlatform
       type: object
+    ResourceReference:
+      properties:
+        description:
+          description: The description of the resource.
+          type: string
+        id:
+          description: The unique identifier of the resource.
+          type: string
+        reference:
+          description: The reference for the resource.
+          type: string
+      type: object
+    TransactionSearchResponse:
+      properties:
+        _links:
+          description: Contains links to the next and previous page whenever applicable.
+          $ref: '#/components/schemas/Links'
+        data:
+          description: Contains the transactions that match the query parameters.
+          items:
+            $ref: '#/components/schemas/Transaction'
+          type: array
+      type: object
+    RestServiceError:
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+        errorCode:
+          description: A code that identifies the problem type.
+          type: string
+        instance:
+          description: A unique URI that identifies the specific occurrence of the problem.
+          type: string
+        invalidFields:
+          description: Detailed explanation of each validation error, when applicable.
+          items:
+            $ref: '#/components/schemas/InvalidField'
+          type: array
+        requestId:
+          description: A unique reference for the request, essentially the same as `pspReference`.
+          type: string
+        response:
+          description: JSON response payload.
+          $ref: '#/components/schemas/JSONObject'
+        status:
+          description: The HTTP status code.
+          format: int32
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type.
+          type: string
+        type:
+          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
+          type: string
+      required:
+      - type
+      - errorCode
+      - title
+      - detail
+      - status
+      type: object
+    JSONObject:
+      type: object
     Amount:
       properties:
         currency:
@@ -497,21 +487,31 @@ components:
       - value
       - currency
       type: object
-    TransactionSearchResponse:
+    TransferData:
       properties:
-        _links:
-          description: Contains links to the next and previous page whenever applicable.
-          $ref: '#/components/schemas/Links'
-        data:
-          description: Contains the transactions that match the query parameters.
-          items:
-            $ref: '#/components/schemas/Transaction'
-          type: array
+        id:
+          description: The ID of the resource.
+          type: string
+        reference:
+          x-addedInVersion: '4'
+          description: The [`reference`](https://docs.adyen.com/api-explorer/#/transfers/latest/post/transfers__reqParam_reference) from the `/transfers` request. If you haven't provided any, Adyen generates a unique reference.
+          type: string
+      required:
+      - reference
       type: object
     Link:
       properties:
         href:
           type: string
+      type: object
+    Links:
+      properties:
+        next:
+          description: Contains a link to the next page.
+          $ref: '#/components/schemas/Link'
+        prev:
+          description: Contains a link to the previous page.
+          $ref: '#/components/schemas/Link'
       type: object
   examples:
     get-transactions-success-200:

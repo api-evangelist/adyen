@@ -50,112 +50,28 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    POITerminalData:
-      type: object
-      properties:
-        TerminalEnvironment:
-          $ref: '#/components/schemas/TerminalEnvironment'
-        POICapabilities:
-          $ref: '#/components/schemas/POICapabilities'
-        POIProfile:
-          $ref: '#/components/schemas/POIProfile'
-        POISerialNumber:
-          type: string
-          pattern: ^.+$
-      required:
-      - TerminalEnvironment
-      - POICapabilities
-      - POISerialNumber
-    POIProfile:
-      type: object
-      properties:
-        GenericProfile:
-          $ref: '#/components/schemas/GenericProfile'
-        ServiceProfiles:
-          $ref: '#/components/schemas/ServiceProfiles'
-    CustomerOrderReq:
-      type: array
-      items:
-        type: string
-        enum:
-        - Both
-        - Closed
-        - Open
-    GenericProfile:
+    ErrorCondition:
       type: string
       enum:
-      - Basic
-      - Extended
-      - Standard
-    TerminalEnvironment:
-      type: string
-      enum:
-      - Attended
-      - SemiAttended
-      - Unattended
-    CoinsOrBills:
-      type: object
-      description: Indicates the remaining number of coins or bills of a given value in a cash handling device. When the cash handling machine does not have any more coins or bills of a certain value, the number must be equal to 0. Number of coins or bills of a given value.
-      properties:
-        UnitValue:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-          description: Value of a coin or bill.
-        Number:
-          type: integer
-          description: Number of elements.
-      required:
-      - UnitValue
-      - Number
-    Result:
-      type: string
-      enum:
-      - Failure
-      - Partial
-      - Success
-    CashHandlingDevice:
-      type: object
-      description: Indicate the status and the remaining coins and bill in a cash handling device. Status of cash handling device.
-      properties:
-        CashHandlingOKFlag:
-          type: boolean
-          description: Indicates if the cash handling device is working and usable.
-        Currency:
-          type: string
-          pattern: ^[A-Z]{3,3}$
-          description: Currency of a monetary amount.
-        CoinsOrBills:
-          type: array
-          items:
-            $ref: '#/components/schemas/CoinsOrBills'
-      required:
-      - CashHandlingOKFlag
-      - Currency
-      - CoinsOrBills
-    GlobalStatus:
-      type: string
-      enum:
+      - Aborted
       - Busy
-      - Maintenance
-      - OK
-      - Unreachable
-    SaleTerminalData:
+      - Cancel
+      - DeviceOut
+      - InProgress
+      - InsertedCard
+      - InvalidCard
+      - LoggedOut
+      - MessageFormat
+      - NotAllowed
+      - NotFound
+      - PaymentRestriction
+      - Refusal
+      - UnavailableDevice
+      - UnavailableService
+      - UnreachableHost
+      - WrongPIN
+    POISoftware:
       type: object
-      description: In the Login Request, if a Sale Terminal is involved in the login. In other messages, when a logical device is out of order (SaleCapabilites), or when the other data have changed since or were not in the Login. Information related to the software and hardware feature of the Sale Terminal.
-      properties:
-        TotalsGroupID:
-          type: string
-          pattern: ^.{1,16}$
-          description: If present, default value for all transaction.
-    TokenRequestedType:
-      type: string
-      enum:
-      - Customer
-      - Transaction
-    SaleSoftware:
-      type: object
-      description: Information related to the software of the Sale System which manages the NEXO Sale to POI protocol.
       properties:
         ManufacturerID:
           type: string
@@ -188,6 +104,72 @@ components:
           type: boolean
       required:
       - Response
+    ServiceProfiles:
+      type: array
+      items:
+        type: string
+        enum:
+        - Batch
+        - CardReader
+        - Communication
+        - Loyalty
+        - OneTimeRes
+        - PIN
+        - Reservation
+        - Sound
+        - StoredValue
+        - Synchro
+    Response:
+      type: object
+      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
+      properties:
+        Result:
+          $ref: '#/components/schemas/Result'
+        ErrorCondition:
+          $ref: '#/components/schemas/ErrorCondition'
+        AdditionalResponse:
+          type: string
+          pattern: ^.+$
+          description: If present, the POI logs it for further examination.
+      required:
+      - Result
+    PrinterStatus:
+      type: string
+      enum:
+      - NoPaper
+      - OK
+      - OutOfOrder
+      - PaperJam
+      - PaperLow
+    SaleSoftware:
+      type: object
+      description: Information related to the software of the Sale System which manages the NEXO Sale to POI protocol.
+      properties:
+        ManufacturerID:
+          type: string
+          pattern: ^.+$
+        ApplicationName:
+          type: string
+          pattern: ^.+$
+        SoftwareVersion:
+          type: string
+          pattern: ^.+$
+        CertificationCode:
+          type: string
+          pattern: ^.+$
+      required:
+      - ManufacturerID
+      - ApplicationName
+      - SoftwareVersion
+      - CertificationCode
+    SaleTerminalData:
+      type: object
+      description: In the Login Request, if a Sale Terminal is involved in the login. In other messages, when a logical device is out of order (SaleCapabilites), or when the other data have changed since or were not in the Login. Information related to the software and hardware feature of the Sale Terminal.
+      properties:
+        TotalsGroupID:
+          type: string
+          pattern: ^.{1,16}$
+          description: If present, default value for all transaction.
     LoginRequest:
       type: object
       description: It conveys Information related to the session (period between a Login and the following Logout) to process. Content of the Login Request message.
@@ -228,40 +210,81 @@ components:
       - DateTime
       - SaleSoftware
       - OperatorLanguage
-    ErrorCondition:
-      type: string
-      enum:
-      - Aborted
-      - Busy
-      - Cancel
-      - DeviceOut
-      - InProgress
-      - InsertedCard
-      - InvalidCard
-      - LoggedOut
-      - MessageFormat
-      - NotAllowed
-      - NotFound
-      - PaymentRestriction
-      - Refusal
-      - UnavailableDevice
-      - UnavailableService
-      - UnreachableHost
-      - WrongPIN
-    Response:
+    POICapabilities:
+      type: array
+      items:
+        type: string
+        enum:
+        - CashHandling
+        - CashierDisplay
+        - CashierError
+        - CashierInput
+        - CustomerDisplay
+        - CustomerError
+        - CustomerInput
+        - EMVContactless
+        - ICC
+        - MagStripe
+        - PrinterDocument
+        - PrinterReceipt
+        - PrinterVoucher
+    CustomerOrderReq:
+      type: array
+      items:
+        type: string
+        enum:
+        - Both
+        - Closed
+        - Open
+    POITerminalData:
       type: object
-      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
       properties:
-        Result:
-          $ref: '#/components/schemas/Result'
-        ErrorCondition:
-          $ref: '#/components/schemas/ErrorCondition'
-        AdditionalResponse:
+        TerminalEnvironment:
+          $ref: '#/components/schemas/TerminalEnvironment'
+        POICapabilities:
+          $ref: '#/components/schemas/POICapabilities'
+        POIProfile:
+          $ref: '#/components/schemas/POIProfile'
+        POISerialNumber:
           type: string
           pattern: ^.+$
-          description: If present, the POI logs it for further examination.
       required:
-      - Result
+      - TerminalEnvironment
+      - POICapabilities
+      - POISerialNumber
+    TerminalEnvironment:
+      type: string
+      enum:
+      - Attended
+      - SemiAttended
+      - Unattended
+    CoinsOrBills:
+      type: object
+      description: Indicates the remaining number of coins or bills of a given value in a cash handling device. When the cash handling machine does not have any more coins or bills of a certain value, the number must be equal to 0. Number of coins or bills of a given value.
+      properties:
+        UnitValue:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+          description: Value of a coin or bill.
+        Number:
+          type: integer
+          description: Number of elements.
+      required:
+      - UnitValue
+      - Number
+    GenericProfile:
+      type: string
+      enum:
+      - Basic
+      - Extended
+      - Standard
+    Result:
+      type: string
+      enum:
+      - Failure
+      - Partial
+      - Success
     POIStatus:
       type: object
       description: Indicate the availability of the POI Terminal components. The data element is absent if the component is not part of the POI Terminal. State of a POI Terminal.
@@ -291,32 +314,44 @@ components:
           description: default False.
       required:
       - GlobalStatus
-    PrinterStatus:
+    TokenRequestedType:
       type: string
       enum:
-      - NoPaper
+      - Customer
+      - Transaction
+    CashHandlingDevice:
+      type: object
+      description: Indicate the status and the remaining coins and bill in a cash handling device. Status of cash handling device.
+      properties:
+        CashHandlingOKFlag:
+          type: boolean
+          description: Indicates if the cash handling device is working and usable.
+        Currency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+          description: Currency of a monetary amount.
+        CoinsOrBills:
+          type: array
+          items:
+            $ref: '#/components/schemas/CoinsOrBills'
+      required:
+      - CashHandlingOKFlag
+      - Currency
+      - CoinsOrBills
+    GlobalStatus:
+      type: string
+      enum:
+      - Busy
+      - Maintenance
       - OK
-      - OutOfOrder
-      - PaperJam
-      - PaperLow
-    POICapabilities:
-      type: array
-      items:
-        type: string
-        enum:
-        - CashHandling
-        - CashierDisplay
-        - CashierError
-        - CashierInput
-        - CustomerDisplay
-        - CustomerError
-        - CustomerInput
-        - EMVContactless
-        - ICC
-        - MagStripe
-        - PrinterDocument
-        - PrinterReceipt
-        - PrinterVoucher
+      - Unreachable
+    POIProfile:
+      type: object
+      properties:
+        GenericProfile:
+          $ref: '#/components/schemas/GenericProfile'
+        ServiceProfiles:
+          $ref: '#/components/schemas/ServiceProfiles'
     POISystemData:
       type: object
       properties:
@@ -332,41 +367,6 @@ components:
       required:
       - DateTime
       - POISoftware
-    POISoftware:
-      type: object
-      properties:
-        ManufacturerID:
-          type: string
-          pattern: ^.+$
-        ApplicationName:
-          type: string
-          pattern: ^.+$
-        SoftwareVersion:
-          type: string
-          pattern: ^.+$
-        CertificationCode:
-          type: string
-          pattern: ^.+$
-      required:
-      - ManufacturerID
-      - ApplicationName
-      - SoftwareVersion
-      - CertificationCode
-    ServiceProfiles:
-      type: array
-      items:
-        type: string
-        enum:
-        - Batch
-        - CardReader
-        - Communication
-        - Loyalty
-        - OneTimeRes
-        - PIN
-        - Reservation
-        - Sound
-        - StoredValue
-        - Synchro
   securitySchemes:
     ApiKeyAuth:
       in: header

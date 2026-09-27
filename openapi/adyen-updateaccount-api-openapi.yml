@@ -150,34 +150,47 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  examples:
+    generic-403:
+      summary: Response code 401. Forbidden.
+      value:
+        status: 403
+        errorCode: '10_003'
+        message: Failed to authorize user
+        errorType: security
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
+    post-updateAccount-basic:
+      summary: Set a payout schedule
+      value:
+        accountCode: CODE_OF_ACCOUNT
+        payoutSchedule:
+          schedule: WEEKLY
+          action: CLOSE
   schemas:
-    PayoutScheduleResponse:
+    ServiceError:
       properties:
-        nextScheduledPayout:
-          description: The date of the next scheduled payout.
-          format: date-time
+        errorCode:
+          description: The error code mapped to the error message.
           type: string
-        schedule:
-          description: 'The payout schedule of the account.
-
-            Permitted values: `DEFAULT`, `DAILY`, `DAILY_US`, `DAILY_EU`, `DAILY_AU`, `DAILY_SG`, `WEEKLY`, `WEEKLY_ON_TUE_FRI_MIDNIGHT`, `BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT`, `MONTHLY`, `HOLD`.'
-          enum:
-          - BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT
-          - DAILY
-          - DAILY_AU
-          - DAILY_EU
-          - DAILY_SG
-          - DAILY_US
-          - HOLD
-          - MONTHLY
-          - WEEKLY
-          - WEEKLY_MON_TO_FRI_AU
-          - WEEKLY_MON_TO_FRI_EU
-          - WEEKLY_MON_TO_FRI_US
-          - WEEKLY_ON_TUE_FRI_MIDNIGHT
-          - WEEKLY_SUN_TO_THU_AU
-          - WEEKLY_SUN_TO_THU_US
+        errorType:
+          description: The category of the error.
           type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
       type: object
     UpdateAccountRequest:
       properties:
@@ -219,25 +232,6 @@ components:
           type: string
       required:
       - accountCode
-      type: object
-    ServiceError:
-      properties:
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
       type: object
     FieldType:
       properties:
@@ -414,34 +408,16 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    UpdatePayoutScheduleRequest:
+    PayoutScheduleResponse:
       properties:
-        action:
-          description: 'Direction on how to handle any payouts that have already been scheduled.
-
-            Permitted values:
-
-            * `CLOSE` will close the existing batch of payouts.
-
-            * `UPDATE` will reschedule the existing batch to the new schedule.
-
-            * `NOTHING` (**default**) will allow the payout to proceed.'
-          enum:
-          - CLOSE
-          - NOTHING
-          - UPDATE
-          type: string
-        reason:
-          description: 'The reason for the payout schedule update.
-
-            > This field is required when the `schedule` parameter is set to `HOLD`.'
+        nextScheduledPayout:
+          description: The date of the next scheduled payout.
+          format: date-time
           type: string
         schedule:
-          description: 'The payout schedule to which the account is to be updated.
+          description: 'The payout schedule of the account.
 
-            Permitted values: `DAILY`, `DAILY_US`, `DAILY_EU`, `DAILY_AU`, `DAILY_SG`, `WEEKLY`, `WEEKLY_ON_TUE_FRI_MIDNIGHT`, `BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT`, `MONTHLY`, `HOLD`.
-
-            `HOLD` will prevent scheduled payouts from happening but will still allow manual payouts to occur.'
+            Permitted values: `DEFAULT`, `DAILY`, `DAILY_US`, `DAILY_EU`, `DAILY_AU`, `DAILY_SG`, `WEEKLY`, `WEEKLY_ON_TUE_FRI_MIDNIGHT`, `BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT`, `MONTHLY`, `HOLD`.'
           enum:
           - BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT
           - DAILY
@@ -459,21 +435,6 @@ components:
           - WEEKLY_SUN_TO_THU_AU
           - WEEKLY_SUN_TO_THU_US
           type: string
-      required:
-      - schedule
-      type: object
-    ErrorFieldType:
-      properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
-          type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
       type: object
     UpdateAccountResponse:
       properties:
@@ -524,28 +485,67 @@ components:
       required:
       - accountCode
       type: object
-  examples:
-    generic-403:
-      summary: Response code 401. Forbidden.
-      value:
-        status: 403
-        errorCode: '10_003'
-        message: Failed to authorize user
-        errorType: security
-    post-updateAccount-basic:
-      summary: Set a payout schedule
-      value:
-        accountCode: CODE_OF_ACCOUNT
-        payoutSchedule:
-          schedule: WEEKLY
-          action: CLOSE
-    generic-400:
-      summary: Response code 400. Bad Request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: I'
-        errorType: validation
+    ErrorFieldType:
+      properties:
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
+      type: object
+    UpdatePayoutScheduleRequest:
+      properties:
+        action:
+          description: 'Direction on how to handle any payouts that have already been scheduled.
+
+            Permitted values:
+
+            * `CLOSE` will close the existing batch of payouts.
+
+            * `UPDATE` will reschedule the existing batch to the new schedule.
+
+            * `NOTHING` (**default**) will allow the payout to proceed.'
+          enum:
+          - CLOSE
+          - NOTHING
+          - UPDATE
+          type: string
+        reason:
+          description: 'The reason for the payout schedule update.
+
+            > This field is required when the `schedule` parameter is set to `HOLD`.'
+          type: string
+        schedule:
+          description: 'The payout schedule to which the account is to be updated.
+
+            Permitted values: `DAILY`, `DAILY_US`, `DAILY_EU`, `DAILY_AU`, `DAILY_SG`, `WEEKLY`, `WEEKLY_ON_TUE_FRI_MIDNIGHT`, `BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT`, `MONTHLY`, `HOLD`.
+
+            `HOLD` will prevent scheduled payouts from happening but will still allow manual payouts to occur.'
+          enum:
+          - BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT
+          - DAILY
+          - DAILY_AU
+          - DAILY_EU
+          - DAILY_SG
+          - DAILY_US
+          - HOLD
+          - MONTHLY
+          - WEEKLY
+          - WEEKLY_MON_TO_FRI_AU
+          - WEEKLY_MON_TO_FRI_EU
+          - WEEKLY_MON_TO_FRI_US
+          - WEEKLY_ON_TUE_FRI_MIDNIGHT
+          - WEEKLY_SUN_TO_THU_AU
+          - WEEKLY_SUN_TO_THU_US
+          type: string
+      required:
+      - schedule
+      type: object
   securitySchemes:
     ApiKeyAuth:
       in: header

@@ -132,6 +132,37 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    GetPciUrlResponse:
+      properties:
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Information about any invalid fields.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        redirectUrl:
+          description: The URL to the PCI compliance questionnaire where you should redirect your account holder. This URL must be used within 30 seconds and can only be used once.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+      type: object
+    ErrorFieldType:
+      properties:
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
+      type: object
     ServiceError:
       properties:
         errorCode:
@@ -150,24 +181,6 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
-      type: object
-    GetPciUrlResponse:
-      properties:
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Information about any invalid fields.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        redirectUrl:
-          description: The URL to the PCI compliance questionnaire where you should redirect your account holder. This URL must be used within 30 seconds and can only be used once.
-          type: string
-        resultCode:
-          description: The result code.
-          type: string
       type: object
     FieldType:
       properties:
@@ -344,19 +357,6 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    ErrorFieldType:
-      properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
-          type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
-      type: object
     GetPciUrlRequest:
       properties:
         accountHolderCode:
@@ -369,6 +369,12 @@ components:
       - accountHolderCode
       type: object
   examples:
+    post-getPciQuestionnaireUrl-get-pci-questionnaire-url:
+      summary: Get a PCI questionnaire link
+      description: Returns a link to an Adyen-hosted PCI compliance questionnaire that you can send to your account holder.
+      value:
+        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
+        returnUrl: https://your.return-url.com/?submerchant=123
     post-getPciQuestionnaireUrl-get-pci-questionnaire-url-200:
       summary: Hosted onboarding page link
       description: Example response for requesting a hosted onboarding page link
@@ -377,12 +383,6 @@ components:
         pspReference: '8315748692943050'
         resultCode: Success
         redirectUrl: https://hop-test.adyen.com/hop/pci/?token=<token>
-    post-getPciQuestionnaireUrl-get-pci-questionnaire-url:
-      summary: Get a PCI questionnaire link
-      description: Returns a link to an Adyen-hosted PCI compliance questionnaire that you can send to your account holder.
-      value:
-        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
-        returnUrl: https://your.return-url.com/?submerchant=123
   securitySchemes:
     ApiKeyAuth:
       in: header

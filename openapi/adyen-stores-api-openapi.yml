@@ -1252,52 +1252,17 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Localization:
+    Opi:
       properties:
-        language:
-          description: Language of the terminal.
-          type: string
-        secondaryLanguage:
-          description: Secondary language of the terminal.
-          type: string
-        timezone:
-          description: The time zone of the terminal.
-          type: string
-      type: object
-    Gratuity:
-      properties:
-        allowCustomAmount:
-          description: Indicates whether one of the predefined tipping options is to let the shopper enter a custom tip. If **true**, only three of the other options defined in `predefinedTipEntries` are shown.
+        enablePayAtTable:
+          description: Indicates if Pay at table is enabled.
           type: boolean
-        currency:
-          description: The currency that the tipping settings apply to.
+        payAtTableStoreNumber:
+          description: The store number to use for Pay at Table.
           type: string
-        predefinedTipEntries:
-          description: 'Tipping options the shopper can choose from if `usePredefinedTipEntries` is **true**. The maximum number of predefined options is four, or three plus the option to enter a custom tip.
-
-            The options can be a mix of:
-
-
-            - A percentage of the transaction amount. Example: **5%**
-
-            - A tip amount in [minor units](https://docs.adyen.com/development-resources/currency-codes). Example: **500** for a EUR 5 tip.'
-          items:
-            type: string
-          type: array
-        usePredefinedTipEntries:
-          description: Indicates whether the terminal shows a prompt to enter a tip (**false**), or predefined tipping options to choose from (**true**).
-          type: boolean
-      type: object
-    Surcharge:
-      properties:
-        askConfirmation:
-          description: Show the surcharge details on the terminal, so the shopper can confirm.
-          type: boolean
-        configurations:
-          description: Surcharge fees or percentages for specific payment methods, funding sources (credit or debit), and currencies.
-          items:
-            $ref: '#/components/schemas/Configuration'
-          type: array
+        payAtTableURL:
+          description: The URL and port number used for Pay at Table communication.
+          type: string
       type: object
     Configuration:
       properties:
@@ -1327,80 +1292,123 @@ components:
       - brand
       - currencies
       type: object
-    OfflineProcessing:
+    EventUrl:
       properties:
-        chipFloorLimit:
-          description: The maximum offline transaction amount for chip cards, in the processing currency and specified in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int32
-          type: integer
-        offlineSwipeLimits:
-          description: The maximum offline transaction amount for swiped cards, in the specified currency.
+        eventLocalUrls:
+          description: One or more local URLs to send event notifications to when using Terminal API.
           items:
-            $ref: '#/components/schemas/MinorUnitsMonetaryValue'
+            $ref: '#/components/schemas/Url'
+          type: array
+        eventPublicUrls:
+          description: One or more public URLs to send event notifications to when using Terminal API.
+          items:
+            $ref: '#/components/schemas/Url'
           type: array
       type: object
-    Profile:
+    Gratuity:
       properties:
-        authType:
-          description: 'The type of Wi-Fi network. Possible values: **wpa-psk**, **wpa2-psk**, **wpa-eap**, **wpa2-eap**.'
-          type: string
-        autoWifi:
-          description: Indicates whether to automatically select the best authentication method available. Does not work on older terminal models.
+        allowCustomAmount:
+          description: Indicates whether one of the predefined tipping options is to let the shopper enter a custom tip. If **true**, only three of the other options defined in `predefinedTipEntries` are shown.
           type: boolean
-        bssType:
-          description: Use **infra** for infrastructure-based networks. This applies to most networks. Use **adhoc** only if the communication is p2p-based between base stations.
+        currency:
+          description: The currency that the tipping settings apply to.
           type: string
-        channel:
-          description: The channel number of the Wi-Fi network. The recommended setting is **0** for automatic channel selection.
+        predefinedTipEntries:
+          description: 'Tipping options the shopper can choose from if `usePredefinedTipEntries` is **true**. The maximum number of predefined options is four, or three plus the option to enter a custom tip.
+
+            The options can be a mix of:
+
+
+            - A percentage of the transaction amount. Example: **5%**
+
+            - A tip amount in [minor units](https://docs.adyen.com/development-resources/currency-codes). Example: **500** for a EUR 5 tip.'
+          items:
+            type: string
+          type: array
+        usePredefinedTipEntries:
+          description: Indicates whether the terminal shows a prompt to enter a tip (**false**), or predefined tipping options to choose from (**true**).
+          type: boolean
+      type: object
+    Settings:
+      properties:
+        band:
+          description: 'The preferred Wi-Fi band, for use if the terminals support multiple bands. Possible values: All, 2.4GHz, 5GHz.'
+          type: string
+        roaming:
+          description: Indicates whether roaming is enabled on the terminals.
+          type: boolean
+        timeout:
+          description: 'The connection time-out in seconds. Minimum value: 0.'
           format: int32
           type: integer
-        defaultProfile:
-          description: Indicates whether this is your preferred wireless network. If **true**, the terminal will try connecting to this network first.
+      type: object
+    Nexo:
+      properties:
+        displayUrls:
+          description: The list of local and public URLs to send display notifications to when using Terminal API.
+          $ref: '#/components/schemas/NotificationUrl'
+        encryptionKey:
+          description: The key you share with Adyen to secure local communications when using Terminal API.
+          $ref: '#/components/schemas/Key'
+        eventUrls:
+          description: The list of local and public URLs to send event notifications to when using Terminal API.
+          $ref: '#/components/schemas/EventUrl'
+        nexoEventUrls:
+          deprecated: true
+          x-deprecatedInVersion: '1'
+          x-deprecatedMessage: Use `eventUrls` instead.
+          description: One or more URLs to send event messages to when using Terminal API.
+          items:
+            type: string
+          type: array
+        notification:
+          description: Configures sending event notifications by pressing a button on a terminal, for example used for pay-at-table.
+          $ref: '#/components/schemas/Notification'
+      type: object
+    Payment:
+      properties:
+        contactlessCurrency:
+          description: The default currency for contactless payments on the payment terminal, as the three-letter [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code.
+          maxLength: 3
+          minLength: 3
+          type: string
+        hideMinorUnitsInCurrencies:
+          description: Hides the minor units for the listed [ISO currency codes](https://en.wikipedia.org/wiki/ISO_4217).
+          items:
+            type: string
+          type: array
+      type: object
+    Standalone:
+      properties:
+        currencyCode:
+          description: The default currency of the standalone payment terminal as an [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code.
+          maxLength: 3
+          minLength: 3
+          type: string
+        enableStandalone:
+          description: Enable standalone mode.
           type: boolean
-        eap:
-          description: 'For `authType` **wpa-eap** or **wpa2-eap**. Possible values: **tls**, **peap**, **leap**, **fast**'
+      type: object
+    Notification:
+      properties:
+        category:
+          description: The type of event notification sent when you select the notification button.
+          enum:
+          - SaleWakeUp
+          - KeyPressed
           type: string
-        eapCaCert:
-          description: For `authType` **wpa-eap** or **wpa2-eap**. The root certificate from the CA that signed the certificate of the RADIUS server that is part of your wireless network.
-          $ref: '#/components/schemas/File'
-        eapClientCert:
-          description: For `eap` **tls**. The certificate chain for the terminals. All terminals in the same network will use the same EAP client certificate.
-          $ref: '#/components/schemas/File'
-        eapClientKey:
-          description: For `eap` **tls**. The RSA private key for the client. Include the lines BEGIN RSA PRIVATE KEY and END RSA PRIVATE KEY.
-          $ref: '#/components/schemas/File'
-        eapClientPwd:
-          description: For `eap` **tls**. The password of the RSA key file, if that file is password-protected.
+        details:
+          description: The text shown in the prompt which opens when you select the notification button. For example, the description of the input box for pay-at-table.
           type: string
-        eapIdentity:
-          description: For `authType` **wpa-eap** or **wpa2-eap**. The EAP-PEAP username from your MS-CHAP account. Must match the configuration of your RADIUS server.
-          type: string
-        eapIntermediateCert:
-          description: For `eap` **tls**. The EAP intermediate certificate.
-          $ref: '#/components/schemas/File'
-        eapPwd:
-          description: For `eap` **peap**. The EAP-PEAP password from your MS-CHAP account. Must match the configuration of your RADIUS server.
-          type: string
-        hiddenSsid:
-          description: Indicates if the network doesn't broadcast its SSID. Mandatory for Android terminals, because these terminals rely on this setting to be able to connect to any network.
+        enabled:
+          description: Enables sending event notifications either by pressing the Confirm key on terminals with a keypad or by tapping the event notification button on the terminal screen.
           type: boolean
-        name:
-          description: Your name for the Wi-Fi profile.
+        showButton:
+          description: Shows or hides the event notification button on the screen of terminal models that have a keypad.
+          type: boolean
+        title:
+          description: The name of the notification button on the terminal screen.
           type: string
-        psk:
-          description: For `authType` **wpa-psk or **wpa2-psk**. The password to the wireless network.
-          type: string
-        ssid:
-          description: The name of the wireless network.
-          type: string
-        wsec:
-          description: 'The type of encryption. Possible values: **auto**, **ccmp** (recommended), **tkip**'
-          type: string
-      required:
-      - ssid
-      - bssType
-      - authType
-      - wsec
       type: object
     TerminalSettings:
       properties:
@@ -1467,64 +1475,438 @@ components:
           description: Remote Wi-Fi profiles for WPA and WPA2 PSK and EAP Wi-Fi networks.
           $ref: '#/components/schemas/WifiProfiles'
       type: object
-    UpdateStoreRequest:
+    UpdatableAddress:
       properties:
-        address:
-          description: The address of the store. It is not possible to update the country of the store.
-          $ref: '#/components/schemas/UpdatableAddress'
-        businessLineIds:
-          description: The unique identifiers of the [business lines](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/businessLines__resParam_id) that the store is associated with.
-          items:
-            type: string
-          type: array
-        description:
-          description: The description of the store.
+        city:
+          description: The name of the city.
           type: string
-        externalReferenceId:
-          description: 'The unique identifier of the store, used by certain payment methods and tax authorities. Accepts up to 14 digits.
-
-
-            Required for CNPJ in Brazil, in the format 00.000.000/00git00-00 separated by dots, slashes, hyphens, or without separators.
-
-
-            Optional for Zip in Australia and SIRET in France, required except for nonprofit organizations and incorporated associations.
-
-
-            '
+        line1:
+          description: The street address.
           type: string
-        phoneNumber:
-          description: 'The phone number of the store, including ''+'' and country code in the [E.164](https://en.wikipedia.org/wiki/E.164) format. If passed in a different format, we convert and validate the phone number against E.164. '
+        line2:
+          description: Second address line.
           type: string
-        splitConfiguration:
-          description: Rules for Adyen for Platforms merchants to split the transaction amount and fees.
-          $ref: '#/components/schemas/StoreSplitConfiguration'
-        status:
-          description: "The status of the store. Possible values are:\n\n- **active**: This value is assigned automatically when a store is created. \n- **inactive**: The maximum [transaction limits and number of Store-and-Forward transactions](https://docs.adyen.com/point-of-sale/determine-account-structure/configure-features#payment-features) for the store are set to 0. This blocks new transactions, but captures are still possible.\n- **closed**: The terminals of the store are reassigned to the merchant inventory, so they can't process payments.\n\nYou can change the status from **active** to **inactive**, and from **inactive** to **active** or **closed**. \nOnce **closed**, a store can't be reopened."
-          enum:
-          - active
-          - closed
-          - inactive
+        line3:
+          description: Third address line.
+          type: string
+        postalCode:
+          description: The postal code.
+          type: string
+        stateOrProvince:
+          description: "The state or province code as defined in [ISO 3166-2](https://www.iso.org/standard/72483.html). For example, **ON** for Ontario, Canada.\n\nRequired for the following countries:\n - Australia\n- Brazil\n- Canada\n- India\n- Mexico\n- New Zealand\n- United States"
           type: string
       type: object
-    Passcodes:
+    File:
       properties:
-        adminMenuPin:
-          description: The passcode for the Admin menu and the Settings menu.
-          maxLength: 6
+        data:
+          description: The certificate content converted to a Base64-encoded string.
           type: string
-        refundPin:
-          description: The passcode for referenced and unreferenced refunds on standalone terminals.
-          maxLength: 6
+        name:
+          description: The name of the certificate. Must be unique across Wi-Fi profiles.
           type: string
-        screenLockPin:
-          description: The passcode to unlock the terminal screen after a timeout.
-          maxLength: 6
-          minLength: 4
+      required:
+      - name
+      - data
+      type: object
+    PaginationLinks:
+      properties:
+        first:
+          description: The first page.
+          $ref: '#/components/schemas/LinksElement'
+        last:
+          description: The last page.
+          $ref: '#/components/schemas/LinksElement'
+        next:
+          description: The next page. Only present if there is a next page.
+          $ref: '#/components/schemas/LinksElement'
+        prev:
+          description: The previous page. Only present if there is a previous page.
+          $ref: '#/components/schemas/LinksElement'
+        self:
+          description: The current page.
+          $ref: '#/components/schemas/LinksElement'
+      required:
+      - self
+      - first
+      - last
+      type: object
+    Signature:
+      properties:
+        askSignatureOnScreen:
+          description: If `skipSignature` is false, indicates whether the shopper should provide a signature on the display (**true**) or on the merchant receipt (**false**).
+          type: boolean
+        deviceName:
+          description: Name that identifies the terminal.
           type: string
-        txMenuPin:
-          description: The passcode for the Transactions menu.
-          maxLength: 6
+        deviceSlogan:
+          description: Slogan shown on the start screen of the device.
+          maxLength: 50
           type: string
+        skipSignature:
+          description: Skip asking for a signature. This is possible because all global card schemes (American Express, Diners, Discover, JCB, MasterCard, VISA, and UnionPay) regard a signature as optional.
+          type: boolean
+      type: object
+    Surcharge:
+      properties:
+        askConfirmation:
+          description: Show the surcharge details on the terminal, so the shopper can confirm.
+          type: boolean
+        configurations:
+          description: Surcharge fees or percentages for specific payment methods, funding sources (credit or debit), and currencies.
+          items:
+            $ref: '#/components/schemas/Configuration'
+          type: array
+      type: object
+    RestServiceError:
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+        errorCode:
+          description: A code that identifies the problem type.
+          type: string
+        instance:
+          description: A unique URI that identifies the specific occurrence of the problem.
+          type: string
+        invalidFields:
+          description: Detailed explanation of each validation error, when applicable.
+          items:
+            $ref: '#/components/schemas/InvalidField'
+          type: array
+        requestId:
+          description: A unique reference for the request, essentially the same as `pspReference`.
+          type: string
+        response:
+          description: JSON response payload.
+          $ref: '#/components/schemas/JSONObject'
+        status:
+          description: The HTTP status code.
+          format: int32
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type.
+          type: string
+        type:
+          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
+          type: string
+      required:
+      - type
+      - errorCode
+      - title
+      - detail
+      - status
+      type: object
+    ListStoresResponse:
+      properties:
+        _links:
+          description: Pagination references.
+          $ref: '#/components/schemas/PaginationLinks'
+        data:
+          description: List of stores
+          items:
+            $ref: '#/components/schemas/Store'
+          type: array
+        itemsTotal:
+          description: Total number of items.
+          format: int32
+          type: integer
+        pagesTotal:
+          description: Total number of pages.
+          format: int32
+          type: integer
+      required:
+      - itemsTotal
+      - pagesTotal
+      type: object
+    NotificationUrl:
+      properties:
+        localUrls:
+          description: One or more local URLs to send notifications to when using Terminal API.
+          items:
+            $ref: '#/components/schemas/Url'
+          type: array
+        publicUrls:
+          description: One or more public URLs to send notifications to when using Terminal API.
+          items:
+            $ref: '#/components/schemas/Url'
+          type: array
+      type: object
+    Timeouts:
+      properties:
+        fromActiveToSleep:
+          description: Indicates the number of seconds of inactivity after which the terminal display goes into sleep mode.
+          format: int32
+          type: integer
+      type: object
+    Refunds:
+      properties:
+        referenced:
+          description: Settings for referenced refunds.
+          $ref: '#/components/schemas/Referenced'
+      type: object
+    Connectivity:
+      properties:
+        simcardStatus:
+          description: 'Indicates the status of the SIM card in the payment terminal. Can be updated and received only at terminal level, and only for models that support cellular connectivity.
+
+
+            Possible values:
+
+            * **ACTIVATED**: the SIM card is activated. Cellular connectivity may still need to be enabled on the terminal itself, in the **Network** settings.
+
+            * **INVENTORY**: the SIM card is not activated. The terminal can''t use cellular connectivity.'
+          enum:
+          - ACTIVATED
+          - INVENTORY
+          type: string
+      type: object
+    ReceiptOptions:
+      properties:
+        logo:
+          description: The receipt logo converted to a Base64-encoded string. The image must be a .bmp file of < 256 KB, dimensions 240 (H) x 384 (W) px.
+          maxLength: 350000
+          type: string
+        promptBeforePrinting:
+          description: Indicates whether a screen appears asking if you want to print the shopper receipt.
+          type: boolean
+        qrCodeData:
+          description: "Data to print on the receipt as a QR code. This can include static text and the following variables:\n\n- `${merchantreference}`: the merchant reference of the transaction.\n- `${pspreference}`: the PSP reference of the transaction.\n\n For example, **http://www.example.com/order/${pspreference}/${merchantreference}**."
+          type: string
+      type: object
+    Hardware:
+      properties:
+        displayMaximumBackLight:
+          description: The brightness of the display when the terminal is being used, expressed as a percentage.
+          format: int32
+          type: integer
+        resetTotalsHour:
+          description: 'The hour of the day when the terminal is set to reset the Totals report. By default, the reset hour is at 6:00 AM in the timezone of the terminal. Minimum value: 0, maximum value: 23.'
+          format: int32
+          type: integer
+        restartHour:
+          description: 'The hour of the day when the terminal is set to reboot to apply the configuration and software updates. By default, the restart hour is at 6:00 AM in the timezone of the terminal. Minimum value: 0, maximum value: 23.'
+          format: int32
+          type: integer
+      type: object
+    Profile:
+      properties:
+        authType:
+          description: 'The type of Wi-Fi network. Possible values: **wpa-psk**, **wpa2-psk**, **wpa-eap**, **wpa2-eap**.'
+          type: string
+        autoWifi:
+          description: Indicates whether to automatically select the best authentication method available. Does not work on older terminal models.
+          type: boolean
+        bssType:
+          description: Use **infra** for infrastructure-based networks. This applies to most networks. Use **adhoc** only if the communication is p2p-based between base stations.
+          type: string
+        channel:
+          description: The channel number of the Wi-Fi network. The recommended setting is **0** for automatic channel selection.
+          format: int32
+          type: integer
+        defaultProfile:
+          description: Indicates whether this is your preferred wireless network. If **true**, the terminal will try connecting to this network first.
+          type: boolean
+        eap:
+          description: 'For `authType` **wpa-eap** or **wpa2-eap**. Possible values: **tls**, **peap**, **leap**, **fast**'
+          type: string
+        eapCaCert:
+          description: For `authType` **wpa-eap** or **wpa2-eap**. The root certificate from the CA that signed the certificate of the RADIUS server that is part of your wireless network.
+          $ref: '#/components/schemas/File'
+        eapClientCert:
+          description: For `eap` **tls**. The certificate chain for the terminals. All terminals in the same network will use the same EAP client certificate.
+          $ref: '#/components/schemas/File'
+        eapClientKey:
+          description: For `eap` **tls**. The RSA private key for the client. Include the lines BEGIN RSA PRIVATE KEY and END RSA PRIVATE KEY.
+          $ref: '#/components/schemas/File'
+        eapClientPwd:
+          description: For `eap` **tls**. The password of the RSA key file, if that file is password-protected.
+          type: string
+        eapIdentity:
+          description: For `authType` **wpa-eap** or **wpa2-eap**. The EAP-PEAP username from your MS-CHAP account. Must match the configuration of your RADIUS server.
+          type: string
+        eapIntermediateCert:
+          description: For `eap` **tls**. The EAP intermediate certificate.
+          $ref: '#/components/schemas/File'
+        eapPwd:
+          description: For `eap` **peap**. The EAP-PEAP password from your MS-CHAP account. Must match the configuration of your RADIUS server.
+          type: string
+        hiddenSsid:
+          description: Indicates if the network doesn't broadcast its SSID. Mandatory for Android terminals, because these terminals rely on this setting to be able to connect to any network.
+          type: boolean
+        name:
+          description: Your name for the Wi-Fi profile.
+          type: string
+        psk:
+          description: For `authType` **wpa-psk or **wpa2-psk**. The password to the wireless network.
+          type: string
+        ssid:
+          description: The name of the wireless network.
+          type: string
+        wsec:
+          description: 'The type of encryption. Possible values: **auto**, **ccmp** (recommended), **tkip**'
+          type: string
+      required:
+      - ssid
+      - bssType
+      - authType
+      - wsec
+      type: object
+    InvalidField:
+      properties:
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
+          type: string
+        value:
+          description: The invalid value.
+          type: string
+      required:
+      - name
+      - value
+      - message
+      type: object
+    Localization:
+      properties:
+        language:
+          description: Language of the terminal.
+          type: string
+        secondaryLanguage:
+          description: Secondary language of the terminal.
+          type: string
+        timezone:
+          description: The time zone of the terminal.
+          type: string
+      type: object
+    OfflineProcessing:
+      properties:
+        chipFloorLimit:
+          description: The maximum offline transaction amount for chip cards, in the processing currency and specified in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int32
+          type: integer
+        offlineSwipeLimits:
+          description: The maximum offline transaction amount for swiped cards, in the specified currency.
+          items:
+            $ref: '#/components/schemas/MinorUnitsMonetaryValue'
+          type: array
+      type: object
+    Referenced:
+      properties:
+        enableStandaloneRefunds:
+          description: Indicates whether referenced refunds are enabled on the standalone terminal.
+          type: boolean
+      type: object
+    StoreSplitConfiguration:
+      properties:
+        balanceAccountId:
+          description: The [unique identifier of the balance account](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/balanceAccounts/{id}__queryParam_id) to which the split amount must be booked, depending on the defined [split logic](https://docs.adyen.com/api-explorer/Management/latest/post/merchants/_merchantId_/splitConfigurations#request-rules-splitLogic).
+          type: string
+        splitConfigurationId:
+          description: The unique identifier of the [split configuration profile](https://docs.adyen.com/marketplaces-and-platforms/automatic-split-configuration/create-split-configuration/).
+          type: string
+      type: object
+    StoreLocation:
+      properties:
+        city:
+          description: The name of the city.
+          type: string
+        country:
+          description: The two-letter country code in [ISO_3166-1_alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
+          type: string
+        line1:
+          description: The street address.
+          type: string
+        line2:
+          description: Second address line.
+          type: string
+        line3:
+          description: Third address line.
+          type: string
+        postalCode:
+          description: The postal code.
+          type: string
+        stateOrProvince:
+          description: "The state or province code as defined in [ISO 3166-2](https://www.iso.org/standard/72483.html). For example, **ON** for Ontario, Canada.\n\nRequired for the following countries:\n - Australia\n- Brazil\n- Canada\n- India\n- Mexico\n- New Zealand\n- United States"
+          type: string
+      required:
+      - country
+      type: object
+    LinksElement:
+      properties:
+        href:
+          type: string
+      type: object
+    JSONObject:
+      type: object
+    MinorUnitsMonetaryValue:
+      properties:
+        amount:
+          description: The transaction amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int32
+          type: integer
+        currencyCode:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          type: string
+      type: object
+    Url:
+      properties:
+        encrypted:
+          description: Indicates if the message sent to this URL should be encrypted.
+          type: boolean
+        password:
+          description: The password for authentication of the notifications.
+          type: string
+        url:
+          description: 'The URL in the format: http(s)://domain.com.'
+          type: string
+        username:
+          description: The username for authentication of the notifications.
+          type: string
+      type: object
+    PayAtTable:
+      properties:
+        authenticationMethod:
+          description: 'Allowed authentication methods: Magswipe, Manual Entry.'
+          enum:
+          - MAGSWIPE
+          - MKE
+          type: string
+        enablePayAtTable:
+          description: Enable Pay at table.
+          type: boolean
+        paymentInstrument:
+          description: 'Sets the allowed payment instrument for Pay at table transactions.  Can be: **cash** or **card**. If not set, the terminal presents both options.'
+          enum:
+          - Cash
+          - Card
+          type: string
+      type: object
+    Links:
+      properties:
+        self:
+          description: Link to the resource itself.
+          $ref: '#/components/schemas/LinksElement'
+      required:
+      - self
+      type: object
+    Logo:
+      properties:
+        data:
+          description: The image file, converted to a Base64-encoded string, of the logo to be shown on the terminal.
+          maxLength: 350000
+          type: string
+      type: object
+    WifiProfiles:
+      properties:
+        profiles:
+          description: List of remote Wi-Fi profiles.
+          items:
+            $ref: '#/components/schemas/Profile'
+          type: array
+        settings:
+          description: General Wi-Fi settings.
+          $ref: '#/components/schemas/Settings'
       type: object
     ReceiptPrinting:
       properties:
@@ -1577,367 +1959,53 @@ components:
           description: Print a shopper receipt when a previous transaction is voided.
           type: boolean
       type: object
-    JSONObject:
-      type: object
-    Standalone:
-      properties:
-        currencyCode:
-          description: The default currency of the standalone payment terminal as an [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code.
-          maxLength: 3
-          minLength: 3
-          type: string
-        enableStandalone:
-          description: Enable standalone mode.
-          type: boolean
-      type: object
-    Hardware:
-      properties:
-        displayMaximumBackLight:
-          description: The brightness of the display when the terminal is being used, expressed as a percentage.
-          format: int32
-          type: integer
-        resetTotalsHour:
-          description: 'The hour of the day when the terminal is set to reset the Totals report. By default, the reset hour is at 6:00 AM in the timezone of the terminal. Minimum value: 0, maximum value: 23.'
-          format: int32
-          type: integer
-        restartHour:
-          description: 'The hour of the day when the terminal is set to reboot to apply the configuration and software updates. By default, the restart hour is at 6:00 AM in the timezone of the terminal. Minimum value: 0, maximum value: 23.'
-          format: int32
-          type: integer
-      type: object
-    NotificationUrl:
-      properties:
-        localUrls:
-          description: One or more local URLs to send notifications to when using Terminal API.
-          items:
-            $ref: '#/components/schemas/Url'
-          type: array
-        publicUrls:
-          description: One or more public URLs to send notifications to when using Terminal API.
-          items:
-            $ref: '#/components/schemas/Url'
-          type: array
-      type: object
-    InvalidField:
-      properties:
-        message:
-          description: Description of the validation error.
-          type: string
-        name:
-          description: The field that has an invalid value.
-          type: string
-        value:
-          description: The invalid value.
-          type: string
-      required:
-      - name
-      - value
-      - message
-      type: object
-    StoreCreationWithMerchantCodeRequest:
-      properties:
-        address:
-          description: The address of the store.
-          $ref: '#/components/schemas/StoreLocation'
-        businessLineIds:
-          description: 'The unique identifiers of the [business lines](https://docs.adyen.com/api-explorer/legalentity/latest/post/businessLines#responses-200-id) that the store is associated with.
-
-            If not specified, the business line of the merchant account is used. Required when there are multiple business lines under the merchant account.'
-          items:
-            type: string
-          type: array
-        description:
-          description: Your description of the store.
-          type: string
-        externalReferenceId:
-          description: 'The unique identifier of the store, used by certain payment methods and tax authorities. Accepts up to 14 digits.
-
-
-            Required for CNPJ in Brazil, in the format 00.000.000/00git00-00 separated by dots, slashes, hyphens, or without separators.
-
-
-            Optional for Zip in Australia and SIRET in France, required except for nonprofit organizations and incorporated associations.
-
-
-            '
-          type: string
-        merchantId:
-          description: The unique identifier of the merchant account that the store belongs to.
-          type: string
-        phoneNumber:
-          description: 'The phone number of the store, including ''+'' and country code in the [E.164](https://en.wikipedia.org/wiki/E.164) format. If passed in a different format, we convert and validate the phone number against E.164. '
-          type: string
-        reference:
-          description: "Your reference to recognize the store by. Also known as the store code.\n Allowed characters: lowercase and uppercase letters without diacritics, numbers 0 through 9, hyphen (-), and underscore (_).\n\nIf you do not provide a reference in your POST request, it is populated with the Adyen-generated [id](https://docs.adyen.com/api-explorer/Management/latest/post/stores#responses-200-id)."
-          type: string
-        shopperStatement:
-          description: 'The store name to be shown on the shopper''s bank or credit card statement and on the shopper receipt.
-
-            Maximum length: 22 characters; can''t be all numbers.'
-          type: string
-        splitConfiguration:
-          description: Rules for Adyen for Platforms merchants to split the transaction amount and fees.
-          $ref: '#/components/schemas/StoreSplitConfiguration'
-      required:
-      - description
-      - shopperStatement
-      - phoneNumber
-      - address
-      - merchantId
-      type: object
-    MinorUnitsMonetaryValue:
-      properties:
-        amount:
-          description: The transaction amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int32
-          type: integer
-        currencyCode:
-          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
-          type: string
-      type: object
-    Settings:
-      properties:
-        band:
-          description: 'The preferred Wi-Fi band, for use if the terminals support multiple bands. Possible values: All, 2.4GHz, 5GHz.'
-          type: string
-        roaming:
-          description: Indicates whether roaming is enabled on the terminals.
-          type: boolean
-        timeout:
-          description: 'The connection time-out in seconds. Minimum value: 0.'
-          format: int32
-          type: integer
-      type: object
-    WifiProfiles:
-      properties:
-        profiles:
-          description: List of remote Wi-Fi profiles.
-          items:
-            $ref: '#/components/schemas/Profile'
-          type: array
-        settings:
-          description: General Wi-Fi settings.
-          $ref: '#/components/schemas/Settings'
-      type: object
-    LinksElement:
-      properties:
-        href:
-          type: string
-      type: object
-    PaginationLinks:
-      properties:
-        first:
-          description: The first page.
-          $ref: '#/components/schemas/LinksElement'
-        last:
-          description: The last page.
-          $ref: '#/components/schemas/LinksElement'
-        next:
-          description: The next page. Only present if there is a next page.
-          $ref: '#/components/schemas/LinksElement'
-        prev:
-          description: The previous page. Only present if there is a previous page.
-          $ref: '#/components/schemas/LinksElement'
-        self:
-          description: The current page.
-          $ref: '#/components/schemas/LinksElement'
-      required:
-      - self
-      - first
-      - last
-      type: object
-    StoreLocation:
-      properties:
-        city:
-          description: The name of the city.
-          type: string
-        country:
-          description: The two-letter country code in [ISO_3166-1_alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
-          type: string
-        line1:
-          description: The street address.
-          type: string
-        line2:
-          description: Second address line.
-          type: string
-        line3:
-          description: Third address line.
-          type: string
-        postalCode:
-          description: The postal code.
-          type: string
-        stateOrProvince:
-          description: "The state or province code as defined in [ISO 3166-2](https://www.iso.org/standard/72483.html). For example, **ON** for Ontario, Canada.\n\nRequired for the following countries:\n - Australia\n- Brazil\n- Canada\n- India\n- Mexico\n- New Zealand\n- United States"
-          type: string
-      required:
-      - country
-      type: object
-    UpdatableAddress:
-      properties:
-        city:
-          description: The name of the city.
-          type: string
-        line1:
-          description: The street address.
-          type: string
-        line2:
-          description: Second address line.
-          type: string
-        line3:
-          description: Third address line.
-          type: string
-        postalCode:
-          description: The postal code.
-          type: string
-        stateOrProvince:
-          description: "The state or province code as defined in [ISO 3166-2](https://www.iso.org/standard/72483.html). For example, **ON** for Ontario, Canada.\n\nRequired for the following countries:\n - Australia\n- Brazil\n- Canada\n- India\n- Mexico\n- New Zealand\n- United States"
-          type: string
-      type: object
-    Payment:
-      properties:
-        contactlessCurrency:
-          description: The default currency for contactless payments on the payment terminal, as the three-letter [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code.
-          maxLength: 3
-          minLength: 3
-          type: string
-        hideMinorUnitsInCurrencies:
-          description: Hides the minor units for the listed [ISO currency codes](https://en.wikipedia.org/wiki/ISO_4217).
-          items:
-            type: string
-          type: array
-      type: object
-    Url:
-      properties:
-        encrypted:
-          description: Indicates if the message sent to this URL should be encrypted.
-          type: boolean
-        password:
-          description: The password for authentication of the notifications.
-          type: string
-        url:
-          description: 'The URL in the format: http(s)://domain.com.'
-          type: string
-        username:
-          description: The username for authentication of the notifications.
-          type: string
-      type: object
-    Notification:
-      properties:
-        category:
-          description: The type of event notification sent when you select the notification button.
-          enum:
-          - SaleWakeUp
-          - KeyPressed
-          type: string
-        details:
-          description: The text shown in the prompt which opens when you select the notification button. For example, the description of the input box for pay-at-table.
-          type: string
-        enabled:
-          description: Enables sending event notifications either by pressing the Confirm key on terminals with a keypad or by tapping the event notification button on the terminal screen.
-          type: boolean
-        showButton:
-          description: Shows or hides the event notification button on the screen of terminal models that have a keypad.
-          type: boolean
-        title:
-          description: The name of the notification button on the terminal screen.
-          type: string
-      type: object
-    Opi:
-      properties:
-        enablePayAtTable:
-          description: Indicates if Pay at table is enabled.
-          type: boolean
-        payAtTableStoreNumber:
-          description: The store number to use for Pay at Table.
-          type: string
-        payAtTableURL:
-          description: The URL and port number used for Pay at Table communication.
-          type: string
-      type: object
-    Links:
-      properties:
-        self:
-          description: Link to the resource itself.
-          $ref: '#/components/schemas/LinksElement'
-      required:
-      - self
-      type: object
-    Referenced:
-      properties:
-        enableStandaloneRefunds:
-          description: Indicates whether referenced refunds are enabled on the standalone terminal.
-          type: boolean
-      type: object
-    Timeouts:
-      properties:
-        fromActiveToSleep:
-          description: Indicates the number of seconds of inactivity after which the terminal display goes into sleep mode.
-          format: int32
-          type: integer
-      type: object
-    Logo:
-      properties:
-        data:
-          description: The image file, converted to a Base64-encoded string, of the logo to be shown on the terminal.
-          maxLength: 350000
-          type: string
-      type: object
-    Signature:
-      properties:
-        askSignatureOnScreen:
-          description: If `skipSignature` is false, indicates whether the shopper should provide a signature on the display (**true**) or on the merchant receipt (**false**).
-          type: boolean
-        deviceName:
-          description: Name that identifies the terminal.
-          type: string
-        deviceSlogan:
-          description: Slogan shown on the start screen of the device.
-          maxLength: 50
-          type: string
-        skipSignature:
-          description: Skip asking for a signature. This is possible because all global card schemes (American Express, Diners, Discover, JCB, MasterCard, VISA, and UnionPay) regard a signature as optional.
-          type: boolean
-      type: object
     TapToPay:
       properties:
         merchantDisplayName:
           description: The text shown on the screen during the Tap to Pay transaction.
           type: string
       type: object
-    EventUrl:
+    Passcodes:
       properties:
-        eventLocalUrls:
-          description: One or more local URLs to send event notifications to when using Terminal API.
-          items:
-            $ref: '#/components/schemas/Url'
-          type: array
-        eventPublicUrls:
-          description: One or more public URLs to send event notifications to when using Terminal API.
-          items:
-            $ref: '#/components/schemas/Url'
-          type: array
-      type: object
-    StoreSplitConfiguration:
-      properties:
-        balanceAccountId:
-          description: The [unique identifier of the balance account](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/get/balanceAccounts/{id}__queryParam_id) to which the split amount must be booked, depending on the defined [split logic](https://docs.adyen.com/api-explorer/Management/latest/post/merchants/_merchantId_/splitConfigurations#request-rules-splitLogic).
+        adminMenuPin:
+          description: The passcode for the Admin menu and the Settings menu.
+          maxLength: 6
           type: string
-        splitConfigurationId:
-          description: The unique identifier of the [split configuration profile](https://docs.adyen.com/marketplaces-and-platforms/automatic-split-configuration/create-split-configuration/).
+        refundPin:
+          description: The passcode for referenced and unreferenced refunds on standalone terminals.
+          maxLength: 6
+          type: string
+        screenLockPin:
+          description: The passcode to unlock the terminal screen after a timeout.
+          maxLength: 6
+          minLength: 4
+          type: string
+        txMenuPin:
+          description: The passcode for the Transactions menu.
+          maxLength: 6
           type: string
       type: object
-    Key:
+    CardholderReceipt:
       properties:
-        identifier:
-          description: The unique identifier of the shared key.
+        headerForAuthorizedReceipt:
+          description: A custom header to show on the shopper receipt for an authorised transaction. Allows one or two comma-separated header lines, and blank lines. For example, `header,header,filler`
           type: string
-        passphrase:
-          description: The secure passphrase to protect the shared key.
-          type: string
-        version:
-          description: The version number of the shared key.
+      type: object
+    Currency:
+      properties:
+        amount:
+          description: Surcharge amount per transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
           format: int32
           type: integer
+        currencyCode:
+          description: Three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes). For example, **AUD**.
+          type: string
+        percentage:
+          description: Surcharge percentage per transaction. The maximum number of decimal places is two. For example, **1%** or **2.27%**.
+          format: double
+          type: number
+      required:
+      - currencyCode
       type: object
     Store:
       properties:
@@ -1993,384 +2061,120 @@ components:
           - inactive
           type: string
       type: object
-    Connectivity:
+    StoreCreationWithMerchantCodeRequest:
       properties:
-        simcardStatus:
-          description: 'Indicates the status of the SIM card in the payment terminal. Can be updated and received only at terminal level, and only for models that support cellular connectivity.
+        address:
+          description: The address of the store.
+          $ref: '#/components/schemas/StoreLocation'
+        businessLineIds:
+          description: 'The unique identifiers of the [business lines](https://docs.adyen.com/api-explorer/legalentity/latest/post/businessLines#responses-200-id) that the store is associated with.
 
-
-            Possible values:
-
-            * **ACTIVATED**: the SIM card is activated. Cellular connectivity may still need to be enabled on the terminal itself, in the **Network** settings.
-
-            * **INVENTORY**: the SIM card is not activated. The terminal can''t use cellular connectivity.'
-          enum:
-          - ACTIVATED
-          - INVENTORY
-          type: string
-      type: object
-    Refunds:
-      properties:
-        referenced:
-          description: Settings for referenced refunds.
-          $ref: '#/components/schemas/Referenced'
-      type: object
-    Nexo:
-      properties:
-        displayUrls:
-          description: The list of local and public URLs to send display notifications to when using Terminal API.
-          $ref: '#/components/schemas/NotificationUrl'
-        encryptionKey:
-          description: The key you share with Adyen to secure local communications when using Terminal API.
-          $ref: '#/components/schemas/Key'
-        eventUrls:
-          description: The list of local and public URLs to send event notifications to when using Terminal API.
-          $ref: '#/components/schemas/EventUrl'
-        nexoEventUrls:
-          deprecated: true
-          x-deprecatedInVersion: '1'
-          x-deprecatedMessage: Use `eventUrls` instead.
-          description: One or more URLs to send event messages to when using Terminal API.
+            If not specified, the business line of the merchant account is used. Required when there are multiple business lines under the merchant account.'
           items:
             type: string
           type: array
-        notification:
-          description: Configures sending event notifications by pressing a button on a terminal, for example used for pay-at-table.
-          $ref: '#/components/schemas/Notification'
+        description:
+          description: Your description of the store.
+          type: string
+        externalReferenceId:
+          description: 'The unique identifier of the store, used by certain payment methods and tax authorities. Accepts up to 14 digits.
+
+
+            Required for CNPJ in Brazil, in the format 00.000.000/00git00-00 separated by dots, slashes, hyphens, or without separators.
+
+
+            Optional for Zip in Australia and SIRET in France, required except for nonprofit organizations and incorporated associations.
+
+
+            '
+          type: string
+        merchantId:
+          description: The unique identifier of the merchant account that the store belongs to.
+          type: string
+        phoneNumber:
+          description: 'The phone number of the store, including ''+'' and country code in the [E.164](https://en.wikipedia.org/wiki/E.164) format. If passed in a different format, we convert and validate the phone number against E.164. '
+          type: string
+        reference:
+          description: "Your reference to recognize the store by. Also known as the store code.\n Allowed characters: lowercase and uppercase letters without diacritics, numbers 0 through 9, hyphen (-), and underscore (_).\n\nIf you do not provide a reference in your POST request, it is populated with the Adyen-generated [id](https://docs.adyen.com/api-explorer/Management/latest/post/stores#responses-200-id)."
+          type: string
+        shopperStatement:
+          description: 'The store name to be shown on the shopper''s bank or credit card statement and on the shopper receipt.
+
+            Maximum length: 22 characters; can''t be all numbers.'
+          type: string
+        splitConfiguration:
+          description: Rules for Adyen for Platforms merchants to split the transaction amount and fees.
+          $ref: '#/components/schemas/StoreSplitConfiguration'
+      required:
+      - description
+      - shopperStatement
+      - phoneNumber
+      - address
+      - merchantId
       type: object
-    RestServiceError:
+    Key:
       properties:
-        detail:
-          description: A human-readable explanation specific to this occurrence of the problem.
+        identifier:
+          description: The unique identifier of the shared key.
           type: string
-        errorCode:
-          description: A code that identifies the problem type.
+        passphrase:
+          description: The secure passphrase to protect the shared key.
           type: string
-        instance:
-          description: A unique URI that identifies the specific occurrence of the problem.
-          type: string
-        invalidFields:
-          description: Detailed explanation of each validation error, when applicable.
+        version:
+          description: The version number of the shared key.
+          format: int32
+          type: integer
+      type: object
+    UpdateStoreRequest:
+      properties:
+        address:
+          description: The address of the store. It is not possible to update the country of the store.
+          $ref: '#/components/schemas/UpdatableAddress'
+        businessLineIds:
+          description: The unique identifiers of the [business lines](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/businessLines__resParam_id) that the store is associated with.
           items:
-            $ref: '#/components/schemas/InvalidField'
+            type: string
           type: array
-        requestId:
-          description: A unique reference for the request, essentially the same as `pspReference`.
+        description:
+          description: The description of the store.
           type: string
-        response:
-          description: JSON response payload.
-          $ref: '#/components/schemas/JSONObject'
+        externalReferenceId:
+          description: 'The unique identifier of the store, used by certain payment methods and tax authorities. Accepts up to 14 digits.
+
+
+            Required for CNPJ in Brazil, in the format 00.000.000/00git00-00 separated by dots, slashes, hyphens, or without separators.
+
+
+            Optional for Zip in Australia and SIRET in France, required except for nonprofit organizations and incorporated associations.
+
+
+            '
+          type: string
+        phoneNumber:
+          description: 'The phone number of the store, including ''+'' and country code in the [E.164](https://en.wikipedia.org/wiki/E.164) format. If passed in a different format, we convert and validate the phone number against E.164. '
+          type: string
+        splitConfiguration:
+          description: Rules for Adyen for Platforms merchants to split the transaction amount and fees.
+          $ref: '#/components/schemas/StoreSplitConfiguration'
         status:
-          description: The HTTP status code.
-          format: int32
-          type: integer
-        title:
-          description: A short, human-readable summary of the problem type.
-          type: string
-        type:
-          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
-          type: string
-      required:
-      - type
-      - errorCode
-      - title
-      - detail
-      - status
-      type: object
-    File:
-      properties:
-        data:
-          description: The certificate content converted to a Base64-encoded string.
-          type: string
-        name:
-          description: The name of the certificate. Must be unique across Wi-Fi profiles.
-          type: string
-      required:
-      - name
-      - data
-      type: object
-    Currency:
-      properties:
-        amount:
-          description: Surcharge amount per transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int32
-          type: integer
-        currencyCode:
-          description: Three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes). For example, **AUD**.
-          type: string
-        percentage:
-          description: Surcharge percentage per transaction. The maximum number of decimal places is two. For example, **1%** or **2.27%**.
-          format: double
-          type: number
-      required:
-      - currencyCode
-      type: object
-    PayAtTable:
-      properties:
-        authenticationMethod:
-          description: 'Allowed authentication methods: Magswipe, Manual Entry.'
+          description: "The status of the store. Possible values are:\n\n- **active**: This value is assigned automatically when a store is created. \n- **inactive**: The maximum [transaction limits and number of Store-and-Forward transactions](https://docs.adyen.com/point-of-sale/determine-account-structure/configure-features#payment-features) for the store are set to 0. This blocks new transactions, but captures are still possible.\n- **closed**: The terminals of the store are reassigned to the merchant inventory, so they can't process payments.\n\nYou can change the status from **active** to **inactive**, and from **inactive** to **active** or **closed**. \nOnce **closed**, a store can't be reopened."
           enum:
-          - MAGSWIPE
-          - MKE
-          type: string
-        enablePayAtTable:
-          description: Enable Pay at table.
-          type: boolean
-        paymentInstrument:
-          description: 'Sets the allowed payment instrument for Pay at table transactions.  Can be: **cash** or **card**. If not set, the terminal presents both options.'
-          enum:
-          - Cash
-          - Card
-          type: string
-      type: object
-    ListStoresResponse:
-      properties:
-        _links:
-          description: Pagination references.
-          $ref: '#/components/schemas/PaginationLinks'
-        data:
-          description: List of stores
-          items:
-            $ref: '#/components/schemas/Store'
-          type: array
-        itemsTotal:
-          description: Total number of items.
-          format: int32
-          type: integer
-        pagesTotal:
-          description: Total number of pages.
-          format: int32
-          type: integer
-      required:
-      - itemsTotal
-      - pagesTotal
-      type: object
-    CardholderReceipt:
-      properties:
-        headerForAuthorizedReceipt:
-          description: A custom header to show on the shopper receipt for an authorised transaction. Allows one or two comma-separated header lines, and blank lines. For example, `header,header,filler`
-          type: string
-      type: object
-    ReceiptOptions:
-      properties:
-        logo:
-          description: The receipt logo converted to a Base64-encoded string. The image must be a .bmp file of < 256 KB, dimensions 240 (H) x 384 (W) px.
-          maxLength: 350000
-          type: string
-        promptBeforePrinting:
-          description: Indicates whether a screen appears asking if you want to print the shopper receipt.
-          type: boolean
-        qrCodeData:
-          description: "Data to print on the receipt as a QR code. This can include static text and the following variables:\n\n- `${merchantreference}`: the merchant reference of the transaction.\n- `${pspreference}`: the PSP reference of the transaction.\n\n For example, **http://www.example.com/order/${pspreference}/${merchantreference}**."
+          - active
+          - closed
+          - inactive
           type: string
       type: object
   examples:
-    post-stores-post-stores-200:
-      summary: Response code - 200 OK
-      description: Example response after creating a store
-      value:
-        id: YOUR_STORE_ID
-        address:
-          country: US
-          line1: 200 Main Street
-          line2: Building 5A
-          line3: Suite 3
-          city: Springfield
-          stateOrProvince: NY
-          postalCode: '20250'
-        description: City centre store
-        merchantId: YOUR_MERCHANT_ACCOUNT_ID
-        shopperStatement: Springfield Shop
-        phoneNumber: '+1813702551707653'
-        reference: Spring_store_2
-        status: active
-        _links:
-          self:
-            href: https://management-test.adyen.com/v1/stores/YOUR_STORE_ID
-    patch-stores-storeId-terminalSettings-add-eap-tls-wifi-profile-200:
-      summary: Response code - 200 OK
-      description: Example response for adding an EAP-TLS Wi-Fi profile for a terminal
-      value:
-        cardholderReceipt:
-          headerForAuthorizedReceipt: header1,header2,filler
-        gratuities:
-        - currency: EUR
-          usePredefinedTipEntries: true
-          predefinedTipEntries:
-          - '100'
-          - 1%
-          - 5%
-          allowCustomAmount: true
-        nexo:
-          displayUrls:
-            localUrls:
-            - password: BASIC_AUTH_PASSWORD
-              url: https://your-display-notifications-endpoint.com
-              username: BASIC_AUTH_USERNAME
-          encryptionKey:
-            identifier: KEY_IDENTIFIER
-            passphrase: KEY_PASSPHRASE
-            version: 1
-          eventUrls:
-            eventPublicUrls:
-            - password: BASIC_AUTH_PASSWORD
-              url: https://your-event-notifications-endpoint.com
-              username: BASIC_AUTH_USERNAME
-        opi:
-          enablePayAtTable: true
-          payAtTableStoreNumber: '1'
-          payAtTableURL: https:/your-pay-at-table-endpoint.com
-        offlineProcessing:
-          chipFloorLimit: 0
-        receiptOptions:
-          qrCodeData: http://www.example.com/order/${pspreference}/${merchantreference}
-        receiptPrinting:
-          shopperApproved: true
-          shopperRefused: true
-          shopperCancelled: true
-          shopperRefundApproved: true
-          shopperRefundRefused: true
-          shopperVoid: true
-        signature:
-          askSignatureOnScreen: true
-          skipSignature: false
-          deviceName: Amsterdam-236203386
-        wifiProfiles:
-          profiles:
-          - authType: wpa-eap
-            autoWifi: false
-            bssType: infra
-            channel: 0
-            defaultProfile: true
-            eap: tls
-            eapCaCert:
-              data: LS0tLS05M2JqRVFNQ...EUtLS0tLQo=
-              name: eap-tls-ca.pem
-            eapClientCert:
-              data: LS0tLS1CRUdJTiBDR...EUtLS0tLQo=
-              name: eap-tls-client.pem
-            eapClientKey:
-              data: AAAB3NzaC1...Rtah3KLFwPU=
-              name: rsa-private.key
-            eapClientPwd: ''
-            eapIdentity: admin
-            hiddenSsid: false
-            name: Profile-eap-tls-1
-            ssid: your-network
-            wsec: ccmp
-          settings:
-            band: 2.4GHz
-            roaming: true
-            timeout: 5
-        timeouts:
-          fromActiveToSleep: 30
-        hardware:
-          displayMaximumBackLight: 75
-    patch-stores-storeId-terminalLogos-upload-logo-200:
-      summary: Response code - 200 OK
-      description: Example response for uploading a payment terminal logo
-      value:
-        data: BASE-64_ENCODED_STRING_FROM_THE_REQUEST
-    patch-stores-storeId-terminalSettings-add-eap-tls-wifi-profile:
-      summary: Add EAP-TLS Wi-Fi profile
-      description: Example request to add an EAP-TLS Wi-Fi profile for a terminal
-      value:
-        wifiProfiles:
-          profiles:
-          - authType: wpa-eap
-            autoWifi: false
-            bssType: infra
-            channel: 0
-            defaultProfile: true
-            eap: tls
-            eapCaCert:
-              data: LS0tLS05M2JqRVFNQ...EUtLS0tLQo=
-              name: eap-tls-ca.pem
-            eapClientCert:
-              data: LS0tLS1CRUdJTiBDR...EUtLS0tLQo=
-              name: eap-tls-client.pem
-            eapClientKey:
-              data: AAAB3NzaC1...Rtah3KLFwPU=
-              name: rsa-private.key
-            eapClientPwd: ''
-            eapIdentity: admin
-            hiddenSsid: false
-            name: Profile-eap-tls-1
-            ssid: your-network
-            wsec: ccmp
-          settings:
-            band: 2.4GHz
-            roaming: true
-            timeout: 5
-    patch-stores-storeId-terminalLogos-remove-logo:
-      summary: Remove logo to restore the logo from a higher level
-      description: Example request to remove the payment terminal logo configured at the current level, and inherit the logo from a higher level
-      value:
-        data: ''
-    post-stores-post-stores:
-      summary: Create a store
-      description: Example request to create a store
-      value:
-        merchantId: YOUR_MERCHANT_ACCOUNT_ID
-        description: City centre store
-        shopperStatement: Springfield Shop
-        phoneNumber: '+1813702551707653'
-        reference: Spring_store_2
-        address:
-          country: US
-          line1: 200 Main Street
-          line2: Building 5A
-          line3: Suite 3
-          city: Springfield
-          stateOrProvince: NY
-          postalCode: '20250'
-    patch-stores-storeId-patch-stores-splitConfiguration:
-      summary: Add split configuration to store
-      description: Example request to add a split configuration to the store
-      value:
-        splitConfiguration:
-          balanceAccountId: BA3227C223222H5HQ2XX77VVH
-          splitConfigurationId: SCNF4224P22322585HPCX384JV6JGX
-    patch-stores-storeId-terminalLogos-upload-logo:
-      summary: Upload terminal logo
-      description: Example request to upload a payment terminal logo
-      value:
-        data: LOGO_FILE_CONVERTED_TO_A_BASE-64_ENCODED_STRING
-    get-stores-storeId-success-200:
-      summary: Response code - 200 OK
-      description: Example response when getting the details of a store
-      value:
-        id: ST322LJ223223K5F4SQNR9XL5
-        address:
-          city: Springfield
-          country: US
-          line1: 200 Main Street
-          line2: Building 5A
-          line3: Suite 3
-          postalCode: '20250'
-          stateOrProvince: NY
-        description: City centre store
-        merchantId: YOUR_MERCHANT_ACCOUNT_ID
-        phoneNumber: '+1813702551707653'
-        reference: Springfield Shop
-        status: active
-        _links:
-          self:
-            href: https://management-test.adyen.com/v1/stores/ST322LJ223223K5F4SQNR9XL5
-    patch-stores-storeId-patch-stores:
-      summary: Update store address.
-      description: Example request to update the address of a store
-      value:
-        address:
-          line1: 1776 West Pinewood Avenue
-          line2: Heartland Building
-          line3: ''
-          postalCode: '20251'
     patch-stores-storeId-terminalLogos-remove-logo-200:
       summary: Response code - 200 OK
       description: Example response for removing a payment terminal logo to restore the logo from a higher level
       value:
         data: LOGO_INHERITED_FROM_HIGHER_LEVEL_BASE-64_ENCODED_STRING
+    patch-stores-storeId-terminalLogos-upload-logo-200:
+      summary: Response code - 200 OK
+      description: Example response for uploading a payment terminal logo
+      value:
+        data: BASE-64_ENCODED_STRING_FROM_THE_REQUEST
     patch-stores-storeId-terminalSettings-add-eap-peap-and-psk-wifi-profiles-200:
       summary: Response code - 200 OK
       description: Example response for adding an EAP-PEAP Wi-Fi profile and a PSK Wi-Fi profile for a terminal
@@ -2457,6 +2261,213 @@ components:
           fromActiveToSleep: 30
         hardware:
           displayMaximumBackLight: 75
+    patch-stores-storeId-terminalSettings-add-eap-tls-wifi-profile-200:
+      summary: Response code - 200 OK
+      description: Example response for adding an EAP-TLS Wi-Fi profile for a terminal
+      value:
+        cardholderReceipt:
+          headerForAuthorizedReceipt: header1,header2,filler
+        gratuities:
+        - currency: EUR
+          usePredefinedTipEntries: true
+          predefinedTipEntries:
+          - '100'
+          - 1%
+          - 5%
+          allowCustomAmount: true
+        nexo:
+          displayUrls:
+            localUrls:
+            - password: BASIC_AUTH_PASSWORD
+              url: https://your-display-notifications-endpoint.com
+              username: BASIC_AUTH_USERNAME
+          encryptionKey:
+            identifier: KEY_IDENTIFIER
+            passphrase: KEY_PASSPHRASE
+            version: 1
+          eventUrls:
+            eventPublicUrls:
+            - password: BASIC_AUTH_PASSWORD
+              url: https://your-event-notifications-endpoint.com
+              username: BASIC_AUTH_USERNAME
+        opi:
+          enablePayAtTable: true
+          payAtTableStoreNumber: '1'
+          payAtTableURL: https:/your-pay-at-table-endpoint.com
+        offlineProcessing:
+          chipFloorLimit: 0
+        receiptOptions:
+          qrCodeData: http://www.example.com/order/${pspreference}/${merchantreference}
+        receiptPrinting:
+          shopperApproved: true
+          shopperRefused: true
+          shopperCancelled: true
+          shopperRefundApproved: true
+          shopperRefundRefused: true
+          shopperVoid: true
+        signature:
+          askSignatureOnScreen: true
+          skipSignature: false
+          deviceName: Amsterdam-236203386
+        wifiProfiles:
+          profiles:
+          - authType: wpa-eap
+            autoWifi: false
+            bssType: infra
+            channel: 0
+            defaultProfile: true
+            eap: tls
+            eapCaCert:
+              data: LS0tLS05M2JqRVFNQ...EUtLS0tLQo=
+              name: eap-tls-ca.pem
+            eapClientCert:
+              data: LS0tLS1CRUdJTiBDR...EUtLS0tLQo=
+              name: eap-tls-client.pem
+            eapClientKey:
+              data: AAAB3NzaC1...Rtah3KLFwPU=
+              name: rsa-private.key
+            eapClientPwd: ''
+            eapIdentity: admin
+            hiddenSsid: false
+            name: Profile-eap-tls-1
+            ssid: your-network
+            wsec: ccmp
+          settings:
+            band: 2.4GHz
+            roaming: true
+            timeout: 5
+        timeouts:
+          fromActiveToSleep: 30
+        hardware:
+          displayMaximumBackLight: 75
+    get-stores-success-200:
+      summary: Response code - 200 OK
+      description: Example response when getting a list of stores
+      value:
+        _links:
+          first:
+            href: https://management-test.adyen.com/v1/merchants/YOUR_MERCHANT_ACCOUNT_ID/stores?pageNumber=1&pageSize=1
+          last:
+            href: https://management-test.adyen.com/v1/merchants/YOUR_MERCHANT_ACCOUNT_ID/stores?pageNumber=2&pageSize=1
+          next:
+            href: https://management-test.adyen.com/v1/merchants/YOUR_MERCHANT_ACCOUNT_ID/stores?pageNumber=2&pageSize=1
+          self:
+            href: https://management-test.adyen.com/v1/merchants/YOUR_MERCHANT_ACCOUNT_ID/stores?pageNumber=1&pageSize=1
+        itemsTotal: 2
+        pagesTotal: 1
+        data:
+        - id: ST322LJ223223K5F4SQNR9XL5
+          address:
+            city: Springfield
+            country: US
+            line1: 200 Main Street
+            line2: Building 5A
+            line3: Suite 3
+            postalCode: '20250'
+            stateOrProvince: NY
+          description: City centre store
+          merchantId: YOUR_MERCHANT_ACCOUNT_ID
+          phoneNumber: '+1813702551707653'
+          reference: Springfield Shop
+          status: active
+          _links:
+            self:
+              href: https://management-test.adyen.com/v1/stores/ST322LJ223223K5F4SQNR9XL5
+        - id: ST322LJ223223K5F4SQNR9XL6
+          address:
+            city: North Madison
+            country: US
+            line1: 1492 Townline Road
+            line2: Rowland Business Park
+            postalCode: '20577'
+            stateOrProvince: NY
+          description: West location
+          merchantId: YOUR_MERCHANT_ACCOUNT_ID
+          phoneNumber: '+1211992213193020'
+          reference: Second Madison store
+          status: active
+          _links:
+            self:
+              href: https://management-test.adyen.com/v1/stores/ST322LJ223223K5F4SQNR9XL6
+    patch-stores-storeId-patch-stores-200:
+      summary: Response code - 200 OK
+      description: Example response after updating a store
+      value:
+        id: YOUR_STORE_ID
+        address:
+          country: US
+          line1: 1776 West Pinewood Avenue
+          line2: Heartland Building
+          line3: ''
+          city: Springfield
+          stateOrProvince: NY
+          postalCode: '20251'
+        description: City centre store
+        merchantId: YOUR_MERCHANT_ACCOUNT_ID
+        shopperStatement: Springfield Shop
+        phoneNumber: '+1813702551707653'
+        reference: Spring_store_2
+        status: active
+        _links:
+          self:
+            href: https://management-test.adyen.com/v1/stores/YOUR_STORE_ID
+    patch-stores-storeId-terminalLogos-remove-logo:
+      summary: Remove logo to restore the logo from a higher level
+      description: Example request to remove the payment terminal logo configured at the current level, and inherit the logo from a higher level
+      value:
+        data: ''
+    get-stores-storeId-terminalLogos-success-200:
+      summary: Response code - 200 OK
+      description: Example response when getting the logo of a payment terminal
+      value:
+        data: BASE-64_ENCODED_STRING
+    patch-stores-storeId-patch-stores:
+      summary: Update store address.
+      description: Example request to update the address of a store
+      value:
+        address:
+          line1: 1776 West Pinewood Avenue
+          line2: Heartland Building
+          line3: ''
+          postalCode: '20251'
+    post-stores-post-stores:
+      summary: Create a store
+      description: Example request to create a store
+      value:
+        merchantId: YOUR_MERCHANT_ACCOUNT_ID
+        description: City centre store
+        shopperStatement: Springfield Shop
+        phoneNumber: '+1813702551707653'
+        reference: Spring_store_2
+        address:
+          country: US
+          line1: 200 Main Street
+          line2: Building 5A
+          line3: Suite 3
+          city: Springfield
+          stateOrProvince: NY
+          postalCode: '20250'
+    get-stores-storeId-success-200:
+      summary: Response code - 200 OK
+      description: Example response when getting the details of a store
+      value:
+        id: ST322LJ223223K5F4SQNR9XL5
+        address:
+          city: Springfield
+          country: US
+          line1: 200 Main Street
+          line2: Building 5A
+          line3: Suite 3
+          postalCode: '20250'
+          stateOrProvince: NY
+        description: City centre store
+        merchantId: YOUR_MERCHANT_ACCOUNT_ID
+        phoneNumber: '+1813702551707653'
+        reference: Springfield Shop
+        status: active
+        _links:
+          self:
+            href: https://management-test.adyen.com/v1/stores/ST322LJ223223K5F4SQNR9XL5
     patch-stores-storeId-terminalSettings-add-eap-peap-and-psk-wifi-profiles:
       summary: Add EAP-PEAP and PSK Wi-Fi profiles
       description: Example request to add an EAP-PEAP Wi-Fi profile and a PSK Wi-Fi profile for a terminal
@@ -2489,6 +2500,49 @@ components:
             hiddenSsid: false
             name: Profile-guest-wifi
             psk: WIFI_PASSWORD
+            ssid: your-network
+            wsec: ccmp
+          settings:
+            band: 2.4GHz
+            roaming: true
+            timeout: 5
+    patch-stores-storeId-terminalLogos-upload-logo:
+      summary: Upload terminal logo
+      description: Example request to upload a payment terminal logo
+      value:
+        data: LOGO_FILE_CONVERTED_TO_A_BASE-64_ENCODED_STRING
+    patch-stores-storeId-patch-stores-splitConfiguration:
+      summary: Add split configuration to store
+      description: Example request to add a split configuration to the store
+      value:
+        splitConfiguration:
+          balanceAccountId: BA3227C223222H5HQ2XX77VVH
+          splitConfigurationId: SCNF4224P22322585HPCX384JV6JGX
+    patch-stores-storeId-terminalSettings-add-eap-tls-wifi-profile:
+      summary: Add EAP-TLS Wi-Fi profile
+      description: Example request to add an EAP-TLS Wi-Fi profile for a terminal
+      value:
+        wifiProfiles:
+          profiles:
+          - authType: wpa-eap
+            autoWifi: false
+            bssType: infra
+            channel: 0
+            defaultProfile: true
+            eap: tls
+            eapCaCert:
+              data: LS0tLS05M2JqRVFNQ...EUtLS0tLQo=
+              name: eap-tls-ca.pem
+            eapClientCert:
+              data: LS0tLS1CRUdJTiBDR...EUtLS0tLQo=
+              name: eap-tls-client.pem
+            eapClientKey:
+              data: AAAB3NzaC1...Rtah3KLFwPU=
+              name: rsa-private.key
+            eapClientPwd: ''
+            eapIdentity: admin
+            hiddenSsid: false
+            name: Profile-eap-tls-1
             ssid: your-network
             wsec: ccmp
           settings:
@@ -2562,73 +2616,19 @@ components:
           fromActiveToSleep: 30
         hardware:
           displayMaximumBackLight: 75
-    get-stores-storeId-terminalLogos-success-200:
+    post-stores-post-stores-200:
       summary: Response code - 200 OK
-      description: Example response when getting the logo of a payment terminal
-      value:
-        data: BASE-64_ENCODED_STRING
-    get-stores-success-200:
-      summary: Response code - 200 OK
-      description: Example response when getting a list of stores
-      value:
-        _links:
-          first:
-            href: https://management-test.adyen.com/v1/merchants/YOUR_MERCHANT_ACCOUNT_ID/stores?pageNumber=1&pageSize=1
-          last:
-            href: https://management-test.adyen.com/v1/merchants/YOUR_MERCHANT_ACCOUNT_ID/stores?pageNumber=2&pageSize=1
-          next:
-            href: https://management-test.adyen.com/v1/merchants/YOUR_MERCHANT_ACCOUNT_ID/stores?pageNumber=2&pageSize=1
-          self:
-            href: https://management-test.adyen.com/v1/merchants/YOUR_MERCHANT_ACCOUNT_ID/stores?pageNumber=1&pageSize=1
-        itemsTotal: 2
-        pagesTotal: 1
-        data:
-        - id: ST322LJ223223K5F4SQNR9XL5
-          address:
-            city: Springfield
-            country: US
-            line1: 200 Main Street
-            line2: Building 5A
-            line3: Suite 3
-            postalCode: '20250'
-            stateOrProvince: NY
-          description: City centre store
-          merchantId: YOUR_MERCHANT_ACCOUNT_ID
-          phoneNumber: '+1813702551707653'
-          reference: Springfield Shop
-          status: active
-          _links:
-            self:
-              href: https://management-test.adyen.com/v1/stores/ST322LJ223223K5F4SQNR9XL5
-        - id: ST322LJ223223K5F4SQNR9XL6
-          address:
-            city: North Madison
-            country: US
-            line1: 1492 Townline Road
-            line2: Rowland Business Park
-            postalCode: '20577'
-            stateOrProvince: NY
-          description: West location
-          merchantId: YOUR_MERCHANT_ACCOUNT_ID
-          phoneNumber: '+1211992213193020'
-          reference: Second Madison store
-          status: active
-          _links:
-            self:
-              href: https://management-test.adyen.com/v1/stores/ST322LJ223223K5F4SQNR9XL6
-    patch-stores-storeId-patch-stores-200:
-      summary: Response code - 200 OK
-      description: Example response after updating a store
+      description: Example response after creating a store
       value:
         id: YOUR_STORE_ID
         address:
           country: US
-          line1: 1776 West Pinewood Avenue
-          line2: Heartland Building
-          line3: ''
+          line1: 200 Main Street
+          line2: Building 5A
+          line3: Suite 3
           city: Springfield
           stateOrProvince: NY
-          postalCode: '20251'
+          postalCode: '20250'
         description: City centre store
         merchantId: YOUR_MERCHANT_ACCOUNT_ID
         shopperStatement: Springfield Shop

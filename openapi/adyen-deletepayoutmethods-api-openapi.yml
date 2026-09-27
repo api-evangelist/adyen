@@ -138,6 +138,21 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    GenericResponse:
+      properties:
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+      type: object
     DeletePayoutMethodRequest:
       properties:
         accountHolderCode:
@@ -170,21 +185,6 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
-      type: object
-    GenericResponse:
-      properties:
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        resultCode:
-          description: The result code.
-          type: string
       type: object
     FieldType:
       properties:
@@ -375,6 +375,13 @@ components:
           $ref: '#/components/schemas/FieldType'
       type: object
   examples:
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
     generic-403:
       summary: Response code 401. Forbidden.
       value:
@@ -388,13 +395,6 @@ components:
         accountHolderCode: CODE_OF_ACCOUNT_HOLDER
         payoutMethodCodes:
         - 34b6ed22-3bae-483c-83b9-bc2097a75d40
-    generic-400:
-      summary: Response code 400. Bad Request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: I'
-        errorType: validation
   securitySchemes:
     ApiKeyAuth:
       in: header

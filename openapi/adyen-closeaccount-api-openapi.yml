@@ -141,6 +141,14 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    CloseAccountRequest:
+      properties:
+        accountCode:
+          description: The code of account to be closed.
+          type: string
+      required:
+      - accountCode
+      type: object
     ServiceError:
       properties:
         errorCode:
@@ -159,14 +167,6 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
-      type: object
-    CloseAccountRequest:
-      properties:
-        accountCode:
-          description: The code of account to be closed.
-          type: string
-      required:
-      - accountCode
       type: object
     FieldType:
       properties:
@@ -394,10 +394,6 @@ components:
         errorCode: '10_003'
         message: Failed to authorize user
         errorType: security
-    post-closeAccount-closeAccount:
-      summary: Close an account
-      value:
-        accountCode: CODE_OF_ACCOUNT
     generic-400:
       summary: Response code 400. Bad Request.
       value:
@@ -405,6 +401,10 @@ components:
         errorCode: '702'
         message: 'Unexpected input: I'
         errorType: validation
+    post-closeAccount-closeAccount:
+      summary: Close an account
+      value:
+        accountCode: CODE_OF_ACCOUNT
   securitySchemes:
     ApiKeyAuth:
       in: header

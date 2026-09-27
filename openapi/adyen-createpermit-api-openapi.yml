@@ -158,6 +158,17 @@ components:
       - recurringDetailReference
       - permits
       type: object
+    PermitResult:
+      properties:
+        resultKey:
+          x-addedInVersion: '32'
+          description: The key to link permit requests to permit results.
+          type: string
+        token:
+          x-addedInVersion: '32'
+          description: The permit token which is used to make payments by the partner company.
+          type: string
+      type: object
     ServiceError:
       properties:
         additionalData:
@@ -183,6 +194,18 @@ components:
           format: int32
           type: integer
       type: object
+    PermitRestriction:
+      properties:
+        maxAmount:
+          description: The total sum amount of one or more payments made using this permit may not exceed this amount if set.
+          $ref: '#/components/schemas/Amount'
+        singleTransactionLimit:
+          description: The amount of any single payment using this permit may not exceed this amount if set.
+          $ref: '#/components/schemas/Amount'
+        singleUse:
+          description: Only a single payment can be made using this permit if set to true, otherwise multiple payments are allowed.
+          type: boolean
+      type: object
     Permit:
       properties:
         partnerId:
@@ -201,29 +224,6 @@ components:
           description: The expiry date for this permit.
           format: date-time
           type: string
-      type: object
-    PermitResult:
-      properties:
-        resultKey:
-          x-addedInVersion: '32'
-          description: The key to link permit requests to permit results.
-          type: string
-        token:
-          x-addedInVersion: '32'
-          description: The permit token which is used to make payments by the partner company.
-          type: string
-      type: object
-    PermitRestriction:
-      properties:
-        maxAmount:
-          description: The total sum amount of one or more payments made using this permit may not exceed this amount if set.
-          $ref: '#/components/schemas/Amount'
-        singleTransactionLimit:
-          description: The amount of any single payment using this permit may not exceed this amount if set.
-          $ref: '#/components/schemas/Amount'
-        singleUse:
-          description: Only a single payment can be made using this permit if set to true, otherwise multiple payments are allowed.
-          type: boolean
       type: object
     Amount:
       properties:
