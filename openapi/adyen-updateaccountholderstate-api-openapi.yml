@@ -141,57 +141,18 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    UpdateAccountHolderStateRequest:
+    ErrorFieldType:
       properties:
-        accountHolderCode:
-          description: The code of the Account Holder on which to update the state.
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
           type: string
-        disable:
-          description: If true, disable the requested state.  If false, enable the requested state.
-          type: boolean
-        reason:
-          description: 'The reason that the state is being updated.
-
-            >Required if the state is being disabled.'
-          type: string
-        stateType:
-          description: 'The state to be updated.
-
-            >Permitted values are: `Processing`, `Payout`'
-          enum:
-          - LimitedPayout
-          - LimitedProcessing
-          - LimitlessPayout
-          - LimitlessProcessing
-          - Payout
-          - Processing
-          type: string
-      required:
-      - accountHolderCode
-      - stateType
-      - disable
-      type: object
-    GetAccountHolderStatusResponse:
-      properties:
-        accountHolderCode:
-          description: The code of the Account Holder.
-          type: string
-        accountHolderStatus:
-          x-addedInVersion: '2'
-          description: The status of the Account Holder.
-          $ref: '#/components/schemas/AccountHolderStatus'
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        resultCode:
-          description: The result code.
-          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
       type: object
     AccountPayoutState:
       properties:
@@ -216,45 +177,6 @@ components:
           description: The payout tier that the account holder occupies.
           format: int32
           type: integer
-      type: object
-    ServiceError:
-      properties:
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
-      type: object
-    AccountEvent:
-      properties:
-        event:
-          description: 'The event.
-
-            >Permitted values: `InactivateAccount`, `RefundNotPaidOutTransfers`.
-
-            For more information, refer to [Verification checks](https://docs.adyen.com/marketplaces-and-platforms/classic/verification-process).'
-          enum:
-          - InactivateAccount
-          - RefundNotPaidOutTransfers
-          type: string
-        executionDate:
-          description: The date on which the event will take place.
-          format: date-time
-          type: string
-        reason:
-          description: The reason why this event has been created.
-          type: string
       type: object
     AccountHolderStatus:
       properties:
@@ -284,6 +206,45 @@ components:
           type: string
       required:
       - status
+      type: object
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    AccountProcessingState:
+      properties:
+        disableReason:
+          description: The reason why processing has been disabled.
+          type: string
+        disabled:
+          description: Indicates whether the processing of payments is allowed.
+          type: boolean
+        processedFrom:
+          description: The lower bound of the processing tier (i.e., an account holder must have processed at least this amount of money in order to be placed into this tier).
+          $ref: '#/components/schemas/Amount'
+        processedTo:
+          description: The upper bound of the processing tier (i.e., an account holder must have processed less than this amount of money in order to be placed into this tier).
+          $ref: '#/components/schemas/Amount'
+        tierNumber:
+          x-addedInVersion: '3'
+          description: The processing tier that the account holder occupies.
+          format: int32
+          type: integer
       type: object
     FieldType:
       properties:
@@ -475,38 +436,77 @@ components:
       - value
       - currency
       type: object
-    AccountProcessingState:
+    UpdateAccountHolderStateRequest:
       properties:
-        disableReason:
-          description: The reason why processing has been disabled.
+        accountHolderCode:
+          description: The code of the Account Holder on which to update the state.
           type: string
-        disabled:
-          description: Indicates whether the processing of payments is allowed.
+        disable:
+          description: If true, disable the requested state.  If false, enable the requested state.
           type: boolean
-        processedFrom:
-          description: The lower bound of the processing tier (i.e., an account holder must have processed at least this amount of money in order to be placed into this tier).
-          $ref: '#/components/schemas/Amount'
-        processedTo:
-          description: The upper bound of the processing tier (i.e., an account holder must have processed less than this amount of money in order to be placed into this tier).
-          $ref: '#/components/schemas/Amount'
-        tierNumber:
-          x-addedInVersion: '3'
-          description: The processing tier that the account holder occupies.
-          format: int32
-          type: integer
-      type: object
-    ErrorFieldType:
-      properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
+        reason:
+          description: 'The reason that the state is being updated.
+
+            >Required if the state is being disabled.'
           type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
+        stateType:
+          description: 'The state to be updated.
+
+            >Permitted values are: `Processing`, `Payout`'
+          enum:
+          - LimitedPayout
+          - LimitedProcessing
+          - LimitlessPayout
+          - LimitlessProcessing
+          - Payout
+          - Processing
+          type: string
+      required:
+      - accountHolderCode
+      - stateType
+      - disable
+      type: object
+    GetAccountHolderStatusResponse:
+      properties:
+        accountHolderCode:
+          description: The code of the Account Holder.
+          type: string
+        accountHolderStatus:
+          x-addedInVersion: '2'
+          description: The status of the Account Holder.
+          $ref: '#/components/schemas/AccountHolderStatus'
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+      type: object
+    AccountEvent:
+      properties:
+        event:
+          description: 'The event.
+
+            >Permitted values: `InactivateAccount`, `RefundNotPaidOutTransfers`.
+
+            For more information, refer to [Verification checks](https://docs.adyen.com/marketplaces-and-platforms/classic/verification-process).'
+          enum:
+          - InactivateAccount
+          - RefundNotPaidOutTransfers
+          type: string
+        executionDate:
+          description: The date on which the event will take place.
+          format: date-time
+          type: string
+        reason:
+          description: The reason why this event has been created.
+          type: string
       type: object
   examples:
     generic-400:

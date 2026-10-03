@@ -151,6 +151,19 @@ components:
           description: Indicates whether [shareholder details](https://docs.adyen.com/marketplaces-and-platforms/classic/verification-checks/identity-check) must be collected. Defaults to **true**.
           type: boolean
       type: object
+    ErrorFieldType:
+      properties:
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
+      type: object
     GetOnboardingUrlResponse:
       properties:
         invalidFields:
@@ -422,26 +435,7 @@ components:
           description: Indicates whether the welcome page must be shown. Defaults to **false**.
           type: boolean
       type: object
-    ErrorFieldType:
-      properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
-          type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
-      type: object
   examples:
-    post-getOnboardingUrl-get-onboarding-url:
-      summary: Get a hosted onboarding page link
-      description: Returns a link to an Adyen-hosted onboarding page (HOP) that you can send to your account holder.
-      value:
-        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
-        returnUrl: https://your.return-url.com/?submerchant=123
     post-getOnboardingUrl-get-onboarding-url-200:
       summary: Hosted onboarding page link
       description: Example response for requesting a hosted onboarding page link
@@ -450,6 +444,12 @@ components:
         pspReference: '9115677600500127'
         resultCode: Success
         redirectUrl: https://hop-test.adyen.com/hop/view/?token=<token>
+    post-getOnboardingUrl-get-onboarding-url:
+      summary: Get a hosted onboarding page link
+      description: Returns a link to an Adyen-hosted onboarding page (HOP) that you can send to your account holder.
+      value:
+        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
+        returnUrl: https://your.return-url.com/?submerchant=123
   securitySchemes:
     ApiKeyAuth:
       in: header

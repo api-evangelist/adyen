@@ -151,6 +151,49 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    SetupBeneficiaryRequest:
+      properties:
+        destinationAccountCode:
+          description: The destination account code.
+          type: string
+        merchantReference:
+          description: A value that can be supplied at the discretion of the executing user.
+          type: string
+        sourceAccountCode:
+          description: The benefactor account.
+          type: string
+      required:
+      - sourceAccountCode
+      - destinationAccountCode
+      type: object
+    ErrorFieldType:
+      properties:
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
+      type: object
+    SetupBeneficiaryResponse:
+      properties:
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+      type: object
     ServiceError:
       properties:
         errorCode:
@@ -169,21 +212,6 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
-      type: object
-    SetupBeneficiaryRequest:
-      properties:
-        destinationAccountCode:
-          description: The destination account code.
-          type: string
-        merchantReference:
-          description: A value that can be supplied at the discretion of the executing user.
-          type: string
-        sourceAccountCode:
-          description: The benefactor account.
-          type: string
-      required:
-      - sourceAccountCode
-      - destinationAccountCode
       type: object
     FieldType:
       properties:
@@ -358,34 +386,6 @@ components:
           type: string
         shareholderCode:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
-          type: string
-      type: object
-    ErrorFieldType:
-      properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
-          type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
-      type: object
-    SetupBeneficiaryResponse:
-      properties:
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        resultCode:
-          description: The result code.
           type: string
       type: object
   examples:

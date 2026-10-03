@@ -148,6 +148,27 @@ components:
         merchantAccount: YOUR_MERCHANT_ACCOUNT
         originalReference: '9913140798220028'
   schemas:
+    ModifyResponse:
+      properties:
+        additionalData:
+          additionalProperties:
+            type: string
+          description: This field contains additional data, which may be returned in a particular response.
+          type: object
+        pspReference:
+          description: Adyen's 16-character string reference associated with the transaction. This value is globally unique; quote it when communicating with us about this response.
+          type: string
+        response:
+          description: 'The response:
+
+            * In case of success, it is either `payout-confirm-received` or `payout-decline-received`.
+
+            * In case of an error, an informational message is returned.'
+          type: string
+      required:
+      - pspReference
+      - response
+      type: object
     ModifyRequest:
       properties:
         additionalData:
@@ -189,27 +210,6 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
-      type: object
-    ModifyResponse:
-      properties:
-        additionalData:
-          additionalProperties:
-            type: string
-          description: This field contains additional data, which may be returned in a particular response.
-          type: object
-        pspReference:
-          description: Adyen's 16-character string reference associated with the transaction. This value is globally unique; quote it when communicating with us about this response.
-          type: string
-        response:
-          description: 'The response:
-
-            * In case of success, it is either `payout-confirm-received` or `payout-decline-received`.
-
-            * In case of an error, an informational message is returned.'
-          type: string
-      required:
-      - pspReference
-      - response
       type: object
   securitySchemes:
     ApiKeyAuth:

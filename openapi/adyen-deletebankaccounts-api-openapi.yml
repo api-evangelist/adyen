@@ -137,21 +137,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    GenericResponse:
-      properties:
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        resultCode:
-          description: The result code.
-          type: string
-      type: object
     DeleteBankAccountRequest:
       properties:
         accountHolderCode:
@@ -165,6 +150,19 @@ components:
       required:
       - accountHolderCode
       - bankAccountUUIDs
+      type: object
+    ErrorFieldType:
+      properties:
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
       type: object
     ServiceError:
       properties:
@@ -360,26 +358,22 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    ErrorFieldType:
+    GenericResponse:
       properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
           type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
+        resultCode:
+          description: The result code.
+          type: string
       type: object
   examples:
-    post-deleteBankAccounts-basic:
-      summary: Delete bank accounts
-      value:
-        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
-        bankAccountUUIDs:
-        - eeb6ed22-3bae-483c-83b9-bc2097a75d40
     generic-400:
       summary: Response code 400. Bad Request.
       value:
@@ -387,6 +381,12 @@ components:
         errorCode: '702'
         message: 'Unexpected input: I'
         errorType: validation
+    post-deleteBankAccounts-basic:
+      summary: Delete bank accounts
+      value:
+        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
+        bankAccountUUIDs:
+        - eeb6ed22-3bae-483c-83b9-bc2097a75d40
     generic-403:
       summary: Response code 401. Forbidden.
       value:

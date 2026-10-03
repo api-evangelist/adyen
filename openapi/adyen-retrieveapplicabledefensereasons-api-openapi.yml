@@ -129,6 +129,52 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    DefenseDocumentType:
+      properties:
+        available:
+          description: When **true**, you've successfully uploaded this type of defense document. When **false**, you haven't uploaded this defense document type.
+          type: boolean
+        defenseDocumentTypeCode:
+          description: The document type code of the defense document.
+          type: string
+        requirementLevel:
+          description: "Indicates to what extent the defense document is required in the defense process.\n\nPossible values: \n\n* **Required**: You must supply the document.\n\n * **OneOrMore**: You must supply at least one of the documents with this label.\n\n* **Optional**: You can choose to supply the document.\n\n* **AlternativeRequired**: You must supply a generic defense document. To enable this functionality, contact our Support Team. When enabled, you can supply a generic defense document for all schemes."
+          type: string
+      required:
+      - defenseDocumentTypeCode
+      - requirementLevel
+      - available
+      type: object
+    DisputeServiceResult:
+      properties:
+        errorMessage:
+          description: The general error message.
+          type: string
+        success:
+          description: Indicates whether the request succeeded.
+          type: boolean
+      required:
+      - success
+      type: object
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
     DefenseReasonsResponse:
       properties:
         defenseReasons:
@@ -158,52 +204,6 @@ components:
       required:
       - defenseReasonCode
       - satisfied
-      type: object
-    ServiceError:
-      properties:
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
-      type: object
-    DefenseDocumentType:
-      properties:
-        available:
-          description: When **true**, you've successfully uploaded this type of defense document. When **false**, you haven't uploaded this defense document type.
-          type: boolean
-        defenseDocumentTypeCode:
-          description: The document type code of the defense document.
-          type: string
-        requirementLevel:
-          description: "Indicates to what extent the defense document is required in the defense process.\n\nPossible values: \n\n* **Required**: You must supply the document.\n\n * **OneOrMore**: You must supply at least one of the documents with this label.\n\n* **Optional**: You can choose to supply the document.\n\n* **AlternativeRequired**: You must supply a generic defense document. To enable this functionality, contact our Support Team. When enabled, you can supply a generic defense document for all schemes."
-          type: string
-      required:
-      - defenseDocumentTypeCode
-      - requirementLevel
-      - available
-      type: object
-    DisputeServiceResult:
-      properties:
-        errorMessage:
-          description: The general error message.
-          type: string
-        success:
-          description: Indicates whether the request succeeded.
-          type: boolean
-      required:
-      - success
       type: object
     DefenseReasonsRequest:
       properties:

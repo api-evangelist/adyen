@@ -131,6 +131,59 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    CreateTestCardRangesRequest:
+      properties:
+        accountCode:
+          description: The code of the account, for which the test card ranges should be created.
+          type: string
+        accountTypeCode:
+          description: 'The type of the account, for which the test card ranges should be created.
+
+
+            Permitted values:
+
+            * Company
+
+            * MerchantAccount
+
+            > These values are case-sensitive.'
+          type: string
+        testCardRanges:
+          description: A list of test card ranges to create.
+          items:
+            $ref: '#/components/schemas/TestCardRange'
+          type: array
+      required:
+      - accountTypeCode
+      - accountCode
+      - testCardRanges
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+    CreateTestCardRangesResult:
+      properties:
+        rangeCreationResults:
+          description: The results of the test card creation.
+          items:
+            $ref: '#/components/schemas/TestCardRangeCreationResult'
+          type: array
+      required:
+      - rangeCreationResults
     TestCardRangeCreationResult:
       properties:
         cardNumberRangeEnd:
@@ -165,40 +218,6 @@ components:
       - cardNumberRangeStart
       - cardNumberRangeEnd
       - creationResultCode
-    AvsAddress:
-      properties:
-        streetAddress:
-          description: 'The street and house number of the address.
-
-
-            Example: 1 Infinite Loop, Cupertino.'
-          type: string
-        zip:
-          description: 'The zip or post code of the address.
-
-
-            Example: CA 95014'
-          type: string
-      required:
-      - streetAddress
-    ServiceError:
-      properties:
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
     TestCardRange:
       properties:
         address:
@@ -309,41 +328,22 @@ components:
       - expiryMonth
       - expiryYear
       - cardHolderName
-    CreateTestCardRangesRequest:
+    AvsAddress:
       properties:
-        accountCode:
-          description: The code of the account, for which the test card ranges should be created.
+        streetAddress:
+          description: 'The street and house number of the address.
+
+
+            Example: 1 Infinite Loop, Cupertino.'
           type: string
-        accountTypeCode:
-          description: 'The type of the account, for which the test card ranges should be created.
+        zip:
+          description: 'The zip or post code of the address.
 
 
-            Permitted values:
-
-            * Company
-
-            * MerchantAccount
-
-            > These values are case-sensitive.'
+            Example: CA 95014'
           type: string
-        testCardRanges:
-          description: A list of test card ranges to create.
-          items:
-            $ref: '#/components/schemas/TestCardRange'
-          type: array
       required:
-      - accountTypeCode
-      - accountCode
-      - testCardRanges
-    CreateTestCardRangesResult:
-      properties:
-        rangeCreationResults:
-          description: The results of the test card creation.
-          items:
-            $ref: '#/components/schemas/TestCardRangeCreationResult'
-          type: array
-      required:
-      - rangeCreationResults
+      - streetAddress
   securitySchemes:
     ApiKeyAuth:
       in: header

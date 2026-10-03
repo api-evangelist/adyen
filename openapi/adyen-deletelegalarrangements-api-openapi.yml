@@ -138,97 +138,7 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  examples:
-    post-deleteLegalArrangements-entities-200:
-      summary: Legal arrangement entities deleted
-      value:
-        invalidFields: []
-        pspReference: '8816080397613514'
-    post-deleteLegalArrangements-entities-400:
-      summary: Response code 400. Bad Request.
-      value:
-        invalidFields:
-        - errorCode: 34
-          errorDescription: An invalid legalArrangementEntityCode code is provided for value 'c92bb932-4867-4cef-bf9d-4ecde37745cf'
-          fieldType:
-            field: AccountHolderDetails.LegalArrangements.LegalArrangementsEntities.legalArrangementEntityCode
-            fieldName: legalArrangementEntityCode
-        pspReference: '9916613324987358'
-    post-deleteLegalArrangements-arrangements:
-      summary: Delete legal arrangements
-      description: Example request for deleting legal arrangements
-      value:
-        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
-        legalArrangements:
-        - legalArrangementCode: cdf92f5a-a114-4ce6-8f19-c3f6ec83141c
-    generic-403:
-      summary: Response code 401. Forbidden.
-      value:
-        status: 403
-        errorCode: '10_003'
-        message: Failed to authorize user
-        errorType: security
-    generic-400:
-      summary: Response code 400. Bad Request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: I'
-        errorType: validation
-    post-deleteLegalArrangements-entities:
-      summary: Delete legal arrangement entities
-      description: Example request for deleting legal arrangement entities
-      value:
-        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
-        legalArrangements:
-        - legalArrangementCode: cdf92f5a-a114-4ce6-8f19-c3f6ec83141c
-          legalArrangementEntityCodes:
-          - 755881d3-d6b0-4b34-8ace-1caceb8add63
-    post-deleteLegalArrangements-arrangements-200:
-      summary: Legal arrangement deleted
-      value:
-        invalidFields: []
-        pspReference: '8816080397613514'
-    post-deleteLegalArrangements-arrangements-400:
-      summary: Response code 400. Bad Request.
-      value:
-        invalidFields:
-        - errorCode: 34
-          errorDescription: An invalid legalArrangementCode code is provided for value 'cdf92f5a-a114-4ce6-8f19-c3f6ec83141c'
-          fieldType:
-            field: AccountHolderDetails.LegalArrangements.legalArrangementCode
-            fieldName: legalArrangementCode
-        pspReference: '9916613322577326'
   schemas:
-    GenericResponse:
-      properties:
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        resultCode:
-          description: The result code.
-          type: string
-      type: object
-    DeleteLegalArrangementRequest:
-      properties:
-        accountHolderCode:
-          description: The code of the account holder.
-          type: string
-        legalArrangements:
-          description: List of legal arrangements.
-          items:
-            $ref: '#/components/schemas/LegalArrangementRequest'
-          type: array
-      required:
-      - accountHolderCode
-      - legalArrangements
-      type: object
     ErrorFieldType:
       properties:
         errorCode:
@@ -436,6 +346,20 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
+    DeleteLegalArrangementRequest:
+      properties:
+        accountHolderCode:
+          description: The code of the account holder.
+          type: string
+        legalArrangements:
+          description: List of legal arrangements.
+          items:
+            $ref: '#/components/schemas/LegalArrangementRequest'
+          type: array
+      required:
+      - accountHolderCode
+      - legalArrangements
+      type: object
     LegalArrangementRequest:
       properties:
         legalArrangementCode:
@@ -449,6 +373,82 @@ components:
       required:
       - legalArrangementCode
       type: object
+    GenericResponse:
+      properties:
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+      type: object
+  examples:
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
+    post-deleteLegalArrangements-entities:
+      summary: Delete legal arrangement entities
+      description: Example request for deleting legal arrangement entities
+      value:
+        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
+        legalArrangements:
+        - legalArrangementCode: cdf92f5a-a114-4ce6-8f19-c3f6ec83141c
+          legalArrangementEntityCodes:
+          - 755881d3-d6b0-4b34-8ace-1caceb8add63
+    generic-403:
+      summary: Response code 401. Forbidden.
+      value:
+        status: 403
+        errorCode: '10_003'
+        message: Failed to authorize user
+        errorType: security
+    post-deleteLegalArrangements-arrangements-400:
+      summary: Response code 400. Bad Request.
+      value:
+        invalidFields:
+        - errorCode: 34
+          errorDescription: An invalid legalArrangementCode code is provided for value 'cdf92f5a-a114-4ce6-8f19-c3f6ec83141c'
+          fieldType:
+            field: AccountHolderDetails.LegalArrangements.legalArrangementCode
+            fieldName: legalArrangementCode
+        pspReference: '9916613322577326'
+    post-deleteLegalArrangements-entities-400:
+      summary: Response code 400. Bad Request.
+      value:
+        invalidFields:
+        - errorCode: 34
+          errorDescription: An invalid legalArrangementEntityCode code is provided for value 'c92bb932-4867-4cef-bf9d-4ecde37745cf'
+          fieldType:
+            field: AccountHolderDetails.LegalArrangements.LegalArrangementsEntities.legalArrangementEntityCode
+            fieldName: legalArrangementEntityCode
+        pspReference: '9916613324987358'
+    post-deleteLegalArrangements-arrangements:
+      summary: Delete legal arrangements
+      description: Example request for deleting legal arrangements
+      value:
+        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
+        legalArrangements:
+        - legalArrangementCode: cdf92f5a-a114-4ce6-8f19-c3f6ec83141c
+    post-deleteLegalArrangements-entities-200:
+      summary: Legal arrangement entities deleted
+      value:
+        invalidFields: []
+        pspReference: '8816080397613514'
+    post-deleteLegalArrangements-arrangements-200:
+      summary: Legal arrangement deleted
+      value:
+        invalidFields: []
+        pspReference: '8816080397613514'
   securitySchemes:
     ApiKeyAuth:
       in: header

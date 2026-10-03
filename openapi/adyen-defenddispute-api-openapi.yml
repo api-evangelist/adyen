@@ -128,19 +128,18 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  examples:
-    post-defendDispute-defend-dispute-200:
-      summary: Dispute defended
-      value:
-        disputeServiceResult:
-          success: true
-    post-defendDispute-defend-dispute:
-      summary: Defend a dispute
-      value:
-        defenseReasonCode: SupplyDefenseMaterial
-        disputePspReference: DZ4DPSHB4WD2WN82
-        merchantAccountCode: YOUR_MERCHANT_ACCOUNT
   schemas:
+    DisputeServiceResult:
+      properties:
+        errorMessage:
+          description: The general error message.
+          type: string
+        success:
+          description: Indicates whether the request succeeded.
+          type: boolean
+      required:
+      - success
+      type: object
     ServiceError:
       properties:
         errorCode:
@@ -176,17 +175,6 @@ components:
       - disputePspReference
       - defenseReasonCode
       type: object
-    DisputeServiceResult:
-      properties:
-        errorMessage:
-          description: The general error message.
-          type: string
-        success:
-          description: Indicates whether the request succeeded.
-          type: boolean
-      required:
-      - success
-      type: object
     DefendDisputeResponse:
       properties:
         disputeServiceResult:
@@ -195,6 +183,18 @@ components:
       required:
       - disputeServiceResult
       type: object
+  examples:
+    post-defendDispute-defend-dispute-200:
+      summary: Dispute defended
+      value:
+        disputeServiceResult:
+          success: true
+    post-defendDispute-defend-dispute:
+      summary: Defend a dispute
+      value:
+        defenseReasonCode: SupplyDefenseMaterial
+        disputePspReference: DZ4DPSHB4WD2WN82
+        merchantAccountCode: YOUR_MERCHANT_ACCOUNT
   securitySchemes:
     ApiKeyAuth:
       in: header

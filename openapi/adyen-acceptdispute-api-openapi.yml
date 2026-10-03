@@ -129,17 +129,28 @@ paths:
         dispatcher: FALLBACK
 components:
   examples:
-    post-acceptDispute-accept-dispute:
-      summary: Accept a dispute
-      value:
-        disputePspReference: DZ4DPSHB4WD2WN82
-        merchantAccountCode: YOUR_MERCHANT_ACCOUNT
     post-acceptDispute-accept-dispute-200:
       summary: Dispute accepted
       value:
         disputeServiceResult:
           success: true
+    post-acceptDispute-accept-dispute:
+      summary: Accept a dispute
+      value:
+        disputePspReference: DZ4DPSHB4WD2WN82
+        merchantAccountCode: YOUR_MERCHANT_ACCOUNT
   schemas:
+    DisputeServiceResult:
+      properties:
+        errorMessage:
+          description: The general error message.
+          type: string
+        success:
+          description: Indicates whether the request succeeded.
+          type: boolean
+      required:
+      - success
+      type: object
     ServiceError:
       properties:
         errorCode:
@@ -170,17 +181,6 @@ components:
       required:
       - merchantAccountCode
       - disputePspReference
-      type: object
-    DisputeServiceResult:
-      properties:
-        errorMessage:
-          description: The general error message.
-          type: string
-        success:
-          description: Indicates whether the request succeeded.
-          type: boolean
-      required:
-      - success
       type: object
     AcceptDisputeResponse:
       properties:

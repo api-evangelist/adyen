@@ -56,264 +56,32 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ErrorCondition:
-      type: string
-      enum:
-      - Aborted
-      - Busy
-      - Cancel
-      - DeviceOut
-      - InProgress
-      - InsertedCard
-      - InvalidCard
-      - LoggedOut
-      - MessageFormat
-      - NotAllowed
-      - NotFound
-      - PaymentRestriction
-      - Refusal
-      - UnavailableDevice
-      - UnavailableService
-      - UnreachableHost
-      - WrongPIN
-    PaymentAcquirerData:
+    PaymentTransaction:
       type: object
-      description: Data related to the response from the payment Acquirer.
       properties:
-        AcquirerID:
+        AmountsReq:
+          $ref: '#/components/schemas/AmountsReq'
+        OriginalPOITransaction:
+          $ref: '#/components/schemas/OriginalPOITransaction'
+        TransactionConditions:
+          $ref: '#/components/schemas/TransactionConditions'
+        SaleItem:
+          type: array
+          items:
+            $ref: '#/components/schemas/SaleItem'
+      required:
+      - AmountsReq
+    SensitiveMobileData:
+      type: object
+      properties:
+        MSISDN:
           type: integer
-          description: If several Acquirers.
-        MerchantID:
-          type: string
-          pattern: ^.+$
-          description: Identification of the Merchant for the Acquirer.
-        AcquirerPOIID:
-          type: string
-          pattern: ^.+$
-          description: Identification of the POI for the payment Acquirer.
-        AcquirerTransactionID:
-          $ref: '#/components/schemas/TransactionIDType'
-        ApprovalCode:
-          type: string
-          pattern: ^.+$
-          description: If available.
-        HostReconciliationID:
-          type: string
-          pattern: ^.+$
+        ISMI:
+          type: integer
+        IMEI:
+          type: integer
       required:
-      - MerchantID
-      - AcquirerPOIID
-    LoyaltyResult:
-      type: object
-      description: In the Message Response, the result of each loyalty brand transaction. Data related to the result of a processed loyalty transaction.
-      properties:
-        LoyaltyAccount:
-          $ref: '#/components/schemas/LoyaltyAccount'
-        CurrentBalance:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-          description: if known (provided by the card or an external host).
-        LoyaltyAmount:
-          $ref: '#/components/schemas/LoyaltyAmount'
-        LoyaltyAcquirerData:
-          $ref: '#/components/schemas/LoyaltyAcquirerData'
-        Rebates:
-          $ref: '#/components/schemas/Rebates'
-      required:
-      - LoyaltyAccount
-    LoyaltyData:
-      type: object
-      description: In the Payment, Loyalty or Balance Inquiry Request message, it allows the Sale Terminal to send the identification of the loyalty account or an awarded amount or an amount to redeem to the loyalty account. Data related to a Loyalty program or account.
-      properties:
-        CardAcquisitionReference:
-          $ref: '#/components/schemas/TransactionIDType'
-        LoyaltyAccountID:
-          $ref: '#/components/schemas/LoyaltyAccountID'
-        LoyaltyAmount:
-          $ref: '#/components/schemas/LoyaltyAmount'
-    TransactionIDType:
-      type: object
-      description: Identification of a transaction for the Sale System or the POI System.
-      properties:
-        TransactionID:
-          type: string
-          pattern: ^.+$
-        TimeStamp:
-          type: string
-          format: date-time
-      required:
-      - TransactionID
-      - TimeStamp
-    CapturedSignature:
-      type: object
-      properties:
-        AreaSize:
-          $ref: '#/components/schemas/AreaSize'
-        SignaturePoint:
-          type: array
-          items:
-            $ref: '#/components/schemas/Point'
-    CustomerOrder:
-      type: object
-      description: Customer order attached to a customer, recorded in the POI system.  Allows the management of customer orders by the POI, for instance in a multi-channel or a click and collect sale transaction.
-      properties:
-        CustomerOrderID:
-          type: string
-          pattern: ^.+$
-          description: Additional and optional identification of a customer order.
-        SaleReferenceID:
-          type: string
-          pattern: ^.+$
-        OpenOrderState:
-          type: boolean
-          default: true
-        StartDate:
-          type: string
-          format: date-time
-          description: Date time of the beginning of an operation.
-        EndDate:
-          type: string
-          format: date-time
-          description: Date time of the end of an operation.
-        ForecastedAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        CurrentAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-          description: Total amount of all completed transactions of a customer order.
-        Currency:
-          type: string
-          pattern: ^[A-Z]{3,3}$
-          description: Currency of a monetary amount.
-        AccessedBy:
-          type: string
-          pattern: ^.+$
-        AdditionalInformation:
-          type: string
-          pattern: ^.+$
-          description: Unqualified information.
-      required:
-      - SaleReferenceID
-      - StartDate
-      - ForecastedAmount
-      - CurrentAmount
-    LoyaltyAcquirerData:
-      type: object
-      properties:
-        LoyaltyAcquirerID:
-          type: string
-          pattern: ^.+$
-        ApprovalCode:
-          type: string
-          pattern: ^.+$
-        LoyaltyTransactionID:
-          $ref: '#/components/schemas/TransactionIDType'
-        HostReconciliationID:
-          type: string
-          pattern: ^.+$
-    CurrencyConversion:
-      type: object
-      description: A currency conversion occurred in the payment, and the merchant needs to know information related to this conversion (e.g. to print on the sale receipt). Information related to a currency conversion.
-      properties:
-        CustomerApprovedFlag:
-          type: boolean
-          default: true
-          description: Notify if the customer has approved something. Indicates if the customer has accepted a currency conversion.
-        ConvertedAmount:
-          $ref: '#/components/schemas/ConvertedAmount'
-        Rate:
-          type: string
-          description: Rate of currency conversion.
-        Markup:
-          type: string
-          description: Markup of a currency conversion amount as a percentage.
-        Commission:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-          description: Commission for a currency conversion.
-        Declaration:
-          type: string
-          pattern: ^.+$
-          description: If a declaration has to be presented to the customer.
-      required:
-      - ConvertedAmount
-    AmountsResp:
-      type: object
-      properties:
-        Currency:
-          type: string
-          pattern: ^[A-Z]{3,3}$
-        AuthorizedAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        TotalRebatesAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        TotalFeesAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        CashBackAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        TipAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-      required:
-      - AuthorizedAmount
-    CustomerOrderReq:
-      type: array
-      items:
-        type: string
-        enum:
-        - Both
-        - Closed
-        - Open
-    PaymentInstrumentType:
-      type: string
-      enum:
-      - Card
-      - Cash
-      - Check
-      - Mobile
-      - StoredValue
-    PaymentResponse:
-      type: object
-      description: It conveys Information related to the Payment transaction processed by the POI System. Content of the Payment Response message.
-      properties:
-        Response:
-          $ref: '#/components/schemas/Response'
-        SaleData:
-          $ref: '#/components/schemas/SaleData'
-        POIData:
-          $ref: '#/components/schemas/POIData'
-        PaymentResult:
-          $ref: '#/components/schemas/PaymentResult'
-        LoyaltyResult:
-          type: array
-          items:
-            $ref: '#/components/schemas/LoyaltyResult'
-        PaymentReceipt:
-          type: array
-          items:
-            $ref: '#/components/schemas/PaymentReceipt'
-        CustomerOrder:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomerOrder'
-      required:
-      - Response
-      - SaleData
-      - POIData
+      - MSISDN
     PaymentResult:
       type: object
       properties:
@@ -349,121 +117,200 @@ components:
           format: date
         PaymentAcquirerData:
           $ref: '#/components/schemas/PaymentAcquirerData'
+    PeriodUnit:
+      type: string
+      enum:
+      - Annual
+      - Daily
+      - Monthly
+      - Weekly
+    TypeCode:
+      type: string
+      enum:
+      - Company
+      - Personal
+    TokenRequestedType:
+      type: string
+      enum:
+      - Customer
+      - Transaction
+    PaymentResponse:
+      type: object
+      description: It conveys Information related to the Payment transaction processed by the POI System. Content of the Payment Response message.
+      properties:
+        Response:
+          $ref: '#/components/schemas/Response'
+        SaleData:
+          $ref: '#/components/schemas/SaleData'
+        POIData:
+          $ref: '#/components/schemas/POIData'
+        PaymentResult:
+          $ref: '#/components/schemas/PaymentResult'
+        LoyaltyResult:
+          type: array
+          items:
+            $ref: '#/components/schemas/LoyaltyResult'
+        PaymentReceipt:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentReceipt'
+        CustomerOrder:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerOrder'
+      required:
+      - Response
+      - SaleData
+      - POIData
+    AmountsResp:
+      type: object
+      properties:
+        Currency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+        AuthorizedAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        TotalRebatesAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        TotalFeesAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        CashBackAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        TipAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+      required:
+      - AuthorizedAmount
+    AmountsReq:
+      type: object
+      description: Amounts of a payment
+      properties:
+        Currency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+        RequestedAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        CashBackAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        TipAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        PaidAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        MinimumAmountToDeliver:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        MaximumCashBackAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        MinimumSplitAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+      required:
+      - Currency
+      - RequestedAmount
+    TransactionIDType:
+      type: object
+      description: Identification of a transaction for the Sale System or the POI System.
+      properties:
+        TransactionID:
+          type: string
+          pattern: ^.+$
+        TimeStamp:
+          type: string
+          format: date-time
+      required:
+      - TransactionID
+      - TimeStamp
+    OutputFormat:
+      type: string
+      enum:
+      - BarCode
+      - MessageRef
+      - Text
+      - XHTML
+    CheckData:
+      type: object
+      description: Allows the check information to be provided by the Sale System before requesting the payment, or stored by the Sale System after processing of the payment. Information related to the paper check used for the transaction.
+      properties:
+        BankID:
+          type: string
+          pattern: ^.+$
+          description: Mandatory if TrackData absent.
+        AccountNumber:
+          type: string
+          pattern: ^.+$
+          description: Mandatory if TrackData absent.
+        CheckNumber:
+          type: string
+          pattern: ^.+$
+          description: Mandatory if TrackData absent.
+        TrackData:
+          $ref: '#/components/schemas/TrackData'
+        CheckCardNumber:
+          type: string
+          pattern: ^.+$
+          description: If provided by the customer.
+        TypeCode:
+          $ref: '#/components/schemas/TypeCode'
+        Country:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+          description: Absent if country of the Sale system.
     InstalmentType:
       type: string
       enum:
       - DeferredInstalments
       - EqualInstalments
       - InequalInstalments
-    ForceEntryMode:
-      type: array
-      items:
-        type: string
-        enum:
-        - CheckReader
-        - Contactless
-        - File
-        - ICC
-        - Keyed
-        - MagStripe
-        - Manual
-        - RFID
-        - Scanned
-        - SynchronousICC
-        - Tapped
-    PredefinedContent:
-      type: object
-      description: It conveys Information related to the predefined message. Reference of a predefined message to display or print.
-      properties:
-        ReferenceID:
-          type: string
-          pattern: ^.+$
-          description: Identification of a predefined message to display or print.
-        Language:
-          type: string
-          pattern: ^[a-z]{2,2}$
-          description: Identification of a language.
-      required:
-      - ReferenceID
-    IdentificationSupport:
+    ErrorCondition:
       type: string
       enum:
-      - HybridCard
-      - LinkedCard
-      - LoyaltyCard
-      - NoCard
-    OriginalPOITransaction:
-      type: object
-      description: In the Payment or the Loyalty Request message, it allows using the card of a previous CardAcquisition or Payment/Loyalty request. Identification of a previous POI transaction.
-      properties:
-        SaleID:
-          type: string
-          pattern: ^.+$
-          description: Identification of a Sale System or a Sale Terminal for the Sale to POI protocol.
-        POIID:
-          type: string
-          pattern: ^.+$
-          description: If original transaction is coming from another POI.
-        POITransactionID:
-          $ref: '#/components/schemas/TransactionIDType'
-        ReuseCardDataFlag:
-          type: boolean
-          default: true
-          description: Indicate if the card data has to be got from a previous transaction.
-        ApprovalCode:
-          type: string
-          pattern: ^.+$
-          description: If referral.
-        CustomerLanguage:
-          type: string
-          pattern: ^[a-z]{2,2}$
-          description: If the language is selected by the Sale System before the request to the POI.
-        AcquirerID:
-          type: integer
-          description: Restrict to these Acquirer if present.
-        AmountValue:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        HostTransactionID:
-          $ref: '#/components/schemas/TransactionIDType'
-    PaymentData:
-      type: object
-      properties:
-        PaymentType:
-          $ref: '#/components/schemas/PaymentType'
-        SplitPaymentFlag:
-          type: boolean
-          default: false
-        RequestedValidityDate:
-          type: string
-          format: date
-        CardAcquisitionReference:
-          $ref: '#/components/schemas/TransactionIDType'
-        Instalment:
-          $ref: '#/components/schemas/Instalment'
-        CustomerOrder:
-          $ref: '#/components/schemas/CustomerOrder'
-        PaymentInstrumentData:
-          $ref: '#/components/schemas/PaymentInstrumentData'
-    TokenRequestedType:
+      - Aborted
+      - Busy
+      - Cancel
+      - DeviceOut
+      - InProgress
+      - InsertedCard
+      - InvalidCard
+      - LoggedOut
+      - MessageFormat
+      - NotAllowed
+      - NotFound
+      - PaymentRestriction
+      - Refusal
+      - UnavailableDevice
+      - UnavailableService
+      - UnreachableHost
+      - WrongPIN
+    DocumentQualifier:
       type: string
       enum:
-      - Customer
-      - Transaction
-    ConvertedAmount:
-      type: object
-      properties:
-        AmountValue:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        Currency:
-          type: string
-          pattern: ^[A-Z]{3,3}$
-      required:
-      - AmountValue
-      - Currency
+      - CashierReceipt
+      - CustomerReceipt
+      - Document
+      - Journal
+      - SaleReceipt
+      - Voucher
     SensitiveCardData:
       type: object
       description: This data structure could be CMS protected (EnvelopedData). In this case the data structure SensitiveCardData is replaced by the data structure ProtectedCardData of type ContentInformationType. When this data is protected, the exact content is unknown by the Sale System, and might include all the information which are required by an external backup POI Server to make a batch payment transaction in case of problem with the POI System. Sensitive information related to the payment card, entered or read by the Sale System.
@@ -486,412 +333,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TrackData'
-    UnitOfMeasure:
-      type: string
-      enum:
-      - Case
-      - Centilitre
-      - Centimetre
-      - Foot
-      - Gram
-      - Inch
-      - Kilogram
-      - Kilometre
-      - Litre
-      - Meter
-      - Mile
-      - Other
-      - Ounce
-      - Pint
-      - Pound
-      - Quart
-      - UKGallon
-      - USGallon
-      - Yard
-    EntryMode:
-      type: array
-      items:
-        type: string
-        enum:
-        - Contactless
-        - File
-        - ICC
-        - Keyed
-        - MagStripe
-        - Manual
-        - Mobile
-        - RFID
-        - Scanned
-        - SynchronousICC
-        - Tapped
-    LoyaltyUnit:
-      type: string
-      enum:
-      - Monetary
-      - Point
-    AllowedProduct:
-      type: object
-      description: Product that is payable by the payment card. Product codes that are payable by the payment card.
-      properties:
-        ProductCode:
-          type: integer
-          minimum: 1
-          maximum: 20
-          description: Product code of item purchased with the transaction.
-        EanUpc:
-          type: integer
-          description: Standard product code of item purchased with the transaction.
-        ProductLabel:
-          type: string
-          pattern: ^.+$
-          description: Product name of an item purchased with the transaction.
-        AdditionalProductInfo:
-          type: string
-          pattern: ^.+$
-          description: Additionl information related to the line item.
-      required:
-      - ProductCode
-    PaymentReceipt:
-      type: object
-      description: If the payment receipts are printed by the Sale system and the POI or the Sale does not implement the Print exchange (Basic profile). Customer or Merchant payment receipt.
-      properties:
-        DocumentQualifier:
-          $ref: '#/components/schemas/DocumentQualifier'
-        IntegratedPrintFlag:
-          type: boolean
-          description: Type of the print integrated to other prints.
-        RequiredSignatureFlag:
-          type: boolean
-          default: false
-          description: Indicate that the cardholder payment receipt requires a physical signature by the Customer.
-        OutputContent:
-          $ref: '#/components/schemas/OutputContent'
-      required:
-      - DocumentQualifier
-      - OutputContent
-    PaymentInstrumentData:
-      type: object
-      description: Sent in the result of the payment transaction. For a card, it could also be sent in the CardAcquisition response, to be processed by the Sale System. Data related to the instrument of payment for the transaction.
-      properties:
-        PaymentInstrumentType:
-          $ref: '#/components/schemas/PaymentInstrumentType'
-        ProtectedCardData:
-          type: string
-        CardData:
-          $ref: '#/components/schemas/CardData'
-        CheckData:
-          $ref: '#/components/schemas/CheckData'
-        MobileData:
-          $ref: '#/components/schemas/MobileData'
-        StoredValueAccountID:
-          $ref: '#/components/schemas/StoredValueAccountID'
-      required:
-      - PaymentInstrumentType
-    PaymentTransaction:
-      type: object
-      properties:
-        AmountsReq:
-          $ref: '#/components/schemas/AmountsReq'
-        OriginalPOITransaction:
-          $ref: '#/components/schemas/OriginalPOITransaction'
-        TransactionConditions:
-          $ref: '#/components/schemas/TransactionConditions'
-        SaleItem:
-          type: array
-          items:
-            $ref: '#/components/schemas/SaleItem'
-      required:
-      - AmountsReq
-    PaymentToken:
-      type: object
-      description: Surrogate of the PAN (Primary Account Number) of the payment card to  identify the payment mean of the customer. It allows, for a merchant, to identify   the customer.
-      properties:
-        TokenRequestedType:
-          $ref: '#/components/schemas/TokenRequestedType'
-        TokenValue:
-          type: string
-          pattern: ^.+$
-        ExpiryDateTime:
-          type: string
-          format: date-time
-          description: Expiry date and time. Limits the validity of a payment token.
-      required:
-      - TokenRequestedType
-      - TokenValue
-    LoyaltyHandling:
-      type: string
-      enum:
-      - Allowed
-      - Forbidden
-      - Processed
-      - Proposed
-      - Required
-    TypeCode:
-      type: string
-      enum:
-      - Company
-      - Personal
-    IdentificationType:
-      type: string
-      enum:
-      - AccountNumber
-      - BarCode
-      - ISOTrack2
-      - PAN
-      - PhoneNumber
-    StoredValueAccountID:
-      type: object
-      description: It contains the identifications of the stored value account or the stored value card, and the associated product sold by the Sale System for stored value requests. Identification of the stored value account or the stored value card.
-      properties:
-        StoredValueAccountType:
-          $ref: '#/components/schemas/StoredValueAccountType'
-        StoredValueProvider:
-          type: string
-          pattern: ^.+$
-        OwnerName:
-          type: string
-          pattern: ^.+$
-        ExpiryDate:
-          type: integer
-          minimum: 4
-          maximum: 4
-        EntryMode:
-          $ref: '#/components/schemas/EntryMode'
-        IdentificationType:
-          $ref: '#/components/schemas/IdentificationType'
-        StoredValueID:
-          type: string
-          pattern: ^.+$
-      required:
-      - StoredValueAccountType
-      - EntryMode
-      - IdentificationType
-      - StoredValueID
-    UTMCoordinates:
-      type: object
-      properties:
-        UTMZone:
-          type: string
-          pattern: ^.+$
-        UTMEastward:
-          type: string
-          pattern: ^.+$
-        UTMNorthward:
-          type: string
-          pattern: ^.+$
-      required:
-      - UTMZone
-      - UTMEastward
-      - UTMNorthward
-    LoyaltyAmount:
-      type: object
-      description: An awarded amount or an amount to redeem to the loyalty account might be sent in the Payment request message. Amount of a loyalty account.
-      properties:
-        LoyaltyUnit:
-          $ref: '#/components/schemas/LoyaltyUnit'
-        Currency:
-          type: string
-          pattern: ^[A-Z]{3,3}$
-        AmountValue:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-      required:
-      - AmountValue
-    SaleItemRebate:
-      type: object
-      description: To be differentiated from the award which is the amount or quantity earned on the loyalty account. The awarded amount that is attached to an item as a rebate.
-      properties:
-        ItemID:
-          type: integer
-          description: Item identification inside a transaction (0 to n).
-        ProductCode:
-          type: integer
-          minimum: 1
-          maximum: 20
-          description: Product code of item purchased with the transaction.
-        EanUpc:
-          type: integer
-        UnitOfMeasure:
-          $ref: '#/components/schemas/UnitOfMeasure'
-        Quantity:
-          type: string
-          description: if rebate is additional units.
-        ItemAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-          description: if rebate on the line item amount.
-        RebateLabel:
-          type: string
-          pattern: ^.+$
-          description: If provided by the Acquirer.
-      required:
-      - ItemID
-      - ProductCode
-    OutputContent:
-      type: object
-      description: This is a sequence of elements if they have different formats. Content to display or print.
-      properties:
-        OutputFormat:
-          $ref: '#/components/schemas/OutputFormat'
-        PredefinedContent:
-          $ref: '#/components/schemas/PredefinedContent'
-        OutputText:
-          type: array
-          items:
-            $ref: '#/components/schemas/OutputText'
-        OutputXHTML:
-          type: string
-          format: byte
-          pattern: ^.{0,262144}$
-          description: Mandatory, if OutputFormat is XHTML, not allowed otherwise.
-        OutputBarcode:
-          $ref: '#/components/schemas/OutputBarcode'
-      required:
-      - OutputFormat
-    Point:
-      type: object
-      properties:
-        X:
-          type: string
-        Y:
-          type: string
-      required:
-      - X
-      - Y
-    AuthenticationMethod:
-      type: array
-      items:
-        type: string
-        enum:
-        - Bypass
-        - ManualVerification
-        - MerchantAuthentication
-        - OfflinePIN
-        - OnlinePIN
-        - PaperSignature
-        - SecureCertificate
-        - SecureNoCertificate
-        - SecuredChannel
-        - SignatureCapture
-        - UnknownMethod
-    Geolocation:
-      type: object
-      properties:
-        GeographicCoordinates:
-          $ref: '#/components/schemas/GeographicCoordinates'
-        UTMCoordinates:
-          $ref: '#/components/schemas/UTMCoordinates'
-    GeographicCoordinates:
-      type: object
-      properties:
-        Latitude:
-          type: string
-          pattern: ^.+$
-        Longitude:
-          type: string
-          pattern: ^.+$
-      required:
-      - Latitude
-      - Longitude
-    CardData:
-      type: object
-      description: Allows acquisition of the card data by the Sale System before the Payment, CardAcquisition  or BalanceInquiry request to the POI. It could also be sent in the CardAcquisition response, to be processed by the Sale System. Information related to the payment card used for the transaction.
-      properties:
-        PaymentBrand:
-          type: string
-          pattern: ^.+$
-          description: If card PAN is readable .
-        MaskedPan:
-          type: string
-          pattern: ^.+$
-        PaymentAccountRef:
-          type: string
-          pattern: ^.+$
-        EntryMode:
-          $ref: '#/components/schemas/EntryMode'
-        CardCountryCode:
-          type: integer
-          minimum: 3
-          maximum: 3
-          description: If available in the card.
-        ProtectedCardData:
-          type: string
-          description: SensitiveCardData protected by CMS EnvelopedData.
-        SensitiveCardData:
-          $ref: '#/components/schemas/SensitiveCardData'
-        AllowedProductCode:
-          type: array
-          items:
-            type: integer
-            minimum: 1
-            maximum: 20
-        AllowedProduct:
-          type: array
-          items:
-            $ref: '#/components/schemas/AllowedProduct'
-        PaymentToken:
-          $ref: '#/components/schemas/PaymentToken'
-        CustomerOrder:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomerOrder'
-    OutputText:
-      type: object
-      description: It conveys Information related to the content of the text message and its format. All the data elements related to the format of the text to display or print are parameters valid for the whole Text content. Content of text message to display or print.
-      properties:
-        Text:
-          type: string
-        CharacterSet:
-          type: integer
-        Font:
-          type: string
-          pattern: ^.+$
-        StartRow:
-          type: integer
-          minimum: 1
-          maximum: 500
-        StartColumn:
-          type: integer
-          minimum: 1
-          maximum: 500
-        Color:
-          $ref: '#/components/schemas/Color'
-        CharacterWidth:
-          $ref: '#/components/schemas/CharacterWidth'
-        CharacterHeight:
-          $ref: '#/components/schemas/CharacterHeight'
-        CharacterStyle:
-          $ref: '#/components/schemas/CharacterStyle'
-        Alignment:
-          $ref: '#/components/schemas/Alignment'
-        EndOfLineFlag:
-          type: boolean
-          default: true
-      required:
-      - Text
-    DocumentQualifier:
-      type: string
-      enum:
-      - CashierReceipt
-      - CustomerReceipt
-      - Document
-      - Journal
-      - SaleReceipt
-      - Voucher
-    LoyaltyAccount:
-      type: object
-      description: This data structure conveys the identification of the account and the associated loyalty brand. Data related to a loyalty account processed in the transaction.
-      properties:
-        LoyaltyAccountID:
-          $ref: '#/components/schemas/LoyaltyAccountID'
-        LoyaltyBrand:
-          type: string
-          pattern: ^.+$
-          description: If a card is analysed.
-      required:
-      - LoyaltyAccountID
     SaleTerminalData:
       type: object
       description: In the Login Request, if a Sale Terminal is involved in the login. In other messages, when a logical device is out of order (SaleCapabilites), or when the other data have changed since or were not in the Login. Information related to the software and hardware feature of the Sale Terminal.
@@ -900,6 +341,11 @@ components:
           type: string
           pattern: ^.{1,16}$
           description: If present, default value for all transaction.
+    TrackFormat:
+      type: string
+      enum:
+      - AAMVA
+      - ISO
     SaleItem:
       type: object
       description: In loyalty or value added payment card transaction, the items of the sale are entering in the processing of the transaction. Sale items of a transaction.
@@ -947,51 +393,131 @@ components:
       - ItemID
       - ProductCode
       - ItemAmount
-    AmountsReq:
+    Rebates:
       type: object
-      description: Amounts of a payment
       properties:
-        Currency:
+        TotalRebate:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        RebateLabel:
           type: string
-          pattern: ^[A-Z]{3,3}$
-        RequestedAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        CashBackAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        TipAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        PaidAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        MinimumAmountToDeliver:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        MaximumCashBackAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        MinimumSplitAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-      required:
-      - Currency
-      - RequestedAmount
-    OutputFormat:
+          pattern: ^.+$
+        SaleItemRebate:
+          type: array
+          items:
+            $ref: '#/components/schemas/SaleItemRebate'
+    Color:
       type: string
       enum:
-      - BarCode
-      - MessageRef
-      - Text
-      - XHTML
+      - Black
+      - Blue
+      - Cyan
+      - Green
+      - Magenta
+      - Red
+      - White
+      - Yellow
+    EntryMode:
+      type: array
+      items:
+        type: string
+        enum:
+        - Contactless
+        - File
+        - ICC
+        - Keyed
+        - MagStripe
+        - Manual
+        - Mobile
+        - RFID
+        - Scanned
+        - SynchronousICC
+        - Tapped
+    Instalment:
+      type: object
+      properties:
+        InstalmentType:
+          $ref: '#/components/schemas/InstalmentType'
+        SequenceNumber:
+          type: integer
+        PlanID:
+          type: string
+          pattern: ^.+$
+        Period:
+          type: integer
+        PeriodUnit:
+          $ref: '#/components/schemas/PeriodUnit'
+        FirstPaymentDate:
+          type: string
+          format: date
+        TotalNbOfPayments:
+          type: integer
+        CumulativeAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        FirstAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        Charges:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+    BarcodeType:
+      type: string
+      enum:
+      - Code128
+      - Code25
+      - EAN13
+      - EAN8
+      - PDF417
+      - QRCode
+      - UPCA
+    LoyaltyHandling:
+      type: string
+      enum:
+      - Allowed
+      - Forbidden
+      - Processed
+      - Proposed
+      - Required
+    CapturedSignature:
+      type: object
+      properties:
+        AreaSize:
+          $ref: '#/components/schemas/AreaSize'
+        SignaturePoint:
+          type: array
+          items:
+            $ref: '#/components/schemas/Point'
+    CustomerOrderReq:
+      type: array
+      items:
+        type: string
+        enum:
+        - Both
+        - Closed
+        - Open
+    PaymentInstrumentData:
+      type: object
+      description: Sent in the result of the payment transaction. For a card, it could also be sent in the CardAcquisition response, to be processed by the Sale System. Data related to the instrument of payment for the transaction.
+      properties:
+        PaymentInstrumentType:
+          $ref: '#/components/schemas/PaymentInstrumentType'
+        ProtectedCardData:
+          type: string
+        CardData:
+          $ref: '#/components/schemas/CardData'
+        CheckData:
+          $ref: '#/components/schemas/CheckData'
+        MobileData:
+          $ref: '#/components/schemas/MobileData'
+        StoredValueAccountID:
+          $ref: '#/components/schemas/StoredValueAccountID'
+      required:
+      - PaymentInstrumentType
     SaleToIssuerData:
       type: object
       description: The POI System receives this information and sends it to the Acquirer for the Issuer without any change. Sale information intended for the Issuer.
@@ -1000,6 +526,230 @@ components:
           type: string
           pattern: ^.+$
           description: Information to print on the bank statement.
+    StoredValueAccountID:
+      type: object
+      description: It contains the identifications of the stored value account or the stored value card, and the associated product sold by the Sale System for stored value requests. Identification of the stored value account or the stored value card.
+      properties:
+        StoredValueAccountType:
+          $ref: '#/components/schemas/StoredValueAccountType'
+        StoredValueProvider:
+          type: string
+          pattern: ^.+$
+        OwnerName:
+          type: string
+          pattern: ^.+$
+        ExpiryDate:
+          type: integer
+          minimum: 4
+          maximum: 4
+        EntryMode:
+          $ref: '#/components/schemas/EntryMode'
+        IdentificationType:
+          $ref: '#/components/schemas/IdentificationType'
+        StoredValueID:
+          type: string
+          pattern: ^.+$
+      required:
+      - StoredValueAccountType
+      - EntryMode
+      - IdentificationType
+      - StoredValueID
+    CharacterHeight:
+      type: string
+      enum:
+      - DoubleHeight
+      - HalfHeight
+      - SingleHeight
+    OutputContent:
+      type: object
+      description: This is a sequence of elements if they have different formats. Content to display or print.
+      properties:
+        OutputFormat:
+          $ref: '#/components/schemas/OutputFormat'
+        PredefinedContent:
+          $ref: '#/components/schemas/PredefinedContent'
+        OutputText:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputText'
+        OutputXHTML:
+          type: string
+          format: byte
+          pattern: ^.{0,262144}$
+          description: Mandatory, if OutputFormat is XHTML, not allowed otherwise.
+        OutputBarcode:
+          $ref: '#/components/schemas/OutputBarcode'
+      required:
+      - OutputFormat
+    OutputBarcode:
+      type: object
+      properties:
+        BarcodeType:
+          $ref: '#/components/schemas/BarcodeType'
+        BarcodeValue:
+          type: string
+          pattern: ^.+$
+      required:
+      - BarcodeValue
+    PaymentToken:
+      type: object
+      description: Surrogate of the PAN (Primary Account Number) of the payment card to  identify the payment mean of the customer. It allows, for a merchant, to identify   the customer.
+      properties:
+        TokenRequestedType:
+          $ref: '#/components/schemas/TokenRequestedType'
+        TokenValue:
+          type: string
+          pattern: ^.+$
+        ExpiryDateTime:
+          type: string
+          format: date-time
+          description: Expiry date and time. Limits the validity of a payment token.
+      required:
+      - TokenRequestedType
+      - TokenValue
+    PaymentAcquirerData:
+      type: object
+      description: Data related to the response from the payment Acquirer.
+      properties:
+        AcquirerID:
+          type: integer
+          description: If several Acquirers.
+        MerchantID:
+          type: string
+          pattern: ^.+$
+          description: Identification of the Merchant for the Acquirer.
+        AcquirerPOIID:
+          type: string
+          pattern: ^.+$
+          description: Identification of the POI for the payment Acquirer.
+        AcquirerTransactionID:
+          $ref: '#/components/schemas/TransactionIDType'
+        ApprovalCode:
+          type: string
+          pattern: ^.+$
+          description: If available.
+        HostReconciliationID:
+          type: string
+          pattern: ^.+$
+      required:
+      - MerchantID
+      - AcquirerPOIID
+    Result:
+      type: string
+      enum:
+      - Failure
+      - Partial
+      - Success
+    TrackData:
+      type: object
+      description: ISO 7813 - ISO 4909.  Generic data structure for a card track, used when the magstripe card reader is located on the Sale Terminal, or for magstripe Card Reader device request. The data structure is also used to store the line at the bottom of a bank check. Magnetic track or magnetic ink characters line.
+      properties:
+        TrackNumb:
+          type: integer
+          minimum: 1
+          maximum: 3
+          default: 2
+        TrackFormat:
+          $ref: '#/components/schemas/TrackFormat'
+        TrackValue:
+          type: string
+          pattern: ^.{1,104}$
+      required:
+      - TrackValue
+    Geolocation:
+      type: object
+      properties:
+        GeographicCoordinates:
+          $ref: '#/components/schemas/GeographicCoordinates'
+        UTMCoordinates:
+          $ref: '#/components/schemas/UTMCoordinates'
+    LoyaltyAccount:
+      type: object
+      description: This data structure conveys the identification of the account and the associated loyalty brand. Data related to a loyalty account processed in the transaction.
+      properties:
+        LoyaltyAccountID:
+          $ref: '#/components/schemas/LoyaltyAccountID'
+        LoyaltyBrand:
+          type: string
+          pattern: ^.+$
+          description: If a card is analysed.
+      required:
+      - LoyaltyAccountID
+    AuthenticationMethod:
+      type: array
+      items:
+        type: string
+        enum:
+        - Bypass
+        - ManualVerification
+        - MerchantAuthentication
+        - OfflinePIN
+        - OnlinePIN
+        - PaperSignature
+        - SecureCertificate
+        - SecureNoCertificate
+        - SecuredChannel
+        - SignatureCapture
+        - UnknownMethod
+    LoyaltyResult:
+      type: object
+      description: In the Message Response, the result of each loyalty brand transaction. Data related to the result of a processed loyalty transaction.
+      properties:
+        LoyaltyAccount:
+          $ref: '#/components/schemas/LoyaltyAccount'
+        CurrentBalance:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+          description: if known (provided by the card or an external host).
+        LoyaltyAmount:
+          $ref: '#/components/schemas/LoyaltyAmount'
+        LoyaltyAcquirerData:
+          $ref: '#/components/schemas/LoyaltyAcquirerData'
+        Rebates:
+          $ref: '#/components/schemas/Rebates'
+      required:
+      - LoyaltyAccount
+    TransactionConditions:
+      type: object
+      description: Conditions on which the transaction must be processed.
+      properties:
+        AllowedPaymentBrand:
+          type: array
+          items:
+            type: string
+            pattern: ^.+$
+            description: Restrict brand if data sent.
+        AcquirerID:
+          type: array
+          items:
+            type: integer
+            description: Restrict to these Acquirer if present.
+        DebitPreferredFlag:
+          type: boolean
+          description: The preferred type of payment is a debit transaction rather a credit transaction.
+        AllowedLoyaltyBrand:
+          type: array
+          items:
+            type: string
+            pattern: ^.+$
+            description: Restrict brand if data sent.
+        LoyaltyHandling:
+          $ref: '#/components/schemas/LoyaltyHandling'
+        CustomerLanguage:
+          type: string
+          pattern: ^[a-z]{2,2}$
+          description: If the language is selected by the Sale System before the request to the POI.
+        ForceOnlineFlag:
+          type: boolean
+          default: false
+          description: Go online if data sent.
+        ForceEntryMode:
+          $ref: '#/components/schemas/ForceEntryMode'
+        MerchantCategoryCode:
+          type: string
+          pattern: ^.{3,4}$
+          description: The payment implies a specific MCC.
     LoyaltyAccountID:
       type: object
       description: In the Payment or the Loyalty Request message, it allows to identify the loyalty account by the Sale Terminal instead of the POI Terminal (e.g. because the account identification is a bar-code read by the Cashier on a scanner device). Identification of a Loyalty account.
@@ -1016,6 +766,123 @@ components:
       - EntryMode
       - IdentificationType
       - LoyaltyID
+    StoredValueAccountType:
+      type: string
+      enum:
+      - GiftCard
+      - Other
+      - PhoneCard
+    AllowedProduct:
+      type: object
+      description: Product that is payable by the payment card. Product codes that are payable by the payment card.
+      properties:
+        ProductCode:
+          type: integer
+          minimum: 1
+          maximum: 20
+          description: Product code of item purchased with the transaction.
+        EanUpc:
+          type: integer
+          description: Standard product code of item purchased with the transaction.
+        ProductLabel:
+          type: string
+          pattern: ^.+$
+          description: Product name of an item purchased with the transaction.
+        AdditionalProductInfo:
+          type: string
+          pattern: ^.+$
+          description: Additionl information related to the line item.
+      required:
+      - ProductCode
+    LoyaltyAmount:
+      type: object
+      description: An awarded amount or an amount to redeem to the loyalty account might be sent in the Payment request message. Amount of a loyalty account.
+      properties:
+        LoyaltyUnit:
+          $ref: '#/components/schemas/LoyaltyUnit'
+        Currency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+        AmountValue:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+      required:
+      - AmountValue
+    UnitOfMeasure:
+      type: string
+      enum:
+      - Case
+      - Centilitre
+      - Centimetre
+      - Foot
+      - Gram
+      - Inch
+      - Kilogram
+      - Kilometre
+      - Litre
+      - Meter
+      - Mile
+      - Other
+      - Ounce
+      - Pint
+      - Pound
+      - Quart
+      - UKGallon
+      - USGallon
+      - Yard
+    LoyaltyUnit:
+      type: string
+      enum:
+      - Monetary
+      - Point
+    IdentificationType:
+      type: string
+      enum:
+      - AccountNumber
+      - BarCode
+      - ISOTrack2
+      - PAN
+      - PhoneNumber
+    UTMCoordinates:
+      type: object
+      properties:
+        UTMZone:
+          type: string
+          pattern: ^.+$
+        UTMEastward:
+          type: string
+          pattern: ^.+$
+        UTMNorthward:
+          type: string
+          pattern: ^.+$
+      required:
+      - UTMZone
+      - UTMEastward
+      - UTMNorthward
+    CharacterWidth:
+      type: string
+      enum:
+      - DoubleWidth
+      - SingleWidth
+    PaymentReceipt:
+      type: object
+      description: If the payment receipts are printed by the Sale system and the POI or the Sale does not implement the Print exchange (Basic profile). Customer or Merchant payment receipt.
+      properties:
+        DocumentQualifier:
+          $ref: '#/components/schemas/DocumentQualifier'
+        IntegratedPrintFlag:
+          type: boolean
+          description: Type of the print integrated to other prints.
+        RequiredSignatureFlag:
+          type: boolean
+          default: false
+          description: Indicate that the cardholder payment receipt requires a physical signature by the Customer.
+        OutputContent:
+          $ref: '#/components/schemas/OutputContent'
+      required:
+      - DocumentQualifier
+      - OutputContent
     PaymentType:
       type: string
       enum:
@@ -1031,6 +898,241 @@ components:
       - Recurring
       - Refund
       - UpdateReservation
+    OutputText:
+      type: object
+      description: It conveys Information related to the content of the text message and its format. All the data elements related to the format of the text to display or print are parameters valid for the whole Text content. Content of text message to display or print.
+      properties:
+        Text:
+          type: string
+        CharacterSet:
+          type: integer
+        Font:
+          type: string
+          pattern: ^.+$
+        StartRow:
+          type: integer
+          minimum: 1
+          maximum: 500
+        StartColumn:
+          type: integer
+          minimum: 1
+          maximum: 500
+        Color:
+          $ref: '#/components/schemas/Color'
+        CharacterWidth:
+          $ref: '#/components/schemas/CharacterWidth'
+        CharacterHeight:
+          $ref: '#/components/schemas/CharacterHeight'
+        CharacterStyle:
+          $ref: '#/components/schemas/CharacterStyle'
+        Alignment:
+          $ref: '#/components/schemas/Alignment'
+        EndOfLineFlag:
+          type: boolean
+          default: true
+      required:
+      - Text
+    CustomerOrder:
+      type: object
+      description: Customer order attached to a customer, recorded in the POI system.  Allows the management of customer orders by the POI, for instance in a multi-channel or a click and collect sale transaction.
+      properties:
+        CustomerOrderID:
+          type: string
+          pattern: ^.+$
+          description: Additional and optional identification of a customer order.
+        SaleReferenceID:
+          type: string
+          pattern: ^.+$
+        OpenOrderState:
+          type: boolean
+          default: true
+        StartDate:
+          type: string
+          format: date-time
+          description: Date time of the beginning of an operation.
+        EndDate:
+          type: string
+          format: date-time
+          description: Date time of the end of an operation.
+        ForecastedAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        CurrentAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+          description: Total amount of all completed transactions of a customer order.
+        Currency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+          description: Currency of a monetary amount.
+        AccessedBy:
+          type: string
+          pattern: ^.+$
+        AdditionalInformation:
+          type: string
+          pattern: ^.+$
+          description: Unqualified information.
+      required:
+      - SaleReferenceID
+      - StartDate
+      - ForecastedAmount
+      - CurrentAmount
+    CurrencyConversion:
+      type: object
+      description: A currency conversion occurred in the payment, and the merchant needs to know information related to this conversion (e.g. to print on the sale receipt). Information related to a currency conversion.
+      properties:
+        CustomerApprovedFlag:
+          type: boolean
+          default: true
+          description: Notify if the customer has approved something. Indicates if the customer has accepted a currency conversion.
+        ConvertedAmount:
+          $ref: '#/components/schemas/ConvertedAmount'
+        Rate:
+          type: string
+          description: Rate of currency conversion.
+        Markup:
+          type: string
+          description: Markup of a currency conversion amount as a percentage.
+        Commission:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+          description: Commission for a currency conversion.
+        Declaration:
+          type: string
+          pattern: ^.+$
+          description: If a declaration has to be presented to the customer.
+      required:
+      - ConvertedAmount
+    PaymentData:
+      type: object
+      properties:
+        PaymentType:
+          $ref: '#/components/schemas/PaymentType'
+        SplitPaymentFlag:
+          type: boolean
+          default: false
+        RequestedValidityDate:
+          type: string
+          format: date
+        CardAcquisitionReference:
+          $ref: '#/components/schemas/TransactionIDType'
+        Instalment:
+          $ref: '#/components/schemas/Instalment'
+        CustomerOrder:
+          $ref: '#/components/schemas/CustomerOrder'
+        PaymentInstrumentData:
+          $ref: '#/components/schemas/PaymentInstrumentData'
+    OriginalPOITransaction:
+      type: object
+      description: In the Payment or the Loyalty Request message, it allows using the card of a previous CardAcquisition or Payment/Loyalty request. Identification of a previous POI transaction.
+      properties:
+        SaleID:
+          type: string
+          pattern: ^.+$
+          description: Identification of a Sale System or a Sale Terminal for the Sale to POI protocol.
+        POIID:
+          type: string
+          pattern: ^.+$
+          description: If original transaction is coming from another POI.
+        POITransactionID:
+          $ref: '#/components/schemas/TransactionIDType'
+        ReuseCardDataFlag:
+          type: boolean
+          default: true
+          description: Indicate if the card data has to be got from a previous transaction.
+        ApprovalCode:
+          type: string
+          pattern: ^.+$
+          description: If referral.
+        CustomerLanguage:
+          type: string
+          pattern: ^[a-z]{2,2}$
+          description: If the language is selected by the Sale System before the request to the POI.
+        AcquirerID:
+          type: integer
+          description: Restrict to these Acquirer if present.
+        AmountValue:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        HostTransactionID:
+          $ref: '#/components/schemas/TransactionIDType'
+    Point:
+      type: object
+      properties:
+        X:
+          type: string
+        Y:
+          type: string
+      required:
+      - X
+      - Y
+    ForceEntryMode:
+      type: array
+      items:
+        type: string
+        enum:
+        - CheckReader
+        - Contactless
+        - File
+        - ICC
+        - Keyed
+        - MagStripe
+        - Manual
+        - RFID
+        - Scanned
+        - SynchronousICC
+        - Tapped
+    POIData:
+      type: object
+      description: In the Message Response, identification of the POI transaction. Data related to the POI System.
+      properties:
+        POITransactionID:
+          $ref: '#/components/schemas/TransactionIDType'
+        POIReconciliationID:
+          type: integer
+          description: If Result is Success.
+      required:
+      - POITransactionID
+    MobileData:
+      type: object
+      description: Mobile phone is used as a payment instrument for the transaction. Information related to the mobile for the payment transaction.
+      properties:
+        MobileCountryCode:
+          type: integer
+          minimum: 3
+          maximum: 3
+          description: If data available.
+        MobileNetworkCode:
+          type: integer
+          minimum: 2
+          maximum: 3
+          description: If data available.
+        MaskedMSISDN:
+          type: integer
+          description: If data available.
+        Geolocation:
+          $ref: '#/components/schemas/Geolocation'
+        ProtectedMobileData:
+          type: string
+          description: SensitiveMobileData.
+        SensitiveMobileData:
+          $ref: '#/components/schemas/SensitiveMobileData'
+    GeographicCoordinates:
+      type: object
+      properties:
+        Latitude:
+          type: string
+          pattern: ^.+$
+        Longitude:
+          type: string
+          pattern: ^.+$
+      required:
+      - Latitude
+      - Longitude
     PaymentRequest:
       type: object
       description: Request sent to terminal to initiate payment.  It conveys Information related to the Payment transaction to process. Content of the Payment Request message.
@@ -1048,54 +1150,104 @@ components:
       required:
       - SaleData
       - PaymentTransaction
-    CharacterWidth:
-      type: string
-      enum:
-      - DoubleWidth
-      - SingleWidth
-    CharacterStyle:
-      type: string
-      enum:
-      - Bold
-      - Italic
-      - Normal
-      - Underline
-    TrackFormat:
-      type: string
-      enum:
-      - AAMVA
-      - ISO
-    Rebates:
+    LoyaltyAcquirerData:
       type: object
       properties:
-        TotalRebate:
+        LoyaltyAcquirerID:
+          type: string
+          pattern: ^.+$
+        ApprovalCode:
+          type: string
+          pattern: ^.+$
+        LoyaltyTransactionID:
+          $ref: '#/components/schemas/TransactionIDType'
+        HostReconciliationID:
+          type: string
+          pattern: ^.+$
+    PredefinedContent:
+      type: object
+      description: It conveys Information related to the predefined message. Reference of a predefined message to display or print.
+      properties:
+        ReferenceID:
+          type: string
+          pattern: ^.+$
+          description: Identification of a predefined message to display or print.
+        Language:
+          type: string
+          pattern: ^[a-z]{2,2}$
+          description: Identification of a language.
+      required:
+      - ReferenceID
+    Alignment:
+      type: string
+      enum:
+      - Centred
+      - Justified
+      - Left
+      - Right
+    Response:
+      type: object
+      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
+      properties:
+        Result:
+          $ref: '#/components/schemas/Result'
+        ErrorCondition:
+          $ref: '#/components/schemas/ErrorCondition'
+        AdditionalResponse:
+          type: string
+          pattern: ^.+$
+          description: If present, the POI logs it for further examination.
+      required:
+      - Result
+    PaymentInstrumentType:
+      type: string
+      enum:
+      - Card
+      - Cash
+      - Check
+      - Mobile
+      - StoredValue
+    SaleItemRebate:
+      type: object
+      description: To be differentiated from the award which is the amount or quantity earned on the loyalty account. The awarded amount that is attached to an item as a rebate.
+      properties:
+        ItemID:
+          type: integer
+          description: Item identification inside a transaction (0 to n).
+        ProductCode:
+          type: integer
+          minimum: 1
+          maximum: 20
+          description: Product code of item purchased with the transaction.
+        EanUpc:
+          type: integer
+        UnitOfMeasure:
+          $ref: '#/components/schemas/UnitOfMeasure'
+        Quantity:
+          type: string
+          description: if rebate is additional units.
+        ItemAmount:
           type: number
           maximum: 99999999.999999
           minimum: 0
+          description: if rebate on the line item amount.
         RebateLabel:
           type: string
           pattern: ^.+$
-        SaleItemRebate:
-          type: array
-          items:
-            $ref: '#/components/schemas/SaleItemRebate'
-    POIData:
-      type: object
-      description: In the Message Response, identification of the POI transaction. Data related to the POI System.
-      properties:
-        POITransactionID:
-          $ref: '#/components/schemas/TransactionIDType'
-        POIReconciliationID:
-          type: integer
-          description: If Result is Success.
+          description: If provided by the Acquirer.
       required:
-      - POITransactionID
-    CharacterHeight:
-      type: string
-      enum:
-      - DoubleHeight
-      - HalfHeight
-      - SingleHeight
+      - ItemID
+      - ProductCode
+    AreaSize:
+      type: object
+      properties:
+        X:
+          type: string
+        Y:
+          type: string
+      required:
+      - X
+      - Y
     SaleData:
       type: object
       description: Data associated to the Sale System, with a particular value during the processing of the payment by the POI, including the cards acquisition. Data related to the Sale System.
@@ -1139,237 +1291,85 @@ components:
           $ref: '#/components/schemas/SaleToIssuerData'
       required:
       - SaleTransactionID
-    MobileData:
+    CardData:
       type: object
-      description: Mobile phone is used as a payment instrument for the transaction. Information related to the mobile for the payment transaction.
+      description: Allows acquisition of the card data by the Sale System before the Payment, CardAcquisition  or BalanceInquiry request to the POI. It could also be sent in the CardAcquisition response, to be processed by the Sale System. Information related to the payment card used for the transaction.
       properties:
-        MobileCountryCode:
+        PaymentBrand:
+          type: string
+          pattern: ^.+$
+          description: If card PAN is readable .
+        MaskedPan:
+          type: string
+          pattern: ^.+$
+        PaymentAccountRef:
+          type: string
+          pattern: ^.+$
+        EntryMode:
+          $ref: '#/components/schemas/EntryMode'
+        CardCountryCode:
           type: integer
           minimum: 3
           maximum: 3
-          description: If data available.
-        MobileNetworkCode:
-          type: integer
-          minimum: 2
-          maximum: 3
-          description: If data available.
-        MaskedMSISDN:
-          type: integer
-          description: If data available.
-        Geolocation:
-          $ref: '#/components/schemas/Geolocation'
-        ProtectedMobileData:
+          description: If available in the card.
+        ProtectedCardData:
           type: string
-          description: SensitiveMobileData.
-        SensitiveMobileData:
-          $ref: '#/components/schemas/SensitiveMobileData'
-    AreaSize:
-      type: object
-      properties:
-        X:
-          type: string
-        Y:
-          type: string
-      required:
-      - X
-      - Y
-    Response:
-      type: object
-      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
-      properties:
-        Result:
-          $ref: '#/components/schemas/Result'
-        ErrorCondition:
-          $ref: '#/components/schemas/ErrorCondition'
-        AdditionalResponse:
-          type: string
-          pattern: ^.+$
-          description: If present, the POI logs it for further examination.
-      required:
-      - Result
-    Instalment:
-      type: object
-      properties:
-        InstalmentType:
-          $ref: '#/components/schemas/InstalmentType'
-        SequenceNumber:
-          type: integer
-        PlanID:
-          type: string
-          pattern: ^.+$
-        Period:
-          type: integer
-        PeriodUnit:
-          $ref: '#/components/schemas/PeriodUnit'
-        FirstPaymentDate:
-          type: string
-          format: date
-        TotalNbOfPayments:
-          type: integer
-        CumulativeAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        FirstAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-        Charges:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-    BarcodeType:
-      type: string
-      enum:
-      - Code128
-      - Code25
-      - EAN13
-      - EAN8
-      - PDF417
-      - QRCode
-      - UPCA
-    OutputBarcode:
-      type: object
-      properties:
-        BarcodeType:
-          $ref: '#/components/schemas/BarcodeType'
-        BarcodeValue:
-          type: string
-          pattern: ^.+$
-      required:
-      - BarcodeValue
-    PeriodUnit:
-      type: string
-      enum:
-      - Annual
-      - Daily
-      - Monthly
-      - Weekly
-    StoredValueAccountType:
-      type: string
-      enum:
-      - GiftCard
-      - Other
-      - PhoneCard
-    TrackData:
-      type: object
-      description: ISO 7813 - ISO 4909.  Generic data structure for a card track, used when the magstripe card reader is located on the Sale Terminal, or for magstripe Card Reader device request. The data structure is also used to store the line at the bottom of a bank check. Magnetic track or magnetic ink characters line.
-      properties:
-        TrackNumb:
-          type: integer
-          minimum: 1
-          maximum: 3
-          default: 2
-        TrackFormat:
-          $ref: '#/components/schemas/TrackFormat'
-        TrackValue:
-          type: string
-          pattern: ^.{1,104}$
-      required:
-      - TrackValue
-    TransactionConditions:
-      type: object
-      description: Conditions on which the transaction must be processed.
-      properties:
-        AllowedPaymentBrand:
-          type: array
-          items:
-            type: string
-            pattern: ^.+$
-            description: Restrict brand if data sent.
-        AcquirerID:
+          description: SensitiveCardData protected by CMS EnvelopedData.
+        SensitiveCardData:
+          $ref: '#/components/schemas/SensitiveCardData'
+        AllowedProductCode:
           type: array
           items:
             type: integer
-            description: Restrict to these Acquirer if present.
-        DebitPreferredFlag:
-          type: boolean
-          description: The preferred type of payment is a debit transaction rather a credit transaction.
-        AllowedLoyaltyBrand:
+            minimum: 1
+            maximum: 20
+        AllowedProduct:
           type: array
           items:
-            type: string
-            pattern: ^.+$
-            description: Restrict brand if data sent.
-        LoyaltyHandling:
-          $ref: '#/components/schemas/LoyaltyHandling'
-        CustomerLanguage:
-          type: string
-          pattern: ^[a-z]{2,2}$
-          description: If the language is selected by the Sale System before the request to the POI.
-        ForceOnlineFlag:
-          type: boolean
-          default: false
-          description: Go online if data sent.
-        ForceEntryMode:
-          $ref: '#/components/schemas/ForceEntryMode'
-        MerchantCategoryCode:
-          type: string
-          pattern: ^.{3,4}$
-          description: The payment implies a specific MCC.
-    Alignment:
-      type: string
-      enum:
-      - Centred
-      - Justified
-      - Left
-      - Right
-    Result:
-      type: string
-      enum:
-      - Failure
-      - Partial
-      - Success
-    Color:
-      type: string
-      enum:
-      - Black
-      - Blue
-      - Cyan
-      - Green
-      - Magenta
-      - Red
-      - White
-      - Yellow
-    CheckData:
+            $ref: '#/components/schemas/AllowedProduct'
+        PaymentToken:
+          $ref: '#/components/schemas/PaymentToken'
+        CustomerOrder:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerOrder'
+    ConvertedAmount:
       type: object
-      description: Allows the check information to be provided by the Sale System before requesting the payment, or stored by the Sale System after processing of the payment. Information related to the paper check used for the transaction.
       properties:
-        BankID:
-          type: string
-          pattern: ^.+$
-          description: Mandatory if TrackData absent.
-        AccountNumber:
-          type: string
-          pattern: ^.+$
-          description: Mandatory if TrackData absent.
-        CheckNumber:
-          type: string
-          pattern: ^.+$
-          description: Mandatory if TrackData absent.
-        TrackData:
-          $ref: '#/components/schemas/TrackData'
-        CheckCardNumber:
-          type: string
-          pattern: ^.+$
-          description: If provided by the customer.
-        TypeCode:
-          $ref: '#/components/schemas/TypeCode'
-        Country:
+        AmountValue:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+        Currency:
           type: string
           pattern: ^[A-Z]{3,3}$
-          description: Absent if country of the Sale system.
-    SensitiveMobileData:
-      type: object
-      properties:
-        MSISDN:
-          type: integer
-        ISMI:
-          type: integer
-        IMEI:
-          type: integer
       required:
-      - MSISDN
+      - AmountValue
+      - Currency
+    IdentificationSupport:
+      type: string
+      enum:
+      - HybridCard
+      - LinkedCard
+      - LoyaltyCard
+      - NoCard
+    LoyaltyData:
+      type: object
+      description: In the Payment, Loyalty or Balance Inquiry Request message, it allows the Sale Terminal to send the identification of the loyalty account or an awarded amount or an amount to redeem to the loyalty account. Data related to a Loyalty program or account.
+      properties:
+        CardAcquisitionReference:
+          $ref: '#/components/schemas/TransactionIDType'
+        LoyaltyAccountID:
+          $ref: '#/components/schemas/LoyaltyAccountID'
+        LoyaltyAmount:
+          $ref: '#/components/schemas/LoyaltyAmount'
+    CharacterStyle:
+      type: string
+      enum:
+      - Bold
+      - Italic
+      - Normal
+      - Underline
   securitySchemes:
     ApiKeyAuth:
       in: header

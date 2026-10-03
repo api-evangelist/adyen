@@ -151,20 +151,18 @@ components:
       - accountHolderCode
       - shareholderCodes
       type: object
-    GenericResponse:
+    ErrorFieldType:
       properties:
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
           type: string
-        resultCode:
-          description: The result code.
-          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
       type: object
     ServiceError:
       properties:
@@ -184,6 +182,21 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
+      type: object
+    GenericResponse:
+      properties:
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
       type: object
     FieldType:
       properties:
@@ -359,19 +372,6 @@ components:
         shareholderCode:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
-      type: object
-    ErrorFieldType:
-      properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
-          type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
       type: object
   examples:
     generic-400:

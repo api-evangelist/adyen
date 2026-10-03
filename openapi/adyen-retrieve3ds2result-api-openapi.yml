@@ -118,13 +118,6 @@ components:
       value:
         merchantAccount: YOUR_MERCHANT_ACCOUNT
         pspReference: '9935272408535455'
-    generic-401:
-      summary: Response code 401. Unauthorized.
-      value:
-        status: 401
-        errorCode: '000'
-        message: HTTP Status Response - Unauthorized
-        errorType: security
     generic-400:
       summary: Response code 400. Bad request.
       value:
@@ -132,6 +125,13 @@ components:
         errorCode: '702'
         message: 'Unexpected input: ", expected: }'
         errorType: validation
+    generic-401:
+      summary: Response code 401. Unauthorized.
+      value:
+        status: 401
+        errorCode: '000'
+        message: HTTP Status Response - Unauthorized
+        errorType: security
     generic-500:
       summary: Response code 500. Internal server error.
       value:
@@ -147,17 +147,30 @@ components:
           description: The result of the 3D Secure 2 authentication.
           $ref: '#/components/schemas/ThreeDS2Result'
       type: object
-    ThreeDS2ResultRequest:
+    ServiceError:
       properties:
-        merchantAccount:
-          description: The merchant account identifier, with which you want to process the transaction.
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
           type: string
         pspReference:
-          description: The pspReference returned in the /authorise call.
+          description: The PSP reference of the payment.
           type: string
-      required:
-      - merchantAccount
-      - pspReference
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
       type: object
     ThreeDS2Result:
       properties:
@@ -255,30 +268,17 @@ components:
           description: The `whiteListStatus` value as defined in the 3D Secure 2 specification.
           type: string
       type: object
-    ServiceError:
+    ThreeDS2ResultRequest:
       properties:
-        additionalData:
-          x-addedInVersion: '46'
-          additionalProperties:
-            type: string
-          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
-          type: object
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
+        merchantAccount:
+          description: The merchant account identifier, with which you want to process the transaction.
           type: string
         pspReference:
-          description: The PSP reference of the payment.
+          description: The pspReference returned in the /authorise call.
           type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
+      required:
+      - merchantAccount
+      - pspReference
       type: object
   securitySchemes:
     ApiKeyAuth:

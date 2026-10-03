@@ -163,6 +163,16 @@ components:
       required:
       - token
       type: object
+    UpdateNetworkTokenRequest:
+      properties:
+        status:
+          description: 'The new status of the network token. Possible values: **active**, **suspended**, **closed**. The **closed** status is final and cannot be changed.'
+          enum:
+          - active
+          - suspended
+          - closed
+          type: string
+      type: object
     NetworkToken:
       properties:
         brandVariant:
@@ -195,6 +205,47 @@ components:
         type:
           description: The type of wallet the network token is associated with. For example, **applePay**.
           type: string
+      type: object
+    RestServiceError:
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+        errorCode:
+          description: A code that identifies the problem type.
+          type: string
+        instance:
+          description: A unique URI that identifies the specific occurrence of the problem.
+          type: string
+        invalidFields:
+          description: Detailed explanation of each validation error, when applicable.
+          items:
+            $ref: '#/components/schemas/InvalidField'
+          type: array
+        requestId:
+          description: A unique reference for the request, essentially the same as `pspReference`.
+          type: string
+        response:
+          description: JSON response payload.
+          $ref: '#/components/schemas/JSONObject'
+        status:
+          description: The HTTP status code.
+          format: int32
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type.
+          type: string
+        type:
+          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
+          type: string
+      required:
+      - type
+      - errorCode
+      - title
+      - detail
+      - status
+      type: object
+    JSONObject:
       type: object
     InvalidField:
       properties:
@@ -250,58 +301,16 @@ components:
           description: The architecture or technology used for network token storage.
           type: string
       type: object
-    RestServiceError:
-      properties:
-        detail:
-          description: A human-readable explanation specific to this occurrence of the problem.
-          type: string
-        errorCode:
-          description: A code that identifies the problem type.
-          type: string
-        instance:
-          description: A unique URI that identifies the specific occurrence of the problem.
-          type: string
-        invalidFields:
-          description: Detailed explanation of each validation error, when applicable.
-          items:
-            $ref: '#/components/schemas/InvalidField'
-          type: array
-        requestId:
-          description: A unique reference for the request, essentially the same as `pspReference`.
-          type: string
-        response:
-          description: JSON response payload.
-          $ref: '#/components/schemas/JSONObject'
-        status:
-          description: The HTTP status code.
-          format: int32
-          type: integer
-        title:
-          description: A short, human-readable summary of the problem type.
-          type: string
-        type:
-          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
-          type: string
-      required:
-      - type
-      - errorCode
-      - title
-      - detail
-      - status
-      type: object
-    JSONObject:
-      type: object
-    UpdateNetworkTokenRequest:
-      properties:
-        status:
-          description: 'The new status of the network token. Possible values: **active**, **suspended**, **closed**. The **closed** status is final and cannot be changed.'
-          enum:
-          - active
-          - suspended
-          - closed
-          type: string
-      type: object
   examples:
+    generic-422:
+      summary: Response code - 422 Unprocessable Entity.
+      value:
+        type: https://docs.adyen.com/errors/general/invalid-field-value
+        title: Invalid Payment Instrument information provided
+        status: 422
+        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
+        requestId: 1W1UI15PLVGC9V8O
+        errorCode: '30_031'
     generic-401:
       summary: Response code - 401 Unauthorized
       value:
@@ -327,15 +336,6 @@ components:
         detail: Unrecoverable error while trying to create payment instrument
         requestId: 1WAF555PLWNTLYOQ
         errorCode: '00_500'
-    generic-422:
-      summary: Response code - 422 Unprocessable Entity.
-      value:
-        type: https://docs.adyen.com/errors/general/invalid-field-value
-        title: Invalid Payment Instrument information provided
-        status: 422
-        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
-        requestId: 1W1UI15PLVGC9V8O
-        errorCode: '30_031'
   securitySchemes:
     ApiKeyAuth:
       in: header

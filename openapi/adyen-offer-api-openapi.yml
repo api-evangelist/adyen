@@ -117,6 +117,21 @@ components:
       required:
       - estimatedDays
       type: object
+    Repayment:
+      properties:
+        basisPoints:
+          description: The repayment that is deducted daily from incoming net volume, in [basis points](https://www.investopedia.com/terms/b/basispoint.asp).
+          format: int32
+          type: integer
+        term:
+          description: An object containing the details of the configuration for repayment term.
+          $ref: '#/components/schemas/RepaymentTerm'
+        threshold:
+          description: An object containing the details of the 30-day repayment threshold.
+          $ref: '#/components/schemas/ThresholdRepayment'
+      required:
+      - basisPoints
+      type: object
     Fee:
       properties:
         amount:
@@ -124,6 +139,62 @@ components:
           $ref: '#/components/schemas/Amount'
       required:
       - amount
+      type: object
+    RestServiceError:
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+        errorCode:
+          description: A code that identifies the problem type.
+          type: string
+        instance:
+          description: A unique URI that identifies the specific occurrence of the problem.
+          type: string
+        invalidFields:
+          description: Detailed explanation of each validation error, when applicable.
+          items:
+            $ref: '#/components/schemas/InvalidField'
+          type: array
+        requestId:
+          description: A unique reference for the request, essentially the same as `pspReference`.
+          type: string
+        response:
+          description: JSON response payload.
+          $ref: '#/components/schemas/JSONObject'
+        status:
+          description: The HTTP status code.
+          format: int32
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type.
+          type: string
+        type:
+          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
+          type: string
+      required:
+      - type
+      - errorCode
+      - title
+      - detail
+      - status
+      type: object
+    JSONObject:
+      type: object
+    Amount:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      - currency
       type: object
     GrantOffer:
       properties:
@@ -175,77 +246,6 @@ components:
       - value
       - message
       type: object
-    RestServiceError:
-      properties:
-        detail:
-          description: A human-readable explanation specific to this occurrence of the problem.
-          type: string
-        errorCode:
-          description: A code that identifies the problem type.
-          type: string
-        instance:
-          description: A unique URI that identifies the specific occurrence of the problem.
-          type: string
-        invalidFields:
-          description: Detailed explanation of each validation error, when applicable.
-          items:
-            $ref: '#/components/schemas/InvalidField'
-          type: array
-        requestId:
-          description: A unique reference for the request, essentially the same as `pspReference`.
-          type: string
-        response:
-          description: JSON response payload.
-          $ref: '#/components/schemas/JSONObject'
-        status:
-          description: The HTTP status code.
-          format: int32
-          type: integer
-        title:
-          description: A short, human-readable summary of the problem type.
-          type: string
-        type:
-          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
-          type: string
-      required:
-      - type
-      - errorCode
-      - title
-      - detail
-      - status
-      type: object
-    Repayment:
-      properties:
-        basisPoints:
-          description: The repayment that is deducted daily from incoming net volume, in [basis points](https://www.investopedia.com/terms/b/basispoint.asp).
-          format: int32
-          type: integer
-        term:
-          description: An object containing the details of the configuration for repayment term.
-          $ref: '#/components/schemas/RepaymentTerm'
-        threshold:
-          description: An object containing the details of the 30-day repayment threshold.
-          $ref: '#/components/schemas/ThresholdRepayment'
-      required:
-      - basisPoints
-      type: object
-    JSONObject:
-      type: object
-    Amount:
-      properties:
-        currency:
-          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
-          maxLength: 3
-          minLength: 3
-          type: string
-        value:
-          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int64
-          type: integer
-      required:
-      - value
-      - currency
-      type: object
     ThresholdRepayment:
       properties:
         amount:
@@ -255,14 +255,15 @@ components:
       - amount
       type: object
   examples:
-    generic-401:
-      summary: Response code - 401 Unauthorized
+    generic-422:
+      summary: Response code - 422 Unprocessable Entity.
       value:
-        type: https://docs.adyen.com/errors/security/unauthorized
-        title: Unauthorized
-        status: 401
-        detail: Not authorized to access this service.
-        errorCode: '00_401'
+        type: https://docs.adyen.com/errors/general/invalid-field-value
+        title: Invalid Payment Instrument information provided
+        status: 422
+        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
+        requestId: 1W1UI15PLVGC9V8O
+        errorCode: '30_031'
     generic-400:
       summary: Response code - 400 Bad request
       value:
@@ -271,6 +272,14 @@ components:
         status: 400
         detail: Empty input which would have resulted in a null result.
         errorCode: '00_400'
+    generic-401:
+      summary: Response code - 401 Unauthorized
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Unauthorized
+        status: 401
+        detail: Not authorized to access this service.
+        errorCode: '00_401'
     generic-403:
       summary: Response code - 403 Forbidden.
       value:
@@ -288,15 +297,6 @@ components:
         detail: Unrecoverable error while trying to create payment instrument
         requestId: 1WAF555PLWNTLYOQ
         errorCode: '00_500'
-    generic-422:
-      summary: Response code - 422 Unprocessable Entity.
-      value:
-        type: https://docs.adyen.com/errors/general/invalid-field-value
-        title: Invalid Payment Instrument information provided
-        status: 422
-        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
-        requestId: 1W1UI15PLVGC9V8O
-        errorCode: '30_031'
   securitySchemes:
     ApiKeyAuth:
       in: header

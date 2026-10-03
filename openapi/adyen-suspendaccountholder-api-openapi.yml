@@ -139,6 +139,37 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    ErrorFieldType:
+      properties:
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
+      type: object
+    SuspendAccountHolderResponse:
+      properties:
+        accountHolderStatus:
+          description: The new status of the Account Holder.
+          $ref: '#/components/schemas/AccountHolderStatus'
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+      type: object
     AccountPayoutState:
       properties:
         allowPayout:
@@ -163,62 +194,13 @@ components:
           format: int32
           type: integer
       type: object
-    ServiceError:
+    SuspendAccountHolderRequest:
       properties:
-        errorCode:
-          description: The error code mapped to the error message.
+        accountHolderCode:
+          description: The code of the account holder to be suspended.
           type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
-      type: object
-    SuspendAccountHolderResponse:
-      properties:
-        accountHolderStatus:
-          description: The new status of the Account Holder.
-          $ref: '#/components/schemas/AccountHolderStatus'
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        resultCode:
-          description: The result code.
-          type: string
-      type: object
-    AccountEvent:
-      properties:
-        event:
-          description: 'The event.
-
-            >Permitted values: `InactivateAccount`, `RefundNotPaidOutTransfers`.
-
-            For more information, refer to [Verification checks](https://docs.adyen.com/marketplaces-and-platforms/classic/verification-process).'
-          enum:
-          - InactivateAccount
-          - RefundNotPaidOutTransfers
-          type: string
-        executionDate:
-          description: The date on which the event will take place.
-          format: date-time
-          type: string
-        reason:
-          description: The reason why this event has been created.
-          type: string
+      required:
+      - accountHolderCode
       type: object
     AccountHolderStatus:
       properties:
@@ -248,6 +230,45 @@ components:
           type: string
       required:
       - status
+      type: object
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    AccountProcessingState:
+      properties:
+        disableReason:
+          description: The reason why processing has been disabled.
+          type: string
+        disabled:
+          description: Indicates whether the processing of payments is allowed.
+          type: boolean
+        processedFrom:
+          description: The lower bound of the processing tier (i.e., an account holder must have processed at least this amount of money in order to be placed into this tier).
+          $ref: '#/components/schemas/Amount'
+        processedTo:
+          description: The upper bound of the processing tier (i.e., an account holder must have processed less than this amount of money in order to be placed into this tier).
+          $ref: '#/components/schemas/Amount'
+        tierNumber:
+          x-addedInVersion: '3'
+          description: The processing tier that the account holder occupies.
+          format: int32
+          type: integer
       type: object
     FieldType:
       properties:
@@ -439,55 +460,27 @@ components:
       - value
       - currency
       type: object
-    AccountProcessingState:
+    AccountEvent:
       properties:
-        disableReason:
-          description: The reason why processing has been disabled.
+        event:
+          description: 'The event.
+
+            >Permitted values: `InactivateAccount`, `RefundNotPaidOutTransfers`.
+
+            For more information, refer to [Verification checks](https://docs.adyen.com/marketplaces-and-platforms/classic/verification-process).'
+          enum:
+          - InactivateAccount
+          - RefundNotPaidOutTransfers
           type: string
-        disabled:
-          description: Indicates whether the processing of payments is allowed.
-          type: boolean
-        processedFrom:
-          description: The lower bound of the processing tier (i.e., an account holder must have processed at least this amount of money in order to be placed into this tier).
-          $ref: '#/components/schemas/Amount'
-        processedTo:
-          description: The upper bound of the processing tier (i.e., an account holder must have processed less than this amount of money in order to be placed into this tier).
-          $ref: '#/components/schemas/Amount'
-        tierNumber:
-          x-addedInVersion: '3'
-          description: The processing tier that the account holder occupies.
-          format: int32
-          type: integer
-      type: object
-    ErrorFieldType:
-      properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
+        executionDate:
+          description: The date on which the event will take place.
+          format: date-time
           type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
-      type: object
-    SuspendAccountHolderRequest:
-      properties:
-        accountHolderCode:
-          description: The code of the account holder to be suspended.
+        reason:
+          description: The reason why this event has been created.
           type: string
-      required:
-      - accountHolderCode
       type: object
   examples:
-    generic-403:
-      summary: Response code 401. Forbidden.
-      value:
-        status: 403
-        errorCode: '10_003'
-        message: Failed to authorize user
-        errorType: security
     generic-400:
       summary: Response code 400. Bad Request.
       value:
@@ -495,6 +488,13 @@ components:
         errorCode: '702'
         message: 'Unexpected input: I'
         errorType: validation
+    generic-403:
+      summary: Response code 401. Forbidden.
+      value:
+        status: 403
+        errorCode: '10_003'
+        message: Failed to authorize user
+        errorType: security
     post-suspendAccountHolder-basic:
       summary: Suspend an account holder
       value:

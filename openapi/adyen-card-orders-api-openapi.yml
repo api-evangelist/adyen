@@ -244,6 +244,38 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    CardOrderItem:
+      properties:
+        balancePlatform:
+          description: The unique identifier of the balance platform.
+          type: string
+        card:
+          description: 'The status of the card delivery.
+
+
+            Possible values: **created**, **rejected**, **processing**, **produced**, **shipped**, **delivered**, **notApplicable**, **unknown**. '
+          $ref: '#/components/schemas/CardOrderItemDeliveryStatus'
+        cardOrderItemId:
+          description: The unique identifier of the card order item.
+          type: string
+        creationDate:
+          description: The date and time when the event was triggered, in ISO 8601 extended format. For example, **2020-12-18T10:15:30+01:00**.
+          format: date-time
+          type: string
+        id:
+          description: The ID of the resource.
+          readOnly: true
+          type: string
+        paymentInstrumentId:
+          description: The unique identifier of the payment instrument related to the card order item.
+          type: string
+        pin:
+          description: Contains information about the status of the PIN delivery.
+          $ref: '#/components/schemas/CardOrderItemDeliveryStatus'
+        shippingMethod:
+          description: The shipping method used to deliver the card or the PIN.
+          type: string
+      type: object
     PaginatedGetCardOrderResponse:
       properties:
         cardOrders:
@@ -261,21 +293,63 @@ components:
       - hasPrevious
       - hasNext
       type: object
-    InvalidField:
+    CardOrder:
       properties:
-        message:
-          description: Description of the validation error.
+        beginDate:
+          description: The date when the card order is created.
+          format: date-time
           type: string
-        name:
-          description: The field that has an invalid value.
+        cardManufacturingProfileId:
+          description: The unique identifier of the card manufacturer profile.
           type: string
-        value:
-          description: The invalid value.
+        closedDate:
+          description: The date when the card order processing ends.
+          format: date-time
           type: string
+        endDate:
+          description: 'The date when you manually closed the card order.
+
+
+            Card orders are automatically closed by the end of the day it was created. If you manually closed it beforehand, the closing date is shown as the `endDate`.'
+          format: date-time
+          type: string
+        id:
+          description: The unique identifier of the card order.
+          type: string
+        lockDate:
+          description: The date when the card order processing begins.
+          format: date-time
+          type: string
+        serviceCenter:
+          description: The service center.
+          type: string
+        status:
+          description: 'The status of the card order.
+
+
+            Possible values: **Open**, **Closed**.'
+          enum:
+          - closed
+          - open
+          type: string
+      type: object
+    PaginatedGetCardOrderItemResponse:
+      properties:
+        data:
+          description: List of card order items in the card order batch.
+          items:
+            $ref: '#/components/schemas/CardOrderItem'
+          type: array
+        hasNext:
+          description: Indicates whether there are more items on the next page.
+          type: boolean
+        hasPrevious:
+          description: Indicates whether there are more items on the previous page.
+          type: boolean
       required:
-      - name
-      - value
-      - message
+      - data
+      - hasPrevious
+      - hasNext
       type: object
     CardOrderItemDeliveryStatus:
       properties:
@@ -337,99 +411,34 @@ components:
       - detail
       - status
       type: object
-    CardOrderItem:
-      properties:
-        balancePlatform:
-          description: The unique identifier of the balance platform.
-          type: string
-        card:
-          description: 'The status of the card delivery.
-
-
-            Possible values: **created**, **rejected**, **processing**, **produced**, **shipped**, **delivered**, **notApplicable**, **unknown**. '
-          $ref: '#/components/schemas/CardOrderItemDeliveryStatus'
-        cardOrderItemId:
-          description: The unique identifier of the card order item.
-          type: string
-        creationDate:
-          description: The date and time when the event was triggered, in ISO 8601 extended format. For example, **2020-12-18T10:15:30+01:00**.
-          format: date-time
-          type: string
-        id:
-          description: The ID of the resource.
-          readOnly: true
-          type: string
-        paymentInstrumentId:
-          description: The unique identifier of the payment instrument related to the card order item.
-          type: string
-        pin:
-          description: Contains information about the status of the PIN delivery.
-          $ref: '#/components/schemas/CardOrderItemDeliveryStatus'
-        shippingMethod:
-          description: The shipping method used to deliver the card or the PIN.
-          type: string
-      type: object
     JSONObject:
       type: object
-    PaginatedGetCardOrderItemResponse:
+    InvalidField:
       properties:
-        data:
-          description: List of card order items in the card order batch.
-          items:
-            $ref: '#/components/schemas/CardOrderItem'
-          type: array
-        hasNext:
-          description: Indicates whether there are more items on the next page.
-          type: boolean
-        hasPrevious:
-          description: Indicates whether there are more items on the previous page.
-          type: boolean
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
+          type: string
+        value:
+          description: The invalid value.
+          type: string
       required:
-      - data
-      - hasPrevious
-      - hasNext
-      type: object
-    CardOrder:
-      properties:
-        beginDate:
-          description: The date when the card order is created.
-          format: date-time
-          type: string
-        cardManufacturingProfileId:
-          description: The unique identifier of the card manufacturer profile.
-          type: string
-        closedDate:
-          description: The date when the card order processing ends.
-          format: date-time
-          type: string
-        endDate:
-          description: 'The date when you manually closed the card order.
-
-
-            Card orders are automatically closed by the end of the day it was created. If you manually closed it beforehand, the closing date is shown as the `endDate`.'
-          format: date-time
-          type: string
-        id:
-          description: The unique identifier of the card order.
-          type: string
-        lockDate:
-          description: The date when the card order processing begins.
-          format: date-time
-          type: string
-        serviceCenter:
-          description: The service center.
-          type: string
-        status:
-          description: 'The status of the card order.
-
-
-            Possible values: **Open**, **Closed**.'
-          enum:
-          - closed
-          - open
-          type: string
+      - name
+      - value
+      - message
       type: object
   examples:
+    generic-422:
+      summary: Response code - 422 Unprocessable Entity.
+      value:
+        type: https://docs.adyen.com/errors/general/invalid-field-value
+        title: Invalid Payment Instrument information provided
+        status: 422
+        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
+        requestId: 1W1UI15PLVGC9V8O
+        errorCode: '30_031'
     generic-401:
       summary: Response code - 401 Unauthorized
       value:
@@ -438,20 +447,6 @@ components:
         status: 401
         detail: Not authorized to access this service.
         errorCode: '00_401'
-    get-cardorders-success-200:
-      summary: List of card orders retrieved
-      description: Example response for retrieving a paginated list of card orders
-      value:
-        cardOrders:
-        - beginDate: '2022-12-05T00:00:00+01:00'
-          cardManufacturingProfileId: UNIQUE_CARD_MANUFACTURER_PROFILE_ID
-          endDate: '2022-12-06T00:00:00+01:00'
-          id: UNIQUE_CARD_ORDER_ID
-          lockDate: '2023-04-14T16:43:02+02:00'
-          serviceCenter: IDEMIA Sittard
-          status: closed
-        hasNext: true
-        hasPrevious: false
     generic-403:
       summary: Response code - 403 Forbidden.
       value:
@@ -483,15 +478,20 @@ components:
         detail: Unrecoverable error while trying to create payment instrument
         requestId: 1WAF555PLWNTLYOQ
         errorCode: '00_500'
-    generic-422:
-      summary: Response code - 422 Unprocessable Entity.
+    get-cardorders-success-200:
+      summary: List of card orders retrieved
+      description: Example response for retrieving a paginated list of card orders
       value:
-        type: https://docs.adyen.com/errors/general/invalid-field-value
-        title: Invalid Payment Instrument information provided
-        status: 422
-        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
-        requestId: 1W1UI15PLVGC9V8O
-        errorCode: '30_031'
+        cardOrders:
+        - beginDate: '2022-12-05T00:00:00+01:00'
+          cardManufacturingProfileId: UNIQUE_CARD_MANUFACTURER_PROFILE_ID
+          endDate: '2022-12-06T00:00:00+01:00'
+          id: UNIQUE_CARD_ORDER_ID
+          lockDate: '2023-04-14T16:43:02+02:00'
+          serviceCenter: IDEMIA Sittard
+          status: closed
+        hasNext: true
+        hasPrevious: false
   securitySchemes:
     ApiKeyAuth:
       in: header

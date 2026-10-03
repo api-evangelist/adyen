@@ -138,20 +138,18 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    GenericResponse:
+    ErrorFieldType:
       properties:
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
           type: string
-        resultCode:
-          description: The result code.
-          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
       type: object
     ServiceError:
       properties:
@@ -171,32 +169,6 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
-      type: object
-    PerformVerificationRequest:
-      properties:
-        accountHolderCode:
-          description: The code of the account holder to verify.
-          type: string
-        accountStateType:
-          description: 'The state required for the account holder.
-
-            > Permitted values: `Processing`, `Payout`.'
-          enum:
-          - LimitedPayout
-          - LimitedProcessing
-          - LimitlessPayout
-          - LimitlessProcessing
-          - Payout
-          - Processing
-          type: string
-        tier:
-          description: The tier required for the account holder.
-          format: int32
-          type: integer
-      required:
-      - accountHolderCode
-      - accountStateType
-      - tier
       type: object
     FieldType:
       properties:
@@ -373,18 +345,46 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    ErrorFieldType:
+    GenericResponse:
       properties:
-        errorCode:
-          description: The validation error code.
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+      type: object
+    PerformVerificationRequest:
+      properties:
+        accountHolderCode:
+          description: The code of the account holder to verify.
+          type: string
+        accountStateType:
+          description: 'The state required for the account holder.
+
+            > Permitted values: `Processing`, `Payout`.'
+          enum:
+          - LimitedPayout
+          - LimitedProcessing
+          - LimitlessPayout
+          - LimitlessProcessing
+          - Payout
+          - Processing
+          type: string
+        tier:
+          description: The tier required for the account holder.
           format: int32
           type: integer
-        errorDescription:
-          description: A description of the validation error.
-          type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
+      required:
+      - accountHolderCode
+      - accountStateType
+      - tier
       type: object
   examples:
     generic-400:

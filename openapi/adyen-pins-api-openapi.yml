@@ -87,6 +87,15 @@ paths:
         dispatcher: FALLBACK
 components:
   examples:
+    generic-422:
+      summary: Response code - 422 Unprocessable Entity.
+      value:
+        type: https://docs.adyen.com/errors/general/invalid-field-value
+        title: Invalid Payment Instrument information provided
+        status: 422
+        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
+        requestId: 1W1UI15PLVGC9V8O
+        errorCode: '30_031'
     generic-401:
       summary: Response code - 401 Unauthorized
       value:
@@ -112,32 +121,7 @@ components:
         detail: Unrecoverable error while trying to create payment instrument
         requestId: 1WAF555PLWNTLYOQ
         errorCode: '00_500'
-    generic-422:
-      summary: Response code - 422 Unprocessable Entity.
-      value:
-        type: https://docs.adyen.com/errors/general/invalid-field-value
-        title: Invalid Payment Instrument information provided
-        status: 422
-        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
-        requestId: 1W1UI15PLVGC9V8O
-        errorCode: '30_031'
   schemas:
-    InvalidField:
-      properties:
-        message:
-          description: Description of the validation error.
-          type: string
-        name:
-          description: The field that has an invalid value.
-          type: string
-        value:
-          description: The invalid value.
-          type: string
-      required:
-      - name
-      - value
-      - message
-      type: object
     RestServiceError:
       properties:
         detail:
@@ -178,6 +162,22 @@ components:
       - status
       type: object
     JSONObject:
+      type: object
+    InvalidField:
+      properties:
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
+          type: string
+        value:
+          description: The invalid value.
+          type: string
+      required:
+      - name
+      - value
+      - message
       type: object
     RevealPinResponse:
       properties:

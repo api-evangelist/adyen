@@ -118,6 +118,20 @@ paths:
         dispatcher: FALLBACK
 components:
   examples:
+    generic-400:
+      summary: Response code 400. Bad request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: ", expected: }'
+        errorType: validation
+    generic-401:
+      summary: Response code 401. Unauthorized.
+      value:
+        status: 401
+        errorCode: '000'
+        message: HTTP Status Response - Unauthorized
+        errorType: security
     post-donate-donate:
       summary: Create a payment for the specified donation
       value:
@@ -128,20 +142,6 @@ components:
         reference: YOUR_DONATION_REFERENCE
         donationAccount: AdyenGivingDemo
         merchantAccount: YOUR_MERCHANT_ACCOUNT
-    generic-401:
-      summary: Response code 401. Unauthorized.
-      value:
-        status: 401
-        errorCode: '000'
-        message: HTTP Status Response - Unauthorized
-        errorType: security
-    generic-400:
-      summary: Response code 400. Bad request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: ", expected: }'
-        errorType: validation
     generic-500:
       summary: Response code 500. Internal server error.
       value:
@@ -151,31 +151,6 @@ components:
         errorType: configuration
         pspReference: '8516091485743033'
   schemas:
-    PlatformChargebackLogic:
-      properties:
-        behavior:
-          x-addedInVersion: '68'
-          description: 'The method of handling the chargeback.
-
-
-            Possible values: **deductFromLiableAccount**, **deductFromOneBalanceAccount**, **deductAccordingToSplitRatio**.'
-          enum:
-          - deductAccordingToSplitRatio
-          - deductFromLiableAccount
-          - deductFromOneBalanceAccount
-          type: string
-        costAllocationAccount:
-          x-addedInVersion: '68'
-          description: The unique identifier of the balance account to which the chargeback fees are booked. By default, the chargeback fees are booked to your liable balance account.
-          type: string
-        targetAccount:
-          x-addedInVersion: '68'
-          description: 'The unique identifier of the balance account against which the disputed amount is booked.
-
-
-            Required if `behavior` is **deductFromOneBalanceAccount**.'
-          type: string
-      type: object
     DonationRequest:
       properties:
         donationAccount:
@@ -263,6 +238,31 @@ components:
       required:
       - response
       - pspReference
+      type: object
+    PlatformChargebackLogic:
+      properties:
+        behavior:
+          x-addedInVersion: '68'
+          description: 'The method of handling the chargeback.
+
+
+            Possible values: **deductFromLiableAccount**, **deductFromOneBalanceAccount**, **deductAccordingToSplitRatio**.'
+          enum:
+          - deductAccordingToSplitRatio
+          - deductFromLiableAccount
+          - deductFromOneBalanceAccount
+          type: string
+        costAllocationAccount:
+          x-addedInVersion: '68'
+          description: The unique identifier of the balance account to which the chargeback fees are booked. By default, the chargeback fees are booked to your liable balance account.
+          type: string
+        targetAccount:
+          x-addedInVersion: '68'
+          description: 'The unique identifier of the balance account against which the disputed amount is booked.
+
+
+            Required if `behavior` is **deductFromOneBalanceAccount**.'
+          type: string
       type: object
     Amount:
       properties:

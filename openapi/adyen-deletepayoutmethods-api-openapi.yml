@@ -138,34 +138,18 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    GenericResponse:
+    ErrorFieldType:
       properties:
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
           type: string
-        resultCode:
-          description: The result code.
-          type: string
-      type: object
-    DeletePayoutMethodRequest:
-      properties:
-        accountHolderCode:
-          description: The code of the account holder, from which to delete the payout methods.
-          type: string
-        payoutMethodCodes:
-          description: The codes of the payout methods to be deleted.
-          items:
-            type: string
-          type: array
-      required:
-      - accountHolderCode
-      - payoutMethodCodes
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
       type: object
     ServiceError:
       properties:
@@ -361,18 +345,34 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    ErrorFieldType:
+    GenericResponse:
       properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
           type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
+        resultCode:
+          description: The result code.
+          type: string
+      type: object
+    DeletePayoutMethodRequest:
+      properties:
+        accountHolderCode:
+          description: The code of the account holder, from which to delete the payout methods.
+          type: string
+        payoutMethodCodes:
+          description: The codes of the payout methods to be deleted.
+          items:
+            type: string
+          type: array
+      required:
+      - accountHolderCode
+      - payoutMethodCodes
       type: object
   examples:
     generic-400:

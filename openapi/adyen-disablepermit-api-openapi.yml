@@ -135,17 +135,14 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    DisablePermitRequest:
+    DisablePermitResult:
       properties:
-        merchantAccount:
-          description: The merchant account identifier, with which you want to process the transaction.
+        pspReference:
+          description: A unique reference associated with the request. This value is globally unique; quote it when communicating with us about this request.
           type: string
-        token:
-          description: The permit token to disable.
+        status:
+          description: Status of the disable request.
           type: string
-      required:
-      - merchantAccount
-      - token
       type: object
     ServiceError:
       properties:
@@ -172,14 +169,17 @@ components:
           format: int32
           type: integer
       type: object
-    DisablePermitResult:
+    DisablePermitRequest:
       properties:
-        pspReference:
-          description: A unique reference associated with the request. This value is globally unique; quote it when communicating with us about this request.
+        merchantAccount:
+          description: The merchant account identifier, with which you want to process the transaction.
           type: string
-        status:
-          description: Status of the disable request.
+        token:
+          description: The permit token to disable.
           type: string
+      required:
+      - merchantAccount
+      - token
       type: object
   securitySchemes:
     ApiKeyAuth:

@@ -130,20 +130,29 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    GenericResponse:
+    ErrorFieldType:
       properties:
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
+      type: object
+    DeleteNotificationConfigurationRequest:
+      properties:
+        notificationIds:
+          description: A list of IDs of the notification subscription configurations to be deleted.
           items:
-            $ref: '#/components/schemas/ErrorFieldType'
+            format: int64
+            type: integer
           type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        resultCode:
-          description: The result code.
-          type: string
+      required:
+      - notificationIds
       type: object
     ServiceError:
       properties:
@@ -163,17 +172,6 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
-      type: object
-    DeleteNotificationConfigurationRequest:
-      properties:
-        notificationIds:
-          description: A list of IDs of the notification subscription configurations to be deleted.
-          items:
-            format: int64
-            type: integer
-          type: array
-      required:
-      - notificationIds
       type: object
     FieldType:
       properties:
@@ -350,31 +348,33 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    ErrorFieldType:
+    GenericResponse:
       properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
           type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
+        resultCode:
+          description: The result code.
+          type: string
       type: object
   examples:
+    post-deleteNotificationConfigurations-basic-200:
+      summary: Delete a notification configuration
+      description: Example response of deleting a notification configuration
+      value:
+        pspReference: '8516480472498802'
     post-deleteNotificationConfigurations-basic:
       summary: Delete a notification configuration
       description: Deletes an existing notification subscription configuration
       value:
         notificationIds:
         - 27891
-    post-deleteNotificationConfigurations-basic-200:
-      summary: Delete a notification configuration
-      description: Example response of deleting a notification configuration
-      value:
-        pspReference: '8516480472498802'
   securitySchemes:
     ApiKeyAuth:
       in: header

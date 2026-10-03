@@ -136,6 +136,17 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    PermitResult:
+      properties:
+        resultKey:
+          x-addedInVersion: '32'
+          description: The key to link permit requests to permit results.
+          type: string
+        token:
+          x-addedInVersion: '32'
+          description: The permit token which is used to make payments by the partner company.
+          type: string
+      type: object
     CreatePermitRequest:
       properties:
         merchantAccount:
@@ -157,17 +168,6 @@ components:
       - shopperReference
       - recurringDetailReference
       - permits
-      type: object
-    PermitResult:
-      properties:
-        resultKey:
-          x-addedInVersion: '32'
-          description: The key to link permit requests to permit results.
-          type: string
-        token:
-          x-addedInVersion: '32'
-          description: The permit token which is used to make payments by the partner company.
-          type: string
       type: object
     ServiceError:
       properties:
@@ -194,17 +194,16 @@ components:
           format: int32
           type: integer
       type: object
-    PermitRestriction:
+    CreatePermitResult:
       properties:
-        maxAmount:
-          description: The total sum amount of one or more payments made using this permit may not exceed this amount if set.
-          $ref: '#/components/schemas/Amount'
-        singleTransactionLimit:
-          description: The amount of any single payment using this permit may not exceed this amount if set.
-          $ref: '#/components/schemas/Amount'
-        singleUse:
-          description: Only a single payment can be made using this permit if set to true, otherwise multiple payments are allowed.
-          type: boolean
+        permitResultList:
+          description: List of new permits.
+          items:
+            $ref: '#/components/schemas/PermitResult'
+          type: array
+        pspReference:
+          description: A unique reference associated with the request. This value is globally unique; quote it when communicating with us about this request.
+          type: string
       type: object
     Permit:
       properties:
@@ -240,16 +239,17 @@ components:
       - value
       - currency
       type: object
-    CreatePermitResult:
+    PermitRestriction:
       properties:
-        permitResultList:
-          description: List of new permits.
-          items:
-            $ref: '#/components/schemas/PermitResult'
-          type: array
-        pspReference:
-          description: A unique reference associated with the request. This value is globally unique; quote it when communicating with us about this request.
-          type: string
+        maxAmount:
+          description: The total sum amount of one or more payments made using this permit may not exceed this amount if set.
+          $ref: '#/components/schemas/Amount'
+        singleTransactionLimit:
+          description: The amount of any single payment using this permit may not exceed this amount if set.
+          $ref: '#/components/schemas/Amount'
+        singleUse:
+          description: Only a single payment can be made using this permit if set to true, otherwise multiple payments are allowed.
+          type: boolean
       type: object
   securitySchemes:
     ApiKeyAuth:

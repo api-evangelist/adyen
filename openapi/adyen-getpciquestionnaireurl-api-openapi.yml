@@ -131,25 +131,22 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  examples:
+    post-getPciQuestionnaireUrl-get-pci-questionnaire-url:
+      summary: Get a PCI questionnaire link
+      description: Returns a link to an Adyen-hosted PCI compliance questionnaire that you can send to your account holder.
+      value:
+        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
+        returnUrl: https://your.return-url.com/?submerchant=123
+    post-getPciQuestionnaireUrl-get-pci-questionnaire-url-200:
+      summary: Hosted onboarding page link
+      description: Example response for requesting a hosted onboarding page link
+      value:
+        invalidFields: []
+        pspReference: '8315748692943050'
+        resultCode: Success
+        redirectUrl: https://hop-test.adyen.com/hop/pci/?token=<token>
   schemas:
-    GetPciUrlResponse:
-      properties:
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Information about any invalid fields.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        redirectUrl:
-          description: The URL to the PCI compliance questionnaire where you should redirect your account holder. This URL must be used within 30 seconds and can only be used once.
-          type: string
-        resultCode:
-          description: The result code.
-          type: string
-      type: object
     ErrorFieldType:
       properties:
         errorCode:
@@ -162,6 +159,17 @@ components:
         fieldType:
           description: The type of error field.
           $ref: '#/components/schemas/FieldType'
+      type: object
+    GetPciUrlRequest:
+      properties:
+        accountHolderCode:
+          description: The account holder code you provided when you created the account holder.
+          type: string
+        returnUrl:
+          description: The URL where the account holder will be redirected back to after they fill out the questionnaire, or if their session times out. Maximum length of 500 characters.
+          type: string
+      required:
+      - accountHolderCode
       type: object
     ServiceError:
       properties:
@@ -357,32 +365,24 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    GetPciUrlRequest:
+    GetPciUrlResponse:
       properties:
-        accountHolderCode:
-          description: The account holder code you provided when you created the account holder.
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Information about any invalid fields.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
           type: string
-        returnUrl:
-          description: The URL where the account holder will be redirected back to after they fill out the questionnaire, or if their session times out. Maximum length of 500 characters.
+        redirectUrl:
+          description: The URL to the PCI compliance questionnaire where you should redirect your account holder. This URL must be used within 30 seconds and can only be used once.
           type: string
-      required:
-      - accountHolderCode
+        resultCode:
+          description: The result code.
+          type: string
       type: object
-  examples:
-    post-getPciQuestionnaireUrl-get-pci-questionnaire-url:
-      summary: Get a PCI questionnaire link
-      description: Returns a link to an Adyen-hosted PCI compliance questionnaire that you can send to your account holder.
-      value:
-        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
-        returnUrl: https://your.return-url.com/?submerchant=123
-    post-getPciQuestionnaireUrl-get-pci-questionnaire-url-200:
-      summary: Hosted onboarding page link
-      description: Example response for requesting a hosted onboarding page link
-      value:
-        invalidFields: []
-        pspReference: '8315748692943050'
-        resultCode: Success
-        redirectUrl: https://hop-test.adyen.com/hop/pci/?token=<token>
   securitySchemes:
     ApiKeyAuth:
       in: header

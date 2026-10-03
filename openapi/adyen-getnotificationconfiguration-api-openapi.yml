@@ -130,56 +130,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    NotificationEventConfiguration:
-      properties:
-        eventType:
-          description: 'The type of event.
-
-
-            Possible values: **ACCOUNT_CLOSED**, **ACCOUNT_CREATED**, **ACCOUNT_FUNDS_BELOW_THRESHOLD**, **ACCOUNT_HOLDER_CREATED**, **ACCOUNT_HOLDER_LIMIT_REACHED**, **ACCOUNT_HOLDER_PAYOUT**, **ACCOUNT_HOLDER_STATUS_CHANGE**, **ACCOUNT_HOLDER_STORE_STATUS_CHANGE**, **ACCOUNT_HOLDER_UPCOMING_DEADLINE**, **ACCOUNT_HOLDER_UPDATED**, **ACCOUNT_HOLDER_VERIFICATION**, **ACCOUNT_UPDATED**, **BENEFICIARY_SETUP**, **COMPENSATE_NEGATIVE_BALANCE**, **DIRECT_DEBIT_INITIATED**, **PAYMENT_FAILURE**, **REFUND_FUNDS_TRANSFER**, **REPORT_AVAILABLE**, **SCHEDULED_REFUNDS**, **TRANSFER_FUNDS**.'
-          enum:
-          - ACCOUNT_CLOSED
-          - ACCOUNT_CREATED
-          - ACCOUNT_FUNDS_BELOW_THRESHOLD
-          - ACCOUNT_HOLDER_CREATED
-          - ACCOUNT_HOLDER_LIMIT_REACHED
-          - ACCOUNT_HOLDER_MIGRATED
-          - ACCOUNT_HOLDER_PAYOUT
-          - ACCOUNT_HOLDER_STATUS_CHANGE
-          - ACCOUNT_HOLDER_STORE_STATUS_CHANGE
-          - ACCOUNT_HOLDER_UPCOMING_DEADLINE
-          - ACCOUNT_HOLDER_UPDATED
-          - ACCOUNT_HOLDER_VERIFICATION
-          - ACCOUNT_UPDATED
-          - BENEFICIARY_SETUP
-          - COMPENSATE_NEGATIVE_BALANCE
-          - DIRECT_DEBIT_INITIATED
-          - FUNDS_MIGRATED
-          - PAYMENT_FAILURE
-          - PENDING_CREDIT
-          - REFUND_FUNDS_TRANSFER
-          - REPORT_AVAILABLE
-          - SCHEDULED_REFUNDS
-          - SCORE_SIGNAL_TRIGGERED
-          - TRANSFER_FUNDS
-          - TRANSFER_NOT_PAIDOUT_TRANSFERS
-          type: string
-        includeMode:
-          description: 'Indicates whether the specified `eventType` is sent to your webhook endpoint.
-
-            Possible values:
-
-            * **INCLUDE**: Send the specified `eventType`.
-
-            * **EXCLUDE**: Send all event types except the specified `eventType` and other event types with the `includeMode` set to **EXCLUDE**.'
-          enum:
-          - EXCLUDE
-          - INCLUDE
-          type: string
-      required:
-      - eventType
-      - includeMode
-      type: object
     GetNotificationConfigurationResponse:
       properties:
         configurationDetails:
@@ -200,6 +150,19 @@ components:
       required:
       - configurationDetails
       type: object
+    ErrorFieldType:
+      properties:
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
+      type: object
     ServiceError:
       properties:
         errorCode:
@@ -218,6 +181,15 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
+      type: object
+    GetNotificationConfigurationRequest:
+      properties:
+        notificationId:
+          description: The ID of the notification subscription configuration whose details are to be retrieved.
+          format: int64
+          type: integer
+      required:
+      - notificationId
       type: object
     FieldType:
       properties:
@@ -394,28 +366,6 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    GetNotificationConfigurationRequest:
-      properties:
-        notificationId:
-          description: The ID of the notification subscription configuration whose details are to be retrieved.
-          format: int64
-          type: integer
-      required:
-      - notificationId
-      type: object
-    ErrorFieldType:
-      properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
-          type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
-      type: object
     NotificationConfigurationDetails:
       properties:
         active:
@@ -465,7 +415,62 @@ components:
           - TLSv13
           type: string
       type: object
+    NotificationEventConfiguration:
+      properties:
+        eventType:
+          description: 'The type of event.
+
+
+            Possible values: **ACCOUNT_CLOSED**, **ACCOUNT_CREATED**, **ACCOUNT_FUNDS_BELOW_THRESHOLD**, **ACCOUNT_HOLDER_CREATED**, **ACCOUNT_HOLDER_LIMIT_REACHED**, **ACCOUNT_HOLDER_PAYOUT**, **ACCOUNT_HOLDER_STATUS_CHANGE**, **ACCOUNT_HOLDER_STORE_STATUS_CHANGE**, **ACCOUNT_HOLDER_UPCOMING_DEADLINE**, **ACCOUNT_HOLDER_UPDATED**, **ACCOUNT_HOLDER_VERIFICATION**, **ACCOUNT_UPDATED**, **BENEFICIARY_SETUP**, **COMPENSATE_NEGATIVE_BALANCE**, **DIRECT_DEBIT_INITIATED**, **PAYMENT_FAILURE**, **REFUND_FUNDS_TRANSFER**, **REPORT_AVAILABLE**, **SCHEDULED_REFUNDS**, **TRANSFER_FUNDS**.'
+          enum:
+          - ACCOUNT_CLOSED
+          - ACCOUNT_CREATED
+          - ACCOUNT_FUNDS_BELOW_THRESHOLD
+          - ACCOUNT_HOLDER_CREATED
+          - ACCOUNT_HOLDER_LIMIT_REACHED
+          - ACCOUNT_HOLDER_MIGRATED
+          - ACCOUNT_HOLDER_PAYOUT
+          - ACCOUNT_HOLDER_STATUS_CHANGE
+          - ACCOUNT_HOLDER_STORE_STATUS_CHANGE
+          - ACCOUNT_HOLDER_UPCOMING_DEADLINE
+          - ACCOUNT_HOLDER_UPDATED
+          - ACCOUNT_HOLDER_VERIFICATION
+          - ACCOUNT_UPDATED
+          - BENEFICIARY_SETUP
+          - COMPENSATE_NEGATIVE_BALANCE
+          - DIRECT_DEBIT_INITIATED
+          - FUNDS_MIGRATED
+          - PAYMENT_FAILURE
+          - PENDING_CREDIT
+          - REFUND_FUNDS_TRANSFER
+          - REPORT_AVAILABLE
+          - SCHEDULED_REFUNDS
+          - SCORE_SIGNAL_TRIGGERED
+          - TRANSFER_FUNDS
+          - TRANSFER_NOT_PAIDOUT_TRANSFERS
+          type: string
+        includeMode:
+          description: 'Indicates whether the specified `eventType` is sent to your webhook endpoint.
+
+            Possible values:
+
+            * **INCLUDE**: Send the specified `eventType`.
+
+            * **EXCLUDE**: Send all event types except the specified `eventType` and other event types with the `includeMode` set to **EXCLUDE**.'
+          enum:
+          - EXCLUDE
+          - INCLUDE
+          type: string
+      required:
+      - eventType
+      - includeMode
+      type: object
   examples:
+    post-getNotificationConfiguration-basic:
+      summary: Get a notification configuration
+      description: Returns the details of the configuration of a notification subscription
+      value:
+        notificationId: 21259
     post-getNotificationConfiguration-basic-200:
       summary: Get a notification configuration
       description: Example response with a notification configuration
@@ -481,11 +486,6 @@ components:
           notificationId: 50054
           notifyURL: https://www.adyen.com/notification-handler
           sslProtocol: TLSv13
-    post-getNotificationConfiguration-basic:
-      summary: Get a notification configuration
-      description: Returns the details of the configuration of a notification subscription
-      value:
-        notificationId: 21259
   securitySchemes:
     ApiKeyAuth:
       in: header

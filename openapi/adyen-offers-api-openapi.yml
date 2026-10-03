@@ -111,6 +111,21 @@ components:
       required:
       - estimatedDays
       type: object
+    Repayment:
+      properties:
+        basisPoints:
+          description: The repayment that is deducted daily from incoming net volume, in [basis points](https://www.investopedia.com/terms/b/basispoint.asp).
+          format: int32
+          type: integer
+        term:
+          description: An object containing the details of the configuration for repayment term.
+          $ref: '#/components/schemas/RepaymentTerm'
+        threshold:
+          description: An object containing the details of the 30-day repayment threshold.
+          $ref: '#/components/schemas/ThresholdRepayment'
+      required:
+      - basisPoints
+      type: object
     GrantOffers:
       properties:
         grantOffers:
@@ -128,56 +143,6 @@ components:
           $ref: '#/components/schemas/Amount'
       required:
       - amount
-      type: object
-    GrantOffer:
-      properties:
-        accountHolderId:
-          description: The identifier of the account holder to which the grant is offered.
-          type: string
-        amount:
-          description: The principal amount of the grant.
-          $ref: '#/components/schemas/Amount'
-        contractType:
-          description: 'The contract type of the grant offer. Possible value: **cashAdvance**, **loan**.'
-          enum:
-          - cashAdvance
-          - loan
-          type: string
-        expiresAt:
-          description: The end date of the grant offer validity period.
-          format: date-time
-          type: string
-        fee:
-          description: Details of the fee configuration.
-          $ref: '#/components/schemas/Fee'
-        id:
-          description: The unique identifier of the grant offer.
-          type: string
-        repayment:
-          description: Details of the repayment configuration.
-          $ref: '#/components/schemas/Repayment'
-        startsAt:
-          description: The starting date of the grant offer validity period.
-          format: date-time
-          type: string
-      required:
-      - accountHolderId
-      type: object
-    InvalidField:
-      properties:
-        message:
-          description: Description of the validation error.
-          type: string
-        name:
-          description: The field that has an invalid value.
-          type: string
-        value:
-          description: The invalid value.
-          type: string
-      required:
-      - name
-      - value
-      - message
       type: object
     RestServiceError:
       properties:
@@ -218,22 +183,57 @@ components:
       - detail
       - status
       type: object
-    Repayment:
-      properties:
-        basisPoints:
-          description: The repayment that is deducted daily from incoming net volume, in [basis points](https://www.investopedia.com/terms/b/basispoint.asp).
-          format: int32
-          type: integer
-        term:
-          description: An object containing the details of the configuration for repayment term.
-          $ref: '#/components/schemas/RepaymentTerm'
-        threshold:
-          description: An object containing the details of the 30-day repayment threshold.
-          $ref: '#/components/schemas/ThresholdRepayment'
-      required:
-      - basisPoints
-      type: object
     JSONObject:
+      type: object
+    InvalidField:
+      properties:
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
+          type: string
+        value:
+          description: The invalid value.
+          type: string
+      required:
+      - name
+      - value
+      - message
+      type: object
+    GrantOffer:
+      properties:
+        accountHolderId:
+          description: The identifier of the account holder to which the grant is offered.
+          type: string
+        amount:
+          description: The principal amount of the grant.
+          $ref: '#/components/schemas/Amount'
+        contractType:
+          description: 'The contract type of the grant offer. Possible value: **cashAdvance**, **loan**.'
+          enum:
+          - cashAdvance
+          - loan
+          type: string
+        expiresAt:
+          description: The end date of the grant offer validity period.
+          format: date-time
+          type: string
+        fee:
+          description: Details of the fee configuration.
+          $ref: '#/components/schemas/Fee'
+        id:
+          description: The unique identifier of the grant offer.
+          type: string
+        repayment:
+          description: Details of the repayment configuration.
+          $ref: '#/components/schemas/Repayment'
+        startsAt:
+          description: The starting date of the grant offer validity period.
+          format: date-time
+          type: string
+      required:
+      - accountHolderId
       type: object
     Amount:
       properties:
@@ -259,14 +259,15 @@ components:
       - amount
       type: object
   examples:
-    generic-401:
-      summary: Response code - 401 Unauthorized
+    generic-422:
+      summary: Response code - 422 Unprocessable Entity.
       value:
-        type: https://docs.adyen.com/errors/security/unauthorized
-        title: Unauthorized
-        status: 401
-        detail: Not authorized to access this service.
-        errorCode: '00_401'
+        type: https://docs.adyen.com/errors/general/invalid-field-value
+        title: Invalid Payment Instrument information provided
+        status: 422
+        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
+        requestId: 1W1UI15PLVGC9V8O
+        errorCode: '30_031'
     generic-400:
       summary: Response code - 400 Bad request
       value:
@@ -275,6 +276,14 @@ components:
         status: 400
         detail: Empty input which would have resulted in a null result.
         errorCode: '00_400'
+    generic-401:
+      summary: Response code - 401 Unauthorized
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Unauthorized
+        status: 401
+        detail: Not authorized to access this service.
+        errorCode: '00_401'
     generic-403:
       summary: Response code - 403 Forbidden.
       value:
@@ -292,15 +301,6 @@ components:
         detail: Unrecoverable error while trying to create payment instrument
         requestId: 1WAF555PLWNTLYOQ
         errorCode: '00_500'
-    generic-422:
-      summary: Response code - 422 Unprocessable Entity.
-      value:
-        type: https://docs.adyen.com/errors/general/invalid-field-value
-        title: Invalid Payment Instrument information provided
-        status: 422
-        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
-        requestId: 1W1UI15PLVGC9V8O
-        errorCode: '30_031'
   securitySchemes:
     ApiKeyAuth:
       in: header

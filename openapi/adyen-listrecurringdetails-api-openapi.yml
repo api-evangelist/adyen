@@ -143,46 +143,75 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Recurring:
+    Name:
       properties:
-        contract:
-          description: 'The type of recurring contract to be used.
-
-            Possible values:
-
-            * `ONECLICK` – Payment details can be used to initiate a one-click payment, where the shopper enters the [card security code (CVC/CVV)](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-security-code-cvc-cvv-cid).
-
-            * `RECURRING` – Payment details can be used without the card security code to initiate [card-not-present transactions](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-not-present-cnp).
-
-            * `ONECLICK,RECURRING` – Payment details can be used regardless of whether the shopper is on your site or not.
-
-            * `PAYOUT` – Payment details can be used to [make a payout](https://docs.adyen.com/online-payments/online-payouts).'
-          enum:
-          - ONECLICK
-          - RECURRING
-          - PAYOUT
+        firstName:
+          description: The first name.
           type: string
-        recurringDetailName:
-          description: A descriptive name for this detail.
+        lastName:
+          description: The last name.
           type: string
-        recurringExpiry:
-          x-addedInVersion: '40'
-          description: Date after which no further authorisations shall be performed. Only for 3D Secure 2.
-          format: date-time
+      required:
+      - firstName
+      - lastName
+      type: object
+    TokenDetails:
+      properties:
+        tokenData:
+          additionalProperties:
+            type: string
+          type: object
+        tokenDataType:
           type: string
-        recurringFrequency:
-          x-addedInVersion: '40'
-          description: Minimum number of days between authorisations. Only for 3D Secure 2.
+      type: object
+    RecurringDetailsRequest:
+      properties:
+        merchantAccount:
+          description: The merchant account identifier you want to process the (transaction) request with.
           type: string
-        tokenService:
-          x-addedInVersion: '25'
-          description: The name of the token service.
-          enum:
-          - VISATOKENSERVICE
-          - MCTOKENSERVICE
-          - AMEXTOKENSERVICE
-          - TOKEN_SHARING
+        recurring:
+          description: 'A container for the type of a recurring contract to be retrieved.
+
+
+            The contract value needs to match the contract value submitted in the payment transaction used to create a recurring contract.
+
+            However, if `ONECLICK,RECURRING` is the original contract definition in the initial payment, then `contract` should take either `ONECLICK` or `RECURRING`, depending on whether or not you want the shopper to enter their card''s security code when they finalize their purchase.'
+          $ref: '#/components/schemas/Recurring'
+        shopperReference:
+          description: The reference you use to uniquely identify the shopper (e.g. user ID or account ID).
           type: string
+      required:
+      - merchantAccount
+      - shopperReference
+      type: object
+    RecurringDetailWrapper:
+      properties:
+        RecurringDetail:
+          $ref: '#/components/schemas/RecurringDetail'
+    ServiceError:
+      properties:
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
       type: object
     Card:
       properties:
@@ -245,6 +274,138 @@ components:
           description: The year component of the start date (for some UK debit cards only).
           maxLength: 4
           minLength: 4
+          type: string
+      type: object
+    Recurring:
+      properties:
+        contract:
+          description: 'The type of recurring contract to be used.
+
+            Possible values:
+
+            * `ONECLICK` – Payment details can be used to initiate a one-click payment, where the shopper enters the [card security code (CVC/CVV)](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-security-code-cvc-cvv-cid).
+
+            * `RECURRING` – Payment details can be used without the card security code to initiate [card-not-present transactions](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-not-present-cnp).
+
+            * `ONECLICK,RECURRING` – Payment details can be used regardless of whether the shopper is on your site or not.
+
+            * `PAYOUT` – Payment details can be used to [make a payout](https://docs.adyen.com/online-payments/online-payouts).'
+          enum:
+          - ONECLICK
+          - RECURRING
+          - PAYOUT
+          type: string
+        recurringDetailName:
+          description: A descriptive name for this detail.
+          type: string
+        recurringExpiry:
+          x-addedInVersion: '40'
+          description: Date after which no further authorisations shall be performed. Only for 3D Secure 2.
+          format: date-time
+          type: string
+        recurringFrequency:
+          x-addedInVersion: '40'
+          description: Minimum number of days between authorisations. Only for 3D Secure 2.
+          type: string
+        tokenService:
+          x-addedInVersion: '25'
+          description: The name of the token service.
+          enum:
+          - VISATOKENSERVICE
+          - MCTOKENSERVICE
+          - AMEXTOKENSERVICE
+          - TOKEN_SHARING
+          type: string
+      type: object
+    Address:
+      properties:
+        city:
+          description: 'The name of the city. Maximum length: 3000 characters.'
+          maxLength: 3000
+          type: string
+        country:
+          description: 'The two-character ISO-3166-1 alpha-2 country code. For example, **US**.
+
+            > If you don''t know the country or are not collecting the country from the shopper, provide `country` as `ZZ`.'
+          type: string
+        houseNumberOrName:
+          description: 'The number or name of the house. Maximum length: 3000 characters.'
+          maxLength: 3000
+          type: string
+        postalCode:
+          description: A maximum of five digits for an address in the US, or a maximum of ten characters for an address in all other countries.
+          type: string
+        stateOrProvince:
+          description: 'The two-character ISO 3166-2 state or province code. For example, **CA** in the US or **ON** in Canada.
+
+            > Required for the US and Canada.'
+          type: string
+        street:
+          description: 'The name of the street. Maximum length: 3000 characters.
+
+            > The house number should not be included in this field; it should be separately provided via `houseNumberOrName`.'
+          maxLength: 3000
+          type: string
+      required:
+      - street
+      - houseNumberOrName
+      - city
+      - postalCode
+      - country
+      type: object
+    BankAccount:
+      properties:
+        bankAccountNumber:
+          description: The bank account number (without separators).
+          type: string
+        bankCity:
+          x-addedInVersion: '18'
+          description: The bank city.
+          type: string
+        bankLocationId:
+          description: The location id of the bank. The field value is `nil` in most cases.
+          type: string
+        bankName:
+          description: The name of the bank.
+          type: string
+        bic:
+          description: The [Business Identifier Code](https://en.wikipedia.org/wiki/ISO_9362) (BIC) is the SWIFT address assigned to a bank. The field value is `nil` in most cases.
+          type: string
+        countryCode:
+          description: 'Country code where the bank is located.
+
+
+            A valid value is an ISO two-character country code (e.g. ''NL'').'
+          type: string
+        iban:
+          description: The [International Bank Account Number](https://en.wikipedia.org/wiki/International_Bank_Account_Number) (IBAN).
+          type: string
+        ownerName:
+          description: 'The name of the bank account holder.
+
+            If you submit a name with non-Latin characters, we automatically replace some of them with corresponding Latin characters to meet the FATF recommendations. For example:
+
+            * χ12 is converted to ch12.
+
+            * üA is converted to euA.
+
+            * Peter Møller is converted to Peter Mller, because banks don''t accept ''ø''.
+
+            After replacement, the ownerName must have at least three alphanumeric characters (A-Z, a-z, 0-9), and at least one of them must be a valid Latin character (A-Z, a-z). For example:
+
+            * John17 - allowed.
+
+            * J17 - allowed.
+
+            * 171 - not allowed.
+
+            * John-7 - allowed.
+
+            > If provided details don''t match the required format, the response returns the error message: 203 ''Invalid bank account holder name''.'
+          type: string
+        taxId:
+          x-addedInVersion: '18'
+          description: The bank account holder's tax ID.
           type: string
       type: object
     RecurringDetail:
@@ -331,47 +492,6 @@ components:
       - recurringDetailReference
       - variant
       type: object
-    Name:
-      properties:
-        firstName:
-          description: The first name.
-          type: string
-        lastName:
-          description: The last name.
-          type: string
-      required:
-      - firstName
-      - lastName
-      type: object
-    ServiceError:
-      properties:
-        additionalData:
-          x-addedInVersion: '46'
-          additionalProperties:
-            type: string
-          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
-          type: object
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
-      type: object
-    RecurringDetailWrapper:
-      properties:
-        RecurringDetail:
-          $ref: '#/components/schemas/RecurringDetail'
     RecurringDetailsResult:
       properties:
         creationDate:
@@ -389,126 +509,6 @@ components:
         shopperReference:
           description: The reference you use to uniquely identify the shopper (e.g. user ID or account ID).
           type: string
-      type: object
-    RecurringDetailsRequest:
-      properties:
-        merchantAccount:
-          description: The merchant account identifier you want to process the (transaction) request with.
-          type: string
-        recurring:
-          description: 'A container for the type of a recurring contract to be retrieved.
-
-
-            The contract value needs to match the contract value submitted in the payment transaction used to create a recurring contract.
-
-            However, if `ONECLICK,RECURRING` is the original contract definition in the initial payment, then `contract` should take either `ONECLICK` or `RECURRING`, depending on whether or not you want the shopper to enter their card''s security code when they finalize their purchase.'
-          $ref: '#/components/schemas/Recurring'
-        shopperReference:
-          description: The reference you use to uniquely identify the shopper (e.g. user ID or account ID).
-          type: string
-      required:
-      - merchantAccount
-      - shopperReference
-      type: object
-    BankAccount:
-      properties:
-        bankAccountNumber:
-          description: The bank account number (without separators).
-          type: string
-        bankCity:
-          x-addedInVersion: '18'
-          description: The bank city.
-          type: string
-        bankLocationId:
-          description: The location id of the bank. The field value is `nil` in most cases.
-          type: string
-        bankName:
-          description: The name of the bank.
-          type: string
-        bic:
-          description: The [Business Identifier Code](https://en.wikipedia.org/wiki/ISO_9362) (BIC) is the SWIFT address assigned to a bank. The field value is `nil` in most cases.
-          type: string
-        countryCode:
-          description: 'Country code where the bank is located.
-
-
-            A valid value is an ISO two-character country code (e.g. ''NL'').'
-          type: string
-        iban:
-          description: The [International Bank Account Number](https://en.wikipedia.org/wiki/International_Bank_Account_Number) (IBAN).
-          type: string
-        ownerName:
-          description: 'The name of the bank account holder.
-
-            If you submit a name with non-Latin characters, we automatically replace some of them with corresponding Latin characters to meet the FATF recommendations. For example:
-
-            * χ12 is converted to ch12.
-
-            * üA is converted to euA.
-
-            * Peter Møller is converted to Peter Mller, because banks don''t accept ''ø''.
-
-            After replacement, the ownerName must have at least three alphanumeric characters (A-Z, a-z, 0-9), and at least one of them must be a valid Latin character (A-Z, a-z). For example:
-
-            * John17 - allowed.
-
-            * J17 - allowed.
-
-            * 171 - not allowed.
-
-            * John-7 - allowed.
-
-            > If provided details don''t match the required format, the response returns the error message: 203 ''Invalid bank account holder name''.'
-          type: string
-        taxId:
-          x-addedInVersion: '18'
-          description: The bank account holder's tax ID.
-          type: string
-      type: object
-    TokenDetails:
-      properties:
-        tokenData:
-          additionalProperties:
-            type: string
-          type: object
-        tokenDataType:
-          type: string
-      type: object
-    Address:
-      properties:
-        city:
-          description: 'The name of the city. Maximum length: 3000 characters.'
-          maxLength: 3000
-          type: string
-        country:
-          description: 'The two-character ISO-3166-1 alpha-2 country code. For example, **US**.
-
-            > If you don''t know the country or are not collecting the country from the shopper, provide `country` as `ZZ`.'
-          type: string
-        houseNumberOrName:
-          description: 'The number or name of the house. Maximum length: 3000 characters.'
-          maxLength: 3000
-          type: string
-        postalCode:
-          description: A maximum of five digits for an address in the US, or a maximum of ten characters for an address in all other countries.
-          type: string
-        stateOrProvince:
-          description: 'The two-character ISO 3166-2 state or province code. For example, **CA** in the US or **ON** in Canada.
-
-            > Required for the US and Canada.'
-          type: string
-        street:
-          description: 'The name of the street. Maximum length: 3000 characters.
-
-            > The house number should not be included in this field; it should be separately provided via `houseNumberOrName`.'
-          maxLength: 3000
-          type: string
-      required:
-      - street
-      - houseNumberOrName
-      - city
-      - postalCode
-      - country
       type: object
   examples:
     post-listRecurringDetails-listAllRecurringDetails:

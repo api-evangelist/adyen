@@ -50,62 +50,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    GetTotalsResponse:
-      type: object
-      description: It conveys Information related to the Reconciliation transaction processed by the POI System. Content of the Reconciliation Response message.
-      properties:
-        Response:
-          $ref: '#/components/schemas/Response'
-        POIReconciliationID:
-          type: integer
-          description: Identification of the reconciliation period between Sale and POI.
-        TransactionTotals:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransactionTotals'
-      required:
-      - Response
-      - POIReconciliationID
-    GetTotalsRequest:
-      type: object
-      description: It conveys information from the Sale System related to the scope and the format of the totals to be computed by the POI System. Content of the Get Totals Request message.
-      properties:
-        TotalDetails:
-          $ref: '#/components/schemas/TotalDetails'
-        TotalFilter:
-          $ref: '#/components/schemas/TotalFilter'
-    TotalDetails:
-      type: array
-      items:
-        type: string
-        enum:
-        - OperatorID
-        - POIID
-        - SaleID
-        - ShiftNumber
-        - TotalsGroupID
-    Response:
-      type: object
-      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
-      properties:
-        Result:
-          $ref: '#/components/schemas/Result'
-        ErrorCondition:
-          $ref: '#/components/schemas/ErrorCondition'
-        AdditionalResponse:
-          type: string
-          pattern: ^.+$
-          description: If present, the POI logs it for further examination.
-      required:
-      - Result
-    PaymentInstrumentType:
-      type: string
-      enum:
-      - Card
-      - Cash
-      - Check
-      - Mobile
-      - StoredValue
     ErrorCondition:
       type: string
       enum:
@@ -126,6 +70,11 @@ components:
       - UnavailableService
       - UnreachableHost
       - WrongPIN
+    LoyaltyUnit:
+      type: string
+      enum:
+      - Monetary
+      - Point
     PaymentTotals:
       type: object
       description: Totals of the payment transaction during the reconciliation period.
@@ -144,74 +93,24 @@ components:
       - TransactionType
       - TransactionCount
       - TransactionAmount
-    TransactionTotals:
+    TotalDetails:
+      type: array
+      items:
+        type: string
+        enum:
+        - OperatorID
+        - POIID
+        - SaleID
+        - ShiftNumber
+        - TotalsGroupID
+    GetTotalsRequest:
       type: object
-      description: If Result is Success, contains all the totals, classified as required by the Sale in the message request. At least, transaction totals are provided per Acquirer, Acquirer Settlement, and Card Brand. Result of the Sale to POI Reconciliation processing.
+      description: It conveys information from the Sale System related to the scope and the format of the totals to be computed by the POI System. Content of the Get Totals Request message.
       properties:
-        PaymentInstrumentType:
-          $ref: '#/components/schemas/PaymentInstrumentType'
-        AcquirerID:
-          type: integer
-          description: If available.
-        HostReconciliationID:
-          type: string
-          pattern: ^.+$
-          description: If available.
-        CardBrand:
-          type: string
-          pattern: ^.+$
-          description: If configured to present totals per card brand, and Response.Result is Success.
-        POIID:
-          type: string
-          pattern: ^.+$
-          description: If requested in the message request.
-        SaleID:
-          type: string
-          pattern: ^.+$
-          description: If requested in the message request.
-        OperatorID:
-          type: string
-          pattern: ^.+$
-          description: If requested in the message request.
-        ShiftNumber:
-          type: string
-          pattern: ^.+$
-          description: If requested in the message request.
-        TotalsGroupID:
-          type: string
-          pattern: ^.{1,16}$
-          description: If requested in the message request.
-        PaymentCurrency:
-          type: string
-          pattern: ^[A-Z]{3,3}$
-          description: Currency of a monetary amount.
-        PaymentTotals:
-          type: array
-          items:
-            $ref: '#/components/schemas/PaymentTotals'
-        LoyaltyUnit:
-          $ref: '#/components/schemas/LoyaltyUnit'
-        LoyaltyCurrency:
-          type: string
-          pattern: ^[A-Z]{3,3}$
-          description: If LoyaltyUnit is Monetary.
-        LoyaltyTotals:
-          type: array
-          items:
-            $ref: '#/components/schemas/LoyaltyTotals'
-      required:
-      - PaymentInstrumentType
-    Result:
-      type: string
-      enum:
-      - Failure
-      - Partial
-      - Success
-    LoyaltyUnit:
-      type: string
-      enum:
-      - Monetary
-      - Point
+        TotalDetails:
+          $ref: '#/components/schemas/TotalDetails'
+        TotalFilter:
+          $ref: '#/components/schemas/TotalFilter'
     LoyaltyTotals:
       type: object
       description: Totals of the loyalty transaction during the reconciliation period.
@@ -270,6 +169,107 @@ components:
         TotalsGroupID:
           type: string
           pattern: ^.{1,16}$
+    GetTotalsResponse:
+      type: object
+      description: It conveys Information related to the Reconciliation transaction processed by the POI System. Content of the Reconciliation Response message.
+      properties:
+        Response:
+          $ref: '#/components/schemas/Response'
+        POIReconciliationID:
+          type: integer
+          description: Identification of the reconciliation period between Sale and POI.
+        TransactionTotals:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionTotals'
+      required:
+      - Response
+      - POIReconciliationID
+    Response:
+      type: object
+      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
+      properties:
+        Result:
+          $ref: '#/components/schemas/Result'
+        ErrorCondition:
+          $ref: '#/components/schemas/ErrorCondition'
+        AdditionalResponse:
+          type: string
+          pattern: ^.+$
+          description: If present, the POI logs it for further examination.
+      required:
+      - Result
+    PaymentInstrumentType:
+      type: string
+      enum:
+      - Card
+      - Cash
+      - Check
+      - Mobile
+      - StoredValue
+    Result:
+      type: string
+      enum:
+      - Failure
+      - Partial
+      - Success
+    TransactionTotals:
+      type: object
+      description: If Result is Success, contains all the totals, classified as required by the Sale in the message request. At least, transaction totals are provided per Acquirer, Acquirer Settlement, and Card Brand. Result of the Sale to POI Reconciliation processing.
+      properties:
+        PaymentInstrumentType:
+          $ref: '#/components/schemas/PaymentInstrumentType'
+        AcquirerID:
+          type: integer
+          description: If available.
+        HostReconciliationID:
+          type: string
+          pattern: ^.+$
+          description: If available.
+        CardBrand:
+          type: string
+          pattern: ^.+$
+          description: If configured to present totals per card brand, and Response.Result is Success.
+        POIID:
+          type: string
+          pattern: ^.+$
+          description: If requested in the message request.
+        SaleID:
+          type: string
+          pattern: ^.+$
+          description: If requested in the message request.
+        OperatorID:
+          type: string
+          pattern: ^.+$
+          description: If requested in the message request.
+        ShiftNumber:
+          type: string
+          pattern: ^.+$
+          description: If requested in the message request.
+        TotalsGroupID:
+          type: string
+          pattern: ^.{1,16}$
+          description: If requested in the message request.
+        PaymentCurrency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+          description: Currency of a monetary amount.
+        PaymentTotals:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentTotals'
+        LoyaltyUnit:
+          $ref: '#/components/schemas/LoyaltyUnit'
+        LoyaltyCurrency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+          description: If LoyaltyUnit is Monetary.
+        LoyaltyTotals:
+          type: array
+          items:
+            $ref: '#/components/schemas/LoyaltyTotals'
+      required:
+      - PaymentInstrumentType
   securitySchemes:
     ApiKeyAuth:
       in: header

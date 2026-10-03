@@ -141,13 +141,48 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    CloseAccountRequest:
+    ErrorFieldType:
+      properties:
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
+      type: object
+    CloseAccountResponse:
       properties:
         accountCode:
-          description: The code of account to be closed.
+          x-addedInVersion: '5'
+          description: The account code of the account that is closed.
           type: string
-      required:
-      - accountCode
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+        status:
+          x-addedInVersion: '2'
+          description: 'The new status of the account.
+
+            >Permitted values: `Active`, `Inactive`, `Suspended`, `Closed`.'
+          enum:
+          - Active
+          - Closed
+          - Inactive
+          - Suspended
+          type: string
       type: object
     ServiceError:
       properties:
@@ -343,57 +378,15 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    CloseAccountResponse:
+    CloseAccountRequest:
       properties:
         accountCode:
-          x-addedInVersion: '5'
-          description: The account code of the account that is closed.
+          description: The code of account to be closed.
           type: string
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        resultCode:
-          description: The result code.
-          type: string
-        status:
-          x-addedInVersion: '2'
-          description: 'The new status of the account.
-
-            >Permitted values: `Active`, `Inactive`, `Suspended`, `Closed`.'
-          enum:
-          - Active
-          - Closed
-          - Inactive
-          - Suspended
-          type: string
-      type: object
-    ErrorFieldType:
-      properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
-          type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
+      required:
+      - accountCode
       type: object
   examples:
-    generic-403:
-      summary: Response code 401. Forbidden.
-      value:
-        status: 403
-        errorCode: '10_003'
-        message: Failed to authorize user
-        errorType: security
     generic-400:
       summary: Response code 400. Bad Request.
       value:
@@ -405,6 +398,13 @@ components:
       summary: Close an account
       value:
         accountCode: CODE_OF_ACCOUNT
+    generic-403:
+      summary: Response code 401. Forbidden.
+      value:
+        status: 403
+        errorCode: '10_003'
+        message: Failed to authorize user
+        errorType: security
   securitySchemes:
     ApiKeyAuth:
       in: header

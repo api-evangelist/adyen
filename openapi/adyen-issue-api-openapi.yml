@@ -123,84 +123,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    StoredValueIssueResponse:
-      properties:
-        authCode:
-          description: 'Authorisation code:
-
-            * When the payment is authorised, this field holds the authorisation code for the payment.
-
-            * When the payment is not authorised, this field is empty.'
-          type: string
-        currentBalance:
-          description: The balance currently on the payment method.
-          $ref: '#/components/schemas/Amount'
-        paymentMethod:
-          additionalProperties:
-            type: string
-          description: The collection that contains the type of the payment method and its specific information if available
-          type: object
-        pspReference:
-          description: Adyen's 16-character string reference associated with the transaction/request. This value is globally unique; quote it when communicating with us about this request.
-          type: string
-        refusalReason:
-          description: 'If the transaction is refused or an error occurs, this field holds Adyen''s mapped reason for the refusal or a description of the error.
-
-
-            When a transaction fails, the authorisation response includes `resultCode` and `refusalReason` values.'
-          type: string
-        resultCode:
-          description: "The result of the payment. Possible values:\n\n* **Success** – The operation has been completed successfully. \n* **Refused** – The operation was refused. The reason is given in the `refusalReason` field. \n* **Error** – There was an error when the operation was processed. The reason is given in the `refusalReason` field. \n* **NotEnoughBalance** – The amount on the payment method is lower than the amount given in the request. Only applicable to balance checks. \n"
-          enum:
-          - Success
-          - Refused
-          - Error
-          - NotEnoughBalance
-          type: string
-        thirdPartyRefusalReason:
-          description: Raw refusal reason received from the third party, where available
-          type: string
-      type: object
-    Amount:
-      properties:
-        currency:
-          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
-          maxLength: 3
-          minLength: 3
-          type: string
-        value:
-          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int64
-          type: integer
-      required:
-      - value
-      - currency
-      type: object
-    ServiceError:
-      properties:
-        additionalData:
-          x-addedInVersion: '46'
-          additionalProperties:
-            type: string
-          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
-          type: object
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
-      type: object
     StoredValueIssueRequest:
       properties:
         amount:
@@ -255,6 +177,84 @@ components:
       - merchantAccount
       - reference
       - paymentMethod
+      type: object
+    ServiceError:
+      properties:
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    StoredValueIssueResponse:
+      properties:
+        authCode:
+          description: 'Authorisation code:
+
+            * When the payment is authorised, this field holds the authorisation code for the payment.
+
+            * When the payment is not authorised, this field is empty.'
+          type: string
+        currentBalance:
+          description: The balance currently on the payment method.
+          $ref: '#/components/schemas/Amount'
+        paymentMethod:
+          additionalProperties:
+            type: string
+          description: The collection that contains the type of the payment method and its specific information if available
+          type: object
+        pspReference:
+          description: Adyen's 16-character string reference associated with the transaction/request. This value is globally unique; quote it when communicating with us about this request.
+          type: string
+        refusalReason:
+          description: 'If the transaction is refused or an error occurs, this field holds Adyen''s mapped reason for the refusal or a description of the error.
+
+
+            When a transaction fails, the authorisation response includes `resultCode` and `refusalReason` values.'
+          type: string
+        resultCode:
+          description: "The result of the payment. Possible values:\n\n* **Success** – The operation has been completed successfully. \n* **Refused** – The operation was refused. The reason is given in the `refusalReason` field. \n* **Error** – There was an error when the operation was processed. The reason is given in the `refusalReason` field. \n* **NotEnoughBalance** – The amount on the payment method is lower than the amount given in the request. Only applicable to balance checks. \n"
+          enum:
+          - Success
+          - Refused
+          - Error
+          - NotEnoughBalance
+          type: string
+        thirdPartyRefusalReason:
+          description: Raw refusal reason received from the third party, where available
+          type: string
+      type: object
+    Amount:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      - currency
       type: object
   securitySchemes:
     ApiKeyAuth:

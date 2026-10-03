@@ -157,20 +157,18 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    RefundFundsTransferRequest:
+    ErrorFieldType:
       properties:
-        amount:
-          description: The amount to be transferred.
-          $ref: '#/components/schemas/Amount'
-        merchantReference:
-          description: A value that can be supplied at the discretion of the executing user in order to link multiple transactions to one another.
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
           type: string
-        originalReference:
-          description: A PSP reference of the original fund transfer.
-          type: string
-      required:
-      - originalReference
-      - amount
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
       type: object
     ServiceError:
       properties:
@@ -190,21 +188,6 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
-      type: object
-    Amount:
-      properties:
-        currency:
-          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
-          maxLength: 3
-          minLength: 3
-          type: string
-        value:
-          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int64
-          type: integer
-      required:
-      - value
-      - currency
       type: object
     FieldType:
       properties:
@@ -381,18 +364,35 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    ErrorFieldType:
+    Amount:
       properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
           type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      - currency
+      type: object
+    RefundFundsTransferRequest:
+      properties:
+        amount:
+          description: The amount to be transferred.
+          $ref: '#/components/schemas/Amount'
+        merchantReference:
+          description: A value that can be supplied at the discretion of the executing user in order to link multiple transactions to one another.
+          type: string
+        originalReference:
+          description: A PSP reference of the original fund transfer.
+          type: string
+      required:
+      - originalReference
+      - amount
       type: object
     RefundFundsTransferResponse:
       properties:

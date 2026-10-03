@@ -137,6 +137,60 @@ components:
           description: The type of error field.
           $ref: '#/components/schemas/FieldType'
       type: object
+    GetUploadedDocumentsRequest:
+      properties:
+        accountHolderCode:
+          description: The code of the Account Holder for which to retrieve the documents.
+          type: string
+        bankAccountUUID:
+          x-addedInVersion: '2'
+          description: The code of the Bank Account for which to retrieve the documents.
+          type: string
+        shareholderCode:
+          description: The code of the Shareholder for which to retrieve the documents.
+          type: string
+      required:
+      - accountHolderCode
+      type: object
+    GetUploadedDocumentsResponse:
+      properties:
+        documentDetails:
+          description: A list of the documents and their details.
+          items:
+            $ref: '#/components/schemas/DocumentDetail'
+          type: array
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+      type: object
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
     DocumentDetail:
       properties:
         accountHolderCode:
@@ -215,40 +269,6 @@ components:
           type: string
       required:
       - documentType
-      type: object
-    GetUploadedDocumentsRequest:
-      properties:
-        accountHolderCode:
-          description: The code of the Account Holder for which to retrieve the documents.
-          type: string
-        bankAccountUUID:
-          x-addedInVersion: '2'
-          description: The code of the Bank Account for which to retrieve the documents.
-          type: string
-        shareholderCode:
-          description: The code of the Shareholder for which to retrieve the documents.
-          type: string
-      required:
-      - accountHolderCode
-      type: object
-    ServiceError:
-      properties:
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
       type: object
     FieldType:
       properties:
@@ -425,39 +445,7 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    GetUploadedDocumentsResponse:
-      properties:
-        documentDetails:
-          description: A list of the documents and their details.
-          items:
-            $ref: '#/components/schemas/DocumentDetail'
-          type: array
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        resultCode:
-          description: The result code.
-          type: string
-      type: object
   examples:
-    post-getUploadedDocuments-basic:
-      summary: Get uploaded documents
-      value:
-        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
-        bankAccountUUID: EXAMPLE_UUID
-    generic-403:
-      summary: Response code 401. Forbidden.
-      value:
-        status: 403
-        errorCode: '10_003'
-        message: Failed to authorize user
-        errorType: security
     generic-400:
       summary: Response code 400. Bad Request.
       value:
@@ -465,6 +453,18 @@ components:
         errorCode: '702'
         message: 'Unexpected input: I'
         errorType: validation
+    generic-403:
+      summary: Response code 401. Forbidden.
+      value:
+        status: 403
+        errorCode: '10_003'
+        message: Failed to authorize user
+        errorType: security
+    post-getUploadedDocuments-basic:
+      summary: Get uploaded documents
+      value:
+        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
+        bankAccountUUID: EXAMPLE_UUID
   securitySchemes:
     ApiKeyAuth:
       in: header
