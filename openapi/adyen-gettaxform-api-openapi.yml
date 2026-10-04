@@ -123,19 +123,44 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  examples:
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
+    post-getTaxForm-basic:
+      summary: Get a tax form
+      value:
+        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
+        formType: 1099-K
+        year: 2020
+    generic-403:
+      summary: Response code 401. Forbidden.
+      value:
+        status: 403
+        errorCode: '10_003'
+        message: Failed to authorize user
+        errorType: security
   schemas:
-    ErrorFieldType:
+    GetTaxFormRequest:
       properties:
-        errorCode:
-          description: The validation error code.
+        accountHolderCode:
+          description: The account holder code you provided when you created the account holder.
+          type: string
+        formType:
+          description: Type of the requested tax form. For example, 1099-K.
+          type: string
+        year:
+          description: Applicable tax year in the YYYY format.
           format: int32
           type: integer
-        errorDescription:
-          description: A description of the validation error.
-          type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
+      required:
+      - accountHolderCode
+      - formType
+      - year
       type: object
     GetTaxFormResponse:
       properties:
@@ -159,41 +184,18 @@ components:
           description: The result code.
           type: string
       type: object
-    ServiceError:
+    ErrorFieldType:
       properties:
         errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
+          description: The validation error code.
           format: int32
           type: integer
-      type: object
-    GetTaxFormRequest:
-      properties:
-        accountHolderCode:
-          description: The account holder code you provided when you created the account holder.
+        errorDescription:
+          description: A description of the validation error.
           type: string
-        formType:
-          description: Type of the requested tax form. For example, 1099-K.
-          type: string
-        year:
-          description: Applicable tax year in the YYYY format.
-          format: int32
-          type: integer
-      required:
-      - accountHolderCode
-      - formType
-      - year
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
       type: object
     FieldType:
       properties:
@@ -370,27 +372,25 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-  examples:
-    generic-400:
-      summary: Response code 400. Bad Request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: I'
-        errorType: validation
-    generic-403:
-      summary: Response code 401. Forbidden.
-      value:
-        status: 403
-        errorCode: '10_003'
-        message: Failed to authorize user
-        errorType: security
-    post-getTaxForm-basic:
-      summary: Get a tax form
-      value:
-        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
-        formType: 1099-K
-        year: 2020
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
   securitySchemes:
     ApiKeyAuth:
       in: header

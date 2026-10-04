@@ -276,22 +276,44 @@ components:
           description: The shipping method used to deliver the card or the PIN.
           type: string
       type: object
-    PaginatedGetCardOrderResponse:
+    RestServiceError:
       properties:
-        cardOrders:
-          description: Contains objects with information about card orders.
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+        errorCode:
+          description: A code that identifies the problem type.
+          type: string
+        instance:
+          description: A unique URI that identifies the specific occurrence of the problem.
+          type: string
+        invalidFields:
+          description: Detailed explanation of each validation error, when applicable.
           items:
-            $ref: '#/components/schemas/CardOrder'
+            $ref: '#/components/schemas/InvalidField'
           type: array
-        hasNext:
-          description: Indicates whether there are more items on the next page.
-          type: boolean
-        hasPrevious:
-          description: Indicates whether there are more items on the previous page.
-          type: boolean
+        requestId:
+          description: A unique reference for the request, essentially the same as `pspReference`.
+          type: string
+        response:
+          description: JSON response payload.
+          $ref: '#/components/schemas/JSONObject'
+        status:
+          description: The HTTP status code.
+          format: int32
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type.
+          type: string
+        type:
+          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
+          type: string
       required:
-      - hasPrevious
-      - hasNext
+      - type
+      - errorCode
+      - title
+      - detail
+      - status
       type: object
     CardOrder:
       properties:
@@ -351,6 +373,24 @@ components:
       - hasPrevious
       - hasNext
       type: object
+    InvalidField:
+      properties:
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
+          type: string
+        value:
+          description: The invalid value.
+          type: string
+      required:
+      - name
+      - value
+      - message
+      type: object
+    JSONObject:
+      type: object
     CardOrderItemDeliveryStatus:
       properties:
         errorMessage:
@@ -372,73 +412,33 @@ components:
           description: The tracking number of the PIN delivery.
           type: string
       type: object
-    RestServiceError:
+    PaginatedGetCardOrderResponse:
       properties:
-        detail:
-          description: A human-readable explanation specific to this occurrence of the problem.
-          type: string
-        errorCode:
-          description: A code that identifies the problem type.
-          type: string
-        instance:
-          description: A unique URI that identifies the specific occurrence of the problem.
-          type: string
-        invalidFields:
-          description: Detailed explanation of each validation error, when applicable.
+        cardOrders:
+          description: Contains objects with information about card orders.
           items:
-            $ref: '#/components/schemas/InvalidField'
+            $ref: '#/components/schemas/CardOrder'
           type: array
-        requestId:
-          description: A unique reference for the request, essentially the same as `pspReference`.
-          type: string
-        response:
-          description: JSON response payload.
-          $ref: '#/components/schemas/JSONObject'
-        status:
-          description: The HTTP status code.
-          format: int32
-          type: integer
-        title:
-          description: A short, human-readable summary of the problem type.
-          type: string
-        type:
-          description: A URI that identifies the problem type, pointing to human-readable documentation on this problem type.
-          type: string
+        hasNext:
+          description: Indicates whether there are more items on the next page.
+          type: boolean
+        hasPrevious:
+          description: Indicates whether there are more items on the previous page.
+          type: boolean
       required:
-      - type
-      - errorCode
-      - title
-      - detail
-      - status
-      type: object
-    JSONObject:
-      type: object
-    InvalidField:
-      properties:
-        message:
-          description: Description of the validation error.
-          type: string
-        name:
-          description: The field that has an invalid value.
-          type: string
-        value:
-          description: The invalid value.
-          type: string
-      required:
-      - name
-      - value
-      - message
+      - hasPrevious
+      - hasNext
       type: object
   examples:
-    generic-422:
-      summary: Response code - 422 Unprocessable Entity.
+    generic-500:
+      summary: Response code - 500 Internal Server Error
       value:
-        type: https://docs.adyen.com/errors/general/invalid-field-value
-        title: Invalid Payment Instrument information provided
-        status: 422
-        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
-        requestId: 1W1UI15PLVGC9V8O
-        errorCode: '30_031'
+        type: https://docs.adyen.com/errors/general/internal
+        title: An internal error happened
+        status: 500
+        detail: Unrecoverable error while trying to create payment instrument
+        requestId: 1WAF555PLWNTLYOQ
+        errorCode: '00_500'
     generic-401:
       summary: Response code - 401 Unauthorized
       value:
@@ -447,14 +447,6 @@ components:
         status: 401
         detail: Not authorized to access this service.
         errorCode: '00_401'
-    generic-403:
-      summary: Response code - 403 Forbidden.
-      value:
-        type: https://docs.adyen.com/errors/security/unauthorized
-        title: Forbidden
-        status: 403
-        detail: Not the right permission to access this service.
-        errorCode: '00_403'
     get-cardorders-id-items-success-200:
       summary: Item list of a specific card order retrieved
       description: Example response for retrieving the item list of a specific card order
@@ -469,15 +461,23 @@ components:
           shippingMethod: Cardholder Post Basic National
         hasNext: false
         hasPrevious: false
-    generic-500:
-      summary: Response code - 500 Internal Server Error
+    generic-422:
+      summary: Response code - 422 Unprocessable Entity.
       value:
-        type: https://docs.adyen.com/errors/general/internal
-        title: An internal error happened
-        status: 500
-        detail: Unrecoverable error while trying to create payment instrument
-        requestId: 1WAF555PLWNTLYOQ
-        errorCode: '00_500'
+        type: https://docs.adyen.com/errors/general/invalid-field-value
+        title: Invalid Payment Instrument information provided
+        status: 422
+        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
+        requestId: 1W1UI15PLVGC9V8O
+        errorCode: '30_031'
+    generic-403:
+      summary: Response code - 403 Forbidden.
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Forbidden
+        status: 403
+        detail: Not the right permission to access this service.
+        errorCode: '00_403'
     get-cardorders-success-200:
       summary: List of card orders retrieved
       description: Example response for retrieving a paginated list of card orders

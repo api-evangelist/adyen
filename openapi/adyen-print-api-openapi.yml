@@ -48,6 +48,24 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Color:
+      type: string
+      enum:
+      - Black
+      - Blue
+      - Cyan
+      - Green
+      - Magenta
+      - Red
+      - White
+      - Yellow
+    CharacterStyle:
+      type: string
+      enum:
+      - Bold
+      - Italic
+      - Normal
+      - Underline
     ErrorCondition:
       type: string
       enum:
@@ -68,6 +86,12 @@ components:
       - UnavailableService
       - UnreachableHost
       - WrongPIN
+    Result:
+      type: string
+      enum:
+      - Failure
+      - Partial
+      - Success
     DocumentQualifier:
       type: string
       enum:
@@ -77,59 +101,6 @@ components:
       - Journal
       - SaleReceipt
       - Voucher
-    PrintRequest:
-      type: object
-      description: It conveys the data to print and the way to process the print. It contains the complete content to print. Content of the Print Request message.
-      properties:
-        PrintOutput:
-          $ref: '#/components/schemas/PrintOutput'
-      required:
-      - PrintOutput
-    PrintOutput:
-      type: object
-      properties:
-        DocumentQualifier:
-          $ref: '#/components/schemas/DocumentQualifier'
-        ResponseMode:
-          $ref: '#/components/schemas/ResponseMode'
-        IntegratedPrintFlag:
-          type: boolean
-          default: false
-        RequiredSignatureFlag:
-          type: boolean
-          default: false
-        OutputContent:
-          $ref: '#/components/schemas/OutputContent'
-      required:
-      - DocumentQualifier
-      - ResponseMode
-      - OutputContent
-    Color:
-      type: string
-      enum:
-      - Black
-      - Blue
-      - Cyan
-      - Green
-      - Magenta
-      - Red
-      - White
-      - Yellow
-    BarcodeType:
-      type: string
-      enum:
-      - Code128
-      - Code25
-      - EAN13
-      - EAN8
-      - PDF417
-      - QRCode
-      - UPCA
-    CharacterWidth:
-      type: string
-      enum:
-      - DoubleWidth
-      - SingleWidth
     ResponseMode:
       type: string
       enum:
@@ -158,6 +129,98 @@ components:
       - Justified
       - Left
       - Right
+    OutputFormat:
+      type: string
+      enum:
+      - BarCode
+      - MessageRef
+      - Text
+      - XHTML
+    CharacterWidth:
+      type: string
+      enum:
+      - DoubleWidth
+      - SingleWidth
+    PrintRequest:
+      type: object
+      description: It conveys the data to print and the way to process the print. It contains the complete content to print. Content of the Print Request message.
+      properties:
+        PrintOutput:
+          $ref: '#/components/schemas/PrintOutput'
+      required:
+      - PrintOutput
+    BarcodeType:
+      type: string
+      enum:
+      - Code128
+      - Code25
+      - EAN13
+      - EAN8
+      - PDF417
+      - QRCode
+      - UPCA
+    CharacterHeight:
+      type: string
+      enum:
+      - DoubleHeight
+      - HalfHeight
+      - SingleHeight
+    PrintResponse:
+      type: object
+      description: It conveys the result of the print, parallel to the message request, except if response not required and absent. Content of the Print Response message.
+      properties:
+        DocumentQualifier:
+          $ref: '#/components/schemas/DocumentQualifier'
+        Response:
+          $ref: '#/components/schemas/Response'
+      required:
+      - DocumentQualifier
+      - Response
+    Response:
+      type: object
+      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
+      properties:
+        Result:
+          $ref: '#/components/schemas/Result'
+        ErrorCondition:
+          $ref: '#/components/schemas/ErrorCondition'
+        AdditionalResponse:
+          type: string
+          pattern: ^.+$
+          description: If present, the POI logs it for further examination.
+      required:
+      - Result
+    OutputBarcode:
+      type: object
+      properties:
+        BarcodeType:
+          $ref: '#/components/schemas/BarcodeType'
+        BarcodeValue:
+          type: string
+          pattern: ^.+$
+      required:
+      - BarcodeValue
+    OutputContent:
+      type: object
+      description: This is a sequence of elements if they have different formats. Content to display or print.
+      properties:
+        OutputFormat:
+          $ref: '#/components/schemas/OutputFormat'
+        PredefinedContent:
+          $ref: '#/components/schemas/PredefinedContent'
+        OutputText:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputText'
+        OutputXHTML:
+          type: string
+          format: byte
+          pattern: ^.{0,262144}$
+          description: Mandatory, if OutputFormat is XHTML, not allowed otherwise.
+        OutputBarcode:
+          $ref: '#/components/schemas/OutputBarcode'
+      required:
+      - OutputFormat
     OutputText:
       type: object
       description: It conveys Information related to the content of the text message and its format. All the data elements related to the format of the text to display or print are parameters valid for the whole Text content. Content of text message to display or print.
@@ -192,88 +255,25 @@ components:
           default: true
       required:
       - Text
-    Response:
+    PrintOutput:
       type: object
-      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
-      properties:
-        Result:
-          $ref: '#/components/schemas/Result'
-        ErrorCondition:
-          $ref: '#/components/schemas/ErrorCondition'
-        AdditionalResponse:
-          type: string
-          pattern: ^.+$
-          description: If present, the POI logs it for further examination.
-      required:
-      - Result
-    CharacterHeight:
-      type: string
-      enum:
-      - DoubleHeight
-      - HalfHeight
-      - SingleHeight
-    OutputContent:
-      type: object
-      description: This is a sequence of elements if they have different formats. Content to display or print.
-      properties:
-        OutputFormat:
-          $ref: '#/components/schemas/OutputFormat'
-        PredefinedContent:
-          $ref: '#/components/schemas/PredefinedContent'
-        OutputText:
-          type: array
-          items:
-            $ref: '#/components/schemas/OutputText'
-        OutputXHTML:
-          type: string
-          format: byte
-          pattern: ^.{0,262144}$
-          description: Mandatory, if OutputFormat is XHTML, not allowed otherwise.
-        OutputBarcode:
-          $ref: '#/components/schemas/OutputBarcode'
-      required:
-      - OutputFormat
-    PrintResponse:
-      type: object
-      description: It conveys the result of the print, parallel to the message request, except if response not required and absent. Content of the Print Response message.
       properties:
         DocumentQualifier:
           $ref: '#/components/schemas/DocumentQualifier'
-        Response:
-          $ref: '#/components/schemas/Response'
+        ResponseMode:
+          $ref: '#/components/schemas/ResponseMode'
+        IntegratedPrintFlag:
+          type: boolean
+          default: false
+        RequiredSignatureFlag:
+          type: boolean
+          default: false
+        OutputContent:
+          $ref: '#/components/schemas/OutputContent'
       required:
       - DocumentQualifier
-      - Response
-    OutputBarcode:
-      type: object
-      properties:
-        BarcodeType:
-          $ref: '#/components/schemas/BarcodeType'
-        BarcodeValue:
-          type: string
-          pattern: ^.+$
-      required:
-      - BarcodeValue
-    OutputFormat:
-      type: string
-      enum:
-      - BarCode
-      - MessageRef
-      - Text
-      - XHTML
-    CharacterStyle:
-      type: string
-      enum:
-      - Bold
-      - Italic
-      - Normal
-      - Underline
-    Result:
-      type: string
-      enum:
-      - Failure
-      - Partial
-      - Success
+      - ResponseMode
+      - OutputContent
   securitySchemes:
     ApiKeyAuth:
       in: header

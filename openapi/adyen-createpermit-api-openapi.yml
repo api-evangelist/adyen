@@ -136,17 +136,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    PermitResult:
-      properties:
-        resultKey:
-          x-addedInVersion: '32'
-          description: The key to link permit requests to permit results.
-          type: string
-        token:
-          x-addedInVersion: '32'
-          description: The permit token which is used to make payments by the partner company.
-          type: string
-      type: object
     CreatePermitRequest:
       properties:
         merchantAccount:
@@ -169,30 +158,17 @@ components:
       - recurringDetailReference
       - permits
       type: object
-    ServiceError:
+    PermitRestriction:
       properties:
-        additionalData:
-          x-addedInVersion: '46'
-          additionalProperties:
-            type: string
-          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
-          type: object
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
+        maxAmount:
+          description: The total sum amount of one or more payments made using this permit may not exceed this amount if set.
+          $ref: '#/components/schemas/Amount'
+        singleTransactionLimit:
+          description: The amount of any single payment using this permit may not exceed this amount if set.
+          $ref: '#/components/schemas/Amount'
+        singleUse:
+          description: Only a single payment can be made using this permit if set to true, otherwise multiple payments are allowed.
+          type: boolean
       type: object
     CreatePermitResult:
       properties:
@@ -203,6 +179,17 @@ components:
           type: array
         pspReference:
           description: A unique reference associated with the request. This value is globally unique; quote it when communicating with us about this request.
+          type: string
+      type: object
+    PermitResult:
+      properties:
+        resultKey:
+          x-addedInVersion: '32'
+          description: The key to link permit requests to permit results.
+          type: string
+        token:
+          x-addedInVersion: '32'
+          description: The permit token which is used to make payments by the partner company.
           type: string
       type: object
     Permit:
@@ -239,17 +226,30 @@ components:
       - value
       - currency
       type: object
-    PermitRestriction:
+    ServiceError:
       properties:
-        maxAmount:
-          description: The total sum amount of one or more payments made using this permit may not exceed this amount if set.
-          $ref: '#/components/schemas/Amount'
-        singleTransactionLimit:
-          description: The amount of any single payment using this permit may not exceed this amount if set.
-          $ref: '#/components/schemas/Amount'
-        singleUse:
-          description: Only a single payment can be made using this permit if set to true, otherwise multiple payments are allowed.
-          type: boolean
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
       type: object
   securitySchemes:
     ApiKeyAuth:

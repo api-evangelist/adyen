@@ -151,46 +151,35 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  examples:
+    post-debitAccountHolder-debit-account-holder:
+      summary: Send a bank account direct debit
+      description: Example request to send a direct debit from a bank account
+      value:
+        accountHolderCode: ACCOUNT_HOLDER_CODE
+        description: YOUR_DESCRIPTION
+        bankAccountUUID: 000b81aa-ae7e-4492-aa7e-72b2129dce0c
+        amount:
+          value: 6200
+          currency: USD
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        splits:
+        - amount:
+            value: 6000
+          type: MarketPlace
+          account: '8535516988037431'
+          reference: YOUR_SPLIT_REFERENCE_1
+        - amount:
+            value: 200
+          type: Commission
+          reference: YOUR_SPLIT_REFERENCE_2
+    post-debitAccountHolder-debit-account-holder-200:
+      summary: Direct debit request sent
+      description: Example response for requesting a direct debit from a bank account
+      value:
+        pspReference: '8816480354727275'
+        submittedAsync: 'false'
   schemas:
-    ErrorFieldType:
-      properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
-          type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
-      type: object
-    DebitAccountHolderResponse:
-      properties:
-        accountHolderCode:
-          description: The code of the account holder.
-          type: string
-        bankAccountUUID:
-          description: The Adyen-generated unique alphanumeric identifier (UUID) of the account holder's bank account.
-          type: string
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        merchantReferences:
-          description: List of the `reference` values from the `split` array in the request.
-          items:
-            type: string
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        resultCode:
-          description: The result code.
-          type: string
-      type: object
     Split:
       properties:
         account:
@@ -237,6 +226,49 @@ components:
       - amount
       - type
       type: object
+    SplitAmount:
+      properties:
+        currency:
+          description: 'The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+
+
+            If this value is not provided, the currency in which the payment is made will be used.'
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The amount in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      type: object
+    DebitAccountHolderResponse:
+      properties:
+        accountHolderCode:
+          description: The code of the account holder.
+          type: string
+        bankAccountUUID:
+          description: The Adyen-generated unique alphanumeric identifier (UUID) of the account holder's bank account.
+          type: string
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        merchantReferences:
+          description: List of the `reference` values from the `split` array in the request.
+          items:
+            type: string
+          type: array
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+      type: object
     DebitAccountHolderRequest:
       properties:
         accountHolderCode:
@@ -270,24 +302,18 @@ components:
       - splits
       - merchantAccount
       type: object
-    ServiceError:
+    ErrorFieldType:
       properties:
         errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
+          description: The validation error code.
           format: int32
           type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
       type: object
     FieldType:
       properties:
@@ -479,51 +505,25 @@ components:
       - value
       - currency
       type: object
-    SplitAmount:
+    ServiceError:
       properties:
-        currency:
-          description: 'The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
-
-
-            If this value is not provided, the currency in which the payment is made will be used.'
-          maxLength: 3
-          minLength: 3
+        errorCode:
+          description: The error code mapped to the error message.
           type: string
-        value:
-          description: The amount in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int64
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
           type: integer
-      required:
-      - value
       type: object
-  examples:
-    post-debitAccountHolder-debit-account-holder:
-      summary: Send a bank account direct debit
-      description: Example request to send a direct debit from a bank account
-      value:
-        accountHolderCode: ACCOUNT_HOLDER_CODE
-        description: YOUR_DESCRIPTION
-        bankAccountUUID: 000b81aa-ae7e-4492-aa7e-72b2129dce0c
-        amount:
-          value: 6200
-          currency: USD
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-        splits:
-        - amount:
-            value: 6000
-          type: MarketPlace
-          account: '8535516988037431'
-          reference: YOUR_SPLIT_REFERENCE_1
-        - amount:
-            value: 200
-          type: Commission
-          reference: YOUR_SPLIT_REFERENCE_2
-    post-debitAccountHolder-debit-account-holder-200:
-      summary: Direct debit request sent
-      description: Example response for requesting a direct debit from a bank account
-      value:
-        pspReference: '8816480354727275'
-        submittedAsync: 'false'
   securitySchemes:
     ApiKeyAuth:
       in: header

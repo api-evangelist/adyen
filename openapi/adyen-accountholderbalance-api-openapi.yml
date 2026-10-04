@@ -156,12 +156,34 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  examples:
-    post-accountHolderBalance-basic:
-      summary: Review the account holder balance
-      value:
-        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
   schemas:
+    AccountHolderBalanceRequest:
+      properties:
+        accountHolderCode:
+          description: The code of the Account Holder of which to retrieve the balance.
+          type: string
+      required:
+      - accountHolderCode
+      type: object
+    DetailBalance:
+      properties:
+        balance:
+          description: The list of balances held by the account.
+          items:
+            $ref: '#/components/schemas/Amount'
+          type: array
+        onHoldBalance:
+          x-addedInVersion: '5'
+          description: The list of on hold balances held by the account.
+          items:
+            $ref: '#/components/schemas/Amount'
+          type: array
+        pendingBalance:
+          description: The list of pending balances held by the account.
+          items:
+            $ref: '#/components/schemas/Amount'
+          type: array
+      type: object
     ErrorFieldType:
       properties:
         errorCode:
@@ -174,15 +196,6 @@ components:
         fieldType:
           description: The type of error field.
           $ref: '#/components/schemas/FieldType'
-      type: object
-    AccountDetailBalance:
-      properties:
-        accountCode:
-          description: The code of the account that holds the balance.
-          type: string
-        detailBalance:
-          description: Details of the balance held by the account.
-          $ref: '#/components/schemas/DetailBalance'
       type: object
     AccountHolderBalanceResponse:
       properties:
@@ -207,51 +220,29 @@ components:
           description: The total balance of the account holder.
           $ref: '#/components/schemas/DetailBalance'
       type: object
-    DetailBalance:
+    Amount:
       properties:
-        balance:
-          description: The list of balances held by the account.
-          items:
-            $ref: '#/components/schemas/Amount'
-          type: array
-        onHoldBalance:
-          x-addedInVersion: '5'
-          description: The list of on hold balances held by the account.
-          items:
-            $ref: '#/components/schemas/Amount'
-          type: array
-        pendingBalance:
-          description: The list of pending balances held by the account.
-          items:
-            $ref: '#/components/schemas/Amount'
-          type: array
-      type: object
-    ServiceError:
-      properties:
-        errorCode:
-          description: The error code mapped to the error message.
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
           type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
           type: integer
-      type: object
-    AccountHolderBalanceRequest:
-      properties:
-        accountHolderCode:
-          description: The code of the Account Holder of which to retrieve the balance.
-          type: string
       required:
-      - accountHolderCode
+      - value
+      - currency
+      type: object
+    AccountDetailBalance:
+      properties:
+        accountCode:
+          description: The code of the account that holds the balance.
+          type: string
+        detailBalance:
+          description: Details of the balance held by the account.
+          $ref: '#/components/schemas/DetailBalance'
       type: object
     FieldType:
       properties:
@@ -428,21 +419,30 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    Amount:
+    ServiceError:
       properties:
-        currency:
-          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
-          maxLength: 3
-          minLength: 3
+        errorCode:
+          description: The error code mapped to the error message.
           type: string
-        value:
-          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int64
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
           type: integer
-      required:
-      - value
-      - currency
       type: object
+  examples:
+    post-accountHolderBalance-basic:
+      summary: Review the account holder balance
+      value:
+        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
   securitySchemes:
     ApiKeyAuth:
       in: header

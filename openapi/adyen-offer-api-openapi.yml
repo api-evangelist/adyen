@@ -104,42 +104,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    RepaymentTerm:
-      properties:
-        estimatedDays:
-          description: The estimated term for repaying the grant, in days.
-          format: int32
-          type: integer
-        maximumDays:
-          description: The maximum term for repaying the grant, in days. Only applies when `contractType` is **loan**.
-          format: int32
-          type: integer
-      required:
-      - estimatedDays
-      type: object
-    Repayment:
-      properties:
-        basisPoints:
-          description: The repayment that is deducted daily from incoming net volume, in [basis points](https://www.investopedia.com/terms/b/basispoint.asp).
-          format: int32
-          type: integer
-        term:
-          description: An object containing the details of the configuration for repayment term.
-          $ref: '#/components/schemas/RepaymentTerm'
-        threshold:
-          description: An object containing the details of the 30-day repayment threshold.
-          $ref: '#/components/schemas/ThresholdRepayment'
-      required:
-      - basisPoints
-      type: object
-    Fee:
-      properties:
-        amount:
-          description: An object containing the fee amount.
-          $ref: '#/components/schemas/Amount'
-      required:
-      - amount
-      type: object
     RestServiceError:
       properties:
         detail:
@@ -179,22 +143,54 @@ components:
       - detail
       - status
       type: object
-    JSONObject:
-      type: object
-    Amount:
+    ThresholdRepayment:
       properties:
-        currency:
-          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
-          maxLength: 3
-          minLength: 3
+        amount:
+          description: The amount to be repaid on a 30-day basis.
+          $ref: '#/components/schemas/Amount'
+      required:
+      - amount
+      type: object
+    Repayment:
+      properties:
+        basisPoints:
+          description: The repayment that is deducted daily from incoming net volume, in [basis points](https://www.investopedia.com/terms/b/basispoint.asp).
+          format: int32
+          type: integer
+        term:
+          description: An object containing the details of the configuration for repayment term.
+          $ref: '#/components/schemas/RepaymentTerm'
+        threshold:
+          description: An object containing the details of the 30-day repayment threshold.
+          $ref: '#/components/schemas/ThresholdRepayment'
+      required:
+      - basisPoints
+      type: object
+    InvalidField:
+      properties:
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
           type: string
         value:
-          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int64
-          type: integer
+          description: The invalid value.
+          type: string
       required:
+      - name
       - value
-      - currency
+      - message
+      type: object
+    Fee:
+      properties:
+        amount:
+          description: An object containing the fee amount.
+          $ref: '#/components/schemas/Amount'
+      required:
+      - amount
+      type: object
+    JSONObject:
       type: object
     GrantOffer:
       properties:
@@ -230,64 +226,35 @@ components:
       required:
       - accountHolderId
       type: object
-    InvalidField:
+    RepaymentTerm:
       properties:
-        message:
-          description: Description of the validation error.
-          type: string
-        name:
-          description: The field that has an invalid value.
+        estimatedDays:
+          description: The estimated term for repaying the grant, in days.
+          format: int32
+          type: integer
+        maximumDays:
+          description: The maximum term for repaying the grant, in days. Only applies when `contractType` is **loan**.
+          format: int32
+          type: integer
+      required:
+      - estimatedDays
+      type: object
+    Amount:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
           type: string
         value:
-          description: The invalid value.
-          type: string
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
       required:
-      - name
       - value
-      - message
-      type: object
-    ThresholdRepayment:
-      properties:
-        amount:
-          description: The amount to be repaid on a 30-day basis.
-          $ref: '#/components/schemas/Amount'
-      required:
-      - amount
+      - currency
       type: object
   examples:
-    generic-422:
-      summary: Response code - 422 Unprocessable Entity.
-      value:
-        type: https://docs.adyen.com/errors/general/invalid-field-value
-        title: Invalid Payment Instrument information provided
-        status: 422
-        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
-        requestId: 1W1UI15PLVGC9V8O
-        errorCode: '30_031'
-    generic-400:
-      summary: Response code - 400 Bad request
-      value:
-        type: https://docs.adyen.com/errors/general/bad-request
-        title: Bad request
-        status: 400
-        detail: Empty input which would have resulted in a null result.
-        errorCode: '00_400'
-    generic-401:
-      summary: Response code - 401 Unauthorized
-      value:
-        type: https://docs.adyen.com/errors/security/unauthorized
-        title: Unauthorized
-        status: 401
-        detail: Not authorized to access this service.
-        errorCode: '00_401'
-    generic-403:
-      summary: Response code - 403 Forbidden.
-      value:
-        type: https://docs.adyen.com/errors/security/unauthorized
-        title: Forbidden
-        status: 403
-        detail: Not the right permission to access this service.
-        errorCode: '00_403'
     generic-500:
       summary: Response code - 500 Internal Server Error
       value:
@@ -297,6 +264,39 @@ components:
         detail: Unrecoverable error while trying to create payment instrument
         requestId: 1WAF555PLWNTLYOQ
         errorCode: '00_500'
+    generic-401:
+      summary: Response code - 401 Unauthorized
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Unauthorized
+        status: 401
+        detail: Not authorized to access this service.
+        errorCode: '00_401'
+    generic-400:
+      summary: Response code - 400 Bad request
+      value:
+        type: https://docs.adyen.com/errors/general/bad-request
+        title: Bad request
+        status: 400
+        detail: Empty input which would have resulted in a null result.
+        errorCode: '00_400'
+    generic-422:
+      summary: Response code - 422 Unprocessable Entity.
+      value:
+        type: https://docs.adyen.com/errors/general/invalid-field-value
+        title: Invalid Payment Instrument information provided
+        status: 422
+        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
+        requestId: 1W1UI15PLVGC9V8O
+        errorCode: '30_031'
+    generic-403:
+      summary: Response code - 403 Forbidden.
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Forbidden
+        status: 403
+        detail: Not the right permission to access this service.
+        errorCode: '00_403'
   securitySchemes:
     ApiKeyAuth:
       in: header

@@ -47,6 +47,24 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Color:
+      type: string
+      enum:
+      - Black
+      - Blue
+      - Cyan
+      - Green
+      - Magenta
+      - Red
+      - White
+      - Yellow
+    CharacterStyle:
+      type: string
+      enum:
+      - Bold
+      - Italic
+      - Normal
+      - Underline
     ErrorCondition:
       type: string
       enum:
@@ -67,6 +85,24 @@ components:
       - UnavailableService
       - UnreachableHost
       - WrongPIN
+    EnableServiceRequest:
+      type: object
+      description: It conveys the services that will be enabled for the  POI Terminal without the request of the Sale System, and a possible invitation for the Customer to start the services. Content of the Enable Service Request message.
+      properties:
+        TransactionAction:
+          $ref: '#/components/schemas/TransactionAction'
+        ServicesEnabled:
+          $ref: '#/components/schemas/ServicesEnabled'
+        DisplayOutput:
+          $ref: '#/components/schemas/DisplayOutput'
+      required:
+      - TransactionAction
+    Result:
+      type: string
+      enum:
+      - Failure
+      - Partial
+      - Success
     DisplayOutput:
       type: object
       description: It contains a complete display operation for a Display or an Input Device type. For the Input Devices, Diagnosis and EnableService, ResponseRequiredFlag and MinimumDisplayTime shall be absent. Information to display and the way to process the display.
@@ -123,19 +159,6 @@ components:
           pattern: ^.+$
       required:
       - OutputFormat
-    InfoQualify:
-      type: string
-      enum:
-      - CustomerAssistance
-      - Display
-      - Document
-      - Error
-      - Input
-      - POIReplication
-      - Receipt
-      - Sound
-      - Status
-      - Voucher
     Device:
       type: string
       enum:
@@ -143,44 +166,6 @@ components:
       - CashierInput
       - CustomerDisplay
       - CustomerInput
-    Color:
-      type: string
-      enum:
-      - Black
-      - Blue
-      - Cyan
-      - Green
-      - Magenta
-      - Red
-      - White
-      - Yellow
-    BarcodeType:
-      type: string
-      enum:
-      - Code128
-      - Code25
-      - EAN13
-      - EAN8
-      - PDF417
-      - QRCode
-      - UPCA
-    EnableServiceRequest:
-      type: object
-      description: It conveys the services that will be enabled for the  POI Terminal without the request of the Sale System, and a possible invitation for the Customer to start the services. Content of the Enable Service Request message.
-      properties:
-        TransactionAction:
-          $ref: '#/components/schemas/TransactionAction'
-        ServicesEnabled:
-          $ref: '#/components/schemas/ServicesEnabled'
-        DisplayOutput:
-          $ref: '#/components/schemas/DisplayOutput'
-      required:
-      - TransactionAction
-    CharacterWidth:
-      type: string
-      enum:
-      - DoubleWidth
-      - SingleWidth
     PredefinedContent:
       type: object
       description: It conveys Information related to the predefined message. Reference of a predefined message to display or print.
@@ -202,6 +187,101 @@ components:
       - Justified
       - Left
       - Right
+    OutputFormat:
+      type: string
+      enum:
+      - BarCode
+      - MessageRef
+      - Text
+      - XHTML
+    TransactionAction:
+      type: string
+      description: Action to realise on a transaction.
+      enum:
+      - AbortTransaction
+      - StartTransaction
+    CharacterWidth:
+      type: string
+      enum:
+      - DoubleWidth
+      - SingleWidth
+    BarcodeType:
+      type: string
+      enum:
+      - Code128
+      - Code25
+      - EAN13
+      - EAN8
+      - PDF417
+      - QRCode
+      - UPCA
+    CharacterHeight:
+      type: string
+      enum:
+      - DoubleHeight
+      - HalfHeight
+      - SingleHeight
+    EnableServiceResponse:
+      type: object
+      description: It conveys the result of the Enable Service processing. Content of the Enable Service Response message.
+      properties:
+        Response:
+          $ref: '#/components/schemas/Response'
+      required:
+      - Response
+    ServicesEnabled:
+      type: array
+      items:
+        type: string
+        enum:
+        - CardAcquisition
+        - Loyalty
+        - Payment
+    OutputBarcode:
+      type: object
+      properties:
+        BarcodeType:
+          $ref: '#/components/schemas/BarcodeType'
+        BarcodeValue:
+          type: string
+          pattern: ^.+$
+      required:
+      - BarcodeValue
+    Response:
+      type: object
+      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
+      properties:
+        Result:
+          $ref: '#/components/schemas/Result'
+        ErrorCondition:
+          $ref: '#/components/schemas/ErrorCondition'
+        AdditionalResponse:
+          type: string
+          pattern: ^.+$
+          description: If present, the POI logs it for further examination.
+      required:
+      - Result
+    OutputContent:
+      type: object
+      description: This is a sequence of elements if they have different formats. Content to display or print.
+      properties:
+        OutputFormat:
+          $ref: '#/components/schemas/OutputFormat'
+        PredefinedContent:
+          $ref: '#/components/schemas/PredefinedContent'
+        OutputText:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputText'
+        OutputXHTML:
+          type: string
+          format: byte
+          pattern: ^.{0,262144}$
+          description: Mandatory, if OutputFormat is XHTML, not allowed otherwise.
+        OutputBarcode:
+          $ref: '#/components/schemas/OutputBarcode'
+      required:
+      - OutputFormat
     OutputText:
       type: object
       description: It conveys Information related to the content of the text message and its format. All the data elements related to the format of the text to display or print are parameters valid for the whole Text content. Content of text message to display or print.
@@ -236,20 +316,6 @@ components:
           default: true
       required:
       - Text
-    Response:
-      type: object
-      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
-      properties:
-        Result:
-          $ref: '#/components/schemas/Result'
-        ErrorCondition:
-          $ref: '#/components/schemas/ErrorCondition'
-        AdditionalResponse:
-          type: string
-          pattern: ^.+$
-          description: If present, the POI logs it for further examination.
-      required:
-      - Result
     MenuEntryTag:
       type: string
       description: Characteristics related to the selection of a menu entry.
@@ -258,85 +324,19 @@ components:
       - NonSelectableSubMenu
       - Selectable
       - SubMenu
-    CharacterHeight:
+    InfoQualify:
       type: string
       enum:
-      - DoubleHeight
-      - HalfHeight
-      - SingleHeight
-    OutputContent:
-      type: object
-      description: This is a sequence of elements if they have different formats. Content to display or print.
-      properties:
-        OutputFormat:
-          $ref: '#/components/schemas/OutputFormat'
-        PredefinedContent:
-          $ref: '#/components/schemas/PredefinedContent'
-        OutputText:
-          type: array
-          items:
-            $ref: '#/components/schemas/OutputText'
-        OutputXHTML:
-          type: string
-          format: byte
-          pattern: ^.{0,262144}$
-          description: Mandatory, if OutputFormat is XHTML, not allowed otherwise.
-        OutputBarcode:
-          $ref: '#/components/schemas/OutputBarcode'
-      required:
-      - OutputFormat
-    TransactionAction:
-      type: string
-      description: Action to realise on a transaction.
-      enum:
-      - AbortTransaction
-      - StartTransaction
-    Result:
-      type: string
-      enum:
-      - Failure
-      - Partial
-      - Success
-    EnableServiceResponse:
-      type: object
-      description: It conveys the result of the Enable Service processing. Content of the Enable Service Response message.
-      properties:
-        Response:
-          $ref: '#/components/schemas/Response'
-      required:
-      - Response
-    OutputBarcode:
-      type: object
-      properties:
-        BarcodeType:
-          $ref: '#/components/schemas/BarcodeType'
-        BarcodeValue:
-          type: string
-          pattern: ^.+$
-      required:
-      - BarcodeValue
-    OutputFormat:
-      type: string
-      enum:
-      - BarCode
-      - MessageRef
-      - Text
-      - XHTML
-    CharacterStyle:
-      type: string
-      enum:
-      - Bold
-      - Italic
-      - Normal
-      - Underline
-    ServicesEnabled:
-      type: array
-      items:
-        type: string
-        enum:
-        - CardAcquisition
-        - Loyalty
-        - Payment
+      - CustomerAssistance
+      - Display
+      - Document
+      - Error
+      - Input
+      - POIReplication
+      - Receipt
+      - Sound
+      - Status
+      - Voucher
   securitySchemes:
     ApiKeyAuth:
       in: header

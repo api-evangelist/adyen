@@ -869,52 +869,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    AllowedOrigin:
-      properties:
-        _links:
-          description: References to resources linked to the allowed origin.
-          $ref: '#/components/schemas/Links'
-        domain:
-          description: Domain of the allowed origin.
-          example: https://adyen.com
-          type: string
-        id:
-          description: Unique identifier of the allowed origin.
-          type: string
-      required:
-      - domain
-      type: object
-    GenerateClientKeyResponse:
-      properties:
-        clientKey:
-          description: Generated client key
-          type: string
-      required:
-      - clientKey
-      type: object
-    CreateAllowedOriginRequest:
-      properties:
-        _links:
-          description: References to resources linked to the allowed origin.
-          $ref: '#/components/schemas/Links'
-        domain:
-          description: Domain of the allowed origin.
-          example: https://adyen.com
-          type: string
-        id:
-          description: Unique identifier of the allowed origin.
-          type: string
-      required:
-      - domain
-      type: object
-    AllowedOriginsResponse:
-      properties:
-        data:
-          description: List of allowed origins.
-          items:
-            $ref: '#/components/schemas/AllowedOrigin'
-          type: array
-      type: object
     RestServiceError:
       properties:
         detail:
@@ -954,8 +908,6 @@ components:
       - detail
       - status
       type: object
-    JSONObject:
-      type: object
     InvalidField:
       properties:
         message:
@@ -971,6 +923,26 @@ components:
       - name
       - value
       - message
+      type: object
+    LinksElement:
+      properties:
+        href:
+          type: string
+      type: object
+    CreateAllowedOriginRequest:
+      properties:
+        _links:
+          description: References to resources linked to the allowed origin.
+          $ref: '#/components/schemas/Links'
+        domain:
+          description: Domain of the allowed origin.
+          example: https://adyen.com
+          type: string
+        id:
+          description: Unique identifier of the allowed origin.
+          type: string
+      required:
+      - domain
       type: object
     ApiCredentialLinks:
       properties:
@@ -995,6 +967,24 @@ components:
       required:
       - self
       type: object
+    AllowedOriginsResponse:
+      properties:
+        data:
+          description: List of allowed origins.
+          items:
+            $ref: '#/components/schemas/AllowedOrigin'
+          type: array
+      type: object
+    JSONObject:
+      type: object
+    GenerateClientKeyResponse:
+      properties:
+        clientKey:
+          description: Generated client key
+          type: string
+      required:
+      - clientKey
+      type: object
     Links:
       properties:
         self:
@@ -1002,11 +992,6 @@ components:
           $ref: '#/components/schemas/LinksElement'
       required:
       - self
-      type: object
-    LinksElement:
-      properties:
-        href:
-          type: string
       type: object
     MeApiCredential:
       properties:
@@ -1064,6 +1049,21 @@ components:
       - allowedIpAddresses
       - roles
       - active
+      type: object
+    AllowedOrigin:
+      properties:
+        _links:
+          description: References to resources linked to the allowed origin.
+          $ref: '#/components/schemas/Links'
+        domain:
+          description: Domain of the allowed origin.
+          example: https://adyen.com
+          type: string
+        id:
+          description: Unique identifier of the allowed origin.
+          type: string
+      required:
+      - domain
       type: object
   securitySchemes:
     ApiKeyAuth:

@@ -335,23 +335,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    TransferData:
-      properties:
-        id:
-          description: The ID of the resource.
-          type: string
-        reference:
-          x-addedInVersion: '4'
-          description: The [`reference`](https://docs.adyen.com/api-explorer/#/transfers/latest/post/transfers__reqParam_reference) from the `/transfers` request. If you haven't provided any, Adyen generates a unique reference.
-          type: string
-      required:
-      - reference
-      type: object
-    Link:
-      properties:
-        href:
-          type: string
-      type: object
     RestServiceError:
       properties:
         detail:
@@ -390,6 +373,50 @@ components:
       - title
       - detail
       - status
+      type: object
+    Links:
+      properties:
+        next:
+          description: Contains a link to the next page.
+          $ref: '#/components/schemas/Link'
+        prev:
+          description: Contains a link to the previous page.
+          $ref: '#/components/schemas/Link'
+      type: object
+    InvalidField:
+      properties:
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
+          type: string
+        value:
+          description: The invalid value.
+          type: string
+      required:
+      - name
+      - value
+      - message
+      type: object
+    Link:
+      properties:
+        href:
+          type: string
+      type: object
+    TransferData:
+      properties:
+        id:
+          description: The ID of the resource.
+          type: string
+        reference:
+          x-addedInVersion: '4'
+          description: The [`reference`](https://docs.adyen.com/api-explorer/#/transfers/latest/post/transfers__reqParam_reference) from the `/transfers` request. If you haven't provided any, Adyen generates a unique reference.
+          type: string
+      required:
+      - reference
+      type: object
+    JSONObject:
       type: object
     Transaction:
       properties:
@@ -448,6 +475,17 @@ components:
       - valueDate
       - balancePlatform
       type: object
+    TransactionSearchResponse:
+      properties:
+        _links:
+          description: Contains links to the next and previous page whenever applicable.
+          $ref: '#/components/schemas/Links'
+        data:
+          description: Contains the transactions that match the query parameters.
+          items:
+            $ref: '#/components/schemas/Transaction'
+          type: array
+      type: object
     Amount:
       properties:
         currency:
@@ -463,8 +501,6 @@ components:
       - value
       - currency
       type: object
-    JSONObject:
-      type: object
     ResourceReference:
       properties:
         description:
@@ -476,42 +512,6 @@ components:
         reference:
           description: The reference for the resource.
           type: string
-      type: object
-    Links:
-      properties:
-        next:
-          description: Contains a link to the next page.
-          $ref: '#/components/schemas/Link'
-        prev:
-          description: Contains a link to the previous page.
-          $ref: '#/components/schemas/Link'
-      type: object
-    InvalidField:
-      properties:
-        message:
-          description: Description of the validation error.
-          type: string
-        name:
-          description: The field that has an invalid value.
-          type: string
-        value:
-          description: The invalid value.
-          type: string
-      required:
-      - name
-      - value
-      - message
-      type: object
-    TransactionSearchResponse:
-      properties:
-        _links:
-          description: Contains links to the next and previous page whenever applicable.
-          $ref: '#/components/schemas/Links'
-        data:
-          description: Contains the transactions that match the query parameters.
-          items:
-            $ref: '#/components/schemas/Transaction'
-          type: array
       type: object
   examples:
     get-transactions-success-200:

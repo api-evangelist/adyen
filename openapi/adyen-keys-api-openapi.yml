@@ -190,36 +190,6 @@ paths:
     - url: https://balanceplatform-api-test.adyen.com/bcl/v2
 components:
   examples:
-    generic-422:
-      summary: Response code 422. Unprocessable entity.
-      value:
-        status: 422
-        errorCode: '14_030'
-        message: Return URL is missing.
-        errorType: validation
-        pspReference: '8816118280275544'
-    generic-400:
-      summary: Response code 400. Bad request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: ", expected: }'
-        errorType: validation
-    generic-401:
-      summary: Response code 401. Unauthorized.
-      value:
-        status: 401
-        errorCode: '000'
-        message: HTTP Status Response - Unauthorized
-        errorType: security
-    generic-403:
-      summary: Response code 403. Forbidden.
-      value:
-        status: 403
-        errorCode: '901'
-        message: Invalid Merchant Account
-        errorType: security
-        pspReference: 881611827877203B
     post-originKeys-basic-200:
       summary: Example response for request 'basic'
       value:
@@ -235,6 +205,28 @@ components:
         message: Payment details are not supported
         errorType: configuration
         pspReference: '8516091485743033'
+    generic-401:
+      summary: Response code 401. Unauthorized.
+      value:
+        status: 401
+        errorCode: '000'
+        message: HTTP Status Response - Unauthorized
+        errorType: security
+    generic-400:
+      summary: Response code 400. Bad request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: ", expected: }'
+        errorType: validation
+    generic-422:
+      summary: Response code 422. Unprocessable entity.
+      value:
+        status: 422
+        errorCode: '14_030'
+        message: Return URL is missing.
+        errorType: validation
+        pspReference: '8816118280275544'
     post-originKeys-basic:
       summary: Get origin keys
       value:
@@ -242,31 +234,14 @@ components:
         - https://www.your-domain1.com
         - https://www.your-domain2.com
         - https://www.your-domain3.com
-    generic-422_2:
-      summary: Response code - 422 Unprocessable Entity.
+    generic-403:
+      summary: Response code 403. Forbidden.
       value:
-        type: https://docs.adyen.com/errors/general/invalid-field-value
-        title: Invalid Payment Instrument information provided
-        status: 422
-        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
-        requestId: 1W1UI15PLVGC9V8O
-        errorCode: '30_031'
-    generic-401_2:
-      summary: Response code - 401 Unauthorized
-      value:
-        type: https://docs.adyen.com/errors/security/unauthorized
-        title: Unauthorized
-        status: 401
-        detail: Not authorized to access this service.
-        errorCode: '00_401'
-    generic-403_2:
-      summary: Response code - 403 Forbidden.
-      value:
-        type: https://docs.adyen.com/errors/security/unauthorized
-        title: Forbidden
         status: 403
-        detail: Not the right permission to access this service.
-        errorCode: '00_403'
+        errorCode: '901'
+        message: Invalid Merchant Account
+        errorType: security
+        pspReference: 881611827877203B
     generic-500_2:
       summary: Response code - 500 Internal Server Error
       value:
@@ -276,7 +251,49 @@ components:
         detail: Unrecoverable error while trying to create payment instrument
         requestId: 1WAF555PLWNTLYOQ
         errorCode: '00_500'
+    generic-401_2:
+      summary: Response code - 401 Unauthorized
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Unauthorized
+        status: 401
+        detail: Not authorized to access this service.
+        errorCode: '00_401'
+    generic-422_2:
+      summary: Response code - 422 Unprocessable Entity.
+      value:
+        type: https://docs.adyen.com/errors/general/invalid-field-value
+        title: Invalid Payment Instrument information provided
+        status: 422
+        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
+        requestId: 1W1UI15PLVGC9V8O
+        errorCode: '30_031'
+    generic-403_2:
+      summary: Response code - 403 Forbidden.
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Forbidden
+        status: 403
+        detail: Not the right permission to access this service.
+        errorCode: '00_403'
+  parameters:
+    Idempotency-Key:
+      description: A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).
+      example: 37ca9c97-d1d1-4c62-89e8-706891a563ed
+      name: Idempotency-Key
+      in: header
+      schema:
+        type: string
   schemas:
+    UtilityResponse:
+      properties:
+        originKeys:
+          x-addedInVersion: '1'
+          additionalProperties:
+            type: string
+          description: The list of origin keys for all requested domains. For each list item, the key is the domain and the value is the origin key.
+          type: object
+      type: object
     UtilityRequest:
       properties:
         originDomains:
@@ -311,27 +328,6 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
-      type: object
-    UtilityResponse:
-      properties:
-        originKeys:
-          x-addedInVersion: '1'
-          additionalProperties:
-            type: string
-          description: The list of origin keys for all requested domains. For each list item, the key is the domain and the value is the origin key.
-          type: object
-      type: object
-    PublicKeyResponse:
-      properties:
-        publicKey:
-          description: The public key to be used for encrypting the symmetric session key.
-          type: string
-        publicKeyExpiryDate:
-          description: The expiry date of the public key.
-          type: string
-      required:
-      - publicKey
-      - publicKeyExpiryDate
       type: object
     RestServiceError:
       properties:
@@ -372,8 +368,6 @@ components:
       - detail
       - status
       type: object
-    JSONObject:
-      type: object
     InvalidField:
       properties:
         message:
@@ -390,14 +384,20 @@ components:
       - value
       - message
       type: object
-  parameters:
-    Idempotency-Key:
-      description: A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).
-      example: 37ca9c97-d1d1-4c62-89e8-706891a563ed
-      name: Idempotency-Key
-      in: header
-      schema:
-        type: string
+    PublicKeyResponse:
+      properties:
+        publicKey:
+          description: The public key to be used for encrypting the symmetric session key.
+          type: string
+        publicKeyExpiryDate:
+          description: The expiry date of the public key.
+          type: string
+      required:
+      - publicKey
+      - publicKeyExpiryDate
+      type: object
+    JSONObject:
+      type: object
   headers:
     Idempotency-Key:
       description: The idempotency key used for processing the request. Present if the key was provided in the request.

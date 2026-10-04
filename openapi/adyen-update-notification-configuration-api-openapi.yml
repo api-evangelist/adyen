@@ -130,6 +130,105 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    NotificationEventConfiguration:
+      properties:
+        eventType:
+          description: 'The type of event.
+
+
+            Possible values: **ACCOUNT_CLOSED**, **ACCOUNT_CREATED**, **ACCOUNT_FUNDS_BELOW_THRESHOLD**, **ACCOUNT_HOLDER_CREATED**, **ACCOUNT_HOLDER_LIMIT_REACHED**, **ACCOUNT_HOLDER_PAYOUT**, **ACCOUNT_HOLDER_STATUS_CHANGE**, **ACCOUNT_HOLDER_STORE_STATUS_CHANGE**, **ACCOUNT_HOLDER_UPCOMING_DEADLINE**, **ACCOUNT_HOLDER_UPDATED**, **ACCOUNT_HOLDER_VERIFICATION**, **ACCOUNT_UPDATED**, **BENEFICIARY_SETUP**, **COMPENSATE_NEGATIVE_BALANCE**, **DIRECT_DEBIT_INITIATED**, **PAYMENT_FAILURE**, **REFUND_FUNDS_TRANSFER**, **REPORT_AVAILABLE**, **SCHEDULED_REFUNDS**, **TRANSFER_FUNDS**.'
+          enum:
+          - ACCOUNT_CLOSED
+          - ACCOUNT_CREATED
+          - ACCOUNT_FUNDS_BELOW_THRESHOLD
+          - ACCOUNT_HOLDER_CREATED
+          - ACCOUNT_HOLDER_LIMIT_REACHED
+          - ACCOUNT_HOLDER_MIGRATED
+          - ACCOUNT_HOLDER_PAYOUT
+          - ACCOUNT_HOLDER_STATUS_CHANGE
+          - ACCOUNT_HOLDER_STORE_STATUS_CHANGE
+          - ACCOUNT_HOLDER_UPCOMING_DEADLINE
+          - ACCOUNT_HOLDER_UPDATED
+          - ACCOUNT_HOLDER_VERIFICATION
+          - ACCOUNT_UPDATED
+          - BENEFICIARY_SETUP
+          - COMPENSATE_NEGATIVE_BALANCE
+          - DIRECT_DEBIT_INITIATED
+          - FUNDS_MIGRATED
+          - PAYMENT_FAILURE
+          - PENDING_CREDIT
+          - REFUND_FUNDS_TRANSFER
+          - REPORT_AVAILABLE
+          - SCHEDULED_REFUNDS
+          - SCORE_SIGNAL_TRIGGERED
+          - TRANSFER_FUNDS
+          - TRANSFER_NOT_PAIDOUT_TRANSFERS
+          type: string
+        includeMode:
+          description: 'Indicates whether the specified `eventType` is sent to your webhook endpoint.
+
+            Possible values:
+
+            * **INCLUDE**: Send the specified `eventType`.
+
+            * **EXCLUDE**: Send all event types except the specified `eventType` and other event types with the `includeMode` set to **EXCLUDE**.'
+          enum:
+          - EXCLUDE
+          - INCLUDE
+          type: string
+      required:
+      - eventType
+      - includeMode
+      type: object
+    NotificationConfigurationDetails:
+      properties:
+        active:
+          description: Indicates whether the notification subscription is active.
+          type: boolean
+        apiVersion:
+          description: The version of the notification to which you are subscribing. To make sure that your integration can properly process the notification, subscribe to the same version as the API that you're using.
+          format: int32
+          type: integer
+        description:
+          description: A description of the notification subscription configuration.
+          type: string
+        eventConfigs:
+          description: Contains objects that define event types and their subscription settings.
+          items:
+            $ref: '#/components/schemas/NotificationEventConfiguration'
+          type: array
+        hmacSignatureKey:
+          x-addedInVersion: '5'
+          description: 'A string with which to salt the notification(s) before hashing. If this field is provided, a hash value will be included under the notification header `HmacSignature` and the hash protocol will be included under the notification header `Protocol`. A notification body along with its `hmacSignatureKey` and `Protocol` can be used to calculate a hash value; matching this hash value with the `HmacSignature` will ensure that the notification body has not been tampered with or corrupted.
+
+
+            >Must be a 32-byte hex-encoded string (i.e. a string containing 64 hexadecimal characters; e.g. "b0ea55c2fe60d4d1d605e9c385e0e7f7e6cafbb939ce07010f31a327a0871f27").
+
+
+            The omission of this field will preclude the provision of the `HmacSignature` and `Protocol` headers in notification(s).'
+          type: string
+        notificationId:
+          description: Adyen-generated ID for the entry, returned in the response when you create a notification configuration. Required when updating an existing configuration using [`/updateNotificationConfiguration`](https://docs.adyen.com/api-explorer/#/NotificationConfigurationService/latest/post/updateNotificationConfiguration).
+          format: int64
+          type: integer
+        notifyPassword:
+          description: The password to use when accessing the notifyURL with the specified username.
+          type: string
+        notifyURL:
+          description: The URL to which the notifications are to be sent.
+          type: string
+        notifyUsername:
+          description: The username to use when accessing the notifyURL.
+          type: string
+        sslProtocol:
+          description: 'The SSL protocol employed by the endpoint.
+
+            >Permitted values: `TLSv12`, `TLSv13`.'
+          enum:
+          - TLSv12
+          - TLSv13
+          type: string
+      type: object
     GetNotificationConfigurationResponse:
       properties:
         configurationDetails:
@@ -150,6 +249,14 @@ components:
       required:
       - configurationDetails
       type: object
+    UpdateNotificationConfigurationRequest:
+      properties:
+        configurationDetails:
+          description: Details of the notification subscription configuration to be updated.
+          $ref: '#/components/schemas/NotificationConfigurationDetails'
+      required:
+      - configurationDetails
+      type: object
     ErrorFieldType:
       properties:
         errorCode:
@@ -162,25 +269,6 @@ components:
         fieldType:
           description: The type of error field.
           $ref: '#/components/schemas/FieldType'
-      type: object
-    ServiceError:
-      properties:
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
       type: object
     FieldType:
       properties:
@@ -357,114 +445,41 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    UpdateNotificationConfigurationRequest:
+    ServiceError:
       properties:
-        configurationDetails:
-          description: Details of the notification subscription configuration to be updated.
-          $ref: '#/components/schemas/NotificationConfigurationDetails'
-      required:
-      - configurationDetails
-      type: object
-    NotificationConfigurationDetails:
-      properties:
-        active:
-          description: Indicates whether the notification subscription is active.
-          type: boolean
-        apiVersion:
-          description: The version of the notification to which you are subscribing. To make sure that your integration can properly process the notification, subscribe to the same version as the API that you're using.
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
           format: int32
           type: integer
-        description:
-          description: A description of the notification subscription configuration.
-          type: string
-        eventConfigs:
-          description: Contains objects that define event types and their subscription settings.
-          items:
-            $ref: '#/components/schemas/NotificationEventConfiguration'
-          type: array
-        hmacSignatureKey:
-          x-addedInVersion: '5'
-          description: 'A string with which to salt the notification(s) before hashing. If this field is provided, a hash value will be included under the notification header `HmacSignature` and the hash protocol will be included under the notification header `Protocol`. A notification body along with its `hmacSignatureKey` and `Protocol` can be used to calculate a hash value; matching this hash value with the `HmacSignature` will ensure that the notification body has not been tampered with or corrupted.
-
-
-            >Must be a 32-byte hex-encoded string (i.e. a string containing 64 hexadecimal characters; e.g. "b0ea55c2fe60d4d1d605e9c385e0e7f7e6cafbb939ce07010f31a327a0871f27").
-
-
-            The omission of this field will preclude the provision of the `HmacSignature` and `Protocol` headers in notification(s).'
-          type: string
-        notificationId:
-          description: Adyen-generated ID for the entry, returned in the response when you create a notification configuration. Required when updating an existing configuration using [`/updateNotificationConfiguration`](https://docs.adyen.com/api-explorer/#/NotificationConfigurationService/latest/post/updateNotificationConfiguration).
-          format: int64
-          type: integer
-        notifyPassword:
-          description: The password to use when accessing the notifyURL with the specified username.
-          type: string
-        notifyURL:
-          description: The URL to which the notifications are to be sent.
-          type: string
-        notifyUsername:
-          description: The username to use when accessing the notifyURL.
-          type: string
-        sslProtocol:
-          description: 'The SSL protocol employed by the endpoint.
-
-            >Permitted values: `TLSv12`, `TLSv13`.'
-          enum:
-          - TLSv12
-          - TLSv13
-          type: string
-      type: object
-    NotificationEventConfiguration:
-      properties:
-        eventType:
-          description: 'The type of event.
-
-
-            Possible values: **ACCOUNT_CLOSED**, **ACCOUNT_CREATED**, **ACCOUNT_FUNDS_BELOW_THRESHOLD**, **ACCOUNT_HOLDER_CREATED**, **ACCOUNT_HOLDER_LIMIT_REACHED**, **ACCOUNT_HOLDER_PAYOUT**, **ACCOUNT_HOLDER_STATUS_CHANGE**, **ACCOUNT_HOLDER_STORE_STATUS_CHANGE**, **ACCOUNT_HOLDER_UPCOMING_DEADLINE**, **ACCOUNT_HOLDER_UPDATED**, **ACCOUNT_HOLDER_VERIFICATION**, **ACCOUNT_UPDATED**, **BENEFICIARY_SETUP**, **COMPENSATE_NEGATIVE_BALANCE**, **DIRECT_DEBIT_INITIATED**, **PAYMENT_FAILURE**, **REFUND_FUNDS_TRANSFER**, **REPORT_AVAILABLE**, **SCHEDULED_REFUNDS**, **TRANSFER_FUNDS**.'
-          enum:
-          - ACCOUNT_CLOSED
-          - ACCOUNT_CREATED
-          - ACCOUNT_FUNDS_BELOW_THRESHOLD
-          - ACCOUNT_HOLDER_CREATED
-          - ACCOUNT_HOLDER_LIMIT_REACHED
-          - ACCOUNT_HOLDER_MIGRATED
-          - ACCOUNT_HOLDER_PAYOUT
-          - ACCOUNT_HOLDER_STATUS_CHANGE
-          - ACCOUNT_HOLDER_STORE_STATUS_CHANGE
-          - ACCOUNT_HOLDER_UPCOMING_DEADLINE
-          - ACCOUNT_HOLDER_UPDATED
-          - ACCOUNT_HOLDER_VERIFICATION
-          - ACCOUNT_UPDATED
-          - BENEFICIARY_SETUP
-          - COMPENSATE_NEGATIVE_BALANCE
-          - DIRECT_DEBIT_INITIATED
-          - FUNDS_MIGRATED
-          - PAYMENT_FAILURE
-          - PENDING_CREDIT
-          - REFUND_FUNDS_TRANSFER
-          - REPORT_AVAILABLE
-          - SCHEDULED_REFUNDS
-          - SCORE_SIGNAL_TRIGGERED
-          - TRANSFER_FUNDS
-          - TRANSFER_NOT_PAIDOUT_TRANSFERS
-          type: string
-        includeMode:
-          description: 'Indicates whether the specified `eventType` is sent to your webhook endpoint.
-
-            Possible values:
-
-            * **INCLUDE**: Send the specified `eventType`.
-
-            * **EXCLUDE**: Send all event types except the specified `eventType` and other event types with the `includeMode` set to **EXCLUDE**.'
-          enum:
-          - EXCLUDE
-          - INCLUDE
-          type: string
-      required:
-      - eventType
-      - includeMode
       type: object
   examples:
+    post-updateNotificationConfiguration-basic-200:
+      summary: Example response for request 'basic'
+      value:
+        pspReference: '8516178952580574'
+        configurationDetails:
+          active: false
+          description: Test notif config 756
+          eventConfigs:
+          - eventType: ACCOUNT_CREATED
+            includeMode: INCLUDE
+          - eventType: ACCOUNT_HOLDER_CREATED
+            includeMode: EXCLUDE
+          notificationId: 21259
+          notifyURL: https://www.adyen.com/notification-handler
+          sslProtocol: TLSv13
     post-updateNotificationConfiguration-basic:
       summary: Update notification configurations
       value:
@@ -480,21 +495,6 @@ components:
           notifyPassword: testPassword2
           notifyURL: https://www.adyen.com/notification-handler
           notifyUsername: testUserName2
-          sslProtocol: TLSv13
-    post-updateNotificationConfiguration-basic-200:
-      summary: Example response for request 'basic'
-      value:
-        pspReference: '8516178952580574'
-        configurationDetails:
-          active: false
-          description: Test notif config 756
-          eventConfigs:
-          - eventType: ACCOUNT_CREATED
-            includeMode: INCLUDE
-          - eventType: ACCOUNT_HOLDER_CREATED
-            includeMode: EXCLUDE
-          notificationId: 21259
-          notifyURL: https://www.adyen.com/notification-handler
           sslProtocol: TLSv13
   securitySchemes:
     ApiKeyAuth:

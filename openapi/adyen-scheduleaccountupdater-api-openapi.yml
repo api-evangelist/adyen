@@ -144,6 +144,12 @@ paths:
         dispatcher: FALLBACK
 components:
   examples:
+    post-scheduleAccountUpdater-scheduleAccountUpdaterWithTokenData:
+      summary: Schedule AccountUpdater with token data
+      value:
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        reference: YOUR_REFERENCE
+        shopperReference: YOUR_SHOPPER_REFERENCE
     post-scheduleAccountUpdater-scheduleAccountUpdaterWithCardData:
       summary: Schedule AccountUpdater with card data
       value:
@@ -154,13 +160,70 @@ components:
           expiryYear: '2030'
           holderName: Adyen Test
           number: '4111111111111111'
-    post-scheduleAccountUpdater-scheduleAccountUpdaterWithTokenData:
-      summary: Schedule AccountUpdater with token data
-      value:
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-        reference: YOUR_REFERENCE
-        shopperReference: YOUR_SHOPPER_REFERENCE
   schemas:
+    Card:
+      properties:
+        cvc:
+          description: 'The [card verification code](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-security-code-cvc-cvv-cid) (1-20 characters). Depending on the card brand, it is known also as:
+
+            * CVV2/CVC2 – length: 3 digits
+
+            * CID – length: 4 digits
+
+            > If you are using [Client-Side Encryption](https://docs.adyen.com/classic-integration/cse-integration-ecommerce), the CVC code is present in the encrypted data. You must never post the card details to the server.
+
+            > This field must be always present in a [one-click payment request](https://docs.adyen.com/classic-integration/recurring-payments).
+
+            > When this value is returned in a response, it is always empty because it is not stored.'
+          maxLength: 20
+          minLength: 1
+          type: string
+        expiryMonth:
+          description: 'The card expiry month.
+
+            Format: 2 digits, zero-padded for single digits. For example:
+
+            * 03 = March
+
+            * 11 = November'
+          maxLength: 2
+          minLength: 1
+          type: string
+        expiryYear:
+          description: 'The card expiry year.
+
+            Format: 4 digits. For example: 2020'
+          maxLength: 4
+          minLength: 4
+          type: string
+        holderName:
+          description: The name of the cardholder, as printed on the card.
+          maxLength: 50
+          minLength: 1
+          type: string
+        issueNumber:
+          description: The issue number of the card (for some UK debit cards only).
+          maxLength: 2
+          minLength: 1
+          type: string
+        number:
+          description: 'The card number (4-19 characters). Do not use any separators.
+
+            When this value is returned in a response, only the last 4 digits of the card number are returned.'
+          maxLength: 19
+          minLength: 4
+          type: string
+        startMonth:
+          description: The month component of the start date (for some UK debit cards only).
+          maxLength: 2
+          minLength: 1
+          type: string
+        startYear:
+          description: The year component of the start date (for some UK debit cards only).
+          maxLength: 4
+          minLength: 4
+          type: string
+      type: object
     ScheduleAccountUpdaterRequest:
       properties:
         additionalData:
@@ -232,69 +295,6 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
-      type: object
-    Card:
-      properties:
-        cvc:
-          description: 'The [card verification code](https://docs.adyen.com/payments-fundamentals/payment-glossary#card-security-code-cvc-cvv-cid) (1-20 characters). Depending on the card brand, it is known also as:
-
-            * CVV2/CVC2 – length: 3 digits
-
-            * CID – length: 4 digits
-
-            > If you are using [Client-Side Encryption](https://docs.adyen.com/classic-integration/cse-integration-ecommerce), the CVC code is present in the encrypted data. You must never post the card details to the server.
-
-            > This field must be always present in a [one-click payment request](https://docs.adyen.com/classic-integration/recurring-payments).
-
-            > When this value is returned in a response, it is always empty because it is not stored.'
-          maxLength: 20
-          minLength: 1
-          type: string
-        expiryMonth:
-          description: 'The card expiry month.
-
-            Format: 2 digits, zero-padded for single digits. For example:
-
-            * 03 = March
-
-            * 11 = November'
-          maxLength: 2
-          minLength: 1
-          type: string
-        expiryYear:
-          description: 'The card expiry year.
-
-            Format: 4 digits. For example: 2020'
-          maxLength: 4
-          minLength: 4
-          type: string
-        holderName:
-          description: The name of the cardholder, as printed on the card.
-          maxLength: 50
-          minLength: 1
-          type: string
-        issueNumber:
-          description: The issue number of the card (for some UK debit cards only).
-          maxLength: 2
-          minLength: 1
-          type: string
-        number:
-          description: 'The card number (4-19 characters). Do not use any separators.
-
-            When this value is returned in a response, only the last 4 digits of the card number are returned.'
-          maxLength: 19
-          minLength: 4
-          type: string
-        startMonth:
-          description: The month component of the start date (for some UK debit cards only).
-          maxLength: 2
-          minLength: 1
-          type: string
-        startYear:
-          description: The year component of the start date (for some UK debit cards only).
-          maxLength: 4
-          minLength: 4
-          type: string
       type: object
   securitySchemes:
     ApiKeyAuth:

@@ -110,274 +110,7 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  examples:
-    generic-401:
-      summary: Response code - 401 Unauthorized
-      value:
-        type: https://docs.adyen.com/errors/security/unauthorized
-        title: Unauthorized
-        status: 401
-        detail: Not authorized to access this service.
-        errorCode: '00_401'
-    generic-403:
-      summary: Response code - 403 Forbidden.
-      value:
-        type: https://docs.adyen.com/errors/security/unauthorized
-        title: Forbidden
-        status: 403
-        detail: Not the right permission to access this service.
-        errorCode: '00_403'
-    generic-500:
-      summary: Response code - 500 Internal Server Error
-      value:
-        type: https://docs.adyen.com/errors/general/internal
-        title: An internal error happened
-        status: 500
-        detail: Unrecoverable error while trying to create payment instrument
-        requestId: 1WAF555PLWNTLYOQ
-        errorCode: '00_500'
-    generic-422:
-      summary: Response code - 422 Unprocessable Entity.
-      value:
-        type: https://docs.adyen.com/errors/general/invalid-field-value
-        title: Invalid Payment Instrument information provided
-        status: 422
-        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
-        requestId: 1W1UI15PLVGC9V8O
-        errorCode: '30_031'
-    get-balancePlatforms-id-accountHolders-success-200:
-      summary: List of account holders retrieved
-      description: Example response when retrieving a list of account holders under a balance platform
-      value:
-        accountHolders:
-        - description: Test-305
-          legalEntityId: LE3227C223222D5D8S5S33M4M
-          reference: LegalEntity internal error test
-          id: AH32272223222B5GFSNSXFFL9
-          status: active
-        - description: Test-751
-          legalEntityId: LE3227C223222D5D8S5TT3SRX
-          reference: LegalEntity internal error test
-          id: AH32272223222B5GFSNVGFFM7
-          status: active
-        - description: Explorer Holder
-          legalEntityId: LE3227C223222D5D8S5TT3SRX
-          reference: Account from the Explorer Holder
-          id: AH32272223222B5GFWNRFFVR6
-          status: active
-        hasNext: true
-        hasPrevious: true
-    generic-400:
-      summary: Response code - 400 Bad request
-      value:
-        type: https://docs.adyen.com/errors/general/bad-request
-        title: Bad request
-        status: 400
-        detail: Empty input which would have resulted in a null result.
-        errorCode: '00_400'
   schemas:
-    PaginatedAccountHoldersResponse:
-      properties:
-        accountHolders:
-          description: List of account holders.
-          items:
-            $ref: '#/components/schemas/AccountHolder'
-          type: array
-        hasNext:
-          description: Indicates whether there are more items on the next page.
-          type: boolean
-        hasPrevious:
-          description: Indicates whether there are more items on the previous page.
-          type: boolean
-      required:
-      - accountHolders
-      - hasPrevious
-      - hasNext
-      type: object
-    CapabilityProblemEntity:
-      properties:
-        documents:
-          description: List of document IDs to which the verification errors related to the capabilities correspond to.
-          items:
-            type: string
-          type: array
-        id:
-          description: The ID of the entity.
-          type: string
-        owner:
-          description: Contains details about the owner of the entity that has an error.
-          $ref: '#/components/schemas/CapabilityProblemEntity-recursive'
-        type:
-          description: "Type of entity. \n\nPossible values: **LegalEntity**, **BankAccount**, **Document**."
-          enum:
-          - BankAccount
-          - Document
-          - LegalEntity
-          type: string
-      type: object
-    AccountSupportingEntityCapability:
-      properties:
-        allowed:
-          description: Indicates whether the supporting entity capability is allowed. Adyen sets this to **true** if the verification is successful and the account holder is permitted to use the capability.
-          readOnly: true
-          type: boolean
-        allowedLevel:
-          description: 'The capability level that is allowed for the account holder.
-
-
-            Possible values: **notApplicable**, **low**, **medium**, **high**.'
-          enum:
-          - high
-          - low
-          - medium
-          - notApplicable
-          readOnly: true
-          type: string
-        enabled:
-          description: Indicates whether the capability is enabled. If **false**, the capability is temporarily disabled for the account holder.
-          type: boolean
-        id:
-          description: The ID of the supporting entity.
-          readOnly: true
-          type: string
-        requested:
-          description: Indicates whether the capability is requested. To check whether the account holder is permitted to use the capability, refer to the `allowed` field.
-          type: boolean
-        requestedLevel:
-          description: 'The requested level of the capability. Some capabilities, such as those used in [card issuing](https://docs.adyen.com/issuing/add-capabilities#capability-levels), have different levels. Levels increase the capability, but also require additional checks and increased monitoring.
-
-
-            Possible values: **notApplicable**, **low**, **medium**, **high**.'
-          enum:
-          - high
-          - low
-          - medium
-          - notApplicable
-          type: string
-        verificationStatus:
-          description: 'The status of the verification checks for the supporting entity capability.
-
-
-            Possible values:
-
-
-            * **pending**: Adyen is running the verification.
-
-
-            * **invalid**: The verification failed. Check if the `errors` array contains more information.
-
-
-            * **valid**: The verification has been successfully completed.
-
-
-            * **rejected**: Adyen has verified the information, but found reasons to not allow the capability.
-
-            '
-          enum:
-          - invalid
-          - pending
-          - rejected
-          - valid
-          readOnly: true
-          type: string
-      type: object
-    VerificationError:
-      properties:
-        capabilities:
-          description: Contains the capabilities that the verification error applies to.
-          items:
-            enum:
-            - acceptExternalFunding
-            - acceptPspFunding
-            - acceptTransactionInRestrictedCountries
-            - acceptTransactionInRestrictedCountriesCommercial
-            - acceptTransactionInRestrictedCountriesConsumer
-            - acceptTransactionInRestrictedIndustries
-            - acceptTransactionInRestrictedIndustriesCommercial
-            - acceptTransactionInRestrictedIndustriesConsumer
-            - acquiring
-            - atmWithdrawal
-            - atmWithdrawalCommercial
-            - atmWithdrawalConsumer
-            - atmWithdrawalInRestrictedCountries
-            - atmWithdrawalInRestrictedCountriesCommercial
-            - atmWithdrawalInRestrictedCountriesConsumer
-            - authorisedPaymentInstrumentUser
-            - getGrantOffers
-            - issueBankAccount
-            - issueCard
-            - issueCardCommercial
-            - issueCardConsumer
-            - localAcceptance
-            - payout
-            - payoutToTransferInstrument
-            - processing
-            - receiveFromBalanceAccount
-            - receiveFromPlatformPayments
-            - receiveFromThirdParty
-            - receiveFromTransferInstrument
-            - receiveGrants
-            - receivePayments
-            - sendToBalanceAccount
-            - sendToThirdParty
-            - sendToTransferInstrument
-            - thirdPartyFunding
-            - useCard
-            - useCardCommercial
-            - useCardConsumer
-            - useCardInRestrictedCountries
-            - useCardInRestrictedCountriesCommercial
-            - useCardInRestrictedCountriesConsumer
-            - useCardInRestrictedIndustries
-            - useCardInRestrictedIndustriesCommercial
-            - useCardInRestrictedIndustriesConsumer
-            - withdrawFromAtm
-            - withdrawFromAtmCommercial
-            - withdrawFromAtmConsumer
-            - withdrawFromAtmInRestrictedCountries
-            - withdrawFromAtmInRestrictedCountriesCommercial
-            - withdrawFromAtmInRestrictedCountriesConsumer
-            type: string
-          type: array
-        code:
-          description: The verification error code.
-          type: string
-        message:
-          description: A description of the error.
-          type: string
-        remediatingActions:
-          description: Contains the actions that you can take to resolve the verification error.
-          items:
-            $ref: '#/components/schemas/RemediatingAction'
-          type: array
-        subErrors:
-          description: Contains more granular information about the verification error.
-          items:
-            $ref: '#/components/schemas/VerificationError-recursive'
-          type: array
-        type:
-          description: "The type of error.\n\n Possible values: **invalidInput**, **dataMissing**."
-          enum:
-          - dataMissing
-          - invalidInput
-          - pendingStatus
-          type: string
-      type: object
-    Amount:
-      properties:
-        currency:
-          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
-          maxLength: 3
-          minLength: 3
-          type: string
-        value:
-          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int64
-          type: integer
-      required:
-      - value
-      - currency
-      type: object
     AccountHolder:
       properties:
         balancePlatform:
@@ -446,113 +179,23 @@ components:
       - legalEntityId
       - id
       type: object
-    CapabilityProblemEntity-recursive:
+    PaginatedAccountHoldersResponse:
       properties:
-        documents:
-          description: List of document IDs to which the verification errors related to the capabilities correspond to.
+        accountHolders:
+          description: List of account holders.
           items:
-            type: string
+            $ref: '#/components/schemas/AccountHolder'
           type: array
-        id:
-          description: The ID of the entity.
-          type: string
-        type:
-          description: "Type of entity. \n\nPossible values: **LegalEntity**, **BankAccount**, **Document**."
-          enum:
-          - BankAccount
-          - Document
-          - LegalEntity
-          type: string
-      required: []
-      type: object
-    CapabilityProblem:
-      properties:
-        entity:
-          description: Contains the type of the entity and the corresponding ID.
-          $ref: '#/components/schemas/CapabilityProblemEntity'
-        verificationErrors:
-          description: Contains information about the verification error.
-          items:
-            $ref: '#/components/schemas/VerificationError'
-          type: array
-      type: object
-    VerificationError-recursive:
-      properties:
-        capabilities:
-          description: Contains the capabilities that the verification error applies to.
-          items:
-            enum:
-            - acceptExternalFunding
-            - acceptPspFunding
-            - acceptTransactionInRestrictedCountries
-            - acceptTransactionInRestrictedCountriesCommercial
-            - acceptTransactionInRestrictedCountriesConsumer
-            - acceptTransactionInRestrictedIndustries
-            - acceptTransactionInRestrictedIndustriesCommercial
-            - acceptTransactionInRestrictedIndustriesConsumer
-            - acquiring
-            - atmWithdrawal
-            - atmWithdrawalCommercial
-            - atmWithdrawalConsumer
-            - atmWithdrawalInRestrictedCountries
-            - atmWithdrawalInRestrictedCountriesCommercial
-            - atmWithdrawalInRestrictedCountriesConsumer
-            - authorisedPaymentInstrumentUser
-            - getGrantOffers
-            - issueBankAccount
-            - issueCard
-            - issueCardCommercial
-            - issueCardConsumer
-            - localAcceptance
-            - payout
-            - payoutToTransferInstrument
-            - processing
-            - receiveFromBalanceAccount
-            - receiveFromPlatformPayments
-            - receiveFromThirdParty
-            - receiveFromTransferInstrument
-            - receiveGrants
-            - receivePayments
-            - sendToBalanceAccount
-            - sendToThirdParty
-            - sendToTransferInstrument
-            - thirdPartyFunding
-            - useCard
-            - useCardCommercial
-            - useCardConsumer
-            - useCardInRestrictedCountries
-            - useCardInRestrictedCountriesCommercial
-            - useCardInRestrictedCountriesConsumer
-            - useCardInRestrictedIndustries
-            - useCardInRestrictedIndustriesCommercial
-            - useCardInRestrictedIndustriesConsumer
-            - withdrawFromAtm
-            - withdrawFromAtmCommercial
-            - withdrawFromAtmConsumer
-            - withdrawFromAtmInRestrictedCountries
-            - withdrawFromAtmInRestrictedCountriesCommercial
-            - withdrawFromAtmInRestrictedCountriesConsumer
-            type: string
-          type: array
-        code:
-          description: The verification error code.
-          type: string
-        message:
-          description: A description of the error.
-          type: string
-        type:
-          description: "The type of error.\n\n Possible values: **invalidInput**, **dataMissing**."
-          enum:
-          - dataMissing
-          - invalidInput
-          - pendingStatus
-          type: string
-        remediatingActions:
-          description: Contains the actions that you can take to resolve the verification error.
-          items:
-            $ref: '#/components/schemas/RemediatingAction'
-          type: array
-      required: []
+        hasNext:
+          description: Indicates whether there are more items on the next page.
+          type: boolean
+        hasPrevious:
+          description: Indicates whether there are more items on the previous page.
+          type: boolean
+      required:
+      - accountHolders
+      - hasPrevious
+      - hasNext
       type: object
     RestServiceError:
       properties:
@@ -609,6 +252,129 @@ components:
       - value
       - message
       type: object
+    Address:
+      properties:
+        city:
+          description: 'The name of the city. Maximum length: 3000 characters.'
+          maxLength: 3000
+          type: string
+        country:
+          description: 'The two-character ISO-3166-1 alpha-2 country code. For example, **US**.
+
+            > If you don''t know the country or are not collecting the country from the shopper, provide `country` as `ZZ`.'
+          type: string
+        houseNumberOrName:
+          description: 'The number or name of the house. Maximum length: 3000 characters.'
+          maxLength: 3000
+          type: string
+        postalCode:
+          description: A maximum of five digits for an address in the US, or a maximum of ten characters for an address in all other countries.
+          type: string
+        stateOrProvince:
+          description: 'The two-character ISO 3166-2 state or province code. For example, **CA** in the US or **ON** in Canada.
+
+            > Required for the US and Canada.'
+          type: string
+        street:
+          description: 'The name of the street. Maximum length: 3000 characters.
+
+            > The house number should not be included in this field; it should be separately provided via `houseNumberOrName`.'
+          maxLength: 3000
+          type: string
+      required:
+      - street
+      - houseNumberOrName
+      - city
+      - postalCode
+      - country
+      type: object
+    CapabilityProblemEntity-recursive:
+      properties:
+        documents:
+          description: List of document IDs to which the verification errors related to the capabilities correspond to.
+          items:
+            type: string
+          type: array
+        id:
+          description: The ID of the entity.
+          type: string
+        type:
+          description: "Type of entity. \n\nPossible values: **LegalEntity**, **BankAccount**, **Document**."
+          enum:
+          - BankAccount
+          - Document
+          - LegalEntity
+          type: string
+      required: []
+      type: object
+    JSONObject:
+      type: object
+    AccountSupportingEntityCapability:
+      properties:
+        allowed:
+          description: Indicates whether the supporting entity capability is allowed. Adyen sets this to **true** if the verification is successful and the account holder is permitted to use the capability.
+          readOnly: true
+          type: boolean
+        allowedLevel:
+          description: 'The capability level that is allowed for the account holder.
+
+
+            Possible values: **notApplicable**, **low**, **medium**, **high**.'
+          enum:
+          - high
+          - low
+          - medium
+          - notApplicable
+          readOnly: true
+          type: string
+        enabled:
+          description: Indicates whether the capability is enabled. If **false**, the capability is temporarily disabled for the account holder.
+          type: boolean
+        id:
+          description: The ID of the supporting entity.
+          readOnly: true
+          type: string
+        requested:
+          description: Indicates whether the capability is requested. To check whether the account holder is permitted to use the capability, refer to the `allowed` field.
+          type: boolean
+        requestedLevel:
+          description: 'The requested level of the capability. Some capabilities, such as those used in [card issuing](https://docs.adyen.com/issuing/add-capabilities#capability-levels), have different levels. Levels increase the capability, but also require additional checks and increased monitoring.
+
+
+            Possible values: **notApplicable**, **low**, **medium**, **high**.'
+          enum:
+          - high
+          - low
+          - medium
+          - notApplicable
+          type: string
+        verificationStatus:
+          description: 'The status of the verification checks for the supporting entity capability.
+
+
+            Possible values:
+
+
+            * **pending**: Adyen is running the verification.
+
+
+            * **invalid**: The verification failed. Check if the `errors` array contains more information.
+
+
+            * **valid**: The verification has been successfully completed.
+
+
+            * **rejected**: Adyen has verified the information, but found reasons to not allow the capability.
+
+            '
+          enum:
+          - invalid
+          - pending
+          - rejected
+          - valid
+          readOnly: true
+          type: string
+      type: object
     CapabilitySettings:
       properties:
         amountPerIndustry:
@@ -638,6 +404,81 @@ components:
         maxAmount:
           description: ''
           $ref: '#/components/schemas/Amount'
+      type: object
+    Amount:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      - currency
+      type: object
+    CapabilityProblem:
+      properties:
+        entity:
+          description: Contains the type of the entity and the corresponding ID.
+          $ref: '#/components/schemas/CapabilityProblemEntity'
+        verificationErrors:
+          description: Contains information about the verification error.
+          items:
+            $ref: '#/components/schemas/VerificationError'
+          type: array
+      type: object
+    ContactDetails:
+      properties:
+        address:
+          description: The address of the account holder.
+          $ref: '#/components/schemas/Address'
+        email:
+          description: The email address of the account holder.
+          type: string
+        phone:
+          description: The phone number of the account holder.
+          $ref: '#/components/schemas/Phone'
+        webAddress:
+          description: The URL of the account holder's website.
+          type: string
+      required:
+      - email
+      - phone
+      - address
+      type: object
+    CapabilityProblemEntity:
+      properties:
+        documents:
+          description: List of document IDs to which the verification errors related to the capabilities correspond to.
+          items:
+            type: string
+          type: array
+        id:
+          description: The ID of the entity.
+          type: string
+        owner:
+          description: Contains details about the owner of the entity that has an error.
+          $ref: '#/components/schemas/CapabilityProblemEntity-recursive'
+        type:
+          description: "Type of entity. \n\nPossible values: **LegalEntity**, **BankAccount**, **Document**."
+          enum:
+          - BankAccount
+          - Document
+          - LegalEntity
+          type: string
+      type: object
+    RemediatingAction:
+      properties:
+        code:
+          description: The remediating action code.
+          type: string
+        message:
+          description: A description of how you can resolve the verification error.
+          type: string
       type: object
     AccountHolderCapability:
       properties:
@@ -721,63 +562,6 @@ components:
           readOnly: true
           type: string
       type: object
-    ContactDetails:
-      properties:
-        address:
-          description: The address of the account holder.
-          $ref: '#/components/schemas/Address'
-        email:
-          description: The email address of the account holder.
-          type: string
-        phone:
-          description: The phone number of the account holder.
-          $ref: '#/components/schemas/Phone'
-        webAddress:
-          description: The URL of the account holder's website.
-          type: string
-      required:
-      - email
-      - phone
-      - address
-      type: object
-    Address:
-      properties:
-        city:
-          description: 'The name of the city. Maximum length: 3000 characters.'
-          maxLength: 3000
-          type: string
-        country:
-          description: 'The two-character ISO-3166-1 alpha-2 country code. For example, **US**.
-
-            > If you don''t know the country or are not collecting the country from the shopper, provide `country` as `ZZ`.'
-          type: string
-        houseNumberOrName:
-          description: 'The number or name of the house. Maximum length: 3000 characters.'
-          maxLength: 3000
-          type: string
-        postalCode:
-          description: A maximum of five digits for an address in the US, or a maximum of ten characters for an address in all other countries.
-          type: string
-        stateOrProvince:
-          description: 'The two-character ISO 3166-2 state or province code. For example, **CA** in the US or **ON** in Canada.
-
-            > Required for the US and Canada.'
-          type: string
-        street:
-          description: 'The name of the street. Maximum length: 3000 characters.
-
-            > The house number should not be included in this field; it should be separately provided via `houseNumberOrName`.'
-          maxLength: 3000
-          type: string
-      required:
-      - street
-      - houseNumberOrName
-      - city
-      - postalCode
-      - country
-      type: object
-    JSONObject:
-      type: object
     VerificationDeadline:
       properties:
         capabilities:
@@ -852,13 +636,164 @@ components:
       - expiresAt
       - capabilities
       type: object
-    RemediatingAction:
+    VerificationError-recursive:
       properties:
+        capabilities:
+          description: Contains the capabilities that the verification error applies to.
+          items:
+            enum:
+            - acceptExternalFunding
+            - acceptPspFunding
+            - acceptTransactionInRestrictedCountries
+            - acceptTransactionInRestrictedCountriesCommercial
+            - acceptTransactionInRestrictedCountriesConsumer
+            - acceptTransactionInRestrictedIndustries
+            - acceptTransactionInRestrictedIndustriesCommercial
+            - acceptTransactionInRestrictedIndustriesConsumer
+            - acquiring
+            - atmWithdrawal
+            - atmWithdrawalCommercial
+            - atmWithdrawalConsumer
+            - atmWithdrawalInRestrictedCountries
+            - atmWithdrawalInRestrictedCountriesCommercial
+            - atmWithdrawalInRestrictedCountriesConsumer
+            - authorisedPaymentInstrumentUser
+            - getGrantOffers
+            - issueBankAccount
+            - issueCard
+            - issueCardCommercial
+            - issueCardConsumer
+            - localAcceptance
+            - payout
+            - payoutToTransferInstrument
+            - processing
+            - receiveFromBalanceAccount
+            - receiveFromPlatformPayments
+            - receiveFromThirdParty
+            - receiveFromTransferInstrument
+            - receiveGrants
+            - receivePayments
+            - sendToBalanceAccount
+            - sendToThirdParty
+            - sendToTransferInstrument
+            - thirdPartyFunding
+            - useCard
+            - useCardCommercial
+            - useCardConsumer
+            - useCardInRestrictedCountries
+            - useCardInRestrictedCountriesCommercial
+            - useCardInRestrictedCountriesConsumer
+            - useCardInRestrictedIndustries
+            - useCardInRestrictedIndustriesCommercial
+            - useCardInRestrictedIndustriesConsumer
+            - withdrawFromAtm
+            - withdrawFromAtmCommercial
+            - withdrawFromAtmConsumer
+            - withdrawFromAtmInRestrictedCountries
+            - withdrawFromAtmInRestrictedCountriesCommercial
+            - withdrawFromAtmInRestrictedCountriesConsumer
+            type: string
+          type: array
         code:
-          description: The remediating action code.
+          description: The verification error code.
           type: string
         message:
-          description: A description of how you can resolve the verification error.
+          description: A description of the error.
+          type: string
+        type:
+          description: "The type of error.\n\n Possible values: **invalidInput**, **dataMissing**."
+          enum:
+          - dataMissing
+          - invalidInput
+          - pendingStatus
+          type: string
+        remediatingActions:
+          description: Contains the actions that you can take to resolve the verification error.
+          items:
+            $ref: '#/components/schemas/RemediatingAction'
+          type: array
+      required: []
+      type: object
+    VerificationError:
+      properties:
+        capabilities:
+          description: Contains the capabilities that the verification error applies to.
+          items:
+            enum:
+            - acceptExternalFunding
+            - acceptPspFunding
+            - acceptTransactionInRestrictedCountries
+            - acceptTransactionInRestrictedCountriesCommercial
+            - acceptTransactionInRestrictedCountriesConsumer
+            - acceptTransactionInRestrictedIndustries
+            - acceptTransactionInRestrictedIndustriesCommercial
+            - acceptTransactionInRestrictedIndustriesConsumer
+            - acquiring
+            - atmWithdrawal
+            - atmWithdrawalCommercial
+            - atmWithdrawalConsumer
+            - atmWithdrawalInRestrictedCountries
+            - atmWithdrawalInRestrictedCountriesCommercial
+            - atmWithdrawalInRestrictedCountriesConsumer
+            - authorisedPaymentInstrumentUser
+            - getGrantOffers
+            - issueBankAccount
+            - issueCard
+            - issueCardCommercial
+            - issueCardConsumer
+            - localAcceptance
+            - payout
+            - payoutToTransferInstrument
+            - processing
+            - receiveFromBalanceAccount
+            - receiveFromPlatformPayments
+            - receiveFromThirdParty
+            - receiveFromTransferInstrument
+            - receiveGrants
+            - receivePayments
+            - sendToBalanceAccount
+            - sendToThirdParty
+            - sendToTransferInstrument
+            - thirdPartyFunding
+            - useCard
+            - useCardCommercial
+            - useCardConsumer
+            - useCardInRestrictedCountries
+            - useCardInRestrictedCountriesCommercial
+            - useCardInRestrictedCountriesConsumer
+            - useCardInRestrictedIndustries
+            - useCardInRestrictedIndustriesCommercial
+            - useCardInRestrictedIndustriesConsumer
+            - withdrawFromAtm
+            - withdrawFromAtmCommercial
+            - withdrawFromAtmConsumer
+            - withdrawFromAtmInRestrictedCountries
+            - withdrawFromAtmInRestrictedCountriesCommercial
+            - withdrawFromAtmInRestrictedCountriesConsumer
+            type: string
+          type: array
+        code:
+          description: The verification error code.
+          type: string
+        message:
+          description: A description of the error.
+          type: string
+        remediatingActions:
+          description: Contains the actions that you can take to resolve the verification error.
+          items:
+            $ref: '#/components/schemas/RemediatingAction'
+          type: array
+        subErrors:
+          description: Contains more granular information about the verification error.
+          items:
+            $ref: '#/components/schemas/VerificationError-recursive'
+          type: array
+        type:
+          description: "The type of error.\n\n Possible values: **invalidInput**, **dataMissing**."
+          enum:
+          - dataMissing
+          - invalidInput
+          - pendingStatus
           type: string
       type: object
     Phone:
@@ -876,6 +811,71 @@ components:
       - number
       - type
       type: object
+  examples:
+    generic-500:
+      summary: Response code - 500 Internal Server Error
+      value:
+        type: https://docs.adyen.com/errors/general/internal
+        title: An internal error happened
+        status: 500
+        detail: Unrecoverable error while trying to create payment instrument
+        requestId: 1WAF555PLWNTLYOQ
+        errorCode: '00_500'
+    generic-401:
+      summary: Response code - 401 Unauthorized
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Unauthorized
+        status: 401
+        detail: Not authorized to access this service.
+        errorCode: '00_401'
+    generic-403:
+      summary: Response code - 403 Forbidden.
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Forbidden
+        status: 403
+        detail: Not the right permission to access this service.
+        errorCode: '00_403'
+    get-balancePlatforms-id-accountHolders-success-200:
+      summary: List of account holders retrieved
+      description: Example response when retrieving a list of account holders under a balance platform
+      value:
+        accountHolders:
+        - description: Test-305
+          legalEntityId: LE3227C223222D5D8S5S33M4M
+          reference: LegalEntity internal error test
+          id: AH32272223222B5GFSNSXFFL9
+          status: active
+        - description: Test-751
+          legalEntityId: LE3227C223222D5D8S5TT3SRX
+          reference: LegalEntity internal error test
+          id: AH32272223222B5GFSNVGFFM7
+          status: active
+        - description: Explorer Holder
+          legalEntityId: LE3227C223222D5D8S5TT3SRX
+          reference: Account from the Explorer Holder
+          id: AH32272223222B5GFWNRFFVR6
+          status: active
+        hasNext: true
+        hasPrevious: true
+    generic-400:
+      summary: Response code - 400 Bad request
+      value:
+        type: https://docs.adyen.com/errors/general/bad-request
+        title: Bad request
+        status: 400
+        detail: Empty input which would have resulted in a null result.
+        errorCode: '00_400'
+    generic-422:
+      summary: Response code - 422 Unprocessable Entity.
+      value:
+        type: https://docs.adyen.com/errors/general/invalid-field-value
+        title: Invalid Payment Instrument information provided
+        status: 422
+        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
+        requestId: 1W1UI15PLVGC9V8O
+        errorCode: '30_031'
   securitySchemes:
     ApiKeyAuth:
       in: header

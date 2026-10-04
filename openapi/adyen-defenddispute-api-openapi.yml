@@ -129,6 +129,22 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    DefendDisputeRequest:
+      properties:
+        defenseReasonCode:
+          description: The defense reason code that was selected to defend this dispute.
+          type: string
+        disputePspReference:
+          description: The PSP reference assigned to the dispute.
+          type: string
+        merchantAccountCode:
+          description: The merchant account identifier, for which you want to process the dispute transaction.
+          type: string
+      required:
+      - merchantAccountCode
+      - disputePspReference
+      - defenseReasonCode
+      type: object
     DisputeServiceResult:
       properties:
         errorMessage:
@@ -139,6 +155,14 @@ components:
           type: boolean
       required:
       - success
+      type: object
+    DefendDisputeResponse:
+      properties:
+        disputeServiceResult:
+          description: The result of the dispute service.
+          $ref: '#/components/schemas/DisputeServiceResult'
+      required:
+      - disputeServiceResult
       type: object
     ServiceError:
       properties:
@@ -158,30 +182,6 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
-      type: object
-    DefendDisputeRequest:
-      properties:
-        defenseReasonCode:
-          description: The defense reason code that was selected to defend this dispute.
-          type: string
-        disputePspReference:
-          description: The PSP reference assigned to the dispute.
-          type: string
-        merchantAccountCode:
-          description: The merchant account identifier, for which you want to process the dispute transaction.
-          type: string
-      required:
-      - merchantAccountCode
-      - disputePspReference
-      - defenseReasonCode
-      type: object
-    DefendDisputeResponse:
-      properties:
-        disputeServiceResult:
-          description: The result of the dispute service.
-          $ref: '#/components/schemas/DisputeServiceResult'
-      required:
-      - disputeServiceResult
       type: object
   examples:
     post-defendDispute-defend-dispute-200:

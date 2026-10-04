@@ -55,6 +55,25 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  examples:
+    post-applePay-sessions-basic:
+      summary: Get payment session for Apple Pay
+      value:
+        displayName: YOUR_MERCHANT_NAME
+        domainName: YOUR_DOMAIN_NAME
+        merchantIdentifier: YOUR_MERCHANT_ID
+    post-applePay-sessions-basic-200:
+      summary: Payment session data for Apple Pay
+      value:
+        data: eyJ2Z...
+  parameters:
+    Idempotency-Key:
+      description: A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).
+      example: 37ca9c97-d1d1-4c62-89e8-706891a563ed
+      name: Idempotency-Key
+      in: header
+      schema:
+        type: string
   schemas:
     ApplePaySessionResponse:
       properties:
@@ -89,25 +108,6 @@ components:
       - merchantIdentifier
       - displayName
       type: object
-  examples:
-    post-applePay-sessions-basic:
-      summary: Get payment session for Apple Pay
-      value:
-        displayName: YOUR_MERCHANT_NAME
-        domainName: YOUR_DOMAIN_NAME
-        merchantIdentifier: YOUR_MERCHANT_ID
-    post-applePay-sessions-basic-200:
-      summary: Payment session data for Apple Pay
-      value:
-        data: eyJ2Z...
-  parameters:
-    Idempotency-Key:
-      description: A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).
-      example: 37ca9c97-d1d1-4c62-89e8-706891a563ed
-      name: Idempotency-Key
-      in: header
-      schema:
-        type: string
   headers:
     Idempotency-Key:
       description: The idempotency key used for processing the request. Present if the key was provided in the request.

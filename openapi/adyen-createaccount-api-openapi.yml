@@ -154,6 +154,25 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  examples:
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
+    post-createAccount-basic:
+      summary: Add an account to an account holder
+      value:
+        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
+    generic-403:
+      summary: Response code 401. Forbidden.
+      value:
+        status: 403
+        errorCode: '10_003'
+        message: Failed to authorize user
+        errorType: security
   schemas:
     ErrorFieldType:
       properties:
@@ -167,6 +186,95 @@ components:
         fieldType:
           description: The type of error field.
           $ref: '#/components/schemas/FieldType'
+      type: object
+    CreateAccountResponse:
+      properties:
+        accountCode:
+          description: The code of the new account.
+          type: string
+        accountHolderCode:
+          description: The code of the account holder.
+          type: string
+        bankAccountUUID:
+          x-addedInVersion: '5'
+          description: The bankAccountUUID of the bank account held by the account holder to couple the account with. Scheduled payouts in currencies matching the currency of this bank account will be sent to this bank account. Payouts in different currencies will be sent to a matching bank account of the account holder.
+          type: string
+        description:
+          x-addedInVersion: '4'
+          description: The description of the account.
+          type: string
+        invalidFields:
+          x-addedInVersion: '5'
+          description: A list of fields that caused the `/createAccount` request to fail.
+          items:
+            $ref: '#/components/schemas/ErrorFieldType'
+          type: array
+        metadata:
+          x-addedInVersion: '5'
+          additionalProperties:
+            type: string
+          description: A set of key and value pairs containing metadata.
+          type: object
+        payoutMethodCode:
+          x-addedInVersion: '5'
+          description: The payout method code held by the account holder to couple the account with. Scheduled card payouts will be sent using this payout method code.
+          type: string
+        payoutSchedule:
+          description: The payout schedule of the account.
+          $ref: '#/components/schemas/PayoutScheduleResponse'
+        payoutSpeed:
+          x-addedInVersion: '5'
+          description: 'Speed with which payouts for this account are processed. Permitted values: `STANDARD`, `SAME_DAY`.'
+          enum:
+          - INSTANT
+          - SAME_DAY
+          - STANDARD
+          type: string
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
+        status:
+          x-addedInVersion: '2'
+          description: 'The status of the account.
+
+            >Permitted values: `Active`.'
+          enum:
+          - Active
+          - Closed
+          - Inactive
+          - Suspended
+          type: string
+      type: object
+    PayoutScheduleResponse:
+      properties:
+        nextScheduledPayout:
+          description: The date of the next scheduled payout.
+          format: date-time
+          type: string
+        schedule:
+          description: 'The payout schedule of the account.
+
+            Permitted values: `DEFAULT`, `DAILY`, `DAILY_US`, `DAILY_EU`, `DAILY_AU`, `DAILY_SG`, `WEEKLY`, `WEEKLY_ON_TUE_FRI_MIDNIGHT`, `BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT`, `MONTHLY`, `HOLD`.'
+          enum:
+          - BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT
+          - DAILY
+          - DAILY_AU
+          - DAILY_EU
+          - DAILY_SG
+          - DAILY_US
+          - HOLD
+          - MONTHLY
+          - WEEKLY
+          - WEEKLY_MON_TO_FRI_AU
+          - WEEKLY_MON_TO_FRI_EU
+          - WEEKLY_MON_TO_FRI_US
+          - WEEKLY_ON_TUE_FRI_MIDNIGHT
+          - WEEKLY_SUN_TO_THU_AU
+          - WEEKLY_SUN_TO_THU_US
+          type: string
       type: object
     CreateAccountRequest:
       properties:
@@ -232,114 +340,6 @@ components:
           type: string
       required:
       - accountHolderCode
-      type: object
-    CreateAccountResponse:
-      properties:
-        accountCode:
-          description: The code of the new account.
-          type: string
-        accountHolderCode:
-          description: The code of the account holder.
-          type: string
-        bankAccountUUID:
-          x-addedInVersion: '5'
-          description: The bankAccountUUID of the bank account held by the account holder to couple the account with. Scheduled payouts in currencies matching the currency of this bank account will be sent to this bank account. Payouts in different currencies will be sent to a matching bank account of the account holder.
-          type: string
-        description:
-          x-addedInVersion: '4'
-          description: The description of the account.
-          type: string
-        invalidFields:
-          x-addedInVersion: '5'
-          description: A list of fields that caused the `/createAccount` request to fail.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        metadata:
-          x-addedInVersion: '5'
-          additionalProperties:
-            type: string
-          description: A set of key and value pairs containing metadata.
-          type: object
-        payoutMethodCode:
-          x-addedInVersion: '5'
-          description: The payout method code held by the account holder to couple the account with. Scheduled card payouts will be sent using this payout method code.
-          type: string
-        payoutSchedule:
-          description: The payout schedule of the account.
-          $ref: '#/components/schemas/PayoutScheduleResponse'
-        payoutSpeed:
-          x-addedInVersion: '5'
-          description: 'Speed with which payouts for this account are processed. Permitted values: `STANDARD`, `SAME_DAY`.'
-          enum:
-          - INSTANT
-          - SAME_DAY
-          - STANDARD
-          type: string
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
-          type: string
-        resultCode:
-          description: The result code.
-          type: string
-        status:
-          x-addedInVersion: '2'
-          description: 'The status of the account.
-
-            >Permitted values: `Active`.'
-          enum:
-          - Active
-          - Closed
-          - Inactive
-          - Suspended
-          type: string
-      type: object
-    ServiceError:
-      properties:
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
-      type: object
-    PayoutScheduleResponse:
-      properties:
-        nextScheduledPayout:
-          description: The date of the next scheduled payout.
-          format: date-time
-          type: string
-        schedule:
-          description: 'The payout schedule of the account.
-
-            Permitted values: `DEFAULT`, `DAILY`, `DAILY_US`, `DAILY_EU`, `DAILY_AU`, `DAILY_SG`, `WEEKLY`, `WEEKLY_ON_TUE_FRI_MIDNIGHT`, `BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT`, `MONTHLY`, `HOLD`.'
-          enum:
-          - BIWEEKLY_ON_1ST_AND_15TH_AT_MIDNIGHT
-          - DAILY
-          - DAILY_AU
-          - DAILY_EU
-          - DAILY_SG
-          - DAILY_US
-          - HOLD
-          - MONTHLY
-          - WEEKLY
-          - WEEKLY_MON_TO_FRI_AU
-          - WEEKLY_MON_TO_FRI_EU
-          - WEEKLY_MON_TO_FRI_US
-          - WEEKLY_ON_TUE_FRI_MIDNIGHT
-          - WEEKLY_SUN_TO_THU_AU
-          - WEEKLY_SUN_TO_THU_US
-          type: string
       type: object
     FieldType:
       properties:
@@ -516,25 +516,25 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-  examples:
-    generic-400:
-      summary: Response code 400. Bad Request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: I'
-        errorType: validation
-    generic-403:
-      summary: Response code 401. Forbidden.
-      value:
-        status: 403
-        errorCode: '10_003'
-        message: Failed to authorize user
-        errorType: security
-    post-createAccount-basic:
-      summary: Add an account to an account holder
-      value:
-        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
   securitySchemes:
     ApiKeyAuth:
       in: header

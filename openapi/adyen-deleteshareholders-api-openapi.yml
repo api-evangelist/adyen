@@ -136,21 +136,28 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  schemas:
-    DeleteShareholderRequest:
-      properties:
-        accountHolderCode:
-          description: The code of the Account Holder from which to delete the Shareholders.
-          type: string
+  examples:
+    post-deleteShareholders-basic:
+      summary: Delete shareholders
+      value:
+        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
         shareholderCodes:
-          description: The code(s) of the Shareholders to be deleted.
-          items:
-            type: string
-          type: array
-      required:
-      - accountHolderCode
-      - shareholderCodes
-      type: object
+        - 9188218c-576e-4cbe-8e86-72722f453920
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
+    generic-403:
+      summary: Response code 401. Forbidden.
+      value:
+        status: 403
+        errorCode: '10_003'
+        message: Failed to authorize user
+        errorType: security
+  schemas:
     ErrorFieldType:
       properties:
         errorCode:
@@ -163,25 +170,6 @@ components:
         fieldType:
           description: The type of error field.
           $ref: '#/components/schemas/FieldType'
-      type: object
-    ServiceError:
-      properties:
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
       type: object
     GenericResponse:
       properties:
@@ -373,27 +361,39 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-  examples:
-    generic-400:
-      summary: Response code 400. Bad Request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: I'
-        errorType: validation
-    generic-403:
-      summary: Response code 401. Forbidden.
-      value:
-        status: 403
-        errorCode: '10_003'
-        message: Failed to authorize user
-        errorType: security
-    post-deleteShareholders-basic:
-      summary: Delete shareholders
-      value:
-        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
+    DeleteShareholderRequest:
+      properties:
+        accountHolderCode:
+          description: The code of the Account Holder from which to delete the Shareholders.
+          type: string
         shareholderCodes:
-        - 9188218c-576e-4cbe-8e86-72722f453920
+          description: The code(s) of the Shareholders to be deleted.
+          items:
+            type: string
+          type: array
+      required:
+      - accountHolderCode
+      - shareholderCodes
+      type: object
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
   securitySchemes:
     ApiKeyAuth:
       in: header

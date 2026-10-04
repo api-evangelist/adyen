@@ -129,6 +129,23 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    DefenseReason:
+      properties:
+        defenseDocumentTypes:
+          description: Array of defense document types for a specific defense reason. Indicates the document types that you can submit to the schemes to defend this dispute, and whether they are required.
+          items:
+            $ref: '#/components/schemas/DefenseDocumentType'
+          type: array
+        defenseReasonCode:
+          description: The defense reason code that was selected to defend this dispute.
+          type: string
+        satisfied:
+          description: Indicates if sufficient defense material has been supplied.
+          type: boolean
+      required:
+      - defenseReasonCode
+      - satisfied
+      type: object
     DefenseDocumentType:
       properties:
         available:
@@ -145,6 +162,18 @@ components:
       - requirementLevel
       - available
       type: object
+    DefenseReasonsRequest:
+      properties:
+        disputePspReference:
+          description: The PSP reference assigned to the dispute.
+          type: string
+        merchantAccountCode:
+          description: The merchant account identifier, for which you want to process the dispute transaction.
+          type: string
+      required:
+      - merchantAccountCode
+      - disputePspReference
+      type: object
     DisputeServiceResult:
       properties:
         errorMessage:
@@ -155,6 +184,19 @@ components:
           type: boolean
       required:
       - success
+      type: object
+    DefenseReasonsResponse:
+      properties:
+        defenseReasons:
+          description: The defense reasons that can be used to defend the dispute.
+          items:
+            $ref: '#/components/schemas/DefenseReason'
+          type: array
+        disputeServiceResult:
+          description: The result of the dispute service.
+          $ref: '#/components/schemas/DisputeServiceResult'
+      required:
+      - disputeServiceResult
       type: object
     ServiceError:
       properties:
@@ -174,48 +216,6 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
-      type: object
-    DefenseReasonsResponse:
-      properties:
-        defenseReasons:
-          description: The defense reasons that can be used to defend the dispute.
-          items:
-            $ref: '#/components/schemas/DefenseReason'
-          type: array
-        disputeServiceResult:
-          description: The result of the dispute service.
-          $ref: '#/components/schemas/DisputeServiceResult'
-      required:
-      - disputeServiceResult
-      type: object
-    DefenseReason:
-      properties:
-        defenseDocumentTypes:
-          description: Array of defense document types for a specific defense reason. Indicates the document types that you can submit to the schemes to defend this dispute, and whether they are required.
-          items:
-            $ref: '#/components/schemas/DefenseDocumentType'
-          type: array
-        defenseReasonCode:
-          description: The defense reason code that was selected to defend this dispute.
-          type: string
-        satisfied:
-          description: Indicates if sufficient defense material has been supplied.
-          type: boolean
-      required:
-      - defenseReasonCode
-      - satisfied
-      type: object
-    DefenseReasonsRequest:
-      properties:
-        disputePspReference:
-          description: The PSP reference assigned to the dispute.
-          type: string
-        merchantAccountCode:
-          description: The merchant account identifier, for which you want to process the dispute transaction.
-          type: string
-      required:
-      - merchantAccountCode
-      - disputePspReference
       type: object
   examples:
     post-retrieveApplicableDefenseReasons-retrieve-defense-reasons-200:

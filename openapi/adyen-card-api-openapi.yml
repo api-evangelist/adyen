@@ -59,7 +59,58 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  examples:
+    post-cardDetails-basic:
+      summary: Get a list of brands on a card
+      description: Example request for getting a list of brands on a card using the first 6 digits of the card number.
+      value:
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        cardNumber: '411111'
+    post-cardDetails-supported-brands-200:
+      summary: List of brands on the card when you specify your supported card brands
+      description: Example response when the card is co-branded, and you only support Visa.
+      value:
+        brands:
+        - type: visa
+          supported: true
+        - type: cartebancaire
+          supported: false
+    post-cardDetails-supported-brands:
+      summary: Get a list of brands on a card specifying your supported card brands
+      description: Example request for getting a list of brands on a card using the first 6 digits of the card number and including the card brands you support.
+      value:
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        cardNumber: '411111'
+        supportedBrands:
+        - visa
+        - mc
+        - amex
+    post-cardDetails-basic-200:
+      summary: List of brands on the card
+      description: Example response when the card is co-branded.
+      value:
+        brands:
+        - type: visa
+          supported: true
+        - type: cartebancaire
+          supported: true
+  parameters:
+    Idempotency-Key:
+      description: A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).
+      example: 37ca9c97-d1d1-4c62-89e8-706891a563ed
+      name: Idempotency-Key
+      in: header
+      schema:
+        type: string
   schemas:
+    CardDetailsResponse:
+      properties:
+        brands:
+          description: The list of brands identified for the card.
+          items:
+            $ref: '#/components/schemas/CardBrandDetails'
+          type: array
+      type: object
     CardDetailsRequest:
       properties:
         cardNumber:
@@ -97,57 +148,6 @@ components:
           description: The name of the card brand.
           type: string
       type: object
-    CardDetailsResponse:
-      properties:
-        brands:
-          description: The list of brands identified for the card.
-          items:
-            $ref: '#/components/schemas/CardBrandDetails'
-          type: array
-      type: object
-  examples:
-    post-cardDetails-supported-brands:
-      summary: Get a list of brands on a card specifying your supported card brands
-      description: Example request for getting a list of brands on a card using the first 6 digits of the card number and including the card brands you support.
-      value:
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-        cardNumber: '411111'
-        supportedBrands:
-        - visa
-        - mc
-        - amex
-    post-cardDetails-basic:
-      summary: Get a list of brands on a card
-      description: Example request for getting a list of brands on a card using the first 6 digits of the card number.
-      value:
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-        cardNumber: '411111'
-    post-cardDetails-supported-brands-200:
-      summary: List of brands on the card when you specify your supported card brands
-      description: Example response when the card is co-branded, and you only support Visa.
-      value:
-        brands:
-        - type: visa
-          supported: true
-        - type: cartebancaire
-          supported: false
-    post-cardDetails-basic-200:
-      summary: List of brands on the card
-      description: Example response when the card is co-branded.
-      value:
-        brands:
-        - type: visa
-          supported: true
-        - type: cartebancaire
-          supported: true
-  parameters:
-    Idempotency-Key:
-      description: A unique identifier for the message with a maximum of 64 characters (we recommend a UUID).
-      example: 37ca9c97-d1d1-4c62-89e8-706891a563ed
-      name: Idempotency-Key
-      in: header
-      schema:
-        type: string
   headers:
     Idempotency-Key:
       description: The idempotency key used for processing the request. Present if the key was provided in the request.

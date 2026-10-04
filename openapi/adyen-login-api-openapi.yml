@@ -50,6 +50,14 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    SaleTerminalData:
+      type: object
+      description: In the Login Request, if a Sale Terminal is involved in the login. In other messages, when a logical device is out of order (SaleCapabilites), or when the other data have changed since or were not in the Login. Information related to the software and hardware feature of the Sale Terminal.
+      properties:
+        TotalsGroupID:
+          type: string
+          pattern: ^.{1,16}$
+          description: If present, default value for all transaction.
     ErrorCondition:
       type: string
       enum:
@@ -70,108 +78,47 @@ components:
       - UnavailableService
       - UnreachableHost
       - WrongPIN
-    SaleSoftware:
+    LoginResponse:
       type: object
-      description: Information related to the software of the Sale System which manages the NEXO Sale to POI protocol.
+      description: It conveys Information related to the Login to process. Content of the Login Response message.
       properties:
-        ManufacturerID:
-          type: string
-          pattern: ^.+$
-        ApplicationName:
-          type: string
-          pattern: ^.+$
-        SoftwareVersion:
-          type: string
-          pattern: ^.+$
-        CertificationCode:
-          type: string
-          pattern: ^.+$
+        Response:
+          $ref: '#/components/schemas/Response'
+        POISystemData:
+          $ref: '#/components/schemas/POISystemData'
+        TokenRequestStatus:
+          type: boolean
+        CustomerOrderStatus:
+          type: boolean
       required:
-      - ManufacturerID
-      - ApplicationName
-      - SoftwareVersion
-      - CertificationCode
-    POISystemData:
-      type: object
-      properties:
-        DateTime:
-          type: string
-          format: date-time
-        POISoftware:
-          $ref: '#/components/schemas/POISoftware'
-        POITerminalData:
-          $ref: '#/components/schemas/POITerminalData'
-        POIStatus:
-          $ref: '#/components/schemas/POIStatus'
-      required:
-      - DateTime
-      - POISoftware
-    SaleTerminalData:
-      type: object
-      description: In the Login Request, if a Sale Terminal is involved in the login. In other messages, when a logical device is out of order (SaleCapabilites), or when the other data have changed since or were not in the Login. Information related to the software and hardware feature of the Sale Terminal.
-      properties:
-        TotalsGroupID:
-          type: string
-          pattern: ^.{1,16}$
-          description: If present, default value for all transaction.
-    PrinterStatus:
+      - Response
+    TerminalEnvironment:
       type: string
       enum:
-      - NoPaper
-      - OK
-      - OutOfOrder
-      - PaperJam
-      - PaperLow
-    GenericProfile:
-      type: string
-      enum:
-      - Basic
-      - Extended
-      - Standard
-    POICapabilities:
+      - Attended
+      - SemiAttended
+      - Unattended
+    CustomerOrderReq:
       type: array
       items:
         type: string
         enum:
-        - CashHandling
-        - CashierDisplay
-        - CashierError
-        - CashierInput
-        - CustomerDisplay
-        - CustomerError
-        - CustomerInput
-        - EMVContactless
-        - ICC
-        - MagStripe
-        - PrinterDocument
-        - PrinterReceipt
-        - PrinterVoucher
-    GlobalStatus:
+        - Both
+        - Closed
+        - Open
+    Result:
       type: string
       enum:
-      - Busy
-      - Maintenance
-      - OK
-      - Unreachable
-    CashHandlingDevice:
+      - Failure
+      - Partial
+      - Success
+    POIProfile:
       type: object
-      description: Indicate the status and the remaining coins and bill in a cash handling device. Status of cash handling device.
       properties:
-        CashHandlingOKFlag:
-          type: boolean
-          description: Indicates if the cash handling device is working and usable.
-        Currency:
-          type: string
-          pattern: ^[A-Z]{3,3}$
-          description: Currency of a monetary amount.
-        CoinsOrBills:
-          type: array
-          items:
-            $ref: '#/components/schemas/CoinsOrBills'
-      required:
-      - CashHandlingOKFlag
-      - Currency
-      - CoinsOrBills
+        GenericProfile:
+          $ref: '#/components/schemas/GenericProfile'
+        ServiceProfiles:
+          $ref: '#/components/schemas/ServiceProfiles'
     LoginRequest:
       type: object
       description: It conveys Information related to the session (period between a Login and the following Logout) to process. Content of the Login Request message.
@@ -212,6 +159,66 @@ components:
       - DateTime
       - SaleSoftware
       - OperatorLanguage
+    POICapabilities:
+      type: array
+      items:
+        type: string
+        enum:
+        - CashHandling
+        - CashierDisplay
+        - CashierError
+        - CashierInput
+        - CustomerDisplay
+        - CustomerError
+        - CustomerInput
+        - EMVContactless
+        - ICC
+        - MagStripe
+        - PrinterDocument
+        - PrinterReceipt
+        - PrinterVoucher
+    GenericProfile:
+      type: string
+      enum:
+      - Basic
+      - Extended
+      - Standard
+    POISystemData:
+      type: object
+      properties:
+        DateTime:
+          type: string
+          format: date-time
+        POISoftware:
+          $ref: '#/components/schemas/POISoftware'
+        POITerminalData:
+          $ref: '#/components/schemas/POITerminalData'
+        POIStatus:
+          $ref: '#/components/schemas/POIStatus'
+      required:
+      - DateTime
+      - POISoftware
+    SaleSoftware:
+      type: object
+      description: Information related to the software of the Sale System which manages the NEXO Sale to POI protocol.
+      properties:
+        ManufacturerID:
+          type: string
+          pattern: ^.+$
+        ApplicationName:
+          type: string
+          pattern: ^.+$
+        SoftwareVersion:
+          type: string
+          pattern: ^.+$
+        CertificationCode:
+          type: string
+          pattern: ^.+$
+      required:
+      - ManufacturerID
+      - ApplicationName
+      - SoftwareVersion
+      - CertificationCode
     POITerminalData:
       type: object
       properties:
@@ -228,21 +235,6 @@ components:
       - TerminalEnvironment
       - POICapabilities
       - POISerialNumber
-    CoinsOrBills:
-      type: object
-      description: Indicates the remaining number of coins or bills of a given value in a cash handling device. When the cash handling machine does not have any more coins or bills of a certain value, the number must be equal to 0. Number of coins or bills of a given value.
-      properties:
-        UnitValue:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-          description: Value of a coin or bill.
-        Number:
-          type: integer
-          description: Number of elements.
-      required:
-      - UnitValue
-      - Number
     POISoftware:
       type: object
       properties:
@@ -278,33 +270,32 @@ components:
         - Sound
         - StoredValue
         - Synchro
-    CustomerOrderReq:
-      type: array
-      items:
-        type: string
-        enum:
-        - Both
-        - Closed
-        - Open
-    LoginResponse:
+    CashHandlingDevice:
       type: object
-      description: It conveys Information related to the Login to process. Content of the Login Response message.
+      description: Indicate the status and the remaining coins and bill in a cash handling device. Status of cash handling device.
       properties:
-        Response:
-          $ref: '#/components/schemas/Response'
-        POISystemData:
-          $ref: '#/components/schemas/POISystemData'
-        TokenRequestStatus:
+        CashHandlingOKFlag:
           type: boolean
-        CustomerOrderStatus:
-          type: boolean
+          description: Indicates if the cash handling device is working and usable.
+        Currency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+          description: Currency of a monetary amount.
+        CoinsOrBills:
+          type: array
+          items:
+            $ref: '#/components/schemas/CoinsOrBills'
       required:
-      - Response
-    TokenRequestedType:
+      - CashHandlingOKFlag
+      - Currency
+      - CoinsOrBills
+    GlobalStatus:
       type: string
       enum:
-      - Customer
-      - Transaction
+      - Busy
+      - Maintenance
+      - OK
+      - Unreachable
     Response:
       type: object
       description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
@@ -319,13 +310,26 @@ components:
           description: If present, the POI logs it for further examination.
       required:
       - Result
-    POIProfile:
+    CoinsOrBills:
       type: object
+      description: Indicates the remaining number of coins or bills of a given value in a cash handling device. When the cash handling machine does not have any more coins or bills of a certain value, the number must be equal to 0. Number of coins or bills of a given value.
       properties:
-        GenericProfile:
-          $ref: '#/components/schemas/GenericProfile'
-        ServiceProfiles:
-          $ref: '#/components/schemas/ServiceProfiles'
+        UnitValue:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+          description: Value of a coin or bill.
+        Number:
+          type: integer
+          description: Number of elements.
+      required:
+      - UnitValue
+      - Number
+    TokenRequestedType:
+      type: string
+      enum:
+      - Customer
+      - Transaction
     POIStatus:
       type: object
       description: Indicate the availability of the POI Terminal components. The data element is absent if the component is not part of the POI Terminal. State of a POI Terminal.
@@ -355,18 +359,14 @@ components:
           description: default False.
       required:
       - GlobalStatus
-    TerminalEnvironment:
+    PrinterStatus:
       type: string
       enum:
-      - Attended
-      - SemiAttended
-      - Unattended
-    Result:
-      type: string
-      enum:
-      - Failure
-      - Partial
-      - Success
+      - NoPaper
+      - OK
+      - OutOfOrder
+      - PaperJam
+      - PaperLow
   securitySchemes:
     ApiKeyAuth:
       in: header

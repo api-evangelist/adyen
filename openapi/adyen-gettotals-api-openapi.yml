@@ -50,85 +50,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ErrorCondition:
-      type: string
-      enum:
-      - Aborted
-      - Busy
-      - Cancel
-      - DeviceOut
-      - InProgress
-      - InsertedCard
-      - InvalidCard
-      - LoggedOut
-      - MessageFormat
-      - NotAllowed
-      - NotFound
-      - PaymentRestriction
-      - Refusal
-      - UnavailableDevice
-      - UnavailableService
-      - UnreachableHost
-      - WrongPIN
-    LoyaltyUnit:
-      type: string
-      enum:
-      - Monetary
-      - Point
-    PaymentTotals:
-      type: object
-      description: Totals of the payment transaction during the reconciliation period.
-      properties:
-        TransactionType:
-          $ref: '#/components/schemas/TransactionType'
-        TransactionCount:
-          type: integer
-          description: Number of processed transaction during the period.
-        TransactionAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-          description: Sum of amount of processed transaction during the period.
-      required:
-      - TransactionType
-      - TransactionCount
-      - TransactionAmount
-    TotalDetails:
-      type: array
-      items:
-        type: string
-        enum:
-        - OperatorID
-        - POIID
-        - SaleID
-        - ShiftNumber
-        - TotalsGroupID
-    GetTotalsRequest:
-      type: object
-      description: It conveys information from the Sale System related to the scope and the format of the totals to be computed by the POI System. Content of the Get Totals Request message.
-      properties:
-        TotalDetails:
-          $ref: '#/components/schemas/TotalDetails'
-        TotalFilter:
-          $ref: '#/components/schemas/TotalFilter'
-    LoyaltyTotals:
-      type: object
-      description: Totals of the loyalty transaction during the reconciliation period.
-      properties:
-        TransactionType:
-          $ref: '#/components/schemas/TransactionType'
-        TransactionCount:
-          type: integer
-          description: Number of processed transaction during the period.
-        TransactionAmount:
-          type: number
-          maximum: 99999999.999999
-          minimum: 0
-          description: Sum of amount of processed transaction during the period.
-      required:
-      - TransactionType
-      - TransactionCount
-      - TransactionAmount
     TransactionType:
       type: string
       enum:
@@ -151,68 +72,26 @@ components:
       - ReverseRebate
       - ReverseRedemption
       - UpdateReservation
-    TotalFilter:
-      type: object
-      properties:
-        POIID:
-          type: string
-          pattern: ^.+$
-        SaleID:
-          type: string
-          pattern: ^.+$
-        OperatorID:
-          type: string
-          pattern: ^.+$
-        ShiftNumber:
-          type: string
-          pattern: ^.+$
-        TotalsGroupID:
-          type: string
-          pattern: ^.{1,16}$
-    GetTotalsResponse:
-      type: object
-      description: It conveys Information related to the Reconciliation transaction processed by the POI System. Content of the Reconciliation Response message.
-      properties:
-        Response:
-          $ref: '#/components/schemas/Response'
-        POIReconciliationID:
-          type: integer
-          description: Identification of the reconciliation period between Sale and POI.
-        TransactionTotals:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransactionTotals'
-      required:
-      - Response
-      - POIReconciliationID
-    Response:
-      type: object
-      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
-      properties:
-        Result:
-          $ref: '#/components/schemas/Result'
-        ErrorCondition:
-          $ref: '#/components/schemas/ErrorCondition'
-        AdditionalResponse:
-          type: string
-          pattern: ^.+$
-          description: If present, the POI logs it for further examination.
-      required:
-      - Result
-    PaymentInstrumentType:
+    ErrorCondition:
       type: string
       enum:
-      - Card
-      - Cash
-      - Check
-      - Mobile
-      - StoredValue
-    Result:
-      type: string
-      enum:
-      - Failure
-      - Partial
-      - Success
+      - Aborted
+      - Busy
+      - Cancel
+      - DeviceOut
+      - InProgress
+      - InsertedCard
+      - InvalidCard
+      - LoggedOut
+      - MessageFormat
+      - NotAllowed
+      - NotFound
+      - PaymentRestriction
+      - Refusal
+      - UnavailableDevice
+      - UnavailableService
+      - UnreachableHost
+      - WrongPIN
     TransactionTotals:
       type: object
       description: If Result is Success, contains all the totals, classified as required by the Sale in the message request. At least, transaction totals are provided per Acquirer, Acquirer Settlement, and Card Brand. Result of the Sale to POI Reconciliation processing.
@@ -270,6 +149,127 @@ components:
             $ref: '#/components/schemas/LoyaltyTotals'
       required:
       - PaymentInstrumentType
+    PaymentInstrumentType:
+      type: string
+      enum:
+      - Card
+      - Cash
+      - Check
+      - Mobile
+      - StoredValue
+    GetTotalsRequest:
+      type: object
+      description: It conveys information from the Sale System related to the scope and the format of the totals to be computed by the POI System. Content of the Get Totals Request message.
+      properties:
+        TotalDetails:
+          $ref: '#/components/schemas/TotalDetails'
+        TotalFilter:
+          $ref: '#/components/schemas/TotalFilter'
+    TotalDetails:
+      type: array
+      items:
+        type: string
+        enum:
+        - OperatorID
+        - POIID
+        - SaleID
+        - ShiftNumber
+        - TotalsGroupID
+    LoyaltyUnit:
+      type: string
+      enum:
+      - Monetary
+      - Point
+    Result:
+      type: string
+      enum:
+      - Failure
+      - Partial
+      - Success
+    LoyaltyTotals:
+      type: object
+      description: Totals of the loyalty transaction during the reconciliation period.
+      properties:
+        TransactionType:
+          $ref: '#/components/schemas/TransactionType'
+        TransactionCount:
+          type: integer
+          description: Number of processed transaction during the period.
+        TransactionAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+          description: Sum of amount of processed transaction during the period.
+      required:
+      - TransactionType
+      - TransactionCount
+      - TransactionAmount
+    Response:
+      type: object
+      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
+      properties:
+        Result:
+          $ref: '#/components/schemas/Result'
+        ErrorCondition:
+          $ref: '#/components/schemas/ErrorCondition'
+        AdditionalResponse:
+          type: string
+          pattern: ^.+$
+          description: If present, the POI logs it for further examination.
+      required:
+      - Result
+    TotalFilter:
+      type: object
+      properties:
+        POIID:
+          type: string
+          pattern: ^.+$
+        SaleID:
+          type: string
+          pattern: ^.+$
+        OperatorID:
+          type: string
+          pattern: ^.+$
+        ShiftNumber:
+          type: string
+          pattern: ^.+$
+        TotalsGroupID:
+          type: string
+          pattern: ^.{1,16}$
+    GetTotalsResponse:
+      type: object
+      description: It conveys Information related to the Reconciliation transaction processed by the POI System. Content of the Reconciliation Response message.
+      properties:
+        Response:
+          $ref: '#/components/schemas/Response'
+        POIReconciliationID:
+          type: integer
+          description: Identification of the reconciliation period between Sale and POI.
+        TransactionTotals:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionTotals'
+      required:
+      - Response
+      - POIReconciliationID
+    PaymentTotals:
+      type: object
+      description: Totals of the payment transaction during the reconciliation period.
+      properties:
+        TransactionType:
+          $ref: '#/components/schemas/TransactionType'
+        TransactionCount:
+          type: integer
+          description: Number of processed transaction during the period.
+        TransactionAmount:
+          type: number
+          maximum: 99999999.999999
+          minimum: 0
+          description: Sum of amount of processed transaction during the period.
+      required:
+      - TransactionType
+      - TransactionCount
+      - TransactionAmount
   securitySchemes:
     ApiKeyAuth:
       in: header

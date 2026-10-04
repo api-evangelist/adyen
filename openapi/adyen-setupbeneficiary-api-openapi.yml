@@ -150,6 +150,13 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  examples:
+    post-setupBeneficiary-basic:
+      summary: Set up a beneficiary
+      value:
+        destinationAccountCode: '128952522'
+        merchantReference: YOUR_REFERENCE_ID
+        sourceAccountCode: '134498192'
   schemas:
     SetupBeneficiaryRequest:
       properties:
@@ -166,19 +173,6 @@ components:
       - sourceAccountCode
       - destinationAccountCode
       type: object
-    ErrorFieldType:
-      properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
-          type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
-      type: object
     SetupBeneficiaryResponse:
       properties:
         invalidFields:
@@ -194,24 +188,18 @@ components:
           description: The result code.
           type: string
       type: object
-    ServiceError:
+    ErrorFieldType:
       properties:
         errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
+          description: The validation error code.
           format: int32
           type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
       type: object
     FieldType:
       properties:
@@ -388,13 +376,25 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-  examples:
-    post-setupBeneficiary-basic:
-      summary: Set up a beneficiary
-      value:
-        destinationAccountCode: '128952522'
-        merchantReference: YOUR_REFERENCE_ID
-        sourceAccountCode: '134498192'
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
   securitySchemes:
     ApiKeyAuth:
       in: header

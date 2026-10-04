@@ -52,26 +52,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ErrorCondition:
-      type: string
-      enum:
-      - Aborted
-      - Busy
-      - Cancel
-      - DeviceOut
-      - InProgress
-      - InsertedCard
-      - InvalidCard
-      - LoggedOut
-      - MessageFormat
-      - NotAllowed
-      - NotFound
-      - PaymentRestriction
-      - Refusal
-      - UnavailableDevice
-      - UnavailableService
-      - UnreachableHost
-      - WrongPIN
     DiagnosisResponse:
       type: object
       description: It conveys the result of the requested diagnosis and a possible message to display on a logical device. Content of the Diagnosis Response message.
@@ -92,99 +72,26 @@ components:
             $ref: '#/components/schemas/HostStatus'
       required:
       - Response
-    GlobalStatus:
+    ErrorCondition:
       type: string
       enum:
+      - Aborted
       - Busy
-      - Maintenance
-      - OK
-      - Unreachable
-    CashHandlingDevice:
-      type: object
-      description: Indicate the status and the remaining coins and bill in a cash handling device. Status of cash handling device.
-      properties:
-        CashHandlingOKFlag:
-          type: boolean
-          description: Indicates if the cash handling device is working and usable.
-        Currency:
-          type: string
-          pattern: ^[A-Z]{3,3}$
-          description: Currency of a monetary amount.
-        CoinsOrBills:
-          type: array
-          items:
-            $ref: '#/components/schemas/CoinsOrBills'
-      required:
-      - CashHandlingOKFlag
-      - Currency
-      - CoinsOrBills
-    HostStatus:
-      type: object
-      description: Indicate the reachability of the host by the POI Terminal. State of a Host.
-      properties:
-        AcquirerID:
-          type: integer
-          description: Identification of the Acquirer.
-        IsReachableFlag:
-          type: boolean
-          default: true
-          description: Indicate if a Host is reachable.
-      required:
-      - AcquirerID
-    POIStatus:
-      type: object
-      description: Indicate the availability of the POI Terminal components. The data element is absent if the component is not part of the POI Terminal. State of a POI Terminal.
-      properties:
-        GlobalStatus:
-          $ref: '#/components/schemas/GlobalStatus'
-        SecurityOKFlag:
-          type: boolean
-          description: If security module present.
-        PEDOKFlag:
-          type: boolean
-          description: If PED present.
-        CardReaderOKFlag:
-          type: boolean
-          description: If card reader device present.
-        PrinterStatus:
-          $ref: '#/components/schemas/PrinterStatus'
-        CommunicationOKFlag:
-          type: boolean
-          description: If communication infrastructure present.
-        CashHandlingDevice:
-          type: array
-          items:
-            $ref: '#/components/schemas/CashHandlingDevice'
-        FraudPreventionFlag:
-          type: boolean
-          description: default False.
-      required:
-      - GlobalStatus
-    DiagnosisRequest:
-      type: object
-      description: It conveys Information related to the target POI for which the diagnosis is requested. Content of the Diagnosis Request message.
-      properties:
-        POIID:
-          type: string
-          pattern: ^.+$
-          description: MessageHeader.POIID.
-        HostDiagnosisFlag:
-          type: boolean
-          default: false
-          description: Indicates if Host Diagnosis are required.
-        AcquirerID:
-          type: array
-          items:
-            type: integer
-            description: Present if requesting the diagnosis of these hosts only.
-    PrinterStatus:
-      type: string
-      enum:
-      - NoPaper
-      - OK
-      - OutOfOrder
-      - PaperJam
-      - PaperLow
+      - Cancel
+      - DeviceOut
+      - InProgress
+      - InsertedCard
+      - InvalidCard
+      - LoggedOut
+      - MessageFormat
+      - NotAllowed
+      - NotFound
+      - PaymentRestriction
+      - Refusal
+      - UnavailableDevice
+      - UnavailableService
+      - UnreachableHost
+      - WrongPIN
     Response:
       type: object
       description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
@@ -214,12 +121,105 @@ components:
       required:
       - UnitValue
       - Number
+    CashHandlingDevice:
+      type: object
+      description: Indicate the status and the remaining coins and bill in a cash handling device. Status of cash handling device.
+      properties:
+        CashHandlingOKFlag:
+          type: boolean
+          description: Indicates if the cash handling device is working and usable.
+        Currency:
+          type: string
+          pattern: ^[A-Z]{3,3}$
+          description: Currency of a monetary amount.
+        CoinsOrBills:
+          type: array
+          items:
+            $ref: '#/components/schemas/CoinsOrBills'
+      required:
+      - CashHandlingOKFlag
+      - Currency
+      - CoinsOrBills
+    GlobalStatus:
+      type: string
+      enum:
+      - Busy
+      - Maintenance
+      - OK
+      - Unreachable
     Result:
       type: string
       enum:
       - Failure
       - Partial
       - Success
+    POIStatus:
+      type: object
+      description: Indicate the availability of the POI Terminal components. The data element is absent if the component is not part of the POI Terminal. State of a POI Terminal.
+      properties:
+        GlobalStatus:
+          $ref: '#/components/schemas/GlobalStatus'
+        SecurityOKFlag:
+          type: boolean
+          description: If security module present.
+        PEDOKFlag:
+          type: boolean
+          description: If PED present.
+        CardReaderOKFlag:
+          type: boolean
+          description: If card reader device present.
+        PrinterStatus:
+          $ref: '#/components/schemas/PrinterStatus'
+        CommunicationOKFlag:
+          type: boolean
+          description: If communication infrastructure present.
+        CashHandlingDevice:
+          type: array
+          items:
+            $ref: '#/components/schemas/CashHandlingDevice'
+        FraudPreventionFlag:
+          type: boolean
+          description: default False.
+      required:
+      - GlobalStatus
+    PrinterStatus:
+      type: string
+      enum:
+      - NoPaper
+      - OK
+      - OutOfOrder
+      - PaperJam
+      - PaperLow
+    HostStatus:
+      type: object
+      description: Indicate the reachability of the host by the POI Terminal. State of a Host.
+      properties:
+        AcquirerID:
+          type: integer
+          description: Identification of the Acquirer.
+        IsReachableFlag:
+          type: boolean
+          default: true
+          description: Indicate if a Host is reachable.
+      required:
+      - AcquirerID
+    DiagnosisRequest:
+      type: object
+      description: It conveys Information related to the target POI for which the diagnosis is requested. Content of the Diagnosis Request message.
+      properties:
+        POIID:
+          type: string
+          pattern: ^.+$
+          description: MessageHeader.POIID.
+        HostDiagnosisFlag:
+          type: boolean
+          default: false
+          description: Indicates if Host Diagnosis are required.
+        AcquirerID:
+          type: array
+          items:
+            type: integer
+            description: Present if requesting the diagnosis of these hosts only.
   securitySchemes:
     ApiKeyAuth:
       in: header
