@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-three-dsavailability-response-schema.json",
+  "title": "ThreeDSAvailabilityResponse",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-availability-api-openapi.yml#/components/schemas/ThreeDSAvailabilityResponse",
+  "properties": {
+    "binDetails": {
+      "x-addedInVersion": "50",
+      "description": "Bin Group Details",
+      "$ref": "#/$defs/BinDetail"
+    },
+    "dsPublicKeys": {
+      "description": "List of Directory Server (DS) public keys.",
+      "items": {
+        "$ref": "#/$defs/DSPublicKeyDetail"
+      },
+      "type": "array"
+    },
+    "threeDS1Supported": {
+      "description": "Indicator if 3D Secure 1 is supported.",
+      "type": "boolean"
+    },
+    "threeDS2CardRangeDetails": {
+      "description": "List of brand and card range pairs.",
+      "items": {
+        "$ref": "#/$defs/ThreeDS2CardRangeDetail"
+      },
+      "type": "array"
+    },
+    "threeDS2supported": {
+      "description": "Indicator if 3D Secure 2 is supported.",
+      "type": "boolean"
+    }
+  },
+  "type": "object",
+  "$defs": {
+    "BinDetail": {
+      "properties": {
+        "issuerCountry": {
+          "description": "The country where the card was issued.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "DSPublicKeyDetail": {
+      "properties": {
+        "brand": {
+          "description": "Card brand.",
+          "type": "string"
+        },
+        "directoryServerId": {
+          "description": "Directory Server (DS) identifier.",
+          "type": "string"
+        },
+        "fromSDKVersion": {
+          "description": "The version of the mobile 3D Secure 2 SDK. For the possible values, refer to the versions in [Adyen 3DS2 Android](https://github.com/Adyen/adyen-3ds2-android/releases) and [Adyen 3DS2 iOS](https://github.com/Adyen/adyen-3ds2-ios/releases).",
+          "type": "string"
+        },
+        "publicKey": {
+          "description": "Public key. The 3D Secure 2 SDK encrypts the device information by using the DS public key.",
+          "format": "byte",
+          "type": "string"
+        },
+        "rootCertificates": {
+          "description": "Directory Server root certificates. The 3D Secure 2 SDK verifies the ACS signed content using the rootCertificates.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ThreeDS2CardRangeDetail": {
+      "properties": {
+        "acsInfoInd": {
+          "x-addedInVersion": "51",
+          "description": "Provides additional information to the 3DS Server.\nPossible values:\n- 01 (Authentication is available at ACS)\n- 02 (Attempts supported by ACS or DS)\n- 03 (Decoupled authentication supported)\n- 04 (Whitelisting supported)",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "brandCode": {
+          "description": "Card brand.",
+          "type": "string"
+        },
+        "endRange": {
+          "description": "BIN end range.",
+          "type": "string"
+        },
+        "startRange": {
+          "description": "BIN start range.",
+          "type": "string"
+        },
+        "threeDS2Versions": {
+          "x-addedInVersion": "53",
+          "description": "Supported 3D Secure protocol versions",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "threeDSMethodURL": {
+          "description": "In a 3D Secure 2 browser-based flow, this is the URL where you should send the device fingerprint to.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

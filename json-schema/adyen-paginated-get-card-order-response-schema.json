@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-paginated-get-card-order-response-schema.json",
+  "title": "PaginatedGetCardOrderResponse",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-card-orders-api-openapi.yml#/components/schemas/PaginatedGetCardOrderResponse",
+  "properties": {
+    "cardOrders": {
+      "description": "Contains objects with information about card orders.",
+      "items": {
+        "$ref": "#/$defs/CardOrder"
+      },
+      "type": "array"
+    },
+    "hasNext": {
+      "description": "Indicates whether there are more items on the next page.",
+      "type": "boolean"
+    },
+    "hasPrevious": {
+      "description": "Indicates whether there are more items on the previous page.",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "hasPrevious",
+    "hasNext"
+  ],
+  "type": "object",
+  "$defs": {
+    "CardOrder": {
+      "properties": {
+        "beginDate": {
+          "description": "The date when the card order is created.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "cardManufacturingProfileId": {
+          "description": "The unique identifier of the card manufacturer profile.",
+          "type": "string"
+        },
+        "closedDate": {
+          "description": "The date when the card order processing ends.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "endDate": {
+          "description": "The date when you manually closed the card order.\n\nCard orders are automatically closed by the end of the day it was created. If you manually closed it beforehand, the closing date is shown as the `endDate`.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "id": {
+          "description": "The unique identifier of the card order.",
+          "type": "string"
+        },
+        "lockDate": {
+          "description": "The date when the card order processing begins.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "serviceCenter": {
+          "description": "The service center.",
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the card order.\n\nPossible values: **Open**, **Closed**.",
+          "enum": [
+            "closed",
+            "open"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

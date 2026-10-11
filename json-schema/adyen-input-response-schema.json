@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-input-response-schema.json",
+  "title": "InputResponse",
+  "description": "It conveys the result of the input or the result of the outputs, parallel to the message request, except if response not required and absent. Content of the Input Response message.",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-input-api-openapi.yml#/components/schemas/InputResponse",
+  "type": "object",
+  "properties": {
+    "OutputResult": {
+      "$ref": "#/$defs/OutputResult"
+    },
+    "InputResult": {
+      "$ref": "#/$defs/InputResult"
+    }
+  },
+  "required": [
+    "InputResult"
+  ],
+  "$defs": {
+    "Device": {
+      "type": "string",
+      "enum": [
+        "CashierDisplay",
+        "CashierInput",
+        "CustomerDisplay",
+        "CustomerInput"
+      ]
+    },
+    "ErrorCondition": {
+      "type": "string",
+      "enum": [
+        "Aborted",
+        "Busy",
+        "Cancel",
+        "DeviceOut",
+        "InProgress",
+        "InsertedCard",
+        "InvalidCard",
+        "LoggedOut",
+        "MessageFormat",
+        "NotAllowed",
+        "NotFound",
+        "PaymentRestriction",
+        "Refusal",
+        "UnavailableDevice",
+        "UnavailableService",
+        "UnreachableHost",
+        "WrongPIN"
+      ]
+    },
+    "InfoQualify": {
+      "type": "string",
+      "enum": [
+        "CustomerAssistance",
+        "Display",
+        "Document",
+        "Error",
+        "Input",
+        "POIReplication",
+        "Receipt",
+        "Sound",
+        "Status",
+        "Voucher"
+      ]
+    },
+    "Input": {
+      "type": "object",
+      "properties": {
+        "InputCommand": {
+          "$ref": "#/$defs/InputCommand"
+        },
+        "ConfirmedFlag": {
+          "type": "boolean"
+        },
+        "FunctionKey": {
+          "type": "integer"
+        },
+        "TextInput": {
+          "type": "string"
+        },
+        "DigitInput": {
+          "type": "integer"
+        },
+        "Password": {
+          "type": "string"
+        },
+        "MenuEntryNumber": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        }
+      },
+      "required": [
+        "InputCommand"
+      ]
+    },
+    "InputCommand": {
+      "type": "string",
+      "enum": [
+        "DecimalString",
+        "DigitString",
+        "GetAnyKey",
+        "GetConfirmation",
+        "GetFunctionKey",
+        "GetMenuEntry",
+        "Password",
+        "SiteManager",
+        "TextString"
+      ]
+    },
+    "InputResult": {
+      "type": "object",
+      "properties": {
+        "Device": {
+          "$ref": "#/$defs/Device"
+        },
+        "InfoQualify": {
+          "$ref": "#/$defs/InfoQualify"
+        },
+        "Response": {
+          "$ref": "#/$defs/Response"
+        },
+        "Input": {
+          "$ref": "#/$defs/Input"
+        }
+      },
+      "required": [
+        "Device",
+        "InfoQualify",
+        "Response"
+      ]
+    },
+    "OutputResult": {
+      "type": "object",
+      "description": "In the message response, it contains the result of the output, if required in the message request. Information related to the result the output (display, print, input).",
+      "properties": {
+        "Device": {
+          "$ref": "#/$defs/Device"
+        },
+        "InfoQualify": {
+          "$ref": "#/$defs/InfoQualify"
+        },
+        "Response": {
+          "$ref": "#/$defs/Response"
+        }
+      },
+      "required": [
+        "Device",
+        "InfoQualify",
+        "Response"
+      ]
+    },
+    "Response": {
+      "type": "object",
+      "description": "If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.",
+      "properties": {
+        "Result": {
+          "$ref": "#/$defs/Result"
+        },
+        "ErrorCondition": {
+          "$ref": "#/$defs/ErrorCondition"
+        },
+        "AdditionalResponse": {
+          "type": "string",
+          "pattern": "^.+$",
+          "description": "If present, the POI logs it for further examination."
+        }
+      },
+      "required": [
+        "Result"
+      ]
+    },
+    "Result": {
+      "type": "string",
+      "enum": [
+        "Failure",
+        "Partial",
+        "Success"
+      ]
+    }
+  }
+}

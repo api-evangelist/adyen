@@ -1,0 +1,314 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-display-request-schema.json",
+  "title": "DisplayRequest",
+  "description": "It conveys the data to display and the way to process the display. It contains the complete content to display. It might contain an operation (the DisplayOutput element) per Display Device type. Content of the Display Request message.",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-display-api-openapi.yml#/components/schemas/DisplayRequest",
+  "type": "object",
+  "properties": {
+    "DisplayOutput": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/DisplayOutput"
+      }
+    }
+  },
+  "required": [
+    "DisplayOutput"
+  ],
+  "$defs": {
+    "Alignment": {
+      "type": "string",
+      "enum": [
+        "Centred",
+        "Justified",
+        "Left",
+        "Right"
+      ]
+    },
+    "BarcodeType": {
+      "type": "string",
+      "enum": [
+        "Code128",
+        "Code25",
+        "EAN13",
+        "EAN8",
+        "PDF417",
+        "QRCode",
+        "UPCA"
+      ]
+    },
+    "CharacterHeight": {
+      "type": "string",
+      "enum": [
+        "DoubleHeight",
+        "HalfHeight",
+        "SingleHeight"
+      ]
+    },
+    "CharacterStyle": {
+      "type": "string",
+      "enum": [
+        "Bold",
+        "Italic",
+        "Normal",
+        "Underline"
+      ]
+    },
+    "CharacterWidth": {
+      "type": "string",
+      "enum": [
+        "DoubleWidth",
+        "SingleWidth"
+      ]
+    },
+    "Color": {
+      "type": "string",
+      "enum": [
+        "Black",
+        "Blue",
+        "Cyan",
+        "Green",
+        "Magenta",
+        "Red",
+        "White",
+        "Yellow"
+      ]
+    },
+    "Device": {
+      "type": "string",
+      "enum": [
+        "CashierDisplay",
+        "CashierInput",
+        "CustomerDisplay",
+        "CustomerInput"
+      ]
+    },
+    "DisplayOutput": {
+      "type": "object",
+      "description": "It contains a complete display operation for a Display or an Input Device type. For the Input Devices, Diagnosis and EnableService, ResponseRequiredFlag and MinimumDisplayTime shall be absent. Information to display and the way to process the display.",
+      "properties": {
+        "ResponseRequiredFlag": {
+          "type": "boolean",
+          "default": true,
+          "description": "Request of a message response."
+        },
+        "MinimumDisplayTime": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 999,
+          "default": 0,
+          "description": "Number of seconds the message has to be displayed."
+        },
+        "Device": {
+          "$ref": "#/$defs/Device"
+        },
+        "InfoQualify": {
+          "$ref": "#/$defs/InfoQualify"
+        },
+        "OutputContent": {
+          "$ref": "#/$defs/OutputContent"
+        },
+        "MenuEntry": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MenuEntry"
+          }
+        },
+        "OutputSignature": {
+          "type": "string",
+          "format": "byte",
+          "pattern": "^.+$",
+          "description": "If protection has to be provided to the vendor on the text to display or print."
+        }
+      },
+      "required": [
+        "Device",
+        "InfoQualify",
+        "OutputContent"
+      ]
+    },
+    "InfoQualify": {
+      "type": "string",
+      "enum": [
+        "CustomerAssistance",
+        "Display",
+        "Document",
+        "Error",
+        "Input",
+        "POIReplication",
+        "Receipt",
+        "Sound",
+        "Status",
+        "Voucher"
+      ]
+    },
+    "MenuEntry": {
+      "type": "object",
+      "description": "It conveys message text and parameters of the menu entry. This output data could be only provided for an input command, in order to choose an entryof the menu. An entryof the menu to present to the Cashier.",
+      "properties": {
+        "MenuEntryTag": {
+          "$ref": "#/$defs/MenuEntryTag"
+        },
+        "DefaultSelectedFlag": {
+          "type": "boolean",
+          "default": false
+        },
+        "OutputFormat": {
+          "$ref": "#/$defs/OutputFormat"
+        },
+        "PredefinedContent": {
+          "$ref": "#/$defs/PredefinedContent"
+        },
+        "OutputText": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/OutputText"
+          }
+        },
+        "OutputXHTML": {
+          "type": "string",
+          "format": "byte",
+          "pattern": "^.+$"
+        }
+      },
+      "required": [
+        "OutputFormat"
+      ]
+    },
+    "MenuEntryTag": {
+      "type": "string",
+      "description": "Characteristics related to the selection of a menu entry.",
+      "enum": [
+        "NonSelectable",
+        "NonSelectableSubMenu",
+        "Selectable",
+        "SubMenu"
+      ]
+    },
+    "OutputBarcode": {
+      "type": "object",
+      "properties": {
+        "BarcodeType": {
+          "$ref": "#/$defs/BarcodeType"
+        },
+        "BarcodeValue": {
+          "type": "string",
+          "pattern": "^.+$"
+        }
+      },
+      "required": [
+        "BarcodeValue"
+      ]
+    },
+    "OutputContent": {
+      "type": "object",
+      "description": "This is a sequence of elements if they have different formats. Content to display or print.",
+      "properties": {
+        "OutputFormat": {
+          "$ref": "#/$defs/OutputFormat"
+        },
+        "PredefinedContent": {
+          "$ref": "#/$defs/PredefinedContent"
+        },
+        "OutputText": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/OutputText"
+          }
+        },
+        "OutputXHTML": {
+          "type": "string",
+          "format": "byte",
+          "pattern": "^.{0,262144}$",
+          "description": "Mandatory, if OutputFormat is XHTML, not allowed otherwise."
+        },
+        "OutputBarcode": {
+          "$ref": "#/$defs/OutputBarcode"
+        }
+      },
+      "required": [
+        "OutputFormat"
+      ]
+    },
+    "OutputFormat": {
+      "type": "string",
+      "enum": [
+        "BarCode",
+        "MessageRef",
+        "Text",
+        "XHTML"
+      ]
+    },
+    "OutputText": {
+      "type": "object",
+      "description": "It conveys Information related to the content of the text message and its format. All the data elements related to the format of the text to display or print are parameters valid for the whole Text content. Content of text message to display or print.",
+      "properties": {
+        "Text": {
+          "type": "string"
+        },
+        "CharacterSet": {
+          "type": "integer"
+        },
+        "Font": {
+          "type": "string",
+          "pattern": "^.+$"
+        },
+        "StartRow": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        },
+        "StartColumn": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        },
+        "Color": {
+          "$ref": "#/$defs/Color"
+        },
+        "CharacterWidth": {
+          "$ref": "#/$defs/CharacterWidth"
+        },
+        "CharacterHeight": {
+          "$ref": "#/$defs/CharacterHeight"
+        },
+        "CharacterStyle": {
+          "$ref": "#/$defs/CharacterStyle"
+        },
+        "Alignment": {
+          "$ref": "#/$defs/Alignment"
+        },
+        "EndOfLineFlag": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "required": [
+        "Text"
+      ]
+    },
+    "PredefinedContent": {
+      "type": "object",
+      "description": "It conveys Information related to the predefined message. Reference of a predefined message to display or print.",
+      "properties": {
+        "ReferenceID": {
+          "type": "string",
+          "pattern": "^.+$",
+          "description": "Identification of a predefined message to display or print."
+        },
+        "Language": {
+          "type": "string",
+          "pattern": "^[a-z]{2,2}$",
+          "description": "Identification of a language."
+        }
+      },
+      "required": [
+        "ReferenceID"
+      ]
+    }
+  }
+}

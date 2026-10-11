@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-capital-grants-schema.json",
+  "title": "CapitalGrants",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-grants-api-openapi.yml#/components/schemas/CapitalGrants",
+  "properties": {
+    "grants": {
+      "description": "The unique identifier of the grant.",
+      "items": {
+        "$ref": "#/$defs/CapitalGrant"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "grants"
+  ],
+  "type": "object",
+  "$defs": {
+    "Amount": {
+      "properties": {
+        "currency": {
+          "description": "The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).",
+          "maxLength": 3,
+          "minLength": 3,
+          "type": "string"
+        },
+        "value": {
+          "description": "The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "value",
+        "currency"
+      ],
+      "type": "object"
+    },
+    "CapitalBalance": {
+      "properties": {
+        "currency": {
+          "description": "The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).",
+          "type": "string"
+        },
+        "fee": {
+          "description": "Fee amount.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "principal": {
+          "description": "Principal amount.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "total": {
+          "description": "Total amount. A sum of principal amount and fee amount.",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "principal",
+        "fee",
+        "total",
+        "currency"
+      ],
+      "type": "object"
+    },
+    "CapitalGrant": {
+      "properties": {
+        "amount": {
+          "description": "An object containing the amount of the grant, in [minor units](https://docs.adyen.com/development-resources/currency-codes).",
+          "$ref": "#/$defs/Amount"
+        },
+        "balances": {
+          "description": "An object containing the details of the existing grant.",
+          "$ref": "#/$defs/CapitalBalance"
+        },
+        "counterparty": {
+          "description": "An object containing the details of the receiving party of the grant. Setting either an `accountHolderId`, `balanceAccountId`, or both is required.",
+          "$ref": "#/$defs/Counterparty"
+        },
+        "fee": {
+          "description": "An object containing the fee currency and value, in [minor units](https://docs.adyen.com/development-resources/currency-codes).",
+          "$ref": "#/$defs/Fee"
+        },
+        "grantAccountId": {
+          "description": "The identifier of the grant account used for the grant.",
+          "type": "string"
+        },
+        "grantOfferId": {
+          "description": "The identifier of the grant offer that has been selected and from which the grant details will be used.",
+          "type": "string"
+        },
+        "id": {
+          "description": "The identifier of the grant reference.",
+          "type": "string"
+        },
+        "repayment": {
+          "description": "An object containing the details of the 30-day repayment threshold.",
+          "$ref": "#/$defs/Repayment"
+        },
+        "status": {
+          "description": "The current status of the grant. Possible values: **Pending**, **Active**, **Repaid**.",
+          "enum": [
+            "Pending",
+            "Active",
+            "Repaid"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "grantAccountId",
+        "grantOfferId",
+        "id",
+        "status",
+        "balances"
+      ],
+      "type": "object"
+    },
+    "Counterparty": {
+      "properties": {
+        "accountHolderId": {
+          "description": "The identifier of the receiving account holder. The payout will default to the primary balance account of this account holder if no `balanceAccountId` is provided.",
+          "type": "string"
+        },
+        "balanceAccountId": {
+          "description": "The identifier of the balance account that belongs to the receiving account holder.",
+          "type": "string"
+        },
+        "transferInstrumentId": {
+          "description": "The identifier of the transfer instrument that belongs to the legal entity of the account holder.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Fee": {
+      "properties": {
+        "amount": {
+          "description": "An object containing the fee amount.",
+          "$ref": "#/$defs/Amount"
+        }
+      },
+      "required": [
+        "amount"
+      ],
+      "type": "object"
+    },
+    "Repayment": {
+      "properties": {
+        "basisPoints": {
+          "description": "The repayment that is deducted daily from incoming net volume, in [basis points](https://www.investopedia.com/terms/b/basispoint.asp).",
+          "format": "int32",
+          "type": "integer"
+        },
+        "term": {
+          "description": "An object containing the details of the configuration for repayment term.",
+          "$ref": "#/$defs/RepaymentTerm"
+        },
+        "threshold": {
+          "description": "An object containing the details of the 30-day repayment threshold.",
+          "$ref": "#/$defs/ThresholdRepayment"
+        }
+      },
+      "required": [
+        "basisPoints"
+      ],
+      "type": "object"
+    },
+    "RepaymentTerm": {
+      "properties": {
+        "estimatedDays": {
+          "description": "The estimated term for repaying the grant, in days.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "maximumDays": {
+          "description": "The maximum term for repaying the grant, in days. Only applies when `contractType` is **loan**.",
+          "format": "int32",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "estimatedDays"
+      ],
+      "type": "object"
+    },
+    "ThresholdRepayment": {
+      "properties": {
+        "amount": {
+          "description": "The amount to be repaid on a 30-day basis.",
+          "$ref": "#/$defs/Amount"
+        }
+      },
+      "required": [
+        "amount"
+      ],
+      "type": "object"
+    }
+  }
+}

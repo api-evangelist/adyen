@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-paginated-get-card-order-item-response-schema.json",
+  "title": "PaginatedGetCardOrderItemResponse",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-card-orders-api-openapi.yml#/components/schemas/PaginatedGetCardOrderItemResponse",
+  "properties": {
+    "data": {
+      "description": "List of card order items in the card order batch.",
+      "items": {
+        "$ref": "#/$defs/CardOrderItem"
+      },
+      "type": "array"
+    },
+    "hasNext": {
+      "description": "Indicates whether there are more items on the next page.",
+      "type": "boolean"
+    },
+    "hasPrevious": {
+      "description": "Indicates whether there are more items on the previous page.",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "data",
+    "hasPrevious",
+    "hasNext"
+  ],
+  "type": "object",
+  "$defs": {
+    "CardOrderItem": {
+      "properties": {
+        "balancePlatform": {
+          "description": "The unique identifier of the balance platform.",
+          "type": "string"
+        },
+        "card": {
+          "description": "The status of the card delivery.\n\nPossible values: **created**, **rejected**, **processing**, **produced**, **shipped**, **delivered**, **notApplicable**, **unknown**. ",
+          "$ref": "#/$defs/CardOrderItemDeliveryStatus"
+        },
+        "cardOrderItemId": {
+          "description": "The unique identifier of the card order item.",
+          "type": "string"
+        },
+        "creationDate": {
+          "description": "The date and time when the event was triggered, in ISO 8601 extended format. For example, **2020-12-18T10:15:30+01:00**.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "id": {
+          "description": "The ID of the resource.",
+          "readOnly": true,
+          "type": "string"
+        },
+        "paymentInstrumentId": {
+          "description": "The unique identifier of the payment instrument related to the card order item.",
+          "type": "string"
+        },
+        "pin": {
+          "description": "Contains information about the status of the PIN delivery.",
+          "$ref": "#/$defs/CardOrderItemDeliveryStatus"
+        },
+        "shippingMethod": {
+          "description": "The shipping method used to deliver the card or the PIN.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "CardOrderItemDeliveryStatus": {
+      "properties": {
+        "errorMessage": {
+          "description": "An error message.",
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the PIN delivery.",
+          "enum": [
+            "created",
+            "delivered",
+            "notApplicable",
+            "processing",
+            "produced",
+            "rejected",
+            "shipped",
+            "unknown"
+          ],
+          "type": "string"
+        },
+        "trackingNumber": {
+          "description": "The tracking number of the PIN delivery.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

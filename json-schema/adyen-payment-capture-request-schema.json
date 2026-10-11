@@ -1,0 +1,407 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-payment-capture-request-schema.json",
+  "title": "PaymentCaptureRequest",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-captures-api-openapi.yml#/components/schemas/PaymentCaptureRequest",
+  "properties": {
+    "amount": {
+      "description": "The amount that you want to capture. The `currency` must match the currency used in authorisation, the `value` must be smaller than or equal to the authorised amount.",
+      "$ref": "#/$defs/Amount"
+    },
+    "applicationInfo": {
+      "description": "Information about your application. For more details, see [Building Adyen solutions](https://docs.adyen.com/development-resources/building-adyen-solutions).",
+      "$ref": "#/$defs/ApplicationInfo"
+    },
+    "lineItems": {
+      "description": "Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment).\n> This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip.",
+      "items": {
+        "$ref": "#/$defs/LineItem"
+      },
+      "type": "array"
+    },
+    "merchantAccount": {
+      "description": "The merchant account that is used to process the payment.",
+      "type": "string"
+    },
+    "platformChargebackLogic": {
+      "x-addedInVersion": "70",
+      "description": "Defines how to book chargebacks when using [Adyen for Platforms](https://docs.adyen.com/marketplaces-and-platforms/processing-payments#chargebacks-and-disputes).",
+      "$ref": "#/$defs/PlatformChargebackLogic"
+    },
+    "reference": {
+      "description": "Your reference for the capture request. Maximum length: 80 characters.",
+      "type": "string"
+    },
+    "splits": {
+      "description": "An array of objects specifying how the amount should be split between accounts when using Adyen for Platforms. For details, refer to [Providing split information](https://docs.adyen.com/marketplaces-and-platforms/processing-payments#providing-split-information).",
+      "items": {
+        "$ref": "#/$defs/Split"
+      },
+      "type": "array"
+    },
+    "subMerchants": {
+      "x-addedInVersion": "70",
+      "description": "A List of sub-merchants.",
+      "items": {
+        "$ref": "#/$defs/SubMerchantInfo"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "merchantAccount",
+    "amount"
+  ],
+  "type": "object",
+  "$defs": {
+    "Amount": {
+      "properties": {
+        "currency": {
+          "description": "The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).",
+          "maxLength": 3,
+          "minLength": 3,
+          "type": "string"
+        },
+        "value": {
+          "description": "The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "value",
+        "currency"
+      ],
+      "type": "object"
+    },
+    "ApplicationInfo": {
+      "properties": {
+        "adyenLibrary": {
+          "description": "Adyen-developed software, such as libraries and plugins, used to interact with the Adyen API. For example, Magento plugin, Java API library, etc.",
+          "$ref": "#/$defs/CommonField"
+        },
+        "adyenPaymentSource": {
+          "description": "Adyen-developed software to get payment details. For example, Checkout SDK, Secured Fields SDK, etc.",
+          "$ref": "#/$defs/CommonField"
+        },
+        "externalPlatform": {
+          "description": "Third-party developed platform used to initiate payment requests. For example, Magento, Zuora, etc.",
+          "$ref": "#/$defs/ExternalPlatform"
+        },
+        "merchantApplication": {
+          "description": "Merchant developed software, such as cashier application, used to interact with the Adyen API.",
+          "$ref": "#/$defs/CommonField"
+        },
+        "merchantDevice": {
+          "description": "Merchant device information.",
+          "$ref": "#/$defs/MerchantDevice"
+        },
+        "shopperInteractionDevice": {
+          "description": "Shopper interaction device, such as terminal, mobile device or web browser, to initiate payment requests.",
+          "$ref": "#/$defs/ShopperInteractionDevice"
+        }
+      },
+      "type": "object"
+    },
+    "BillingAddress": {
+      "properties": {
+        "city": {
+          "description": "The name of the city. Maximum length: 3000 characters.",
+          "maxLength": 3000,
+          "type": "string"
+        },
+        "country": {
+          "description": "The two-character ISO-3166-1 alpha-2 country code. For example, **US**.\n> If you don't know the country or are not collecting the country from the shopper, provide `country` as `ZZ`.",
+          "type": "string"
+        },
+        "houseNumberOrName": {
+          "description": "The number or name of the house. Maximum length: 3000 characters.",
+          "maxLength": 3000,
+          "type": "string"
+        },
+        "postalCode": {
+          "description": "A maximum of five digits for an address in the US, or a maximum of ten characters for an address in all other countries.",
+          "type": "string"
+        },
+        "stateOrProvince": {
+          "description": "The two-character ISO 3166-2 state or province code. For example, **CA** in the US or **ON** in Canada.\n> Required for the US and Canada.",
+          "type": "string"
+        },
+        "street": {
+          "description": "The name of the street. Maximum length: 3000 characters.\n> The house number should not be included in this field; it should be separately provided via `houseNumberOrName`.",
+          "maxLength": 3000,
+          "type": "string"
+        }
+      },
+      "required": [
+        "street",
+        "houseNumberOrName",
+        "city",
+        "postalCode",
+        "country"
+      ],
+      "type": "object"
+    },
+    "CommonField": {
+      "properties": {
+        "name": {
+          "description": "Name of the field. For example, Name of External Platform.",
+          "type": "string"
+        },
+        "version": {
+          "description": "Version of the field. For example, Version of External Platform.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ExternalPlatform": {
+      "properties": {
+        "integrator": {
+          "description": "External platform integrator.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the field. For example, Name of External Platform.",
+          "type": "string"
+        },
+        "version": {
+          "description": "Version of the field. For example, Version of External Platform.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "LineItem": {
+      "properties": {
+        "amountExcludingTax": {
+          "description": "Item amount excluding the tax, in minor units.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "amountIncludingTax": {
+          "description": "Item amount including the tax, in minor units.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "brand": {
+          "x-addedInVersion": "70",
+          "description": "Brand of the item.",
+          "type": "string"
+        },
+        "color": {
+          "x-addedInVersion": "70",
+          "description": "Color of the item.",
+          "type": "string"
+        },
+        "description": {
+          "description": "Description of the line item.",
+          "type": "string"
+        },
+        "id": {
+          "description": "ID of the line item.",
+          "type": "string"
+        },
+        "imageUrl": {
+          "description": "Link to the picture of the purchased item.",
+          "type": "string"
+        },
+        "itemCategory": {
+          "description": "Item category, used by the payment methods PayPal and Ratepay.",
+          "type": "string"
+        },
+        "manufacturer": {
+          "x-addedInVersion": "70",
+          "description": "Manufacturer of the item.",
+          "type": "string"
+        },
+        "productUrl": {
+          "description": "Link to the purchased item.",
+          "type": "string"
+        },
+        "quantity": {
+          "description": "Number of items.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "receiverEmail": {
+          "x-addedInVersion": "70",
+          "description": "Email associated with the given product in the basket (usually in electronic gift cards).",
+          "type": "string"
+        },
+        "size": {
+          "x-addedInVersion": "70",
+          "description": "Size of the item.",
+          "type": "string"
+        },
+        "sku": {
+          "x-addedInVersion": "70",
+          "description": "Stock keeping unit.",
+          "type": "string"
+        },
+        "taxAmount": {
+          "description": "Tax amount, in minor units.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "taxPercentage": {
+          "description": "Tax percentage, in minor units.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "upc": {
+          "x-addedInVersion": "70",
+          "description": "Universal Product Code.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "MerchantDevice": {
+      "properties": {
+        "os": {
+          "description": "Operating system running on the merchant device.",
+          "type": "string"
+        },
+        "osVersion": {
+          "description": "Version of the operating system on the merchant device.",
+          "type": "string"
+        },
+        "reference": {
+          "description": "Merchant device reference.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "PlatformChargebackLogic": {
+      "properties": {
+        "behavior": {
+          "x-addedInVersion": "68",
+          "description": "The method of handling the chargeback.\n\nPossible values: **deductFromLiableAccount**, **deductFromOneBalanceAccount**, **deductAccordingToSplitRatio**.",
+          "enum": [
+            "deductAccordingToSplitRatio",
+            "deductFromLiableAccount",
+            "deductFromOneBalanceAccount"
+          ],
+          "type": "string"
+        },
+        "costAllocationAccount": {
+          "x-addedInVersion": "68",
+          "description": "The unique identifier of the balance account to which the chargeback fees are booked. By default, the chargeback fees are booked to your liable balance account.",
+          "type": "string"
+        },
+        "targetAccount": {
+          "x-addedInVersion": "68",
+          "description": "The unique identifier of the balance account against which the disputed amount is booked.\n\nRequired if `behavior` is **deductFromOneBalanceAccount**.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ShopperInteractionDevice": {
+      "properties": {
+        "locale": {
+          "description": "Locale on the shopper interaction device.",
+          "type": "string"
+        },
+        "os": {
+          "description": "Operating system running on the shopper interaction device.",
+          "type": "string"
+        },
+        "osVersion": {
+          "description": "Version of the operating system on the shopper interaction device.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Split": {
+      "properties": {
+        "account": {
+          "description": "The unique identifier of the account to which the split amount is booked. Required if `type` is **MarketPlace** or **BalanceAccount**.\n\n* [Classic Platforms integration](https://docs.adyen.com/marketplaces-and-platforms/classic): The [`accountCode`](https://docs.adyen.com/api-explorer/Account/latest/post/updateAccount#request-accountCode) of the account to which the split amount is booked.\n* [Balance Platform](https://docs.adyen.com/marketplaces-and-platforms): The [`balanceAccountId`](https://docs.adyen.com/api-explorer/balanceplatform/latest/get/balanceAccounts/_id_#path-id) of the account to which the split amount is booked.",
+          "type": "string"
+        },
+        "amount": {
+          "description": "The amount of the split item.\n\n* Required for all split types in the [Classic Platforms integration](https://docs.adyen.com/marketplaces-and-platforms/classic).\n* Required if `type` is **BalanceAccount**, **Commission**, **Default**, or **VAT** in your [Balance Platform](https://docs.adyen.com/marketplaces-and-platforms) integration.",
+          "$ref": "#/$defs/SplitAmount"
+        },
+        "description": {
+          "description": "Your description for the split item.",
+          "type": "string"
+        },
+        "reference": {
+          "description": "Your unique reference for the split item.\n\nThis is required if `type` is **MarketPlace** ([Classic Platforms integration](https://docs.adyen.com/marketplaces-and-platforms/classic)) or **BalanceAccount** ([Balance Platform](https://docs.adyen.com/marketplaces-and-platforms)).\n\nFor the other types, we also recommend providing a **unique** reference so you can reconcile the split and the associated payment in the transaction overview and in the reports.",
+          "type": "string"
+        },
+        "type": {
+          "description": "The type of the split item.\n\nPossible values:\n\n* [Classic Platforms integration](https://docs.adyen.com/marketplaces-and-platforms/classic): **Commission**, **Default**, **Marketplace**, **PaymentFee**, **VAT**.\n* [Balance Platform](https://docs.adyen.com/marketplaces-and-platforms): **BalanceAccount**, **Commission**, **Default**, **PaymentFee**, **Remainder**, **Surcharge**, **Tip**, **VAT**.",
+          "enum": [
+            "AcquiringFees",
+            "AdyenCommission",
+            "AdyenFees",
+            "AdyenMarkup",
+            "BalanceAccount",
+            "Commission",
+            "Default",
+            "Interchange",
+            "MarketPlace",
+            "PaymentFee",
+            "Remainder",
+            "SchemeFee",
+            "Surcharge",
+            "Tip",
+            "VAT"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "SplitAmount": {
+      "properties": {
+        "currency": {
+          "description": "The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes). By default, this is the original payment currency.",
+          "maxLength": 3,
+          "minLength": 3,
+          "type": "string"
+        },
+        "value": {
+          "description": "The value of the split amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes).",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "SubMerchantInfo": {
+      "properties": {
+        "address": {
+          "$ref": "#/$defs/BillingAddress"
+        },
+        "id": {
+          "type": "string"
+        },
+        "mcc": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "taxId": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

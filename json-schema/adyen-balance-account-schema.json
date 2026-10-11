@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-balance-account-schema.json",
+  "title": "BalanceAccount",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-accounts-api-openapi.yml#/components/schemas/BalanceAccount",
+  "properties": {
+    "accountHolderId": {
+      "description": "The unique identifier of the [account holder](https://docs.adyen.com/api-explorer/#/balanceplatform/latest/post/accountHolders__resParam_id) associated with the balance account.",
+      "type": "string"
+    },
+    "balances": {
+      "description": "List of balances with the amount and currency.",
+      "items": {
+        "$ref": "#/$defs/Balance"
+      },
+      "type": "array"
+    },
+    "defaultCurrencyCode": {
+      "description": "The default three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes) of the balance account.\nThe default value is **EUR**.\n> After a balance account is created, you cannot change its default currency.",
+      "type": "string"
+    },
+    "description": {
+      "description": "A human-readable description of the balance account, maximum 300 characters. You can use this parameter to distinguish between multiple balance accounts under an account holder.",
+      "maxLength": 300,
+      "type": "string"
+    },
+    "id": {
+      "description": "The unique identifier of the balance account.",
+      "type": "string"
+    },
+    "metadata": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "A set of key and value pairs for general use.\nThe keys do not have specific names and may be used for storing miscellaneous data as desired.\n> Note that during an update of metadata, the omission of existing key-value pairs will result in the deletion of those key-value pairs.",
+      "type": "object"
+    },
+    "migratedAccountCode": {
+      "description": "The unique identifier of the account of the migrated account holder in the classic integration.",
+      "readOnly": true,
+      "type": "string"
+    },
+    "platformPaymentConfiguration": {
+      "description": "Contains key-value pairs to the configure the settlement model in a balance account.",
+      "$ref": "#/$defs/PlatformPaymentConfiguration"
+    },
+    "reference": {
+      "description": "Your reference for the balance account, maximum 150 characters.",
+      "maxLength": 150,
+      "type": "string"
+    },
+    "status": {
+      "description": "The status of the balance account, set to **active** by default. \n",
+      "enum": [
+        "active",
+        "closed",
+        "inactive",
+        "suspended"
+      ],
+      "type": "string"
+    },
+    "timeZone": {
+      "description": "The time zone of the balance account. For example, **Europe/Amsterdam**.\nDefaults to the time zone of the account holder if no time zone is set. For possible values, see the [list of time zone codes](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).",
+      "type": "string"
+    }
+  },
+  "required": [
+    "accountHolderId",
+    "id"
+  ],
+  "type": "object",
+  "$defs": {
+    "Balance": {
+      "properties": {
+        "available": {
+          "description": "The remaining amount available for spending.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "balance": {
+          "description": "The total amount in the balance.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "currency": {
+          "description": "The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes) of the balance.",
+          "type": "string"
+        },
+        "pending": {
+          "description": "The amount pending to be paid out but not yet available in the balance.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "reserved": {
+          "description": "The amount reserved for payments that have been authorised, but have not been captured yet.",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "currency",
+        "balance",
+        "reserved",
+        "available"
+      ],
+      "type": "object"
+    },
+    "PlatformPaymentConfiguration": {
+      "properties": {
+        "salesDayClosingTime": {
+          "description": "Specifies at what time a [sales day](https://docs.adyen.com/marketplaces-and-platforms/settle-funds/sales-day-settlement#sales-day) ends.\n\nPossible values: Time in **\"HH:MM\"** format. **HH** ranges from **00** to **07**. **MM** must be **00**.\n\nDefault value: **\"00:00\"**.",
+          "format": "time",
+          "type": "string"
+        },
+        "settlementDelayDays": {
+          "description": "Specifies after how many business days the funds in a [settlement batch](https://docs.adyen.com/marketplaces-and-platforms/settle-funds/sales-day-settlement#settlement-batch) are made available.\n\nPossible values: **0** to **10**, or **null**.\n* Setting this value to an integer enables [Sales day settlement](https://docs.adyen.com/marketplaces-and-platforms/settle-funds/sales-day-settlement).\n* Setting this value to **null** enables [Pass-through settlement](https://docs.adyen.com/marketplaces-and-platforms/settle-funds/pass-through-settlement).\n\nDefault value: **null**.",
+          "format": "int32",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-payment-amount-update-response-schema.json",
+  "title": "PaymentAmountUpdateResponse",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-amount-api-openapi.yml#/components/schemas/PaymentAmountUpdateResponse",
+  "properties": {
+    "amount": {
+      "description": "The updated amount.",
+      "$ref": "#/$defs/Amount"
+    },
+    "industryUsage": {
+      "x-addedInVersion": "70",
+      "description": "The reason for the amount update. Possible values: \n* **delayedCharge** \n* **noShow** \n* **installment**",
+      "enum": [
+        "delayedCharge",
+        "installment",
+        "noShow"
+      ],
+      "type": "string"
+    },
+    "lineItems": {
+      "x-addedInVersion": "71",
+      "description": "Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment).\n> This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip.",
+      "items": {
+        "$ref": "#/$defs/LineItem"
+      },
+      "type": "array"
+    },
+    "merchantAccount": {
+      "description": "The merchant account that is used to process the payment.",
+      "type": "string"
+    },
+    "paymentPspReference": {
+      "description": "The [`pspReference`](https://docs.adyen.com/api-explorer/#/CheckoutService/latest/post/payments__resParam_pspReference) of the payment to update. ",
+      "type": "string"
+    },
+    "pspReference": {
+      "description": "Adyen's 16-character reference associated with the amount update request.",
+      "type": "string"
+    },
+    "reference": {
+      "description": "Your reference for the amount update request. Maximum length: 80 characters.",
+      "type": "string"
+    },
+    "splits": {
+      "description": "An array of objects specifying how the amount should be split between accounts when using Adyen for Platforms. For details, refer to [Providing split information](https://docs.adyen.com/marketplaces-and-platforms/processing-payments#providing-split-information).",
+      "items": {
+        "$ref": "#/$defs/Split"
+      },
+      "type": "array"
+    },
+    "status": {
+      "description": "The status of your request. This will always have the value **received**.",
+      "enum": [
+        "received"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "status",
+    "merchantAccount",
+    "amount",
+    "reference",
+    "pspReference",
+    "paymentPspReference"
+  ],
+  "type": "object",
+  "$defs": {
+    "Amount": {
+      "properties": {
+        "currency": {
+          "description": "The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).",
+          "maxLength": 3,
+          "minLength": 3,
+          "type": "string"
+        },
+        "value": {
+          "description": "The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "value",
+        "currency"
+      ],
+      "type": "object"
+    },
+    "LineItem": {
+      "properties": {
+        "amountExcludingTax": {
+          "description": "Item amount excluding the tax, in minor units.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "amountIncludingTax": {
+          "description": "Item amount including the tax, in minor units.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "brand": {
+          "x-addedInVersion": "70",
+          "description": "Brand of the item.",
+          "type": "string"
+        },
+        "color": {
+          "x-addedInVersion": "70",
+          "description": "Color of the item.",
+          "type": "string"
+        },
+        "description": {
+          "description": "Description of the line item.",
+          "type": "string"
+        },
+        "id": {
+          "description": "ID of the line item.",
+          "type": "string"
+        },
+        "imageUrl": {
+          "description": "Link to the picture of the purchased item.",
+          "type": "string"
+        },
+        "itemCategory": {
+          "description": "Item category, used by the payment methods PayPal and Ratepay.",
+          "type": "string"
+        },
+        "manufacturer": {
+          "x-addedInVersion": "70",
+          "description": "Manufacturer of the item.",
+          "type": "string"
+        },
+        "productUrl": {
+          "description": "Link to the purchased item.",
+          "type": "string"
+        },
+        "quantity": {
+          "description": "Number of items.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "receiverEmail": {
+          "x-addedInVersion": "70",
+          "description": "Email associated with the given product in the basket (usually in electronic gift cards).",
+          "type": "string"
+        },
+        "size": {
+          "x-addedInVersion": "70",
+          "description": "Size of the item.",
+          "type": "string"
+        },
+        "sku": {
+          "x-addedInVersion": "70",
+          "description": "Stock keeping unit.",
+          "type": "string"
+        },
+        "taxAmount": {
+          "description": "Tax amount, in minor units.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "taxPercentage": {
+          "description": "Tax percentage, in minor units.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "upc": {
+          "x-addedInVersion": "70",
+          "description": "Universal Product Code.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Split": {
+      "properties": {
+        "account": {
+          "description": "The unique identifier of the account to which the split amount is booked. Required if `type` is **MarketPlace** or **BalanceAccount**.\n\n* [Classic Platforms integration](https://docs.adyen.com/marketplaces-and-platforms/classic): The [`accountCode`](https://docs.adyen.com/api-explorer/Account/latest/post/updateAccount#request-accountCode) of the account to which the split amount is booked.\n* [Balance Platform](https://docs.adyen.com/marketplaces-and-platforms): The [`balanceAccountId`](https://docs.adyen.com/api-explorer/balanceplatform/latest/get/balanceAccounts/_id_#path-id) of the account to which the split amount is booked.",
+          "type": "string"
+        },
+        "amount": {
+          "description": "The amount of the split item.\n\n* Required for all split types in the [Classic Platforms integration](https://docs.adyen.com/marketplaces-and-platforms/classic).\n* Required if `type` is **BalanceAccount**, **Commission**, **Default**, or **VAT** in your [Balance Platform](https://docs.adyen.com/marketplaces-and-platforms) integration.",
+          "$ref": "#/$defs/SplitAmount"
+        },
+        "description": {
+          "description": "Your description for the split item.",
+          "type": "string"
+        },
+        "reference": {
+          "description": "Your unique reference for the split item.\n\nThis is required if `type` is **MarketPlace** ([Classic Platforms integration](https://docs.adyen.com/marketplaces-and-platforms/classic)) or **BalanceAccount** ([Balance Platform](https://docs.adyen.com/marketplaces-and-platforms)).\n\nFor the other types, we also recommend providing a **unique** reference so you can reconcile the split and the associated payment in the transaction overview and in the reports.",
+          "type": "string"
+        },
+        "type": {
+          "description": "The type of the split item.\n\nPossible values:\n\n* [Classic Platforms integration](https://docs.adyen.com/marketplaces-and-platforms/classic): **Commission**, **Default**, **Marketplace**, **PaymentFee**, **VAT**.\n* [Balance Platform](https://docs.adyen.com/marketplaces-and-platforms): **BalanceAccount**, **Commission**, **Default**, **PaymentFee**, **Remainder**, **Surcharge**, **Tip**, **VAT**.",
+          "enum": [
+            "AcquiringFees",
+            "AdyenCommission",
+            "AdyenFees",
+            "AdyenMarkup",
+            "BalanceAccount",
+            "Commission",
+            "Default",
+            "Interchange",
+            "MarketPlace",
+            "PaymentFee",
+            "Remainder",
+            "SchemeFee",
+            "Surcharge",
+            "Tip",
+            "VAT"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "SplitAmount": {
+      "properties": {
+        "currency": {
+          "description": "The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes). By default, this is the original payment currency.",
+          "maxLength": 3,
+          "minLength": 3,
+          "type": "string"
+        },
+        "value": {
+          "description": "The value of the split amount, in [minor units](https://docs.adyen.com/development-resources/currency-codes).",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    }
+  }
+}

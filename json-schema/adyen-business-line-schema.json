@@ -1,0 +1,403 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-business-line-schema.json",
+  "title": "BusinessLine",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-businesslines-api-openapi.yml#/components/schemas/BusinessLine",
+  "properties": {
+    "capability": {
+      "deprecated": true,
+      "x-deprecatedInVersion": "3",
+      "x-deprecatedMessage": "Use `service` instead.",
+      "description": "The capability for which you are creating the business line.\n\nPossible values: **receivePayments**, **receiveFromPlatformPayments**, **issueBankAccount**",
+      "enum": [
+        "receivePayments",
+        "receiveFromPlatformPayments",
+        "issueBankAccount"
+      ],
+      "type": "string"
+    },
+    "id": {
+      "description": "The unique identifier of the business line.",
+      "readOnly": true,
+      "type": "string"
+    },
+    "industryCode": {
+      "description": "A code that represents the [industry of the legal entity](https://docs.adyen.com/marketplaces-and-platforms/verification-requirements/reference-additional-products/#list-industry-codes). For example, **4431A** for computer software stores.",
+      "type": "string"
+    },
+    "legalEntityId": {
+      "description": "Unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/legalEntities__resParam_id) that owns the business line.",
+      "type": "string"
+    },
+    "problems": {
+      "x-addedInVersion": "3",
+      "description": "The verification errors related to capabilities for this supporting entity.",
+      "items": {
+        "$ref": "#/$defs/CapabilityProblem"
+      },
+      "type": "array"
+    },
+    "salesChannels": {
+      "description": "A list of channels where goods or services are sold.\n\nPossible values: **pos**, **posMoto**, **eCommerce**, **ecomMoto**, **payByLink**.\n\nRequired only in combination with the `service` **paymentProcessing**.",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "service": {
+      "x-addedInVersion": "3",
+      "description": "The service for which you are creating the business line.\n\n\n\nPossible values:\n*  **paymentProcessing**\n*  **banking**\n\n",
+      "enum": [
+        "paymentProcessing",
+        "banking"
+      ],
+      "type": "string"
+    },
+    "sourceOfFunds": {
+      "description": "Contains information about the source of your user's funds. Required only for the `service` **banking**.",
+      "$ref": "#/$defs/SourceOfFunds"
+    },
+    "webData": {
+      "description": "List of website URLs where your user's goods or services are sold. When this is required for a service but your user does not have an online presence, provide the reason in the `webDataExemption` object.",
+      "items": {
+        "$ref": "#/$defs/WebData"
+      },
+      "type": "array"
+    },
+    "webDataExemption": {
+      "description": "The reason why the web data is not provided.",
+      "$ref": "#/$defs/WebDataExemption"
+    }
+  },
+  "required": [
+    "service",
+    "industryCode",
+    "legalEntityId",
+    "id"
+  ],
+  "type": "object",
+  "$defs": {
+    "CapabilityProblem": {
+      "properties": {
+        "entity": {
+          "$ref": "#/$defs/CapabilityProblemEntity"
+        },
+        "verificationErrors": {
+          "items": {
+            "$ref": "#/$defs/VerificationError"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "CapabilityProblemEntity": {
+      "properties": {
+        "documents": {
+          "description": "List of document IDs corresponding to the verification errors from capabilities.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "id": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/$defs/CapabilityProblemEntity-recursive"
+        },
+        "type": {
+          "enum": [
+            "BankAccount",
+            "Document",
+            "LegalEntity",
+            "product"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "CapabilityProblemEntity-recursive": {
+      "properties": {
+        "documents": {
+          "description": "List of document IDs corresponding to the verification errors from capabilities.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "BankAccount",
+            "Document",
+            "LegalEntity",
+            "product"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "RemediatingAction": {
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "SourceOfFunds": {
+      "properties": {
+        "acquiringBusinessLineId": {
+          "deprecated": true,
+          "x-deprecatedInVersion": "3",
+          "x-deprecatedMessage": "This field will be removed in v4.",
+          "description": "The unique identifier of the business line that will be the source of funds.This must be a business line for a **receivePayments** or **receiveFromPlatformPayments** capability.",
+          "type": "string"
+        },
+        "adyenProcessedFunds": {
+          "description": "Indicates whether the funds are coming from transactions processed by Adyen. If **false**, a `description` is required.",
+          "type": "boolean"
+        },
+        "description": {
+          "description": "Text describing the source of funds. For example, for `type` **business**, provide a description of where the business transactions come from, such as payments through bank transfer. Required when `adyenProcessedFunds` is **false**.",
+          "type": "string"
+        },
+        "type": {
+          "description": "The type of the source of funds. Possible value: **business**.",
+          "enum": [
+            "business"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "VerificationError": {
+      "properties": {
+        "capabilities": {
+          "description": "Contains key-value pairs that specify the actions that the legal entity can do in your platform. The key is a capability required for your integration. For example, **issueCard** for Issuing.The value is an object containing the settings for the capability.",
+          "items": {
+            "enum": [
+              "acceptExternalFunding",
+              "acceptPspFunding",
+              "acceptTransactionInRestrictedCountries",
+              "acceptTransactionInRestrictedCountriesCommercial",
+              "acceptTransactionInRestrictedCountriesConsumer",
+              "acceptTransactionInRestrictedIndustries",
+              "acceptTransactionInRestrictedIndustriesCommercial",
+              "acceptTransactionInRestrictedIndustriesConsumer",
+              "acquiring",
+              "atmWithdrawal",
+              "atmWithdrawalCommercial",
+              "atmWithdrawalConsumer",
+              "atmWithdrawalInRestrictedCountries",
+              "atmWithdrawalInRestrictedCountriesCommercial",
+              "atmWithdrawalInRestrictedCountriesConsumer",
+              "authorisedPaymentInstrumentUser",
+              "getGrantOffers",
+              "issueBankAccount",
+              "issueCard",
+              "issueCardCommercial",
+              "issueCardConsumer",
+              "localAcceptance",
+              "payout",
+              "payoutToTransferInstrument",
+              "processing",
+              "receiveFromBalanceAccount",
+              "receiveFromPlatformPayments",
+              "receiveFromThirdParty",
+              "receiveFromTransferInstrument",
+              "receiveGrants",
+              "receivePayments",
+              "sendToBalanceAccount",
+              "sendToThirdParty",
+              "sendToTransferInstrument",
+              "thirdPartyFunding",
+              "useCard",
+              "useCardCommercial",
+              "useCardConsumer",
+              "useCardInRestrictedCountries",
+              "useCardInRestrictedCountriesCommercial",
+              "useCardInRestrictedCountriesConsumer",
+              "useCardInRestrictedIndustries",
+              "useCardInRestrictedIndustriesCommercial",
+              "useCardInRestrictedIndustriesConsumer",
+              "withdrawFromAtm",
+              "withdrawFromAtmCommercial",
+              "withdrawFromAtmConsumer",
+              "withdrawFromAtmInRestrictedCountries",
+              "withdrawFromAtmInRestrictedCountriesCommercial",
+              "withdrawFromAtmInRestrictedCountriesConsumer"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "code": {
+          "description": "The general error code.",
+          "type": "string"
+        },
+        "message": {
+          "description": "The general error message.",
+          "type": "string"
+        },
+        "remediatingActions": {
+          "description": "An object containing possible solutions to fix a verification error.",
+          "items": {
+            "$ref": "#/$defs/RemediatingAction"
+          },
+          "type": "array"
+        },
+        "subErrors": {
+          "description": "An array containing more granular information about the cause of the verification error.",
+          "items": {
+            "$ref": "#/$defs/VerificationError-recursive"
+          },
+          "type": "array"
+        },
+        "type": {
+          "description": "The type of error.",
+          "enum": [
+            "dataMissing",
+            "dataReview",
+            "invalidInput",
+            "pendingStatus",
+            "rejected"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "VerificationError-recursive": {
+      "properties": {
+        "capabilities": {
+          "description": "Contains key-value pairs that specify the actions that the legal entity can do in your platform. The key is a capability required for your integration. For example, **issueCard** for Issuing.The value is an object containing the settings for the capability.",
+          "items": {
+            "enum": [
+              "acceptExternalFunding",
+              "acceptPspFunding",
+              "acceptTransactionInRestrictedCountries",
+              "acceptTransactionInRestrictedCountriesCommercial",
+              "acceptTransactionInRestrictedCountriesConsumer",
+              "acceptTransactionInRestrictedIndustries",
+              "acceptTransactionInRestrictedIndustriesCommercial",
+              "acceptTransactionInRestrictedIndustriesConsumer",
+              "acquiring",
+              "atmWithdrawal",
+              "atmWithdrawalCommercial",
+              "atmWithdrawalConsumer",
+              "atmWithdrawalInRestrictedCountries",
+              "atmWithdrawalInRestrictedCountriesCommercial",
+              "atmWithdrawalInRestrictedCountriesConsumer",
+              "authorisedPaymentInstrumentUser",
+              "getGrantOffers",
+              "issueBankAccount",
+              "issueCard",
+              "issueCardCommercial",
+              "issueCardConsumer",
+              "localAcceptance",
+              "payout",
+              "payoutToTransferInstrument",
+              "processing",
+              "receiveFromBalanceAccount",
+              "receiveFromPlatformPayments",
+              "receiveFromThirdParty",
+              "receiveFromTransferInstrument",
+              "receiveGrants",
+              "receivePayments",
+              "sendToBalanceAccount",
+              "sendToThirdParty",
+              "sendToTransferInstrument",
+              "thirdPartyFunding",
+              "useCard",
+              "useCardCommercial",
+              "useCardConsumer",
+              "useCardInRestrictedCountries",
+              "useCardInRestrictedCountriesCommercial",
+              "useCardInRestrictedCountriesConsumer",
+              "useCardInRestrictedIndustries",
+              "useCardInRestrictedIndustriesCommercial",
+              "useCardInRestrictedIndustriesConsumer",
+              "withdrawFromAtm",
+              "withdrawFromAtmCommercial",
+              "withdrawFromAtmConsumer",
+              "withdrawFromAtmInRestrictedCountries",
+              "withdrawFromAtmInRestrictedCountriesCommercial",
+              "withdrawFromAtmInRestrictedCountriesConsumer"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "code": {
+          "description": "The general error code.",
+          "type": "string"
+        },
+        "message": {
+          "description": "The general error message.",
+          "type": "string"
+        },
+        "type": {
+          "description": "The type of error.",
+          "enum": [
+            "dataMissing",
+            "dataReview",
+            "invalidInput",
+            "pendingStatus",
+            "rejected"
+          ],
+          "type": "string"
+        },
+        "remediatingActions": {
+          "description": "An object containing possible solutions to fix a verification error.",
+          "items": {
+            "$ref": "#/$defs/RemediatingAction"
+          },
+          "type": "array"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "WebData": {
+      "properties": {
+        "webAddress": {
+          "description": "The URL of the website or the app store URL.",
+          "type": "string"
+        },
+        "webAddressId": {
+          "description": "The unique identifier of the web address.",
+          "readOnly": true,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "WebDataExemption": {
+      "properties": {
+        "reason": {
+          "description": "The reason why the web data was not provided. Possible value: **noOnlinePresence**.",
+          "enum": [
+            "noOnlinePresence",
+            "notCollectedDuringOnboarding"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

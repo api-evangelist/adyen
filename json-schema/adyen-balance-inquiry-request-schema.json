@@ -1,0 +1,598 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-balance-inquiry-request-schema.json",
+  "title": "BalanceInquiryRequest",
+  "description": "It conveys Information related to the account for which a Balance Inquiry is requested. Content of the Balance Inquiry Request message.",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-balanceinquiry-api-openapi.yml#/components/schemas/BalanceInquiryRequest",
+  "type": "object",
+  "properties": {
+    "PaymentAccountReq": {
+      "$ref": "#/$defs/PaymentAccountReq"
+    },
+    "LoyaltyAccountReq": {
+      "$ref": "#/$defs/LoyaltyAccountReq"
+    }
+  },
+  "$defs": {
+    "AccountType": {
+      "type": "string",
+      "enum": [
+        "CardTotals",
+        "Checking",
+        "CreditCard",
+        "Default",
+        "EpurseCard",
+        "Investment",
+        "Savings",
+        "Universal"
+      ]
+    },
+    "AllowedProduct": {
+      "type": "object",
+      "description": "Product that is payable by the payment card. Product codes that are payable by the payment card.",
+      "properties": {
+        "ProductCode": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20,
+          "description": "Product code of item purchased with the transaction."
+        },
+        "EanUpc": {
+          "type": "integer",
+          "description": "Standard product code of item purchased with the transaction."
+        },
+        "ProductLabel": {
+          "type": "string",
+          "pattern": "^.+$",
+          "description": "Product name of an item purchased with the transaction."
+        },
+        "AdditionalProductInfo": {
+          "type": "string",
+          "pattern": "^.+$",
+          "description": "Additionl information related to the line item."
+        }
+      },
+      "required": [
+        "ProductCode"
+      ]
+    },
+    "CardData": {
+      "type": "object",
+      "description": "Allows acquisition of the card data by the Sale System before the Payment, CardAcquisition  or BalanceInquiry request to the POI. It could also be sent in the CardAcquisition response, to be processed by the Sale System. Information related to the payment card used for the transaction.",
+      "properties": {
+        "PaymentBrand": {
+          "type": "string",
+          "pattern": "^.+$",
+          "description": "If card PAN is readable ."
+        },
+        "MaskedPan": {
+          "type": "string",
+          "pattern": "^.+$"
+        },
+        "PaymentAccountRef": {
+          "type": "string",
+          "pattern": "^.+$"
+        },
+        "EntryMode": {
+          "$ref": "#/$defs/EntryMode"
+        },
+        "CardCountryCode": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 3,
+          "description": "If available in the card."
+        },
+        "ProtectedCardData": {
+          "type": "string",
+          "description": "SensitiveCardData protected by CMS EnvelopedData."
+        },
+        "SensitiveCardData": {
+          "$ref": "#/$defs/SensitiveCardData"
+        },
+        "AllowedProductCode": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          }
+        },
+        "AllowedProduct": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AllowedProduct"
+          }
+        },
+        "PaymentToken": {
+          "$ref": "#/$defs/PaymentToken"
+        },
+        "CustomerOrder": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CustomerOrder"
+          }
+        }
+      }
+    },
+    "CheckData": {
+      "type": "object",
+      "description": "Allows the check information to be provided by the Sale System before requesting the payment, or stored by the Sale System after processing of the payment. Information related to the paper check used for the transaction.",
+      "properties": {
+        "BankID": {
+          "type": "string",
+          "pattern": "^.+$",
+          "description": "Mandatory if TrackData absent."
+        },
+        "AccountNumber": {
+          "type": "string",
+          "pattern": "^.+$",
+          "description": "Mandatory if TrackData absent."
+        },
+        "CheckNumber": {
+          "type": "string",
+          "pattern": "^.+$",
+          "description": "Mandatory if TrackData absent."
+        },
+        "TrackData": {
+          "$ref": "#/$defs/TrackData"
+        },
+        "CheckCardNumber": {
+          "type": "string",
+          "pattern": "^.+$",
+          "description": "If provided by the customer."
+        },
+        "TypeCode": {
+          "$ref": "#/$defs/TypeCode"
+        },
+        "Country": {
+          "type": "string",
+          "pattern": "^[A-Z]{3,3}$",
+          "description": "Absent if country of the Sale system."
+        }
+      }
+    },
+    "CustomerOrder": {
+      "type": "object",
+      "description": "Customer order attached to a customer, recorded in the POI system.  Allows the management of customer orders by the POI, for instance in a multi-channel or a click and collect sale transaction.",
+      "properties": {
+        "CustomerOrderID": {
+          "type": "string",
+          "pattern": "^.+$",
+          "description": "Additional and optional identification of a customer order."
+        },
+        "SaleReferenceID": {
+          "type": "string",
+          "pattern": "^.+$"
+        },
+        "OpenOrderState": {
+          "type": "boolean",
+          "default": true
+        },
+        "StartDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date time of the beginning of an operation."
+        },
+        "EndDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date time of the end of an operation."
+        },
+        "ForecastedAmount": {
+          "type": "number",
+          "maximum": 99999999.999999,
+          "minimum": 0
+        },
+        "CurrentAmount": {
+          "type": "number",
+          "maximum": 99999999.999999,
+          "minimum": 0,
+          "description": "Total amount of all completed transactions of a customer order."
+        },
+        "Currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3,3}$",
+          "description": "Currency of a monetary amount."
+        },
+        "AccessedBy": {
+          "type": "string",
+          "pattern": "^.+$"
+        },
+        "AdditionalInformation": {
+          "type": "string",
+          "pattern": "^.+$",
+          "description": "Unqualified information."
+        }
+      },
+      "required": [
+        "SaleReferenceID",
+        "StartDate",
+        "ForecastedAmount",
+        "CurrentAmount"
+      ]
+    },
+    "EntryMode": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Contactless",
+          "File",
+          "ICC",
+          "Keyed",
+          "MagStripe",
+          "Manual",
+          "Mobile",
+          "RFID",
+          "Scanned",
+          "SynchronousICC",
+          "Tapped"
+        ]
+      }
+    },
+    "GeographicCoordinates": {
+      "type": "object",
+      "properties": {
+        "Latitude": {
+          "type": "string",
+          "pattern": "^.+$"
+        },
+        "Longitude": {
+          "type": "string",
+          "pattern": "^.+$"
+        }
+      },
+      "required": [
+        "Latitude",
+        "Longitude"
+      ]
+    },
+    "Geolocation": {
+      "type": "object",
+      "properties": {
+        "GeographicCoordinates": {
+          "$ref": "#/$defs/GeographicCoordinates"
+        },
+        "UTMCoordinates": {
+          "$ref": "#/$defs/UTMCoordinates"
+        }
+      }
+    },
+    "IdentificationSupport": {
+      "type": "string",
+      "enum": [
+        "HybridCard",
+        "LinkedCard",
+        "LoyaltyCard",
+        "NoCard"
+      ]
+    },
+    "IdentificationType": {
+      "type": "string",
+      "enum": [
+        "AccountNumber",
+        "BarCode",
+        "ISOTrack2",
+        "PAN",
+        "PhoneNumber"
+      ]
+    },
+    "LoyaltyAccountID": {
+      "type": "object",
+      "description": "In the Payment or the Loyalty Request message, it allows to identify the loyalty account by the Sale Terminal instead of the POI Terminal (e.g. because the account identification is a bar-code read by the Cashier on a scanner device). Identification of a Loyalty account.",
+      "properties": {
+        "EntryMode": {
+          "$ref": "#/$defs/EntryMode"
+        },
+        "IdentificationType": {
+          "$ref": "#/$defs/IdentificationType"
+        },
+        "IdentificationSupport": {
+          "$ref": "#/$defs/IdentificationSupport"
+        },
+        "LoyaltyID": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "EntryMode",
+        "IdentificationType",
+        "LoyaltyID"
+      ]
+    },
+    "LoyaltyAccountReq": {
+      "type": "object",
+      "properties": {
+        "CardAcquisitionReference": {
+          "$ref": "#/$defs/TransactionIDType"
+        },
+        "LoyaltyAccountID": {
+          "$ref": "#/$defs/LoyaltyAccountID"
+        }
+      }
+    },
+    "MobileData": {
+      "type": "object",
+      "description": "Mobile phone is used as a payment instrument for the transaction. Information related to the mobile for the payment transaction.",
+      "properties": {
+        "MobileCountryCode": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 3,
+          "description": "If data available."
+        },
+        "MobileNetworkCode": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 3,
+          "description": "If data available."
+        },
+        "MaskedMSISDN": {
+          "type": "integer",
+          "description": "If data available."
+        },
+        "Geolocation": {
+          "$ref": "#/$defs/Geolocation"
+        },
+        "ProtectedMobileData": {
+          "type": "string",
+          "description": "SensitiveMobileData."
+        },
+        "SensitiveMobileData": {
+          "$ref": "#/$defs/SensitiveMobileData"
+        }
+      }
+    },
+    "PaymentAccountReq": {
+      "type": "object",
+      "properties": {
+        "AccountType": {
+          "$ref": "#/$defs/AccountType"
+        },
+        "CardAcquisitionReference": {
+          "$ref": "#/$defs/TransactionIDType"
+        },
+        "PaymentInstrumentData": {
+          "$ref": "#/$defs/PaymentInstrumentData"
+        }
+      }
+    },
+    "PaymentInstrumentData": {
+      "type": "object",
+      "description": "Sent in the result of the payment transaction. For a card, it could also be sent in the CardAcquisition response, to be processed by the Sale System. Data related to the instrument of payment for the transaction.",
+      "properties": {
+        "PaymentInstrumentType": {
+          "$ref": "#/$defs/PaymentInstrumentType"
+        },
+        "ProtectedCardData": {
+          "type": "string"
+        },
+        "CardData": {
+          "$ref": "#/$defs/CardData"
+        },
+        "CheckData": {
+          "$ref": "#/$defs/CheckData"
+        },
+        "MobileData": {
+          "$ref": "#/$defs/MobileData"
+        },
+        "StoredValueAccountID": {
+          "$ref": "#/$defs/StoredValueAccountID"
+        }
+      },
+      "required": [
+        "PaymentInstrumentType"
+      ]
+    },
+    "PaymentInstrumentType": {
+      "type": "string",
+      "enum": [
+        "Card",
+        "Cash",
+        "Check",
+        "Mobile",
+        "StoredValue"
+      ]
+    },
+    "PaymentToken": {
+      "type": "object",
+      "description": "Surrogate of the PAN (Primary Account Number) of the payment card to  identify the payment mean of the customer. It allows, for a merchant, to identify   the customer.",
+      "properties": {
+        "TokenRequestedType": {
+          "$ref": "#/$defs/TokenRequestedType"
+        },
+        "TokenValue": {
+          "type": "string",
+          "pattern": "^.+$"
+        },
+        "ExpiryDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Expiry date and time. Limits the validity of a payment token."
+        }
+      },
+      "required": [
+        "TokenRequestedType",
+        "TokenValue"
+      ]
+    },
+    "SensitiveCardData": {
+      "type": "object",
+      "description": "This data structure could be CMS protected (EnvelopedData). In this case the data structure SensitiveCardData is replaced by the data structure ProtectedCardData of type ContentInformationType. When this data is protected, the exact content is unknown by the Sale System, and might include all the information which are required by an external backup POI Server to make a batch payment transaction in case of problem with the POI System. Sensitive information related to the payment card, entered or read by the Sale System.",
+      "properties": {
+        "PAN": {
+          "type": "integer",
+          "minimum": 8,
+          "maximum": 28
+        },
+        "CardSeqNumb": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 3,
+          "description": "if EntryMode is File, Keyed or Manual."
+        },
+        "ExpiryDate": {
+          "type": "integer",
+          "minimum": 4,
+          "maximum": 4,
+          "description": "if EntryMode is File."
+        },
+        "TrackData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TrackData"
+          }
+        }
+      }
+    },
+    "SensitiveMobileData": {
+      "type": "object",
+      "properties": {
+        "MSISDN": {
+          "type": "integer"
+        },
+        "ISMI": {
+          "type": "integer"
+        },
+        "IMEI": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "MSISDN"
+      ]
+    },
+    "StoredValueAccountID": {
+      "type": "object",
+      "description": "It contains the identifications of the stored value account or the stored value card, and the associated product sold by the Sale System for stored value requests. Identification of the stored value account or the stored value card.",
+      "properties": {
+        "StoredValueAccountType": {
+          "$ref": "#/$defs/StoredValueAccountType"
+        },
+        "StoredValueProvider": {
+          "type": "string",
+          "pattern": "^.+$"
+        },
+        "OwnerName": {
+          "type": "string",
+          "pattern": "^.+$"
+        },
+        "ExpiryDate": {
+          "type": "integer",
+          "minimum": 4,
+          "maximum": 4
+        },
+        "EntryMode": {
+          "$ref": "#/$defs/EntryMode"
+        },
+        "IdentificationType": {
+          "$ref": "#/$defs/IdentificationType"
+        },
+        "StoredValueID": {
+          "type": "string",
+          "pattern": "^.+$"
+        }
+      },
+      "required": [
+        "StoredValueAccountType",
+        "EntryMode",
+        "IdentificationType",
+        "StoredValueID"
+      ]
+    },
+    "StoredValueAccountType": {
+      "type": "string",
+      "enum": [
+        "GiftCard",
+        "Other",
+        "PhoneCard"
+      ]
+    },
+    "TokenRequestedType": {
+      "type": "string",
+      "enum": [
+        "Customer",
+        "Transaction"
+      ]
+    },
+    "TrackData": {
+      "type": "object",
+      "description": "ISO 7813 - ISO 4909.  Generic data structure for a card track, used when the magstripe card reader is located on the Sale Terminal, or for magstripe Card Reader device request. The data structure is also used to store the line at the bottom of a bank check. Magnetic track or magnetic ink characters line.",
+      "properties": {
+        "TrackNumb": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3,
+          "default": 2
+        },
+        "TrackFormat": {
+          "$ref": "#/$defs/TrackFormat"
+        },
+        "TrackValue": {
+          "type": "string",
+          "pattern": "^.{1,104}$"
+        }
+      },
+      "required": [
+        "TrackValue"
+      ]
+    },
+    "TrackFormat": {
+      "type": "string",
+      "enum": [
+        "AAMVA",
+        "ISO"
+      ]
+    },
+    "TransactionIDType": {
+      "type": "object",
+      "description": "Identification of a transaction for the Sale System or the POI System.",
+      "properties": {
+        "TransactionID": {
+          "type": "string",
+          "pattern": "^.+$"
+        },
+        "TimeStamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "TransactionID",
+        "TimeStamp"
+      ]
+    },
+    "TypeCode": {
+      "type": "string",
+      "enum": [
+        "Company",
+        "Personal"
+      ]
+    },
+    "UTMCoordinates": {
+      "type": "object",
+      "properties": {
+        "UTMZone": {
+          "type": "string",
+          "pattern": "^.+$"
+        },
+        "UTMEastward": {
+          "type": "string",
+          "pattern": "^.+$"
+        },
+        "UTMNorthward": {
+          "type": "string",
+          "pattern": "^.+$"
+        }
+      },
+      "required": [
+        "UTMZone",
+        "UTMEastward",
+        "UTMNorthward"
+      ]
+    }
+  }
+}

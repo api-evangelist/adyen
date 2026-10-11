@@ -1,0 +1,230 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-card-acquisition-request-schema.json",
+  "title": "CardAcquisitionRequest",
+  "description": "It conveys Information related to the payment and loyalty cards to read and analyse. This message pair is usually followed by a message pair (e.g. payment or loyalty) which refers to this Card Acquisition message pair. Content of the Card Acquisition Request message.",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-cardacquisition-api-openapi.yml#/components/schemas/CardAcquisitionRequest",
+  "type": "object",
+  "properties": {
+    "SaleData": {
+      "$ref": "#/$defs/SaleData"
+    },
+    "CardAcquisitionTransaction": {
+      "$ref": "#/$defs/CardAcquisitionTransaction"
+    }
+  },
+  "required": [
+    "SaleData",
+    "CardAcquisitionTransaction"
+  ],
+  "$defs": {
+    "CardAcquisitionTransaction": {
+      "type": "object",
+      "properties": {
+        "AllowedPaymentBrand": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^.+$"
+          }
+        },
+        "AllowedLoyaltyBrand": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^.+$"
+          }
+        },
+        "LoyaltyHandling": {
+          "$ref": "#/$defs/LoyaltyHandling"
+        },
+        "CustomerLanguage": {
+          "type": "string",
+          "pattern": "^[a-z]{2,2}$"
+        },
+        "ForceEntryMode": {
+          "$ref": "#/$defs/ForceEntryMode"
+        },
+        "ForceCustomerSelectionFlag": {
+          "type": "boolean"
+        },
+        "TotalAmount": {
+          "type": "number",
+          "maximum": 99999999.999999,
+          "minimum": 0
+        },
+        "PaymentType": {
+          "$ref": "#/$defs/PaymentType"
+        },
+        "CashBackFlag": {
+          "type": "boolean"
+        }
+      }
+    },
+    "CustomerOrderReq": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Both",
+          "Closed",
+          "Open"
+        ]
+      }
+    },
+    "ForceEntryMode": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "CheckReader",
+          "Contactless",
+          "File",
+          "ICC",
+          "Keyed",
+          "MagStripe",
+          "Manual",
+          "RFID",
+          "Scanned",
+          "SynchronousICC",
+          "Tapped"
+        ]
+      }
+    },
+    "LoyaltyHandling": {
+      "type": "string",
+      "enum": [
+        "Allowed",
+        "Forbidden",
+        "Processed",
+        "Proposed",
+        "Required"
+      ]
+    },
+    "PaymentType": {
+      "type": "string",
+      "enum": [
+        "CashAdvance",
+        "CashDeposit",
+        "Completion",
+        "FirstReservation",
+        "Instalment",
+        "IssuerInstalment",
+        "Normal",
+        "OneTimeReservation",
+        "PaidOut",
+        "Recurring",
+        "Refund",
+        "UpdateReservation"
+      ]
+    },
+    "SaleData": {
+      "type": "object",
+      "description": "Data associated to the Sale System, with a particular value during the processing of the payment by the POI, including the cards acquisition. Data related to the Sale System.",
+      "properties": {
+        "OperatorID": {
+          "type": "string",
+          "pattern": "^.+$"
+        },
+        "OperatorLanguage": {
+          "type": "string",
+          "pattern": "^[a-z]{2,2}$",
+          "description": "if different from the Login."
+        },
+        "ShiftNumber": {
+          "type": "string",
+          "pattern": "^.+$",
+          "description": "if different from the Login and  see Login .SaleData."
+        },
+        "SaleTransactionID": {
+          "$ref": "#/$defs/TransactionIDType"
+        },
+        "SaleReferenceID": {
+          "type": "string",
+          "pattern": "^.+$",
+          "description": "If payment reservation."
+        },
+        "SaleTerminalData": {
+          "$ref": "#/$defs/SaleTerminalData"
+        },
+        "TokenRequestedType": {
+          "$ref": "#/$defs/TokenRequestedType"
+        },
+        "CustomerOrderID": {
+          "type": "string",
+          "pattern": "^.+$",
+          "description": "Additional and optional identification of a customer order."
+        },
+        "CustomerOrderReq": {
+          "$ref": "#/$defs/CustomerOrderReq"
+        },
+        "SaleToPOIData": {
+          "type": "string",
+          "pattern": "^.+$",
+          "description": "Stored with the transaction."
+        },
+        "SaleToAcquirerData": {
+          "type": "string",
+          "pattern": "^.+$",
+          "description": "Send to the Acquirer if present."
+        },
+        "SaleToIssuerData": {
+          "$ref": "#/$defs/SaleToIssuerData"
+        }
+      },
+      "required": [
+        "SaleTransactionID"
+      ]
+    },
+    "SaleTerminalData": {
+      "type": "object",
+      "description": "In the Login Request, if a Sale Terminal is involved in the login. In other messages, when a logical device is out of order (SaleCapabilites), or when the other data have changed since or were not in the Login. Information related to the software and hardware feature of the Sale Terminal.",
+      "properties": {
+        "TotalsGroupID": {
+          "type": "string",
+          "pattern": "^.{1,16}$",
+          "description": "If present, default value for all transaction."
+        }
+      }
+    },
+    "SaleToIssuerData": {
+      "type": "object",
+      "description": "The POI System receives this information and sends it to the Acquirer for the Issuer without any change. Sale information intended for the Issuer.",
+      "properties": {
+        "StatementReference": {
+          "type": "string",
+          "pattern": "^.+$",
+          "description": "Information to print on the bank statement."
+        }
+      }
+    },
+    "TokenRequestedType": {
+      "type": "string",
+      "enum": [
+        "Customer",
+        "Transaction"
+      ]
+    },
+    "TransactionIDType": {
+      "type": "object",
+      "description": "Identification of a transaction for the Sale System or the POI System.",
+      "properties": {
+        "TransactionID": {
+          "type": "string",
+          "pattern": "^.+$"
+        },
+        "TimeStamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "TransactionID",
+        "TimeStamp"
+      ]
+    }
+  }
+}

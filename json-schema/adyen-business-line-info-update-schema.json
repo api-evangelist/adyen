@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-business-line-info-update-schema.json",
+  "title": "BusinessLineInfoUpdate",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-businesslines-api-openapi.yml#/components/schemas/BusinessLineInfoUpdate",
+  "properties": {
+    "capability": {
+      "deprecated": true,
+      "x-deprecatedInVersion": "3",
+      "x-deprecatedMessage": "Use `service` instead.",
+      "description": "The capability for which you are creating the business line. For example, **receivePayments**.",
+      "enum": [
+        "receivePayments",
+        "receiveFromPlatformPayments",
+        "issueBankAccount"
+      ],
+      "type": "string"
+    },
+    "industryCode": {
+      "description": "A code that represents the industry of your legal entity. For example, **4431A** for computer software stores.",
+      "type": "string"
+    },
+    "legalEntityId": {
+      "description": "Unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/legalEntities__resParam_id) that owns the business line.",
+      "type": "string"
+    },
+    "salesChannels": {
+      "description": "A list of channels where goods or services are sold.\n\nPossible values: **pos**, **posMoto**, **eCommerce**, **ecomMoto**, **payByLink**.\n\nRequired only in combination with the `service` **paymentProcessing**.",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "service": {
+      "x-addedInVersion": "3",
+      "description": "The service for which you are creating the business line.\n\n\n\nPossible values:\n*  **paymentProcessing**\n*  **banking**\n\n",
+      "enum": [
+        "paymentProcessing",
+        "banking"
+      ],
+      "type": "string"
+    },
+    "sourceOfFunds": {
+      "description": "Contains information about the source of your user's funds. Required only for the `service` **banking**.",
+      "$ref": "#/$defs/SourceOfFunds"
+    },
+    "webData": {
+      "description": "List of website URLs where your user's goods or services are sold. When this is required for a service but your user does not have an online presence, provide the reason in the `webDataExemption` object.",
+      "items": {
+        "$ref": "#/$defs/WebData"
+      },
+      "type": "array"
+    },
+    "webDataExemption": {
+      "description": "The reason why the web data is not provided.",
+      "$ref": "#/$defs/WebDataExemption"
+    }
+  },
+  "type": "object",
+  "$defs": {
+    "SourceOfFunds": {
+      "properties": {
+        "acquiringBusinessLineId": {
+          "deprecated": true,
+          "x-deprecatedInVersion": "3",
+          "x-deprecatedMessage": "This field will be removed in v4.",
+          "description": "The unique identifier of the business line that will be the source of funds.This must be a business line for a **receivePayments** or **receiveFromPlatformPayments** capability.",
+          "type": "string"
+        },
+        "adyenProcessedFunds": {
+          "description": "Indicates whether the funds are coming from transactions processed by Adyen. If **false**, a `description` is required.",
+          "type": "boolean"
+        },
+        "description": {
+          "description": "Text describing the source of funds. For example, for `type` **business**, provide a description of where the business transactions come from, such as payments through bank transfer. Required when `adyenProcessedFunds` is **false**.",
+          "type": "string"
+        },
+        "type": {
+          "description": "The type of the source of funds. Possible value: **business**.",
+          "enum": [
+            "business"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "WebData": {
+      "properties": {
+        "webAddress": {
+          "description": "The URL of the website or the app store URL.",
+          "type": "string"
+        },
+        "webAddressId": {
+          "description": "The unique identifier of the web address.",
+          "readOnly": true,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "WebDataExemption": {
+      "properties": {
+        "reason": {
+          "description": "The reason why the web data was not provided. Possible value: **noOnlinePresence**.",
+          "enum": [
+            "noOnlinePresence",
+            "notCollectedDuringOnboarding"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

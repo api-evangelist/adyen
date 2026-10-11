@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-capital-grant-info-schema.json",
+  "title": "CapitalGrantInfo",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-grants-api-openapi.yml#/components/schemas/CapitalGrantInfo",
+  "properties": {
+    "counterparty": {
+      "description": "An object containing the details of the receiving party of the grant. Setting either an `accountHolderId`, `balanceAccountId`, or both is required.",
+      "$ref": "#/$defs/Counterparty"
+    },
+    "grantAccountId": {
+      "description": "The identifier of the grant account used for the grant.",
+      "type": "string"
+    },
+    "grantOfferId": {
+      "description": "The identifier of the grant offer that has been selected and from which the grant details will be used.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "grantAccountId",
+    "grantOfferId"
+  ],
+  "type": "object",
+  "$defs": {
+    "Counterparty": {
+      "properties": {
+        "accountHolderId": {
+          "description": "The identifier of the receiving account holder. The payout will default to the primary balance account of this account holder if no `balanceAccountId` is provided.",
+          "type": "string"
+        },
+        "balanceAccountId": {
+          "description": "The identifier of the balance account that belongs to the receiving account holder.",
+          "type": "string"
+        },
+        "transferInstrumentId": {
+          "description": "The identifier of the transfer instrument that belongs to the legal entity of the account holder.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

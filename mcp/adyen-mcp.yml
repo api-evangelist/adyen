@@ -1,0 +1,56 @@
+name: Adyen MCP Server
+generated: '2026-10-12'
+method: searched
+source:
+- https://github.com/Adyen/adyen-mcp
+- https://docs.adyen.com/development-resources/mcp-server.md
+status: official
+url: https://github.com/Adyen/adyen-mcp
+deployment:
+  mode: local-stdio
+  install: npx -y @adyen/mcp --adyenApiKey=ADYEN_API_KEY --env=TEST
+  package: https://www.npmjs.com/package/@adyen/mcp
+  auth: api-key
+  verified: searched
+package:
+  registry: npm
+  name: '@adyen/mcp'
+  version: 0.6.0
+  published: '2026-08-24'
+tool_evidence:
+  l3: list
+  note: The README lists supported capabilities as REST operations grouped by API (Checkout Sessions, Payment Links, Modifications; Management Accounts, Terminals, Webhooks, Payment methods, Users). Only
+    two tool identifiers are published verbatim (--tools example). We did not call the server.
+  documented_tool_names:
+  - list_all_company_webhooks
+  - list_all_merchant_webhooks
+  evidence_url: https://github.com/Adyen/adyen-mcp
+capabilities:
+- POST /sessions
+- GET /sessions/{sessionId}
+- POST /paymentMethods
+- POST /paymentLinks
+- GET /paymentLinks/{linkId}
+- PATCH /paymentLinks/{linkId}
+- POST /payments/{paymentPspReference}/cancels
+- POST /payments/{paymentPspReference}/refunds
+- GET /merchants
+- GET /terminals
+- POST /terminals/{terminalId}/reassign
+- GET /companies/{companyId}/androidApps
+- GET /companies/{companyId}/androidApps/{id}
+- GET /companies/{companyId}/androidCertificates
+- POST /terminals/scheduleActions
+- GET /companies/{companyId}/terminalActions
+- GET /companies/{companyId}/terminalSettings
+- PATCH /companies/{companyId}/terminalSettings
+- GET /companies/{companyId}/webhooks
+- GET /merchants/{merchantId}/webhooks
+- GET /companies/{companyId}/webhooks/{webhookId}
+- GET /merchants/{merchantId}/webhooks/{webhookId}
+- POST /companies/{companyId}/webhooks/{webhookId}/test
+- POST /merchants/{merchantId}/webhooks/{webhookId}/test
+- GET /merchants/{merchantId}/paymentMethodSettings
+- GET /merchants/{merchantId}/paymentMethodSettings/{paymentMethodId}
+- GET /companies/{companyId}/users
+- GET /merchants/{merchantId}/users

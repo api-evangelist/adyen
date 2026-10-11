@@ -1,0 +1,670 @@
+name: Adyen API error codes
+generated: '2026-10-12'
+method: searched
+source: https://docs.adyen.com/development-resources/error-codes
+format: adyen-error-envelope
+envelope:
+  fields:
+  - status
+  - errorCode
+  - message
+  - errorType
+  - pspReference
+  errorType_values:
+  - internal
+  - validation
+  - security
+  - configuration
+note: Adyen error codes are returned with a non-2xx HTTP status; the page does not map each errorCode to a single HTTP status, so status is the example value from the page (422) only for the envelope.
+problems:
+- status: non-2xx
+  code: '000'
+  title: Multiple messages
+- status: non-2xx
+  code: '010'
+  title: Not allowed
+  description: '* The API credential is missing required roles. * The user API is incorrect. * You are making a third-party payment or card acquisition request to your terminals.'
+- status: non-2xx
+  code: '100'
+  title: Required object 'amount' is not provided
+  description: Missing parameter
+  remediation: '* Add the missing parameter(s) `amount` or `originalReference`. * Compare your request with a standard request for that endpoint, and identify missing parameters.'
+- status: non-2xx
+  code: '101'
+  title: Invalid card number
+  description: '* Incorrect card number or length. * Incorrect capitalization of `PaRes`.'
+- status: non-2xx
+  code: '102'
+  title: Unable to determine variant
+  description: The card number field contains an incorrect value.
+- status: non-2xx
+  code: '103'
+  title: CVC is not the right length
+  description: '* The Card Validation Code (CVC) is not valid. * The CVC is alphanumeric instead of numeric-only. * There are more than three digits. * (American Express) There are more than four digits.'
+- status: non-2xx
+  code: '104'
+  title: Billing address problem
+  description: Missing a required field under `billingAddress`.
+  remediation: Check the `billingAddress` object for missing fields.
+- status: non-2xx
+  code: '105'
+  title: Invalid paRes from issuer
+  description: The issuer returns an URL-encoded `PaRes` or `MD`.
+  remediation: 'URL-decode the `PaRes` and `MD` before submitting them in the /payments/details request. * **Cause**: The issuer returns the correct `PaRes` value, but the parameter name is different from
+    `PaRes`, for example `PaResponse` or `paRes` **Solution**: Adyen only accepts this parameter as `PaRes`. If the issuer has returned something different, make sure that you change it to `PaRes` before
+    submitting '
+- status: non-2xx
+  code: '106'
+  title: This session was already used previously
+- status: non-2xx
+  code: '107'
+  title: Recurring is not enabled
+  description: Missing user permission.
+  remediation: Add the **Merchant Recurring** role to the associated web service user.
+- status: non-2xx
+  code: '108'
+  title: Invalid bankaccount number
+  description: The IBAN is incorrect.
+- status: non-2xx
+  code: '109'
+  title: Invalid variant
+  description: Missing `txvariant` details.
+  remediation: Check the `requestData` and pass the details correctly.
+- status: non-2xx
+  code: '110'
+  title: BankDetails missing
+  description: '* The IBAN is missing. * The IBAN is incorrect.'
+- status: non-2xx
+  code: '111'
+  title: Invalid BankCountryCode specified
+  description: '* The parameter name is spelled incorrectly. * The value passed for `countryCode` is not following the ISO standard.'
+  remediation: '* Confirm the parameter name spelling in the Adyen API Explorer. * Check that the `countryCode` value corresponds to a country and is spelled correctly; for example, use **DE** for Germany.'
+- status: non-2xx
+  code: '112'
+  title: This bank country is not supported
+  description: '* `countryCode` length does not follow the ISO standard. * `countryCode` does not exist.'
+- status: non-2xx
+  code: '113'
+  title: No InvoiceLines provided
+  description: Invoice lines are missing in the `requestData`.
+- status: non-2xx
+  code: '114'
+  title: Received an incorrect InvoiceLine
+  description: Incorrect currency used, or the `lineReference` is **null**.
+  remediation: Check the invoice line against the `requestData`.
+- status: non-2xx
+  code: '115'
+  title: Total amount is not the same as the sum of the lines
+  description: '`linesTotalQuantity` is not equal to `request.getAmount().getValue()`.'
+- status: non-2xx
+  code: '116'
+  title: Invalid date of birth
+  description: The `dateOfBirth` format is incorrect.
+  remediation: Check the date and format in the `dateOfBirth` parameter.
+- status: non-2xx
+  code: '117'
+  title: Invalid billing address
+  description: The `billingAddress` object does not contain all the required fields.
+  remediation: Check the required parameters in the API Explorer.
+- status: non-2xx
+  code: '118'
+  title: Invalid delivery address
+  description: '* The `deliveryAddress` is **null**. * The `deliveryAddress` format is invalid.'
+- status: non-2xx
+  code: '119'
+  title: Invalid shopper name
+  description: The `shopperName` is **null**.
+- status: non-2xx
+  code: '120'
+  title: Required field 'shopperEmail' is not provided
+  description: '* The `shopperEmail` is missing. * The `shopperEmail` format is invalid.'
+- status: non-2xx
+  code: '121'
+  title: Required field 'shopperReference' is not provided
+  description: '* The `shopperReference` is **null**. * Recurring requires `shopperReference`.'
+- status: non-2xx
+  code: '122'
+  title: Required field 'telephoneNumber' is not provided.
+  description: The `phoneNumber` or `telephoneNumber` is **null**.
+- status: non-2xx
+  code: '124'
+  title: Invalid PhoneNumber
+- status: non-2xx
+  code: '125'
+  title: Invalid recurring contract specified
+  description: The recurring object is not passed correctly.
+  remediation: Check the `requestData` and make sure the recurring object is correct.
+- status: non-2xx
+  code: '126'
+  title: Bank Account or Bank Location Id not valid or missing
+- status: non-2xx
+  code: '127'
+  title: Required field 'accountHolderName' is not provided
+- status: non-2xx
+  code: '128'
+  title: Required field 'card.holderName' is not provided
+- status: non-2xx
+  code: '129'
+  title: Expiry Date Invalid
+  description: '* The value is not numeric. * The value contains an empty space. * The expiry month is not set. * The month value is not between **1** and **12**.'
+  remediation: Check the input passed into field.
+- status: non-2xx
+  code: '130'
+  title: Reference Missing
+  description: '* The `reference` parameter is missing. * The `requestData` is missing multiple parameters.'
+  remediation: Check if the `reference` parameter is passed correctly.
+- status: non-2xx
+  code: '131'
+  title: Required field 'billingAddress.city' is not provided
+- status: non-2xx
+  code: '132'
+  title: Required field 'billingAddress.street' is not provided
+- status: non-2xx
+  code: '133'
+  title: Required field 'billingAddress.houseNumberOrName' is not provided
+- status: non-2xx
+  code: '134'
+  title: Billing address problem (Country)
+- status: non-2xx
+  code: '135'
+  title: Required field 'billingAddress.stateOrProvince' is not provided
+- status: non-2xx
+  code: '136'
+  title: Failed to retrieve OpenInvoiceLines
+- status: non-2xx
+  code: '137'
+  title: Field 'amount' is not valid
+  description: '* The `amount` passed is greater than the limit. * The `amount` passed is not a positive number.'
+  remediation: Check the input.
+- status: non-2xx
+  code: '138'
+  title: Field 'currency' is not valid
+  description: The provided currency is not supported.
+- status: non-2xx
+  code: '139'
+  title: Recurring requires 'shopperEmail' and 'shopperReference'
+  description: The `shopperReference` and `shopperEmail` are missing.
+- status: non-2xx
+  code: '140'
+  title: Invalid expiryMonth\[1..12] / expiryYear\[>2000], or before now
+- status: non-2xx
+  code: '141'
+  title: Invalid expiryMonth\[1..12] / expiryYear\[>2000]
+- status: non-2xx
+  code: '142'
+  title: Bank Name or Bank Location not valid or missing
+- status: non-2xx
+  code: '143'
+  title: Submitted total iDEAL merchantReturnUrl length is {0}, but max size is {1} for this request
+- status: non-2xx
+  code: '144'
+  title: Invalid startMonth\[1..12] / startYear\[>2000], or in the future
+- status: non-2xx
+  code: '145'
+  title: Invalid issuer countryCode
+- status: non-2xx
+  code: '146'
+  title: Invalid social security number
+- status: non-2xx
+  code: '147'
+  title: Required field 'deliveryAddress.city' is not provided
+- status: non-2xx
+  code: '148'
+  title: Required field 'deliveryAddress.street' is not provided
+  description: You are not sending all parameters.
+  remediation: 'Pass all required parameters. * **Cause**: You are sending all parameters, but the value is empty. **Solution**: Make sure that you pass data in each parameter.'
+- status: non-2xx
+  code: '149'
+  title: Required field 'deliveryAddress.houseNumberOrName' is not provided
+- status: non-2xx
+  code: '150'
+  title: Delivery address problem (Country)
+- status: non-2xx
+  code: '151'
+  title: Required field 'deliveryAddress.stateOrProvince' is not provided
+  description: '`stateOrProvince` field is missing in delivery address and is required for the selected country.'
+- status: non-2xx
+  code: '152'
+  title: Invalid number of installments
+  description: '* Installment value is zero. * The payment method is not set up with **installment**.'
+  remediation: '* Check the `requestData`. * Configure **installment** under the specific payment method; for example, Visa.'
+- status: non-2xx
+  code: '153'
+  title: Invalid CVC
+  description: '* The Card Validation Code (CVC) is not numeric. * The CVC contains invalid values.'
+  remediation: Check the CVC input.
+- status: non-2xx
+  code: '154'
+  title: No additional data specified
+- status: non-2xx
+  code: '155'
+  title: No acquirer specified
+- status: non-2xx
+  code: '156'
+  title: No authorisation mid specified
+- status: non-2xx
+  code: '157'
+  title: No fields specified
+- status: non-2xx
+  code: '158'
+  title: Required field {0} not provided
+  description: 'One of the following fields is missing: * `initialPspReference` * `orderReference` * `ownerName` * `reference`'
+  remediation: Supply the missing value.
+- status: non-2xx
+  code: '159'
+  title: Invalid number of requests
+- status: non-2xx
+  code: '160'
+  title: Not allowed to store Payout Details
+- status: non-2xx
+  code: '161'
+  title: Invalid iban
+  description: '* The IBAN is incorrect. * There is a mismatch between IBAN and country. * The bank does not support SEPA direct debit.'
+  remediation: '* Verify the IBAN number. * Check if IBAN is supported for the specified `countryCode`.'
+- status: non-2xx
+  code: '162'
+  title: Inconsistent iban
+  description: '* Swift Code / BIC does not exist - SEPA/Giro/Direct Debit. * Payout party/account BIC/Swift invalid. * Bank/mt940 - Invalid BIC/Swift in co-relation to `countryCode`. * Exceeded IBAN characters/digits.'
+- status: non-2xx
+  code: '163'
+  title: Invalid bic
+- status: non-2xx
+  code: '164'
+  title: Auto capture delay invalid or out of range
+- status: non-2xx
+  code: '165'
+  title: MandateId does not match pattern
+- status: non-2xx
+  code: '166'
+  title: Amount not allowed for this operation
+- status: non-2xx
+  code: '167'
+  title: Original pspReference required for this operation
+  description: The original PSP in the `requestData` field is missing.
+- status: non-2xx
+  code: '168'
+  title: AuthorisationCode required for this operation
+- status: non-2xx
+  code: '170'
+  title: Generation Date required but missing
+- status: non-2xx
+  code: '171'
+  title: Unable to parse Generation Date
+- status: non-2xx
+  code: '172'
+  title: Encrypted data used outside of valid time period
+  description: Your server-side date/time is not set up correctly. For example, your server side is set to 1975 when it is 2020, or the date is not within 24 hours of the current time.
+  remediation: Check the server-side date/time configuration.
+- status: non-2xx
+  code: '173'
+  title: Unable to load Private Key for decryption
+- status: non-2xx
+  code: '174'
+  title: Unable to decrypt data
+  description: '* Using `HTTP GET` instead of `HTTP POST`. * Environment mismatch (LIVE or TEST). * The Origin key/Client key was not generated correctly. * API key should match the API key from the web
+    service user, and should match the environment.'
+  remediation: If you are seeing this using a plugin, generate a new web service user with the relevant permissions.
+- status: non-2xx
+  code: '175'
+  title: Unable to parse JSON data
+  description: Make sure that the parameters sent are formatted correctly in JSON.
+  remediation: Read through the `requestData` to find the error.
+- status: non-2xx
+  code: '180'
+  title: Invalid shopperReference
+  description: '`shopperReference` is empty, doesn''t exist, or is not found.'
+- status: non-2xx
+  code: '181'
+  title: Invalid shopperEmail
+  description: '`shopperEmail` is empty, doesn''t exist, or is not found.'
+- status: non-2xx
+  code: '182'
+  title: Invalid selected brand
+  description: The selected brand is not equal to the brand on the stored token, or empty.
+- status: non-2xx
+  code: '183'
+  title: Invalid recurring contract
+  description: Not found in Recharge.
+- status: non-2xx
+  code: '184'
+  title: Invalid recurring detail name
+  description: '* Value is empty or **null**. * The name doesn''t match with the `recurringDetail` name.'
+- status: non-2xx
+  code: '185'
+  title: Invalid additionalData
+  description: Too many fields/entries.
+  remediation: 'Make sure that the number of items in the object is less than 1000. * **Cause**: The `splitPayment` is missing or invalid. **Solution**: Check the `additionalData` object for errors or missing
+    data. If any `additionalData` is not valid, remove it from modification processing. For example, a payment can go through, but a split will not. * **Cause**: `adyenGivingAccount` is not specified, cannot
+    be '
+- status: non-2xx
+  code: '186'
+  title: Missing additionalData field
+- status: non-2xx
+  code: '187'
+  title: Invalid additionalData field
+  description: '* Too many fields/entries. * SplitPayment missing/not valid. * AdyenGivingAccount not specified, cannot be retrieved or does not exist.'
+- status: non-2xx
+  code: '188'
+  title: Invalid pspEchoData
+  description: The previous `recurringDetail` token was not saved correctly or does not exist.
+- status: non-2xx
+  code: '189'
+  title: Invalid shopperStatement
+  description: Empty value passed in `requestData`.
+- status: non-2xx
+  code: '190'
+  title: Invalid shopper IP
+  description: The `shopperIP` is empty.
+- status: non-2xx
+  code: '191'
+  title: No params specified
+- status: non-2xx
+  code: '192'
+  title: Invalid field {0}
+  description: '`shopperInteraction` is invalid.'
+- status: non-2xx
+  code: '193'
+  title: Bin Details not found for the given card number
+  description: '* Not sending in correct parameters. * Not passing applicable value.'
+- status: non-2xx
+  code: '194'
+  title: Billing address missing
+  description: Required object `billingAddress` is missing.
+- status: non-2xx
+  code: '195'
+  title: 'Could not find an account with this key: {0}'
+- status: non-2xx
+  code: '196'
+  title: Invalid Mcc
+  description: '* Check MCC length. * Should be a numeric value. * An alphanumeric value is provided.'
+- status: non-2xx
+  code: '198'
+  title: Reference may not exceed 79 characters
+  description: The reference contains more than 80 characters.
+- status: non-2xx
+  code: '199'
+  title: The cryptographic operation could not proceed, no key configured
+- status: non-2xx
+  code: '200'
+  title: Invalid country code
+  description: Incorrect `countryCode`.
+  remediation: Use ISO 3166-1 alpha-2 format.
+- status: non-2xx
+  code: '203'
+  title: Invalid Bank account holder name
+  description: '* Account holder name is inconsistent with FATF 16 recommendations. * Name may not contain numbers.'
+- status: non-2xx
+  code: '205'
+  title: Missing or invalid networkTxReference
+  description: '* Only digits provided. * Incorrect format. * Must have an alphanumeric combination. * Can also occur if recurring value is **null**.'
+- status: non-2xx
+  code: '213'
+  title: Required field 'socialSecurityNumber' is not provided.
+  description: The `socialSecurityNumber`, which is required for the payment method, is missing.
+- status: non-2xx
+  code: '217'
+  title: Field 'shopperInteraction' is missing or invalid
+- status: non-2xx
+  code: '218'
+  title: Recurring shopper lookup failed
+- status: non-2xx
+  code: '600'
+  title: No InvoiceProject provided
+- status: non-2xx
+  code: '601'
+  title: No InvoiceBatch provided
+- status: non-2xx
+  code: '602'
+  title: No creditorAccount specified
+- status: non-2xx
+  code: '603'
+  title: No projectCode specified
+- status: non-2xx
+  code: '604'
+  title: No creditorAccount found
+- status: non-2xx
+  code: '605'
+  title: No project found
+- status: non-2xx
+  code: '606'
+  title: Unable to create InvoiceProject
+- status: non-2xx
+  code: '607'
+  title: InvoiceBatch already exists
+- status: non-2xx
+  code: '608'
+  title: Unable to create InvoiceBatch
+- status: non-2xx
+  code: '609'
+  title: InvoiceBatch validity period exceeded
+- status: non-2xx
+  code: '690'
+  title: Error while storing debtor
+- status: non-2xx
+  code: '691'
+  title: Error while storing invoice
+- status: non-2xx
+  code: '692'
+  title: Error while checking if invoice already exists for creditorAccount
+- status: non-2xx
+  code: '693'
+  title: Error while searching invoices
+- status: non-2xx
+  code: '694'
+  title: No Invoice Configuration configured for creditAccount
+- status: non-2xx
+  code: '695'
+  title: Invalid Invoice Configuration configured for creditAccount
+- status: non-2xx
+  code: '700'
+  title: No method specified
+- status: non-2xx
+  code: '701'
+  title: Server could not process request
+  description: '* Incorrect POST / Content Type. * Might be sending XML, HTTP etc. * Using Pay by Link with incorrect `shopperReference`. * API version not specified. * RequestURL is not valid.'
+  remediation: '* Send JSON formatted, send HTTP POST. * Pay by Link: make sure the web service user has the required permissions.'
+- status: non-2xx
+  code: '702'
+  title: Problem parsing request
+  description: '* The request contains a field that is not recognized, or the format is not valid. This validation was introduced in API v64. * Empty input which would have resulted in a null result: you
+    might be using `requestData` from the API Explorer without populating your merchant account details. * Internal Error.'
+- status: non-2xx
+  code: '703'
+  title: Required resource temporarily unavailable
+  description: The data store is not available to compare the request against.
+  remediation: Retry your request later or do not include the `idempotency-key` HTTP header in your request.
+- status: non-2xx
+  code: '704'
+  title: Request already processed or in progress
+  description: The web service user is sending multiple authorised requests.
+  remediation: Check that you send in requests only once.
+- status: non-2xx
+  code: '705'
+  title: Rate limited
+  description: The rate limit for API requests has been exceeded.
+  remediation: Throttle your API requests. Wait for a short duration before retrying the request.
+- status: non-2xx
+  code: '800'
+  title: Contract not found
+  description: '* `shopperReference` does not exist. * The `requestData` is creating a contract and using the `recurringDetailReference` at the same time.'
+  remediation: Check if the details were saved previously, check the `shopperReference`.
+- status: non-2xx
+  code: '801'
+  title: Too many PaymentDetails defined
+  description: The root cause of these timeouts is too many `paymentDetails`, or an incorrect integration for the same recurring or shopper reference.
+- status: non-2xx
+  code: '802'
+  title: Invalid contract
+  description: There are no valid contract types (recurring or OneClick), or the contract type is not one of RECURRING, ONECLICK, or PAYOUT.
+  remediation: Check the data that is sent in on the PAL, and then the data that is sent in on the PAL. Check the recharge service under the recurring field.
+- status: non-2xx
+  code: '803'
+  title: PaymentDetail not found
+  description: '* `recurringDetailReference/storedPaymentMethodId` does not exist. * It has been disabled. * `requestData` is missing; for example, open invoice `lineItems` for Klarna. * The payment method
+    specified in your request varies from the one in your created token.'
+  remediation: Check if the values being passed are correct and valid.
+- status: non-2xx
+  code: '804'
+  title: Failed to disable
+- status: non-2xx
+  code: '805'
+  title: RecurringDetailReference not available for provided recurring-contract
+- status: non-2xx
+  code: '806'
+  title: No applicable contractTypes left for this payment-method
+  description: The `txvariant` Maestro cannot have recurring. The scheme mandates 3D Secure for all Maestro transactions, which is why recurring transactions are not possible.
+  remediation: Recreate the contract, check the contract creation parameters or change current `requestData`.
+- status: non-2xx
+  code: '807'
+  title: Invalid combination of shopper interaction and recurring-contract
+  description: Recurring contract was not set up with `shopperInteraction`.
+- status: non-2xx
+  code: '820'
+  title: CVC is required for OneClick card payments
+  description: The Card Validation Code (CVC) was not supplied
+  remediation: Supply the CVC number
+- status: non-2xx
+  code: '902'
+  title: Invalid or empty request data
+- status: non-2xx
+  code: '903'
+  title: Internal error
+- status: non-2xx
+  code: '904'
+  title: Unable To Process
+  description: Error communicating with Adyen.
+- status: non-2xx
+  code: '905'
+  title: Payment details are not supported
+  description: '* Missing `paymentMethod` in your Customer Area. * `paymentMethod` not set up for `countryCode`.'
+  remediation: Make sure that the `countryCode` in `requestData` matches the `paymentMethod` txvariant in your Customer Area. For example, **bankTransfer_DE** should match with `countryCode` **DE** in `requestData`.
+- status: non-2xx
+  code: '906'
+  title: 'Invalid Request: Original pspReference is invalid for this environment'
+  description: '* LIVE/TEST PSP mismatch. * Sending TEST PSP to LIVE endpoint.'
+  remediation: Pass the correct PSP or check environment you are testing in.
+- status: non-2xx
+  code: '907'
+  title: Payment details are not supported for this country/ MCC combination
+  description: '* `paymentMethod` in Customer Area is missing or not configured for a specific country. * There are MCC restrictions. * Did not pass `className: TxScreening` (the transaction fails card
+    number check on prepaid cards specifically). * There are restrictions on the issuer bank used for the payment, which is sanctioned by Adyen.'
+  remediation: Check `paymentMethod` configuration for logical errors.
+- status: non-2xx
+  code: '908'
+  title: Invalid request
+  description: '* Using incorrect endpoint * Incorrect `requestData` is sent to incorrect endpoint'
+  remediation: Check what the goal of the request is and fix the `requestData`. Make sure that you are sending to the correct endpoint.
+- status: non-2xx
+  code: '910'
+  title: Invalid Store
+  description: The specified store does not match any of the store references or store IDs for the merchant account.
+  remediation: Using API calls or your Customer Area, find the merchant account and the ID or reference of the store you want to use, and try again.
+- status: non-2xx
+  code: '912'
+  title: The TX Variant does not support the redemption type
+- status: non-2xx
+  code: '916'
+  title: The transaction amount exceeds the allowed limit for this type of card
+- status: non-2xx
+  code: '918'
+  title: Required object 'card' is not provided
+- status: non-2xx
+  code: '919'
+  title: The 'additionalAmount' currency should be the same currency as the payment
+- status: non-2xx
+  code: '920'
+  title: Total payment amount should be equal or greater than zero
+- status: non-2xx
+  code: '922'
+  title: Account updater connection only supported for Visa & MasterCard
+- status: non-2xx
+  code: '923'
+  title: No registered account for AccountUpdater
+- status: non-2xx
+  code: '924'
+  title: Not allowed to change the shopperInteraction
+- status: non-2xx
+  code: '926'
+  title: Invalid iDEAL issuer provided
+- status: non-2xx
+  code: '927'
+  title: Missing payment details
+- status: non-2xx
+  code: '928'
+  title: Invalid forex type specified
+- status: non-2xx
+  code: '929'
+  title: Invalid base currency specified
+- status: non-2xx
+  code: '930'
+  title: Invalid target currency specified
+- status: non-2xx
+  code: '931'
+  title: There is no merchant with the code {0}
+- status: non-2xx
+  code: '950'
+  title: Invalid AcquirerAccount
+- status: non-2xx
+  code: '951'
+  title: Configuration Error (acquirerIdentification)
+- status: non-2xx
+  code: '952'
+  title: Configuration Error (acquirerPassword)
+- status: non-2xx
+  code: '953'
+  title: Configuration Error (apiKey)
+- status: non-2xx
+  code: '954'
+  title: Configuration Error (redirectUrl)
+- status: non-2xx
+  code: '955'
+  title: Configuration Error (AcquirerAccountData)
+- status: non-2xx
+  code: '956'
+  title: Configuration Error (currencyCode)
+- status: non-2xx
+  code: '957'
+  title: Configuration Error (terminalId)
+- status: non-2xx
+  code: '958'
+  title: Configuration Error (serialNumber)
+- status: non-2xx
+  code: '959'
+  title: Configuration Error (password)
+- status: non-2xx
+  code: '960'
+  title: Configuration Error (projectId)
+- status: non-2xx
+  code: '961'
+  title: Configuration Error (merchantCategoryCode)
+- status: non-2xx
+  code: '962'
+  title: Configuration Error (merchantName)
+- status: non-2xx
+  code: '963'
+  title: Invalid company registration number
+- status: non-2xx
+  code: '964'
+  title: Invalid company name
+- status: non-2xx
+  code: '965'
+  title: Missing company details
+- status: non-2xx
+  code: '966'
+  title: Configuration Error (privateKeyAlias)
+- status: non-2xx
+  code: '967'
+  title: Configuration Error (publicKeyAlias)
+- status: non-2xx
+  code: '1000'
+  title: Card number cannot be specified for Incontrol virtual card requests
+- status: non-2xx
+  code: '1001'
+  title: Recurring not allowed for Incontrol virtual card requests
+- status: non-2xx
+  code: '1002'
+  title: Invalid Authorisation Type supplied
+- status: non-2xx
+  code: '2000'
+  title: Bank account details do not meet instruction format
+  description: '* Not passing bank details required for Payout. * Using `selectedRecurringDetailReference` as LATEST which may or may not correspond to bank details.'

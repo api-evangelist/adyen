@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-get-terminals-under-account-response-schema.json",
+  "title": "GetTerminalsUnderAccountResponse",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-getterminalsunderaccount-api-openapi.yml#/components/schemas/GetTerminalsUnderAccountResponse",
+  "properties": {
+    "companyAccount": {
+      "description": "Your company account.",
+      "type": "string"
+    },
+    "inventoryTerminals": {
+      "description": "Array that returns a list of all terminals that are in the inventory of the company account.",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "merchantAccounts": {
+      "description": "Array that returns a list of all merchant accounts belonging to the company account.",
+      "items": {
+        "$ref": "#/$defs/MerchantAccount"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "companyAccount"
+  ],
+  "type": "object",
+  "$defs": {
+    "Address": {
+      "properties": {
+        "city": {
+          "type": "string"
+        },
+        "countryCode": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "stateOrProvince": {
+          "type": "string"
+        },
+        "streetAddress": {
+          "type": "string"
+        },
+        "streetAddress2": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "MerchantAccount": {
+      "properties": {
+        "inStoreTerminals": {
+          "description": "List of terminals assigned to this merchant account as in-store terminals. This means that the terminal is ready to be boarded, or is already boarded.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "inventoryTerminals": {
+          "description": "List of terminals assigned to the inventory of this merchant account.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "merchantAccount": {
+          "description": "The merchant account.",
+          "type": "string"
+        },
+        "stores": {
+          "description": "Array of stores under this merchant account.",
+          "items": {
+            "$ref": "#/$defs/Store"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "merchantAccount"
+      ],
+      "type": "object"
+    },
+    "Store": {
+      "properties": {
+        "address": {
+          "description": "The address of the store.",
+          "$ref": "#/$defs/Address"
+        },
+        "description": {
+          "description": "The description of the store.",
+          "type": "string"
+        },
+        "inStoreTerminals": {
+          "description": "The list of terminals assigned to the store.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "merchantAccountCode": {
+          "description": "The code of the merchant account.",
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the store:\n\n- `PreActive`: the store has been created, but not yet activated. \n\n- `Active`: the store has been activated. This means you can process payments for this store. \n\n- `Inactive`: the store is currently not active. \n\n- `InactiveWithModifications`: the store is currently not active, but payment modifications such as refunds are possible. \n\n- `Closed`: the store has been closed. ",
+          "type": "string"
+        },
+        "store": {
+          "description": "The code of the store.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "store"
+      ],
+      "type": "object"
+    }
+  }
+}

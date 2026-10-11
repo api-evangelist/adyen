@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-login-request-schema.json",
+  "title": "LoginRequest",
+  "description": "It conveys Information related to the session (period between a Login and the following Logout) to process. Content of the Login Request message.",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-login-api-openapi.yml#/components/schemas/LoginRequest",
+  "type": "object",
+  "properties": {
+    "DateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date and Time."
+    },
+    "SaleSoftware": {
+      "$ref": "#/$defs/SaleSoftware"
+    },
+    "SaleTerminalData": {
+      "$ref": "#/$defs/SaleTerminalData"
+    },
+    "TrainingModeFlag": {
+      "type": "boolean",
+      "default": false,
+      "description": "The POI does not realise the transaction with the Acquirer."
+    },
+    "OperatorLanguage": {
+      "type": "string",
+      "pattern": "^[a-z]{2,2}$",
+      "description": "Default value for Device type displays."
+    },
+    "OperatorID": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "4 conditions to send it: a) the Sale System wants the POI log it in the transaction log b) because of reconciliation."
+    },
+    "ShiftNumber": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "Same as OperatorID."
+    },
+    "TokenRequestedType": {
+      "$ref": "#/$defs/TokenRequestedType"
+    },
+    "CustomerOrderReq": {
+      "$ref": "#/$defs/CustomerOrderReq"
+    },
+    "POISerialNumber": {
+      "type": "string",
+      "pattern": "^.+$",
+      "description": "If the login involve a POI Terminal and not the first Login to the POI System."
+    }
+  },
+  "required": [
+    "DateTime",
+    "SaleSoftware",
+    "OperatorLanguage"
+  ],
+  "$defs": {
+    "CustomerOrderReq": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Both",
+          "Closed",
+          "Open"
+        ]
+      }
+    },
+    "SaleSoftware": {
+      "type": "object",
+      "description": "Information related to the software of the Sale System which manages the NEXO Sale to POI protocol.",
+      "properties": {
+        "ManufacturerID": {
+          "type": "string",
+          "pattern": "^.+$"
+        },
+        "ApplicationName": {
+          "type": "string",
+          "pattern": "^.+$"
+        },
+        "SoftwareVersion": {
+          "type": "string",
+          "pattern": "^.+$"
+        },
+        "CertificationCode": {
+          "type": "string",
+          "pattern": "^.+$"
+        }
+      },
+      "required": [
+        "ManufacturerID",
+        "ApplicationName",
+        "SoftwareVersion",
+        "CertificationCode"
+      ]
+    },
+    "SaleTerminalData": {
+      "type": "object",
+      "description": "In the Login Request, if a Sale Terminal is involved in the login. In other messages, when a logical device is out of order (SaleCapabilites), or when the other data have changed since or were not in the Login. Information related to the software and hardware feature of the Sale Terminal.",
+      "properties": {
+        "TotalsGroupID": {
+          "type": "string",
+          "pattern": "^.{1,16}$",
+          "description": "If present, default value for all transaction."
+        }
+      }
+    },
+    "TokenRequestedType": {
+      "type": "string",
+      "enum": [
+        "Customer",
+        "Transaction"
+      ]
+    }
+  }
+}

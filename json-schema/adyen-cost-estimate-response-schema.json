@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-cost-estimate-response-schema.json",
+  "title": "CostEstimateResponse",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-cost-api-openapi.yml#/components/schemas/CostEstimateResponse",
+  "properties": {
+    "cardBin": {
+      "description": "Card BIN details.",
+      "$ref": "#/$defs/CardBin"
+    },
+    "costEstimateAmount": {
+      "description": "The estimated cost (scheme fee + interchange) in the settlement currency. If the settlement currency cannot be determined, the fee in EUR is returned.",
+      "$ref": "#/$defs/Amount"
+    },
+    "costEstimateReference": {
+      "x-addedInVersion": "52",
+      "description": "Adyen's 16-character reference associated with the request.",
+      "type": "string"
+    },
+    "resultCode": {
+      "description": "The result of the cost estimation.",
+      "type": "string"
+    },
+    "surchargeType": {
+      "description": "Indicates the way the charges can be passed on to the cardholder. The following values are possible:\n* `ZERO` - the charges are not allowed to pass on\n* `PASSTHROUGH` - the charges can be passed on\n* `UNLIMITED` - there is no limit on how much surcharge is passed on",
+      "type": "string"
+    }
+  },
+  "type": "object",
+  "$defs": {
+    "Amount": {
+      "properties": {
+        "currency": {
+          "description": "The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).",
+          "maxLength": 3,
+          "minLength": 3,
+          "type": "string"
+        },
+        "value": {
+          "description": "The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "value",
+        "currency"
+      ],
+      "type": "object"
+    },
+    "CardBin": {
+      "properties": {
+        "bin": {
+          "description": "The first 6 digit of the card number. Enable this field via merchant account settings.",
+          "type": "string"
+        },
+        "commercial": {
+          "description": "If true, it indicates a commercial card. Enable this field via merchant account settings.",
+          "type": "boolean"
+        },
+        "fundingSource": {
+          "description": "The card funding source. Valid values are:\n* CHARGE\n* CREDIT\n* DEBIT\n* DEFERRED_DEBIT\n* PREPAID\n* PREPAID_RELOADABLE\n* PREPAID_NONRELOADABLE\n> Enable this field via merchant account settings.",
+          "type": "string"
+        },
+        "fundsAvailability": {
+          "description": "Indicates availability of funds.\n\nVisa:\n* \"I\" (fast funds are supported)\n* \"N\" (otherwise)\n\nMastercard:\n* \"I\" (product type is Prepaid or Debit, or issuing country is in CEE/HGEM list)\n* \"N\" (otherwise)\n> Returned when you verify a card BIN or estimate costs, and only if `payoutEligible` is different from \"N\" or \"U\".",
+          "type": "string"
+        },
+        "issuerBin": {
+          "x-addedInVersion": "54",
+          "description": "The first 8 digit of the card number. Enable this field via merchant account settings.",
+          "type": "string"
+        },
+        "issuingBank": {
+          "description": "The issuing bank of the card.",
+          "type": "string"
+        },
+        "issuingCountry": {
+          "description": "The country where the card was issued from.",
+          "type": "string"
+        },
+        "issuingCurrency": {
+          "description": "The currency of the card.",
+          "type": "string"
+        },
+        "paymentMethod": {
+          "description": "The payment method associated with the card (e.g. visa, mc, or amex).",
+          "type": "string"
+        },
+        "payoutEligible": {
+          "description": "Indicates whether a payout is eligible or not for this card.\n\nVisa:\n* \"Y\"\n* \"N\"\n\nMastercard:\n* \"Y\" (domestic and cross-border)\n* \"D\" (only domestic)\n* \"N\" (no MoneySend)\n* \"U\" (unknown)\n> Returned when you verify a card BIN or estimate costs, and only if `payoutEligible` is different from \"N\" or \"U\".",
+          "type": "string"
+        },
+        "summary": {
+          "description": "The last four digits of the card number.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

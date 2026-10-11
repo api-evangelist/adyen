@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-diagnosis-response-schema.json",
+  "title": "DiagnosisResponse",
+  "description": "It conveys the result of the requested diagnosis and a possible message to display on a logical device. Content of the Diagnosis Response message.",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-diagnosis-api-openapi.yml#/components/schemas/DiagnosisResponse",
+  "type": "object",
+  "properties": {
+    "Response": {
+      "$ref": "#/$defs/Response"
+    },
+    "LoggedSaleID": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^.+$",
+        "description": "If Sale Terminal logged to this POI Terminal."
+      }
+    },
+    "POIStatus": {
+      "$ref": "#/$defs/POIStatus"
+    },
+    "HostStatus": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/HostStatus"
+      }
+    }
+  },
+  "required": [
+    "Response"
+  ],
+  "$defs": {
+    "CashHandlingDevice": {
+      "type": "object",
+      "description": "Indicate the status and the remaining coins and bill in a cash handling device. Status of cash handling device.",
+      "properties": {
+        "CashHandlingOKFlag": {
+          "type": "boolean",
+          "description": "Indicates if the cash handling device is working and usable."
+        },
+        "Currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3,3}$",
+          "description": "Currency of a monetary amount."
+        },
+        "CoinsOrBills": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CoinsOrBills"
+          }
+        }
+      },
+      "required": [
+        "CashHandlingOKFlag",
+        "Currency",
+        "CoinsOrBills"
+      ]
+    },
+    "CoinsOrBills": {
+      "type": "object",
+      "description": "Indicates the remaining number of coins or bills of a given value in a cash handling device. When the cash handling machine does not have any more coins or bills of a certain value, the number must be equal to 0. Number of coins or bills of a given value.",
+      "properties": {
+        "UnitValue": {
+          "type": "number",
+          "maximum": 99999999.999999,
+          "minimum": 0,
+          "description": "Value of a coin or bill."
+        },
+        "Number": {
+          "type": "integer",
+          "description": "Number of elements."
+        }
+      },
+      "required": [
+        "UnitValue",
+        "Number"
+      ]
+    },
+    "ErrorCondition": {
+      "type": "string",
+      "enum": [
+        "Aborted",
+        "Busy",
+        "Cancel",
+        "DeviceOut",
+        "InProgress",
+        "InsertedCard",
+        "InvalidCard",
+        "LoggedOut",
+        "MessageFormat",
+        "NotAllowed",
+        "NotFound",
+        "PaymentRestriction",
+        "Refusal",
+        "UnavailableDevice",
+        "UnavailableService",
+        "UnreachableHost",
+        "WrongPIN"
+      ]
+    },
+    "GlobalStatus": {
+      "type": "string",
+      "enum": [
+        "Busy",
+        "Maintenance",
+        "OK",
+        "Unreachable"
+      ]
+    },
+    "HostStatus": {
+      "type": "object",
+      "description": "Indicate the reachability of the host by the POI Terminal. State of a Host.",
+      "properties": {
+        "AcquirerID": {
+          "type": "integer",
+          "description": "Identification of the Acquirer."
+        },
+        "IsReachableFlag": {
+          "type": "boolean",
+          "default": true,
+          "description": "Indicate if a Host is reachable."
+        }
+      },
+      "required": [
+        "AcquirerID"
+      ]
+    },
+    "POIStatus": {
+      "type": "object",
+      "description": "Indicate the availability of the POI Terminal components. The data element is absent if the component is not part of the POI Terminal. State of a POI Terminal.",
+      "properties": {
+        "GlobalStatus": {
+          "$ref": "#/$defs/GlobalStatus"
+        },
+        "SecurityOKFlag": {
+          "type": "boolean",
+          "description": "If security module present."
+        },
+        "PEDOKFlag": {
+          "type": "boolean",
+          "description": "If PED present."
+        },
+        "CardReaderOKFlag": {
+          "type": "boolean",
+          "description": "If card reader device present."
+        },
+        "PrinterStatus": {
+          "$ref": "#/$defs/PrinterStatus"
+        },
+        "CommunicationOKFlag": {
+          "type": "boolean",
+          "description": "If communication infrastructure present."
+        },
+        "CashHandlingDevice": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CashHandlingDevice"
+          }
+        },
+        "FraudPreventionFlag": {
+          "type": "boolean",
+          "description": "default False."
+        }
+      },
+      "required": [
+        "GlobalStatus"
+      ]
+    },
+    "PrinterStatus": {
+      "type": "string",
+      "enum": [
+        "NoPaper",
+        "OK",
+        "OutOfOrder",
+        "PaperJam",
+        "PaperLow"
+      ]
+    },
+    "Response": {
+      "type": "object",
+      "description": "If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.",
+      "properties": {
+        "Result": {
+          "$ref": "#/$defs/Result"
+        },
+        "ErrorCondition": {
+          "$ref": "#/$defs/ErrorCondition"
+        },
+        "AdditionalResponse": {
+          "type": "string",
+          "pattern": "^.+$",
+          "description": "If present, the POI logs it for further examination."
+        }
+      },
+      "required": [
+        "Result"
+      ]
+    },
+    "Result": {
+      "type": "string",
+      "enum": [
+        "Failure",
+        "Partial",
+        "Success"
+      ]
+    }
+  }
+}

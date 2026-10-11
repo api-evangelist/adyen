@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/adyen/main/json-schema/adyen-cancel-order-request-schema.json",
+  "title": "CancelOrderRequest",
+  "x-generated": "2026-10-12",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/adyen-cancels-api-openapi.yml#/components/schemas/CancelOrderRequest",
+  "properties": {
+    "merchantAccount": {
+      "description": "The merchant account identifier that orderData belongs to.",
+      "type": "string"
+    },
+    "order": {
+      "description": "The order request object that contains a pspReference that represents the order and the matching encrypted order data.",
+      "$ref": "#/$defs/EncryptedOrderData"
+    }
+  },
+  "required": [
+    "order",
+    "merchantAccount"
+  ],
+  "type": "object",
+  "$defs": {
+    "EncryptedOrderData": {
+      "properties": {
+        "orderData": {
+          "description": "The encrypted order data.",
+          "type": "string"
+        },
+        "pspReference": {
+          "description": "The `pspReference` that belongs to the order.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "pspReference",
+        "orderData"
+      ],
+      "type": "object"
+    }
+  }
+}
