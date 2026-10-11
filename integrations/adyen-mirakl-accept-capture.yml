@@ -1,0 +1,78 @@
+arazzo: 1.0.1
+info:
+  title: Adyen Mirakl Accept and Capture
+  summary: Accept a Mirakl marketplace order line and capture the matching Adyen authorisation.
+  description: Accept a Mirakl marketplace order line and capture the matching Adyen authorisation. Generated from the integration edge Adyen documents; both ends use their published OpenAPI.
+  version: 1.0.0
+x-integration:
+  partner: mirakl
+  template: null
+  edge_evidence: https://docs.adyen.com/plugins/mirakl
+  edge_type: claimed
+  method: generated
+  generated: '2026-10-12'
+  generator: pipeline step 25b (payments-integration-arazzo)
+sourceDescriptions:
+- name: miraklOrders
+  url: https://raw.githubusercontent.com/api-evangelist/mirakl/refs/heads/main/openapi/mirakl-orders-api-openapi.yml
+  type: openapi
+- name: adyenCaptures
+  url: https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/openapi/adyen-captures-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: mirakl-accept-capture
+  summary: Accept a Mirakl marketplace order line and capture the matching Adyen authorisation.
+  inputs:
+    type: object
+    properties:
+      orderId:
+        type: string
+      orderLineId:
+        type: string
+      merchantAccount:
+        type: string
+      paymentPspReference:
+        type: string
+      amountMinorUnits:
+        type: string
+      currency:
+        type: string
+  steps:
+  - stepId: acceptLines
+    description: Accept the order line in Mirakl.
+    operationId: $sourceDescriptions.miraklOrders.acceptOrderLines
+    parameters:
+    - name: order_id
+      in: path
+      value: $inputs.orderId
+    requestBody:
+      contentType: application/json
+      payload:
+        order_lines:
+        - id: $inputs.orderLineId
+          accepted: true
+    successCriteria:
+    - condition: $statusCode == 204
+  - stepId: capture
+    description: Capture the Adyen authorisation for the accepted line.
+    operationId: $sourceDescriptions.adyenCaptures.post-payments-paymentPspReference-captures
+    parameters:
+    - name: paymentPspReference
+      in: path
+      value: $inputs.paymentPspReference
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        reference: $inputs.orderId
+        amount:
+          value: $inputs.amountMinorUnits
+          currency: $inputs.currency
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      capturePspReference: $response.body#/pspReference
+      status: $response.body#/status
+  outputs:
+    capturePspReference: $steps.capture.outputs.capturePspReference
+    captureStatus: $steps.capture.outputs.status

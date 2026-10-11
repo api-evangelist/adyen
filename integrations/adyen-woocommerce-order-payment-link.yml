@@ -1,0 +1,85 @@
+arazzo: 1.0.1
+info:
+  title: Adyen WooCommerce Order Payment Link
+  summary: Create an Adyen payment link for a WooCommerce order and store it on the order.
+  description: Create an Adyen payment link for a WooCommerce order and store it on the order. Generated from the integration edge Adyen documents; both ends use their published OpenAPI.
+  version: 1.0.0
+x-integration:
+  partner: woocommerce
+  template: null
+  edge_evidence: https://www.woosa.com/nl/software/adyen-woocommerce-plugin/
+  edge_type: claimed
+  method: generated
+  generated: '2026-10-12'
+  generator: pipeline step 25b (payments-integration-arazzo)
+sourceDescriptions:
+- name: adyenLinks
+  url: https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/openapi/adyen-links-api-openapi.yml
+  type: openapi
+- name: wooOrders
+  url: https://raw.githubusercontent.com/api-evangelist/woocommerce/refs/heads/main/openapi/woocommerce-orders-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: woocommerce-order-payment-link
+  summary: Create an Adyen payment link for a WooCommerce order and store it on the order.
+  inputs:
+    type: object
+    properties:
+      orderId:
+        type: string
+      merchantAccount:
+        type: string
+      amountMinorUnits:
+        type: string
+      currency:
+        type: string
+  steps:
+  - stepId: getOrder
+    description: Read the WooCommerce order.
+    operationId: $sourceDescriptions.wooOrders.getOrder
+    parameters:
+    - name: id
+      in: path
+      value: $inputs.orderId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      orderNumber: $response.body#/number
+      currency: $response.body#/currency
+  - stepId: createLink
+    description: Create an Adyen payment link for the order.
+    operationId: $sourceDescriptions.adyenLinks.post-paymentLinks
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        reference: $steps.getOrder.outputs.orderNumber
+        amount:
+          value: $inputs.amountMinorUnits
+          currency: $steps.getOrder.outputs.currency
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      linkId: $response.body#/id
+      linkUrl: $response.body#/url
+  - stepId: updateOrder
+    description: Write the payment link onto the WooCommerce order metadata.
+    operationId: $sourceDescriptions.wooOrders.updateOrder
+    parameters:
+    - name: id
+      in: path
+      value: $inputs.orderId
+    requestBody:
+      contentType: application/json
+      payload:
+        meta_data:
+        - key: adyen_payment_link
+          value: $steps.createLink.outputs.linkUrl
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      status: $response.body#/status
+  outputs:
+    paymentLinkId: $steps.createLink.outputs.linkId
+    paymentLinkUrl: $steps.createLink.outputs.linkUrl
+    orderStatus: $steps.updateOrder.outputs.status

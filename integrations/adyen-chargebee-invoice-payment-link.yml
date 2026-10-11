@@ -1,0 +1,63 @@
+arazzo: 1.0.1
+info:
+  title: Adyen Chargebee Invoice Payment Link
+  summary: Turn an unpaid Chargebee invoice into an Adyen payment link.
+  description: Turn an unpaid Chargebee invoice into an Adyen payment link. Generated from the integration edge Adyen documents; both ends use their published OpenAPI.
+  version: 1.0.0
+x-integration:
+  partner: chargebee
+  template: null
+  edge_evidence: https://www.chargebee.com/docs/2.0/adyen.html
+  edge_type: claimed
+  method: generated
+  generated: '2026-10-12'
+  generator: pipeline step 25b (payments-integration-arazzo)
+sourceDescriptions:
+- name: chargebeeInvoices
+  url: https://raw.githubusercontent.com/api-evangelist/chargebee/refs/heads/main/openapi/chargebee-invoices-api-openapi.yml
+  type: openapi
+- name: adyenLinks
+  url: https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/openapi/adyen-links-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: chargebee-invoice-payment-link
+  summary: Turn an unpaid Chargebee invoice into an Adyen payment link.
+  inputs:
+    type: object
+    properties:
+      invoiceId:
+        type: string
+      merchantAccount:
+        type: string
+  steps:
+  - stepId: getInvoice
+    description: Retrieve the Chargebee invoice.
+    operationId: $sourceDescriptions.chargebeeInvoices.retrieveInvoice
+    parameters:
+    - name: invoice_id
+      in: path
+      value: $inputs.invoiceId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      amountDue: $response.body#/invoice/amount_due
+      currency: $response.body#/invoice/currency_code
+  - stepId: createLink
+    description: Create an Adyen payment link for the amount due.
+    operationId: $sourceDescriptions.adyenLinks.post-paymentLinks
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        reference: $inputs.invoiceId
+        amount:
+          value: $steps.getInvoice.outputs.amountDue
+          currency: $steps.getInvoice.outputs.currency
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      linkId: $response.body#/id
+      linkUrl: $response.body#/url
+  outputs:
+    paymentLinkId: $steps.createLink.outputs.linkId
+    paymentLinkUrl: $steps.createLink.outputs.linkUrl

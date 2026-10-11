@@ -1,0 +1,79 @@
+arazzo: 1.0.1
+info:
+  title: Adyen Zuora Record Payment
+  summary: Authorise a subscriber payment with Adyen and record it as a Zuora payment.
+  description: Authorise a subscriber payment with Adyen and record it as a Zuora payment. Generated from the integration edge Adyen documents; both ends use their published OpenAPI.
+  version: 1.0.0
+x-integration:
+  partner: zuora
+  template: null
+  edge_evidence: https://knowledgecenter.zuora.com/Zuora_Payments/Payment_gateway_integrations/Supported_payment_gateways/Adyen_Integration_v2.0
+  edge_type: claimed
+  method: generated
+  generated: '2026-10-12'
+  generator: pipeline step 25b (payments-integration-arazzo)
+sourceDescriptions:
+- name: adyenPayments
+  url: https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/openapi/adyen-payments-api-openapi.yml
+  type: openapi
+- name: zuoraPayments
+  url: https://raw.githubusercontent.com/api-evangelist/zuora/refs/heads/main/openapi/zuora-payments-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: zuora-record-payment
+  summary: Authorise a subscriber payment with Adyen and record it as a Zuora payment.
+  inputs:
+    type: object
+    properties:
+      accountId:
+        type: string
+      merchantAccount:
+        type: string
+      amountMinorUnits:
+        type: string
+      amountMajor:
+        type: string
+      currency:
+        type: string
+      paymentMethodJson:
+        type: string
+      reference:
+        type: string
+  steps:
+  - stepId: authorise
+    description: Start the Adyen payment.
+    operationId: $sourceDescriptions.adyenPayments.post-payments
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        reference: $inputs.reference
+        amount:
+          value: $inputs.amountMinorUnits
+          currency: $inputs.currency
+        paymentMethod: $inputs.paymentMethodJson
+        shopperInteraction: ContAuth
+        recurringProcessingModel: Subscription
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      pspReference: $response.body#/pspReference
+      resultCode: $response.body#/resultCode
+  - stepId: recordPayment
+    description: Create the external payment in Zuora referencing the Adyen pspReference.
+    operationId: $sourceDescriptions.zuoraPayments.POST_CreatePayment
+    requestBody:
+      contentType: application/json
+      payload:
+        accountId: $inputs.accountId
+        amount: $inputs.amountMajor
+        currency: $inputs.currency
+        type: External
+        referenceId: $steps.authorise.outputs.pspReference
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      zuoraPaymentId: $response.body#/id
+  outputs:
+    pspReference: $steps.authorise.outputs.pspReference
+    zuoraPaymentId: $steps.recordPayment.outputs.zuoraPaymentId

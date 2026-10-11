@@ -1,0 +1,75 @@
+arazzo: 1.0.1
+info:
+  title: Adyen NewStore Return Refund
+  summary: Refund a NewStore return against the original Adyen payment.
+  description: Refund a NewStore return against the original Adyen payment. Generated from the integration edge Adyen documents; both ends use their published OpenAPI.
+  version: 1.0.0
+x-integration:
+  partner: newstore
+  template: null
+  edge_evidence: https://docs.newstore.com/v1/docs/en/integrating-adyen/
+  edge_type: claimed
+  method: generated
+  generated: '2026-10-12'
+  generator: pipeline step 25b (payments-integration-arazzo)
+sourceDescriptions:
+- name: newstoreOrders
+  url: https://raw.githubusercontent.com/api-evangelist/newstore/refs/heads/main/openapi/newstore-orders-api-openapi.yml
+  type: openapi
+- name: adyenPayments
+  url: https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/openapi/adyen-payments-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: newstore-return-refund
+  summary: Refund a NewStore return against the original Adyen payment.
+  inputs:
+    type: object
+    properties:
+      orderId:
+        type: string
+      returnId:
+        type: string
+      merchantAccount:
+        type: string
+      paymentPspReference:
+        type: string
+      currency:
+        type: string
+  steps:
+  - stepId: getReturn
+    description: Read the NewStore return.
+    operationId: $sourceDescriptions.newstoreOrders.showReturn
+    parameters:
+    - name: orderId
+      in: path
+      value: $inputs.orderId
+    - name: returnId
+      in: path
+      value: $inputs.returnId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      refundAmount: $response.body#/total_refund_amount
+  - stepId: refund
+    description: Refund the return amount on the original Adyen payment.
+    operationId: $sourceDescriptions.adyenPayments.post-payments-paymentPspReference-refunds
+    parameters:
+    - name: paymentPspReference
+      in: path
+      value: $inputs.paymentPspReference
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        reference: $inputs.returnId
+        amount:
+          value: $steps.getReturn.outputs.refundAmount
+          currency: $inputs.currency
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      refundPspReference: $response.body#/pspReference
+      status: $response.body#/status
+  outputs:
+    refundPspReference: $steps.refund.outputs.refundPspReference
+    refundStatus: $steps.refund.outputs.status

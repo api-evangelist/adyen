@@ -1,0 +1,100 @@
+arazzo: 1.0.1
+info:
+  title: Adyen commercetools Order Payment
+  summary: Authorise a commercetools order with Adyen and record the payment back on commercetools.
+  description: Authorise a commercetools order with Adyen and record the payment back on commercetools. Generated from the integration edge Adyen documents; both ends use their published OpenAPI.
+  version: 1.0.0
+x-integration:
+  partner: commercetools
+  template: null
+  edge_evidence: https://github.com/Adyen/adyen-commercetools
+  edge_type: claimed
+  method: generated
+  generated: '2026-10-12'
+  generator: pipeline step 25b (payments-integration-arazzo)
+sourceDescriptions:
+- name: adyenPayments
+  url: https://raw.githubusercontent.com/api-evangelist/adyen/refs/heads/main/openapi/adyen-payments-api-openapi.yml
+  type: openapi
+- name: ctOrders
+  url: https://raw.githubusercontent.com/api-evangelist/commercetools/refs/heads/main/openapi/commercetools-orders-api-openapi.yml
+  type: openapi
+- name: ctPayments
+  url: https://raw.githubusercontent.com/api-evangelist/commercetools/refs/heads/main/openapi/commercetools-payments-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: commercetools-order-payment
+  summary: Authorise a commercetools order with Adyen and record the payment back on commercetools.
+  inputs:
+    type: object
+    properties:
+      projectKey:
+        type: string
+      orderId:
+        type: string
+      merchantAccount:
+        type: string
+      currency:
+        type: string
+      paymentMethodJson:
+        type: string
+      returnUrl:
+        type: string
+  steps:
+  - stepId: getOrder
+    description: Read the commercetools order.
+    operationId: $sourceDescriptions.ctOrders.getOrderById
+    parameters:
+    - name: projectKey
+      in: path
+      value: $inputs.projectKey
+    - name: id
+      in: path
+      value: $inputs.orderId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      centAmount: $response.body#/totalPrice/centAmount
+      currency: $response.body#/totalPrice/currencyCode
+  - stepId: authorise
+    description: Start an Adyen payment for the order total.
+    operationId: $sourceDescriptions.adyenPayments.post-payments
+    requestBody:
+      contentType: application/json
+      payload:
+        merchantAccount: $inputs.merchantAccount
+        reference: $inputs.orderId
+        amount:
+          value: $steps.getOrder.outputs.centAmount
+          currency: $steps.getOrder.outputs.currency
+        paymentMethod: $inputs.paymentMethodJson
+        returnUrl: $inputs.returnUrl
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      pspReference: $response.body#/pspReference
+      resultCode: $response.body#/resultCode
+  - stepId: recordPayment
+    description: Create the commercetools payment carrying the Adyen pspReference.
+    operationId: $sourceDescriptions.ctPayments.createPayment
+    parameters:
+    - name: projectKey
+      in: path
+      value: $inputs.projectKey
+    requestBody:
+      contentType: application/json
+      payload:
+        interfaceId: $steps.authorise.outputs.pspReference
+        amountPlanned:
+          centAmount: $steps.getOrder.outputs.centAmount
+          currencyCode: $steps.getOrder.outputs.currency
+        paymentMethodInfo:
+          paymentInterface: adyen
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      paymentId: $response.body#/id
+  outputs:
+    pspReference: $steps.authorise.outputs.pspReference
+    resultCode: $steps.authorise.outputs.resultCode
+    commercetoolsPaymentId: $steps.recordPayment.outputs.paymentId
