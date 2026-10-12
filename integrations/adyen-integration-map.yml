@@ -1,0 +1,284 @@
+# DERIVED by derive-integration-map.py (roadmap#949): each integration workflow, step by step,
+# resolved to spec file -> tag -> business capability (Turbo EA, CC BY 4.0) and the operation's
+# phrasing intent. Read from our own files; an unmapped link says why.
+slug: adyen
+workflows:
+- file: adyen-chargebee-invoice-payment-link.yml
+  title: Adyen Chargebee Invoice Payment Link
+  partner: chargebee
+  template: null
+  repos:
+  - chargebee
+  - adyen
+  steps:
+  - step: getInvoice
+    repo: chargebee
+    spec_file: chargebee-invoices-api-openapi.yml
+    operationId: retrieveInvoice
+    tag: Invoices
+    capability_id: BC-4250.30
+    capability: Invoicing & Statement Management
+    capability_l1: BC-4250
+    intent: null
+    effect: null
+    unmapped: null
+  - step: createLink
+    repo: adyen
+    spec_file: adyen-links-api-openapi.yml
+    operationId: post-paymentLinks
+    tag: Links
+    capability_id: BC-1340.10
+    capability: Payment Initiation Management
+    capability_l1: BC-1340
+    intent: Create a payment link
+    effect: write
+    unmapped: null
+  connects:
+    chargebee:
+      capabilities:
+      - BC-4250.30
+      tags:
+      - Invoices
+    adyen:
+      capabilities:
+      - BC-1340.10
+      tags:
+      - Links
+  intents:
+  - Create a payment link
+- file: adyen-commercetools-order-payment.yml
+  title: Adyen commercetools Order Payment
+  partner: commercetools
+  template: null
+  repos:
+  - commercetools
+  - adyen
+  steps:
+  - step: getOrder
+    repo: commercetools
+    spec_file: commercetools-orders-api-openapi.yml
+    operationId: getOrderById
+    tag: Orders
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: null
+    effect: null
+    unmapped: no capability edge for this spec file
+  - step: authorise
+    repo: adyen
+    spec_file: adyen-payments-api-openapi.yml
+    operationId: post-payments
+    tag: Payments
+    capability_id: BC-1340.10
+    capability: Payment Initiation Management
+    capability_l1: BC-1340
+    intent: Start a payment
+    effect: write
+    unmapped: null
+  - step: recordPayment
+    repo: commercetools
+    spec_file: commercetools-payments-api-openapi.yml
+    operationId: createPayment
+    tag: Payments
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: null
+    effect: null
+    unmapped: no capability edge for this spec file
+  connects:
+    commercetools:
+      capabilities: []
+      tags:
+      - Orders
+      - Payments
+    adyen:
+      capabilities:
+      - BC-1340.10
+      tags:
+      - Payments
+  intents:
+  - Start a payment
+- file: adyen-mirakl-accept-capture.yml
+  title: Adyen Mirakl Accept and Capture
+  partner: mirakl
+  template: null
+  repos:
+  - mirakl
+  - adyen
+  steps:
+  - step: acceptLines
+    repo: mirakl
+    spec_file: mirakl-orders-api-openapi.yml
+    operationId: acceptOrderLines
+    tag: Orders
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: Accept or refuse Connect order lines (original)
+    effect: write
+    unmapped: no capability edge for this spec file
+  - step: capture
+    repo: adyen
+    spec_file: adyen-captures-api-openapi.yml
+    operationId: post-payments-paymentPspReference-captures
+    tag: Captures
+    capability_id: BC-1340.70
+    capability: Card Transaction Processing Management
+    capability_l1: BC-1340
+    intent: Capture an authorised Checkout payment
+    effect: write
+    unmapped: null
+  connects:
+    mirakl:
+      capabilities: []
+      tags:
+      - Orders
+    adyen:
+      capabilities:
+      - BC-1340.70
+      tags:
+      - Captures
+  intents:
+  - Accept or refuse Connect order lines (original)
+  - Capture an authorised Checkout payment
+- file: adyen-newstore-return-refund.yml
+  title: Adyen NewStore Return Refund
+  partner: newstore
+  template: null
+  repos:
+  - newstore
+  - adyen
+  steps:
+  - step: getReturn
+    repo: newstore
+    spec_file: newstore-orders-api-openapi.yml
+    operationId: showReturn
+    tag: orders
+    capability_id: BC-520.40
+    capability: Order Fulfilment Management
+    capability_l1: BC-520
+    intent: null
+    effect: null
+    unmapped: null
+  - step: refund
+    repo: adyen
+    spec_file: adyen-payments-api-openapi.yml
+    operationId: post-payments-paymentPspReference-refunds
+    tag: Payments
+    capability_id: BC-1340.10
+    capability: Payment Initiation Management
+    capability_l1: BC-1340
+    intent: Refund a captured payment
+    effect: write
+    unmapped: null
+  connects:
+    newstore:
+      capabilities:
+      - BC-520.40
+      tags:
+      - orders
+    adyen:
+      capabilities:
+      - BC-1340.10
+      tags:
+      - Payments
+  intents:
+  - Refund a captured payment
+- file: adyen-woocommerce-order-payment-link.yml
+  title: Adyen WooCommerce Order Payment Link
+  partner: woocommerce
+  template: null
+  repos:
+  - woocommerce
+  - adyen
+  steps:
+  - step: getOrder
+    repo: woocommerce
+    spec_file: woocommerce-orders-api-openapi.yml
+    operationId: getOrder
+    tag: Orders
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: null
+    effect: null
+    unmapped: no capability edge for this spec file
+  - step: createLink
+    repo: adyen
+    spec_file: adyen-links-api-openapi.yml
+    operationId: post-paymentLinks
+    tag: Links
+    capability_id: BC-1340.10
+    capability: Payment Initiation Management
+    capability_l1: BC-1340
+    intent: Create a payment link
+    effect: write
+    unmapped: null
+  - step: updateOrder
+    repo: woocommerce
+    spec_file: woocommerce-orders-api-openapi.yml
+    operationId: updateOrder
+    tag: Orders
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: null
+    effect: null
+    unmapped: no capability edge for this spec file
+  connects:
+    woocommerce:
+      capabilities: []
+      tags:
+      - Orders
+    adyen:
+      capabilities:
+      - BC-1340.10
+      tags:
+      - Links
+  intents:
+  - Create a payment link
+- file: adyen-zuora-record-payment.yml
+  title: Adyen Zuora Record Payment
+  partner: zuora
+  template: null
+  repos:
+  - adyen
+  - zuora
+  steps:
+  - step: authorise
+    repo: adyen
+    spec_file: adyen-payments-api-openapi.yml
+    operationId: post-payments
+    tag: Payments
+    capability_id: BC-1340.10
+    capability: Payment Initiation Management
+    capability_l1: BC-1340
+    intent: Start a payment
+    effect: write
+    unmapped: null
+  - step: recordPayment
+    repo: zuora
+    spec_file: zuora-payments-api-openapi.yml
+    operationId: POST_CreatePayment
+    tag: Payments
+    capability_id: BC-4250.40
+    capability: Payment Collection & Dunning
+    capability_l1: BC-4250
+    intent: null
+    effect: null
+    unmapped: null
+  connects:
+    adyen:
+      capabilities:
+      - BC-1340.10
+      tags:
+      - Payments
+    zuora:
+      capabilities:
+      - BC-4250.40
+      tags:
+      - Payments
+  intents:
+  - Start a payment
