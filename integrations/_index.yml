@@ -256,21 +256,93 @@
   source: edge
   arazzo: adyen-zuora-record-payment.yml
   status: arazzo
+- slug: adyen-bigcommerce
+  label: bigcommerce
+  partner: bigcommerce
+  partner_name: bigcommerce
+  type: contract
+  channel: partner-built
+  evidence: https://github.com/api-evangelist/bigcommerce/blob/main/openapi/bigcommerce-transactions-api-openapi.yml
+  source: edge
+  relationship: processor-connection
+  contract_reference:
+    repo: bigcommerce
+    spec_file: bigcommerce-transactions-api-openapi.yml
+    value: adyen
+    property: Transaction.gateway
+    detected_by: detect-payment-method-edges.py
+    detected: '2026-10-12'
+  status: not-a-workflow
+  arazzo: null
+- slug: adyen-elastic-path
+  label: elastic-path
+  partner: elastic-path
+  partner_name: elastic-path
+  type: contract
+  channel: partner-built
+  evidence: https://github.com/api-evangelist/elastic-path/blob/main/openapi/elastic-path-payments-api-openapi.yml
+  source: edge
+  relationship: processor-connection
+  contract_reference:
+    repo: elastic-path
+    spec_file: elastic-path-payments-api-openapi.yml
+    value: adyen
+    property: schemas.TransactionResponse.gateway
+    detected_by: detect-payment-method-edges.py
+    detected: '2026-10-12'
+  status: not-a-workflow
+  arazzo: null
 - slug: adyen-justt
   label: justt
   partner: justt
   partner_name: justt
   type: contract
   channel: partner-built
-  evidence: https://github.com/api-evangelist/justt/blob/main/openapi/justt-integrations-api-openapi.yml
+  evidence: https://github.com/api-evangelist/justt/blob/main/openapi/justt-transactions-api-openapi.yml
   source: edge
   relationship: processor-connection
   contract_reference:
     repo: justt
-    spec_file: justt-integrations-api-openapi.yml
+    spec_file: justt-transactions-api-openapi.yml
     value: adyen
-    property: components.schemas.SupportedPSP
+    property: schemas.PostTransactionDto.psp
+    detected_by: detect-payment-method-edges.py
+    detected: '2026-10-12'
+  arazzo: adyen-justt-preconfig.yml
+  status: arazzo
+- slug: adyen-lokki
+  label: lokki
+  partner: lokki
+  partner_name: lokki
+  type: contract
+  channel: partner-built
+  evidence: https://github.com/api-evangelist/lokki/blob/main/openapi/lokki-company-api-openapi.yml
+  source: edge
+  relationship: processor-connection
+  contract_reference:
+    repo: lokki
+    spec_file: lokki-company-api-openapi.yml
+    value: adyen
+    property: OnlineStoreCompanyAdyenPayment.provider.default
     detected_by: detect-payment-method-edges.py
     detected: '2026-10-12'
   status: not-a-workflow
   arazzo: null
+- slug: adyen-plaid
+  label: plaid
+  partner: plaid
+  partner_name: plaid
+  type: contract
+  channel: partner-built
+  evidence: https://github.com/api-evangelist/plaid/blob/main/openapi/plaid-plaid-api-openapi.yml
+  source: edge
+  relationship: processor-connection
+  contract_reference:
+    repo: plaid
+    spec_file: plaid-plaid-api-openapi.yml
+    value: adyen
+    property: schemas.ProcessorTokenCreateRequest.processor
+    detected_by: detect-payment-method-edges.py
+    detected: '2026-10-12'
+  arazzo: adyen-plaid-preconfig.yml
+  status: arazzo

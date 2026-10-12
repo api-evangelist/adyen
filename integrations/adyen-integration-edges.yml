@@ -230,6 +230,36 @@ edges:
   direction: partner-built
   category: billing
   note: Listed under "Built with our partners" on https://docs.adyen.com/plugins
+- partner_name: bigcommerce
+  partner: bigcommerce
+  partner_match: domain
+  type: contract
+  channel: partner-built
+  relationship: processor-connection
+  direction: partner-built
+  evidence: https://github.com/api-evangelist/bigcommerce/blob/main/openapi/bigcommerce-transactions-api-openapi.yml
+  contract_reference:
+    repo: bigcommerce
+    spec_file: bigcommerce-transactions-api-openapi.yml
+    value: adyen
+    property: Transaction.gateway
+    detected_by: detect-payment-method-edges.py
+    detected: '2026-10-12'
+- partner_name: elastic-path
+  partner: elastic-path
+  partner_match: domain
+  type: contract
+  channel: partner-built
+  relationship: processor-connection
+  direction: partner-built
+  evidence: https://github.com/api-evangelist/elastic-path/blob/main/openapi/elastic-path-payments-api-openapi.yml
+  contract_reference:
+    repo: elastic-path
+    spec_file: elastic-path-payments-api-openapi.yml
+    value: adyen
+    property: schemas.TransactionResponse.gateway
+    detected_by: detect-payment-method-edges.py
+    detected: '2026-10-12'
 - partner_name: justt
   partner: justt
   partner_match: domain
@@ -237,17 +267,42 @@ edges:
   channel: partner-built
   relationship: processor-connection
   direction: partner-built
-  evidence: https://github.com/api-evangelist/justt/blob/main/openapi/justt-integrations-api-openapi.yml
+  evidence: https://github.com/api-evangelist/justt/blob/main/openapi/justt-transactions-api-openapi.yml
   contract_reference:
     repo: justt
-    spec_file: justt-integrations-api-openapi.yml
+    spec_file: justt-transactions-api-openapi.yml
     value: adyen
-    property: components.schemas.SupportedPSP
+    property: schemas.PostTransactionDto.psp
+    detected_by: detect-payment-method-edges.py
+    detected: '2026-10-12'
+- partner_name: lokki
+  partner: lokki
+  partner_match: domain
+  type: contract
+  channel: partner-built
+  relationship: processor-connection
+  direction: partner-built
+  evidence: https://github.com/api-evangelist/lokki/blob/main/openapi/lokki-company-api-openapi.yml
+  contract_reference:
+    repo: lokki
+    spec_file: lokki-company-api-openapi.yml
+    value: adyen
+    property: OnlineStoreCompanyAdyenPayment.provider.default
+    detected_by: detect-payment-method-edges.py
+    detected: '2026-10-12'
+- partner_name: plaid
+  partner: plaid
+  partner_match: domain
+  type: contract
+  channel: partner-built
+  relationship: processor-connection
+  direction: partner-built
+  evidence: https://github.com/api-evangelist/plaid/blob/main/openapi/plaid-plaid-api-openapi.yml
+  contract_reference:
+    repo: plaid
+    spec_file: plaid-plaid-api-openapi.yml
+    value: adyen
+    property: schemas.ProcessorTokenCreateRequest.processor
     detected_by: detect-payment-method-edges.py
     detected: '2026-10-12'
 templates: []
-skips:
-- label: salesforce / oracle / microsoft / sap / shopify / bigcommerce entries (10)
-  cause: catalog
-  why: Not attempted in this pass. Those partner repos are large split-spec estates, and the 6 commerce and billing
-    partners took priority. They remain pending-generation.

@@ -1,0 +1,30 @@
+# DERIVED by build-integration-preconfigs.py (roadmap#949). Overlay on the PARTNER's contract:
+# where lokki's enum names adyen, and what that value is.
+overlay: 1.0.0
+info:
+  title: adyen as a processor-connection in lokki's contract
+  version: 1.0.0
+extends: https://raw.githubusercontent.com/api-evangelist/lokki/refs/heads/main/openapi/lokki-company-api-openapi.yml
+actions:
+- target: $.components.schemas.OnlineStoreCompanyAdyenPayment.properties.provider
+  update:
+    x-apievangelist-integration:
+      values:
+        adyen:
+          provider: adyen
+          relationship: processor-connection
+          evidence: https://github.com/api-evangelist/lokki/blob/main/openapi/lokki-company-api-openapi.yml
+      method: derived
+      generated: '2026-10-12'
+      generator: build-integration-preconfigs.py
+- target: $.components.schemas.CompanyAdyenCredentials.properties.provider
+  update:
+    x-apievangelist-integration:
+      values:
+        adyen:
+          provider: adyen
+          relationship: processor-connection
+          evidence: https://github.com/api-evangelist/lokki/blob/main/openapi/lokki-company-api-openapi.yml
+      method: derived
+      generated: '2026-10-12'
+      generator: build-integration-preconfigs.py
