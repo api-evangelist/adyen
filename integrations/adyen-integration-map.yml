@@ -100,6 +100,30 @@ workflows:
       - Payments
   intents:
   - Start a payment
+- file: adyen-justt-preconfig.yml
+  title: 'adyen through justt: TransactionController_createTransaction preconfigured with adyen'
+  partner: justt
+  template: null
+  repos:
+  - justt
+  steps:
+  - step: call-with-preset
+    repo: justt
+    spec_file: justt-transactions-api-openapi.yml
+    operationId: TransactionController_createTransaction
+    tag: Transactions
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: null
+    effect: null
+    unmapped: no capability edge for this spec file
+  connects:
+    justt:
+      capabilities: []
+      tags:
+      - Transactions
+  intents: []
 - file: adyen-mirakl-accept-capture.yml
   title: Adyen Mirakl Accept and Capture
   partner: mirakl
@@ -186,6 +210,31 @@ workflows:
       - Payments
   intents:
   - Refund a captured payment
+- file: adyen-plaid-preconfig.yml
+  title: 'adyen through plaid: processorTokenCreate preconfigured with adyen'
+  partner: plaid
+  template: null
+  repos:
+  - plaid
+  steps:
+  - step: call-with-preset
+    repo: plaid
+    spec_file: plaid-plaid-api-openapi.yml
+    operationId: processorTokenCreate
+    tag: Plaid
+    capability_id: null
+    capability: null
+    capability_l1: null
+    intent: Create a processor token for a partner
+    effect: write
+    unmapped: no capability edge for this spec file
+  connects:
+    plaid:
+      capabilities: []
+      tags:
+      - Plaid
+  intents:
+  - Create a processor token for a partner
 - file: adyen-woocommerce-order-payment-link.yml
   title: Adyen WooCommerce Order Payment Link
   partner: woocommerce
