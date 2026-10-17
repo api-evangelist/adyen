@@ -141,13 +141,37 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    CloseAccountRequest:
+    ServiceError:
       properties:
-        accountCode:
-          description: The code of account to be closed.
+        errorCode:
+          description: The error code mapped to the error message.
           type: string
-      required:
-      - accountCode
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    ErrorFieldType:
+      properties:
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
       type: object
     CloseAccountResponse:
       properties:
@@ -179,18 +203,13 @@ components:
           - Suspended
           type: string
       type: object
-    ErrorFieldType:
+    CloseAccountRequest:
       properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
+        accountCode:
+          description: The code of account to be closed.
           type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
+      required:
+      - accountCode
       type: object
     FieldType:
       properties:
@@ -367,25 +386,6 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    ServiceError:
-      properties:
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
-      type: object
   examples:
     generic-400:
       summary: Response code 400. Bad Request.
@@ -394,10 +394,6 @@ components:
         errorCode: '702'
         message: 'Unexpected input: I'
         errorType: validation
-    post-closeAccount-closeAccount:
-      summary: Close an account
-      value:
-        accountCode: CODE_OF_ACCOUNT
     generic-403:
       summary: Response code 401. Forbidden.
       value:
@@ -405,6 +401,10 @@ components:
         errorCode: '10_003'
         message: Failed to authorize user
         errorType: security
+    post-closeAccount-closeAccount:
+      summary: Close an account
+      value:
+        accountCode: CODE_OF_ACCOUNT
   securitySchemes:
     ApiKeyAuth:
       in: header

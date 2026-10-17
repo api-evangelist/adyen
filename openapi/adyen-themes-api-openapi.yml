@@ -237,6 +237,23 @@ paths:
         dispatcher: FALLBACK
 components:
   examples:
+    get-themes-id-success-200:
+      summary: Details of a page theme
+      description: Example response when getting the details of a page theme
+      value:
+        description: Light colors theme
+        properties:
+          privacyStatementPage: https://www.adyen.com/legal/terms-and-conditions
+          supportPage: https://www.adyen.com/contact
+          logo: ONBA422JV223222D5FWC4TK25S3DQW
+          pageTitle: Example onboarding light colors
+          backgroundColor: '#FFFFFF'
+          faqPage: https://docs.adyen.com/hosted-onboarding-faqs
+          backgroundImage: ONBA422JV223222D5G82M96F6P2VTV
+          pageLayout: withBackground
+        createdAt: '2022-06-22T00:00:00+02:00'
+        id: ONBT422KH223222D5G82M968PB46HR
+        updatedAt: '2022-08-25T00:00:00+02:00'
     get-themes-success-200:
       summary: List of hosted onboarding themes for your balance platform
       description: Example response when getting the list of hosted onboarding themes
@@ -267,39 +284,25 @@ components:
           createdAt: '2022-06-22T00:00:00+02:00'
           id: ONBT422KH223222D5G82M968PB46HR
           updatedAt: '2022-08-25T00:00:00+02:00'
-    get-themes-id-success-200:
-      summary: Details of a page theme
-      description: Example response when getting the details of a page theme
-      value:
-        description: Light colors theme
-        properties:
-          privacyStatementPage: https://www.adyen.com/legal/terms-and-conditions
-          supportPage: https://www.adyen.com/contact
-          logo: ONBA422JV223222D5FWC4TK25S3DQW
-          pageTitle: Example onboarding light colors
-          backgroundColor: '#FFFFFF'
-          faqPage: https://docs.adyen.com/hosted-onboarding-faqs
-          backgroundImage: ONBA422JV223222D5G82M96F6P2VTV
-          pageLayout: withBackground
-        createdAt: '2022-06-22T00:00:00+02:00'
-        id: ONBT422KH223222D5G82M968PB46HR
-        updatedAt: '2022-08-25T00:00:00+02:00'
   schemas:
-    OnboardingThemes:
+    ServiceError:
       properties:
-        next:
-          description: The next page. Only present if there is a next page.
+        errorCode:
+          description: The error code mapped to the error message.
           type: string
-        previous:
-          description: The previous page. Only present if there is a previous page.
+        errorType:
+          description: The category of the error.
           type: string
-        themes:
-          description: List of onboarding themes.
-          items:
-            $ref: '#/components/schemas/OnboardingTheme'
-          type: array
-      required:
-      - themes
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
       type: object
     OnboardingTheme:
       properties:
@@ -327,24 +330,21 @@ components:
       - id
       - createdAt
       type: object
-    ServiceError:
+    OnboardingThemes:
       properties:
-        errorCode:
-          description: The error code mapped to the error message.
+        next:
+          description: The next page. Only present if there is a next page.
           type: string
-        errorType:
-          description: The category of the error.
+        previous:
+          description: The previous page. Only present if there is a previous page.
           type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
+        themes:
+          description: List of onboarding themes.
+          items:
+            $ref: '#/components/schemas/OnboardingTheme'
+          type: array
+      required:
+      - themes
       type: object
   securitySchemes:
     ApiKeyAuth:

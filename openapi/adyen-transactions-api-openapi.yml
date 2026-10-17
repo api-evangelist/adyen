@@ -335,6 +335,29 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    TransferData:
+      properties:
+        id:
+          description: The ID of the resource.
+          type: string
+        reference:
+          x-addedInVersion: '4'
+          description: The [`reference`](https://docs.adyen.com/api-explorer/#/transfers/latest/post/transfers__reqParam_reference) from the `/transfers` request. If you haven't provided any, Adyen generates a unique reference.
+          type: string
+      required:
+      - reference
+      type: object
+    TransactionSearchResponse:
+      properties:
+        _links:
+          description: Contains links to the next and previous page whenever applicable.
+          $ref: '#/components/schemas/Links'
+        data:
+          description: Contains the transactions that match the query parameters.
+          items:
+            $ref: '#/components/schemas/Transaction'
+          type: array
+      type: object
     RestServiceError:
       properties:
         detail:
@@ -374,6 +397,38 @@ components:
       - detail
       - status
       type: object
+    ResourceReference:
+      properties:
+        description:
+          description: The description of the resource.
+          type: string
+        id:
+          description: The unique identifier of the resource.
+          type: string
+        reference:
+          description: The reference for the resource.
+          type: string
+      type: object
+    Link:
+      properties:
+        href:
+          type: string
+      type: object
+    Amount:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      - currency
+      type: object
     Links:
       properties:
         next:
@@ -382,41 +437,6 @@ components:
         prev:
           description: Contains a link to the previous page.
           $ref: '#/components/schemas/Link'
-      type: object
-    InvalidField:
-      properties:
-        message:
-          description: Description of the validation error.
-          type: string
-        name:
-          description: The field that has an invalid value.
-          type: string
-        value:
-          description: The invalid value.
-          type: string
-      required:
-      - name
-      - value
-      - message
-      type: object
-    Link:
-      properties:
-        href:
-          type: string
-      type: object
-    TransferData:
-      properties:
-        id:
-          description: The ID of the resource.
-          type: string
-        reference:
-          x-addedInVersion: '4'
-          description: The [`reference`](https://docs.adyen.com/api-explorer/#/transfers/latest/post/transfers__reqParam_reference) from the `/transfers` request. If you haven't provided any, Adyen generates a unique reference.
-          type: string
-      required:
-      - reference
-      type: object
-    JSONObject:
       type: object
     Transaction:
       properties:
@@ -475,45 +495,47 @@ components:
       - valueDate
       - balancePlatform
       type: object
-    TransactionSearchResponse:
+    InvalidField:
       properties:
-        _links:
-          description: Contains links to the next and previous page whenever applicable.
-          $ref: '#/components/schemas/Links'
-        data:
-          description: Contains the transactions that match the query parameters.
-          items:
-            $ref: '#/components/schemas/Transaction'
-          type: array
-      type: object
-    Amount:
-      properties:
-        currency:
-          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
-          maxLength: 3
-          minLength: 3
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
           type: string
         value:
-          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int64
-          type: integer
+          description: The invalid value.
+          type: string
       required:
+      - name
       - value
-      - currency
+      - message
       type: object
-    ResourceReference:
-      properties:
-        description:
-          description: The description of the resource.
-          type: string
-        id:
-          description: The unique identifier of the resource.
-          type: string
-        reference:
-          description: The reference for the resource.
-          type: string
+    JSONObject:
       type: object
   examples:
+    get-transactions-id-success-200:
+      summary: Response code - 200 OK
+      description: Example response for a transaction
+      value:
+        id: EVJN4227C224222B5JBDHPTD672M52EUR
+        amount:
+          value: -10000
+          currency: EUR
+        status: booked
+        transfer:
+          id: 48TYZO5ZVURJ2FCW
+          reference: Your internal reference for the transfer
+        valueDate: '2023-08-11T16:19:35+02:00'
+        bookingDate: '2023-08-11T16:19:39+02:00'
+        creationDate: '2023-08-11T16:19:35+02:00'
+        accountHolder:
+          id: AH00000000000000000000001
+          description: Your description of the account holder
+        balanceAccount:
+          id: BA00000000000000000000001
+          description: Your description of the balance account
+        balancePlatform: YOUR_BALANCE_PLATFORM
     get-transactions-success-200:
       summary: Response code - 200 OK
       description: Example response for a list of transactions
@@ -594,28 +616,6 @@ components:
         _links:
           next:
             href: https://balanceplatform-api-test.adyen.com/btl/v4/transactions?balancePlatform=TestBalancePlatform&createdUntil=2023-08-20T13%3A07%3A40Z&createdSince=2023-08-10T10%3A50%3A40Z&cursor=S2B-c0p1N0tdN0l6RGhYK1YpM0lgOTUyMDlLXElyKE9LMCtyaFEuMj1NMHgidCsrJi1ZNnhqXCtqVi5JPGpRK1F2fCFqWzU33JTojSVNJc1J1VXhncS10QDd6JX9FQFl5Zn0uNyUvSXJNQTo
-    get-transactions-id-success-200:
-      summary: Response code - 200 OK
-      description: Example response for a transaction
-      value:
-        id: EVJN4227C224222B5JBDHPTD672M52EUR
-        amount:
-          value: -10000
-          currency: EUR
-        status: booked
-        transfer:
-          id: 48TYZO5ZVURJ2FCW
-          reference: Your internal reference for the transfer
-        valueDate: '2023-08-11T16:19:35+02:00'
-        bookingDate: '2023-08-11T16:19:39+02:00'
-        creationDate: '2023-08-11T16:19:35+02:00'
-        accountHolder:
-          id: AH00000000000000000000001
-          description: Your description of the account holder
-        balanceAccount:
-          id: BA00000000000000000000001
-          description: Your description of the balance account
-        balancePlatform: YOUR_BALANCE_PLATFORM
   securitySchemes:
     ApiKeyAuth:
       in: header

@@ -244,36 +244,25 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    CardOrderItem:
+    CardOrderItemDeliveryStatus:
       properties:
-        balancePlatform:
-          description: The unique identifier of the balance platform.
+        errorMessage:
+          description: An error message.
           type: string
-        card:
-          description: 'The status of the card delivery.
-
-
-            Possible values: **created**, **rejected**, **processing**, **produced**, **shipped**, **delivered**, **notApplicable**, **unknown**. '
-          $ref: '#/components/schemas/CardOrderItemDeliveryStatus'
-        cardOrderItemId:
-          description: The unique identifier of the card order item.
+        status:
+          description: The status of the PIN delivery.
+          enum:
+          - created
+          - delivered
+          - notApplicable
+          - processing
+          - produced
+          - rejected
+          - shipped
+          - unknown
           type: string
-        creationDate:
-          description: The date and time when the event was triggered, in ISO 8601 extended format. For example, **2020-12-18T10:15:30+01:00**.
-          format: date-time
-          type: string
-        id:
-          description: The ID of the resource.
-          readOnly: true
-          type: string
-        paymentInstrumentId:
-          description: The unique identifier of the payment instrument related to the card order item.
-          type: string
-        pin:
-          description: Contains information about the status of the PIN delivery.
-          $ref: '#/components/schemas/CardOrderItemDeliveryStatus'
-        shippingMethod:
-          description: The shipping method used to deliver the card or the PIN.
+        trackingNumber:
+          description: The tracking number of the PIN delivery.
           type: string
       type: object
     RestServiceError:
@@ -355,6 +344,40 @@ components:
           - open
           type: string
       type: object
+    JSONObject:
+      type: object
+    CardOrderItem:
+      properties:
+        balancePlatform:
+          description: The unique identifier of the balance platform.
+          type: string
+        card:
+          description: 'The status of the card delivery.
+
+
+            Possible values: **created**, **rejected**, **processing**, **produced**, **shipped**, **delivered**, **notApplicable**, **unknown**. '
+          $ref: '#/components/schemas/CardOrderItemDeliveryStatus'
+        cardOrderItemId:
+          description: The unique identifier of the card order item.
+          type: string
+        creationDate:
+          description: The date and time when the event was triggered, in ISO 8601 extended format. For example, **2020-12-18T10:15:30+01:00**.
+          format: date-time
+          type: string
+        id:
+          description: The ID of the resource.
+          readOnly: true
+          type: string
+        paymentInstrumentId:
+          description: The unique identifier of the payment instrument related to the card order item.
+          type: string
+        pin:
+          description: Contains information about the status of the PIN delivery.
+          $ref: '#/components/schemas/CardOrderItemDeliveryStatus'
+        shippingMethod:
+          description: The shipping method used to deliver the card or the PIN.
+          type: string
+      type: object
     PaginatedGetCardOrderItemResponse:
       properties:
         data:
@@ -389,29 +412,6 @@ components:
       - value
       - message
       type: object
-    JSONObject:
-      type: object
-    CardOrderItemDeliveryStatus:
-      properties:
-        errorMessage:
-          description: An error message.
-          type: string
-        status:
-          description: The status of the PIN delivery.
-          enum:
-          - created
-          - delivered
-          - notApplicable
-          - processing
-          - produced
-          - rejected
-          - shipped
-          - unknown
-          type: string
-        trackingNumber:
-          description: The tracking number of the PIN delivery.
-          type: string
-      type: object
     PaginatedGetCardOrderResponse:
       properties:
         cardOrders:
@@ -439,45 +439,6 @@ components:
         detail: Unrecoverable error while trying to create payment instrument
         requestId: 1WAF555PLWNTLYOQ
         errorCode: '00_500'
-    generic-401:
-      summary: Response code - 401 Unauthorized
-      value:
-        type: https://docs.adyen.com/errors/security/unauthorized
-        title: Unauthorized
-        status: 401
-        detail: Not authorized to access this service.
-        errorCode: '00_401'
-    get-cardorders-id-items-success-200:
-      summary: Item list of a specific card order retrieved
-      description: Example response for retrieving the item list of a specific card order
-      value:
-        data:
-        - card:
-            status: shipped
-          cardOrderItemId: UNIQUE_CARD_ORDER_ITEM_ID
-          paymentInstrumentId: UNIQUE_PAYMENT_INSTRUMENT_ID
-          pin:
-            status: produced
-          shippingMethod: Cardholder Post Basic National
-        hasNext: false
-        hasPrevious: false
-    generic-422:
-      summary: Response code - 422 Unprocessable Entity.
-      value:
-        type: https://docs.adyen.com/errors/general/invalid-field-value
-        title: Invalid Payment Instrument information provided
-        status: 422
-        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
-        requestId: 1W1UI15PLVGC9V8O
-        errorCode: '30_031'
-    generic-403:
-      summary: Response code - 403 Forbidden.
-      value:
-        type: https://docs.adyen.com/errors/security/unauthorized
-        title: Forbidden
-        status: 403
-        detail: Not the right permission to access this service.
-        errorCode: '00_403'
     get-cardorders-success-200:
       summary: List of card orders retrieved
       description: Example response for retrieving a paginated list of card orders
@@ -492,6 +453,45 @@ components:
           status: closed
         hasNext: true
         hasPrevious: false
+    generic-403:
+      summary: Response code - 403 Forbidden.
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Forbidden
+        status: 403
+        detail: Not the right permission to access this service.
+        errorCode: '00_403'
+    generic-422:
+      summary: Response code - 422 Unprocessable Entity.
+      value:
+        type: https://docs.adyen.com/errors/general/invalid-field-value
+        title: Invalid Payment Instrument information provided
+        status: 422
+        detail: The balanceAccountId can only be changed when the status is Inactive or Requested
+        requestId: 1W1UI15PLVGC9V8O
+        errorCode: '30_031'
+    get-cardorders-id-items-success-200:
+      summary: Item list of a specific card order retrieved
+      description: Example response for retrieving the item list of a specific card order
+      value:
+        data:
+        - card:
+            status: shipped
+          cardOrderItemId: UNIQUE_CARD_ORDER_ITEM_ID
+          paymentInstrumentId: UNIQUE_PAYMENT_INSTRUMENT_ID
+          pin:
+            status: produced
+          shippingMethod: Cardholder Post Basic National
+        hasNext: false
+        hasPrevious: false
+    generic-401:
+      summary: Response code - 401 Unauthorized
+      value:
+        type: https://docs.adyen.com/errors/security/unauthorized
+        title: Unauthorized
+        status: 401
+        detail: Not authorized to access this service.
+        errorCode: '00_401'
   securitySchemes:
     ApiKeyAuth:
       in: header

@@ -51,48 +51,46 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    TransactionType:
+    ReconciliationResponse:
+      type: object
+      description: It conveys Information related to the Reconciliation transaction processed by the POI System. Content of the Reconciliation Response message.
+      properties:
+        Response:
+          $ref: '#/components/schemas/Response'
+        ReconciliationType:
+          $ref: '#/components/schemas/ReconciliationType'
+        POIReconciliationID:
+          type: integer
+          description: Absent if ReconciliationType is AcquirerReconciliation.
+        TransactionTotals:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionTotals'
+      required:
+      - Response
+      - ReconciliationType
+    PaymentInstrumentType:
       type: string
       enum:
-      - Award
-      - CashAdvance
-      - CompletedDeffered
-      - CompletedReservation
-      - Credit
-      - Debit
-      - Declined
-      - Failed
-      - FirstReservation
-      - IssuerInstalment
-      - OneTimeReservation
-      - Rebate
-      - Redemption
-      - ReverseAward
-      - ReverseCredit
-      - ReverseDebit
-      - ReverseRebate
-      - ReverseRedemption
-      - UpdateReservation
-    ErrorCondition:
-      type: string
-      enum:
-      - Aborted
-      - Busy
-      - Cancel
-      - DeviceOut
-      - InProgress
-      - InsertedCard
-      - InvalidCard
-      - LoggedOut
-      - MessageFormat
-      - NotAllowed
-      - NotFound
-      - PaymentRestriction
-      - Refusal
-      - UnavailableDevice
-      - UnavailableService
-      - UnreachableHost
-      - WrongPIN
+      - Card
+      - Cash
+      - Check
+      - Mobile
+      - StoredValue
+    Response:
+      type: object
+      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
+      properties:
+        Result:
+          $ref: '#/components/schemas/Result'
+        ErrorCondition:
+          $ref: '#/components/schemas/ErrorCondition'
+        AdditionalResponse:
+          type: string
+          pattern: ^.+$
+          description: If present, the POI logs it for further examination.
+      required:
+      - Result
     TransactionTotals:
       type: object
       description: If Result is Success, contains all the totals, classified as required by the Sale in the message request. At least, transaction totals are provided per Acquirer, Acquirer Settlement, and Card Brand. Result of the Sale to POI Reconciliation processing.
@@ -150,35 +148,6 @@ components:
             $ref: '#/components/schemas/LoyaltyTotals'
       required:
       - PaymentInstrumentType
-    PaymentInstrumentType:
-      type: string
-      enum:
-      - Card
-      - Cash
-      - Check
-      - Mobile
-      - StoredValue
-    ReconciliationRequest:
-      type: object
-      description: It conveys Information related to the Reconciliation requested by the Sale System. Content of the Reconciliation Request message.
-      properties:
-        ReconciliationType:
-          $ref: '#/components/schemas/ReconciliationType'
-        AcquirerID:
-          type: array
-          items:
-            type: integer
-            description: Could be present only if ReconciliationType is AcquirerReconciliation or AcquirerSynchronisation.
-        POIReconciliationID:
-          type: integer
-          description: Absent if ReconciliationType is not PreviousReconciliation.
-      required:
-      - ReconciliationType
-    LoyaltyUnit:
-      type: string
-      enum:
-      - Monetary
-      - Point
     Result:
       type: string
       enum:
@@ -203,38 +172,6 @@ components:
       - TransactionType
       - TransactionCount
       - TransactionAmount
-    ReconciliationResponse:
-      type: object
-      description: It conveys Information related to the Reconciliation transaction processed by the POI System. Content of the Reconciliation Response message.
-      properties:
-        Response:
-          $ref: '#/components/schemas/Response'
-        ReconciliationType:
-          $ref: '#/components/schemas/ReconciliationType'
-        POIReconciliationID:
-          type: integer
-          description: Absent if ReconciliationType is AcquirerReconciliation.
-        TransactionTotals:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransactionTotals'
-      required:
-      - Response
-      - ReconciliationType
-    Response:
-      type: object
-      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
-      properties:
-        Result:
-          $ref: '#/components/schemas/Result'
-        ErrorCondition:
-          $ref: '#/components/schemas/ErrorCondition'
-        AdditionalResponse:
-          type: string
-          pattern: ^.+$
-          description: If present, the POI logs it for further examination.
-      required:
-      - Result
     ReconciliationType:
       type: string
       enum:
@@ -242,6 +179,69 @@ components:
       - AcquirerSynchronisation
       - PreviousReconciliation
       - SaleReconciliation
+    TransactionType:
+      type: string
+      enum:
+      - Award
+      - CashAdvance
+      - CompletedDeffered
+      - CompletedReservation
+      - Credit
+      - Debit
+      - Declined
+      - Failed
+      - FirstReservation
+      - IssuerInstalment
+      - OneTimeReservation
+      - Rebate
+      - Redemption
+      - ReverseAward
+      - ReverseCredit
+      - ReverseDebit
+      - ReverseRebate
+      - ReverseRedemption
+      - UpdateReservation
+    ErrorCondition:
+      type: string
+      enum:
+      - Aborted
+      - Busy
+      - Cancel
+      - DeviceOut
+      - InProgress
+      - InsertedCard
+      - InvalidCard
+      - LoggedOut
+      - MessageFormat
+      - NotAllowed
+      - NotFound
+      - PaymentRestriction
+      - Refusal
+      - UnavailableDevice
+      - UnavailableService
+      - UnreachableHost
+      - WrongPIN
+    LoyaltyUnit:
+      type: string
+      enum:
+      - Monetary
+      - Point
+    ReconciliationRequest:
+      type: object
+      description: It conveys Information related to the Reconciliation requested by the Sale System. Content of the Reconciliation Request message.
+      properties:
+        ReconciliationType:
+          $ref: '#/components/schemas/ReconciliationType'
+        AcquirerID:
+          type: array
+          items:
+            type: integer
+            description: Could be present only if ReconciliationType is AcquirerReconciliation or AcquirerSynchronisation.
+        POIReconciliationID:
+          type: integer
+          description: Absent if ReconciliationType is not PreviousReconciliation.
+      required:
+      - ReconciliationType
     PaymentTotals:
       type: object
       description: Totals of the payment transaction during the reconciliation period.

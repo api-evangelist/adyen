@@ -129,34 +129,26 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  examples:
-    post-getNotificationConfigurationList-basic:
-      summary: Get a list of configurations
-      description: Returns the details of the configurations of all of the notification subscriptions in the platform of the executing user.
-      value: {}
-    post-getNotificationConfigurationList-basic-200:
-      summary: Get a list of configuration
-      description: Example response with a list of notification configurations for the executing user
-      value:
-        pspReference: '8516480437185726'
-        configurations:
-        - active: true
-          description: Unique description 12223
-          eventConfigs:
-          - eventType: ACCOUNT_HOLDER_VERIFICATION
-            includeMode: INCLUDE
-          notificationId: 27893
-          notifyURL: https://www.adyen.com/notification-handler
-          sslProtocol: TLSv13
-        - active: true
-          description: just testing things
-          eventConfigs:
-          - eventType: ACCOUNT_HOLDER_VERIFICATION
-            includeMode: INCLUDE
-          notificationId: 25032
-          notifyURL: https://www.adyen.com/notification-handler
-          sslProtocol: TLSv13
   schemas:
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
     GetNotificationConfigurationListResponse:
       properties:
         configurations:
@@ -176,6 +168,21 @@ components:
         resultCode:
           description: The result code.
           type: string
+      type: object
+    EmptyRequest:
+      type: object
+    ErrorFieldType:
+      properties:
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
       type: object
     NotificationEventConfiguration:
       properties:
@@ -275,21 +282,6 @@ components:
           - TLSv12
           - TLSv13
           type: string
-      type: object
-    EmptyRequest:
-      type: object
-    ErrorFieldType:
-      properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
-          type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
       type: object
     FieldType:
       properties:
@@ -466,25 +458,33 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    ServiceError:
-      properties:
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
-      type: object
+  examples:
+    post-getNotificationConfigurationList-basic-200:
+      summary: Get a list of configuration
+      description: Example response with a list of notification configurations for the executing user
+      value:
+        pspReference: '8516480437185726'
+        configurations:
+        - active: true
+          description: Unique description 12223
+          eventConfigs:
+          - eventType: ACCOUNT_HOLDER_VERIFICATION
+            includeMode: INCLUDE
+          notificationId: 27893
+          notifyURL: https://www.adyen.com/notification-handler
+          sslProtocol: TLSv13
+        - active: true
+          description: just testing things
+          eventConfigs:
+          - eventType: ACCOUNT_HOLDER_VERIFICATION
+            includeMode: INCLUDE
+          notificationId: 25032
+          notifyURL: https://www.adyen.com/notification-handler
+          sslProtocol: TLSv13
+    post-getNotificationConfigurationList-basic:
+      summary: Get a list of configurations
+      description: Returns the details of the configurations of all of the notification subscriptions in the platform of the executing user.
+      value: {}
   securitySchemes:
     ApiKeyAuth:
       in: header

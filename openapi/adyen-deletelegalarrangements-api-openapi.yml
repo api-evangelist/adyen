@@ -139,13 +139,13 @@ paths:
         dispatcher: FALLBACK
 components:
   examples:
-    generic-400:
-      summary: Response code 400. Bad Request.
+    post-deleteLegalArrangements-arrangements:
+      summary: Delete legal arrangements
+      description: Example request for deleting legal arrangements
       value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: I'
-        errorType: validation
+        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
+        legalArrangements:
+        - legalArrangementCode: cdf92f5a-a114-4ce6-8f19-c3f6ec83141c
     post-deleteLegalArrangements-entities:
       summary: Delete legal arrangement entities
       description: Example request for deleting legal arrangement entities
@@ -155,26 +155,13 @@ components:
         - legalArrangementCode: cdf92f5a-a114-4ce6-8f19-c3f6ec83141c
           legalArrangementEntityCodes:
           - 755881d3-d6b0-4b34-8ace-1caceb8add63
-    post-deleteLegalArrangements-arrangements-200:
-      summary: Legal arrangement deleted
-      value:
-        invalidFields: []
-        pspReference: '8816080397613514'
-    post-deleteLegalArrangements-entities-200:
-      summary: Legal arrangement entities deleted
-      value:
-        invalidFields: []
-        pspReference: '8816080397613514'
-    post-deleteLegalArrangements-arrangements-400:
+    generic-400:
       summary: Response code 400. Bad Request.
       value:
-        invalidFields:
-        - errorCode: 34
-          errorDescription: An invalid legalArrangementCode code is provided for value 'cdf92f5a-a114-4ce6-8f19-c3f6ec83141c'
-          fieldType:
-            field: AccountHolderDetails.LegalArrangements.legalArrangementCode
-            fieldName: legalArrangementCode
-        pspReference: '9916613322577326'
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
     generic-403:
       summary: Response code 401. Forbidden.
       value:
@@ -182,13 +169,16 @@ components:
         errorCode: '10_003'
         message: Failed to authorize user
         errorType: security
-    post-deleteLegalArrangements-arrangements:
-      summary: Delete legal arrangements
-      description: Example request for deleting legal arrangements
+    post-deleteLegalArrangements-entities-200:
+      summary: Legal arrangement entities deleted
       value:
-        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
-        legalArrangements:
-        - legalArrangementCode: cdf92f5a-a114-4ce6-8f19-c3f6ec83141c
+        invalidFields: []
+        pspReference: '8816080397613514'
+    post-deleteLegalArrangements-arrangements-200:
+      summary: Legal arrangement deleted
+      value:
+        invalidFields: []
+        pspReference: '8816080397613514'
     post-deleteLegalArrangements-entities-400:
       summary: Response code 400. Bad Request.
       value:
@@ -199,32 +189,50 @@ components:
             field: AccountHolderDetails.LegalArrangements.LegalArrangementsEntities.legalArrangementEntityCode
             fieldName: legalArrangementEntityCode
         pspReference: '9916613324987358'
+    post-deleteLegalArrangements-arrangements-400:
+      summary: Response code 400. Bad Request.
+      value:
+        invalidFields:
+        - errorCode: 34
+          errorDescription: An invalid legalArrangementCode code is provided for value 'cdf92f5a-a114-4ce6-8f19-c3f6ec83141c'
+          fieldType:
+            field: AccountHolderDetails.LegalArrangements.legalArrangementCode
+            fieldName: legalArrangementCode
+        pspReference: '9916613322577326'
   schemas:
-    LegalArrangementRequest:
+    GenericResponse:
       properties:
-        legalArrangementCode:
-          description: The code of the legal arrangement to be deleted. If you also send `legalArrangementEntityCodes`, only the entities listed will be deleted.
-          type: string
-        legalArrangementEntityCodes:
-          description: List of legal arrangement entities to be deleted.
+        invalidFields:
+          x-addedInVersion: '5'
+          description: Contains field validation errors that would prevent requests from being processed.
           items:
-            type: string
+            $ref: '#/components/schemas/ErrorFieldType'
           type: array
-      required:
-      - legalArrangementCode
+        pspReference:
+          description: The reference of a request. Can be used to uniquely identify the request.
+          type: string
+        resultCode:
+          description: The result code.
+          type: string
       type: object
-    ErrorFieldType:
+    ServiceError:
       properties:
         errorCode:
-          description: The validation error code.
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
           format: int32
           type: integer
-        errorDescription:
-          description: A description of the validation error.
-          type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
       type: object
     DeleteLegalArrangementRequest:
       properties:
@@ -240,20 +248,18 @@ components:
       - accountHolderCode
       - legalArrangements
       type: object
-    GenericResponse:
+    ErrorFieldType:
       properties:
-        invalidFields:
-          x-addedInVersion: '5'
-          description: Contains field validation errors that would prevent requests from being processed.
-          items:
-            $ref: '#/components/schemas/ErrorFieldType'
-          type: array
-        pspReference:
-          description: The reference of a request. Can be used to uniquely identify the request.
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
           type: string
-        resultCode:
-          description: The result code.
-          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
       type: object
     FieldType:
       properties:
@@ -430,24 +436,18 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    ServiceError:
+    LegalArrangementRequest:
       properties:
-        errorCode:
-          description: The error code mapped to the error message.
+        legalArrangementCode:
+          description: The code of the legal arrangement to be deleted. If you also send `legalArrangementEntityCodes`, only the entities listed will be deleted.
           type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
+        legalArrangementEntityCodes:
+          description: List of legal arrangement entities to be deleted.
+          items:
+            type: string
+          type: array
+      required:
+      - legalArrangementCode
       type: object
   securitySchemes:
     ApiKeyAuth:

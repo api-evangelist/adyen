@@ -869,6 +869,29 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    AllowedOriginsResponse:
+      properties:
+        data:
+          description: List of allowed origins.
+          items:
+            $ref: '#/components/schemas/AllowedOrigin'
+          type: array
+      type: object
+    CreateAllowedOriginRequest:
+      properties:
+        _links:
+          description: References to resources linked to the allowed origin.
+          $ref: '#/components/schemas/Links'
+        domain:
+          description: Domain of the allowed origin.
+          example: https://adyen.com
+          type: string
+        id:
+          description: Unique identifier of the allowed origin.
+          type: string
+      required:
+      - domain
+      type: object
     RestServiceError:
       properties:
         detail:
@@ -908,75 +931,6 @@ components:
       - detail
       - status
       type: object
-    InvalidField:
-      properties:
-        message:
-          description: Description of the validation error.
-          type: string
-        name:
-          description: The field that has an invalid value.
-          type: string
-        value:
-          description: The invalid value.
-          type: string
-      required:
-      - name
-      - value
-      - message
-      type: object
-    LinksElement:
-      properties:
-        href:
-          type: string
-      type: object
-    CreateAllowedOriginRequest:
-      properties:
-        _links:
-          description: References to resources linked to the allowed origin.
-          $ref: '#/components/schemas/Links'
-        domain:
-          description: Domain of the allowed origin.
-          example: https://adyen.com
-          type: string
-        id:
-          description: Unique identifier of the allowed origin.
-          type: string
-      required:
-      - domain
-      type: object
-    ApiCredentialLinks:
-      properties:
-        allowedOrigins:
-          description: List of allowed origins.
-          $ref: '#/components/schemas/LinksElement'
-        company:
-          description: Company account that the API credential is linked to. Only present for company-level webhooks.
-          $ref: '#/components/schemas/LinksElement'
-        generateApiKey:
-          description: 'Generates a new API key. When you generate a new one, the existing key remains valid for 24 hours. '
-          $ref: '#/components/schemas/LinksElement'
-        generateClientKey:
-          description: Generates a new client key, used to authenticate client-side requests. When you generate a new one, the existing key remains valid for 24 hours.
-          $ref: '#/components/schemas/LinksElement'
-        merchant:
-          description: The merchant account that the API credential is linked to. Only present for merchant-level API credentials.
-          $ref: '#/components/schemas/LinksElement'
-        self:
-          description: Link to the resource itself.
-          $ref: '#/components/schemas/LinksElement'
-      required:
-      - self
-      type: object
-    AllowedOriginsResponse:
-      properties:
-        data:
-          description: List of allowed origins.
-          items:
-            $ref: '#/components/schemas/AllowedOrigin'
-          type: array
-      type: object
-    JSONObject:
-      type: object
     GenerateClientKeyResponse:
       properties:
         clientKey:
@@ -984,14 +938,6 @@ components:
           type: string
       required:
       - clientKey
-      type: object
-    Links:
-      properties:
-        self:
-          description: Link to the resource itself.
-          $ref: '#/components/schemas/LinksElement'
-      required:
-      - self
       type: object
     MeApiCredential:
       properties:
@@ -1049,6 +995,60 @@ components:
       - allowedIpAddresses
       - roles
       - active
+      type: object
+    Links:
+      properties:
+        self:
+          description: Link to the resource itself.
+          $ref: '#/components/schemas/LinksElement'
+      required:
+      - self
+      type: object
+    LinksElement:
+      properties:
+        href:
+          type: string
+      type: object
+    ApiCredentialLinks:
+      properties:
+        allowedOrigins:
+          description: List of allowed origins.
+          $ref: '#/components/schemas/LinksElement'
+        company:
+          description: Company account that the API credential is linked to. Only present for company-level webhooks.
+          $ref: '#/components/schemas/LinksElement'
+        generateApiKey:
+          description: 'Generates a new API key. When you generate a new one, the existing key remains valid for 24 hours. '
+          $ref: '#/components/schemas/LinksElement'
+        generateClientKey:
+          description: Generates a new client key, used to authenticate client-side requests. When you generate a new one, the existing key remains valid for 24 hours.
+          $ref: '#/components/schemas/LinksElement'
+        merchant:
+          description: The merchant account that the API credential is linked to. Only present for merchant-level API credentials.
+          $ref: '#/components/schemas/LinksElement'
+        self:
+          description: Link to the resource itself.
+          $ref: '#/components/schemas/LinksElement'
+      required:
+      - self
+      type: object
+    InvalidField:
+      properties:
+        message:
+          description: Description of the validation error.
+          type: string
+        name:
+          description: The field that has an invalid value.
+          type: string
+        value:
+          description: The invalid value.
+          type: string
+      required:
+      - name
+      - value
+      - message
+      type: object
+    JSONObject:
       type: object
     AllowedOrigin:
       properties:

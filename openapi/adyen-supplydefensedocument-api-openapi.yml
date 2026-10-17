@@ -129,6 +129,25 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
     DefenseDocument:
       properties:
         content:
@@ -157,14 +176,6 @@ components:
       required:
       - success
       type: object
-    SupplyDefenseDocumentResponse:
-      properties:
-        disputeServiceResult:
-          description: The result of the dispute service.
-          $ref: '#/components/schemas/DisputeServiceResult'
-      required:
-      - disputeServiceResult
-      type: object
     SupplyDefenseDocumentRequest:
       properties:
         defenseDocuments:
@@ -183,26 +194,20 @@ components:
       - disputePspReference
       - defenseDocuments
       type: object
-    ServiceError:
+    SupplyDefenseDocumentResponse:
       properties:
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
+        disputeServiceResult:
+          description: The result of the dispute service.
+          $ref: '#/components/schemas/DisputeServiceResult'
+      required:
+      - disputeServiceResult
       type: object
   examples:
+    post-supplyDefenseDocument-supply-defense-document-200:
+      summary: Dispute defense documents supplied
+      value:
+        disputeServiceResult:
+          success: true
     post-supplyDefenseDocument-supply-defense-document:
       summary: Supply dispute defense documents
       value:
@@ -212,11 +217,6 @@ components:
           defenseDocumentTypeCode: DefenseMaterial
         disputePspReference: DZ4DPSHB4WD2WN82
         merchantAccountCode: YOUR_MERCHANT_ACCOUNT
-    post-supplyDefenseDocument-supply-defense-document-200:
-      summary: Dispute defense documents supplied
-      value:
-        disputeServiceResult:
-          success: true
   securitySchemes:
     ApiKeyAuth:
       in: header

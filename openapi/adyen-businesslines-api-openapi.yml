@@ -479,185 +479,15 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  examples:
-    post-businessLines-createBusinessLines-businessAccounts:
-      summary: Create a business line for a business account
-      description: Example request for creating a business line for a business account
-      value:
-        service: banking
-        industryCode: '4531'
-        webData:
-        - webAddress: https://www.adyen.com
-        legalEntityId: LE00000000000000000000001
-        sourceOfFunds:
-          type: business
-          adyenProcessedFunds: false
-          description: Funds from my flower shop business
-    get-businessLines-id-success-200:
-      summary: Details of a business line
-      description: Example response when getting the business line details
-      value:
-        service: banking
-        industryCode: '4531'
-        legalEntityId: LE00000000000000000000001
-        sourceOfFunds:
-          adyenProcessedFunds: false
-          description: Funds from my flower shop business
-          type: business
-        webData:
-        - webAddress: https://www.adyen.com
-          webAddressId: SE322JV223222J5H8V87B3DHN
-        id: SE322KH223222F5GV2SQ924F6
-    post-businessLines-createBusinessLines-receive:
-      summary: Create a business line for receiving payments
-      description: Example request for receiving payments
-      value:
-        service: paymentProcessing
-        industryCode: 339E
-        salesChannels:
-        - eCommerce
-        - ecomMoto
-        legalEntityId: LE00000000000000000000001
-        webData:
-        - webAddress: https://yoururl.com
-    patch-businessLines-id-updateBusinessLine-200:
-      summary: Business line updated
-      description: Example response for updating the industry code of a business line
-      value:
-        service: banking
-        industryCode: '55'
-        legalEntityId: LE00000000000000000000001
-        sourceOfFunds:
-          adyenProcessedFunds: false
-          description: Funds from my flower shop business
-          type: business
-        webData:
-        - webAddress: https://www.example.com
-          webAddressId: SE966LI345672J5H8V87B3FGH
-        id: SE322JV223222F5GVGMLNB83F
-    post-businessLines-createBusinessLines-receive-200:
-      summary: Business line created
-      description: Example response for creating a business line for receiving payments
-      value:
-        service: paymentProcessing
-        industryCode: 339E
-        legalEntityId: LE00000000000000000000001
-        salesChannels:
-        - eCommerce
-        - ecomMoto
-        webData:
-        - webAddress: https://yoururl.com
-          webAddressId: SE654AC923222F5H4CQGS77V4
-        id: SE322KT223222D5FJ7TJN2986
-    post-businessLines-createBusinessLines-businessAccounts-200:
-      summary: Business line created
-      description: Example response for creating a business line for a business account
-      value:
-        industryCode: '4531'
-        legalEntityId: LE00000000000000000000001
-        service: banking
-        sourceOfFunds:
-          adyenProcessedFunds: false
-          description: Funds from my flower shop business
-          type: business
-        webData:
-        - webAddress: https://www.adyen.com
-          webAddressId: SE322JV223222F5H4CQGS77V4
-        id: SE322KT223222D5FJ7TJN2986
-    patch-businessLines-id-updateBusinessLine:
-      summary: Update a business line
-      description: Example request for updating the industry code of a business line
-      value:
-        industryCode: '55'
-        webData:
-        - webAddress: https://www.example.com
   schemas:
-    BusinessLine:
+    CapabilityProblem:
       properties:
-        capability:
-          deprecated: true
-          x-deprecatedInVersion: '3'
-          x-deprecatedMessage: Use `service` instead.
-          description: 'The capability for which you are creating the business line.
-
-
-            Possible values: **receivePayments**, **receiveFromPlatformPayments**, **issueBankAccount**'
-          enum:
-          - receivePayments
-          - receiveFromPlatformPayments
-          - issueBankAccount
-          type: string
-        id:
-          description: The unique identifier of the business line.
-          readOnly: true
-          type: string
-        industryCode:
-          description: A code that represents the [industry of the legal entity](https://docs.adyen.com/marketplaces-and-platforms/verification-requirements/reference-additional-products/#list-industry-codes). For example, **4431A** for computer software stores.
-          type: string
-        legalEntityId:
-          description: Unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/legalEntities__resParam_id) that owns the business line.
-          type: string
-        problems:
-          x-addedInVersion: '3'
-          description: The verification errors related to capabilities for this supporting entity.
+        entity:
+          $ref: '#/components/schemas/CapabilityProblemEntity'
+        verificationErrors:
           items:
-            $ref: '#/components/schemas/CapabilityProblem'
+            $ref: '#/components/schemas/VerificationError'
           type: array
-        salesChannels:
-          description: 'A list of channels where goods or services are sold.
-
-
-            Possible values: **pos**, **posMoto**, **eCommerce**, **ecomMoto**, **payByLink**.
-
-
-            Required only in combination with the `service` **paymentProcessing**.'
-          items:
-            type: string
-          type: array
-        service:
-          x-addedInVersion: '3'
-          description: 'The service for which you are creating the business line.
-
-
-
-
-            Possible values:
-
-            *  **paymentProcessing**
-
-            *  **banking**
-
-
-            '
-          enum:
-          - paymentProcessing
-          - banking
-          type: string
-        sourceOfFunds:
-          description: Contains information about the source of your user's funds. Required only for the `service` **banking**.
-          $ref: '#/components/schemas/SourceOfFunds'
-        webData:
-          description: List of website URLs where your user's goods or services are sold. When this is required for a service but your user does not have an online presence, provide the reason in the `webDataExemption` object.
-          items:
-            $ref: '#/components/schemas/WebData'
-          type: array
-        webDataExemption:
-          description: The reason why the web data is not provided.
-          $ref: '#/components/schemas/WebDataExemption'
-      required:
-      - service
-      - industryCode
-      - legalEntityId
-      - id
-      type: object
-    WebDataExemption:
-      properties:
-        reason:
-          description: 'The reason why the web data was not provided. Possible value: **noOnlinePresence**.'
-          enum:
-          - noOnlinePresence
-          - notCollectedDuringOnboarding
-          type: string
       type: object
     CapabilityProblemEntity-recursive:
       properties:
@@ -677,32 +507,13 @@ components:
           type: string
       required: []
       type: object
-    CapabilityProblem:
+    WebDataExemption:
       properties:
-        entity:
-          $ref: '#/components/schemas/CapabilityProblemEntity'
-        verificationErrors:
-          items:
-            $ref: '#/components/schemas/VerificationError'
-          type: array
-      type: object
-    CapabilityProblemEntity:
-      properties:
-        documents:
-          description: List of document IDs corresponding to the verification errors from capabilities.
-          items:
-            type: string
-          type: array
-        id:
-          type: string
-        owner:
-          $ref: '#/components/schemas/CapabilityProblemEntity-recursive'
-        type:
+        reason:
+          description: 'The reason why the web data was not provided. Possible value: **noOnlinePresence**.'
           enum:
-          - BankAccount
-          - Document
-          - LegalEntity
-          - product
+          - noOnlinePresence
+          - notCollectedDuringOnboarding
           type: string
       type: object
     WebData:
@@ -714,80 +525,6 @@ components:
           description: The unique identifier of the web address.
           readOnly: true
           type: string
-      type: object
-    RemediatingAction:
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-      type: object
-    BusinessLineInfo:
-      properties:
-        capability:
-          deprecated: true
-          x-deprecatedInVersion: '3'
-          x-deprecatedMessage: Use `service` instead.
-          description: 'The capability for which you are creating the business line.
-
-
-            Possible values: **receivePayments**, **receiveFromPlatformPayments**, **issueBankAccount**'
-          enum:
-          - receivePayments
-          - receiveFromPlatformPayments
-          - issueBankAccount
-          type: string
-        industryCode:
-          description: A code that represents the [industry of the legal entity](https://docs.adyen.com/marketplaces-and-platforms/verification-requirements/reference-additional-products/#list-industry-codes). For example, **4431A** for computer software stores.
-          type: string
-        legalEntityId:
-          description: Unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/legalEntities__resParam_id) that owns the business line.
-          type: string
-        salesChannels:
-          description: 'A list of channels where goods or services are sold.
-
-
-            Possible values: **pos**, **posMoto**, **eCommerce**, **ecomMoto**, **payByLink**.
-
-
-            Required only in combination with the `service` **paymentProcessing**.'
-          items:
-            type: string
-          type: array
-        service:
-          x-addedInVersion: '3'
-          description: 'The service for which you are creating the business line.
-
-
-
-
-            Possible values:
-
-            *  **paymentProcessing**
-
-            *  **banking**
-
-
-            '
-          enum:
-          - paymentProcessing
-          - banking
-          type: string
-        sourceOfFunds:
-          description: Contains information about the source of your user's funds. Required only for the `service` **banking**.
-          $ref: '#/components/schemas/SourceOfFunds'
-        webData:
-          description: List of website URLs where your user's goods or services are sold. When this is required for a service but your user does not have an online presence, provide the reason in the `webDataExemption` object.
-          items:
-            $ref: '#/components/schemas/WebData'
-          type: array
-        webDataExemption:
-          description: The reason why the web data is not provided.
-          $ref: '#/components/schemas/WebDataExemption'
-      required:
-      - service
-      - industryCode
-      - legalEntityId
       type: object
     VerificationError-recursive:
       properties:
@@ -953,6 +690,84 @@ components:
           - rejected
           type: string
       type: object
+    BusinessLine:
+      properties:
+        capability:
+          deprecated: true
+          x-deprecatedInVersion: '3'
+          x-deprecatedMessage: Use `service` instead.
+          description: 'The capability for which you are creating the business line.
+
+
+            Possible values: **receivePayments**, **receiveFromPlatformPayments**, **issueBankAccount**'
+          enum:
+          - receivePayments
+          - receiveFromPlatformPayments
+          - issueBankAccount
+          type: string
+        id:
+          description: The unique identifier of the business line.
+          readOnly: true
+          type: string
+        industryCode:
+          description: A code that represents the [industry of the legal entity](https://docs.adyen.com/marketplaces-and-platforms/verification-requirements/reference-additional-products/#list-industry-codes). For example, **4431A** for computer software stores.
+          type: string
+        legalEntityId:
+          description: Unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/legalEntities__resParam_id) that owns the business line.
+          type: string
+        problems:
+          x-addedInVersion: '3'
+          description: The verification errors related to capabilities for this supporting entity.
+          items:
+            $ref: '#/components/schemas/CapabilityProblem'
+          type: array
+        salesChannels:
+          description: 'A list of channels where goods or services are sold.
+
+
+            Possible values: **pos**, **posMoto**, **eCommerce**, **ecomMoto**, **payByLink**.
+
+
+            Required only in combination with the `service` **paymentProcessing**.'
+          items:
+            type: string
+          type: array
+        service:
+          x-addedInVersion: '3'
+          description: 'The service for which you are creating the business line.
+
+
+
+
+            Possible values:
+
+            *  **paymentProcessing**
+
+            *  **banking**
+
+
+            '
+          enum:
+          - paymentProcessing
+          - banking
+          type: string
+        sourceOfFunds:
+          description: Contains information about the source of your user's funds. Required only for the `service` **banking**.
+          $ref: '#/components/schemas/SourceOfFunds'
+        webData:
+          description: List of website URLs where your user's goods or services are sold. When this is required for a service but your user does not have an online presence, provide the reason in the `webDataExemption` object.
+          items:
+            $ref: '#/components/schemas/WebData'
+          type: array
+        webDataExemption:
+          description: The reason why the web data is not provided.
+          $ref: '#/components/schemas/WebDataExemption'
+      required:
+      - service
+      - industryCode
+      - legalEntityId
+      - id
+      type: object
     BusinessLineInfoUpdate:
       properties:
         capability:
@@ -1013,25 +828,98 @@ components:
           description: The reason why the web data is not provided.
           $ref: '#/components/schemas/WebDataExemption'
       type: object
-    SourceOfFunds:
+    CapabilityProblemEntity:
       properties:
-        acquiringBusinessLineId:
+        documents:
+          description: List of document IDs corresponding to the verification errors from capabilities.
+          items:
+            type: string
+          type: array
+        id:
+          type: string
+        owner:
+          $ref: '#/components/schemas/CapabilityProblemEntity-recursive'
+        type:
+          enum:
+          - BankAccount
+          - Document
+          - LegalEntity
+          - product
+          type: string
+      type: object
+    RemediatingAction:
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      type: object
+    BusinessLineInfo:
+      properties:
+        capability:
           deprecated: true
           x-deprecatedInVersion: '3'
-          x-deprecatedMessage: This field will be removed in v4.
-          description: The unique identifier of the business line that will be the source of funds.This must be a business line for a **receivePayments** or **receiveFromPlatformPayments** capability.
-          type: string
-        adyenProcessedFunds:
-          description: Indicates whether the funds are coming from transactions processed by Adyen. If **false**, a `description` is required.
-          type: boolean
-        description:
-          description: Text describing the source of funds. For example, for `type` **business**, provide a description of where the business transactions come from, such as payments through bank transfer. Required when `adyenProcessedFunds` is **false**.
-          type: string
-        type:
-          description: 'The type of the source of funds. Possible value: **business**.'
+          x-deprecatedMessage: Use `service` instead.
+          description: 'The capability for which you are creating the business line.
+
+
+            Possible values: **receivePayments**, **receiveFromPlatformPayments**, **issueBankAccount**'
           enum:
-          - business
+          - receivePayments
+          - receiveFromPlatformPayments
+          - issueBankAccount
           type: string
+        industryCode:
+          description: A code that represents the [industry of the legal entity](https://docs.adyen.com/marketplaces-and-platforms/verification-requirements/reference-additional-products/#list-industry-codes). For example, **4431A** for computer software stores.
+          type: string
+        legalEntityId:
+          description: Unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/#/legalentity/latest/post/legalEntities__resParam_id) that owns the business line.
+          type: string
+        salesChannels:
+          description: 'A list of channels where goods or services are sold.
+
+
+            Possible values: **pos**, **posMoto**, **eCommerce**, **ecomMoto**, **payByLink**.
+
+
+            Required only in combination with the `service` **paymentProcessing**.'
+          items:
+            type: string
+          type: array
+        service:
+          x-addedInVersion: '3'
+          description: 'The service for which you are creating the business line.
+
+
+
+
+            Possible values:
+
+            *  **paymentProcessing**
+
+            *  **banking**
+
+
+            '
+          enum:
+          - paymentProcessing
+          - banking
+          type: string
+        sourceOfFunds:
+          description: Contains information about the source of your user's funds. Required only for the `service` **banking**.
+          $ref: '#/components/schemas/SourceOfFunds'
+        webData:
+          description: List of website URLs where your user's goods or services are sold. When this is required for a service but your user does not have an online presence, provide the reason in the `webDataExemption` object.
+          items:
+            $ref: '#/components/schemas/WebData'
+          type: array
+        webDataExemption:
+          description: The reason why the web data is not provided.
+          $ref: '#/components/schemas/WebDataExemption'
+      required:
+      - service
+      - industryCode
+      - legalEntityId
       type: object
     ServiceError:
       properties:
@@ -1052,6 +940,118 @@ components:
           format: int32
           type: integer
       type: object
+    SourceOfFunds:
+      properties:
+        acquiringBusinessLineId:
+          deprecated: true
+          x-deprecatedInVersion: '3'
+          x-deprecatedMessage: This field will be removed in v4.
+          description: The unique identifier of the business line that will be the source of funds.This must be a business line for a **receivePayments** or **receiveFromPlatformPayments** capability.
+          type: string
+        adyenProcessedFunds:
+          description: Indicates whether the funds are coming from transactions processed by Adyen. If **false**, a `description` is required.
+          type: boolean
+        description:
+          description: Text describing the source of funds. For example, for `type` **business**, provide a description of where the business transactions come from, such as payments through bank transfer. Required when `adyenProcessedFunds` is **false**.
+          type: string
+        type:
+          description: 'The type of the source of funds. Possible value: **business**.'
+          enum:
+          - business
+          type: string
+      type: object
+  examples:
+    post-businessLines-createBusinessLines-receive-200:
+      summary: Business line created
+      description: Example response for creating a business line for receiving payments
+      value:
+        service: paymentProcessing
+        industryCode: 339E
+        legalEntityId: LE00000000000000000000001
+        salesChannels:
+        - eCommerce
+        - ecomMoto
+        webData:
+        - webAddress: https://yoururl.com
+          webAddressId: SE654AC923222F5H4CQGS77V4
+        id: SE322KT223222D5FJ7TJN2986
+    patch-businessLines-id-updateBusinessLine-200:
+      summary: Business line updated
+      description: Example response for updating the industry code of a business line
+      value:
+        service: banking
+        industryCode: '55'
+        legalEntityId: LE00000000000000000000001
+        sourceOfFunds:
+          adyenProcessedFunds: false
+          description: Funds from my flower shop business
+          type: business
+        webData:
+        - webAddress: https://www.example.com
+          webAddressId: SE966LI345672J5H8V87B3FGH
+        id: SE322JV223222F5GVGMLNB83F
+    get-businessLines-id-success-200:
+      summary: Details of a business line
+      description: Example response when getting the business line details
+      value:
+        service: banking
+        industryCode: '4531'
+        legalEntityId: LE00000000000000000000001
+        sourceOfFunds:
+          adyenProcessedFunds: false
+          description: Funds from my flower shop business
+          type: business
+        webData:
+        - webAddress: https://www.adyen.com
+          webAddressId: SE322JV223222J5H8V87B3DHN
+        id: SE322KH223222F5GV2SQ924F6
+    post-businessLines-createBusinessLines-receive:
+      summary: Create a business line for receiving payments
+      description: Example request for receiving payments
+      value:
+        service: paymentProcessing
+        industryCode: 339E
+        salesChannels:
+        - eCommerce
+        - ecomMoto
+        legalEntityId: LE00000000000000000000001
+        webData:
+        - webAddress: https://yoururl.com
+    post-businessLines-createBusinessLines-businessAccounts-200:
+      summary: Business line created
+      description: Example response for creating a business line for a business account
+      value:
+        industryCode: '4531'
+        legalEntityId: LE00000000000000000000001
+        service: banking
+        sourceOfFunds:
+          adyenProcessedFunds: false
+          description: Funds from my flower shop business
+          type: business
+        webData:
+        - webAddress: https://www.adyen.com
+          webAddressId: SE322JV223222F5H4CQGS77V4
+        id: SE322KT223222D5FJ7TJN2986
+    post-businessLines-createBusinessLines-businessAccounts:
+      summary: Create a business line for a business account
+      description: Example request for creating a business line for a business account
+      value:
+        service: banking
+        industryCode: '4531'
+        webData:
+        - webAddress: https://www.adyen.com
+        legalEntityId: LE00000000000000000000001
+        sourceOfFunds:
+          type: business
+          adyenProcessedFunds: false
+          description: Funds from my flower shop business
+    patch-businessLines-id-updateBusinessLine:
+      summary: Update a business line
+      description: Example request for updating the industry code of a business line
+      value:
+        industryCode: '55'
+        webData:
+        - webAddress: https://www.example.com
   securitySchemes:
     ApiKeyAuth:
       in: header

@@ -48,24 +48,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    Color:
-      type: string
-      enum:
-      - Black
-      - Blue
-      - Cyan
-      - Green
-      - Magenta
-      - Red
-      - White
-      - Yellow
-    CharacterStyle:
-      type: string
-      enum:
-      - Bold
-      - Italic
-      - Normal
-      - Underline
     ErrorCondition:
       type: string
       enum:
@@ -86,55 +68,39 @@ components:
       - UnavailableService
       - UnreachableHost
       - WrongPIN
-    Result:
+    CharacterWidth:
       type: string
       enum:
-      - Failure
-      - Partial
-      - Success
-    DisplayOutput:
+      - DoubleWidth
+      - SingleWidth
+    PredefinedContent:
       type: object
-      description: It contains a complete display operation for a Display or an Input Device type. For the Input Devices, Diagnosis and EnableService, ResponseRequiredFlag and MinimumDisplayTime shall be absent. Information to display and the way to process the display.
+      description: It conveys Information related to the predefined message. Reference of a predefined message to display or print.
       properties:
-        ResponseRequiredFlag:
-          type: boolean
-          default: true
-          description: Request of a message response.
-        MinimumDisplayTime:
-          type: integer
-          minimum: 0
-          maximum: 999
-          default: 0
-          description: Number of seconds the message has to be displayed.
-        Device:
-          $ref: '#/components/schemas/Device'
-        InfoQualify:
-          $ref: '#/components/schemas/InfoQualify'
-        OutputContent:
-          $ref: '#/components/schemas/OutputContent'
-        MenuEntry:
-          type: array
-          items:
-            $ref: '#/components/schemas/MenuEntry'
-        OutputSignature:
+        ReferenceID:
           type: string
-          format: byte
           pattern: ^.+$
-          description: If protection has to be provided to the vendor on the text to display or print.
+          description: Identification of a predefined message to display or print.
+        Language:
+          type: string
+          pattern: ^[a-z]{2,2}$
+          description: Identification of a language.
       required:
-      - Device
-      - InfoQualify
-      - OutputContent
-    DisplayResponse:
-      type: object
-      description: It conveys the result of the display, parallel to the message request, except if response not required and absent. Content of the Display Response message.
-      properties:
-        OutputResult:
-          type: array
-          items:
-            $ref: '#/components/schemas/OutputResult'
-      required:
-      - OutputResult
+      - ReferenceID
+    OutputFormat:
+      type: string
+      enum:
+      - BarCode
+      - MessageRef
+      - Text
+      - XHTML
+    Alignment:
+      type: string
+      enum:
+      - Centred
+      - Justified
+      - Left
+      - Right
     MenuEntry:
       type: object
       description: It conveys message text and parameters of the menu entry. This output data could be only provided for an input command, in order to choose an entryof the menu. An entryof the menu to present to the Cashier.
@@ -158,110 +124,6 @@ components:
           pattern: ^.+$
       required:
       - OutputFormat
-    DisplayRequest:
-      type: object
-      description: It conveys the data to display and the way to process the display. It contains the complete content to display. It might contain an operation (the DisplayOutput element) per Display Device type. Content of the Display Request message.
-      properties:
-        DisplayOutput:
-          type: array
-          items:
-            $ref: '#/components/schemas/DisplayOutput'
-      required:
-      - DisplayOutput
-    Device:
-      type: string
-      enum:
-      - CashierDisplay
-      - CashierInput
-      - CustomerDisplay
-      - CustomerInput
-    PredefinedContent:
-      type: object
-      description: It conveys Information related to the predefined message. Reference of a predefined message to display or print.
-      properties:
-        ReferenceID:
-          type: string
-          pattern: ^.+$
-          description: Identification of a predefined message to display or print.
-        Language:
-          type: string
-          pattern: ^[a-z]{2,2}$
-          description: Identification of a language.
-      required:
-      - ReferenceID
-    Alignment:
-      type: string
-      enum:
-      - Centred
-      - Justified
-      - Left
-      - Right
-    OutputFormat:
-      type: string
-      enum:
-      - BarCode
-      - MessageRef
-      - Text
-      - XHTML
-    CharacterWidth:
-      type: string
-      enum:
-      - DoubleWidth
-      - SingleWidth
-    BarcodeType:
-      type: string
-      enum:
-      - Code128
-      - Code25
-      - EAN13
-      - EAN8
-      - PDF417
-      - QRCode
-      - UPCA
-    CharacterHeight:
-      type: string
-      enum:
-      - DoubleHeight
-      - HalfHeight
-      - SingleHeight
-    OutputResult:
-      type: object
-      description: In the message response, it contains the result of the output, if required in the message request. Information related to the result the output (display, print, input).
-      properties:
-        Device:
-          $ref: '#/components/schemas/Device'
-        InfoQualify:
-          $ref: '#/components/schemas/InfoQualify'
-        Response:
-          $ref: '#/components/schemas/Response'
-      required:
-      - Device
-      - InfoQualify
-      - Response
-    OutputBarcode:
-      type: object
-      properties:
-        BarcodeType:
-          $ref: '#/components/schemas/BarcodeType'
-        BarcodeValue:
-          type: string
-          pattern: ^.+$
-      required:
-      - BarcodeValue
-    Response:
-      type: object
-      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
-      properties:
-        Result:
-          $ref: '#/components/schemas/Result'
-        ErrorCondition:
-          $ref: '#/components/schemas/ErrorCondition'
-        AdditionalResponse:
-          type: string
-          pattern: ^.+$
-          description: If present, the POI logs it for further examination.
-      required:
-      - Result
     OutputContent:
       type: object
       description: This is a sequence of elements if they have different formats. Content to display or print.
@@ -283,6 +145,94 @@ components:
           $ref: '#/components/schemas/OutputBarcode'
       required:
       - OutputFormat
+    Response:
+      type: object
+      description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
+      properties:
+        Result:
+          $ref: '#/components/schemas/Result'
+        ErrorCondition:
+          $ref: '#/components/schemas/ErrorCondition'
+        AdditionalResponse:
+          type: string
+          pattern: ^.+$
+          description: If present, the POI logs it for further examination.
+      required:
+      - Result
+    OutputBarcode:
+      type: object
+      properties:
+        BarcodeType:
+          $ref: '#/components/schemas/BarcodeType'
+        BarcodeValue:
+          type: string
+          pattern: ^.+$
+      required:
+      - BarcodeValue
+    OutputResult:
+      type: object
+      description: In the message response, it contains the result of the output, if required in the message request. Information related to the result the output (display, print, input).
+      properties:
+        Device:
+          $ref: '#/components/schemas/Device'
+        InfoQualify:
+          $ref: '#/components/schemas/InfoQualify'
+        Response:
+          $ref: '#/components/schemas/Response'
+      required:
+      - Device
+      - InfoQualify
+      - Response
+    DisplayResponse:
+      type: object
+      description: It conveys the result of the display, parallel to the message request, except if response not required and absent. Content of the Display Response message.
+      properties:
+        OutputResult:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputResult'
+      required:
+      - OutputResult
+    CharacterStyle:
+      type: string
+      enum:
+      - Bold
+      - Italic
+      - Normal
+      - Underline
+    Result:
+      type: string
+      enum:
+      - Failure
+      - Partial
+      - Success
+    CharacterHeight:
+      type: string
+      enum:
+      - DoubleHeight
+      - HalfHeight
+      - SingleHeight
+    Color:
+      type: string
+      enum:
+      - Black
+      - Blue
+      - Cyan
+      - Green
+      - Magenta
+      - Red
+      - White
+      - Yellow
+    BarcodeType:
+      type: string
+      enum:
+      - Code128
+      - Code25
+      - EAN13
+      - EAN8
+      - PDF417
+      - QRCode
+      - UPCA
     OutputText:
       type: object
       description: It conveys Information related to the content of the text message and its format. All the data elements related to the format of the text to display or print are parameters valid for the whole Text content. Content of text message to display or print.
@@ -325,6 +275,56 @@ components:
       - NonSelectableSubMenu
       - Selectable
       - SubMenu
+    Device:
+      type: string
+      enum:
+      - CashierDisplay
+      - CashierInput
+      - CustomerDisplay
+      - CustomerInput
+    DisplayRequest:
+      type: object
+      description: It conveys the data to display and the way to process the display. It contains the complete content to display. It might contain an operation (the DisplayOutput element) per Display Device type. Content of the Display Request message.
+      properties:
+        DisplayOutput:
+          type: array
+          items:
+            $ref: '#/components/schemas/DisplayOutput'
+      required:
+      - DisplayOutput
+    DisplayOutput:
+      type: object
+      description: It contains a complete display operation for a Display or an Input Device type. For the Input Devices, Diagnosis and EnableService, ResponseRequiredFlag and MinimumDisplayTime shall be absent. Information to display and the way to process the display.
+      properties:
+        ResponseRequiredFlag:
+          type: boolean
+          default: true
+          description: Request of a message response.
+        MinimumDisplayTime:
+          type: integer
+          minimum: 0
+          maximum: 999
+          default: 0
+          description: Number of seconds the message has to be displayed.
+        Device:
+          $ref: '#/components/schemas/Device'
+        InfoQualify:
+          $ref: '#/components/schemas/InfoQualify'
+        OutputContent:
+          $ref: '#/components/schemas/OutputContent'
+        MenuEntry:
+          type: array
+          items:
+            $ref: '#/components/schemas/MenuEntry'
+        OutputSignature:
+          type: string
+          format: byte
+          pattern: ^.+$
+          description: If protection has to be provided to the vendor on the text to display or print.
+      required:
+      - Device
+      - InfoQualify
+      - OutputContent
     InfoQualify:
       type: string
       enum:

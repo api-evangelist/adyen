@@ -133,35 +133,7 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  examples:
-    generic-400:
-      summary: Response code 400. Bad Request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: I'
-        errorType: validation
-    generic-403:
-      summary: Response code 401. Forbidden.
-      value:
-        status: 403
-        errorCode: '10_003'
-        message: Failed to authorize user
-        errorType: security
   schemas:
-    ErrorFieldType:
-      properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
-          type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
-      type: object
     GenericResponse:
       properties:
         invalidFields:
@@ -177,19 +149,37 @@ components:
           description: The result code.
           type: string
       type: object
-    DeleteSignatoriesRequest:
+    ServiceError:
       properties:
-        accountHolderCode:
-          description: The code of the account holder from which to delete the signatories.
+        errorCode:
+          description: The error code mapped to the error message.
           type: string
-        signatoryCodes:
-          description: Array of codes of the signatories to be deleted.
-          items:
-            type: string
-          type: array
-      required:
-      - accountHolderCode
-      - signatoryCodes
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    ErrorFieldType:
+      properties:
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
       type: object
     FieldType:
       properties:
@@ -366,25 +356,35 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    ServiceError:
+    DeleteSignatoriesRequest:
       properties:
-        errorCode:
-          description: The error code mapped to the error message.
+        accountHolderCode:
+          description: The code of the account holder from which to delete the signatories.
           type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
+        signatoryCodes:
+          description: Array of codes of the signatories to be deleted.
+          items:
+            type: string
+          type: array
+      required:
+      - accountHolderCode
+      - signatoryCodes
       type: object
+  examples:
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
+    generic-403:
+      summary: Response code 401. Forbidden.
+      value:
+        status: 403
+        errorCode: '10_003'
+        message: Failed to authorize user
+        errorType: security
   securitySchemes:
     ApiKeyAuth:
       in: header

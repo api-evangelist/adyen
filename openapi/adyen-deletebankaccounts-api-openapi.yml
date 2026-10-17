@@ -136,55 +136,7 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  examples:
-    generic-400:
-      summary: Response code 400. Bad Request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: I'
-        errorType: validation
-    post-deleteBankAccounts-basic:
-      summary: Delete bank accounts
-      value:
-        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
-        bankAccountUUIDs:
-        - eeb6ed22-3bae-483c-83b9-bc2097a75d40
-    generic-403:
-      summary: Response code 401. Forbidden.
-      value:
-        status: 403
-        errorCode: '10_003'
-        message: Failed to authorize user
-        errorType: security
   schemas:
-    DeleteBankAccountRequest:
-      properties:
-        accountHolderCode:
-          description: The code of the Account Holder from which to delete the Bank Account(s).
-          type: string
-        bankAccountUUIDs:
-          description: The code(s) of the Bank Accounts to be deleted.
-          items:
-            type: string
-          type: array
-      required:
-      - accountHolderCode
-      - bankAccountUUIDs
-      type: object
-    ErrorFieldType:
-      properties:
-        errorCode:
-          description: The validation error code.
-          format: int32
-          type: integer
-        errorDescription:
-          description: A description of the validation error.
-          type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
-      type: object
     GenericResponse:
       properties:
         invalidFields:
@@ -199,6 +151,38 @@ components:
         resultCode:
           description: The result code.
           type: string
+      type: object
+    ServiceError:
+      properties:
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
+    ErrorFieldType:
+      properties:
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
       type: object
     FieldType:
       properties:
@@ -375,25 +359,41 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    ServiceError:
+    DeleteBankAccountRequest:
       properties:
-        errorCode:
-          description: The error code mapped to the error message.
+        accountHolderCode:
+          description: The code of the Account Holder from which to delete the Bank Account(s).
           type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
+        bankAccountUUIDs:
+          description: The code(s) of the Bank Accounts to be deleted.
+          items:
+            type: string
+          type: array
+      required:
+      - accountHolderCode
+      - bankAccountUUIDs
       type: object
+  examples:
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
+    generic-403:
+      summary: Response code 401. Forbidden.
+      value:
+        status: 403
+        errorCode: '10_003'
+        message: Failed to authorize user
+        errorType: security
+    post-deleteBankAccounts-basic:
+      summary: Delete bank accounts
+      value:
+        accountHolderCode: CODE_OF_ACCOUNT_HOLDER
+        bankAccountUUIDs:
+        - eeb6ed22-3bae-483c-83b9-bc2097a75d40
   securitySchemes:
     ApiKeyAuth:
       in: header

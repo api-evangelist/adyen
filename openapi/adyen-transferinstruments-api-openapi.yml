@@ -490,67 +490,6 @@ paths:
         dispatcher: FALLBACK
 components:
   examples:
-    patch-transferInstruments-id-updateTransferInstrument:
-      summary: Update a transfer instrument
-      description: Example request for updating a transfer instrument
-      value:
-        bankAccount:
-          accountIdentification:
-            type: iban
-            iban: NL02ABNA0123456789
-        legalEntityId: LE00000000000000000000001
-        type: bankAccount
-    post-transferInstruments-createTransferInstrumentUSD:
-      summary: Add a USD bank account
-      description: Example request for creating a transfer instrument for USD
-      value:
-        legalEntityId: LE00000000000000000000001
-        type: bankAccount
-        bankAccount:
-          accountIdentification:
-            type: usLocal
-            accountNumber: '0000000123'
-            routingNumber: '121202211'
-    post-transferInstruments-createTransferInstrumentEUR-200:
-      summary: Bank account added
-      description: Example response for adding a bank account as a transfer instrument of a legal entity
-      value:
-        bankAccount:
-          accountIdentification:
-            type: iban
-            iban: NL62ABNA0000000123
-          countryCode: NL
-          trustedSource: false
-        legalEntityId: LE00000000000000000000001
-        type: bankAccount
-        capabilities:
-          sendToTransferInstrument:
-            allowed: false
-            requested: true
-            verificationStatus: pending
-        id: SE322KH223222F5GXZFNM3BGP
-    patch-transferInstruments-id-updateTransferInstrument-200:
-      summary: Transfer instrument updated
-      description: Example response for updating a transfer instrument
-      value:
-        bankAccount:
-          accountIdentification:
-            type: iban
-            iban: NL02ABNA0123456789
-          countryCode: NL
-        legalEntityId: LE00000000000000000000001
-        type: bankAccount
-        id: SE322KH223222F5GXZFNM3BGP
-    post-transferInstruments-createTransferInstrumentEUR:
-      summary: Add a EUR bank account
-      description: Example request for creating a transfer instrument for EUR
-      value:
-        legalEntityId: LE00000000000000000000001
-        type: bankAccount
-        bankAccount:
-          accountIdentification:
-            type: iban
-            iban: NL62ABNA0000000123
     get-transferInstruments-id-success-200:
       summary: Details of a transfer instrument
       description: Example response when getting the details of a new transfer instrument
@@ -589,7 +528,95 @@ components:
             requested: true
             verificationStatus: pending
         id: SE322JV223222F5GJVKHH8DTC
+    post-transferInstruments-createTransferInstrumentEUR:
+      summary: Add a EUR bank account
+      description: Example request for creating a transfer instrument for EUR
+      value:
+        legalEntityId: LE00000000000000000000001
+        type: bankAccount
+        bankAccount:
+          accountIdentification:
+            type: iban
+            iban: NL62ABNA0000000123
+    patch-transferInstruments-id-updateTransferInstrument:
+      summary: Update a transfer instrument
+      description: Example request for updating a transfer instrument
+      value:
+        bankAccount:
+          accountIdentification:
+            type: iban
+            iban: NL02ABNA0123456789
+        legalEntityId: LE00000000000000000000001
+        type: bankAccount
+    patch-transferInstruments-id-updateTransferInstrument-200:
+      summary: Transfer instrument updated
+      description: Example response for updating a transfer instrument
+      value:
+        bankAccount:
+          accountIdentification:
+            type: iban
+            iban: NL02ABNA0123456789
+          countryCode: NL
+        legalEntityId: LE00000000000000000000001
+        type: bankAccount
+        id: SE322KH223222F5GXZFNM3BGP
+    post-transferInstruments-createTransferInstrumentEUR-200:
+      summary: Bank account added
+      description: Example response for adding a bank account as a transfer instrument of a legal entity
+      value:
+        bankAccount:
+          accountIdentification:
+            type: iban
+            iban: NL62ABNA0000000123
+          countryCode: NL
+          trustedSource: false
+        legalEntityId: LE00000000000000000000001
+        type: bankAccount
+        capabilities:
+          sendToTransferInstrument:
+            allowed: false
+            requested: true
+            verificationStatus: pending
+        id: SE322KH223222F5GXZFNM3BGP
+    post-transferInstruments-createTransferInstrumentUSD:
+      summary: Add a USD bank account
+      description: Example request for creating a transfer instrument for USD
+      value:
+        legalEntityId: LE00000000000000000000001
+        type: bankAccount
+        bankAccount:
+          accountIdentification:
+            type: usLocal
+            accountNumber: '0000000123'
+            routingNumber: '121202211'
   schemas:
+    CapabilityProblem:
+      properties:
+        entity:
+          $ref: '#/components/schemas/CapabilityProblemEntity'
+        verificationErrors:
+          items:
+            $ref: '#/components/schemas/VerificationError'
+          type: array
+      type: object
+    CapabilityProblemEntity-recursive:
+      properties:
+        documents:
+          description: List of document IDs corresponding to the verification errors from capabilities.
+          items:
+            type: string
+          type: array
+        id:
+          type: string
+        type:
+          enum:
+          - BankAccount
+          - Document
+          - LegalEntity
+          - product
+          type: string
+      required: []
+      type: object
     IbanAccountIdentification:
       additionalProperties: false
       properties:
@@ -606,50 +633,32 @@ components:
       - type
       - iban
       type: object
-    CZLocalAccountIdentification:
-      additionalProperties: false
+    DocumentReference:
       properties:
-        accountNumber:
-          description: 'The 2- to 16-digit bank account number (Číslo účtu) in the following format:
-
-
-            - The optional prefix (předčíslí).
-
-
-            - The required second part (základní část) which must be at least two non-zero digits.
-
-
-            Examples:
-
-
-            - **19-123457** (with prefix)
-
-
-            - **123457** (without prefix)
-
-
-            - **000019-0000123457** (with prefix, normalized)
-
-
-            - **000000-0000123457** (without prefix, normalized)'
-          maxLength: 17
-          minLength: 2
+        active:
+          description: Identifies whether the document is active and used for checks.
+          type: boolean
+        description:
+          description: Your description for the document.
           type: string
-        bankCode:
-          description: The 4-digit bank code (Kód banky), without separators or whitespace.
-          maxLength: 4
-          minLength: 4
+        fileName:
+          description: Document name.
           type: string
+        id:
+          description: The unique identifier of the resource.
+          type: string
+        modificationDate:
+          description: The modification date of the document.
+          format: date-time
+          type: string
+        pages:
+          description: List of document pages
+          items:
+            $ref: '#/components/schemas/DocumentPage'
+          type: array
         type:
-          default: czLocal
-          description: '**czLocal**'
-          enum:
-          - czLocal
+          description: Type of document, used when providing an ID number or uploading a document.
           type: string
-      required:
-      - type
-      - accountNumber
-      - bankCode
       type: object
     TransferInstrument:
       properties:
@@ -696,156 +705,23 @@ components:
       - bankAccount
       - id
       type: object
-    HULocalAccountIdentification:
+    NZLocalAccountIdentification:
       additionalProperties: false
       properties:
         accountNumber:
-          description: The 24-digit bank account number, without separators or whitespace.
-          maxLength: 24
-          minLength: 24
+          description: The 15-16 digit bank account number. The first 2 digits are the bank number, the next 4 digits are the branch number, the next 7 digits are the account number, and the final 2-3 digits are the suffix.
+          maxLength: 16
+          minLength: 15
           type: string
         type:
-          default: huLocal
-          description: '**huLocal**'
+          default: nzLocal
+          description: '**nzLocal**'
           enum:
-          - huLocal
+          - nzLocal
           type: string
       required:
       - type
       - accountNumber
-      type: object
-    AULocalAccountIdentification:
-      additionalProperties: false
-      properties:
-        accountNumber:
-          description: The bank account number, without separators or whitespace.
-          maxLength: 9
-          minLength: 5
-          type: string
-        bsbCode:
-          description: The 6-digit [Bank State Branch (BSB) code](https://en.wikipedia.org/wiki/Bank_state_branch), without separators or whitespace.
-          maxLength: 6
-          minLength: 6
-          type: string
-        type:
-          default: auLocal
-          description: '**auLocal**'
-          enum:
-          - auLocal
-          type: string
-      required:
-      - type
-      - accountNumber
-      - bsbCode
-      type: object
-    BankAccountInfo:
-      properties:
-        accountIdentification:
-          x-addedInVersion: '3'
-          description: Identification of the bank account.
-          oneOf:
-          - $ref: '#/components/schemas/AULocalAccountIdentification'
-          - $ref: '#/components/schemas/CALocalAccountIdentification'
-          - $ref: '#/components/schemas/CZLocalAccountIdentification'
-          - $ref: '#/components/schemas/DKLocalAccountIdentification'
-          - $ref: '#/components/schemas/HKLocalAccountIdentification'
-          - $ref: '#/components/schemas/HULocalAccountIdentification'
-          - $ref: '#/components/schemas/IbanAccountIdentification'
-          - $ref: '#/components/schemas/NOLocalAccountIdentification'
-          - $ref: '#/components/schemas/NZLocalAccountIdentification'
-          - $ref: '#/components/schemas/NumberAndBicAccountIdentification'
-          - $ref: '#/components/schemas/PLLocalAccountIdentification'
-          - $ref: '#/components/schemas/SELocalAccountIdentification'
-          - $ref: '#/components/schemas/SGLocalAccountIdentification'
-          - $ref: '#/components/schemas/UKLocalAccountIdentification'
-          - $ref: '#/components/schemas/USLocalAccountIdentification'
-        accountType:
-          deprecated: true
-          x-deprecatedInVersion: '2'
-          description: The type of bank account.
-          type: string
-        bankName:
-          description: The name of the banking institution where the bank account is held.
-          type: string
-        countryCode:
-          description: The two-character [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code where the bank account is registered. For example, **NL**.
-          type: string
-        trustedSource:
-          description: Identifies if the bank account was created through [instant bank verification](https://docs.adyen.com/release-notes/platforms-and-financial-products#releaseNote=2023-05-08-hosted-onboarding).
-          readOnly: true
-          type: boolean
-      type: object
-    CapabilityProblemEntity-recursive:
-      properties:
-        documents:
-          description: List of document IDs corresponding to the verification errors from capabilities.
-          items:
-            type: string
-          type: array
-        id:
-          type: string
-        type:
-          enum:
-          - BankAccount
-          - Document
-          - LegalEntity
-          - product
-          type: string
-      required: []
-      type: object
-    SupportingEntityCapability:
-      properties:
-        allowed:
-          description: 'Indicates whether the capability is allowed for the supporting entity.
-
-
-            If a capability is allowed for a supporting entity but not for the parent legal entity, this means the legal entity has other supporting entities that failed verification.
-
-
-            **You can use the allowed supporting entity** regardless of the verification status of other supporting entities.'
-          readOnly: true
-          type: boolean
-        id:
-          description: 'Supporting entity reference '
-          readOnly: true
-          type: string
-        requested:
-          description: 'Indicates whether the supporting entity capability is requested. '
-          readOnly: true
-          type: boolean
-        verificationStatus:
-          description: 'The status of the verification checks for the capability of the supporting entity.
-
-
-            Possible values:
-
-
-            * **pending**: Adyen is running the verification.
-
-
-            * **invalid**: The verification failed. Check if the `errors` array contains more information.
-
-
-            * **valid**: The verification has been successfully completed.
-
-
-            * **rejected**: Adyen has verified the information, but found reasons to not allow the capability.
-
-            '
-          readOnly: true
-          type: string
-      type: object
-    AdditionalBankIdentification:
-      properties:
-        code:
-          description: The value of the additional bank identification.
-          type: string
-        type:
-          description: "The type of additional bank identification, depending on the country.\n\nPossible values:\n\n * **gbSortCode**: The 6-digit [UK sort code](https://en.wikipedia.org/wiki/Sort_code), without separators or spaces\n * **usRoutingNumber**: The 9-digit [routing number](https://en.wikipedia.org/wiki/ABA_routing_transit_number), without separators or spaces."
-          enum:
-          - gbSortCode
-          - usRoutingNumber
-          type: string
       type: object
     CALocalAccountIdentification:
       additionalProperties: false
@@ -928,223 +804,41 @@ components:
       - type
       - accountNumber
       type: object
-    DKLocalAccountIdentification:
+    HKLocalAccountIdentification:
       additionalProperties: false
       properties:
         accountNumber:
-          description: The 4-10 digits bank account number (Kontonummer) (without separators or whitespace).
-          maxLength: 10
-          minLength: 4
+          description: The 9- to 15-character bank account number (alphanumeric), without separators or whitespace. Starts with the 3-digit branch code.
+          maxLength: 15
+          minLength: 9
           type: string
-        bankCode:
-          description: The 4-digit bank code (Registreringsnummer) (without separators or whitespace).
-          maxLength: 4
-          minLength: 4
+        clearingCode:
+          description: The 3-digit clearing code, without separators or whitespace.
+          maxLength: 3
+          minLength: 3
           type: string
         type:
-          default: dkLocal
-          description: '**dkLocal**'
+          default: hkLocal
+          description: '**hkLocal**'
           enum:
-          - dkLocal
+          - hkLocal
           type: string
       required:
       - type
       - accountNumber
-      - bankCode
+      - clearingCode
       type: object
-    CapabilityProblem:
-      properties:
-        entity:
-          $ref: '#/components/schemas/CapabilityProblemEntity'
-        verificationErrors:
-          items:
-            $ref: '#/components/schemas/VerificationError'
-          type: array
-      type: object
-    CapabilityProblemEntity:
-      properties:
-        documents:
-          description: List of document IDs corresponding to the verification errors from capabilities.
-          items:
-            type: string
-          type: array
-        id:
-          type: string
-        owner:
-          $ref: '#/components/schemas/CapabilityProblemEntity-recursive'
-        type:
-          enum:
-          - BankAccount
-          - Document
-          - LegalEntity
-          - product
-          type: string
-      type: object
-    NZLocalAccountIdentification:
-      additionalProperties: false
-      properties:
-        accountNumber:
-          description: The 15-16 digit bank account number. The first 2 digits are the bank number, the next 4 digits are the branch number, the next 7 digits are the account number, and the final 2-3 digits are the suffix.
-          maxLength: 16
-          minLength: 15
-          type: string
-        type:
-          default: nzLocal
-          description: '**nzLocal**'
-          enum:
-          - nzLocal
-          type: string
-      required:
-      - type
-      - accountNumber
-      type: object
-    UKLocalAccountIdentification:
-      additionalProperties: false
-      properties:
-        accountNumber:
-          description: The 8-digit bank account number, without separators or whitespace.
-          maxLength: 8
-          minLength: 8
-          type: string
-        sortCode:
-          description: The 6-digit [sort code](https://en.wikipedia.org/wiki/Sort_code), without separators or whitespace.
-          maxLength: 6
-          minLength: 6
-          type: string
-        type:
-          default: ukLocal
-          description: '**ukLocal**'
-          enum:
-          - ukLocal
-          type: string
-      required:
-      - type
-      - accountNumber
-      - sortCode
-      type: object
-    NOLocalAccountIdentification:
-      additionalProperties: false
-      properties:
-        accountNumber:
-          description: The 11-digit bank account number, without separators or whitespace.
-          maxLength: 11
-          minLength: 11
-          type: string
-        type:
-          default: noLocal
-          description: '**noLocal**'
-          enum:
-          - noLocal
-          type: string
-      required:
-      - type
-      - accountNumber
-      type: object
-    RemediatingAction:
+    AdditionalBankIdentification:
       properties:
         code:
-          type: string
-        message:
-          type: string
-      type: object
-    TransferInstrumentInfo:
-      properties:
-        bankAccount:
-          description: Contains information about the legal entity's bank account.
-          $ref: '#/components/schemas/BankAccountInfo'
-        legalEntityId:
-          description: The unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/legalentity/latest/post/legalEntities#responses-200-id) that owns the transfer instrument.
+          description: The value of the additional bank identification.
           type: string
         type:
-          description: 'The type of transfer instrument.
-
-
-            Possible value: **bankAccount**.'
+          description: "The type of additional bank identification, depending on the country.\n\nPossible values:\n\n * **gbSortCode**: The 6-digit [UK sort code](https://en.wikipedia.org/wiki/Sort_code), without separators or spaces\n * **usRoutingNumber**: The 9-digit [routing number](https://en.wikipedia.org/wiki/ABA_routing_transit_number), without separators or spaces."
           enum:
-          - bankAccount
-          - recurringDetail
+          - gbSortCode
+          - usRoutingNumber
           type: string
-      required:
-      - legalEntityId
-      - type
-      - bankAccount
-      type: object
-    DocumentReference:
-      properties:
-        active:
-          description: Identifies whether the document is active and used for checks.
-          type: boolean
-        description:
-          description: Your description for the document.
-          type: string
-        fileName:
-          description: Document name.
-          type: string
-        id:
-          description: The unique identifier of the resource.
-          type: string
-        modificationDate:
-          description: The modification date of the document.
-          format: date-time
-          type: string
-        pages:
-          description: List of document pages
-          items:
-            $ref: '#/components/schemas/DocumentPage'
-          type: array
-        type:
-          description: Type of document, used when providing an ID number or uploading a document.
-          type: string
-      type: object
-    SELocalAccountIdentification:
-      additionalProperties: false
-      properties:
-        accountNumber:
-          description: The 7- to 10-digit bank account number ([Bankkontonummer](https://sv.wikipedia.org/wiki/Bankkonto)), without the clearing number, separators, or whitespace.
-          maxLength: 10
-          minLength: 7
-          type: string
-        clearingNumber:
-          description: The 4- to 5-digit clearing number ([Clearingnummer](https://sv.wikipedia.org/wiki/Clearingnummer)), without separators or whitespace.
-          maxLength: 5
-          minLength: 4
-          type: string
-        type:
-          default: seLocal
-          description: '**seLocal**'
-          enum:
-          - seLocal
-          type: string
-      required:
-      - type
-      - accountNumber
-      - clearingNumber
-      type: object
-    NumberAndBicAccountIdentification:
-      additionalProperties: false
-      properties:
-        accountNumber:
-          description: The bank account number, without separators or whitespace. The length and format depends on the bank or country.
-          maxLength: 34
-          type: string
-        additionalBankIdentification:
-          description: Additional identification codes of the bank. Some banks may require these identifiers for cross-border transfers.
-          $ref: '#/components/schemas/AdditionalBankIdentification'
-        bic:
-          description: The bank's 8- or 11-character BIC or SWIFT code.
-          maxLength: 11
-          minLength: 8
-          type: string
-        type:
-          default: numberAndBic
-          description: '**numberAndBic**'
-          enum:
-          - numberAndBic
-          type: string
-      required:
-      - type
-      - accountNumber
-      - bic
       type: object
     VerificationError-recursive:
       properties:
@@ -1225,40 +919,6 @@ components:
             $ref: '#/components/schemas/RemediatingAction'
           type: array
       required: []
-      type: object
-    USLocalAccountIdentification:
-      additionalProperties: false
-      properties:
-        accountNumber:
-          description: The bank account number, without separators or whitespace.
-          maxLength: 18
-          minLength: 2
-          type: string
-        accountType:
-          default: checking
-          description: 'The bank account type.
-
-
-            Possible values: **checking** or **savings**. Defaults to **checking**.'
-          enum:
-          - checking
-          - savings
-          type: string
-        routingNumber:
-          description: The 9-digit [routing number](https://en.wikipedia.org/wiki/ABA_routing_transit_number), without separators or whitespace.
-          maxLength: 9
-          minLength: 9
-          type: string
-        type:
-          default: usLocal
-          description: '**usLocal**'
-          enum:
-          - usLocal
-          type: string
-      required:
-      - type
-      - accountNumber
-      - routingNumber
       type: object
     VerificationError:
       properties:
@@ -1344,29 +1004,123 @@ components:
           - rejected
           type: string
       type: object
-    HKLocalAccountIdentification:
+    NOLocalAccountIdentification:
       additionalProperties: false
       properties:
         accountNumber:
-          description: The 9- to 15-character bank account number (alphanumeric), without separators or whitespace. Starts with the 3-digit branch code.
-          maxLength: 15
-          minLength: 9
-          type: string
-        clearingCode:
-          description: The 3-digit clearing code, without separators or whitespace.
-          maxLength: 3
-          minLength: 3
+          description: The 11-digit bank account number, without separators or whitespace.
+          maxLength: 11
+          minLength: 11
           type: string
         type:
-          default: hkLocal
-          description: '**hkLocal**'
+          default: noLocal
+          description: '**noLocal**'
           enum:
-          - hkLocal
+          - noLocal
           type: string
       required:
       - type
       - accountNumber
-      - clearingCode
+      type: object
+    UKLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 8-digit bank account number, without separators or whitespace.
+          maxLength: 8
+          minLength: 8
+          type: string
+        sortCode:
+          description: The 6-digit [sort code](https://en.wikipedia.org/wiki/Sort_code), without separators or whitespace.
+          maxLength: 6
+          minLength: 6
+          type: string
+        type:
+          default: ukLocal
+          description: '**ukLocal**'
+          enum:
+          - ukLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - sortCode
+      type: object
+    AULocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The bank account number, without separators or whitespace.
+          maxLength: 9
+          minLength: 5
+          type: string
+        bsbCode:
+          description: The 6-digit [Bank State Branch (BSB) code](https://en.wikipedia.org/wiki/Bank_state_branch), without separators or whitespace.
+          maxLength: 6
+          minLength: 6
+          type: string
+        type:
+          default: auLocal
+          description: '**auLocal**'
+          enum:
+          - auLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - bsbCode
+      type: object
+    NumberAndBicAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The bank account number, without separators or whitespace. The length and format depends on the bank or country.
+          maxLength: 34
+          type: string
+        additionalBankIdentification:
+          description: Additional identification codes of the bank. Some banks may require these identifiers for cross-border transfers.
+          $ref: '#/components/schemas/AdditionalBankIdentification'
+        bic:
+          description: The bank's 8- or 11-character BIC or SWIFT code.
+          maxLength: 11
+          minLength: 8
+          type: string
+        type:
+          default: numberAndBic
+          description: '**numberAndBic**'
+          enum:
+          - numberAndBic
+          type: string
+      required:
+      - type
+      - accountNumber
+      - bic
+      type: object
+    CapabilityProblemEntity:
+      properties:
+        documents:
+          description: List of document IDs corresponding to the verification errors from capabilities.
+          items:
+            type: string
+          type: array
+        id:
+          type: string
+        owner:
+          $ref: '#/components/schemas/CapabilityProblemEntity-recursive'
+        type:
+          enum:
+          - BankAccount
+          - Document
+          - LegalEntity
+          - product
+          type: string
+      type: object
+    RemediatingAction:
+      properties:
+        code:
+          type: string
+        message:
+          type: string
       type: object
     DocumentPage:
       properties:
@@ -1381,6 +1135,75 @@ components:
           - FRONT
           - UNDEFINED
           type: string
+      type: object
+    CZLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: 'The 2- to 16-digit bank account number (Číslo účtu) in the following format:
+
+
+            - The optional prefix (předčíslí).
+
+
+            - The required second part (základní část) which must be at least two non-zero digits.
+
+
+            Examples:
+
+
+            - **19-123457** (with prefix)
+
+
+            - **123457** (without prefix)
+
+
+            - **000019-0000123457** (with prefix, normalized)
+
+
+            - **000000-0000123457** (without prefix, normalized)'
+          maxLength: 17
+          minLength: 2
+          type: string
+        bankCode:
+          description: The 4-digit bank code (Kód banky), without separators or whitespace.
+          maxLength: 4
+          minLength: 4
+          type: string
+        type:
+          default: czLocal
+          description: '**czLocal**'
+          enum:
+          - czLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - bankCode
+      type: object
+    SELocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 7- to 10-digit bank account number ([Bankkontonummer](https://sv.wikipedia.org/wiki/Bankkonto)), without the clearing number, separators, or whitespace.
+          maxLength: 10
+          minLength: 7
+          type: string
+        clearingNumber:
+          description: The 4- to 5-digit clearing number ([Clearingnummer](https://sv.wikipedia.org/wiki/Clearingnummer)), without separators or whitespace.
+          maxLength: 5
+          minLength: 4
+          type: string
+        type:
+          default: seLocal
+          description: '**seLocal**'
+          enum:
+          - seLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - clearingNumber
       type: object
     ServiceError:
       properties:
@@ -1400,6 +1223,183 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
+      type: object
+    TransferInstrumentInfo:
+      properties:
+        bankAccount:
+          description: Contains information about the legal entity's bank account.
+          $ref: '#/components/schemas/BankAccountInfo'
+        legalEntityId:
+          description: The unique identifier of the [legal entity](https://docs.adyen.com/api-explorer/legalentity/latest/post/legalEntities#responses-200-id) that owns the transfer instrument.
+          type: string
+        type:
+          description: 'The type of transfer instrument.
+
+
+            Possible value: **bankAccount**.'
+          enum:
+          - bankAccount
+          - recurringDetail
+          type: string
+      required:
+      - legalEntityId
+      - type
+      - bankAccount
+      type: object
+    DKLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 4-10 digits bank account number (Kontonummer) (without separators or whitespace).
+          maxLength: 10
+          minLength: 4
+          type: string
+        bankCode:
+          description: The 4-digit bank code (Registreringsnummer) (without separators or whitespace).
+          maxLength: 4
+          minLength: 4
+          type: string
+        type:
+          default: dkLocal
+          description: '**dkLocal**'
+          enum:
+          - dkLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - bankCode
+      type: object
+    SupportingEntityCapability:
+      properties:
+        allowed:
+          description: 'Indicates whether the capability is allowed for the supporting entity.
+
+
+            If a capability is allowed for a supporting entity but not for the parent legal entity, this means the legal entity has other supporting entities that failed verification.
+
+
+            **You can use the allowed supporting entity** regardless of the verification status of other supporting entities.'
+          readOnly: true
+          type: boolean
+        id:
+          description: 'Supporting entity reference '
+          readOnly: true
+          type: string
+        requested:
+          description: 'Indicates whether the supporting entity capability is requested. '
+          readOnly: true
+          type: boolean
+        verificationStatus:
+          description: 'The status of the verification checks for the capability of the supporting entity.
+
+
+            Possible values:
+
+
+            * **pending**: Adyen is running the verification.
+
+
+            * **invalid**: The verification failed. Check if the `errors` array contains more information.
+
+
+            * **valid**: The verification has been successfully completed.
+
+
+            * **rejected**: Adyen has verified the information, but found reasons to not allow the capability.
+
+            '
+          readOnly: true
+          type: string
+      type: object
+    USLocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The bank account number, without separators or whitespace.
+          maxLength: 18
+          minLength: 2
+          type: string
+        accountType:
+          default: checking
+          description: 'The bank account type.
+
+
+            Possible values: **checking** or **savings**. Defaults to **checking**.'
+          enum:
+          - checking
+          - savings
+          type: string
+        routingNumber:
+          description: The 9-digit [routing number](https://en.wikipedia.org/wiki/ABA_routing_transit_number), without separators or whitespace.
+          maxLength: 9
+          minLength: 9
+          type: string
+        type:
+          default: usLocal
+          description: '**usLocal**'
+          enum:
+          - usLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      - routingNumber
+      type: object
+    HULocalAccountIdentification:
+      additionalProperties: false
+      properties:
+        accountNumber:
+          description: The 24-digit bank account number, without separators or whitespace.
+          maxLength: 24
+          minLength: 24
+          type: string
+        type:
+          default: huLocal
+          description: '**huLocal**'
+          enum:
+          - huLocal
+          type: string
+      required:
+      - type
+      - accountNumber
+      type: object
+    BankAccountInfo:
+      properties:
+        accountIdentification:
+          x-addedInVersion: '3'
+          description: Identification of the bank account.
+          oneOf:
+          - $ref: '#/components/schemas/AULocalAccountIdentification'
+          - $ref: '#/components/schemas/CALocalAccountIdentification'
+          - $ref: '#/components/schemas/CZLocalAccountIdentification'
+          - $ref: '#/components/schemas/DKLocalAccountIdentification'
+          - $ref: '#/components/schemas/HKLocalAccountIdentification'
+          - $ref: '#/components/schemas/HULocalAccountIdentification'
+          - $ref: '#/components/schemas/IbanAccountIdentification'
+          - $ref: '#/components/schemas/NOLocalAccountIdentification'
+          - $ref: '#/components/schemas/NZLocalAccountIdentification'
+          - $ref: '#/components/schemas/NumberAndBicAccountIdentification'
+          - $ref: '#/components/schemas/PLLocalAccountIdentification'
+          - $ref: '#/components/schemas/SELocalAccountIdentification'
+          - $ref: '#/components/schemas/SGLocalAccountIdentification'
+          - $ref: '#/components/schemas/UKLocalAccountIdentification'
+          - $ref: '#/components/schemas/USLocalAccountIdentification'
+        accountType:
+          deprecated: true
+          x-deprecatedInVersion: '2'
+          description: The type of bank account.
+          type: string
+        bankName:
+          description: The name of the banking institution where the bank account is held.
+          type: string
+        countryCode:
+          description: The two-character [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code where the bank account is registered. For example, **NL**.
+          type: string
+        trustedSource:
+          description: Identifies if the bank account was created through [instant bank verification](https://docs.adyen.com/release-notes/platforms-and-financial-products#releaseNote=2023-05-08-hosted-onboarding).
+          readOnly: true
+          type: boolean
       type: object
   securitySchemes:
     ApiKeyAuth:

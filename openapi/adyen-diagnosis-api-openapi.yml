@@ -52,6 +52,13 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    GlobalStatus:
+      type: string
+      enum:
+      - Busy
+      - Maintenance
+      - OK
+      - Unreachable
     DiagnosisResponse:
       type: object
       description: It conveys the result of the requested diagnosis and a possible message to display on a logical device. Content of the Diagnosis Response message.
@@ -72,26 +79,6 @@ components:
             $ref: '#/components/schemas/HostStatus'
       required:
       - Response
-    ErrorCondition:
-      type: string
-      enum:
-      - Aborted
-      - Busy
-      - Cancel
-      - DeviceOut
-      - InProgress
-      - InsertedCard
-      - InvalidCard
-      - LoggedOut
-      - MessageFormat
-      - NotAllowed
-      - NotFound
-      - PaymentRestriction
-      - Refusal
-      - UnavailableDevice
-      - UnavailableService
-      - UnreachableHost
-      - WrongPIN
     Response:
       type: object
       description: If Result is Success, ErrorCondition is absent or not used in the processing of the message. In the other cases, the ErrorCondition has to be present and can refine the processing of the message response. AdditionalResponse gives more information about the success or the failure of the message request processing, for logging without real time involvements. Result of a message request processing.
@@ -106,6 +93,12 @@ components:
           description: If present, the POI logs it for further examination.
       required:
       - Result
+    Result:
+      type: string
+      enum:
+      - Failure
+      - Partial
+      - Success
     CoinsOrBills:
       type: object
       description: Indicates the remaining number of coins or bills of a given value in a cash handling device. When the cash handling machine does not have any more coins or bills of a certain value, the number must be equal to 0. Number of coins or bills of a given value.
@@ -121,6 +114,23 @@ components:
       required:
       - UnitValue
       - Number
+    DiagnosisRequest:
+      type: object
+      description: It conveys Information related to the target POI for which the diagnosis is requested. Content of the Diagnosis Request message.
+      properties:
+        POIID:
+          type: string
+          pattern: ^.+$
+          description: MessageHeader.POIID.
+        HostDiagnosisFlag:
+          type: boolean
+          default: false
+          description: Indicates if Host Diagnosis are required.
+        AcquirerID:
+          type: array
+          items:
+            type: integer
+            description: Present if requesting the diagnosis of these hosts only.
     CashHandlingDevice:
       type: object
       description: Indicate the status and the remaining coins and bill in a cash handling device. Status of cash handling device.
@@ -140,19 +150,14 @@ components:
       - CashHandlingOKFlag
       - Currency
       - CoinsOrBills
-    GlobalStatus:
+    PrinterStatus:
       type: string
       enum:
-      - Busy
-      - Maintenance
+      - NoPaper
       - OK
-      - Unreachable
-    Result:
-      type: string
-      enum:
-      - Failure
-      - Partial
-      - Success
+      - OutOfOrder
+      - PaperJam
+      - PaperLow
     POIStatus:
       type: object
       description: Indicate the availability of the POI Terminal components. The data element is absent if the component is not part of the POI Terminal. State of a POI Terminal.
@@ -182,14 +187,26 @@ components:
           description: default False.
       required:
       - GlobalStatus
-    PrinterStatus:
+    ErrorCondition:
       type: string
       enum:
-      - NoPaper
-      - OK
-      - OutOfOrder
-      - PaperJam
-      - PaperLow
+      - Aborted
+      - Busy
+      - Cancel
+      - DeviceOut
+      - InProgress
+      - InsertedCard
+      - InvalidCard
+      - LoggedOut
+      - MessageFormat
+      - NotAllowed
+      - NotFound
+      - PaymentRestriction
+      - Refusal
+      - UnavailableDevice
+      - UnavailableService
+      - UnreachableHost
+      - WrongPIN
     HostStatus:
       type: object
       description: Indicate the reachability of the host by the POI Terminal. State of a Host.
@@ -203,23 +220,6 @@ components:
           description: Indicate if a Host is reachable.
       required:
       - AcquirerID
-    DiagnosisRequest:
-      type: object
-      description: It conveys Information related to the target POI for which the diagnosis is requested. Content of the Diagnosis Request message.
-      properties:
-        POIID:
-          type: string
-          pattern: ^.+$
-          description: MessageHeader.POIID.
-        HostDiagnosisFlag:
-          type: boolean
-          default: false
-          description: Indicates if Host Diagnosis are required.
-        AcquirerID:
-          type: array
-          items:
-            type: integer
-            description: Present if requesting the diagnosis of these hosts only.
   securitySchemes:
     ApiKeyAuth:
       in: header

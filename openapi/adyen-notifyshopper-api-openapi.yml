@@ -133,30 +133,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    NotifyShopperResult:
-      properties:
-        displayedReference:
-          description: Reference of Pre-debit notification that is displayed to the shopper
-          type: string
-        message:
-          description: A simple description of the `resultCode`.
-          type: string
-        pspReference:
-          description: The unique reference that is associated with the request.
-          type: string
-        reference:
-          description: Reference of Pre-debit notification sent in my the merchant
-          type: string
-        resultCode:
-          description: The code indicating the status of notification.
-          type: string
-        shopperNotificationReference:
-          description: The unique reference for the request sent downstream.
-          type: string
-        storedPaymentMethodId:
-          description: This is the recurringDetailReference returned in the response when token was created
-          type: string
-      type: object
     ServiceError:
       properties:
         additionalData:
@@ -220,6 +196,30 @@ components:
       - amount
       - reference
       type: object
+    NotifyShopperResult:
+      properties:
+        displayedReference:
+          description: Reference of Pre-debit notification that is displayed to the shopper
+          type: string
+        message:
+          description: A simple description of the `resultCode`.
+          type: string
+        pspReference:
+          description: The unique reference that is associated with the request.
+          type: string
+        reference:
+          description: Reference of Pre-debit notification sent in my the merchant
+          type: string
+        resultCode:
+          description: The code indicating the status of notification.
+          type: string
+        shopperNotificationReference:
+          description: The unique reference for the request sent downstream.
+          type: string
+        storedPaymentMethodId:
+          description: This is the recurringDetailReference returned in the response when token was created
+          type: string
+      type: object
     Amount:
       properties:
         currency:
@@ -236,16 +236,6 @@ components:
       - currency
       type: object
   examples:
-    post-notifyShopper-notifyShopperOfUpcomingRecurringPayment-200:
-      summary: Example response for request 'notifyShopper'
-      value:
-        message: Request Processed Successfully
-        resultCode: Success
-        shopperNotificationReference: '9915003646742627'
-        storedPaymentMethodId: '8415995487234100'
-        pspReference: M5N7TQ4TG5PFWR50
-        reference: Example reference
-        displayedReference: exampleDisplayedReference
     post-notifyShopper-notifyShopperOfUpcomingRecurringPayment:
       summary: Request issuer to notify shopper of upcoming recurring payment
       value:
@@ -256,6 +246,16 @@ components:
           currency: INR
           value: 1000
         billingDate: '2021-03-16'
+        reference: Example reference
+        displayedReference: exampleDisplayedReference
+    post-notifyShopper-notifyShopperOfUpcomingRecurringPayment-200:
+      summary: Example response for request 'notifyShopper'
+      value:
+        message: Request Processed Successfully
+        resultCode: Success
+        shopperNotificationReference: '9915003646742627'
+        storedPaymentMethodId: '8415995487234100'
+        pspReference: M5N7TQ4TG5PFWR50
         reference: Example reference
         displayedReference: exampleDisplayedReference
   securitySchemes:

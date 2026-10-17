@@ -129,17 +129,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    DisputeServiceResult:
-      properties:
-        errorMessage:
-          description: The general error message.
-          type: string
-        success:
-          description: Indicates whether the request succeeded.
-          type: boolean
-      required:
-      - success
-      type: object
     DeleteDefenseDocumentResponse:
       properties:
         disputeServiceResult:
@@ -147,22 +136,6 @@ components:
           $ref: '#/components/schemas/DisputeServiceResult'
       required:
       - disputeServiceResult
-      type: object
-    DeleteDefenseDocumentRequest:
-      properties:
-        defenseDocumentType:
-          description: The document type code of the defense document.
-          type: string
-        disputePspReference:
-          description: The PSP reference assigned to the dispute.
-          type: string
-        merchantAccountCode:
-          description: The merchant account identifier, for which you want to process the dispute transaction.
-          type: string
-      required:
-      - merchantAccountCode
-      - disputePspReference
-      - defenseDocumentType
       type: object
     ServiceError:
       properties:
@@ -183,18 +156,45 @@ components:
           format: int32
           type: integer
       type: object
+    DeleteDefenseDocumentRequest:
+      properties:
+        defenseDocumentType:
+          description: The document type code of the defense document.
+          type: string
+        disputePspReference:
+          description: The PSP reference assigned to the dispute.
+          type: string
+        merchantAccountCode:
+          description: The merchant account identifier, for which you want to process the dispute transaction.
+          type: string
+      required:
+      - merchantAccountCode
+      - disputePspReference
+      - defenseDocumentType
+      type: object
+    DisputeServiceResult:
+      properties:
+        errorMessage:
+          description: The general error message.
+          type: string
+        success:
+          description: Indicates whether the request succeeded.
+          type: boolean
+      required:
+      - success
+      type: object
   examples:
-    post-deleteDisputeDefenseDocument-delete-dispute-defense-document-200:
-      summary: Dispute defense document deleted
-      value:
-        disputeServiceResult:
-          success: true
     post-deleteDisputeDefenseDocument-delete-dispute-defense-document:
       summary: Delete a dispute defense document
       value:
         defenseDocumentType: DefenseMaterial
         disputePspReference: DZ4DPSHB4WD2WN82
         merchantAccountCode: YOUR_MERCHANT_ACCOUNT
+    post-deleteDisputeDefenseDocument-delete-dispute-defense-document-200:
+      summary: Dispute defense document deleted
+      value:
+        disputeServiceResult:
+          success: true
   securitySchemes:
     ApiKeyAuth:
       in: header

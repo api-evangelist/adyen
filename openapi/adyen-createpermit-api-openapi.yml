@@ -136,40 +136,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    CreatePermitRequest:
-      properties:
-        merchantAccount:
-          description: The merchant account identifier, with which you want to process the transaction.
-          type: string
-        permits:
-          description: The permits to create for this recurring contract.
-          items:
-            $ref: '#/components/schemas/Permit'
-          type: array
-        recurringDetailReference:
-          description: The recurring contract the new permits will use.
-          type: string
-        shopperReference:
-          description: The shopper's reference to uniquely identify this shopper (e.g. user ID or account ID).
-          type: string
-      required:
-      - merchantAccount
-      - shopperReference
-      - recurringDetailReference
-      - permits
-      type: object
-    PermitRestriction:
-      properties:
-        maxAmount:
-          description: The total sum amount of one or more payments made using this permit may not exceed this amount if set.
-          $ref: '#/components/schemas/Amount'
-        singleTransactionLimit:
-          description: The amount of any single payment using this permit may not exceed this amount if set.
-          $ref: '#/components/schemas/Amount'
-        singleUse:
-          description: Only a single payment can be made using this permit if set to true, otherwise multiple payments are allowed.
-          type: boolean
-      type: object
     CreatePermitResult:
       properties:
         permitResultList:
@@ -180,51 +146,6 @@ components:
         pspReference:
           description: A unique reference associated with the request. This value is globally unique; quote it when communicating with us about this request.
           type: string
-      type: object
-    PermitResult:
-      properties:
-        resultKey:
-          x-addedInVersion: '32'
-          description: The key to link permit requests to permit results.
-          type: string
-        token:
-          x-addedInVersion: '32'
-          description: The permit token which is used to make payments by the partner company.
-          type: string
-      type: object
-    Permit:
-      properties:
-        partnerId:
-          description: Partner ID (when using the permit-per-partner token sharing model).
-          type: string
-        profileReference:
-          description: The profile to apply to this permit (when using the shared permits model).
-          type: string
-        restriction:
-          description: Permit level restriction overrides.
-          $ref: '#/components/schemas/PermitRestriction'
-        resultKey:
-          description: The key to link permit requests to permit results.
-          type: string
-        validTillDate:
-          description: The expiry date for this permit.
-          format: date-time
-          type: string
-      type: object
-    Amount:
-      properties:
-        currency:
-          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
-          maxLength: 3
-          minLength: 3
-          type: string
-        value:
-          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
-          format: int64
-          type: integer
-      required:
-      - value
-      - currency
       type: object
     ServiceError:
       properties:
@@ -250,6 +171,85 @@ components:
           description: The HTTP response status.
           format: int32
           type: integer
+      type: object
+    PermitResult:
+      properties:
+        resultKey:
+          x-addedInVersion: '32'
+          description: The key to link permit requests to permit results.
+          type: string
+        token:
+          x-addedInVersion: '32'
+          description: The permit token which is used to make payments by the partner company.
+          type: string
+      type: object
+    Amount:
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+      - value
+      - currency
+      type: object
+    CreatePermitRequest:
+      properties:
+        merchantAccount:
+          description: The merchant account identifier, with which you want to process the transaction.
+          type: string
+        permits:
+          description: The permits to create for this recurring contract.
+          items:
+            $ref: '#/components/schemas/Permit'
+          type: array
+        recurringDetailReference:
+          description: The recurring contract the new permits will use.
+          type: string
+        shopperReference:
+          description: The shopper's reference to uniquely identify this shopper (e.g. user ID or account ID).
+          type: string
+      required:
+      - merchantAccount
+      - shopperReference
+      - recurringDetailReference
+      - permits
+      type: object
+    Permit:
+      properties:
+        partnerId:
+          description: Partner ID (when using the permit-per-partner token sharing model).
+          type: string
+        profileReference:
+          description: The profile to apply to this permit (when using the shared permits model).
+          type: string
+        restriction:
+          description: Permit level restriction overrides.
+          $ref: '#/components/schemas/PermitRestriction'
+        resultKey:
+          description: The key to link permit requests to permit results.
+          type: string
+        validTillDate:
+          description: The expiry date for this permit.
+          format: date-time
+          type: string
+      type: object
+    PermitRestriction:
+      properties:
+        maxAmount:
+          description: The total sum amount of one or more payments made using this permit may not exceed this amount if set.
+          $ref: '#/components/schemas/Amount'
+        singleTransactionLimit:
+          description: The amount of any single payment using this permit may not exceed this amount if set.
+          $ref: '#/components/schemas/Amount'
+        singleUse:
+          description: Only a single payment can be made using this permit if set to true, otherwise multiple payments are allowed.
+          type: boolean
       type: object
   securitySchemes:
     ApiKeyAuth:

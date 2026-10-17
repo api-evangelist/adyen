@@ -165,37 +165,24 @@ components:
       required:
       - accountHolderCode
       type: object
-    DetailBalance:
-      properties:
-        balance:
-          description: The list of balances held by the account.
-          items:
-            $ref: '#/components/schemas/Amount'
-          type: array
-        onHoldBalance:
-          x-addedInVersion: '5'
-          description: The list of on hold balances held by the account.
-          items:
-            $ref: '#/components/schemas/Amount'
-          type: array
-        pendingBalance:
-          description: The list of pending balances held by the account.
-          items:
-            $ref: '#/components/schemas/Amount'
-          type: array
-      type: object
-    ErrorFieldType:
+    ServiceError:
       properties:
         errorCode:
-          description: The validation error code.
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
           format: int32
           type: integer
-        errorDescription:
-          description: A description of the validation error.
-          type: string
-        fieldType:
-          description: The type of error field.
-          $ref: '#/components/schemas/FieldType'
       type: object
     AccountHolderBalanceResponse:
       properties:
@@ -220,6 +207,28 @@ components:
           description: The total balance of the account holder.
           $ref: '#/components/schemas/DetailBalance'
       type: object
+    ErrorFieldType:
+      properties:
+        errorCode:
+          description: The validation error code.
+          format: int32
+          type: integer
+        errorDescription:
+          description: A description of the validation error.
+          type: string
+        fieldType:
+          description: The type of error field.
+          $ref: '#/components/schemas/FieldType'
+      type: object
+    AccountDetailBalance:
+      properties:
+        accountCode:
+          description: The code of the account that holds the balance.
+          type: string
+        detailBalance:
+          description: Details of the balance held by the account.
+          $ref: '#/components/schemas/DetailBalance'
+      type: object
     Amount:
       properties:
         currency:
@@ -234,15 +243,6 @@ components:
       required:
       - value
       - currency
-      type: object
-    AccountDetailBalance:
-      properties:
-        accountCode:
-          description: The code of the account that holds the balance.
-          type: string
-        detailBalance:
-          description: Details of the balance held by the account.
-          $ref: '#/components/schemas/DetailBalance'
       type: object
     FieldType:
       properties:
@@ -419,24 +419,24 @@ components:
           description: The code of the shareholder that the field belongs to. If empty, the field belongs to an account holder.
           type: string
       type: object
-    ServiceError:
+    DetailBalance:
       properties:
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
+        balance:
+          description: The list of balances held by the account.
+          items:
+            $ref: '#/components/schemas/Amount'
+          type: array
+        onHoldBalance:
+          x-addedInVersion: '5'
+          description: The list of on hold balances held by the account.
+          items:
+            $ref: '#/components/schemas/Amount'
+          type: array
+        pendingBalance:
+          description: The list of pending balances held by the account.
+          items:
+            $ref: '#/components/schemas/Amount'
+          type: array
       type: object
   examples:
     post-accountHolderBalance-basic:

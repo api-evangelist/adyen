@@ -129,6 +129,31 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    ServiceError:
+      properties:
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
     ModifyRequest:
       properties:
         additionalData:
@@ -167,31 +192,6 @@ components:
       - pspReference
       - response
       type: object
-    ServiceError:
-      properties:
-        additionalData:
-          x-addedInVersion: '46'
-          additionalProperties:
-            type: string
-          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
-          type: object
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
-      type: object
   examples:
     generic-400:
       summary: Response code 400. Bad Request.
@@ -200,17 +200,17 @@ components:
         errorCode: '702'
         message: 'Unexpected input: I'
         errorType: validation
+    post-declineThirdParty-declineThirdParty-200:
+      summary: Example response for request 'declineThirdParty'
+      value:
+        pspReference: 991617894325360J
+        response: '[payout-decline-received]'
     post-declineThirdParty-declineThirdParty:
       summary: Cancel a payout
       description: Cancel a previously submitted payout
       value:
         merchantAccount: YOUR_MERCHANT_ACCOUNT
         originalReference: '9913140798220028'
-    post-declineThirdParty-declineThirdParty-200:
-      summary: Example response for request 'declineThirdParty'
-      value:
-        pspReference: 991617894325360J
-        response: '[payout-decline-received]'
   securitySchemes:
     ApiKeyAuth:
       in: header

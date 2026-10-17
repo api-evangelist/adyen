@@ -128,27 +128,32 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  examples:
-    generic-400:
-      summary: Response code 400. Bad Request.
-      value:
-        status: 400
-        errorCode: '702'
-        message: 'Unexpected input: I'
-        errorType: validation
-    post-get3dsAvailability-get3dsAvailability:
-      summary: Get 3D Secure availability
-      description: Example request to check 3D Secure availability
-      value:
-        merchantAccount: YOUR_MERCHANT_ACCOUNT
-        cardNumber: '4111111111111111'
-    post-get3dsAvailability-get3dsAvailability-200:
-      summary: Example response for request 'get3dsAvailability'
-      value:
-        threeDS1Supported: true
-        threeDS2CardRangeDetails: []
-        threeDS2supported: false
   schemas:
+    ServiceError:
+      properties:
+        additionalData:
+          x-addedInVersion: '46'
+          additionalProperties:
+            type: string
+          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
+          type: object
+        errorCode:
+          description: The error code mapped to the error message.
+          type: string
+        errorType:
+          description: The category of the error.
+          type: string
+        message:
+          description: A short explanation of the issue.
+          type: string
+        pspReference:
+          description: The PSP reference of the payment.
+          type: string
+        status:
+          description: The HTTP response status.
+          format: int32
+          type: integer
+      type: object
     ThreeDSAvailabilityRequest:
       properties:
         additionalData:
@@ -198,35 +203,6 @@ components:
           description: Directory Server root certificates. The 3D Secure 2 SDK verifies the ACS signed content using the rootCertificates.
           type: string
       type: object
-    BinDetail:
-      properties:
-        issuerCountry:
-          description: The country where the card was issued.
-          type: string
-      type: object
-    ThreeDSAvailabilityResponse:
-      properties:
-        binDetails:
-          x-addedInVersion: '50'
-          description: Bin Group Details
-          $ref: '#/components/schemas/BinDetail'
-        dsPublicKeys:
-          description: List of Directory Server (DS) public keys.
-          items:
-            $ref: '#/components/schemas/DSPublicKeyDetail'
-          type: array
-        threeDS1Supported:
-          description: Indicator if 3D Secure 1 is supported.
-          type: boolean
-        threeDS2CardRangeDetails:
-          description: List of brand and card range pairs.
-          items:
-            $ref: '#/components/schemas/ThreeDS2CardRangeDetail'
-          type: array
-        threeDS2supported:
-          description: Indicator if 3D Secure 2 is supported.
-          type: boolean
-      type: object
     ThreeDS2CardRangeDetail:
       properties:
         acsInfoInd:
@@ -264,31 +240,55 @@ components:
           description: In a 3D Secure 2 browser-based flow, this is the URL where you should send the device fingerprint to.
           type: string
       type: object
-    ServiceError:
+    ThreeDSAvailabilityResponse:
       properties:
-        additionalData:
-          x-addedInVersion: '46'
-          additionalProperties:
-            type: string
-          description: Contains additional information about the payment. Some data fields are included only if you select them first. Go to **Customer Area** > **Developers** > **Additional data**.
-          type: object
-        errorCode:
-          description: The error code mapped to the error message.
-          type: string
-        errorType:
-          description: The category of the error.
-          type: string
-        message:
-          description: A short explanation of the issue.
-          type: string
-        pspReference:
-          description: The PSP reference of the payment.
-          type: string
-        status:
-          description: The HTTP response status.
-          format: int32
-          type: integer
+        binDetails:
+          x-addedInVersion: '50'
+          description: Bin Group Details
+          $ref: '#/components/schemas/BinDetail'
+        dsPublicKeys:
+          description: List of Directory Server (DS) public keys.
+          items:
+            $ref: '#/components/schemas/DSPublicKeyDetail'
+          type: array
+        threeDS1Supported:
+          description: Indicator if 3D Secure 1 is supported.
+          type: boolean
+        threeDS2CardRangeDetails:
+          description: List of brand and card range pairs.
+          items:
+            $ref: '#/components/schemas/ThreeDS2CardRangeDetail'
+          type: array
+        threeDS2supported:
+          description: Indicator if 3D Secure 2 is supported.
+          type: boolean
       type: object
+    BinDetail:
+      properties:
+        issuerCountry:
+          description: The country where the card was issued.
+          type: string
+      type: object
+  examples:
+    generic-400:
+      summary: Response code 400. Bad Request.
+      value:
+        status: 400
+        errorCode: '702'
+        message: 'Unexpected input: I'
+        errorType: validation
+    post-get3dsAvailability-get3dsAvailability-200:
+      summary: Example response for request 'get3dsAvailability'
+      value:
+        threeDS1Supported: true
+        threeDS2CardRangeDetails: []
+        threeDS2supported: false
+    post-get3dsAvailability-get3dsAvailability:
+      summary: Get 3D Secure availability
+      description: Example request to check 3D Secure availability
+      value:
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        cardNumber: '4111111111111111'
   securitySchemes:
     ApiKeyAuth:
       in: header
